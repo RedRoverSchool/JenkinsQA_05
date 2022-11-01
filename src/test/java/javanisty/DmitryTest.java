@@ -3,6 +3,7 @@ package javanisty;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class DmitryTest extends BaseTest {
 
+    @Ignore
     @Test
     public void test1(){
         open("https://calc.by/building-calculators/laminate.html");
