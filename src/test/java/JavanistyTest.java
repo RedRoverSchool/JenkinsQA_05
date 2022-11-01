@@ -11,6 +11,7 @@ import java.util.List;
 
 public class JavanistyTest extends BaseTest {
 
+    @Ignore
     @Test
     public void test1(){
         open("https://calc.by/building-calculators/laminate.html");
