@@ -23,9 +23,11 @@ public final class BaseUtils {
             if (isServerRun()) {
                 properties.setProperty(PROP_CHROME_OPTIONS, System.getenv(ENV_CHROME_OPTIONS));
 
-                for (String option : System.getenv(ENV_APP_OPTIONS).split(";")) {
-                    String[] optionArr = option.split("=");
-                    properties.setProperty(PREFIX_PROP + optionArr[0], optionArr[1]);
+                if (System.getenv(ENV_APP_OPTIONS) != null ) {
+                    for (String option : System.getenv(ENV_APP_OPTIONS).split(";")) {
+                        String[] optionArr = option.split("=");
+                        properties.setProperty(PREFIX_PROP + optionArr[0], optionArr[1]);
+                    }
                 }
             } else {
                 try {
