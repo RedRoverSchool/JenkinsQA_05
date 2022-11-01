@@ -10,6 +10,9 @@ public class EvanMaiTest extends BaseTest {
         getDriver().get("https://katalon-demo-cura.herokuapp.com/");
         WebElement textWeCare = getDriver().findElement(By.xpath("//*[@id=\"top\"]/div/h3"));
         Assert.assertEquals(textWeCare.getText(), "We Care About Your Health");
+    }
+    @Test
+    public void test2() {
 
     }
 }
