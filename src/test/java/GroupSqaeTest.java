@@ -36,4 +36,22 @@ public class GroupSqaeTest extends BaseTest {
 
     }
 
+    @Test
+    public void testPageTitleOfMagazine() {
+        getDriver().get("https://www.theatlantic.com/");
+        String actualTitle = getDriver().getTitle();
+        String expectedTitle = "The Atlantic";
+
+        Assert.assertEquals(actualTitle, expectedTitle);
+    }
+
+    @Test
+    public void testSubscribePageUrlOfMagazine() {
+        getDriver().get("https://www.theatlantic.com/");
+        WebElement subscribeButton = getDriver().findElement(By.xpath("//*[@id='__next']/nav/div/div[2]/ul/li[2]/a"));
+        subscribeButton.click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://accounts.theatlantic.com/products/?source=nav");
+    }
+
 }
