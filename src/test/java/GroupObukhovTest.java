@@ -156,6 +156,7 @@ public class GroupObukhovTest extends BaseTest {
         WebElement titlePrivacyPolicy = getDriver().findElement(By.xpath("//h1[text()='Политика конфиденциальности']"));
         Assert.assertEquals(titlePrivacyPolicy.getText(), "Политика конфиденциальности");
     }
+
     @Test
     public void testLinkContractJoin() {
         getDriver().get(URL);
@@ -163,5 +164,31 @@ public class GroupObukhovTest extends BaseTest {
         linkContractJoin.click();
         WebElement titleContractJoin = getDriver().findElement(By.xpath("//h1 [text() = 'Договор о предоставлении права использования Сервиса Юрент']"));
         Assert.assertEquals(titleContractJoin.getText(), "Договор о предоставлении права использования Сервиса Юрент");
+    }
+
+    @Test
+    public void testCheckBrandBookBasicColorsHEX() {
+
+        goToBrandBookPage();
+        getDriver().findElement(By.linkText("Палитра")).click();
+        List<WebElement> colors = getDriver().findElements(By.xpath("//div[@id = 'palette-three']//div[@class = 'colorchart']"));
+        List<String> expectedResult = Arrays.asList("#804AFF", "#000000", "#FFFFFF");
+
+        for (int i = 0; i < colors.size(); i++) {
+            Assert.assertEquals(colors.get(i).getText().substring(0, 7), expectedResult.get(i));
+        }
+    }
+
+    @Test
+    public void testCheckBrandBookAdditionalColorsHEX() {
+
+        goToBrandBookPage();
+        getDriver().findElement(By.linkText("Палитра")).click();
+        List<WebElement> colors = getDriver().findElements(By.xpath("//div[@id = 'palette-four']//div[@class = 'colorchart']"));
+        List<String> expectedResult = Arrays.asList("#FFC65B", "#FF73D5", "#9FD7FF");
+
+        for (int i = 0; i < colors.size(); i++) {
+            Assert.assertEquals(colors.get(i).getText().substring(0, 7), expectedResult.get(i));
+        }
     }
 }
