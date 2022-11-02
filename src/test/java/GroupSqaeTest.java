@@ -50,7 +50,6 @@ public class GroupSqaeTest extends BaseTest {
         getDriver().get("https://www.theatlantic.com/");
         WebElement subscribeButton = getDriver().findElement(By.xpath("//*[@id='__next']/nav/div/div[2]/ul/li[2]/a"));
         subscribeButton.click();
-
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://accounts.theatlantic.com/products/?source=nav");
     }
 
