@@ -1,62 +1,20 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import org.openqa.selenium.JavascriptExecutor;
-
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.List;
 
 public class JavanistyTest extends BaseTest {
 
-    @Ignore
     @Test
     public void test1(){
-        open("https://calc.by/building-calculators/laminate.html");
-        enter("ln_room_id", "820");
-        enter("wd_room_id","820");
-        enter("ln_lam_id", "1600");
-        enter("wd_lam_id", "200");
-        enter("n_packing","10");
-        Select select = new Select(getDriver().findElement(By.id("laying_method_laminate")));
-        select.selectByValue("2");
-        enter("min_length_segment_id", "300");
-        enter("indent_walls_id","5");
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        WebElement Element = getDriver().findElement(By.id("direction-laminate-id1"));
-        js.executeScript("arguments[0].scrollIntoView();", Element);
-        getDriver().findElement(By.id("direction-laminate-id1")).click();
-        getDriver().findElement(By.cssSelector("[class='calc-btn']")).click();
-
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-
-        List<String> expectedResult = Arrays.asList(
-                "Требуемое количество досок ламината: 226", "Количество упаковок ламината: 23"
-        );
-        Assert.assertEquals(getActualResult(),expectedResult , "expected equal actual");
-    }
-
-    public void open(String url){
-        getDriver().get(url);
-    }
-
-    public void enter(String id, String value){
-        getDriver().findElement(By.id(id)).clear();
-        getDriver().findElement(By.id(id)).sendKeys(value);
-    }
-
-    public List<String> getActualResult(){
-        String countLaminte = getDriver().findElement(By.xpath("(//div[@style='text-align:center; font-size:16px;'])[1]")).getText();
-        String countPackage = getDriver().findElement(By.xpath("(//div[@style='text-align:center; font-size:16px;'])[2]")).getText();
-
-        List<String> actualResult = Arrays.asList(
-                countLaminte, countPackage
-        );
-        return actualResult;
+        getDriver().get("https://healthunify.com/bmicalculator/");
+        getDriver().findElement(By.name("wg")).sendKeys("80");
+        getDriver().findElement(By.name("ht")).sendKeys("180");
+        getDriver().findElement(By.name("cc")).click();
+        String expectedResult = "24.69";
+        System.out.println(getDriver().findElement(By.name("si")).getAttribute("value"));
+        Assert.assertEquals(getDriver().findElement(By.name("si")).getAttribute("value"), expectedResult);
     }
 
     @Test
@@ -83,21 +41,27 @@ public class JavanistyTest extends BaseTest {
         Assert.assertEquals(expectedConfirmationMessage, actualConfirmationMessage);
     }
 
-    @Ignore
     @Test
     public void testBdoWarrior2() throws InterruptedException {
         getDriver().get("https://bdocodex.com/ru/skillbuilder/");
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         WebElement buttobWarrior = getDriver().findElement(By.xpath("//div[@class='class_cell'][1]/*"));
         buttobWarrior.click();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         WebElement buttonSkillAbsolute = getDriver().findElement(By.xpath
                 ("//div[@data-gid=\"618\"]"));
         buttonSkillAbsolute.click();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         WebElement counter = getDriver().findElement(By.xpath
                 ("//tr[4]//descendant::div[@class='level_cell current_level']"));
         String counterValue = counter.getText();
         Assert.assertEquals(counterValue, "10");
+    }
+
+    @Test
+    public void testIlyaFirstTest(){
+        getDriver().get("https://karkas.k3-cottage.ru/");
+        WebElement text = getDriver().findElement(By.xpath("//li/a[@href='#config']"));
+        Assert.assertEquals(text.getText(), "НАСТРОЙКИ");
     }
 }
