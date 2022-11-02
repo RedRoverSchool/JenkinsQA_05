@@ -6,11 +6,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.time.Duration;
 import java.util.List;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class SpiritMastersTest extends BaseTest {
 
@@ -131,8 +133,8 @@ public class SpiritMastersTest extends BaseTest {
         userNumberField.sendKeys("1234567890");
 
         getDriver().findElement(By.id("dateOfBirthInput")).click();
-        new Select(getDriver().findElement(By.xpath("//div[@class='react-datepicker__header']//select[@class='react-datepicker__month-select']"))).selectByVisibleText("November");
-        new Select(getDriver().findElement(By.xpath("//div[@class='react-datepicker__header']//select[@class='react-datepicker__year-select']"))).selectByVisibleText("1985");
+        new Select(getDriver().findElement(By.xpath("//select[@class='react-datepicker__month-select']"))).selectByVisibleText("November");
+        new Select(getDriver().findElement(By.xpath("//select[@class='react-datepicker__year-select']"))).selectByVisibleText("1985");
         getDriver().findElement(By.xpath("//div[@aria-label='Choose Friday, November 15th, 1985']")).click();
 
         WebElement subjectMenu = getDriver().findElement(By.id("subjectsInput"));
@@ -160,6 +162,8 @@ public class SpiritMastersTest extends BaseTest {
         WebElement submitBtn = getDriver().findElement(By.id("submit"));
         JavascriptExecutor js = (JavascriptExecutor)getDriver();
         js.executeScript("arguments[0].click();", submitBtn);
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 
         List<WebElement> rows = getDriver().findElements(By.xpath("//tbody/tr"));
         Map<String, String> actualTableResult = new HashMap<>();
