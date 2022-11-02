@@ -35,6 +35,9 @@ public class EvanMaiTest extends BaseTest {
     @Test
     public void test5() {
         getDriver().get("https://katalon-demo-cura.herokuapp.com/");
-        Assert.assertTrue(getDriver().findElement(By.xpath("/html/body/footer/div/div/div/ul[1]/li[1]")).isDisplayed());
+        WebElement makeAppoiment = getDriver().findElement(By.id("btn-make-appointment"));
+        makeAppoiment.click();
+        WebElement demoAccount = getDriver().findElement(By.cssSelector("input[value=\"ThisIsNotAPassword\"]"));
+        System.out.println(demoAccount.getAttribute("value"));
     }
 }
