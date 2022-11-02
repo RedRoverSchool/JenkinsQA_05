@@ -97,8 +97,9 @@ public class SpiritMastersTest extends BaseTest {
 
     @Test
     public void testDenSebrovskyFindTestPrinciples() throws InterruptedException {
-        testDenSebrovskyOpenQABible();
+        getDriver().get("https://vladislaveremeev.gitbook.io/qa_bible/");
         getDriver().findElement(By.linkText("Общее")).click();
+        Thread.sleep(1000);
         getDriver().findElement(By.linkText("Принципы тестирования")).click();
         WebElement principlesTitle = getDriver().findElement(By.linkText("Принципы тестирования"));
         Assert.assertEquals(principlesTitle.getText(), "Принципы тестирования");
