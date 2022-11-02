@@ -3,6 +3,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -71,7 +72,7 @@ public class SpiritMastersTest extends BaseTest {
         String actualTextInteractions = getDriver().findElement(By.className("main-header")).getText();
         Assert.assertEquals(actualTextInteractions, "Interactions");
     }
-
+    @Ignore
     @Test
     public void test_PK_RedirectToBooksTab(){
         findCard_PK(5).click();
