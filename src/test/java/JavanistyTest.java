@@ -100,4 +100,11 @@ public class JavanistyTest extends BaseTest {
         String counterValue = counter.getText();
         Assert.assertEquals(counterValue, "10");
     }
+
+    @Test
+    public void testIlyaFirstTest(){
+        getDriver().get("https://karkas.k3-cottage.ru/");
+        WebElement text = getDriver().findElement(By.xpath("//li/a[@href='#config']"));
+        Assert.assertEquals(text.getText(), "НАСТРОЙКИ");
+    }
 }
