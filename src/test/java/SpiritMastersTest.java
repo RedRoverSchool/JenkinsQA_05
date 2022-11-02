@@ -1,3 +1,4 @@
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -193,4 +194,35 @@ public class SpiritMastersTest extends BaseTest {
         String title = getDriver().getTitle();
         Assert.assertEquals(title, "Tools QA - Selenium Training");
     }
+
+    @Test
+    public void zyzBankRegisterLogin_MW_Test()  {
+        getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login");
+        getDriver().findElement(By.xpath("//button[normalize-space()='Bank Manager Login']")).click();
+        getDriver().findElement(By.xpath("//button[normalize-space()='Add Customer']")).click();
+        WebElement firstName = getDriver().findElement(By.xpath("//input[@placeholder='First Name']"));
+        firstName.click();
+        firstName.sendKeys("John");
+        WebElement lastName = getDriver().findElement(By.xpath("//input[@placeholder='Last Name']"));
+        lastName.click();
+        lastName.sendKeys("NeJonh");
+        WebElement postcode = getDriver().findElement(By.xpath("//input[@placeholder='Post Code']"));
+        postcode.click();
+        postcode.sendKeys("12334");
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        Alert confAllert = getDriver().switchTo().alert();
+        confAllert.accept();
+        getDriver().findElement(By.xpath("//button[@class='btn btn-lg tab btn-primary']")).click();
+        getDriver().findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/button[1]")).click();
+        WebElement login = getDriver().findElement(By.xpath("//button[normalize-space()='Customer Login']"));
+        Assert.assertEquals(login.getText(), "Customer Login");
+        login.click();
+        WebElement selectNameVariant = getDriver().findElement(By.id("userSelect"));
+        Select dropdown = new Select(selectNameVariant);
+        dropdown.selectByValue("6");
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("/html/body/div/div/div[2]/div/div[1]/strong/span")).getText(), "John NeJonh");
+
+    }
+
 }
