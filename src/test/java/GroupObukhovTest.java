@@ -40,7 +40,7 @@ public class GroupObukhovTest extends BaseTest {
         getMainMenu().get(1).click();
     }
 
-    private void goToBrandBookPage(){
+    private void goToBrandBookPage() {
         getDriver().get(URL);
         getDriver().findElement(By.xpath("//a[contains(text(), 'Брендбук')]")).click();
     }
@@ -142,9 +142,18 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     @Test
-    public void testLinkToBrandBookPage(){
+    public void testLinkToBrandBookPage() {
         goToBrandBookPage();
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector(".logotype-img")).getAttribute("alt"), "Логотип Urent");
+    }
+
+    @Test
+    public void testLinkPrivacyPolicy() {
+        getDriver().get(URL);
+        WebElement linkPrivacyPolicy = getDriver().findElement(By.xpath("//a[@href='/docs/privacy.html'] "));
+        linkPrivacyPolicy.click();
+        WebElement titlePrivacyPolicy = getDriver().findElement(By.xpath("//h1[text()='Политика конфиденциальности']"));
+        Assert.assertEquals(titlePrivacyPolicy.getText(), "Политика конфиденциальности");
     }
 }
