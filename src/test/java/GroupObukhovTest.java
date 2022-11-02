@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GroupObukhov extends BaseTest {
+public class GroupObukhovTest extends BaseTest {
 
     private final String URL = "https://urent.ru/";
 
@@ -38,6 +38,11 @@ public class GroupObukhov extends BaseTest {
     private void goToHelpPage() {
         getDriver().get(URL);
         getMainMenu().get(1).click();
+    }
+
+    private void goToBrandBookPage(){
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Брендбук')]")).click();
     }
 
     @Test
@@ -134,5 +139,12 @@ public class GroupObukhov extends BaseTest {
         for (int i = 0; i < footerMenu.size(); i++) {
             Assert.assertEquals(footerMenu.get(i).getText(), footerHeaders.get(i));
         }
+    }
+
+    @Test
+    public void testLinkToBrandBookPage(){
+        goToBrandBookPage();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector(".logotype-img")).getAttribute("alt"), "Логотип Urent");
     }
 }
