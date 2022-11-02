@@ -10,11 +10,15 @@ import java.time.Duration;
 import java.util.List;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class SpiritMastersTest extends BaseTest {
+
+    private WebElement findCard_PK(int index) {
+        getDriver().get("https://demoqa.com/");
+        List<WebElement> category = getDriver().findElements(By.className("card"));
+        return category.get(index);
+    }
 
     @Test
     public void testSwitchToSecondWindow_OlPolezhaeva() {
@@ -31,12 +35,6 @@ public class SpiritMastersTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@class='card-body']/h5")).click();
 
         Assert.assertEquals(getDriver().findElement(By.className("main-header")).getText(), "Elements");
-    }
-
-    private WebElement findCard_PK(int index) {
-        getDriver().get("https://demoqa.com/");
-        List<WebElement> category = getDriver().findElements(By.className("card"));
-        return category.get(index);
     }
 
     @Test
