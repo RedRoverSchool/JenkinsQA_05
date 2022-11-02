@@ -179,4 +179,21 @@ public class SpiritMastersTest extends BaseTest {
         WebElement firstTitle = getDriver().findElement(By.linkText("QA_Bible"));
         Assert.assertEquals(firstTitle.getText(), "QA_Bible");
     }
+    @Test
+    public void testRedirectToSeleniumTrainingTab_PK(){
+        getDriver().get("https://demoqa.com/");
+        String currentWindow = getDriver().getWindowHandle();
+        WebElement newWindow = getDriver().findElement(By.xpath("//div[@class='home-banner']/a"));
+        String link = newWindow.getAttribute("href");
+        Assert.assertEquals(link, "https://www.toolsqa.com/selenium-training/");
+        newWindow.click();
+        for (String windowHandle : getDriver().getWindowHandles()) {
+            if (!currentWindow.contentEquals(windowHandle)) {
+                getDriver().switchTo().window(windowHandle);
+                break;
+            }
+        }
+        String title = getDriver().getTitle();
+        Assert.assertEquals(title, "Tools QA - Selenium Training");
+    }
 }
