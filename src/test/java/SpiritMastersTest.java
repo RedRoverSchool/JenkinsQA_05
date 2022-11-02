@@ -21,4 +21,12 @@ public class SpiritMastersTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.className("main-header")).getText(), "Elements");
     }
+
+    @Test
+    public void testHerokuapp_gdiksanov() {
+        getDriver().get("https://formy-project.herokuapp.com/");
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/autocomplete']"));
+
+        Assert.assertEquals(link.getText(), "Autocomplete");
+    }
 }
