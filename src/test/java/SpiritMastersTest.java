@@ -7,7 +7,7 @@ import runner.BaseTest;
 public class SpiritMastersTest extends BaseTest {
 
     @Test
-    public void switchToSecondWindow_olPolezhaeva_Test() {
+    public void switchToSecondWindow_OlPolezhaeva_Test() {
 
         getDriver().get("https://www.toolsqa.com/selenium-training/");
 
