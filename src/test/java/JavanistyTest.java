@@ -4,6 +4,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import org.openqa.selenium.JavascriptExecutor;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -23,6 +24,9 @@ public class JavanistyTest extends BaseTest {
         select.selectByValue("2");
         enter("min_length_segment_id", "300");
         enter("indent_walls_id","5");
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        WebElement Element = getDriver().findElement(By.id("direction-laminate-id1"));
+        js.executeScript("arguments[0].scrollIntoView();", Element);
         getDriver().findElement(By.id("direction-laminate-id1")).click();
         getDriver().findElement(By.cssSelector("[class='calc-btn']")).click();
 
