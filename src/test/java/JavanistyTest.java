@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import org.openqa.selenium.JavascriptExecutor;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class JavanistyTest extends BaseTest {
 
+    @Ignore
     @Test
     public void test1(){
         open("https://calc.by/building-calculators/laminate.html");
@@ -80,6 +82,8 @@ public class JavanistyTest extends BaseTest {
 
         Assert.assertEquals(expectedConfirmationMessage, actualConfirmationMessage);
     }
+
+    @Ignore
     @Test
     public void testBdoWarrior2() throws InterruptedException {
         getDriver().get("https://bdocodex.com/ru/skillbuilder/");
