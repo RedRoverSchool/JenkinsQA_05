@@ -31,6 +31,7 @@ public class GroupTeamRocketTest extends BaseTest {
                 getDriver()
                         .findElement(By.xpath("//div[@class='col-sm-7']/h1[text()='Guide']"))
                         .getText(),
-                "Guide");
+                "Guide"
+        );
     }
 }
