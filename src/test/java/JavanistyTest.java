@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -56,6 +57,17 @@ public class JavanistyTest extends BaseTest {
                 ("//tr[4]//descendant::div[@class='level_cell current_level']"));
         String counterValue = counter.getText();
         Assert.assertEquals(counterValue, "10");
+    }
+
+    @Test
+    public void testZipCodeInputField() {
+        getDriver().get("https://www.sharelane.com/cgi-bin/register.py");
+        WebElement zipInputField = getDriver().findElement(By.name("zip_code"));
+        zipInputField.sendKeys("12345", Keys.ENTER);
+        zipInputField = getDriver().findElement(By.name("zip_code"));
+        WebElement registerButton = getDriver().findElement(By.xpath("//*[@value='Register']"));
+        Assert.assertEquals(zipInputField.getAttribute("type"), "hidden");
+        Assert.assertTrue(registerButton.isDisplayed());
     }
 
     @Test
