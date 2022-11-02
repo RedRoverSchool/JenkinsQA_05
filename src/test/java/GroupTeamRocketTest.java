@@ -20,4 +20,18 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver ().findElement (By.id ("login-button")).click ();
         Assert.assertEquals (getDriver ().getCurrentUrl (),"https://www.saucedemo.com/inventory.html");
     }
+    @Test
+    public void testFindTitleGuide_NataliiaOliver() throws InterruptedException {
+        getDriver().get("https://openweathermap.org/");
+        Thread.sleep(5000);
+        getDriver().findElement(By.xpath("//div[@id='desktop-menu']/ul/li/a[@href='/guide']")).click();
+        Thread.sleep(1000);
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/guide");
+        Assert.assertEquals(
+                getDriver()
+                        .findElement(By.xpath("//div[@class='col-sm-7']/h1[text()='Guide']"))
+                        .getText(),
+                "Guide"
+        );
+    }
 }
