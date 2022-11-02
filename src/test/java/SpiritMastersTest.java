@@ -30,6 +30,7 @@ public class SpiritMastersTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.className("main-header")).getText(), "Elements");
     }
+
     private WebElement findCard_PK(int index) {
         getDriver().get("https://demoqa.com/");
         List<WebElement> category = getDriver().findElements(By.className("card"));
@@ -118,7 +119,6 @@ public class SpiritMastersTest extends BaseTest {
         WebElement lastNameField = getDriver().findElement(By.id("lastName"));
         lastNameField.click();
         lastNameField.sendKeys("Ivanov");
-
 
         WebElement emailField = getDriver().findElement(By.id("userEmail"));
         emailField.click();
