@@ -13,6 +13,7 @@ public class SpiritMastersTest extends BaseTest {
 
         WebElement toolsQAHeader= getDriver().findElement(By.xpath("//div[@class='col-auto']//li[3]"));
         toolsQAHeader.click();
+
         for(String tab : getDriver().getWindowHandles()) {
             getDriver().switchTo().window(tab);
         }
