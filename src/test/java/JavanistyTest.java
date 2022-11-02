@@ -1,3 +1,4 @@
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -13,17 +14,17 @@ import java.util.List;
 public class JavanistyTest extends BaseTest {
 
     @Test
-    public void test1(){
+    public void test1() {
         open("https://calc.by/building-calculators/laminate.html");
         enter("ln_room_id", "820");
-        enter("wd_room_id","820");
+        enter("wd_room_id", "820");
         enter("ln_lam_id", "1600");
         enter("wd_lam_id", "200");
-        enter("n_packing","10");
+        enter("n_packing", "10");
         Select select = new Select(getDriver().findElement(By.id("laying_method_laminate")));
         select.selectByValue("2");
         enter("min_length_segment_id", "300");
-        enter("indent_walls_id","5");
+        enter("indent_walls_id", "5");
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         WebElement Element = getDriver().findElement(By.id("direction-laminate-id1"));
         js.executeScript("arguments[0].scrollIntoView();", Element);
@@ -35,19 +36,19 @@ public class JavanistyTest extends BaseTest {
         List<String> expectedResult = Arrays.asList(
                 "Требуемое количество досок ламината: 226", "Количество упаковок ламината: 23"
         );
-        Assert.assertEquals(getActualResult(),expectedResult , "expected equal actual");
+        Assert.assertEquals(getActualResult(), expectedResult, "expected equal actual");
     }
 
-    public void open(String url){
+    public void open(String url) {
         getDriver().get(url);
     }
 
-    public void enter(String id, String value){
+    public void enter(String id, String value) {
         getDriver().findElement(By.id(id)).clear();
         getDriver().findElement(By.id(id)).sendKeys(value);
     }
 
-    public List<String> getActualResult(){
+    public List<String> getActualResult() {
         String countLaminte = getDriver().findElement(By.xpath("(//div[@style='text-align:center; font-size:16px;'])[1]")).getText();
         String countPackage = getDriver().findElement(By.xpath("(//div[@style='text-align:center; font-size:16px;'])[2]")).getText();
 
@@ -58,7 +59,7 @@ public class JavanistyTest extends BaseTest {
     }
 
     @Test
-    public void testIriSamoRegistration(){
+    public void testIriSamoRegistration() {
         getDriver().get("https://www.sharelane.com/cgi-bin/register.py");
         WebElement boxZIP = getDriver().findElement(By.name("zip_code"));
         boxZIP.sendKeys("196240");
@@ -80,6 +81,7 @@ public class JavanistyTest extends BaseTest {
 
         Assert.assertEquals(expectedConfirmationMessage, actualConfirmationMessage);
     }
+
     @Test
     public void testBdoWarrior2() throws InterruptedException {
         getDriver().get("https://bdocodex.com/ru/skillbuilder/");
@@ -96,4 +98,21 @@ public class JavanistyTest extends BaseTest {
         String counterValue = counter.getText();
         Assert.assertEquals(counterValue, "10");
     }
+    @Test
+    public void testThree() throws InterruptedException {
+        getDriver().get("https://healthunify.com/bmicalculator/");
+        Thread.sleep(2000);
+        String text = getDriver().getTitle();
+        String textUrl = getDriver().getCurrentUrl();
+
+        Assert.assertEquals(text, "BMI Calculator");
+        Assert.assertEquals(textUrl, "https://healthunify.com/bmicalculator/");
+        Thread.sleep(4000);
+        getDriver().findElement(By.xpath("//input[@name='wg']")).sendKeys("55");
+        getDriver().findElement(By.xpath("//input[@name='ht']")).sendKeys("60");
+        getDriver().findElement(By.xpath("//input[@value='Calculate']")).click();
+        Thread.sleep(3000);
+        Assert.assertTrue(getDriver().findElement(By.xpath("//input[@class='content']")).isDisplayed());
+    }
+
 }
