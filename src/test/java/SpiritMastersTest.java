@@ -169,4 +169,12 @@ public class SpiritMastersTest extends BaseTest {
 
         Assert.assertEquals(actualTableResult, expectedTableResult);
     }
+
+    @Test
+    public void testDenSebrovskyOpenQABible() throws InterruptedException {
+        getDriver().get("https://vladislaveremeev.gitbook.io/qa_bible/");
+        Thread.sleep(1500);
+        WebElement firstTitle = getDriver().findElement(By.linkText("QA_Bible"));
+        Assert.assertEquals(firstTitle.getText(), "QA_Bible");
+    }
 }
