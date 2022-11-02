@@ -8,9 +8,10 @@ import runner.BaseTest;
 public class MariJernTest extends BaseTest {
 
     @Test
-    public void testButtonHerokuApp() throws InterruptedException {
+    public void testHerokuApp() {
+
         getDriver().get("https://formy-project.herokuapp.com/");
-        Thread.sleep(3000);
+
         WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/buttons']"));
 
         Assert.assertEquals(link.getText(), "Buttons");
