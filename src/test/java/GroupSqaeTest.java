@@ -54,4 +54,15 @@ public class GroupSqaeTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://accounts.theatlantic.com/products/?source=nav");
     }
 
+    @Test
+    public void testPageTitleOfSite() {
+        getDriver().get("http://www.seleniumframework.com/Practiceform/");
+
+        String actualSiteTitle = getDriver().getTitle();
+        String expectedSiteTitle = "Selenium Framework | Practiceform";
+
+        Assert.assertEquals(actualSiteTitle, expectedSiteTitle);
+    }
+
+
 }
