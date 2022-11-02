@@ -54,4 +54,43 @@ public class GroupSqaeTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://accounts.theatlantic.com/products/?source=nav");
     }
 
+    @Test
+    public void testPageTitleOfSite() {
+        getDriver().get("http://www.seleniumframework.com/Practiceform/");
+
+        String actualSiteTitle = getDriver().getTitle();
+        String expectedSiteTitle = "Selenium Framework | Practiceform";
+
+        Assert.assertEquals(actualSiteTitle, expectedSiteTitle);
+    }
+
+    @Test
+    public void testUrlOfSite() {
+        getDriver().get("http://www.seleniumframework.com/Practiceform/");
+        getDriver().findElement(By.xpath("//*[@id=\"main-nav\"]/li[8]/a/span")).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "http://www.seleniumframework.com/about-2/");
+    }
+
+    @Test
+    public void testUrlTitleHeading() {
+        getDriver().get("http://www.seleniumframework.com/about-2/");
+        getDriver().findElement(By.xpath("//*[@id=\"main-nav\"]/li[1]/a/span")).click();
+
+        String actualUrl = getDriver().getCurrentUrl();
+        String expectedUrl = "http://www.seleniumframework.com/";
+
+        Assert.assertEquals(actualUrl, expectedUrl);
+
+        String actualTitle = getDriver().getTitle();
+        String expectedTitle = "Selenium Framework | Selenium, Cucumber, Ruby, Java et al.";
+
+        Assert.assertEquals(actualTitle, expectedTitle);
+
+        WebElement actualH2 = getDriver().findElement(By.cssSelector("h2"));
+
+        Assert.assertEquals(actualH2.getText(), "Agile Testing and ATDD Automation –  Free Tutorials");
+    }
+
+
 }
