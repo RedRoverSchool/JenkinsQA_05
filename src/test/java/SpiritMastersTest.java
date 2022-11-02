@@ -86,4 +86,21 @@ public class SpiritMastersTest extends BaseTest {
                 "[href^=\"/butt\"]"));
         Assert.assertEquals(link.getText(), "Buttons");
     }
+
+    @Test
+    public void testDenSebrovskyOpenQABible() throws InterruptedException {
+        getDriver().get("https://vladislaveremeev.gitbook.io/qa_bible/");
+        Thread.sleep(1500);
+        WebElement firstTitle = getDriver().findElement(By.linkText("QA_Bible"));
+        Assert.assertEquals(firstTitle.getText(), "QA_Bible");
+    }
+
+    @Test
+    public void testDenSebrovskyFindTestPrinciples() throws InterruptedException {
+        testDenSebrovskyOpenQABible();
+        getDriver().findElement(By.linkText("Общее")).click();
+        getDriver().findElement(By.linkText("Принципы тестирования")).click();
+        WebElement principlesTitle = getDriver().findElement(By.linkText("Принципы тестирования"));
+        Assert.assertEquals(principlesTitle.getText(), "Принципы тестирования");
+    }
 }
