@@ -156,4 +156,12 @@ public class GroupObukhovTest extends BaseTest {
         WebElement titlePrivacyPolicy = getDriver().findElement(By.xpath("//h1[text()='Политика конфиденциальности']"));
         Assert.assertEquals(titlePrivacyPolicy.getText(), "Политика конфиденциальности");
     }
+    @Test
+    public void testLinkContractJoin() {
+        getDriver().get(URL);
+        WebElement linkContractJoin = getDriver().findElement(By.xpath("//a [@href='/docs/accession.html']"));
+        linkContractJoin.click();
+        WebElement titleContractJoin = getDriver().findElement(By.xpath("//h1 [text() = 'Договор о предоставлении права использования Сервиса Юрент']"));
+        Assert.assertEquals(titleContractJoin.getText(), "Договор о предоставлении права использования Сервиса Юрент");
+    }
 }
