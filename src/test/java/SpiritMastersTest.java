@@ -14,6 +14,11 @@ import java.util.Map;
 
 public class SpiritMastersTest extends BaseTest {
 
+    private WebElement findCard_PK(int index) {
+        getDriver().get("https://demoqa.com/");
+        List<WebElement> category = getDriver().findElements(By.className("card"));
+        return category.get(index);
+    }
     @Test
     public void testSwitchToSecondWindow_OlPolezhaeva() {
 
@@ -29,12 +34,6 @@ public class SpiritMastersTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@class='card-body']/h5")).click();
 
         Assert.assertEquals(getDriver().findElement(By.className("main-header")).getText(), "Elements");
-    }
-
-    private WebElement findCard_PK(int index) {
-        getDriver().get("https://demoqa.com/");
-        List<WebElement> category = getDriver().findElements(By.className("card"));
-        return category.get(index);
     }
 
     @Test
@@ -176,5 +175,22 @@ public class SpiritMastersTest extends BaseTest {
         Thread.sleep(1500);
         WebElement firstTitle = getDriver().findElement(By.linkText("QA_Bible"));
         Assert.assertEquals(firstTitle.getText(), "QA_Bible");
+    }
+    @Test
+    public void testRedirectToSeleniumTrainingTab_PK(){
+        getDriver().get("https://demoqa.com/");
+        String currentWindow = getDriver().getWindowHandle();
+        WebElement newWindow = getDriver().findElement(By.xpath("//div[@class='home-banner']/a"));
+        String link = newWindow.getAttribute("href");
+        Assert.assertEquals(link, "https://www.toolsqa.com/selenium-training/");
+        newWindow.click();
+        for (String windowHandle : getDriver().getWindowHandles()) {
+            if (!currentWindow.contentEquals(windowHandle)) {
+                getDriver().switchTo().window(windowHandle);
+                break;
+            }
+        }
+        String title = getDriver().getTitle();
+        Assert.assertEquals(title, "Tools QA - Selenium Training");
     }
 }
