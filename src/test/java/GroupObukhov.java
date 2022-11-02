@@ -41,14 +41,14 @@ public class GroupObukhov extends BaseTest {
     }
 
     @Test
-    public void checkCountMainMenuButtons() {
+    public void testCheckCountMainMenuButtons() {
         getDriver().get(URL);
 
         Assert.assertEquals(4, getMainMenu().size());
     }
 
     @Test
-    public void checkNamesMainMenuButtons() {
+    public void testCheckNamesMainMenuButtons() {
         getDriver().get(URL);
         List<String> expectedResult = Arrays.asList("Главная", "Помощь", "Вакансии", "Франшиза");
 
