@@ -21,7 +21,7 @@ public class BugBustersTest extends BaseTest {
     public void testRadasSuccessLogIn() throws InterruptedException {
         getDriver().get("https://www.wunderground.com/");
         getDriver().findElement(By.xpath("//div[@id='global-header']/lib-login/div/p/span/a")).click();
-        getDriver().findElement(By.xpath("//button[@id='truste-consent-button']")).click();
+        getDriver().findElement(By.xpath("//button[@id='truste-consent-button'][@type='button']")).click();
         Thread.sleep(1000);
         getDriver().findElement(By.xpath("//input[@id='form-signin-email']")).sendKeys("motoxx68@gmail.com");
         getDriver().findElement(By.xpath("//input[@id='form-signin-password']")).sendKeys("Intsnewpassword");
