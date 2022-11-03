@@ -87,6 +87,15 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
+    public void testInformationDelivery() {
+        getDriver().get("http://automationpractice.com/index.php");
+        getDriver().findElement(By.cssSelector(".sf-with-ul[title=\"Women\"]")).click();
+        getDriver().findElement(By.cssSelector("[title=\"Delivery\"]")).click();
+
+        Assert.assertEquals(getDriver().getTitle(), "Delivery - My Store");
+    }
+
+    @Test
     public void testGoToTermsAndConditionsPage_AnastasiaYakimova() {
         getDriver().get ("http://automationpractice.com");
         getDriver().findElement (By.xpath("//section[@id='block_various_links_footer']/ul/li[6]/a")).click();
@@ -135,6 +144,17 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.id("submitMessage")).click();
         Assert.assertEquals(getDriver().findElement(By.xpath("//p[@class='alert alert-success']"))
                 .getText(),"Your message has been successfully sent to our team.");
-                
+   }
+
+   @Test
+    public void testFindBook_VZ() {
+        getDriver().get("https://www.abebooks.com/");
+        getDriver().findElement(By.id("rare-books")).click();
+        getDriver().findElement(By.xpath("//input[@placeholder='Enter author']")).sendKeys("Tolstoy");
+        getDriver().findElement(By.name("prl")).sendKeys("400");
+        getDriver().findElement(By.xpath("//button[@class='button-primary']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//span[@data-cy='listing-title']"))
+                .getText(),"The Tragedy of Tolstoy");
    }
 }
