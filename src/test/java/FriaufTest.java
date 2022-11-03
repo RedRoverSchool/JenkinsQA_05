@@ -1,9 +1,10 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.time.Duration;
 
 public class FriaufTest extends BaseTest {
 
@@ -13,53 +14,45 @@ public class FriaufTest extends BaseTest {
 
 
     @Test
-    public void positiveLoginTest() throws InterruptedException {
+    public void positiveLoginTest()  {
 
         getDriver().get("http://qa.jtalks.org/jcommune/");
+        getDriver().manage().window().maximize();
         String actualTitle = getDriver().getTitle();
         String expectedTitle = "TESTФорум Jcommune (QA instance)";
         Assert.assertEquals(expectedTitle, actualTitle);
 
-        Thread.sleep(2000);
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
-        WebElement signIn = getDriver().findElement(By.id("signin"));
-        signIn.click();
-        WebElement userName = getDriver().findElement(By.id("userName"));
-        userName.sendKeys("test-user");
-        WebElement password = getDriver().findElement(By.id("password"));
-        password.sendKeys("test-user");
-        WebElement signInButton = getDriver().findElement(By.id("signin-submit-button"));
-        signInButton.click();
-        Thread.sleep(3000);
-        WebElement userMenu = getDriver().findElement(By.id("user-dropdown-menu-link"));
-        String userMenuText = userMenu.getText();
-        Assert.assertTrue(userMenuText.contains("test-user"));
+        getDriver().findElement(By.id("signin")).click();
+        getDriver().findElement(By.id("userName")).sendKeys("test-user");
+        getDriver().findElement(By.id("password")).sendKeys("test-user");
+        getDriver().findElement(By.id("signin-submit-button")).click();
+
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+
+        Assert.assertTrue(getDriver().findElement(By.id("user-dropdown-menu-link")).getText().contains("test-user"));
     }
 
 
     @Test
-    public void negativeLoginTest() throws InterruptedException {
+    public void negativeLoginTest()  {
         getDriver().get("http://qa.jtalks.org/jcommune/");
+        getDriver().manage().window().maximize();
         String actualTitle = getDriver().getTitle();
         String expectedTitle = "TESTФорум Jcommune (QA instance)";
         Assert.assertEquals(expectedTitle, actualTitle);
 
-        Thread.sleep(2000);
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
-        WebElement signIn = getDriver().findElement(By.id("signin"));
-        signIn.click();
-        WebElement userName = getDriver().findElement(By.id("userName"));
-        userName.sendKeys("test-user");
-        WebElement password = getDriver().findElement(By.id("password"));
-        password.sendKeys("test");
-        WebElement signInButton = getDriver().findElement(By.id("signin-submit-button"));
-        signInButton.click();
-        Thread.sleep(3000);
+        getDriver().findElement(By.id("signin")).click();
+        getDriver().findElement(By.id("userName")).sendKeys("test-user");
+        getDriver().findElement(By.id("password")).sendKeys("test");
+        getDriver().findElement(By.id("signin-submit-button")).click();
 
-        WebElement errorMessage = getDriver().findElement(By.xpath("//span[@class = 'help-inline _error']"));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
-        String errorMessageText = errorMessage.getText();
-        Assert.assertTrue(errorMessageText.contains("Неверное имя пользователя или пароль"));
+        Assert.assertTrue(getDriver().findElement(By.xpath("//span[@class = 'help-inline _error']")).getText().contains("Неверное имя пользователя или пароль"));
     }
 
 
