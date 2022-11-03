@@ -26,7 +26,7 @@ public class GroupTeamRocketTest extends BaseTest {
     @Test
     public void testFindTitleGuide_NataliiaOliver() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
-        Thread.sleep(5000);
+        Thread.sleep(6000);
         getDriver().findElement(By.xpath("//div[@id='desktop-menu']/ul/li/a[@href='/guide']")).click();
         Thread.sleep(1000);
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/guide");
@@ -162,4 +162,14 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//span[@data-cy='listing-title']"))
                 .getText(),"The Tragedy of Tolstoy");
    }
+
+    @Test
+    public void testBrowseLanguages_NO() {
+        getDriver().get ("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement (By.xpath("//div[@id='navigation']/ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        Assert.assertEquals(getDriver().findElement (By.xpath("//table[@id='category']/tbody/tr/th[text()='Language']"))
+                .getText(), "Language");
+        Assert.assertEquals(getDriver().findElement (By.xpath("//table[@id='category']/tbody/tr/th[text()='Author']"))
+                .getText(), "Author");
+    }
 }
