@@ -90,10 +90,8 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testGoToTermsAndConditionsPage_AnastasiaYakimova() {
         getDriver().get ("http://automationpractice.com");
         getDriver().findElement (By.xpath("//section[@id='block_various_links_footer']/ul/li[6]/a")).click();
+
         Assert.assertEquals (getDriver().getCurrentUrl (),
                 "http://automationpractice.com/index.php?id_cms=3&controller=cms");
     }
-
-
-
 }
