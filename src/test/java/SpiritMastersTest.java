@@ -240,4 +240,13 @@ public class SpiritMastersTest extends BaseTest {
         title.click();
         Assert.assertEquals(title.getText(), "Принципы тестирования");
     }
+
+    @Test
+    public void testCheckButtonTutotials_LPlucci() throws InterruptedException {
+        getDriver().get("https://www.toolsqa.com/");
+        Thread.sleep(1000);
+        WebElement openButton = getDriver().findElement(By.xpath("//span[@class='navbar__tutorial-menu--text']"));
+        Thread.sleep(1000);
+        Assert.assertEquals(openButton.getText(),"TUTORIALS");
+    }
 }
