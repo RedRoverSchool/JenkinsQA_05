@@ -255,6 +255,8 @@ public class SpiritMastersTest extends BaseTest {
         getDriver().switchTo().frame(getDriver().findElement(By.id("frame1")));
         WebElement headerFrame = getDriver().findElement(By.xpath("//body/h1[@id='sampleHeading']"));
 
+        Assert.assertEquals(headerFrame.getRect().getWidth(), 480.0);
+        Assert.assertEquals(headerFrame.getRect().getHeight(), 37.0);
     }
 
     @Test
@@ -276,6 +278,7 @@ public class SpiritMastersTest extends BaseTest {
         Thread.sleep(1000);
         Assert.assertEquals(openButton.getText(),"TUTORIALS");
     }
+
     @Test
     public void testModalDialogs_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/modal-dialogs");
