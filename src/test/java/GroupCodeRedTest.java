@@ -58,4 +58,13 @@ public class GroupCodeRedTest extends BaseTest {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='alert alert-success']")).getText().contains("The form was successfully submitted!"));
     }
+    @Test
+    public void testGetPage() {
+
+        getDriver().get("https://www.demoblaze.com/");
+        WebElement link = getDriver().findElement(By.cssSelector("div.col-sm-4 p"));
+        Assert.assertEquals(link.getText(), "We believe performance needs to be validated at every stage of " +
+                "the software development cycle and our open source compatible," +
+                " massively scalable platform makes that a reality.");
+    }
 }
