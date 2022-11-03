@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class IKrlkvTest extends BaseTest {
 
@@ -17,6 +19,10 @@ public class IKrlkvTest extends BaseTest {
     public void getToContactUsPage_AutomationPracticeCom() {
         getToMainPage_AutomationPracticeCom();
         getDriver().findElement(By.linkText("Contact us")).click();
+    }
+
+    public void getToMainPage_SelectorsHubCom() {
+        getDriver().get("https://selectorshub.com/xpath-practice-page/");
     }
 
     @Test
@@ -55,7 +61,7 @@ public class IKrlkvTest extends BaseTest {
     }
 
     @Test
-    public void testFormSubmAutomationinTestingOnline() {
+    public void testFormSubm_AutomationinTestingOnline() {
 
         String testName = "John Cena";
         String actualConfirmationTitle = String.format("Thanks for getting in touch %s!",testName);
@@ -88,7 +94,47 @@ public class IKrlkvTest extends BaseTest {
     }
 
     @Test
-    public void testButtonsLinkTextHerokuApp() {
+    public void testDropDown_SelectorsHubCom() {
+
+        int expectedRowsCount = 99;
+
+        getToMainPage_SelectorsHubCom();
+
+        WebElement dropDownMenu = getDriver().findElement(By.xpath("//select[@name='tablepress-1_length']"));
+
+        Actions actions = new Actions(getDriver());
+        actions.scrollToElement(dropDownMenu);
+
+        Select select = new Select(dropDownMenu);
+        select.selectByVisibleText("100");
+
+        List<WebElement> actualRowsCount = getDriver().findElements(By.xpath("//tbody[@class='row-hover']//tr"));
+
+        Assert.assertEquals(expectedRowsCount, actualRowsCount.size());
+    }
+
+    @Test
+    public void testFilterTable_SelectorsHubCom() {
+
+        int expectedRowsCount = 3;
+        String expectedCountry = "United States";
+
+        getToMainPage_SelectorsHubCom();
+
+        WebElement tableFilterTextBox = getDriver().findElement(By.xpath("//input[@aria-controls='tablepress-1']"));
+        tableFilterTextBox.sendKeys("United States");
+
+        List<String> actualValues = getDriver().findElements(By.xpath("//td[@class='column-5']"))
+                .stream().map(WebElement::getText).collect(Collectors.toList());
+
+        Assert.assertEquals(expectedRowsCount, actualValues.size());
+        for (String actualValue : actualValues) {
+            Assert.assertEquals(expectedCountry, actualValue);
+        }
+    }
+
+    @Test
+    public void testButtonsLinkText_HerokuApp() {
 
         getDriver().get("https://formy-project.herokuapp.com/");
 
@@ -98,7 +144,7 @@ public class IKrlkvTest extends BaseTest {
     }
 
     @Test
-    public void testButtonsPageURLHerokuApp() {
+    public void testButtonsPageURL_HerokuApp() {
 
         getDriver().get("https://formy-project.herokuapp.com/");
 
