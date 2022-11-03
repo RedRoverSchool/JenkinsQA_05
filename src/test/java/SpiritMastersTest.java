@@ -1,4 +1,3 @@
-import org.bouncycastle.util.Arrays;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -344,5 +343,40 @@ public class SpiritMastersTest extends BaseTest {
         actualResult.add(getDriver().findElement(By.xpath("//p[@id='permanentAddress']")).getText());
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testCheckBoxes_AFedorova() {
+        List<String> expectedResult = new ArrayList<>(List.of("You have " +
+                "selected :","desktop","notes","commands"));
+
+        getDriver().get("https://demoqa.com/");
+
+        getDriver().findElement(By.cssSelector("div.category-cards>div:first" +
+                "-of-type")).click();
+        getDriver().findElement(By.xpath("//*[@id" +
+                "='item-1']/span")).click();
+        getDriver().findElement(By.cssSelector(".rct" +
+                "-option.rct-option-expand-all")).click();
+
+        List<WebElement> listOfCheckBoxes =
+                getDriver().findElements(By.cssSelector("span" +
+                ".rct-checkbox"));
+        listOfCheckBoxes.get(3).click();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("span" +
+                ".text-success")).getText(),"commands");
+
+        listOfCheckBoxes.get(2).click();
+
+        List<WebElement> listOfSelectedCheckBoxesDesktop =
+                getDriver().findElements(By.cssSelector(".display-result" +
+                        ".mt-4>span"));
+        List<String> actualResult = new ArrayList<>();
+        for (WebElement element:listOfSelectedCheckBoxesDesktop) {
+           actualResult.add(element.getText());
+        }
+
+        Assert.assertEquals(actualResult,expectedResult);
     }
 }
