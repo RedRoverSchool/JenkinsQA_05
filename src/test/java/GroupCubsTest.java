@@ -20,9 +20,7 @@ public class GroupCubsTest extends BaseTest {
 
     @Test
     public void testRp5(){
-
         getDriver().get("https://rp5.ru");
-
         WebElement search = getDriver().findElement(By.name("searchStr"));
         search.sendKeys("Танжер\n");
         getDriver().findElement(By.linkText("Танжер (аэропорт)")).click();
