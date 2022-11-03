@@ -30,13 +30,15 @@ public class IKrlkvTest extends BaseTest {
     }
 
     @Test
-    public void testSendMessageFromContactUsPage_AutomationPracticeCom() {
+    public void testSendMessageFromContactUsPage_AutomationPracticeCom() throws InterruptedException {
 
         getToContactUsPage_AutomationPracticeCom();
 
         Select subjectHeading = new Select(getDriver().findElement(By.id("id_contact")));
 
         subjectHeading.selectByVisibleText("Webmaster");
+
+        Thread.sleep(3000);
 
         Assert.assertEquals(getDriver().findElement(By.id("desc_contact1")).getText(), "If a technical problem occurs on this website");
 
