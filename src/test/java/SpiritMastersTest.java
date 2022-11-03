@@ -2,7 +2,6 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -179,12 +178,13 @@ public class SpiritMastersTest extends BaseTest {
     }
 
     @Test
-    public void testDenSebrovskyOpenQABible() throws InterruptedException {
+    public void testDSOpenQABible() throws InterruptedException {
         getDriver().get("https://vladislaveremeev.gitbook.io/qa_bible/");
         Thread.sleep(1500);
         WebElement firstTitle = getDriver().findElement(By.linkText("QA_Bible"));
         Assert.assertEquals(firstTitle.getText(), "QA_Bible");
     }
+
     @Test
     public void testRedirectToSeleniumTrainingTab_PK(){
         getDriver().get("https://demoqa.com/");
@@ -232,7 +232,6 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("/html/body/div/div/div[2]/div/div[1]/strong/span")).getText(), "John NeJonh");
     }
 
-
     @Test
     public void testSwitchFrames_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/frames");
@@ -256,10 +255,27 @@ public class SpiritMastersTest extends BaseTest {
         getDriver().switchTo().frame(getDriver().findElement(By.id("frame1")));
         WebElement headerFrame = getDriver().findElement(By.xpath("//body/h1[@id='sampleHeading']"));
 
-        Assert.assertEquals(headerFrame.getRect().getHeight(), 37.0);
-        Assert.assertEquals(headerFrame.getRect().getWidth(), 480.0);
     }
 
+    @Test
+    public void testDSFindTitle() throws InterruptedException {
+        getDriver().get("https://vladislaveremeev.gitbook.io/qa_bible/");
+        Thread.sleep(1500);
+        getDriver().findElement(By.xpath("//div[4]//a[1]//div[1]")).click();
+        WebElement title = getDriver().findElement(By.xpath(
+                "//div[contains(@class, 'css-901oao r')][contains(text(),'Принципы тестирования')]"));
+        title.click();
+        Assert.assertEquals(title.getText(), "Принципы тестирования");
+    }
+
+    @Test
+    public void testCheckButtonTutotials_LPlucci() throws InterruptedException {
+        getDriver().get("https://www.toolsqa.com/");
+        Thread.sleep(1000);
+        WebElement openButton = getDriver().findElement(By.xpath("//span[@class='navbar__tutorial-menu--text']"));
+        Thread.sleep(1000);
+        Assert.assertEquals(openButton.getText(),"TUTORIALS");
+    }
     @Test
     public void testModalDialogs_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/modal-dialogs");
