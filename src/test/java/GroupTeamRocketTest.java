@@ -145,4 +145,15 @@ public class GroupTeamRocketTest extends BaseTest {
                 .getText(),"Your message has been successfully sent to our team.");
                 
    }
+
+    @Test
+    public void testSaucedemo_EZ() {
+        getDriver().get("https://www.saucedemo.com/");
+        getDriver().findElement(By.id("user-name")).sendKeys("locked_out_user");
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
+        getDriver().findElement(By.id("login-button")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.cssSelector(
+                "#login_button_container > div > form > div.error-message-container.error")).isDisplayed());
+    }
 }
