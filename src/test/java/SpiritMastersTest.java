@@ -1,3 +1,4 @@
+import org.bouncycastle.util.Arrays;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -12,10 +13,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
-import java.util.List;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SpiritMastersTest extends BaseTest {
 
@@ -93,7 +91,7 @@ public class SpiritMastersTest extends BaseTest {
     }
 
     @Test
-    public void checkButtonsLink_AFedorova_Test() {
+    public void testCheckButtonLink_AFedorova() {
         getDriver().get("https://formy-project.herokuapp.com/");
         WebElement link = getDriver().findElement(By.cssSelector("a.btn-lg" +
                 "[href^=\"/butt\"]"));
@@ -300,5 +298,50 @@ public class SpiritMastersTest extends BaseTest {
         String actualToolTip = new WebDriverWait(getDriver(), Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tooltip-inner']"))).getText();
 
         Assert.assertEquals(actualToolTip, "You hovered over the Contrary");
+    }
+
+    @Test
+    public void testTextBoxFields_AFedorova() {
+        getDriver().get("https://demoqa.com/");
+
+        String name = "Anna Fedorova";
+        String email = "test@gmail.com";
+        String cAddress = "40 S Rengstorff Ave, Mountain View, CA 94040";
+        String pAddress = "851 Manor Way, Los Altos, CA 94024";
+
+        List<String> expectedResult = new ArrayList<>();
+        expectedResult.add("Name:" + name);
+        expectedResult.add("Email:" + email);
+        expectedResult.add("Current Address :" + cAddress);
+        expectedResult.add("Permananet Address :" + pAddress);
+
+        WebElement elementBtn = getDriver().findElement(By.cssSelector("div.category-cards>div:first-of-type"));
+        elementBtn.click();
+
+        WebElement textBoxBtn = getDriver().findElement(By.xpath("//*[@id='item-0']/span"));
+        textBoxBtn.click();
+
+        WebElement tbName = getDriver().findElement(By.id("userName"));
+        WebElement tbEmail = getDriver().findElement(By.id("userEmail"));
+        WebElement tbAddress = getDriver().findElement(By.id("currentAddress"));
+        WebElement tbPermAddress = getDriver().findElement(By.id(
+                "permanentAddress"));
+
+        tbName.sendKeys(name);
+        tbEmail.sendKeys(email);
+        tbAddress.sendKeys(cAddress);
+        tbPermAddress.sendKeys(pAddress);
+
+        WebElement submitBtn = getDriver().findElement(By.id("submit"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", submitBtn);
+
+        List<String> actualResult = new ArrayList<>();
+        actualResult.add(getDriver().findElement(By.id("name")).getText());
+        actualResult.add(getDriver().findElement(By.id("email")).getText());
+        actualResult.add(getDriver().findElement(By.xpath("//p[@id='currentAddress']")).getText());
+        actualResult.add(getDriver().findElement(By.xpath("//p[@id='permanentAddress']")).getText());
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
