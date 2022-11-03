@@ -22,6 +22,15 @@ public class GroupCubsTest extends BaseTest {
     }
 
     @Test
+    public void testRp5(){
+        getDriver().get("https://rp5.ru");
+        WebElement search = getDriver().findElement(By.name("searchStr"));
+        search.sendKeys("Танжер\n");
+        String actualText = getDriver().findElement(By.xpath("//h1")).getText();
+        Assert.assertEquals(actualText, "Search result");
+    }
+
+    @Test
     public void testAnastasiiaApp(){
         getDriver().get("https://koma.lux.pl/");
         WebElement link = getDriver().findElement(By.xpath("//a[@href='https://koma.lux.pl/Wszystkie-produkty,pid,9.html']"));
@@ -38,3 +47,4 @@ public class GroupCubsTest extends BaseTest {
         Assert.assertTrue(searchResult.getText().toLowerCase(Locale.ROOT).contains(query));
     }
 }
+
