@@ -1,7 +1,7 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -161,7 +161,7 @@ public class SpiritMastersTest extends BaseTest {
         JavascriptExecutor js = (JavascriptExecutor)getDriver();
         js.executeScript("arguments[0].click();", submitBtn);
 
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        new WebDriverWait(getDriver(),Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody/tr")));
 
         List<WebElement> rows = getDriver().findElements(By.xpath("//tbody/tr"));
         Map<String, String> actualTableResult = new HashMap<>();
@@ -195,5 +195,46 @@ public class SpiritMastersTest extends BaseTest {
         }
         String title = getDriver().getTitle();
         Assert.assertEquals(title, "Tools QA - Selenium Training");
+    }
+
+    @Test
+    public void testSwitchFrames_OlPolezhaeva() {
+        getDriver().get("https://demoqa.com/frames");
+
+        getDriver().switchTo().frame(getDriver().findElement(By.id("frame1")));
+        Assert.assertEquals(getDriver().findElement(By.xpath("//body/h1[@id='sampleHeading']")).getText(), "This is a sample page");
+
+        getDriver().switchTo().defaultContent();
+
+        getDriver().switchTo().frame(getDriver().findElement(By.id("frame2")));
+        Assert.assertEquals(getDriver().findElement(By.xpath("//body/h1[@id='sampleHeading']")).getText(), "This is a sample page");
+
+        getDriver().switchTo().defaultContent();
+        Assert.assertEquals(getDriver().findElement(By.className("main-header")).getText(), "Frames");
+    }
+
+    @Test
+    public void testStyleFrame1_OlPolezhaeva() {
+        getDriver().get("https://demoqa.com/frames");
+
+        getDriver().switchTo().frame(getDriver().findElement(By.id("frame1")));
+        WebElement headerFrame = getDriver().findElement(By.xpath("//body/h1[@id='sampleHeading']"));
+
+        Assert.assertEquals(headerFrame.getRect().getHeight(), 37.0);
+        Assert.assertEquals(headerFrame.getRect().getWidth(), 480.0);
+
+    }
+
+    @Test
+    public void testModalDialogs_OlPolezhaeva() {
+        getDriver().get("https://demoqa.com/modal-dialogs");
+
+        getDriver().findElement(By.id("showSmallModal")).click();
+
+        for (String tab : getDriver().getWindowHandles()) {
+            getDriver().switchTo().window(tab);
+        }
+        getDriver().findElement(By.id("closeSmallModal")).click();
+        Assert.assertTrue(getDriver().findElement(By.id("showLargeModal")).isDisplayed());
     }
 }
