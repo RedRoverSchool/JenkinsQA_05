@@ -55,4 +55,19 @@ public class GroupBugBustersTest extends BaseTest {
         Assert.assertEquals(actualResultVisitDate, expectedResultVisitDate);
         Assert.assertEquals(actualResultComment, expectedResultComment);
     }
+
+    @Test
+    public void testRadasSuccessLogIn() throws InterruptedException {
+        getDriver().get("https://www.wunderground.com/");
+        getDriver().findElement(By.xpath("//div[@id='global-header']/lib-login/div/p/span/a")).click();
+        getDriver().findElement(By.xpath("/html/body/div[1]/div/div/div/div/div/div[3]/button[1]")).click();
+        Thread.sleep(2000);
+        getDriver().findElement(By.xpath("//input[@id='form-signin-email']")).sendKeys("motoxx68@gmail.com");
+        getDriver().findElement(By.xpath("//input[@id='form-signin-password']")).sendKeys("Intsnewpassword");
+        getDriver().findElement(By.id("signIn")).click();
+        Thread.sleep(2000);
+        getDriver().findElement(By.xpath("//div[@id = 'global-header']//button[@class = 'wu-account close-login ng-star-inserted']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//li[@translatecontext='wu-header-user-login']")).getText(), "Welcome back!");
+
+    }
 }
