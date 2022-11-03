@@ -85,4 +85,13 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//img[@class='captchaMediaImage']")).isDisplayed());
     }
+
+    @Test
+    public void testInformationDelivery() {
+        getDriver().get("http://automationpractice.com/index.php");
+        getDriver().findElement(By.cssSelector(".sf-with-ul[title=\"Women\"]")).click();
+        getDriver().findElement(By.cssSelector("[title=\"Delivery\"]")).click();
+
+        Assert.assertEquals(getDriver().getTitle(), "Delivery - My Store");
+    }
 }
