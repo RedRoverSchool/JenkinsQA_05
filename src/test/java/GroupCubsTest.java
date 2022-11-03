@@ -23,7 +23,7 @@ public class GroupCubsTest extends BaseTest {
         getDriver().get("https://rp5.ru");
         WebElement search = getDriver().findElement(By.name("searchStr"));
         search.sendKeys("Танжер\n");
-        WebElement link = getDriver().findElement(By.xpath("//span/a[@href='/Погода_в_Танжере_(аэропорт)']"));
+        WebElement link = getDriver().findElement(By.xpath("//html/body/div[4]/div[2]/div[1]/div[2]/table/tbody/tr[2]/td[1]/span/a"));
         link.click();
         String actualText = getDriver().findElement(By.xpath("//h1")).getText();
         Assert.assertEquals(actualText, "Погода в Танжере (аэропорт)");
