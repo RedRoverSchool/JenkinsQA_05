@@ -1,5 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.Color;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -206,5 +208,20 @@ public class GroupObukhovTest extends BaseTest {
 
         Assert.assertEquals(heroButton.getCssValue("color"), "rgba(128, 74, 255, 1)");
         Assert.assertEquals(heroButton.getCssValue("background-color"), "rgba(0, 0, 0, 0)");
+    }
+
+    @Test
+    public void testCheckHeroButtonColorsAfterNavigateMouse(){
+        getDriver().get(URL);
+        WebElement heroButton = getDriver().findElement(By.cssSelector(".hero-button"));
+
+        String startBackgroundColor = Color.fromString(heroButton.getCssValue("background-color")).asRgb();
+        new Actions(getDriver())
+                .moveToElement(heroButton)
+                .perform();
+        String afterMouseNavigateBackgroundColor = Color.fromString(heroButton.getCssValue("background-color")).asRgb();
+
+        Assert.assertNotEquals(startBackgroundColor, afterMouseNavigateBackgroundColor);
+        Assert.assertEquals(afterMouseNavigateBackgroundColor, "rgb(128, 74, 255)");
     }
 }
