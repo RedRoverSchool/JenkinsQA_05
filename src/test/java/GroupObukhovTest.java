@@ -12,8 +12,14 @@ public class GroupObukhovTest extends BaseTest {
 
     private final String URL = "https://urent.ru/";
 
+    private final String URLFranchise = "https://start.urent.ru/";
+
     private List<WebElement> getMainMenu() {
         return getDriver().findElements(By.xpath("//ul[@class=\"menu-list\"]/li"));
+    }
+
+    private List<WebElement> getMenuFranchise() {
+        return getDriver().findElements(By.xpath("//ul[@class=\"navigation-list\"]/li"));
     }
 
     private List<WebElement> checkMenuHelp(String chooseMenu) {
@@ -43,6 +49,26 @@ public class GroupObukhovTest extends BaseTest {
     private void goToBrandBookPage() {
         getDriver().get(URL);
         getDriver().findElement(By.xpath("//a[contains(text(), 'Брендбук')]")).click();
+    }
+
+    private void goToAboutServicePage() {
+        getDriver().get(URLFranchise);
+        getMenuFranchise().get(0).click();
+    }
+
+    private void goToFunctionPage() {
+        getDriver().get(URLFranchise);
+        getMenuFranchise().get(1).click();
+    }
+
+    private void goToOurPartnerPage() {
+        getDriver().get(URLFranchise);
+        getMenuFranchise().get(2).click();
+    }
+
+    private void goToStartPage() {
+        getDriver().get(URLFranchise);
+        getMenuFranchise().get(3).click();
     }
 
     @Test
@@ -190,5 +216,52 @@ public class GroupObukhovTest extends BaseTest {
         for (int i = 0; i < colors.size(); i++) {
             Assert.assertEquals(colors.get(i).getText().substring(0, 7), expectedResult.get(i));
         }
+    }
+
+    @Test
+    public void testCheckCountMenuFranchiseButtons() {
+        getDriver().get(URLFranchise);
+
+        Assert.assertEquals(4, getMenuFranchise().size());
+    }
+
+    @Test
+    public void testCheckNamesMenuFranchiseButtons() {
+        getDriver().get(URLFranchise);
+        List<String> expectedResult = Arrays.asList("О сервисе", "Функции", "Наш партнер", "Запуск");
+
+        for (int i = 0; i < getMenuFranchise().size(); i++) {
+            Assert.assertEquals(getMenuFranchise().get(i).getText(), expectedResult.get(i));
+        }
+    }
+
+    @Test
+    public void testAboutServiceLink() {
+        getDriver().get(URLFranchise);
+        goToAboutServicePage();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://start.urent.ru/#about-service");
+    }
+
+    @Test
+    public void testFunctionLink() {
+        getDriver().get(URLFranchise);
+        goToFunctionPage();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://start.urent.ru/#function");
+    }
+    @Test
+    public void testOurPartnerLink() {
+        getDriver().get(URLFranchise);
+        goToOurPartnerPage();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://start.urent.ru/#our-partner");
+    }
+    @Test
+    public void testStartLink() {
+        getDriver().get(URLFranchise);
+        goToStartPage();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://start.urent.ru/#start");
     }
 }
