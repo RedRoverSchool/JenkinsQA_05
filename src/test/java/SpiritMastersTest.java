@@ -290,6 +290,7 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("showLargeModal")).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testToolTips_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/tool-tips");
