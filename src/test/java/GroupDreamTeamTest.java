@@ -36,6 +36,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
+    //test for checking merge
     public void testIna() {
         getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
         getDriver().findElement(By.id("my-text-id")).sendKeys("Hello!");
