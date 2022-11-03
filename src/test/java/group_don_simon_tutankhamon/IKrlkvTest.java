@@ -3,11 +3,56 @@ package group_don_simon_tutankhamon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class IKrlkvTest extends BaseTest {
+
+    public void getToMainPage_AutomationPracticeCom() {
+        getDriver().get("http://automationpractice.com/index.php");
+    }
+
+    public void getToContactUsPage_AutomationPracticeCom() {
+        getToMainPage_AutomationPracticeCom();
+        getDriver().findElement(By.linkText("Contact us")).click();
+    }
+
+    @Test
+    public void testContactUsPageAddress_AutomationPracticeCom() {
+
+        String expectedResult = "http://automationpractice.com/index.php?controller=contact";
+
+        getToContactUsPage_AutomationPracticeCom();
+
+        Assert.assertEquals(expectedResult, getDriver().getCurrentUrl());
+    }
+
+    @Test
+    public void testSendMessageFromContactUsPage_AutomationPracticeCom() throws InterruptedException {
+
+        getToContactUsPage_AutomationPracticeCom();
+
+        Select subjectHeading = new Select(getDriver().findElement(By.id("id_contact")));
+
+        subjectHeading.selectByVisibleText("Webmaster");
+
+        Thread.sleep(3000);
+
+        Assert.assertEquals(getDriver().findElement(By.id("desc_contact1")).getText(), "If a technical problem occurs on this website");
+
+        getDriver().findElement(By.id("email")).sendKeys("johncena@123.com");
+
+        getDriver().findElement(By.id("id_order")).sendKeys("1235813");
+
+        getDriver().findElement(By.id("message")).sendKeys("Pack my box with five dozen liquor jugs.");
+
+        getDriver().findElement(By.id("submitMessage")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//p[@class='alert alert-success']")).getText(),
+                "Your message has been successfully sent to our team.");
+    }
 
     @Test
     public void testFormSubmAutomationinTestingOnline() {
