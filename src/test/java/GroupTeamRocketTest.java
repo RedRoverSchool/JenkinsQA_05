@@ -184,4 +184,13 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@id='header_container']/div[2]/div[2]/span/select/option[3]")).click();
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
     }
+
+    @Test
+    public void testPriceNokia_ZoiaBut(){
+        getDriver().get("https://www.demoblaze.com/");
+        getDriver().findElement(By.xpath("//div/a[@href='prod.html?idp_=2']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h3[@class='price-container']")) .getText(),
+                "$820 *includes tax");
+    }
 }
