@@ -12,8 +12,10 @@ import java.util.List;
 public class EvansTest extends BaseTest {
     @Test
     public void testIgnore() {
-        getDriver().get("https://www.interglot.com/dictionary/en/es/translate/ignore");
-        Assert.assertEquals(getDriver().findElement(By.className("defTitle")).getText(), "ignore:");
+//        getDriver().get("https://www.interglot.com/dictionary/en/es/translate/ignore");
+//        Assert.assertEquals(getDriver().findElement(By.className("defTitle")).getText(), "ignore:");
+        getDriver().get("https://katalon-demo-cura.herokuapp.com/");
+        System.out.println(getDriver().findElement(By.id("btn-make-appointment")).getCssValue("background-color"));
     }
     @Ignore
     @Test

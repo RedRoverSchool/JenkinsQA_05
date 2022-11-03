@@ -42,7 +42,6 @@ public class EvanMaiTest extends BaseTest {
         WebElement makeAppoiment = getDriver().findElement(By.id("btn-make-appointment"));
         makeAppoiment.click();
         WebElement demoAccount = getDriver().findElement(By.cssSelector("input[value=\"ThisIsNotAPassword\"]"));
-        System.out.println(demoAccount.getAttribute("value"));
     }
 
 }
