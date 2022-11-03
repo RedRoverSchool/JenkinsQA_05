@@ -34,4 +34,13 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement confirmationMessage = getDriver().findElement(By.xpath("//div[@id='flash']"));
         Assert.assertEquals(confirmationMessage.getText(), "You logged into a secure area!\n" + "×");
     }
+
+    @Test
+    public void testIna() {
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        getDriver().findElement(By.id("my-text-id")).sendKeys("Hello!");
+        getDriver().findElement(By.xpath("//button")).click();
+        String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
+        Assert.assertEquals(actualResult, "Form submitted");
+    }
 }
