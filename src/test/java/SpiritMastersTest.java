@@ -93,7 +93,7 @@ public class SpiritMastersTest extends BaseTest {
     }
 
     @Test
-    public void checkButtonsLink_AFedorova_Test() {
+    public void testCheckButtonLink_AFedorova() {
         getDriver().get("https://formy-project.herokuapp.com/");
         WebElement link = getDriver().findElement(By.cssSelector("a.btn-lg" +
                 "[href^=\"/butt\"]"));
