@@ -36,6 +36,7 @@ public class GroupTeamRocketTest extends BaseTest {
     }
     @Test
     public void testCart() {
+
         getDriver().get ("https://www.saucedemo.com");
         getDriver().findElement (By.id ("user-name")).sendKeys ("standard_user");
         getDriver().findElement (By.id ("password")).sendKeys ("secret_sauce");
