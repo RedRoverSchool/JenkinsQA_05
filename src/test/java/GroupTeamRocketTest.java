@@ -41,6 +41,5 @@ public class GroupTeamRocketTest extends BaseTest {
         Thread.sleep(2000);
         getDriver().findElement(By.xpath("//ps-header/div[1]/div[1]/div[1]/nav[1]/ul[1]/li[6]/div[1]/div[1]/a[1]")).click();
         Assert.assertEquals(getDriver().getTitle(), "Food - Los Angeles Times");
-        System.out.println(getDriver().getTitle());
     }
 }
