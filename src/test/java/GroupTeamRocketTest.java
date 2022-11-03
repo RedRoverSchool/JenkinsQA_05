@@ -102,5 +102,13 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver ().findElement (By.id ("continue")).click ();
         getDriver ().findElement (By.id ("finish")).click ();
         Assert.assertEquals (getDriver ().findElement (By.xpath ("//*[@id=\"checkout_complete_container\"]/h2")).getText (),"THANK YOU FOR YOUR ORDER");
+@Test
+    public void testAddToCartButton() throws InterruptedException{
+        getDriver().get("https://www.demoblaze.com");
+        getDriver().findElement(By.xpath("//body/div[5]/div/div[1]/div/a[4]")).click();
+        Thread.sleep(2000);
+        getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div/div[1]/div/div/h4/a")).click();
+        getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div[2]/div/a")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div[2]/div/a")).isDisplayed ());
     }
 }
