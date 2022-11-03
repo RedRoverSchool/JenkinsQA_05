@@ -1,11 +1,13 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class GroupSqaeTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testNameFormInsurance() {
         getDriver().get("https://insurance.experian.com/sign-up/name");
@@ -44,13 +46,12 @@ public class GroupSqaeTest extends BaseTest {
 
         Assert.assertEquals(actualTitle, expectedTitle);
     }
-
+    @Ignore
     @Test
     public void testSubscribePageUrlOfMagazine() {
         getDriver().get("https://www.theatlantic.com/");
         WebElement subscribeButton = getDriver().findElement(By.xpath("//*[@id='__next']/nav/div/div[2]/ul/li[2]/a"));
         subscribeButton.click();
-
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://accounts.theatlantic.com/products/?source=nav");
     }
 

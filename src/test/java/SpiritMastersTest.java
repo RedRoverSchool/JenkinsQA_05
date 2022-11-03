@@ -2,7 +2,10 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -73,7 +76,7 @@ public class SpiritMastersTest extends BaseTest {
         String actualTextInteractions = getDriver().findElement(By.className("main-header")).getText();
         Assert.assertEquals(actualTextInteractions, "Interactions");
     }
-
+    @Ignore
     @Test
     public void test_PK_RedirectToBooksTab(){
         findCard_PK(5).click();
@@ -96,10 +99,9 @@ public class SpiritMastersTest extends BaseTest {
                 "[href^=\"/butt\"]"));
         Assert.assertEquals(link.getText(), "Buttons");
     }
-    @Ignore
+
     @Test
     public void testFillRegistrationForm_OlPolezhaeva() {
-
         getDriver().get("https://demoqa.com/automation-practice-form");
 
         Map<String, String> expectedTableResult = new HashMap<>();
@@ -149,6 +151,9 @@ public class SpiritMastersTest extends BaseTest {
         currentAddressField.click();
         currentAddressField.sendKeys("CA, San Francisco, 17 avn, 1");
 
+        JavascriptExecutor js = (JavascriptExecutor)getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", getDriver().findElement(By.id("submit")));
+
         WebElement nameStateMenu = getDriver().findElement(By.id("react-select-3-input"));
         nameStateMenu.sendKeys("NCR");
 
@@ -159,11 +164,9 @@ public class SpiritMastersTest extends BaseTest {
 
         getDriver().findElement(By.id("react-select-4-option-0")).click();
 
-        WebElement submitBtn = getDriver().findElement(By.id("submit"));
-        JavascriptExecutor js = (JavascriptExecutor)getDriver();
-        js.executeScript("arguments[0].click();", submitBtn);
+        getDriver().findElement(By.id("submit")).click();
 
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        new WebDriverWait(getDriver(),Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody/tr")));
 
         List<WebElement> rows = getDriver().findElements(By.xpath("//tbody/tr"));
         Map<String, String> actualTableResult = new HashMap<>();
@@ -175,12 +178,13 @@ public class SpiritMastersTest extends BaseTest {
     }
 
     @Test
-    public void testDenSebrovskyOpenQABible() throws InterruptedException {
+    public void testDSOpenQABible() throws InterruptedException {
         getDriver().get("https://vladislaveremeev.gitbook.io/qa_bible/");
         Thread.sleep(1500);
         WebElement firstTitle = getDriver().findElement(By.linkText("QA_Bible"));
         Assert.assertEquals(firstTitle.getText(), "QA_Bible");
     }
+
     @Test
     public void testRedirectToSeleniumTrainingTab_PK(){
         getDriver().get("https://demoqa.com/");
@@ -226,7 +230,75 @@ public class SpiritMastersTest extends BaseTest {
         dropdown.selectByValue("6");
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
         Assert.assertEquals(getDriver().findElement(By.xpath("/html/body/div/div/div[2]/div/div[1]/strong/span")).getText(), "John NeJonh");
-
     }
 
+    @Test
+    public void testSwitchFrames_OlPolezhaeva() {
+        getDriver().get("https://demoqa.com/frames");
+
+        getDriver().switchTo().frame(getDriver().findElement(By.id("frame1")));
+        Assert.assertEquals(getDriver().findElement(By.xpath("//body/h1[@id='sampleHeading']")).getText(), "This is a sample page");
+
+        getDriver().switchTo().defaultContent();
+
+        getDriver().switchTo().frame(getDriver().findElement(By.id("frame2")));
+        Assert.assertEquals(getDriver().findElement(By.xpath("//body/h1[@id='sampleHeading']")).getText(), "This is a sample page");
+
+        getDriver().switchTo().defaultContent();
+        Assert.assertEquals(getDriver().findElement(By.className("main-header")).getText(), "Frames");
+    }
+
+    @Test
+    public void testStyleFrame1_OlPolezhaeva() {
+        getDriver().get("https://demoqa.com/frames");
+
+        getDriver().switchTo().frame(getDriver().findElement(By.id("frame1")));
+        WebElement headerFrame = getDriver().findElement(By.xpath("//body/h1[@id='sampleHeading']"));
+
+        Assert.assertEquals(headerFrame.getRect().getWidth(), 480.0);
+        Assert.assertEquals(headerFrame.getRect().getHeight(), 37.0);
+    }
+
+    @Test
+    public void testDSFindTitle() throws InterruptedException {
+        getDriver().get("https://vladislaveremeev.gitbook.io/qa_bible/");
+        Thread.sleep(1500);
+        getDriver().findElement(By.xpath("//div[4]//a[1]//div[1]")).click();
+        WebElement title = getDriver().findElement(By.xpath(
+                "//div[contains(@class, 'css-901oao r')][contains(text(),'Принципы тестирования')]"));
+        title.click();
+        Assert.assertEquals(title.getText(), "Принципы тестирования");
+    }
+
+    @Test
+    public void testCheckButtonTutotials_LPlucci() throws InterruptedException {
+        getDriver().get("https://www.toolsqa.com/");
+        Thread.sleep(1000);
+        WebElement openButton = getDriver().findElement(By.xpath("//span[@class='navbar__tutorial-menu--text']"));
+        Thread.sleep(1000);
+        Assert.assertEquals(openButton.getText(),"TUTORIALS");
+    }
+
+    @Test
+    public void testModalDialogs_OlPolezhaeva() {
+        getDriver().get("https://demoqa.com/modal-dialogs");
+
+        getDriver().findElement(By.id("showSmallModal")).click();
+
+        for (String tab : getDriver().getWindowHandles()) {
+            getDriver().switchTo().window(tab);
+        }
+        getDriver().findElement(By.id("closeSmallModal")).click();
+        Assert.assertTrue(getDriver().findElement(By.id("showLargeModal")).isDisplayed());
+    }
+
+    @Test
+    public void testToolTips_OlPolezhaeva() {
+        getDriver().get("https://demoqa.com/tool-tips");
+
+        new Actions(getDriver()).moveToElement(getDriver().findElement(By.xpath("//a[text()='Contrary']"))).build().perform();
+        String actualToolTip = new WebDriverWait(getDriver(), Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tooltip-inner']"))).getText();
+
+        Assert.assertEquals(actualToolTip, "You hovered over the Contrary");
+    }
 }
