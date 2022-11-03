@@ -94,4 +94,14 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals (getDriver().getCurrentUrl (),
                 "http://automationpractice.com/index.php?id_cms=3&controller=cms");
     }
+
+    @Test
+    public void testAddToCartButton() throws InterruptedException{
+        getDriver().get("https://www.demoblaze.com");
+        getDriver().findElement(By.xpath("//body/div[5]/div/div[1]/div/a[4]")).click();
+        Thread.sleep(2000);
+        getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div/div[1]/div/div/h4/a")).click();
+        getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div[2]/div/a")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div[2]/div/a")).isDisplayed ());
+    }
 }
