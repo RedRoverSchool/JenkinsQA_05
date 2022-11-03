@@ -73,7 +73,21 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
-    public void testContactUs() {
+    public void testLoginForm_EZ() {
+        getDriver().get("https://www.grubhub.com/");
+        getDriver().findElement(By.cssSelector("[data-testid='prettyhomepagesignin']")).click();
+        getDriver().findElement(By.cssSelector(".ghs-goToCreateAccount")).click();
+        getDriver().findElement(By.id("firstName")).sendKeys("Vasya");
+        getDriver().findElement(By.id("lastName")).sendKeys("Piterskiy");
+        getDriver().findElement(By.id("email")).sendKeys("vasiliy@gmail.com");
+        getDriver().findElement(By.id("password")).sendKeys("Ababgalamaga1!");
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//img[@class='captchaMediaImage']")).isDisplayed());
+    }
+    
+     @Test
+     public void testContactUs() {
         getDriver().get("http://automationpractice.com/index.php");
         getDriver().findElement(By.xpath("//a[@title='Contact Us']")).click();
         Select dropdown = new Select(getDriver().findElement(By.id("id_contact")));
@@ -84,5 +98,5 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.id("submitMessage")).click();
         Assert.assertEquals(getDriver().findElement(By.xpath("//p[@class='alert alert-success']"))
                 .getText(),"Your message has been successfully sent to our team.");
-    }
+  }
 }
