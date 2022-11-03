@@ -18,4 +18,10 @@ public class GroupCubsTest extends BaseTest {
         WebElement actualRes = getDriver().findElement(By.xpath("//h1[@data-test-id='articleTitle']"));
         Assert.assertEquals(actualRes.getText(), "Как установить приоритет тест-кейса в TestNG с помощью Selenium");
     }
+    @Test
+    public void testAnastasiiaApp(){
+        getDriver().get("https://koma.lux.pl/");
+        WebElement link = getDriver().findElement(By.xpath("//a[@href='https://koma.lux.pl/Wszystkie-produkty,pid,9.html']"));
+        Assert.assertEquals(link.getText(), "Wyszukiwanie zaawansowane");
+    }
 }
