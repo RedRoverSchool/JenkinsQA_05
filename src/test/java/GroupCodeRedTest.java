@@ -22,7 +22,7 @@ public class GroupCodeRedTest extends BaseTest {
     @Test
     public void testAutocompleteAddress() throws InterruptedException {
         getDriver().get("https://formy-project.herokuapp.com/");
-        WebElement link = getDriver().findElement(By.xpath("`//li/a[@href='/autocomplete']`"));
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/autocomplete']"));
         link.click();
         Thread.sleep(500);
         String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
