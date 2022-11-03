@@ -71,6 +71,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "http://automationpractice.com/index.php?id_cms=4&controller=cms");
     }
 
+
     @Test
     public void testLoginForm_EZ() {
         getDriver().get("https://www.grubhub.com/");
