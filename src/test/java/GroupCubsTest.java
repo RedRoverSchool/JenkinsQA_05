@@ -24,7 +24,7 @@ public class GroupCubsTest extends BaseTest {
         WebElement search = getDriver().findElement(By.name("searchStr"));
         search.sendKeys("Танжер\n");
         String actualText = getDriver().findElement(By.xpath("//h1")).getText();
-        Assert.assertEquals(actualText, "Результат поиска");
+        Assert.assertEquals(actualText, "Search result");
 
     }
 }
