@@ -6,17 +6,21 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.time.Duration;
 
-@Test
+
 public class WalterBTest extends BaseTest {
 
-    @Ignore
+    @Test
+
     public void getPage() {
 
-        getDriver().get("http://automationpractice.com/index.php/");
-        WebElement link = getDriver().findElement(By.xpath("//*[@id='editorial_block_center']/h1"));
+        getDriver().get("https://www.demoblaze.com/");
+        WebElement link = getDriver().findElement(By.xpath("//*[@id=\'fotcont\']/div[1]/div/div/p"));
+
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
-        Assert.assertEquals(link.getText(), "Automation Practice Website");
+        Assert.assertEquals(link.getText(), "We believe performance needs to be validated at every stage of " +
+                "the software development cycle and our open source compatible," +
+                " massively scalable platform makes that a reality.");
 
     }
 }

@@ -168,7 +168,6 @@ public class GroupObukhovTest extends BaseTest {
 
     @Test
     public void testCheckBrandBookBasicColorsHEX() {
-
         goToBrandBookPage();
         getDriver().findElement(By.linkText("Палитра")).click();
         List<WebElement> colors = getDriver().findElements(By.xpath("//div[@id = 'palette-three']//div[@class = 'colorchart']"));
@@ -181,7 +180,6 @@ public class GroupObukhovTest extends BaseTest {
 
     @Test
     public void testCheckBrandBookAdditionalColorsHEX() {
-
         goToBrandBookPage();
         getDriver().findElement(By.linkText("Палитра")).click();
         List<WebElement> colors = getDriver().findElements(By.xpath("//div[@id = 'palette-four']//div[@class = 'colorchart']"));
@@ -190,5 +188,23 @@ public class GroupObukhovTest extends BaseTest {
         for (int i = 0; i < colors.size(); i++) {
             Assert.assertEquals(colors.get(i).getText().substring(0, 7), expectedResult.get(i));
         }
+    }
+
+    @Test
+    public void testCheckDownloadAppButtonColors(){
+        getDriver().get(URL);
+        WebElement downloadAppButton = getDriver().findElement(By.cssSelector(".menu-button"));
+
+        Assert.assertEquals(downloadAppButton.getCssValue("color"), "rgba(255, 255, 255, 1)");
+        Assert.assertEquals(downloadAppButton.getCssValue("background-color"), "rgba(128, 74, 255, 1)");
+    }
+
+    @Test
+    public void testCheckHeroButtonColors(){
+        getDriver().get(URL);
+        WebElement heroButton = getDriver().findElement(By.cssSelector(".hero-button-text"));
+
+        Assert.assertEquals(heroButton.getCssValue("color"), "rgba(128, 74, 255, 1)");
+        Assert.assertEquals(heroButton.getCssValue("background-color"), "rgba(0, 0, 0, 0)");
     }
 }

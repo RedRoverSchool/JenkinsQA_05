@@ -46,7 +46,7 @@ public class GroupSqaeTest extends BaseTest {
 
         Assert.assertEquals(actualTitle, expectedTitle);
     }
-
+    @Ignore
     @Test
     public void testSubscribePageUrlOfMagazine() {
         getDriver().get("https://www.theatlantic.com/");
