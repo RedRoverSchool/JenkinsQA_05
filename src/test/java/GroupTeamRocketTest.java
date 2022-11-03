@@ -85,6 +85,16 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//img[@class='captchaMediaImage']")).isDisplayed());
     }
+   
+    @Test
+    public void testAddToCartButton() throws InterruptedException{
+        getDriver().get("https://www.demoblaze.com");
+        getDriver().findElement(By.xpath("//body/div[5]/div/div[1]/div/a[4]")).click();
+        Thread.sleep(2000);
+        getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div/div[1]/div/div/h4/a")).click();
+        getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div[2]/div/a")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div[2]/div/a")).isDisplayed ());
+    }
     
      @Test
      public void testContactUs() {
@@ -98,5 +108,6 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.id("submitMessage")).click();
         Assert.assertEquals(getDriver().findElement(By.xpath("//p[@class='alert alert-success']"))
                 .getText(),"Your message has been successfully sent to our team.");
-  }
+                
+   }
 }
