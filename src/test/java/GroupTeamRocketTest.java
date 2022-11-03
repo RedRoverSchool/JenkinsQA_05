@@ -62,4 +62,26 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//ps-header/div[1]/div[1]/div[1]/nav[1]/ul[1]/li[6]/div[1]/div[1]/a[1]")).click();
         Assert.assertEquals(getDriver().getTitle(), "Food - Los Angeles Times");
     }
+    @Test
+    public void testAboutUs(){
+        getDriver().get("http://automationpractice.com/index.php");
+        getDriver().findElement(
+                        By.xpath("//a[@href='http://automationpractice.com/index.php?id_cms=4&controller=cms']"))
+                .click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "http://automationpractice.com/index.php?id_cms=4&controller=cms");
+    }
+
+    @Test
+    public void testLoginForm_EZ() {
+        getDriver().get("https://www.grubhub.com/");
+        getDriver().findElement(By.cssSelector("[data-testid='prettyhomepagesignin']")).click();
+        getDriver().findElement(By.cssSelector(".ghs-goToCreateAccount")).click();
+        getDriver().findElement(By.id("firstName")).sendKeys("Vasya");
+        getDriver().findElement(By.id("lastName")).sendKeys("Piterskiy");
+        getDriver().findElement(By.id("email")).sendKeys("vasiliy@gmail.com");
+        getDriver().findElement(By.id("password")).sendKeys("Ababgalamaga1!");
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//img[@class='captchaMediaImage']")).isDisplayed());
+    }
 }
