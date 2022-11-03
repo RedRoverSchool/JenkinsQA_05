@@ -250,6 +250,7 @@ public class GroupObukhovTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://start.urent.ru/#function");
     }
+
     @Test
     public void testOurPartnerLink() {
         getDriver().get(URLFranchise);
@@ -257,6 +258,7 @@ public class GroupObukhovTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://start.urent.ru/#our-partner");
     }
+
     @Test
     public void testStartLink() {
         getDriver().get(URLFranchise);
