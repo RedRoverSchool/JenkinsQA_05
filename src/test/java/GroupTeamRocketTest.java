@@ -34,4 +34,14 @@ public class GroupTeamRocketTest extends BaseTest {
                 "Guide"
         );
     }
+    @Test
+    public void testAboutLinkRedirect() {
+        getDriver().get ("https://www.saucedemo.com");
+        getDriver().findElement(By.id("user-name")).sendKeys("standard_user");
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
+        getDriver().findElement(By.id("login-button")).click();
+        getDriver().findElement(By.id("react-burger-menu-btn")).click();
+        getDriver().findElement(By.id("about_sidebar_link")).click();
+        Assert.assertEquals(getDriver().getCurrentUrl(),"https://saucelabs.com/");
+    }
 }
