@@ -3,7 +3,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class BugBustersTest extends BaseTest {
+public class GroupBugBustersTest extends BaseTest {
 
     @Test
     public void testArailymSuccessLogIn(){
@@ -14,6 +14,5 @@ public class BugBustersTest extends BaseTest {
         getDriver().findElement(By.id("txt-password")).sendKeys("ThisIsNotAPassword");
         getDriver().findElement(By.id("btn-login")).click();
         Assert.assertEquals(getDriver().findElement(By.xpath("//h2")).getText(), "Make Appointment");
-
     }
 }
