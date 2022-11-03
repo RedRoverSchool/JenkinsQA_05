@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -61,5 +62,27 @@ public class GroupTeamRocketTest extends BaseTest {
         Thread.sleep(2000);
         getDriver().findElement(By.xpath("//ps-header/div[1]/div[1]/div[1]/nav[1]/ul[1]/li[6]/div[1]/div[1]/a[1]")).click();
         Assert.assertEquals(getDriver().getTitle(), "Food - Los Angeles Times");
+    }
+    @Test
+    public void testAboutUs(){
+        getDriver().get("http://automationpractice.com/index.php");
+        getDriver().findElement(
+                        By.xpath("//a[@href='http://automationpractice.com/index.php?id_cms=4&controller=cms']"))
+                .click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "http://automationpractice.com/index.php?id_cms=4&controller=cms");
+    }
+
+    @Test
+    public void testContactUs() {
+        getDriver().get("http://automationpractice.com/index.php");
+        getDriver().findElement(By.xpath("//a[@title='Contact Us']")).click();
+        Select dropdown = new Select(getDriver().findElement(By.id("id_contact")));
+        dropdown.selectByVisibleText("Customer service");
+        getDriver().findElement(By.id("email")).sendKeys("test@mailinator.com");
+        getDriver().findElement(By.id("id_order")).sendKeys("super order");
+        getDriver().findElement(By.id("message")).sendKeys("super message test");
+        getDriver().findElement(By.id("submitMessage")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//p[@class='alert alert-success']"))
+                .getText(),"Your message has been successfully sent to our team.");
     }
 }
