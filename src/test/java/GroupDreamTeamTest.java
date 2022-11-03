@@ -19,4 +19,29 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement one = getDriver().findElement(By.xpath("//option[@value='1']"));
         Assert.assertTrue(one.isSelected());
     }
+
+    @Test
+    public void testDarina() {
+        getDriver().get("https://the-internet.herokuapp.com/login");
+        WebElement usernameTextField = getDriver().findElement(By.id("username"));
+        WebElement passwordTextField = getDriver().findElement(By.id("password"));
+        WebElement loginButton = getDriver().findElement(By.xpath("//button[@type='submit']"));
+
+        usernameTextField.sendKeys("tomsmith");
+        passwordTextField.sendKeys("SuperSecretPassword!");
+        loginButton.click();
+
+        WebElement confirmationMessage = getDriver().findElement(By.xpath("//div[@id='flash']"));
+        Assert.assertEquals(confirmationMessage.getText(), "You logged into a secure area!\n" + "×");
+    }
+
+    @Test
+    //test for checking merge
+    public void testIna() {
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        getDriver().findElement(By.id("my-text-id")).sendKeys("Hello!");
+        getDriver().findElement(By.xpath("//button")).click();
+        String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
+        Assert.assertEquals(actualResult, "Form submitted");
+    }
 }
