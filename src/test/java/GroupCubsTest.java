@@ -5,6 +5,8 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.Locale;
+
 public class GroupCubsTest extends BaseTest {
     @Ignore
     @Test
@@ -18,10 +20,21 @@ public class GroupCubsTest extends BaseTest {
         WebElement actualRes = getDriver().findElement(By.xpath("//h1[@data-test-id='articleTitle']"));
         Assert.assertEquals(actualRes.getText(), "Как установить приоритет тест-кейса в TestNG с помощью Selenium");
     }
+
     @Test
     public void testAnastasiiaApp(){
         getDriver().get("https://koma.lux.pl/");
         WebElement link = getDriver().findElement(By.xpath("//a[@href='https://koma.lux.pl/Wszystkie-produkty,pid,9.html']"));
         Assert.assertEquals(link.getText(), "Wyszukiwanie zaawansowane");
+    }
+
+    @Test
+    public void testJudmi() {
+        getDriver().get("http://automationpractice.com/");
+
+        String query = "dress";
+        getDriver().findElement(By.xpath("//*[@id='search_query_top']")).sendKeys(query + "\n");
+        WebElement searchResult = getDriver().findElement(By.xpath("//ul[@class = 'product_list grid row']/li[1]/div/div/h5/a"));
+        Assert.assertTrue(searchResult.getText().toLowerCase(Locale.ROOT).contains(query));
     }
 }
