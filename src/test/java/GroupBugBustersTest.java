@@ -67,7 +67,6 @@ public class GroupBugBustersTest extends BaseTest {
         Thread.sleep(2000);
         getDriver().findElement(By.xpath("//div[@id = 'global-header']//button[@class = 'wu-account close-login ng-star-inserted']")).click();
         Assert.assertEquals(getDriver().findElement(By.xpath("//li[@translatecontext='wu-header-user-login']")).getText(), "Welcome back!");
-
     }
     @Test
     public void testArailymCheckAddress(){
