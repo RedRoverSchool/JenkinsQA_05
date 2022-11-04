@@ -9,15 +9,16 @@ import java.util.List;
 public class PLGroupTest extends BaseTest {
 
     @Test
-    public void testH2HeaderSeleniumInteractionsWindows(){
+    public void testH2HeaderSeleniumInteractionsWindows() {
         getDriver().get("https://www.selenium.dev/documentation/webdriver/interactions/windows/");
 
         String expectedResult = "Working with windows and tabs";
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//main/div/h1")).getText(),expectedResult);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//main/div/h1")).getText(), expectedResult);
     }
 
-    @Test void testNavTest_Main(){
+    @Test
+    void testNavTest_Main() {
         getDriver().get("https://www.selenium.dev/documentation/webdriver/interactions/windows/");
 
         String expectedResult = "Java".concat("Python");
@@ -31,9 +32,10 @@ public class PLGroupTest extends BaseTest {
 
         Assert.assertTrue(columnNames.contains(expectedResult));
         Assert.assertEquals(countTableColumns.size(), 6);
-        }
+    }
 
-    public void testParagraph(){
+    @Test
+    public void testParagraph() {
         getDriver().get("https://www.selenium.dev/");
 
         WebElement link = getDriver().findElement(
@@ -42,4 +44,28 @@ public class PLGroupTest extends BaseTest {
 
         Assert.assertEquals(link.getText(), "What you do with that power is entirely up to you.");
     }
+
+    @Test
+    public void testSubMenu() throws InterruptedException {
+
+        getDriver().get("https://openweathermap.org/");
+
+        getDriver().manage().window().maximize();
+        WebElement support = getDriver().findElement(By.xpath(" //div[@id='support-dropdown']"));
+
+        Thread.sleep(5000);
+        support.click();
+
+        List<WebElement> allSupportMenu = getDriver().findElements(
+                By.xpath("//ul[@class='dropdown-menu dropdown-visible']/li/a")
+        );
+        String actualResult = "";
+        for (WebElement supportMenu : allSupportMenu) {
+            actualResult += supportMenu.getText() + " ";
+        }
+
+        Assert.assertEquals(actualResult, "FAQ How to start Ask a question ");
+
+    }
+
 }

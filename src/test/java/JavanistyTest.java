@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -41,7 +42,8 @@ public class JavanistyTest extends BaseTest {
 
         Assert.assertEquals(expectedConfirmationMessage, actualConfirmationMessage);
     }
-
+     
+    @Ignore
     @Test
     public void testBdoWarrior2() throws InterruptedException {
         getDriver().get("https://bdocodex.com/ru/skillbuilder/");
@@ -85,5 +87,28 @@ public class JavanistyTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name='ht']")).sendKeys("60");
         getDriver().findElement(By.xpath("//input[@value='Calculate']")).click();
         Assert.assertTrue(getDriver().findElement(By.xpath("//input[@class='content']")).isDisplayed());
+    }
+    
+    @Ignore
+    @Test
+    public void testTextHlebnica(){
+        getDriver().get("http://hlebnitca.ru/");
+        getDriver().findElement(By.xpath("//a[@class= 'tn-atom']")).click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "http://hlebnitca.ru/about");
+    }
+
+    @Ignore
+    @Test
+    public void testAboutHlebnica(){
+        getDriver().get ("http://hlebnitca.ru/about");
+        String aboutHlebnica =  getDriver().findElement(By.xpath("//div[@class = 't396__elem tn-elem tn-elem__3963063211640603855210']")).getText();
+        Assert.assertEquals(aboutHlebnica, "Вкус настоящей домашней выпечки");
+    }
+    
+    @Test
+    public void testIlyaSecondTest() {
+        getDriver().get("https://karkas.k3-cottage.ru/");
+        WebElement text = getDriver().findElement(By.xpath("//li/a[@href='#features']"));
+        Assert.assertEquals(text.getText(), "ВОЗМОЖНОСТИ");
     }
 }
