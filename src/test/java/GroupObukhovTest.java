@@ -1,5 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.Color;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -156,6 +158,7 @@ public class GroupObukhovTest extends BaseTest {
         WebElement titlePrivacyPolicy = getDriver().findElement(By.xpath("//h1[text()='Политика конфиденциальности']"));
         Assert.assertEquals(titlePrivacyPolicy.getText(), "Политика конфиденциальности");
     }
+
     @Test
     public void testLinkContractJoin() {
         getDriver().get(URL);
@@ -163,5 +166,62 @@ public class GroupObukhovTest extends BaseTest {
         linkContractJoin.click();
         WebElement titleContractJoin = getDriver().findElement(By.xpath("//h1 [text() = 'Договор о предоставлении права использования Сервиса Юрент']"));
         Assert.assertEquals(titleContractJoin.getText(), "Договор о предоставлении права использования Сервиса Юрент");
+    }
+
+    @Test
+    public void testCheckBrandBookBasicColorsHEX() {
+        goToBrandBookPage();
+        getDriver().findElement(By.linkText("Палитра")).click();
+        List<WebElement> colors = getDriver().findElements(By.xpath("//div[@id = 'palette-three']//div[@class = 'colorchart']"));
+        List<String> expectedResult = Arrays.asList("#804AFF", "#000000", "#FFFFFF");
+
+        for (int i = 0; i < colors.size(); i++) {
+            Assert.assertEquals(colors.get(i).getText().substring(0, 7), expectedResult.get(i));
+        }
+    }
+
+    @Test
+    public void testCheckBrandBookAdditionalColorsHEX() {
+        goToBrandBookPage();
+        getDriver().findElement(By.linkText("Палитра")).click();
+        List<WebElement> colors = getDriver().findElements(By.xpath("//div[@id = 'palette-four']//div[@class = 'colorchart']"));
+        List<String> expectedResult = Arrays.asList("#FFC65B", "#FF73D5", "#9FD7FF");
+
+        for (int i = 0; i < colors.size(); i++) {
+            Assert.assertEquals(colors.get(i).getText().substring(0, 7), expectedResult.get(i));
+        }
+    }
+
+    @Test
+    public void testCheckDownloadAppButtonColors(){
+        getDriver().get(URL);
+        WebElement downloadAppButton = getDriver().findElement(By.cssSelector(".menu-button"));
+
+        Assert.assertEquals(downloadAppButton.getCssValue("color"), "rgba(255, 255, 255, 1)");
+        Assert.assertEquals(downloadAppButton.getCssValue("background-color"), "rgba(128, 74, 255, 1)");
+    }
+
+    @Test
+    public void testCheckHeroButtonColors(){
+        getDriver().get(URL);
+        WebElement heroButton = getDriver().findElement(By.cssSelector(".hero-button-text"));
+
+        Assert.assertEquals(heroButton.getCssValue("color"), "rgba(128, 74, 255, 1)");
+        Assert.assertEquals(heroButton.getCssValue("background-color"), "rgba(0, 0, 0, 0)");
+    }
+
+    @Test
+    public void testCheckHeroButtonColorsAfterNavigateMouse(){
+        getDriver().get(URL);
+        WebElement heroButton = getDriver().findElement(By.cssSelector(".hero-button"));
+
+        String startBackgroundColor = Color.fromString(heroButton.getCssValue("background-color")).asRgb();
+        new Actions(getDriver())
+                .moveToElement(heroButton)
+                .perform();
+        String afterMouseNavigateBackgroundColor = Color.fromString(heroButton.getCssValue("background-color")).asRgb();
+
+        Assert.assertNotEquals(startBackgroundColor, afterMouseNavigateBackgroundColor);
+        Assert.assertEquals(afterMouseNavigateBackgroundColor, "rgb(128, 74, 255)");
     }
 }

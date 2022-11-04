@@ -11,11 +11,13 @@ public class EvanMaiTest extends BaseTest {
         WebElement textWeCare = getDriver().findElement(By.xpath("//*[@id=\"top\"]/div/h3"));
         Assert.assertEquals(textWeCare.getText(), "We Care About Your Health");
     }
+
     @Test
     public void test2() {
         getDriver().get("https://katalon-demo-cura.herokuapp.com/");
-        Assert.assertEquals(getDriver().getTitle(),"CURA Healthcare Service");
+        Assert.assertEquals(getDriver().getTitle(), "CURA Healthcare Service");
     }
+
     @Test
     public void test3() {
         getDriver().get("https://katalon-demo-cura.herokuapp.com/");
@@ -27,14 +29,21 @@ public class EvanMaiTest extends BaseTest {
         boolean currentUrl = getDriver().getCurrentUrl().equals("https://katalon-demo-cura.herokuapp.com/profile.php#login");
         Assert.assertTrue(currentUrl);
     }
+
     @Test
     public void test4() {
         getDriver().get("https://katalon-demo-cura.herokuapp.com/");
         Assert.assertTrue(getDriver().findElement(By.xpath("/html/body/footer/div/div/div/ul[1]/li[1]")).isDisplayed());
     }
+
     @Test
     public void test5() {
         getDriver().get("https://katalon-demo-cura.herokuapp.com/");
-        Assert.assertTrue(getDriver().findElement(By.xpath("/html/body/footer/div/div/div/ul[1]/li[1]")).isDisplayed());
+        WebElement makeAppoiment = getDriver().findElement(By.id("btn-make-appointment"));
+        makeAppoiment.click();
+        WebElement demoAccount = getDriver().findElement(By.cssSelector("input[value=\"ThisIsNotAPassword\"]"));
+        Assert.assertEquals(demoAccount.getAttribute("value"), "ThisIsNotAPassword");
+
     }
+
 }
