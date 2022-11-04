@@ -13,6 +13,7 @@ import runner.BaseTest;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class SpiritMastersTest extends BaseTest {
 
@@ -413,5 +414,28 @@ public class SpiritMastersTest extends BaseTest {
         String actualSliderValue = getDriver().findElement(By.id("sliderValue")).getAttribute("value");
 
         Assert.assertEquals(actualSliderValue, "100");
+    }
+
+    @Test
+    public void testOpenweathermap_justGoToGuide_gdiksanov() {
+
+        String url = "https://openweathermap.org/";
+
+        getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+
+        getDriver().get(url);
+        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+                .until(ExpectedConditions.invisibilityOfElementLocated(
+                        By.xpath("//div[@class='owm-loader-container']/div")));
+
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[@href='/guide']")).click();
+
+        String currentUrl = getDriver().getCurrentUrl();
+        String currentTitle = getDriver().getTitle();
+
+        Assert.assertEquals(currentUrl, "https://openweathermap.org/guide");
+        Assert.assertEquals(currentTitle, "OpenWeatherMap API guide - OpenWeatherMap");
     }
 }
