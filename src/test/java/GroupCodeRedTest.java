@@ -1,6 +1,8 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -220,5 +222,36 @@ public class GroupCodeRedTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(),"https://insurance.experian.com/sign-up/phone");
         buttonNext.click();sleep(4);
 
+    }
+
+    @Test
+    public void testFindRome() throws InterruptedException {
+
+        String url = "https://openweathermap.org/";
+        String city = "Rome";
+        boolean expectedResult = true;
+
+        getDriver().get(url);
+
+        Thread.sleep(5000);
+
+        WebElement searchFieldByCity = getDriver().findElement(
+                By.xpath("//div[@id='desktop-menu']//input[@placeholder='Weather in your city']")
+        );
+
+        searchFieldByCity.click();
+        searchFieldByCity.sendKeys(city);
+        Thread.sleep(700);
+        searchFieldByCity.sendKeys(Keys.ENTER);
+
+        boolean actualResult;
+
+        if (getDriver().getCurrentUrl().contains("find") && getDriver().getCurrentUrl().contains(city)) {
+            actualResult = true;
+        } else {
+            actualResult = false;
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
