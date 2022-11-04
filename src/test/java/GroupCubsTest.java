@@ -37,6 +37,7 @@ public class GroupCubsTest extends BaseTest {
         Assert.assertEquals(link.getText(), "Wyszukiwanie zaawansowane");
     }
 
+    @Ignore
     @Test
     public void testJudmi() {
         getDriver().get("http://automationpractice.com/");
