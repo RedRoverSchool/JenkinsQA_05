@@ -38,7 +38,6 @@ public class SpiritMastersTest extends BaseTest {
         return category.get(index);
     }
 
-    @Ignore
     @Test
     public void testSwitchToSecondWindow_OlPolezhaeva() {
 
@@ -405,7 +404,7 @@ public class SpiritMastersTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text()='Slider']")).click();
 
         WebElement slider = getDriver().findElement(By.xpath("//input[@type='range']"));
-        getActions().dragAndDropBy(slider,260, 0).perform();
+        getActions().dragAndDropBy(slider,350, 0).perform();
         String actualSliderValue = getDriver().findElement(By.id("sliderValue")).getAttribute("value");
 
         Assert.assertEquals(actualSliderValue, "100");
