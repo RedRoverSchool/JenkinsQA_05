@@ -283,7 +283,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@id='cobranding-steps']//a[@class='btn next-step']")).click();
 
         Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//div[@id='cobranding-steps']/div[@class='ci-heading']/p[@class='subheader']"))
-                .getText(), "Step 2 of 3");
+                .findElement(By.xpath("//button[@type='submit'][@class='btn cobranding-form-submit']"))
+                .getText(), "Go To Final Step");
     }
 }
