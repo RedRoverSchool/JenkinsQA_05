@@ -60,4 +60,17 @@ public class CleanCodeTest extends BaseTest {
         Assert.assertEquals(text.getText(), "КОНТАКТЫ");
     }
 
+
+
+        @Test
+        public void testAstraCom() {
+            getDriver().get("https://www.astracom.ru/");
+            getDriver().findElement(By.className("button")).click();
+            getDriver().findElement(By.partialLinkText("АРСО P25")).click();
+            WebElement text = getDriver().findElement(By.partialLinkText("Ретрансляторы"));
+            Assert.assertEquals(text.getText(), "Ретрансляторы");
+
+        }
+
+
 }
