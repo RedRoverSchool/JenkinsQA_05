@@ -3,6 +3,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -60,7 +61,7 @@ public class GroupBughuntersTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//dd[contains(text(),'A podcast on Python and related technologies.')]")).isDisplayed());
     }
 
-
+    @Ignore
     @Test
     public void testLoginSuccess() {
         getDriver().get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
