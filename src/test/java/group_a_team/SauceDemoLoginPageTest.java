@@ -37,8 +37,7 @@ public class SauceDemoLoginPageTest extends SauceDemoBaseTest {
             Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='error-message-container error']")).isDisplayed());
             Assert.assertEquals(getDriver().findElement(By.cssSelector("h3[data-test=error]")).getText(), exception);
         } catch (NoSuchElementException noSuchElementException) {
-            System.out.println("Exception wasn't raised");
-            Assert.fail();
+            Assert.fail("Exception wasn't raised");
         }
     }
 }
