@@ -6,6 +6,11 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
+
 public class GroupTeamRocketTest extends BaseTest {
 
     @Test
@@ -197,5 +202,23 @@ public class GroupTeamRocketTest extends BaseTest {
                 .getText(), "Printed Chiffon Dress");
         Assert.assertEquals(getDriver().findElement(By.xpath("(//span[@class='price-percent-reduction'])[3]"))
                 .getText(), "-20%");
+    }
+
+    @Test
+    public void testCheckForBrokenIMGs() throws IOException {
+        getDriver().get("https://www.rifle.com");
+        List<WebElement> listOfElementsWithIMGtag = getDriver().findElements(By.tagName("img"));
+
+        if (listOfElementsWithIMGtag.size() != 0) {
+            for (WebElement tempElement : listOfElementsWithIMGtag) {
+                String imgSource = tempElement.getAttribute("src");
+
+                    HttpURLConnection connection = (HttpURLConnection)new URL(imgSource).openConnection();
+                    connection.connect();
+                    int responseCode = connection.getResponseCode();
+
+                    Assert.assertTrue(responseCode >= 200 && responseCode < 400);
+            }
+        }
     }
 }
