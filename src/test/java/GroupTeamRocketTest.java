@@ -227,7 +227,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().get("https://www.demoblaze.com/");
         getDriver().findElement(By.xpath("//div/a[@href='prod.html?idp_=2']")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h3[@class='price-container']")) .getText(),
-                "$820 *includes tax");
+        Assert.assertFalse((getDriver().findElement(By.xpath("//h3[text()='$820']"))
+                        .getText().contains("$620")));
     }
 }
