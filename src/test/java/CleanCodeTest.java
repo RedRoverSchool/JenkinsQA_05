@@ -21,6 +21,7 @@ public class CleanCodeTest extends BaseTest {
         int expectedNumbersMenu = 11;
 
         getDriver().get(URL);
+
         int actualNumbersMenu = getDriver().findElements(
                 By.cssSelector(".products-menu__title-link")).size();
 
