@@ -4,16 +4,16 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class SergeyTest extends BaseTest {
+
+public class MariJernTest extends BaseTest {
 
     @Test
     public void testHerokuApp() {
+
         getDriver().get("https://formy-project.herokuapp.com/");
 
-        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/autocomplete']"));
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/buttons']"));
 
-        Assert.assertEquals(link.getText(), "Autocomplete");
+        Assert.assertEquals(link.getText(), "Buttons");
     }
 }
-
-
