@@ -163,4 +163,21 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://formy-project.herokuapp.com/buttons");
     }
+
+    @Test
+    public void testDoingSmthDontKnowWhatExactly_Tchernomor() {
+        String url = "https://demoqa.com/";
+        getDriver().get("https://www.toolsqa.com/selenium-training/");
+
+        WebElement findDemoSiteLink = getDriver().findElement(By.xpath(
+                "//div[@class='col-auto']//li[3]/a"
+        ));
+        findDemoSiteLink.click();
+
+        for (String pages : getDriver().getWindowHandles()) {
+            getDriver().switchTo().window(pages);
+        }
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), url);
+    }
 }
