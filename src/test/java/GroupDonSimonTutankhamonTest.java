@@ -42,7 +42,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
         subjectHeading.selectByVisibleText("Webmaster");
 
-        Thread.sleep(3000);
+        Thread.sleep(5000);
 
         Assert.assertEquals(getDriver().findElement(By.id("desc_contact1")).getText(), "If a technical problem occurs on this website");
 
