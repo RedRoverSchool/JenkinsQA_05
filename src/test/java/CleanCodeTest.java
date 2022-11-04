@@ -16,6 +16,17 @@ public class CleanCodeTest extends BaseTest {
     }
 
     @Test
+    public void testFolkInstrumentsEn() {
+        getDriver().get("http://ludowe.instrumenty.edu.pl/pl/o-projekcie");
+        WebElement plEn = getDriver().findElement(By.xpath("/html/body/div[2]/div[1]/div/div/div[2]/div[2]/div/ul/li[3]/a"));
+        plEn.click();
+
+        WebElement languageChange = getDriver().findElement(By.xpath("//*[@id=\"main\"]/div[4]/div/div/div/div/div[1]/h2"));
+        Assert.assertEquals(languageChange.getText(), "About");
+    }
+
+
+    @Test
     public void testBox24Menu() {
         final String URL = "https://box24.com.ua/";
         int expectedNumbersMenu = 11;
@@ -41,12 +52,12 @@ public class CleanCodeTest extends BaseTest {
     }
 
     @Test
-    public void testTextContactsIsPresent()  {
-        getDriver ().get ("https://heropark.by/");
+    public void testTextContactsIsPresent() {
+        getDriver().get("https://heropark.by/");
 
-        WebElement text = getDriver ().findElement (By.xpath ("//span[text()='КОНТАКТЫ']"));
+        WebElement text = getDriver().findElement(By.xpath("//span[text()='КОНТАКТЫ']"));
 
-        Assert.assertEquals (text.getText (), "КОНТАКТЫ");
+        Assert.assertEquals(text.getText(), "КОНТАКТЫ");
     }
 
 }
