@@ -160,7 +160,6 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         String url = "https://demoqa.com/";
         getDriver().get("https://www.toolsqa.com/selenium-training/");
 
-        ////div[@class='col-auto']//li[3]/a
         WebElement findDemoSiteLink = getDriver().findElement(By.xpath(
                 "//div[@class='col-auto']//li[3]/a"
         ));
