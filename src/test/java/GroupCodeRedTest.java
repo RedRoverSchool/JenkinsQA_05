@@ -1,5 +1,8 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -9,6 +12,21 @@ import java.time.Duration;
 
 
 public class GroupCodeRedTest extends BaseTest {
+
+    public static void get(WebDriver driver, String url) {
+        driver.get(url);
+    }
+
+    public static WebElement findElementBy(WebDriver driver, String cssSelector) {
+
+        return driver.findElement(By.cssSelector(cssSelector));
+    }
+
+
+
+    public static void sleep(int sec) throws InterruptedException {
+        Thread.sleep(sec * 1000);
+    }
     @Test
     public void testAutocomplete() throws InterruptedException {
         getDriver().get("https://formy-project.herokuapp.com/");
@@ -36,11 +54,11 @@ public class GroupCodeRedTest extends BaseTest {
         WebElement enteredAddress = getDriver().findElement(By.xpath("//input[@id='autocomplete']"));
 //        enteredAddress.clear();
         Thread.sleep(500);
-        Assert.assertEquals(enteredAddress.getAttribute("value"),"555 Open road");
+        Assert.assertEquals(enteredAddress.getAttribute("value"), "555 Open road");
     }
 
     @Test
-    public void testCompleteWebForm(){
+    public void testCompleteWebForm() {
         getDriver().get("https://formy-project.herokuapp.com/");
         getDriver().manage().window().maximize();
         String actualTitle = getDriver().getTitle();
@@ -57,5 +75,196 @@ public class GroupCodeRedTest extends BaseTest {
         getDriver().findElement(By.xpath("//div/a[@href='/thanks']")).click();
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='alert alert-success']")).getText().contains("The form was successfully submitted!"));
+    }
+
+    @Test
+    public void testGetPage() {
+
+        getDriver().get("https://www.demoblaze.com/");
+        WebElement link = getDriver().findElement(By.cssSelector("div.col-sm-4 p"));
+        Assert.assertEquals(link.getText(), "We believe performance needs to be validated at every stage of " +
+                "the software development cycle and our open source compatible," +
+                " massively scalable platform makes that a reality.");
+    }
+
+    @Test
+    public void testButton() {
+        getDriver().get("https://formy-project.herokuapp.com/");
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/buttons']"));
+        link.click();
+        String actualResult = getDriver().getCurrentUrl();
+        Assert.assertEquals(actualResult, "https://formy-project.herokuapp.com/buttons");
+    }
+
+    @Test
+    public void testDatepicker() {
+        getDriver().get("https://formy-project.herokuapp.com/");
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/datepicker']"));
+        link.click();
+        String actualTitle = getDriver().findElement(By.xpath("/html/body/div/h1")).getText();
+        Assert.assertEquals(actualTitle, "Datepicker");
+        String actualAddress = getDriver().getCurrentUrl();
+        Assert.assertEquals(actualAddress, "https://formy-project.herokuapp.com/datepicker");
+        WebElement dateInput = getDriver().findElement(By.xpath("//div[@class='row']//input[@id='datepicker']"));
+        dateInput.click();
+        WebElement todayDate = getDriver().findElement(By.xpath
+                ("/html/body/div[2]/div[1]/table/tbody/tr[1]/td[@class='today day']"));
+        todayDate.click();
+    }
+
+    @Test
+    public void testDropdown() throws InterruptedException {
+        getDriver().get("https://formy-project.herokuapp.com/");
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/dropdown']"));
+        link.click();
+        String actualResult = getDriver().getCurrentUrl();
+        Assert.assertEquals(actualResult, "https://formy-project.herokuapp.com/dropdown");
+        String actualTitle = getDriver().findElement(By.xpath("/html/body/div/h1")).getText();
+        Assert.assertEquals(actualTitle, "Dropdown");
+        WebElement dropDown = getDriver().findElement(By.xpath("//div[@class='dropdown']" +
+                "//button[@id=\"dropdownMenuButton\"]"));
+        dropDown.click();
+        WebElement modal = getDriver().findElement(By.xpath("/html/body/div/div/div/a[11]"));
+        modal.click();
+        String actualModalResult = getDriver().getCurrentUrl();
+        Assert.assertEquals(actualModalResult, "https://formy-project.herokuapp.com/modal");
+        Thread.sleep(100);
+        String actualModalHeader = getDriver().findElement(By.xpath("/html/body/div/h1")).getText();
+        Assert.assertEquals(actualModalHeader, "Modal");
+    }
+
+    @Test
+    public void testToggleMenuGuide() throws InterruptedException {
+        getDriver().get("https://openweathermap.org/");
+        Thread.sleep(5000);
+        WebElement guideLink = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[text()='Guide']"));
+        Assert.assertEquals(guideLink.getText(), "Guide");
+        guideLink.click();
+        String currentUrl = getDriver().getCurrentUrl();
+        Assert.assertEquals(currentUrl, "https://openweathermap.org/guide");
+
+        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
+        Assert.assertEquals(homeLink.getText(), "Home");
+        homeLink.click();
+    }
+
+    @Test
+    public void testToggleMenuAPI() throws InterruptedException {
+        getDriver().get("https://openweathermap.org/");
+        Thread.sleep(5000);
+        WebElement apiLink = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[text()='API']"));
+        Assert.assertEquals(apiLink.getText(), "API");
+        apiLink.click();
+        Thread.sleep(2000);
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/api");
+
+        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
+        Assert.assertEquals(homeLink.getText(), "Home");
+        homeLink.click();
+    }
+
+    @Test
+    public void testToggleMenuDashboard() throws InterruptedException {
+        getDriver().get("https://openweathermap.org/");
+        Thread.sleep(5000);
+        WebElement dashboardLink = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[text()='Dashboard']"));
+        Assert.assertEquals(dashboardLink.getText(), "Dashboard");
+        dashboardLink.click();
+        Thread.sleep(2000);
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/weather-dashboard");
+
+        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
+        Assert.assertEquals(homeLink.getText(), "Home");
+        homeLink.click();
+    }
+
+    @Test
+
+    public void testWhenYouWereBornPage() throws InterruptedException {
+        getDriver().get("https://insurance.experian.com/sign-up/birthdate");
+        Thread.sleep(2000);
+        WebElement dateBirthday = getDriver().findElement(
+                By.cssSelector("input[name='date_of_birth']"));
+        Thread.sleep(2000);
+        dateBirthday.sendKeys("05051994");
+        Thread.sleep(2000);
+        WebElement buttonNext = getDriver().findElement(By.cssSelector("button[data-title='Next Step']"));
+        buttonNext.click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://insurance.experian.com/sign-up/address");
+    }
+
+    @Test
+    public void testYourAdress() throws InterruptedException {
+        get(getDriver(), "https://insurance.experian.com/sign-up/address");
+        sleep(2);
+        WebElement  inputTest = findElementBy(getDriver(),"input[name='address_field_input']");sleep(2);
+        inputTest.sendKeys("142 1/2 E Broadway St, Shelbyville, IN 46176");sleep(2);
+
+    }
+    @Test
+    public void testEmail() throws InterruptedException {
+        get(getDriver(),"https://insurance.experian.com/sign-up/email");sleep(4);
+
+        WebElement inputEmailAddress = getDriver().findElement(
+                By.cssSelector("input[name='email']"));sleep(3);
+        inputEmailAddress.sendKeys("MinnieMouse@cheese.com");
+        WebElement buttonNext = getDriver().findElement(By.cssSelector("button[data-title='Next Step']"));sleep(2);
+        buttonNext.click();sleep(2);
+        Assert.assertEquals(getDriver().getCurrentUrl(),"https://insurance.experian.com/sign-up/phone");
+    }
+    @Test
+    public void testTermsOfCondition() throws InterruptedException {
+        get(getDriver(),"https://insurance.experian.com/sign-up/phone");sleep(4);
+        WebElement enterPhoNumber = getDriver().findElement(
+                By.xpath("//input[@name='phone_number']"));
+        enterPhoNumber.sendKeys("8318888888");
+        WebElement buttonNext = getDriver().findElement(By.cssSelector("button[data-title='Next Step']"));sleep(4);
+        Assert.assertEquals(getDriver().getCurrentUrl(),"https://insurance.experian.com/sign-up/phone");
+        buttonNext.click();sleep(4);
+
+    }
+
+    @Test
+    public void testFindRome() throws InterruptedException {
+
+        String url = "https://openweathermap.org/";
+        String city = "Rome";
+        boolean expectedResult = true;
+
+        getDriver().get(url);
+
+        Thread.sleep(5000);
+
+        WebElement searchFieldByCity = getDriver().findElement(
+                By.xpath("//div[@id='desktop-menu']//input[@placeholder='Weather in your city']")
+        );
+
+        searchFieldByCity.click();
+        searchFieldByCity.sendKeys(city);
+        Thread.sleep(700);
+        searchFieldByCity.sendKeys(Keys.ENTER);
+
+        boolean actualResult = getDriver().getCurrentUrl().contains("find") && getDriver().getCurrentUrl().contains(city);
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testOpenWeatherMapGuidePageTitle() throws InterruptedException {
+        String baseUrl = "https://openweathermap.org/";
+        String expectedResult_1 = "https://openweathermap.org/guide";
+        String expectedResult_2 = "OpenWeatherMap API guide - OpenWeatherMap";
+
+        getDriver().get(baseUrl);
+        Thread.sleep(5000);
+        WebElement guideButton = getDriver().findElement(
+                By.xpath("//div[@id = 'desktop-menu']//li/a [@href='/guide']")
+        );
+        guideButton.click();
+        String actualResult_1 = getDriver().getCurrentUrl();
+        String actualResult_2 = getDriver().getTitle();
+
+        Assert.assertEquals(actualResult_1, expectedResult_1);
+        Assert.assertEquals(actualResult_2, expectedResult_2);
     }
 }
