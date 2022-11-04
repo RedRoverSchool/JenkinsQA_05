@@ -13,6 +13,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@onclick='addElement()']")).click();
         Assert.assertTrue(getDriver().findElement(By.xpath("//button[@class='added-manually']")).isDisplayed());
     }
+    
     @Test
     public void testSwagLabs_LogIn()  {
         getDriver().get ("https://www.saucedemo.com");
@@ -21,6 +22,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement (By.id ("login-button")).click ();
         Assert.assertEquals (getDriver().getCurrentUrl (),"https://www.saucedemo.com/inventory.html");
     }
+    
     @Test
     public void testFindTitleGuide_NataliiaOliver() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
@@ -31,10 +33,9 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(
                 getDriver()
                         .findElement(By.xpath("//div[@class='col-sm-7']/h1[text()='Guide']"))
-                        .getText(),
-                "Guide"
-        );
+                        .getText(), "Guide");
     }
+    
     @Test
     public void testCart() {
         getDriver().get ("https://www.saucedemo.com");
@@ -44,7 +45,8 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement (By.id ("add-to-cart-sauce-labs-backpack")).click ();
         getDriver().findElement (By.id ("shopping_cart_container")).click ();
         Assert.assertTrue (getDriver().findElement (By.id ("item_4_title_link")).isDisplayed ());
-        }
+     }
+        
      @Test
      public void testAboutLinkRedirect() {
         getDriver().get ("https://www.saucedemo.com");
@@ -55,6 +57,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.id("about_sidebar_link")).click();
         Assert.assertEquals(getDriver().getCurrentUrl(),"https://saucelabs.com/");
     }
+    
     @Test
     public void testLAtimes_RomanS() throws InterruptedException{
         getDriver().get("https://www.latimes.com/");
@@ -63,6 +66,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//ps-header/div[1]/div[1]/div[1]/nav[1]/ul[1]/li[6]/div[1]/div[1]/a[1]")).click();
         Assert.assertEquals(getDriver().getTitle(), "Food - Los Angeles Times");
     }
+    
     @Test
     public void testAboutUs(){
         getDriver().get("http://automationpractice.com/index.php");
@@ -87,14 +91,15 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
-
     public void testInformationDelivery() {
         getDriver().get("http://automationpractice.com/index.php");
         getDriver().findElement(By.cssSelector(".sf-with-ul[title=\"Women\"]")).click();
         getDriver().findElement(By.cssSelector("[title=\"Delivery\"]")).click();
 
         Assert.assertEquals(getDriver().getTitle(), "Delivery - My Store");
-}
+    }
+
+    @Test
     public void testGoToTermsAndConditionsPage_AnastasiaYakimova() {
         getDriver().get ("http://automationpractice.com");
         getDriver().findElement (By.xpath("//section[@id='block_various_links_footer']/ul/li[6]/a")).click();
@@ -121,6 +126,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver ().findElement (By.id ("finish")).click ();
         Assert.assertEquals (getDriver ().findElement (By.xpath ("//*[@id=\"checkout_complete_container\"]/h2")).getText (), "THANK YOU FOR YOUR ORDER");
     }
+    
     @Test
     public void testAddToCartButton() throws InterruptedException{
         getDriver().get("https://www.demoblaze.com");
@@ -143,7 +149,18 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.id("submitMessage")).click();
         Assert.assertEquals(getDriver().findElement(By.xpath("//p[@class='alert alert-success']"))
                 .getText(),"Your message has been successfully sent to our team.");
-                
+   }
+
+   @Test
+    public void testFindBook_VZ() {
+        getDriver().get("https://www.abebooks.com/");
+        getDriver().findElement(By.id("rare-books")).click();
+        getDriver().findElement(By.xpath("//input[@placeholder='Enter author']")).sendKeys("Tolstoy");
+        getDriver().findElement(By.name("prl")).sendKeys("400");
+        getDriver().findElement(By.xpath("//button[@class='button-primary']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//span[@data-cy='listing-title']"))
+                .getText(),"The Tragedy of Tolstoy");
    }
 
     @Test
