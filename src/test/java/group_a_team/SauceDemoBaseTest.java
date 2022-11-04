@@ -6,7 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import runner.BaseTest;
 
 public abstract class SauceDemoBaseTest extends BaseTest {
-    protected final static String URL = "https://www.saucedemo.com/";
+    private final static String URL = "https://www.saucedemo.com/";
     protected final static String STANDARD_USER = "standard_user";
     protected final static String CORRECT_PASSWORD = "secret_sauce";
 
