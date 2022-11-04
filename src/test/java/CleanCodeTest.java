@@ -1,9 +1,12 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.time.Duration;
 
 public class CleanCodeTest extends BaseTest {
 
@@ -76,4 +79,38 @@ public class CleanCodeTest extends BaseTest {
         Assert.assertEquals(link.getText(),"Buttons");
     }
 
+    @Test
+    public void testBox24Language() {
+        final String URL = "https://box24.com.ua/";
+        String expectedLanguage = "Укр";
+
+        getDriver().get(URL);
+        String actualLanguage = getDriver().findElement(
+                By.xpath("//div[@class='lang-menu__button']")).getText();
+
+        Assert.assertEquals(actualLanguage, expectedLanguage);
+    }
+
+    @Test
+    public void testBox24SearchForm() {
+        final String URL = "https://box24.com.ua/";
+
+        String expectedH1 = "Результати пошуку «plane»";
+        String input = "plane";
+
+        getDriver().get(URL);
+        getDriver().findElement(By.cssSelector(".search__input")).sendKeys(input);
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector(".search__button")));
+
+        getDriver().findElement(By.cssSelector(".search__button")).click();
+
+        String actualH1 = getDriver().findElement(
+                By.cssSelector("#j-catalog-header")).getText();
+
+        Assert.assertEquals(actualH1, expectedH1);
+    }
 }
