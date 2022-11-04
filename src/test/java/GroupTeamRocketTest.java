@@ -1,9 +1,15 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
 
 public class GroupTeamRocketTest extends BaseTest {
 
@@ -130,7 +136,7 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Ignore
     @Test
-    public void testAddToCartButton() throws InterruptedException{
+    public void testAddToCartButton() {
         getDriver().get("https://www.demoblaze.com");
         getDriver().findElement(By.xpath("//body/div[5]/div/div[1]/div/a[4]")).click();
         getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div/div[1]/div/div/h4/a")).click();
@@ -183,6 +189,24 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@id='header_container']/div[2]/div[2]/span/select")).click();
         getDriver().findElement(By.xpath("//div[@id='header_container']/div[2]/div[2]/span/select/option[3]")).click();
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
+    }
+
+    @Test
+    public void testCheckForBrokenIMGs() throws IOException {
+        getDriver().get("https://www.rifle.com");
+        List<WebElement> listOfElementsWithIMGtag = getDriver().findElements(By.tagName("img"));
+
+        if (listOfElementsWithIMGtag.size() != 0) {
+            for (WebElement tempElement : listOfElementsWithIMGtag) {
+                String imgSource = tempElement.getAttribute("src");
+
+                    HttpURLConnection connection = (HttpURLConnection)new URL(imgSource).openConnection();
+                    connection.connect();
+                    int responseCode = connection.getResponseCode();
+
+                    Assert.assertTrue(responseCode >= 200 && responseCode < 400);
+            }
+        }
     }
 
     @Test

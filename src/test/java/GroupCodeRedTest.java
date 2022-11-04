@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -9,6 +10,21 @@ import java.time.Duration;
 
 
 public class GroupCodeRedTest extends BaseTest {
+
+    public static void get(WebDriver driver, String url) {
+        driver.get(url);
+    }
+
+    public static WebElement findElementBy(WebDriver driver, String cssSelector) {
+
+        return driver.findElement(By.cssSelector(cssSelector));
+    }
+
+
+
+    public static void sleep(int sec) throws InterruptedException {
+        Thread.sleep(sec * 1000);
+    }
     @Test
     public void testAutocomplete() throws InterruptedException {
         getDriver().get("https://formy-project.herokuapp.com/");
@@ -112,5 +128,50 @@ public class GroupCodeRedTest extends BaseTest {
         Thread.sleep(100);
         String actualModalHeader = getDriver().findElement(By.xpath("/html/body/div/h1")).getText();
         Assert.assertEquals(actualModalHeader,"Modal");
+    }
+    @Test
+
+    public void testWhenYouWereBornPage() throws InterruptedException {
+        getDriver().get("https://insurance.experian.com/sign-up/birthdate");
+        Thread.sleep(2000);
+        WebElement dateBirthday = getDriver().findElement(
+                By.cssSelector("input[name='date_of_birth']"));
+        Thread.sleep(2000);
+        dateBirthday.sendKeys("05051994");
+        Thread.sleep(2000);
+        WebElement buttonNext = getDriver().findElement(By.cssSelector("button[data-title='Next Step']"));
+        buttonNext.click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://insurance.experian.com/sign-up/address");
+    }
+
+    @Test
+    public void testYourAdress() throws InterruptedException {
+        get(getDriver(), "https://insurance.experian.com/sign-up/address");
+        sleep(2);
+        WebElement  inputTest = findElementBy(getDriver(),"input[name='address_field_input']");sleep(2);
+        inputTest.sendKeys("142 1/2 E Broadway St, Shelbyville, IN 46176");sleep(2);
+
+    }
+    @Test
+    public void testEmail() throws InterruptedException {
+        get(getDriver(),"https://insurance.experian.com/sign-up/email");sleep(4);
+
+        WebElement inputEmailAddress = getDriver().findElement(
+                By.cssSelector("input[name='email']"));sleep(3);
+        inputEmailAddress.sendKeys("MinnieMouse@cheese.com");
+        WebElement buttonNext = getDriver().findElement(By.cssSelector("button[data-title='Next Step']"));sleep(2);
+        buttonNext.click();sleep(2);
+        Assert.assertEquals(getDriver().getCurrentUrl(),"https://insurance.experian.com/sign-up/phone");
+    }
+    @Test
+    public void testTermsOfCondition() throws InterruptedException {
+        get(getDriver(),"https://insurance.experian.com/sign-up/phone");sleep(4);
+        WebElement enterPhoNumber = getDriver().findElement(
+                By.xpath("//input[@name='phone_number']"));
+        enterPhoNumber.sendKeys("8318888888");
+        WebElement buttonNext = getDriver().findElement(By.cssSelector("button[data-title='Next Step']"));sleep(4);
+        Assert.assertEquals(getDriver().getCurrentUrl(),"https://insurance.experian.com/sign-up/phone");
+        buttonNext.click();sleep(4);
+
     }
 }
