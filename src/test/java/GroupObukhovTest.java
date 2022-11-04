@@ -309,7 +309,7 @@ public class GroupObukhovTest extends BaseTest {
     public void testCheckCountMenuFranchiseButtons() {
         getDriver().get(URLFranchise);
 
-        Assert.assertEquals(4, getMenuFranchise().size());
+        Assert.assertEquals( getMenuFranchise().size(), 4);
     }
 
     @Test
