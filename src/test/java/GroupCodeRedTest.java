@@ -244,14 +244,27 @@ public class GroupCodeRedTest extends BaseTest {
         Thread.sleep(700);
         searchFieldByCity.sendKeys(Keys.ENTER);
 
-        boolean actualResult;
-
-        if (getDriver().getCurrentUrl().contains("find") && getDriver().getCurrentUrl().contains(city)) {
-            actualResult = true;
-        } else {
-            actualResult = false;
-        }
+        boolean actualResult = getDriver().getCurrentUrl().contains("find") && getDriver().getCurrentUrl().contains(city);
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testOpenWeatherMapGuidePageTitle() throws InterruptedException {
+        String baseUrl = "https://openweathermap.org/";
+        String expectedResult_1 = "https://openweathermap.org/guide";
+        String expectedResult_2 = "OpenWeatherMap API guide - OpenWeatherMap";
+
+        getDriver().get(baseUrl);
+        Thread.sleep(5000);
+        WebElement guideButton = getDriver().findElement(
+                By.xpath("//div[@id = 'desktop-menu']//li/a [@href='/guide']")
+        );
+        guideButton.click();
+        String actualResult_1 = getDriver().getCurrentUrl();
+        String actualResult_2 = getDriver().getTitle();
+
+        Assert.assertEquals(actualResult_1, expectedResult_1);
+        Assert.assertEquals(actualResult_2, expectedResult_2);
     }
 }
