@@ -298,4 +298,25 @@ public class GroupTeamRocketTest extends BaseTest {
                 .findElement(By.xpath("//button[@type='submit'][@class='btn cobranding-form-submit']"))
                 .getText(), "Go To Final Step");
     }
+
+    @Test
+    public void testSwitchToPageCompareInsuranceQuote_VadimTref() {
+        getDriver().get("https://www.statewidedealerinsurance.com/");
+        getDriver().findElement(By.id("ZipCode")).sendKeys("11230");
+        getDriver().findElement(By.id("Type")).click();
+        getDriver().findElement(By.xpath("//select[@id='Type']/option[@value='Home']")).click();
+        getDriver().findElement(By.xpath("//form[@id='miniQuote']//button[@type='submit']")).click();
+        WebElement iframeSwitch = getDriver().findElement(By.id("cpIframe"));
+        getDriver().switchTo().frame(iframeSwitch);
+
+        Assert.assertEquals(getDriver()
+                .findElement(By.xpath("//div[@id='body']//p[@class='cpInstructions cpPage0']"))
+                .getText(), "An insurance quote does not impact your credit score. "
+                + "Quote will take approximately 3-5 minutes to complete.");
+
+        getDriver().switchTo().defaultContent();
+
+        Assert.assertEquals(getDriver()
+                .findElement(By.xpath("//h1")).getText(), "Compare Quotes");
+    }
 }
