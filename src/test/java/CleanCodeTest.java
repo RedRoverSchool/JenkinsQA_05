@@ -78,6 +78,16 @@ public class CleanCodeTest extends BaseTest {
         WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/buttons']"));
         Assert.assertEquals(link.getText(),"Buttons");
     }
+    
+       @Test
+        public void testAstraCom() {
+            getDriver().get("https://www.astracom.ru/");
+            getDriver().findElement(By.className("button")).click();
+            getDriver().findElement(By.partialLinkText("АРСО P25")).click();
+            WebElement text = getDriver().findElement(By.partialLinkText("Ретрансляторы"));
+            Assert.assertEquals(text.getText(), "Ретрансляторы");
+
+        }
 
     @Test
     public void testBox24Language() {

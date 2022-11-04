@@ -61,6 +61,7 @@ public class JavanistyTest extends BaseTest {
         Assert.assertEquals(counterValue, "10");
     }
 
+    @Ignore
     @Test
     public void testZipCodeInputField() {
         getDriver().get("https://www.sharelane.com/cgi-bin/register.py");
@@ -110,5 +111,15 @@ public class JavanistyTest extends BaseTest {
         getDriver().get("https://karkas.k3-cottage.ru/");
         WebElement text = getDriver().findElement(By.xpath("//li/a[@href='#features']"));
         Assert.assertEquals(text.getText(), "ВОЗМОЖНОСТИ");
+    }
+
+    @Test
+    public void testAratinveMainMenuTitle() {
+        String titleExpected = "Главная страница\nО программе\nНовости\nПродукты\nОбучение" +
+                "\nСкачать\nКупить\nFAQ\nО нас";
+
+        getDriver().get("https://k3-mebel.ru/");
+        String titleActual = getDriver().findElement(By.id("menu-verhnee-menyu")).getText();
+        Assert.assertEquals(titleActual, titleExpected);
     }
 }
