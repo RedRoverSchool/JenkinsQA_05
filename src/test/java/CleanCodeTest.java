@@ -27,4 +27,17 @@ public class CleanCodeTest extends BaseTest {
 
         Assert.assertEquals(actualNumbersMenu, expectedNumbersMenu);
     }
+
+    @Test
+    public void testPageSales() {
+        getDriver().get("https://klinik.by/");
+        WebElement bottomSales = getDriver().findElement(By.xpath("//*[@id=\"menu-item-2570\"]/a[text() = 'Акции']"));
+
+        bottomSales.click();
+
+        WebElement pageSales = getDriver().findElement(By.xpath("//*[@id=\"page\"]//h1[text() ='Специальные предложения']"));
+
+        Assert.assertEquals(pageSales.getText(), "Специальные предложения");
+    }
+
 }
