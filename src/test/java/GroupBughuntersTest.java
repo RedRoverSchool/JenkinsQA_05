@@ -3,7 +3,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -61,7 +60,6 @@ public class GroupBughuntersTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//dd[contains(text(),'A podcast on Python and related technologies.')]")).isDisplayed());
     }
 
-    @Ignore
     @Test
     public void testLoginSuccess() {
         getDriver().get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
@@ -73,8 +71,8 @@ public class GroupBughuntersTest extends BaseTest {
         getDriver().findElement(By.name("password")).sendKeys(password);
         getDriver().findElement(By.className("orangehrm-login-button")).click();
 
-        Assert.assertEquals(
-                getDriver().findElement(By.className("oxd-userdropdown-name")).getText(), "Paul Collings");
+        Assert.assertEquals(getDriver().findElement(By
+                .xpath("//span[@class='oxd-topbar-header-breadcrumb']")).getText(), "PIM");
     }
 
     @Test
