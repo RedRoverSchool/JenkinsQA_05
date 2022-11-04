@@ -89,6 +89,7 @@ public class JavanistyTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//input[@class='content']")).isDisplayed());
     }
     
+    @Ignore
     @Test
     public void testTextHlebnica(){
         getDriver().get("http://hlebnitca.ru/");
