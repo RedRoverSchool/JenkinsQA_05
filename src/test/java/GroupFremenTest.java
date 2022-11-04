@@ -1,8 +1,4 @@
 import runner.BaseTest;
-
 public class GroupFremenTest extends BaseTest  {
-    public final String url = "https://formy-project.herokuapp.com/";
-
-
-
+    public final String URL = "https://formy-project.herokuapp.com/";
 }
