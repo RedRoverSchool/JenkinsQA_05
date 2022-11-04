@@ -280,8 +280,7 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testGoToStepTwoForGetQuote_VadimTref() {
         getDriver().get("https://commercialinsurance.net/");
         getDriver().findElement(By.name("zipcode")).sendKeys("11230");
-        getDriver().findElement(By.xpath("//div[@class='cobranding-step cobranding-step-1']//a[@href='javascript:void(0);']"))
-                .click();
+        getDriver().findElement(By.xpath("//div[@class='cobranding-step cobranding-step-1']//a[@href='javascript:void(0);']")).click();
 
         Assert.assertEquals(getDriver()
                 .findElement(By.xpath("//div[@id='cobranding-steps']/div[@class='ci-heading']/p[@class='subheader']"))
