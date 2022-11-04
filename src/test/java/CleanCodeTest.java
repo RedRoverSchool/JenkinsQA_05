@@ -51,6 +51,14 @@ public class CleanCodeTest extends BaseTest {
         Assert.assertEquals(pageSales.getText(), "Специальные предложения");
     }
 
+  @Test
+    public void testFormyProject() {
+        getDriver().get("https://formy-project.herokuapp.com/");
+
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/dropdown']"));
+
+        Assert.assertEquals(link.getText(), "Dropdown"); }
+
     @Test
     public void testTextContactsIsPresent() {
         getDriver().get("https://heropark.by/");
@@ -58,6 +66,7 @@ public class CleanCodeTest extends BaseTest {
         WebElement text = getDriver().findElement(By.xpath("//span[text()='КОНТАКТЫ']"));
 
         Assert.assertEquals(text.getText(), "КОНТАКТЫ");
+
     }
 
     @Test
