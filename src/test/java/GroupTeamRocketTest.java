@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -126,7 +127,8 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver ().findElement (By.id ("finish")).click ();
         Assert.assertEquals (getDriver ().findElement (By.xpath ("//*[@id=\"checkout_complete_container\"]/h2")).getText (), "THANK YOU FOR YOUR ORDER");
     }
-    
+
+    @Ignore
     @Test
     public void testAddToCartButton() throws InterruptedException{
         getDriver().get("https://www.demoblaze.com");

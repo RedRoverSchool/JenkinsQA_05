@@ -31,5 +31,15 @@ public class PLGroupTest extends BaseTest {
 
         Assert.assertTrue(columnNames.contains(expectedResult));
         Assert.assertEquals(countTableColumns.size(), 6);
+        }
+
+    public void testParagraph(){
+        getDriver().get("https://www.selenium.dev/");
+
+        WebElement link = getDriver().findElement(
+                By.xpath("//div//p[text()='What you do with that power is entirely up to you.']")
+        );
+
+        Assert.assertEquals(link.getText(), "What you do with that power is entirely up to you.");
     }
 }
