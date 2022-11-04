@@ -402,7 +402,11 @@ public class SpiritMastersTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@class='category-cards']/div[4]")).click();
         getJavascriptExecutor(getDriver().findElement(By.xpath("//span[text()='Slider']")));
         getDriver().findElement(By.xpath("//span[text()='Slider']")).click();
-
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         WebElement slider = getDriver().findElement(By.xpath("//input[@type='range']"));
         getActions().dragAndDropBy(slider,350, 0).perform();
         String actualSliderValue = getDriver().findElement(By.id("sliderValue")).getAttribute("value");
