@@ -156,7 +156,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void doingSmthDontKnowWhatExactly_Tchernomor() {
+    public void testDoingSmthDontKnowWhatExactly_Tchernomor() {
         String url = "https://demoqa.com/";
         getDriver().get("https://www.toolsqa.com/selenium-training/");
 
