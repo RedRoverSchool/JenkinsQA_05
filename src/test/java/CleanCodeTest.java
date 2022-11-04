@@ -60,7 +60,8 @@ public class CleanCodeTest extends BaseTest {
 
         WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/dropdown']"));
 
-        Assert.assertEquals(link.getText(), "Dropdown"); }
+        Assert.assertEquals(link.getText(), "Dropdown"); 
+    }
 
     @Test
     public void testTextContactsIsPresent() {
@@ -69,7 +70,6 @@ public class CleanCodeTest extends BaseTest {
         WebElement text = getDriver().findElement(By.xpath("//span[text()='КОНТАКТЫ']"));
 
         Assert.assertEquals(text.getText(), "КОНТАКТЫ");
-
     }
 
     @Test
@@ -86,7 +86,6 @@ public class CleanCodeTest extends BaseTest {
             getDriver().findElement(By.partialLinkText("АРСО P25")).click();
             WebElement text = getDriver().findElement(By.partialLinkText("Ретрансляторы"));
             Assert.assertEquals(text.getText(), "Ретрансляторы");
-
         }
 
     @Test
