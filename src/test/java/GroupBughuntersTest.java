@@ -1,7 +1,5 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -9,7 +7,7 @@ import runner.BaseTest;
 public class GroupBughuntersTest extends BaseTest {
 
     @Test
-    public void ticketonTest() throws InterruptedException {
+    public void ticketonSearch() throws InterruptedException {
         getDriver().get("https://ticketon.kz/");
         WebElement search = getDriver().findElement(By.name("q"));
         WebElement button = getDriver().findElement(By.xpath("//button[@class='button postfix secondary search__postfix']"));
@@ -20,7 +18,7 @@ public class GroupBughuntersTest extends BaseTest {
     }
 
     @Test
-    public void firstTest() throws InterruptedException {
+    public void bbcHeading()   {
         getDriver().get("https://www.bbc.co.uk/learningenglish/english/");
         String text = getDriver().findElement(By.id("heading-things-you-cant-miss")).getText();
         String actualResult = "THINGS YOU CAN'T MISS";
@@ -29,7 +27,7 @@ public class GroupBughuntersTest extends BaseTest {
     }
 
     @Test
-    public void bbcSearch() throws InterruptedException {
+    public void bbcSearch() {
         getDriver().get("https://www.bbc.co.uk/learningenglish/english/");
         WebElement search = getDriver().findElement(By.xpath("//div/div/form/input[@name='q']"));
         WebElement button = getDriver().findElement(By.xpath("//div/div/form/input[@name ='submit']"));
@@ -39,7 +37,8 @@ public class GroupBughuntersTest extends BaseTest {
 
     }
 
-    public void greatSchoolMainPageTest() {
+    @Test
+    public void greatSchoolMainPage() {
         getDriver().get("https://www.greatschools.org");
         WebElement searchBox = getDriver().findElement(By.xpath("//*[@class=\"full-width pam search_form_field\"]"));
         WebElement searchButton = getDriver().findElement(By.xpath("//*[@class=\"search-label\"]"));
