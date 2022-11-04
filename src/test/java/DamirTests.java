@@ -21,5 +21,4 @@ public class DamirTests extends BaseTest{
         WebElement Text = getDriver().findElement(By.xpath("//*[@id=\"page-footer\"]/div/div/a"));
         Assert.assertEquals("Elemental Selenium",Text.getText());
     }
-
 }
