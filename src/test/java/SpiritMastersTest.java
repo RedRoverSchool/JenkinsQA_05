@@ -361,7 +361,7 @@ public class SpiritMastersTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-
+    @Ignore
     @Test
     public void testCheckBoxes_AFedorova() {
         List<String> expectedResult = new ArrayList<>(List.of("You have " +
