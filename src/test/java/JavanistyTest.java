@@ -76,4 +76,28 @@ public class JavanistyTest extends BaseTest {
         WebElement text = getDriver().findElement(By.xpath("//li/a[@href='#config']"));
         Assert.assertEquals(text.getText(), "НАСТРОЙКИ");
     }
+
+    @Test
+    public void testThree() {
+        getDriver().get("https://healthunify.com/bmicalculator/");
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://healthunify.com/bmicalculator/");
+        getDriver().findElement(By.xpath("//input[@name='wg']")).sendKeys("55");
+        getDriver().findElement(By.xpath("//input[@name='ht']")).sendKeys("60");
+        getDriver().findElement(By.xpath("//input[@value='Calculate']")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//input[@class='content']")).isDisplayed());
+    }
+    
+    @Test
+    public void testTextHlebnica(){
+        getDriver().get("http://hlebnitca.ru/");
+        getDriver().findElement(By.xpath("//a[@class= 'tn-atom']")).click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "http://hlebnitca.ru/about");
+    }
+
+    @Test
+    public void testAboutHlebnica(){
+        getDriver().get ("http://hlebnitca.ru/about");
+        String aboutHlebnica =  getDriver().findElement(By.xpath("//div[@class = 't396__elem tn-elem tn-elem__3963063211640603855210']")).getText();
+        Assert.assertEquals(aboutHlebnica, "Вкус настоящей домашней выпечки");
+    }
 }
