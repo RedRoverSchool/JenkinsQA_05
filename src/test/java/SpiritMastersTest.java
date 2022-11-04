@@ -12,10 +12,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
-import java.util.List;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class SpiritMastersTest extends BaseTest {
 
@@ -24,7 +21,7 @@ public class SpiritMastersTest extends BaseTest {
         List<WebElement> category = getDriver().findElements(By.className("card"));
         return category.get(index);
     }
-
+    @Ignore
     @Test
     public void testSwitchToSecondWindow_OlPolezhaeva() {
 
@@ -93,7 +90,8 @@ public class SpiritMastersTest extends BaseTest {
     }
 
     @Test
-    public void checkButtonsLink_AFedorova_Test() {
+    @Ignore
+    public void testCheckButtonLink_AFedorova() {
         getDriver().get("https://formy-project.herokuapp.com/");
         WebElement link = getDriver().findElement(By.cssSelector("a.btn-lg" +
                 "[href^=\"/butt\"]"));
@@ -255,6 +253,8 @@ public class SpiritMastersTest extends BaseTest {
         getDriver().switchTo().frame(getDriver().findElement(By.id("frame1")));
         WebElement headerFrame = getDriver().findElement(By.xpath("//body/h1[@id='sampleHeading']"));
 
+        Assert.assertEquals(headerFrame.getRect().getWidth(), 480.0);
+        Assert.assertEquals(headerFrame.getRect().getHeight(), 37.0);
     }
 
     @Test
@@ -276,6 +276,7 @@ public class SpiritMastersTest extends BaseTest {
         Thread.sleep(1000);
         Assert.assertEquals(openButton.getText(),"TUTORIALS");
     }
+
     @Test
     public void testModalDialogs_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/modal-dialogs");
@@ -289,6 +290,7 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("showLargeModal")).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testToolTips_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/tool-tips");
@@ -297,5 +299,85 @@ public class SpiritMastersTest extends BaseTest {
         String actualToolTip = new WebDriverWait(getDriver(), Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tooltip-inner']"))).getText();
 
         Assert.assertEquals(actualToolTip, "You hovered over the Contrary");
+    }
+
+    @Test
+    public void testTextBoxFields_AFedorova() {
+        getDriver().get("https://demoqa.com/");
+
+        String name = "Anna Fedorova";
+        String email = "test@gmail.com";
+        String cAddress = "40 S Rengstorff Ave, Mountain View, CA 94040";
+        String pAddress = "851 Manor Way, Los Altos, CA 94024";
+
+        List<String> expectedResult = new ArrayList<>();
+        expectedResult.add("Name:" + name);
+        expectedResult.add("Email:" + email);
+        expectedResult.add("Current Address :" + cAddress);
+        expectedResult.add("Permananet Address :" + pAddress);
+
+        WebElement elementBtn = getDriver().findElement(By.cssSelector("div.category-cards>div:first-of-type"));
+        elementBtn.click();
+
+        WebElement textBoxBtn = getDriver().findElement(By.xpath("//*[@id='item-0']/span"));
+        textBoxBtn.click();
+
+        WebElement tbName = getDriver().findElement(By.id("userName"));
+        WebElement tbEmail = getDriver().findElement(By.id("userEmail"));
+        WebElement tbAddress = getDriver().findElement(By.id("currentAddress"));
+        WebElement tbPermAddress = getDriver().findElement(By.id(
+                "permanentAddress"));
+
+        tbName.sendKeys(name);
+        tbEmail.sendKeys(email);
+        tbAddress.sendKeys(cAddress);
+        tbPermAddress.sendKeys(pAddress);
+
+        WebElement submitBtn = getDriver().findElement(By.id("submit"));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].click();", submitBtn);
+
+        List<String> actualResult = new ArrayList<>();
+        actualResult.add(getDriver().findElement(By.id("name")).getText());
+        actualResult.add(getDriver().findElement(By.id("email")).getText());
+        actualResult.add(getDriver().findElement(By.xpath("//p[@id='currentAddress']")).getText());
+        actualResult.add(getDriver().findElement(By.xpath("//p[@id='permanentAddress']")).getText());
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testCheckBoxes_AFedorova() {
+        List<String> expectedResult = new ArrayList<>(List.of("You have " +
+                "selected :","desktop","notes","commands"));
+
+        getDriver().get("https://demoqa.com/");
+
+        getDriver().findElement(By.cssSelector("div.category-cards>div:first" +
+                "-of-type")).click();
+        getDriver().findElement(By.xpath("//*[@id" +
+                "='item-1']/span")).click();
+        getDriver().findElement(By.cssSelector(".rct" +
+                "-option.rct-option-expand-all")).click();
+
+        List<WebElement> listOfCheckBoxes =
+                getDriver().findElements(By.cssSelector("span" +
+                ".rct-checkbox"));
+        listOfCheckBoxes.get(3).click();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("span" +
+                ".text-success")).getText(),"commands");
+
+        listOfCheckBoxes.get(2).click();
+
+        List<WebElement> listOfSelectedCheckBoxesDesktop =
+                getDriver().findElements(By.cssSelector(".display-result" +
+                        ".mt-4>span"));
+        List<String> actualResult = new ArrayList<>();
+        for (WebElement element:listOfSelectedCheckBoxesDesktop) {
+           actualResult.add(element.getText());
+        }
+
+        Assert.assertEquals(actualResult,expectedResult);
     }
 }
