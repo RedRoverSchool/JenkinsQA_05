@@ -253,4 +253,17 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElements(By.xpath("//tbody/tr/td/a")).size(), 10);
     }
+
+    @Test
+    public void testBrowseLanguagesAlternativeVersions_NO() {
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='a.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='language-autoit-657.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='language-autoit-663.html']")).click();
+        getDriver().findElement(By.xpath("//a[@title='reddit']/img")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class='Title m-no-margin']")).isDisplayed());
+    }
 }
