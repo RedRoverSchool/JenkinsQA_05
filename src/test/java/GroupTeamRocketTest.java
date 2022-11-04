@@ -75,6 +75,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(), "Food - Los Angeles Times");
     }
 
+    @Ignore
     @Test
     public void testAboutUs(){
         getDriver().get("http://automationpractice.com/index.php");
@@ -98,6 +99,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//img[@class='captchaMediaImage']")).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testInformationDelivery() {
         getDriver().get("http://automationpractice.com/index.php");
@@ -107,6 +109,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(), "Delivery - My Store");
     }
 
+    @Ignore
     @Test
     public void testGoToTermsAndConditionsPage_AnastasiaYakimova() {
         getDriver().get ("http://automationpractice.com");
@@ -204,6 +207,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
     }
 
+    @Ignore
     @Test
     public void testSaleSticker_ET() {
         getDriver().get("http://automationpractice.com/index.php");
