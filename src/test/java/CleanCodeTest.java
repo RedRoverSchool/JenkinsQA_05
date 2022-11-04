@@ -40,4 +40,12 @@ public class CleanCodeTest extends BaseTest {
         Assert.assertEquals(pageSales.getText(), "Специальные предложения");
     }
 
+    public void testFormyProject() {
+        getDriver().get("https://formy-project.herokuapp.com/");
+
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/dropdown']"));
+
+        Assert.assertEquals(link.getText(), "Dropdown");
+    }
+
 }
