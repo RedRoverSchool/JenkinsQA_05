@@ -46,5 +46,19 @@ public class GroupCubsTest extends BaseTest {
         WebElement searchResult = getDriver().findElement(By.xpath("//ul[@class = 'product_list grid row']/li[1]/div/div/h5/a"));
         Assert.assertTrue(searchResult.getText().toLowerCase(Locale.ROOT).contains(query));
     }
+        @Test
+        public void testAsh() {
+            getDriver().get("https://www.saucedemo.com/");
+
+            WebElement text = getDriver().findElement(By.id("user-name"));
+            text.sendKeys("standard_user");
+            WebElement text2 = getDriver().findElement(By.id("password"));
+            text2.sendKeys("secret_sauce");
+            WebElement link = getDriver().findElement(By.id("login-button"));
+            getDriver().findElement(By.id("login-button")).click();
+            getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
+            String link2 = getDriver().findElement(By.xpath("//*[contains(@name, 'remove-sauce-labs-backpack')]")).getText();
+            Assert.assertEquals(link2, "REMOVE");
+    }
 }
 
