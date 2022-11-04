@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -46,12 +47,33 @@ public class GroupSqaeTest extends BaseTest {
     }
 
     @Test
-    public void testSubscribePageUrlOfMagazine() {
+    public void testCancelLabelOnSubscribePageOfMagazine() {
         getDriver().get("https://www.theatlantic.com/");
         WebElement subscribeButton = getDriver().findElement(By.xpath("//*[@id='__next']/nav/div/div[2]/ul/li[2]/a"));
         subscribeButton.click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://accounts.theatlantic.com/products/?source=nav");
+        String expectedCancelLabel = "You can cancel anytime.";
+
+        WebElement cancelAnyTimeLabel = getDriver().findElement(By.xpath("//*[@id='root']/div[2]/div/header/h3"));
+        Assert.assertEquals(cancelAnyTimeLabel.getText(), expectedCancelLabel);
+    }
+
+    @Test
+    public void testHeaderLinksOnTitlePageOfMagazine() {
+        getDriver().get("https://www.theatlantic.com/");
+        WebElement linkPopular = getDriver().findElement(By.linkText("Popular"));
+        linkPopular.click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.theatlantic.com/most-popular/");
+
+        getDriver().get("https://www.theatlantic.com/");
+        WebElement linkLatest = getDriver().findElement(By.linkText("Latest"));
+        linkLatest.click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.theatlantic.com/latest/");
+
+        getDriver().get("https://www.theatlantic.com/");
+        WebElement linkNewsletters = getDriver().findElement(By.linkText("Newsletters"));
+        linkNewsletters.click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.theatlantic.com/newsletters/");
     }
 
     @Test
@@ -91,6 +113,4 @@ public class GroupSqaeTest extends BaseTest {
 
         Assert.assertEquals(actualH2.getText(), "Agile Testing and ATDD Automation –  Free Tutorials");
     }
-
-
 }
