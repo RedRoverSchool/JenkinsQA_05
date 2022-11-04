@@ -15,5 +15,16 @@ public class CleanCodeTest extends BaseTest {
         Assert.assertEquals(link.getText(), "ritual scepter");
     }
 
+    @Test
+    public void testBox24Menu() {
+        final String URL = "https://box24.com.ua/";
+        int expectedNumbersMenu = 11;
 
+        getDriver().get(URL);
+
+        int actualNumbersMenu = getDriver().findElements(
+                By.cssSelector(".products-menu__title-link")).size();
+
+        Assert.assertEquals(actualNumbersMenu, expectedNumbersMenu);
+    }
 }

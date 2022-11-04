@@ -22,12 +22,12 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
-    public void testSwagLabs_LogIn()  {
-        getDriver().get ("https://www.saucedemo.com");
-        getDriver().findElement (By.id ("user-name")).sendKeys ("standard_user");
-        getDriver().findElement (By.id ("password")).sendKeys ("secret_sauce");
-        getDriver().findElement (By.id ("login-button")).click ();
-        Assert.assertEquals (getDriver().getCurrentUrl (),"https://www.saucedemo.com/inventory.html");
+    public void testSwagLabs_LogIn() {
+        getDriver().get("https://www.saucedemo.com");
+        getDriver().findElement(By.id("user-name")).sendKeys("standard_user");
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
+        getDriver().findElement(By.id("login-button")).click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
     }
 
     @Test
@@ -64,7 +64,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.id("about_sidebar_link")).click();
         Assert.assertEquals(getDriver().getCurrentUrl(),"https://saucelabs.com/");
     }
-    
+
     @Test
     public void testLAtimes_RomanS() throws InterruptedException{
         getDriver().get("https://www.latimes.com/");
@@ -73,7 +73,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//ps-header/div[1]/div[1]/div[1]/nav[1]/ul[1]/li[6]/div[1]/div[1]/a[1]")).click();
         Assert.assertEquals(getDriver().getTitle(), "Food - Los Angeles Times");
     }
-    
+
     @Test
     public void testAboutUs(){
         getDriver().get("http://automationpractice.com/index.php");
@@ -136,14 +136,14 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Ignore
     @Test
-    public void testAddToCartButton() {
+    public void testAddToCartButton() throws InterruptedException{
         getDriver().get("https://www.demoblaze.com");
         getDriver().findElement(By.xpath("//body/div[5]/div/div[1]/div/a[4]")).click();
         getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div/div[1]/div/div/h4/a")).click();
         getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div[2]/div/a")).click();
         Assert.assertTrue(getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div[2]/div/a")).isDisplayed());
     }
-    
+
      @Test
      public void testContactUs() {
         getDriver().get("http://automationpractice.com/index.php");
@@ -189,6 +189,19 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@id='header_container']/div[2]/div[2]/span/select")).click();
         getDriver().findElement(By.xpath("//div[@id='header_container']/div[2]/div[2]/span/select/option[3]")).click();
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
+    }
+
+    @Test
+    public void testSaleSticker_ET() {
+        getDriver().get("http://automationpractice.com/index.php");
+        WebElement searchInput = getDriver().findElement(By.cssSelector(".search_query.form-control.ac_input"));
+        searchInput.sendKeys("Printed Chiffon Dress");
+        getDriver().findElement(By.cssSelector(".btn.btn-default.button-search")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@itemprop='name']/*[@title='Printed Chiffon Dress']"))
+                .getText(), "Printed Chiffon Dress");
+        Assert.assertEquals(getDriver().findElement(By.xpath("(//span[@class='price-percent-reduction'])[3]"))
+                .getText(), "-20%");
     }
 
     @Test

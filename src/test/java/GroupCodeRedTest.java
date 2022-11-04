@@ -52,11 +52,11 @@ public class GroupCodeRedTest extends BaseTest {
         WebElement enteredAddress = getDriver().findElement(By.xpath("//input[@id='autocomplete']"));
 //        enteredAddress.clear();
         Thread.sleep(500);
-        Assert.assertEquals(enteredAddress.getAttribute("value"),"555 Open road");
+        Assert.assertEquals(enteredAddress.getAttribute("value"), "555 Open road");
     }
 
     @Test
-    public void testCompleteWebForm(){
+    public void testCompleteWebForm() {
         getDriver().get("https://formy-project.herokuapp.com/");
         getDriver().manage().window().maximize();
         String actualTitle = getDriver().getTitle();
@@ -74,6 +74,7 @@ public class GroupCodeRedTest extends BaseTest {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='alert alert-success']")).getText().contains("The form was successfully submitted!"));
     }
+
     @Test
     public void testGetPage() {
 
@@ -83,7 +84,7 @@ public class GroupCodeRedTest extends BaseTest {
                 "the software development cycle and our open source compatible," +
                 " massively scalable platform makes that a reality.");
     }
-    
+
     @Test
     public void testButton() {
         getDriver().get("https://formy-project.herokuapp.com/");
@@ -94,7 +95,7 @@ public class GroupCodeRedTest extends BaseTest {
     }
 
     @Test
-    public void testDatepicker()  {
+    public void testDatepicker() {
         getDriver().get("https://formy-project.herokuapp.com/");
         WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/datepicker']"));
         link.click();
@@ -127,8 +128,54 @@ public class GroupCodeRedTest extends BaseTest {
         Assert.assertEquals(actualModalResult, "https://formy-project.herokuapp.com/modal");
         Thread.sleep(100);
         String actualModalHeader = getDriver().findElement(By.xpath("/html/body/div/h1")).getText();
-        Assert.assertEquals(actualModalHeader,"Modal");
+        Assert.assertEquals(actualModalHeader, "Modal");
     }
+
+    @Test
+    public void testToggleMenuGuide() throws InterruptedException {
+        getDriver().get("https://openweathermap.org/");
+        Thread.sleep(5000);
+        WebElement guideLink = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[text()='Guide']"));
+        Assert.assertEquals(guideLink.getText(), "Guide");
+        guideLink.click();
+        String currentUrl = getDriver().getCurrentUrl();
+        Assert.assertEquals(currentUrl, "https://openweathermap.org/guide");
+
+        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
+        Assert.assertEquals(homeLink.getText(), "Home");
+        homeLink.click();
+    }
+
+    @Test
+    public void testToggleMenuAPI() throws InterruptedException {
+        getDriver().get("https://openweathermap.org/");
+        Thread.sleep(5000);
+        WebElement apiLink = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[text()='API']"));
+        Assert.assertEquals(apiLink.getText(), "API");
+        apiLink.click();
+        Thread.sleep(2000);
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/api");
+
+        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
+        Assert.assertEquals(homeLink.getText(), "Home");
+        homeLink.click();
+    }
+
+    @Test
+    public void testToggleMenuDashboard() throws InterruptedException {
+        getDriver().get("https://openweathermap.org/");
+        Thread.sleep(5000);
+        WebElement dashboardLink = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[text()='Dashboard']"));
+        Assert.assertEquals(dashboardLink.getText(), "Dashboard");
+        dashboardLink.click();
+        Thread.sleep(2000);
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/weather-dashboard");
+
+        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
+        Assert.assertEquals(homeLink.getText(), "Home");
+        homeLink.click();
+    }
+
     @Test
 
     public void testWhenYouWereBornPage() throws InterruptedException {
