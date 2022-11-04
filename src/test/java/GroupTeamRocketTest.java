@@ -1,8 +1,15 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
 
 public class GroupTeamRocketTest extends BaseTest {
 
@@ -13,28 +20,29 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@onclick='addElement()']")).click();
         Assert.assertTrue(getDriver().findElement(By.xpath("//button[@class='added-manually']")).isDisplayed());
     }
+
     @Test
-    public void testSwagLabs_LogIn()  {
-        getDriver().get ("https://www.saucedemo.com");
-        getDriver().findElement (By.id ("user-name")).sendKeys ("standard_user");
-        getDriver().findElement (By.id ("password")).sendKeys ("secret_sauce");
-        getDriver().findElement (By.id ("login-button")).click ();
-        Assert.assertEquals (getDriver().getCurrentUrl (),"https://www.saucedemo.com/inventory.html");
+    public void testSwagLabs_LogIn() {
+        getDriver().get("https://www.saucedemo.com");
+        getDriver().findElement(By.id("user-name")).sendKeys("standard_user");
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
+        getDriver().findElement(By.id("login-button")).click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
     }
+
     @Test
     public void testFindTitleGuide_NataliiaOliver() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
-        Thread.sleep(5000);
+        Thread.sleep(6000);
         getDriver().findElement(By.xpath("//div[@id='desktop-menu']/ul/li/a[@href='/guide']")).click();
         Thread.sleep(1000);
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/guide");
         Assert.assertEquals(
                 getDriver()
                         .findElement(By.xpath("//div[@class='col-sm-7']/h1[text()='Guide']"))
-                        .getText(),
-                "Guide"
-        );
+                        .getText(), "Guide");
     }
+
     @Test
     public void testCart() {
         getDriver().get ("https://www.saucedemo.com");
@@ -44,7 +52,8 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement (By.id ("add-to-cart-sauce-labs-backpack")).click ();
         getDriver().findElement (By.id ("shopping_cart_container")).click ();
         Assert.assertTrue (getDriver().findElement (By.id ("item_4_title_link")).isDisplayed ());
-        }
+     }
+
      @Test
      public void testAboutLinkRedirect() {
         getDriver().get ("https://www.saucedemo.com");
@@ -55,7 +64,9 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.id("about_sidebar_link")).click();
         Assert.assertEquals(getDriver().getCurrentUrl(),"https://saucelabs.com/");
     }
+
     @Test
+    @Ignore
     public void testLAtimes_RomanS() throws InterruptedException{
         getDriver().get("https://www.latimes.com/");
         getDriver().findElement(By.xpath("//body[@class='page-body']/ps-header[@class='page-header-custom-element sticky-top']//span[@class='label']")).click();
@@ -63,6 +74,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//ps-header/div[1]/div[1]/div[1]/nav[1]/ul[1]/li[6]/div[1]/div[1]/a[1]")).click();
         Assert.assertEquals(getDriver().getTitle(), "Food - Los Angeles Times");
     }
+
     @Test
     public void testAboutUs(){
         getDriver().get("http://automationpractice.com/index.php");
@@ -87,14 +99,15 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
-
     public void testInformationDelivery() {
         getDriver().get("http://automationpractice.com/index.php");
         getDriver().findElement(By.cssSelector(".sf-with-ul[title=\"Women\"]")).click();
         getDriver().findElement(By.cssSelector("[title=\"Delivery\"]")).click();
 
         Assert.assertEquals(getDriver().getTitle(), "Delivery - My Store");
-}
+    }
+
+    @Test
     public void testGoToTermsAndConditionsPage_AnastasiaYakimova() {
         getDriver().get ("http://automationpractice.com");
         getDriver().findElement (By.xpath("//section[@id='block_various_links_footer']/ul/li[6]/a")).click();
@@ -121,16 +134,17 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver ().findElement (By.id ("finish")).click ();
         Assert.assertEquals (getDriver ().findElement (By.xpath ("//*[@id=\"checkout_complete_container\"]/h2")).getText (), "THANK YOU FOR YOUR ORDER");
     }
+
+    @Ignore
     @Test
     public void testAddToCartButton() throws InterruptedException{
         getDriver().get("https://www.demoblaze.com");
         getDriver().findElement(By.xpath("//body/div[5]/div/div[1]/div/a[4]")).click();
-        Thread.sleep(2000);
         getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div/div[1]/div/div/h4/a")).click();
         getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div[2]/div/a")).click();
-        Assert.assertTrue(getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div[2]/div/a")).isDisplayed ());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//body/div[5]/div/div[2]/div[2]/div/a")).isDisplayed());
     }
-    
+
      @Test
      public void testContactUs() {
         getDriver().get("http://automationpractice.com/index.php");
@@ -143,8 +157,8 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.id("submitMessage")).click();
         Assert.assertEquals(getDriver().findElement(By.xpath("//p[@class='alert alert-success']"))
                 .getText(),"Your message has been successfully sent to our team.");
-                
    }
+
 
     @Test
     public void testSaucedemo_EZ() {
@@ -155,5 +169,89 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector(
                 "#login_button_container > div > form > div.error-message-container.error")).isDisplayed());
+
+   @Test
+   @Ignore
+    public void testFindBook_VZ() {
+        getDriver().get("https://www.abebooks.com/");
+        getDriver().findElement(By.id("rare-books")).click();
+        getDriver().findElement(By.xpath("//input[@placeholder='Enter author']")).sendKeys("Tolstoy");
+        getDriver().findElement(By.name("prl")).sendKeys("400");
+        getDriver().findElement(By.xpath("//button[@class='button-primary']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//span[@data-cy='listing-title']"))
+                .getText(),"The Tragedy of Tolstoy");
+   }
+
+    @Test
+    public void testBrowseLanguages_NO() {
+        getDriver().get ("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement (By.xpath("//div[@id='navigation']/ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        Assert.assertEquals(getDriver().findElement (By.xpath("//table[@id='category']/tbody/tr/th[text()='Language']"))
+                .getText(), "Language");
+        Assert.assertEquals(getDriver().findElement (By.xpath("//table[@id='category']/tbody/tr/th[text()='Author']"))
+                .getText(), "Author");
+    }
+
+    @Test
+    public void testFilterIconSortingPriceFromLowToHigh_AnastasiaYakimova() {
+        getDriver().get("https://www.saucedemo.com");
+        getDriver().findElement(By.id("user-name")).sendKeys("standard_user");
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
+        getDriver().findElement(By.id("login-button")).click();
+        getDriver().findElement(By.xpath("//div[@id='header_container']/div[2]/div[2]/span/select")).click();
+        getDriver().findElement(By.xpath("//div[@id='header_container']/div[2]/div[2]/span/select/option[3]")).click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
+    }
+
+    @Test
+    public void testSaleSticker_ET() {
+        getDriver().get("http://automationpractice.com/index.php");
+        WebElement searchInput = getDriver().findElement(By.cssSelector(".search_query.form-control.ac_input"));
+        searchInput.sendKeys("Printed Chiffon Dress");
+        getDriver().findElement(By.cssSelector(".btn.btn-default.button-search")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@itemprop='name']/*[@title='Printed Chiffon Dress']"))
+                .getText(), "Printed Chiffon Dress");
+        Assert.assertEquals(getDriver().findElement(By.xpath("(//span[@class='price-percent-reduction'])[3]"))
+                .getText(), "-20%");
+    }
+
+    @Test
+    public void testCheckForBrokenIMGs() throws IOException {
+        getDriver().get("https://www.rifle.com");
+        List<WebElement> listOfElementsWithIMGtag = getDriver().findElements(By.tagName("img"));
+
+        if (listOfElementsWithIMGtag.size() != 0) {
+            for (WebElement tempElement : listOfElementsWithIMGtag) {
+                String imgSource = tempElement.getAttribute("src");
+
+                    HttpURLConnection connection = (HttpURLConnection)new URL(imgSource).openConnection();
+                    connection.connect();
+                    int responseCode = connection.getResponseCode();
+
+                    Assert.assertTrue(responseCode >= 200 && responseCode < 400);
+            }
+        }
+    }
+
+    @Test
+    public void testSignGuestbookTest_NO() {
+
+        String random = "" + ((int) (Math.random() * 900) + 100);
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//a[@href='/guestbookv2.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='./signv2.html']")).click();
+        getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys("Nataliia");
+        getDriver().findElement(By.xpath("//input[@name='location']")).sendKeys("Louisiana");
+        getDriver().findElement(By.xpath("//input[@name='email']")).sendKeys("psvnatali@gmail.com");
+        getDriver().findElement(By.xpath("//input[@name='homepage']")).sendKeys("lagoldgymnastics.com");
+        getDriver().findElement(By.xpath("//input[@name='captcha']")).sendKeys(random);
+        getDriver().findElement(By.xpath("//textarea[@name='comment']")).sendKeys("test message");
+        getDriver().findElement(By.xpath("//input[@type='submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//div[@id='main']/p[contains(text(),' Error: Invalid security code.')]"))
+                .getText(), "Error: Error: Invalid security code.");
     }
 }
