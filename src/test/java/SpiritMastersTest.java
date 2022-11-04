@@ -97,7 +97,7 @@ public class SpiritMastersTest extends BaseTest {
                 "[href^=\"/butt\"]"));
         Assert.assertEquals(link.getText(), "Buttons");
     }
-
+    @Ignore
     @Test
     public void testFillRegistrationForm_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/automation-practice-form");
