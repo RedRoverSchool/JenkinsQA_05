@@ -16,11 +16,28 @@ import java.util.*;
 
 public class SpiritMastersTest extends BaseTest {
 
+    private static final String URL_DEMOQA = "https://demoqa.com/";
+
+    private Actions action;
+
+    private Actions getActions() {
+        if(action == null) {
+            action = new Actions(getDriver());
+        }
+        return action;
+    }
+
+    private void getJavascriptExecutor(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", element);
+    }
+
     private WebElement findCard_PK(int index) {
-        getDriver().get("https://demoqa.com/");
+        getDriver().get(URL_DEMOQA);
         List<WebElement> category = getDriver().findElements(By.className("card"));
         return category.get(index);
     }
+
     @Ignore
     @Test
     public void testSwitchToSecondWindow_OlPolezhaeva() {
@@ -149,8 +166,7 @@ public class SpiritMastersTest extends BaseTest {
         currentAddressField.click();
         currentAddressField.sendKeys("CA, San Francisco, 17 avn, 1");
 
-        JavascriptExecutor js = (JavascriptExecutor)getDriver();
-        js.executeScript("arguments[0].scrollIntoView();", getDriver().findElement(By.id("submit")));
+        getJavascriptExecutor(getDriver().findElement(By.id("submit")));
 
         WebElement nameStateMenu = getDriver().findElement(By.id("react-select-3-input"));
         nameStateMenu.sendKeys("NCR");
@@ -185,7 +201,7 @@ public class SpiritMastersTest extends BaseTest {
 
     @Test
     public void testRedirectToSeleniumTrainingTab_PK(){
-        getDriver().get("https://demoqa.com/");
+        getDriver().get(URL_DEMOQA);
         String currentWindow = getDriver().getWindowHandle();
         WebElement newWindow = getDriver().findElement(By.xpath("//div[@class='home-banner']/a"));
         String link = newWindow.getAttribute("href");
@@ -295,7 +311,7 @@ public class SpiritMastersTest extends BaseTest {
     public void testToolTips_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/tool-tips");
 
-        new Actions(getDriver()).moveToElement(getDriver().findElement(By.xpath("//a[text()='Contrary']"))).build().perform();
+        getActions().moveToElement(getDriver().findElement(By.xpath("//a[text()='Contrary']"))).build().perform();
         String actualToolTip = new WebDriverWait(getDriver(), Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tooltip-inner']"))).getText();
 
         Assert.assertEquals(actualToolTip, "You hovered over the Contrary");
@@ -303,7 +319,7 @@ public class SpiritMastersTest extends BaseTest {
 
     @Test
     public void testTextBoxFields_AFedorova() {
-        getDriver().get("https://demoqa.com/");
+        getDriver().get(URL_DEMOQA);
 
         String name = "Anna Fedorova";
         String email = "test@gmail.com";
@@ -334,8 +350,7 @@ public class SpiritMastersTest extends BaseTest {
         tbPermAddress.sendKeys(pAddress);
 
         WebElement submitBtn = getDriver().findElement(By.id("submit"));
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].click();", submitBtn);
+        getJavascriptExecutor(submitBtn);
 
         List<String> actualResult = new ArrayList<>();
         actualResult.add(getDriver().findElement(By.id("name")).getText());
@@ -351,7 +366,7 @@ public class SpiritMastersTest extends BaseTest {
         List<String> expectedResult = new ArrayList<>(List.of("You have " +
                 "selected :","desktop","notes","commands"));
 
-        getDriver().get("https://demoqa.com/");
+        getDriver().get(URL_DEMOQA);
 
         getDriver().findElement(By.cssSelector("div.category-cards>div:first" +
                 "-of-type")).click();
@@ -379,5 +394,20 @@ public class SpiritMastersTest extends BaseTest {
         }
 
         Assert.assertEquals(actualResult,expectedResult);
+    }
+
+    @Test
+    public void testSlider_KI() {
+        getDriver().get(URL_DEMOQA);
+
+        getDriver().findElement(By.xpath("//div[@class='category-cards']/div[4]")).click();
+        getJavascriptExecutor(getDriver().findElement(By.xpath("//span[text()='Slider']")));
+        getDriver().findElement(By.xpath("//span[text()='Slider']")).click();
+
+        WebElement slider = getDriver().findElement(By.xpath("//input[@type='range']"));
+        getActions().dragAndDropBy(slider,260, 0).perform();
+        String actualSliderValue = getDriver().findElement(By.id("sliderValue")).getAttribute("value");
+
+        Assert.assertEquals(actualSliderValue, "100");
     }
 }
