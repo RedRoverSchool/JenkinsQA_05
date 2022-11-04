@@ -120,37 +120,12 @@ public class GroupCodeRedTest extends BaseTest {
         getDriver().get("https://openweathermap.org/");
         Thread.sleep(5000);
         WebElement guideLink = getDriver().findElement(By.xpath("//div[@id=\"desktop-menu\"]//a[text()='Guide']"));
-        Thread.sleep(1000);
         Assert.assertEquals(guideLink.getText(), "Guide");
         guideLink.click();
         String currentUrl = getDriver().getCurrentUrl();
         Assert.assertEquals(currentUrl, "https://openweathermap.org/guide");
 
         WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class=\"breadcrumb pull-right hidden-xs\"]//a"));
-        Assert.assertEquals(homeLink.getText(), "Home");
-        homeLink.click();
-
-        Thread.sleep(4000);
-        WebElement apiLink = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[text()='API']"));
-        Thread.sleep(1000);
-        Assert.assertEquals(apiLink.getText(), "API");
-        apiLink.click();
-        Thread.sleep(2000);
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/api");
-
-        homeLink = getDriver().findElement(By.xpath("//ol[@class=\"breadcrumb pull-right hidden-xs\"]//a"));
-        Assert.assertEquals(homeLink.getText(), "Home");
-        homeLink.click();
-
-        Thread.sleep(4000);
-        WebElement dashboardLink = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[text()='Dashboard']"));
-        Thread.sleep(1000);
-        Assert.assertEquals(dashboardLink.getText(), "Dashboard");
-        dashboardLink.click();
-        Thread.sleep(2000);
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/weather-dashboard");
-
-        homeLink = getDriver().findElement(By.xpath("//ol[@class=\"breadcrumb pull-right hidden-xs\"]//a"));
         Assert.assertEquals(homeLink.getText(), "Home");
         homeLink.click();
     }
@@ -160,7 +135,6 @@ public class GroupCodeRedTest extends BaseTest {
         getDriver().get("https://openweathermap.org/");
         Thread.sleep(5000);
         WebElement apiLink = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[text()='API']"));
-        Thread.sleep(1000);
         Assert.assertEquals(apiLink.getText(), "API");
         apiLink.click();
         Thread.sleep(2000);
@@ -176,7 +150,6 @@ public class GroupCodeRedTest extends BaseTest {
         getDriver().get("https://openweathermap.org/");
         Thread.sleep(5000);
         WebElement dashboardLink = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[text()='Dashboard']"));
-        Thread.sleep(1000);
         Assert.assertEquals(dashboardLink.getText(), "Dashboard");
         dashboardLink.click();
         Thread.sleep(2000);
