@@ -7,7 +7,6 @@ import runner.BaseTest;
 
 public class GroupSqaeTest extends BaseTest {
 
-    @Ignore
     @Test
     public void testNameFormInsurance() {
         getDriver().get("https://insurance.experian.com/sign-up/name");

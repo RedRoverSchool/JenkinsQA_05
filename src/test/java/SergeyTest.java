@@ -15,3 +15,5 @@ public class SergeyTest extends BaseTest {
         Assert.assertEquals(link.getText(), "Autocomplete");
     }
 }
+
+

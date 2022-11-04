@@ -67,4 +67,50 @@ public class GroupCodeRedTest extends BaseTest {
                 "the software development cycle and our open source compatible," +
                 " massively scalable platform makes that a reality.");
     }
+    
+    @Test
+    public void testButton() {
+        getDriver().get("https://formy-project.herokuapp.com/");
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/buttons']"));
+        link.click();
+        String actualResult = getDriver().getCurrentUrl();
+        Assert.assertEquals(actualResult, "https://formy-project.herokuapp.com/buttons");
+    }
+
+    @Test
+    public void testDatepicker()  {
+        getDriver().get("https://formy-project.herokuapp.com/");
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/datepicker']"));
+        link.click();
+        String actualTitle = getDriver().findElement(By.xpath("/html/body/div/h1")).getText();
+        Assert.assertEquals(actualTitle, "Datepicker");
+        String actualAddress = getDriver().getCurrentUrl();
+        Assert.assertEquals(actualAddress, "https://formy-project.herokuapp.com/datepicker");
+        WebElement dateInput = getDriver().findElement(By.xpath("//div[@class='row']//input[@id='datepicker']"));
+        dateInput.click();
+        WebElement todayDate = getDriver().findElement(By.xpath
+                ("/html/body/div[2]/div[1]/table/tbody/tr[1]/td[@class='today day']"));
+        todayDate.click();
+    }
+
+    @Test
+    public void testDropdown() throws InterruptedException {
+        getDriver().get("https://formy-project.herokuapp.com/");
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/dropdown']"));
+        link.click();
+        String actualResult = getDriver().getCurrentUrl();
+        Assert.assertEquals(actualResult, "https://formy-project.herokuapp.com/dropdown");
+        String actualTitle = getDriver().findElement(By.xpath("/html/body/div/h1")).getText();
+        Assert.assertEquals(actualTitle, "Dropdown");
+        WebElement dropDown = getDriver().findElement(By.xpath("//div[@class='dropdown']" +
+                "//button[@id=\"dropdownMenuButton\"]"));
+        dropDown.click();
+        WebElement modal = getDriver().findElement(By.xpath("/html/body/div/div/div/a[11]"));
+        modal.click();
+        String actualModalResult = getDriver().getCurrentUrl();
+        Assert.assertEquals(actualModalResult, "https://formy-project.herokuapp.com/modal");
+        Thread.sleep(100);
+        String actualModalHeader = getDriver().findElement(By.xpath("/html/body/div/h1")).getText();
+        Assert.assertEquals(actualModalHeader,"Modal");
+    }
 }
