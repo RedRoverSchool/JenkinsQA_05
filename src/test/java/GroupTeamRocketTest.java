@@ -243,4 +243,14 @@ public class GroupTeamRocketTest extends BaseTest {
                 By.xpath("//div[@id='main']/p[contains(text(),' Error: Invalid security code.')]"))
                 .getText(), "Error: Error: Invalid security code.");
     }
+
+    @Test
+    public void testTenLanguageStartNumbers_NO() {
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='0.html']")).click();
+
+        Assert.assertEquals(getDriver().findElements(By.xpath("//tbody/tr/td/a")).size(), 10);
+    }
 }
