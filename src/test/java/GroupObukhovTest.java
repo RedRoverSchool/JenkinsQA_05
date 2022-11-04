@@ -262,7 +262,7 @@ public class GroupObukhovTest extends BaseTest {
         newWindowsSet.removeAll(oldWindowsSet);
         String newWindowHandle = newWindowsSet.iterator().next();
         getDriver().switchTo().window(newWindowHandle);
-        Assert.assertTrue(getDriver().getCurrentUrl().contains("https://spb.hh.ru/employer/678191?hhtmFrom=vacancy_search_list"));
+        Assert.assertTrue(getDriver().getCurrentUrl().contains("hh.ru"));
     }
 
     @Test
