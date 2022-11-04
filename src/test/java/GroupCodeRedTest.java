@@ -119,13 +119,13 @@ public class GroupCodeRedTest extends BaseTest {
     public void testToggleMenuGuide() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
         Thread.sleep(5000);
-        WebElement guideLink = getDriver().findElement(By.xpath("//div[@id=\"desktop-menu\"]//a[text()='Guide']"));
+        WebElement guideLink = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[text()='Guide']"));
         Assert.assertEquals(guideLink.getText(), "Guide");
         guideLink.click();
         String currentUrl = getDriver().getCurrentUrl();
         Assert.assertEquals(currentUrl, "https://openweathermap.org/guide");
 
-        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class=\"breadcrumb pull-right hidden-xs\"]//a"));
+        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
         Assert.assertEquals(homeLink.getText(), "Home");
         homeLink.click();
     }
@@ -140,7 +140,7 @@ public class GroupCodeRedTest extends BaseTest {
         Thread.sleep(2000);
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/api");
 
-        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class=\"breadcrumb pull-right hidden-xs\"]//a"));
+        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
         Assert.assertEquals(homeLink.getText(), "Home");
         homeLink.click();
     }
@@ -155,7 +155,7 @@ public class GroupCodeRedTest extends BaseTest {
         Thread.sleep(2000);
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/weather-dashboard");
 
-        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class=\"breadcrumb pull-right hidden-xs\"]//a"));
+        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
         Assert.assertEquals(homeLink.getText(), "Home");
         homeLink.click();
     }
