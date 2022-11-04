@@ -350,6 +350,7 @@ public class SpiritMastersTest extends BaseTest {
 
         WebElement submitBtn = getDriver().findElement(By.id("submit"));
         getJavascriptExecutor(submitBtn);
+        submitBtn.click();
 
         List<String> actualResult = new ArrayList<>();
         actualResult.add(getDriver().findElement(By.id("name")).getText());
