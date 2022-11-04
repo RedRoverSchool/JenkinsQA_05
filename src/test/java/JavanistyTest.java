@@ -41,7 +41,8 @@ public class JavanistyTest extends BaseTest {
 
         Assert.assertEquals(expectedConfirmationMessage, actualConfirmationMessage);
     }
-
+     
+    @Ignore
     @Test
     public void testBdoWarrior2() throws InterruptedException {
         getDriver().get("https://bdocodex.com/ru/skillbuilder/");
@@ -94,6 +95,7 @@ public class JavanistyTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "http://hlebnitca.ru/about");
     }
 
+    @Ignore
     @Test
     public void testAboutHlebnica(){
         getDriver().get ("http://hlebnitca.ru/about");
