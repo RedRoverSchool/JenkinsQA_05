@@ -6,7 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class SauceDemoLoginPageTest extends SauceDemoBaseTest {
-    protected final static String WRONG_USERNAME_OR_PASSWORD_EXCEPTION_MSG = "Epic sadface: Username and password do not match any user in this service";
+    private final static String WRONG_USERNAME_OR_PASSWORD_EXCEPTION_MSG = "Epic sadface: Username and password do not match any user in this service";
 
     @Test
     public void testStandardUserLoginIn() {
