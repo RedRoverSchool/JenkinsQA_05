@@ -86,4 +86,11 @@ public class JavanistyTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@value='Calculate']")).click();
         Assert.assertTrue(getDriver().findElement(By.xpath("//input[@class='content']")).isDisplayed());
     }
+
+    @Test
+    public void testIlyaSecondTest() {
+        getDriver().get("https://karkas.k3-cottage.ru/");
+        WebElement text = getDriver().findElement(By.xpath("//li/a[@href='#features']"));
+        Assert.assertEquals(text.getText(), "ВОЗМОЖНОСТИ");
+    }
 }
