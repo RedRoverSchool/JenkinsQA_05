@@ -224,4 +224,30 @@ public class GroupObukhovTest extends BaseTest {
         Assert.assertNotEquals(startBackgroundColor, afterMouseNavigateBackgroundColor);
         Assert.assertEquals(afterMouseNavigateBackgroundColor, "rgb(128, 74, 255)");
     }
+
+    @Test
+    public void testCheckHowToUseService(){
+        getDriver().get(URL);
+
+        List<WebElement> stepNumbersHowToUseService = getDriver().findElements(By.cssSelector(".block3-grid span"));
+        List<WebElement> stepNamesHowToUseService = getDriver().findElements(By.cssSelector(".block3-grid li"));
+        List<WebElement> descriptionHowToUseService = getDriver().findElements(By.cssSelector(".block3-grid p"));
+
+        String propertyActiveButton = "2px solid rgb(128, 74, 255)";
+        List<String> stepsNames = Arrays.asList("Найди самокат", "Отсканируй QR", "Выбери тариф", "Можно ехать!");
+        List<String> stepsDescriptions = Arrays.asList(
+                "На карте в приложении отмечены все наши самокаты, доступные для аренды.В жизни они фиолетовые, иногда на них бывает брендинг города",
+                "Когда самокат перед тобой – нажми на круглую кнопку сканирования.Отсканируй QR-код.Он будет на руле самоката",
+                "Осталось выбрать тариф.Поминутный выгоден для небольших поездок.Если собрался кататься долго – лучше взять “Пока не сядет” или проездной на день",
+                "Выбрал тариф?Жми “Старт” и можно ехать.Когда решишь завершить поездку – найди на карте парковку.Завершить поездку можно только на одной из них."
+        );
+
+        for (int i = 0; i < stepNumbersHowToUseService.size(); i++) {
+            stepNumbersHowToUseService.get(i).click();
+            Assert.assertEquals(stepNumbersHowToUseService.get(i).getCssValue("border"), propertyActiveButton);
+            Assert.assertEquals(stepNumbersHowToUseService.get(i).getText(), String.valueOf(i + 1));
+            Assert.assertEquals(stepNamesHowToUseService.get(i).getText().substring(2), stepsNames.get(i));
+            Assert.assertEquals(descriptionHowToUseService.get(i).getText().replace("\n", ""), stepsDescriptions.get(i));
+        }
+    }
 }
