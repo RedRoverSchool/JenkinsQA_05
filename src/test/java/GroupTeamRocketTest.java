@@ -249,7 +249,6 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name='captcha']")).sendKeys(random);
         getDriver().findElement(By.xpath("//textarea[@name='comment']")).sendKeys("test message");
         getDriver().findElement(By.xpath("//input[@type='submit']")).click();
-
         Assert.assertEquals(getDriver().findElement(
                 By.xpath("//div[@id='main']/p[contains(text(),' Error: Invalid security code.')]"))
                 .getText(), "Error: Error: Invalid security code.");
