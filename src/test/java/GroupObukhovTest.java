@@ -9,6 +9,7 @@ import runner.BaseTest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class GroupObukhovTest extends BaseTest {
 
@@ -250,4 +251,31 @@ public class GroupObukhovTest extends BaseTest {
             Assert.assertEquals(descriptionHowToUseService.get(i).getText().replace("\n", ""), stepsDescriptions.get(i));
         }
     }
+
+    @Test
+    public void testLinkVacancy() {
+        getDriver().get(URL);
+        WebElement linkVacancy = getDriver().findElement(By.xpath("//li[@class = 'menu-item']/a[text()='Вакансии']"));
+        Set<String> oldWindowsSet = getDriver().getWindowHandles();
+        linkVacancy.click();
+        Set<String> newWindowsSet = getDriver().getWindowHandles();
+        newWindowsSet.removeAll(oldWindowsSet);
+        String newWindowHandle = newWindowsSet.iterator().next();
+        getDriver().switchTo().window(newWindowHandle);
+        Assert.assertTrue(getDriver().getCurrentUrl().contains("https://spb.hh.ru/employer/678191?hhtmFrom=vacancy_search_list"));
+    }
+
+    @Test
+    public void testLinkVKontakte() {
+        getDriver().get(URL);
+        WebElement vKontakte = getDriver().findElement(By.xpath("//a[@href='https://vk.com/urent_russia']"));
+        Set<String> oldWindowsSet = getDriver().getWindowHandles();
+        vKontakte.click();
+        Set<String> newWindowsSet = getDriver().getWindowHandles();
+        newWindowsSet.removeAll(oldWindowsSet);
+        String newWindowHandle = newWindowsSet.iterator().next();
+        getDriver().switchTo().window(newWindowHandle);
+        Assert.assertTrue(getDriver().getCurrentUrl().contains("vk.com"));
+    }
+
 }
