@@ -300,6 +300,14 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
+    public void testSamsungGalaxyS7Price_ZB() {
+        getDriver().get("https://www.demoblaze.com/");
+        getDriver().findElement(By.xpath("//h4/a[@href='prod.html?idp_=4']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h3[@class='price-container']")).getText(),
+                "$800 *includes tax");
+    }
+    
+    @Test 
     public void testSwitchToPageCompareInsuranceQuote_VadimTref() {
         getDriver().get("https://www.statewidedealerinsurance.com/");
         getDriver().findElement(By.id("ZipCode")).sendKeys("11230");
