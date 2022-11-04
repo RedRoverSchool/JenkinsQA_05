@@ -9,7 +9,7 @@ import runner.BaseTest;
 public class WondMindsTest extends BaseTest {
 
     @Test
-    public void testTula(){
+    public void testGorodTula(){
         getDriver().get("https://rp5.ru");
         WebElement search = getDriver().findElement(By.name("searchStr"));
         search.sendKeys("Тула\n");
