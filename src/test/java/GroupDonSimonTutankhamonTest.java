@@ -163,6 +163,20 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
+    public void testRadioButtons_WebdDiverUniversityCom() {
+
+        getDriver().get("https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html");
+
+        WebElement checkedCheckbox = getDriver().findElement(By.cssSelector("[type=checkbox]:checked"));
+        Assert.assertEquals(checkedCheckbox.getAttribute("value"), "option-3");
+        Assert.assertTrue(checkedCheckbox.isSelected());
+
+        WebElement unCheckedCheckbox = getDriver().findElement(By.cssSelector("[type=checkbox]:not(:checked)"));
+        Assert.assertEquals(unCheckedCheckbox.getAttribute("value"), "option-1");
+        Assert.assertFalse(unCheckedCheckbox.isSelected());
+    }
+
+    @Test
     public void testButtonsLinkText_HerokuApp() {
 
         getDriver().get("https://formy-project.herokuapp.com/");
