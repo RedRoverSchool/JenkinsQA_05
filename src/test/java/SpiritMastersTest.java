@@ -1,4 +1,3 @@
-import org.checkerframework.checker.initialization.qual.Initialized;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,17 +16,17 @@ public class SpiritMastersTest extends BaseTest {
 
     private static final String URL_DEMOQA = "https://demoqa.com/";
 
-    private Actions action;
-
     private Actions getActions() {
-        if (action == null) {
-            action = new Actions(getDriver());
-        }
-        return action;
+        return new Actions(getDriver());
     }
 
     private Select getSelect(WebElement element) {
         return new Select(element);
+    }
+
+    private void additionEmoji(String elementById, String emoji) {
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) getDriver();
+        javascriptExecutor.executeScript("document.getElementById('" + elementById + "').value='" + emoji + "';");
     }
 
     private WebElement findCard_PK(int index) {
@@ -445,9 +444,12 @@ public class SpiritMastersTest extends BaseTest {
                     .click().pause(250).perform();
         getDriver().findElement(By.id("addNewRecordButton")).click();
 
+        additionEmoji("firstName", "\uD83D\uDCA9\uD83D\uDCA9\uD83D\uDCA9");
+        additionEmoji("lastName", "(ノಠ益ಠ)ノ彡┻━┻");
+
         getActions().pause(250)
-                .moveToElement(getDriver().findElement(By.id("firstName"))).click().sendKeys("Chloë")
-                .moveToElement(getDriver().findElement(By.id("lastName"))).click().sendKeys("Rømer")
+                .moveToElement(getDriver().findElement(By.id("firstName"))).click().sendKeys(" ")
+                .moveToElement(getDriver().findElement(By.id("lastName"))).click().sendKeys(" ")
                 .moveToElement(getDriver().findElement(By.id("userEmail"))).click().sendKeys("email...@...domain...com")
                 .moveToElement(getDriver().findElement(By.id("age"))).click().sendKeys("0")
                 .moveToElement(getDriver().findElement(By.id("salary"))).click().sendKeys("0000999999")
