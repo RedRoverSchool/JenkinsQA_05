@@ -143,6 +143,40 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
+    public void testTextByLink_SelectorsHubCom() throws InterruptedException {
+
+        String textByLink = "A tool to generate manual test case automatically, click to learn more";
+
+        getDriver().get("https://selectorshub.com/xpath-practice-page/");
+
+        WebElement linkByText = getDriver().findElement(By.linkText(textByLink));
+
+        Assert.assertEquals(linkByText.getTagName(), "a");
+        Assert.assertEquals(linkByText.getCssValue("box-sizing"), "border-box");
+
+        WebElement linkByPartialText = getDriver().findElement(By.partialLinkText("generate"));
+
+        Thread.sleep(1500);
+
+        Assert.assertEquals(linkByPartialText.getRect(), linkByText.getRect());
+        Assert.assertEquals(linkByPartialText.getLocation(), linkByPartialText.getLocation());
+    }
+
+    @Test
+    public void testRadioButtons_WebdDiverUniversityCom() {
+
+        getDriver().get("https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html");
+
+        WebElement checkedCheckbox = getDriver().findElement(By.cssSelector("[type=checkbox]:checked"));
+        Assert.assertEquals(checkedCheckbox.getAttribute("value"), "option-3");
+        Assert.assertTrue(checkedCheckbox.isSelected());
+
+        WebElement unCheckedCheckbox = getDriver().findElement(By.cssSelector("[type=checkbox]:not(:checked)"));
+        Assert.assertEquals(unCheckedCheckbox.getAttribute("value"), "option-1");
+        Assert.assertFalse(unCheckedCheckbox.isSelected());
+    }
+
+    @Test
     public void testButtonsLinkText_HerokuApp() {
 
         getDriver().get("https://formy-project.herokuapp.com/");
@@ -179,5 +213,19 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         }
 
         Assert.assertEquals(getDriver().getCurrentUrl(), url);
+    }
+
+    @Test
+    public void testChangeCategoryInSidebarWhenChoosingWomenCategory() {
+        getDriver().get("http://automationpractice.com/");
+
+        WebElement womenCategoryButton = getDriver().findElement(By.xpath("//li/a[@title='Women']"));
+        womenCategoryButton.click();
+
+        WebElement sidebarCategoryName = getDriver().findElement(
+                By.xpath("//div[@id='categories_block_left']/h2"));
+
+
+        Assert.assertEquals(sidebarCategoryName.getText(), "WOMEN");
     }
 }

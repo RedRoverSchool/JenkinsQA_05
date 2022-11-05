@@ -10,9 +10,18 @@ import runner.BaseTest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupTeamRocketTest extends BaseTest {
+
+    final List<String> EXPECTED_ITEMS = List.of(
+            "What's New",
+            "Women",
+            "Men",
+            "Gear",
+            "Training",
+            "Sale");
 
     @Test
     public void testAddElementHerokuapp() {
@@ -413,5 +422,24 @@ public class GroupTeamRocketTest extends BaseTest {
         }
 
         Assert.assertEquals(getDriver().getCurrentUrl(), url);
+    }
+    
+    @Test
+    public void testLumaTabPanel() {
+
+        getDriver().get("https://magento.softwaretestingboard.com");
+
+        List<WebElement> elementList = getDriver().findElements(By.xpath("//ul[@class='ui-menu ui-widget ui-widget-content ui-corner-all']/li"));
+        List<String> strlist  = WebelementToString(elementList);
+
+        Assert.assertEquals(strlist, EXPECTED_ITEMS);
+    }
+
+    public static List<String> WebelementToString (List<WebElement> elementList) {
+        List<String> stringList = new ArrayList<>();
+        for (WebElement element : elementList) {
+            stringList.add(element.getText());
+        }
+        return stringList;
     }
 }
