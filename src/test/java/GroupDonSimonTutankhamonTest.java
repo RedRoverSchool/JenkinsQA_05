@@ -177,6 +177,30 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
+    public void testHiddenElements_WebdDiverUniversityCom() throws InterruptedException {
+
+        getDriver().get("https://webdriveruniversity.com/Hidden-Elements/index.html");
+
+        WebElement notDisplayedButton = getDriver().findElement(By.id("button1"));
+        Assert.assertTrue(notDisplayedButton.isEnabled());
+        Assert.assertFalse(notDisplayedButton.isDisplayed());
+
+        WebElement hiddenButton = getDriver().findElement(By.xpath("//span[@id='button2']"));
+        Assert.assertTrue(hiddenButton.isEnabled());
+        Assert.assertFalse(hiddenButton.isDisplayed());
+
+        WebElement zeroOpacityButton = getDriver().findElement(By.id("button3"));
+        Assert.assertTrue(zeroOpacityButton.isEnabled());
+        Assert.assertFalse(zeroOpacityButton.isDisplayed());
+
+        zeroOpacityButton.click();
+        Thread.sleep(150);
+
+        WebElement modalWindow = getDriver().findElement(By.id("myModalMoveClick"));
+        Assert.assertTrue(modalWindow.isDisplayed());
+    }
+
+    @Test
     public void testButtonsLinkText_HerokuApp() {
 
         getDriver().get("https://formy-project.herokuapp.com/");
