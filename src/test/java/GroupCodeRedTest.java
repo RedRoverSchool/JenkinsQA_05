@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -269,7 +270,7 @@ public class GroupCodeRedTest extends BaseTest {
         Assert.assertEquals(actualResult_2, expectedResult_2);
     }
 
-    @Test
+   @Test
     public void testAPICheck30Buttons() throws InterruptedException {
 
         String url = "https://openweathermap.org/";
@@ -279,8 +280,7 @@ public class GroupCodeRedTest extends BaseTest {
         getDriver().manage().window().maximize();
         Thread.sleep(4000);
 
-        WebElement aPIButton = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[@href='/api']"));
-        aPIButton.click();
+        getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[@href='/api']")).click();
 
         List<WebElement> orangeButtons29 = getDriver().findElements(By.xpath("//a[@class='btn_block orange round']"));
         List<WebElement> orangeButtons1 = getDriver().findElements(By.xpath("//a[@class='ow-btn round btn-orange']"));
