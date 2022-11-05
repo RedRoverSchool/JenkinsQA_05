@@ -442,4 +442,18 @@ public class GroupTeamRocketTest extends BaseTest {
         }
         return stringList;
     }
+
+    @Test
+    public void testCategoriesPanel_ZB() {
+        getDriver().get("https://www.demoblaze.com/");
+
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//div[@class='list-group']/a[text()='CATEGORIES']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//div[@class='list-group']/a[text()='Phones']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//div[@class='list-group']/a[text()='Laptops']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//div[@class='list-group']/a[text()='Monitors']")).isDisplayed());
+    }
 }
