@@ -450,7 +450,7 @@ public class SpiritMastersTest extends BaseTest {
         getDriver().findElement(By.id("addNewRecordButton")).click();
 
         additionEmoji("firstName", "\uD83D\uDCA9\uD83D\uDCA9\uD83D\uDCA9");
-        additionEmoji("lastName", "ヽ༼◉ل͜◉༽ﾉ");
+        additionEmoji("lastName", "(ノಠ益ಠ)ノ彡┻━┻");
 
         getActions().pause(250)
                 .moveToElement(getDriver().findElement(By.id("firstName"))).click().sendKeys(" ")
