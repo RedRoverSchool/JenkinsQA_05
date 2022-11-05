@@ -163,7 +163,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void testRadioButtons_WebdDiverUniversityCom() {
+    public void testCheckBoxes_WebdDiverUniversityCom() {
 
         getDriver().get("https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html");
 
@@ -174,6 +174,24 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         WebElement unCheckedCheckbox = getDriver().findElement(By.cssSelector("[type=checkbox]:not(:checked)"));
         Assert.assertEquals(unCheckedCheckbox.getAttribute("value"), "option-1");
         Assert.assertFalse(unCheckedCheckbox.isSelected());
+    }
+
+    @Test
+    public void testRadioButtons_WebdDiverUniversityCom() {
+
+        getDriver().get("https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html");
+
+        WebElement checkedRadioButton = getDriver().findElement(By.xpath("//input[@type='radio' and @checked]"));
+        Assert.assertEquals(checkedRadioButton.getAttribute("value"), "pumpkin");
+        Assert.assertTrue(checkedRadioButton.isSelected());
+
+        WebElement unCheckedRadioButton = getDriver().findElement(By.xpath("//input[@type='radio' and not(@checked) and @value='lettuce']"));
+        Assert.assertEquals(unCheckedRadioButton.getAttribute("name"), "vegetable");
+        Assert.assertFalse(unCheckedRadioButton.isSelected());
+
+        WebElement disabledRadioButton = getDriver().findElement(By.xpath("//input[@type='radio' and @disabled]"));
+        Assert.assertEquals(disabledRadioButton.getAttribute("type"), "radio");
+        Assert.assertFalse(disabledRadioButton.isEnabled());
     }
 
     @Test
