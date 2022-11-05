@@ -38,6 +38,16 @@ public class GroupCubsTest extends BaseTest {
     }
 
     @Test
+    public void testSmetankina(){
+        getDriver().get("https://demoqa.com/");
+        WebElement link = getDriver().findElement(By.xpath("//*[@id=\"app\"]/div/div/div[2]/div/div[4]/div/div[3]/h5"));
+        Assert.assertEquals(link.getText(), "Widgets");
+    }
+
+
+
+@Ignore
+    @Test
     public void testJudmi() {
         getDriver().get("http://automationpractice.com/");
 
