@@ -143,6 +143,26 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
+    public void testTextByLink_SelectorsHubCom() throws InterruptedException {
+
+        String textByLink = "A tool to generate manual test case automatically, click to learn more";
+
+        getDriver().get("https://selectorshub.com/xpath-practice-page/");
+
+        WebElement linkByText = getDriver().findElement(By.linkText(textByLink));
+
+        Assert.assertEquals(linkByText.getTagName(), "a");
+        Assert.assertEquals(linkByText.getCssValue("box-sizing"), "border-box");
+
+        WebElement linkByPartialText = getDriver().findElement(By.partialLinkText("generate"));
+
+        Thread.sleep(1500);
+
+        Assert.assertEquals(linkByPartialText.getRect(), linkByText.getRect());
+        Assert.assertEquals(linkByPartialText.getLocation(), linkByPartialText.getLocation());
+    }
+
+    @Test
     public void testButtonsLinkText_HerokuApp() {
 
         getDriver().get("https://formy-project.herokuapp.com/");
