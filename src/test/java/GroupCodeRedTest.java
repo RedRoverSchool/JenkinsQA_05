@@ -324,7 +324,6 @@ public class GroupCodeRedTest extends BaseTest {
         actualResult = getDriver().getTitle();
 
         Assert.assertEquals(actualResult, expectedResult);
-
         getDriver().quit();
     }
 
