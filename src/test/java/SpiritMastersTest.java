@@ -17,7 +17,6 @@ public class SpiritMastersTest extends BaseTest {
     private static final String URL_DEMOQA = "https://demoqa.com/";
 
     private Actions action;
-    private JavascriptExecutor js;
 
     private Actions getActions() {
         if (action == null) {
@@ -26,19 +25,9 @@ public class SpiritMastersTest extends BaseTest {
         return action;
     }
 
-    private JavascriptExecutor getJavascriptExecutor() {
-        if (js == null) {
-            js = (JavascriptExecutor) getDriver();
-        }
-        return js;
-    }
-
-    private void scrollToElement(WebElement element) {
-        getJavascriptExecutor().executeScript("arguments[0].scrollIntoView();", element);
-    }
-
     private void additionEmoji(String elementById, String emoji) {
-        getJavascriptExecutor().executeScript("document.getElementById('" + elementById + "').value='" + emoji + "';");
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) getDriver();
+        javascriptExecutor.executeScript("document.getElementById('" + elementById + "').value='" + emoji + "';");
     }
 
     private Select getSelect(WebElement element) {
@@ -180,7 +169,7 @@ public class SpiritMastersTest extends BaseTest {
         currentAddressField.click();
         currentAddressField.sendKeys("CA, San Francisco, 17 avn, 1");
 
-        scrollToElement(getDriver().findElement(By.id("submit")));
+        getActions().scrollToElement(getDriver().findElement(By.id("submit")));
 
         WebElement nameStateMenu = getDriver().findElement(By.id("react-select-3-input"));
         nameStateMenu.sendKeys("NCR");
@@ -364,8 +353,9 @@ public class SpiritMastersTest extends BaseTest {
         tbPermAddress.sendKeys(pAddress);
 
         WebElement submitBtn = getDriver().findElement(By.id("submit"));
-        scrollToElement(submitBtn);
+        getActions().scrollToElement(submitBtn);
         submitBtn.click();
+
 
         List<String> actualResult = new ArrayList<>();
         actualResult.add(getDriver().findElement(By.id("name")).getText());
@@ -417,7 +407,7 @@ public class SpiritMastersTest extends BaseTest {
         getDriver().get(URL_DEMOQA);
 
         getDriver().findElement(By.xpath("//div[@class='category-cards']/div[4]")).click();
-        scrollToElement(getDriver().findElement(By.xpath("//span[text()='Slider']")));
+        getActions().scrollToElement(getDriver().findElement(By.xpath("//span[text()='Slider']")));
         getActions().moveToElement(getDriver().findElement(By.xpath("//span[text()='Slider']")))
                 .click().pause(500).perform();
 
@@ -462,7 +452,7 @@ public class SpiritMastersTest extends BaseTest {
         additionEmoji("firstName", "\uD83D\uDCA9\uD83D\uDCA9\uD83D\uDCA9");
         additionEmoji("lastName", "ヽ༼◉ل͜◉༽ﾉ");
 
-        getActions()
+        getActions().pause(250)
                 .moveToElement(getDriver().findElement(By.id("firstName"))).click().sendKeys(" ")
                 .moveToElement(getDriver().findElement(By.id("lastName"))).click().sendKeys(" ")
                 .moveToElement(getDriver().findElement(By.id("userEmail"))).click().sendKeys("email...@...domain...com")
