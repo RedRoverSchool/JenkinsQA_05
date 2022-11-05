@@ -8,6 +8,9 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -203,8 +206,8 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         WebElement blockQuote = getDriver().findElement(By.xpath("//blockquote/p"));
         RelativeLocator.RelativeBy relativeBy = RelativeLocator.with(By.tagName("mark"));
 
-        WebElement fieldWithRandowText = getDriver().findElement(relativeBy.above(blockQuote));
-        Assert.assertEquals(fieldWithRandowText.getText(), "sed do eiusmod tempor incididunt ut labore");
+        WebElement fieldWithRandomText = getDriver().findElement(relativeBy.above(blockQuote));
+        Assert.assertEquals(fieldWithRandomText.getText(), "sed do eiusmod tempor incididunt ut labore");
     }
 
     @Test
@@ -229,6 +232,39 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
         WebElement modalWindow = getDriver().findElement(By.id("myModalMoveClick"));
         Assert.assertTrue(modalWindow.isDisplayed());
+    }
+
+    @Test
+    public void testDatePicker_WebdDiverUniversityCom() {
+
+        LocalDate today = LocalDate.now();
+        LocalDate todayOneYearAgo = today.minusYears(1);
+        int currentYear = today.getYear();
+        int currentMonth = today.getMonthValue();
+        int currentDay = today.getDayOfMonth();
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        String expectedDate = todayOneYearAgo.format(dateFormat);
+
+        getDriver().get("https://webdriveruniversity.com/Datepicker/index.html");
+
+        WebElement datePicker = getDriver().findElement(By.xpath("//div[@id='datepicker']/input"));
+        datePicker.click();
+
+        WebElement monthAndYearButton = getDriver().findElement(By.xpath(String.format("//th[contains (text(), %s)]", currentYear)));
+        monthAndYearButton.click();
+
+        WebElement leftArrow = getDriver().findElement(RelativeLocator.with(By.tagName("th")).toRightOf(monthAndYearButton));
+        leftArrow.click();
+
+        WebElement monthToClick = getDriver().findElements(By.xpath("//div[@class='datepicker-months']//span")).get(currentMonth - 1);
+        monthToClick.click();
+
+        WebElement dayToClick = getDriver().findElements(By.xpath("//div[@class='datepicker-days']//td[@class='day']")).get(currentDay - 1);
+        dayToClick.click();
+
+        String actualDate = datePicker.getAttribute("value");
+
+        Assert.assertEquals(actualDate, expectedDate);
     }
 
     @Test
