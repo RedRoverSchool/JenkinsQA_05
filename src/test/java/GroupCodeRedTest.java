@@ -10,6 +10,8 @@ import runner.BaseTest;
 
 import java.time.Duration;
 
+import static java.sql.DriverManager.getDriver;
+
 
 public class GroupCodeRedTest extends BaseTest {
     private String baseUrlHerokuapp = "https://formy-project.herokuapp.com";
@@ -309,4 +311,24 @@ public class GroupCodeRedTest extends BaseTest {
         String actualResult = getDriver().findElement(By.xpath("//h5")).getText();
         Assert.assertEquals(actualResult,"Modal title");
     }
+
+    @Test
+    public void testCorrectTitlePresence() throws InterruptedException {
+
+        String baseUrl = "https://portal.311.nyc.gov/";
+        String expectedResult = "Home  · NYC311";
+        String actualResult = "";
+
+        getDriver().get(baseUrl);
+        Thread.sleep(2000);
+        actualResult = getDriver().getTitle();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+        getDriver().quit();
+    }
+
+
+
+
 }
