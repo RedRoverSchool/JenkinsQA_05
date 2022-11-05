@@ -140,7 +140,6 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals (getDriver ().findElement (By.xpath ("//*[@id=\"checkout_complete_container\"]/h2")).getText (), "THANK YOU FOR YOUR ORDER");
     }
 
-
     @Test
     public void testAddToCartButton() {
         getDriver().get("https://www.demoblaze.com");
@@ -358,6 +357,15 @@ public class GroupTeamRocketTest extends BaseTest {
                 .size(),3);
     }
 
+    @Test
+    public void testContactUsMessagePopsUp_WhenSendingMessage_AnastasiaYakimova() {
+        getDriver().get("https://www.demoblaze.com/");
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Contact')]")).click();
+        getDriver().findElement(By.xpath("//button[@type = 'button'][contains(text(), 'Send message')]")).click();
+
+        Assert.assertEquals(getDriver().switchTo().alert().getText(),"Thanks for the message!!");
+    }
+    
     @Test
     public void testContextMenu_ET() {
         getDriver().get("https://the-internet.herokuapp.com/");
