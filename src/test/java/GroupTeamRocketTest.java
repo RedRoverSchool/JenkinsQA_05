@@ -336,4 +336,23 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(),"Search Results - Powell's Books");
         Assert.assertTrue(getDriver().findElement(By.xpath("//img[contains(@alt,'Software Testing and Quality Assurance: Theory and Practice')]")).isDisplayed());
     }
+    @Test
+    public void testRemoveElementHerokuapp() {
+        getDriver().get("https://the-internet.herokuapp.com/");
+        getDriver().findElement(By.xpath("//a[@href='/add_remove_elements/']")).click();
+        getDriver().findElement(By.xpath("//button[@onclick='addElement()']")).click();
+        getDriver().findElement(By.xpath("//button[@class='added-manually']")).click();
+        Assert.assertTrue(getDriver().findElements(By.xpath("//button[@class='added-manually']")).isEmpty());
+    }
+
+    @Test
+    public void testAddElementsHerokuapp() {
+        getDriver().get("https://the-internet.herokuapp.com/");
+        getDriver().findElement(By.xpath("//a[@href='/add_remove_elements/']")).click();
+        getDriver().findElement(By.xpath("//button[@onclick='addElement()']")).click();
+        getDriver().findElement(By.xpath("//button[@onclick='addElement()']")).click();
+        getDriver().findElement(By.xpath("//button[@onclick='addElement()']")).click();
+        Assert.assertEquals(getDriver().findElements(By.xpath("//button[@class='added-manually']"))
+                .size(),3);
+    }
 }
