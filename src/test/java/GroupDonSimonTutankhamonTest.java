@@ -1,71 +1,22 @@
-package group_don_simon_tutankhamon;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.SessionId;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class IKrlkvTest extends BaseTest {
-
-    public void getToMainPage_AutomationPracticeCom() {
-        getDriver().get("http://automationpractice.com/index.php");
-    }
-
-    public void getToContactUsPage_AutomationPracticeCom() {
-        getToMainPage_AutomationPracticeCom();
-        getDriver().findElement(By.linkText("Contact us")).click();
-    }
-
-    public void getToMainPage_SelectorsHubCom() {
-        getDriver().get("https://selectorshub.com/xpath-practice-page/");
-    }
-    @Ignore
-    @Test
-    public void testContactUsPageAddress_AutomationPracticeCom() {
-
-        String expectedResult = "http://automationpractice.com/index.php?controller=contact";
-
-        getToContactUsPage_AutomationPracticeCom();
-
-        Assert.assertEquals(expectedResult, getDriver().getCurrentUrl());
-    }
-    @Ignore
-    @Test
-    public void testSendMessageFromContactUsPage_AutomationPracticeCom() throws InterruptedException {
-
-        getToContactUsPage_AutomationPracticeCom();
-
-        Select subjectHeading = new Select(getDriver().findElement(By.id("id_contact")));
-
-        subjectHeading.selectByVisibleText("Webmaster");
-
-        Thread.sleep(3000);
-
-        Assert.assertEquals(getDriver().findElement(By.id("desc_contact1")).getText(), "If a technical problem occurs on this website");
-
-        getDriver().findElement(By.id("email")).sendKeys("johncena@123.com");
-
-        getDriver().findElement(By.id("id_order")).sendKeys("1235813");
-
-        getDriver().findElement(By.id("message")).sendKeys("Pack my box with five dozen liquor jugs.");
-
-        getDriver().findElement(By.id("submitMessage")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//p[@class='alert alert-success']")).getText(),
-                "Your message has been successfully sent to our team.");
-    }
+public class GroupDonSimonTutankhamonTest extends BaseTest {
 
     @Test
     public void testFormSubm_AutomationinTestingOnline() {
 
         String testName = "John Cena";
-        String actualConfirmationTitle = String.format("Thanks for getting in touch %s!",testName);
+        String actualConfirmationTitle = String.format("Thanks for getting in touch %s!", testName);
 
         getDriver().get("https://automationintesting.online/");
 
@@ -99,7 +50,7 @@ class IKrlkvTest extends BaseTest {
 
         int expectedRowsCount = 99;
 
-        getToMainPage_SelectorsHubCom();
+        getDriver().get("https://selectorshub.com/xpath-practice-page/");
 
         WebElement dropDownMenu = getDriver().findElement(By.xpath("//select[@name='tablepress-1_length']"));
 
@@ -120,7 +71,7 @@ class IKrlkvTest extends BaseTest {
         int expectedRowsCount = 3;
         String expectedCountry = "United States";
 
-        getToMainPage_SelectorsHubCom();
+        getDriver().get("https://selectorshub.com/xpath-practice-page/");
 
         WebElement tableFilterTextBox = getDriver().findElement(By.xpath("//input[@aria-controls='tablepress-1']"));
         tableFilterTextBox.sendKeys("United States");
@@ -132,6 +83,63 @@ class IKrlkvTest extends BaseTest {
         for (String actualValue : actualValues) {
             Assert.assertEquals(expectedCountry, actualValue);
         }
+    }
+
+    @Test
+    public void testFirstNameInputField_SelectorsHubCom() throws InterruptedException {
+
+        getDriver().get("https://selectorshub.com/xpath-practice-page/");
+
+        WebElement firstNameInputField = getDriver()
+                .findElement(By.xpath("//input[@placeholder='First Enter name']"));
+
+        Assert.assertFalse(firstNameInputField.isEnabled());
+
+        WebElement enableEditFirstNameInputFiledButton = getDriver()
+                .findElement(By.xpath("//label[text()='Can you enter name here through automation ']"));
+
+        enableEditFirstNameInputFiledButton.click();
+
+        Thread.sleep(2500);
+
+        Assert.assertTrue(firstNameInputField.isEnabled());
+    }
+
+    @Test
+    public void testIfPageSourceContainsHtmlTag_SelectorsHubCom() {
+
+        getDriver().get("https://selectorshub.com/xpath-practice-page/");
+
+        String pageSource = getDriver().getPageSource();
+
+        Assert.assertTrue(pageSource.contains("</html>"));
+    }
+
+    @Test
+    public void testSessionId_SelectorsHubCom() {
+
+        getDriver().get("https://selectorshub.com/xpath-practice-page/");
+
+        SessionId sessionId = ((RemoteWebDriver) getDriver()).getSessionId();
+
+        Assert.assertNotNull(sessionId);
+    }
+
+    @Test
+    public void testFooter_SelectorsHubCom() {
+
+        String expectedEmail = "support@selectorshub.com";
+
+        getDriver().get("https://selectorshub.com/xpath-practice-page/");
+
+        WebElement footer = getDriver().findElement(By.tagName("footer"));
+
+        Assert.assertTrue(footer.isDisplayed());
+        Assert.assertEquals(footer.getDomAttribute("id"), "colophon");
+
+        WebElement emailSpan = getDriver().findElement(By.xpath("//footer//li[last()]//span[last()]"));
+
+        Assert.assertEquals(emailSpan.getText(), expectedEmail);
     }
 
     @Test
@@ -154,5 +162,22 @@ class IKrlkvTest extends BaseTest {
         buttonsLink.click();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://formy-project.herokuapp.com/buttons");
+    }
+
+    @Test
+    public void testDoingSmthDontKnowWhatExactly_Tchernomor() {
+        String url = "https://demoqa.com/";
+        getDriver().get("https://www.toolsqa.com/selenium-training/");
+
+        WebElement findDemoSiteLink = getDriver().findElement(By.xpath(
+                "//div[@class='col-auto']//li[3]/a"
+        ));
+        findDemoSiteLink.click();
+
+        for (String pages : getDriver().getWindowHandles()) {
+            getDriver().switchTo().window(pages);
+        }
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), url);
     }
 }
