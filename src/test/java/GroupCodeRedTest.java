@@ -12,6 +12,7 @@ import java.time.Duration;
 
 
 public class GroupCodeRedTest extends BaseTest {
+    private String baseUrlHerokuapp = "https://formy-project.herokuapp.com";
 
     public static void get(WebDriver driver, String url) {
         driver.get(url);
@@ -266,5 +267,46 @@ public class GroupCodeRedTest extends BaseTest {
 
         Assert.assertEquals(actualResult_1, expectedResult_1);
         Assert.assertEquals(actualResult_2, expectedResult_2);
+    }
+
+    @Test
+    public void testAutoCompleteFieldsWebForm() {
+
+
+        getDriver().get(baseUrlHerokuapp + "/form");
+        WebElement firstName = getDriver().findElement(By.xpath("//input[@id ='first-name']"));
+        firstName.sendKeys("Don");
+        WebElement lastName = getDriver().findElement(By.xpath("//input[@id ='last-name']"));
+        lastName.sendKeys("Red");
+        WebElement jobTitle = getDriver().findElement(By.xpath("//input[@id ='job-title']"));
+        jobTitle.sendKeys("QA");
+        WebElement educationCollege = getDriver().findElement(By.xpath("//div/input[@id='radio-button-2']"));
+        educationCollege.click();
+        WebElement selectSexMale = getDriver()
+                .findElement(By
+                        .xpath("//div[@class ='input-group']/div/input[@type='checkbox' and @value='checkbox-1']"));
+        selectSexMale.click();
+        getDriver().findElement(By.xpath("//select[@id='select-menu']")).click();
+        WebElement selectExperience =getDriver().findElement(By.xpath("//select/option[@value ='2']"));
+        selectExperience.click();
+        getDriver().findElement(By.xpath("//input[@id='datepicker']")).click();
+        WebElement dateToday = getDriver().findElement(By.xpath("//div/div/table/tbody/tr/td[@class='today day']"));
+        dateToday.click();
+        WebElement submitButton = getDriver().findElement(By.xpath("//a[@href='/thanks']"));
+        submitButton.click();
+        String actualResult = getDriver().findElement(By.xpath("//div[@class='alert alert-success']")).getText();
+        Assert.assertEquals(actualResult, "The form was successfully submitted!");
+    }
+
+    @Test
+    public void testModalWindow() throws InterruptedException{
+        getDriver().get(baseUrlHerokuapp);
+        WebElement modalLink = getDriver().findElement(By.xpath("//li/a[@href='/modal']"));
+        modalLink.click();
+        WebElement buttonOpenModal = getDriver().findElement(By.xpath("//button[@id='modal-button']"));
+        buttonOpenModal.click();
+        Thread.sleep(2000);
+        String actualResult = getDriver().findElement(By.xpath("//h5")).getText();
+        Assert.assertEquals(actualResult,"Modal title");
     }
 }
