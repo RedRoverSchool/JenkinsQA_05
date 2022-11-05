@@ -1,7 +1,4 @@
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -19,18 +16,17 @@ public class SpiritMastersTest extends BaseTest {
 
     private static final String URL_DEMOQA = "https://demoqa.com/";
 
-    private Actions action;
-
     private Actions getActions() {
-        if(action == null) {
-            action = new Actions(getDriver());
-        }
-        return action;
+        return new Actions(getDriver());
     }
 
-    private void getJavascriptExecutor(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].scrollIntoView();", element);
+    private Select getSelect(WebElement element) {
+        return new Select(element);
+    }
+
+    private void additionEmoji(String elementById, String emoji) {
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) getDriver();
+        javascriptExecutor.executeScript("document.getElementById('" + elementById + "').value='" + emoji + "';");
     }
 
     private WebElement findCard_PK(int index) {
@@ -57,7 +53,7 @@ public class SpiritMastersTest extends BaseTest {
     }
 
     @Test
-    public void test_PK_RedirectToElementsTab(){
+    public void test_PK_RedirectToElementsTab() {
         findCard_PK(0).click();
         String actualTextElements = getDriver().findElement(By.className("main-header")).getText();
         Assert.assertEquals(actualTextElements, "Elements");
@@ -71,28 +67,29 @@ public class SpiritMastersTest extends BaseTest {
     }
 
     @Test
-    public void test_PK_RedirectToAlertsTab(){
+    public void test_PK_RedirectToAlertsTab() {
         findCard_PK(2).click();
         String actualTextAlerts = getDriver().findElement(By.className("main-header")).getText();
         Assert.assertEquals(actualTextAlerts, "Alerts, Frame & Windows");
     }
 
     @Test
-    public void test_PK_RedirectToWidgetsTab(){
+    public void test_PK_RedirectToWidgetsTab() {
         findCard_PK(3).click();
         String actualTextWidgets = getDriver().findElement(By.className("main-header")).getText();
         Assert.assertEquals(actualTextWidgets, "Widgets");
     }
 
     @Test
-    public void test_PK_RedirectToInteractionsTab(){
+    public void test_PK_RedirectToInteractionsTab() {
         findCard_PK(4).click();
         String actualTextInteractions = getDriver().findElement(By.className("main-header")).getText();
         Assert.assertEquals(actualTextInteractions, "Interactions");
     }
+
     @Ignore
     @Test
-    public void test_PK_RedirectToBooksTab(){
+    public void test_PK_RedirectToBooksTab() {
         findCard_PK(5).click();
         String actualTextBooks = getDriver().findElement(By.className("main-header")).getText();
         Assert.assertEquals(actualTextBooks, "Book Store");
@@ -106,14 +103,15 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertEquals(link.getText(), "Autocomplete");
     }
 
-    @Test
     @Ignore
+    @Test
     public void testCheckButtonLink_AFedorova() {
         getDriver().get("https://formy-project.herokuapp.com/");
         WebElement link = getDriver().findElement(By.cssSelector("a.btn-lg" +
                 "[href^=\"/butt\"]"));
         Assert.assertEquals(link.getText(), "Buttons");
     }
+
     @Ignore
     @Test
     public void testFillRegistrationForm_OlPolezhaeva() {
@@ -123,12 +121,12 @@ public class SpiritMastersTest extends BaseTest {
         expectedTableResult.put("Student Name", "Peter Ivanov");
         expectedTableResult.put("Student Email", "a@a.ru");
         expectedTableResult.put("Gender", "Male");
-        expectedTableResult.put ("Mobile", "1234567890");
+        expectedTableResult.put("Mobile", "1234567890");
         expectedTableResult.put("Date of Birth", "15 November,1985");
-        expectedTableResult.put ("Subjects", "Maths");
+        expectedTableResult.put("Subjects", "Maths");
         expectedTableResult.put("Hobbies", "Sports");
         expectedTableResult.put("Picture", "");
-        expectedTableResult.put("Address","CA, San Francisco, 17 avn, 1");
+        expectedTableResult.put("Address", "CA, San Francisco, 17 avn, 1");
         expectedTableResult.put("State and City", "NCR Delhi");
 
         WebElement firstNameField = getDriver().findElement(By.id("firstName"));
@@ -150,8 +148,8 @@ public class SpiritMastersTest extends BaseTest {
         userNumberField.sendKeys("1234567890");
 
         getDriver().findElement(By.id("dateOfBirthInput")).click();
-        new Select(getDriver().findElement(By.xpath("//select[@class='react-datepicker__month-select']"))).selectByVisibleText("November");
-        new Select(getDriver().findElement(By.xpath("//select[@class='react-datepicker__year-select']"))).selectByVisibleText("1985");
+        getSelect(getDriver().findElement(By.xpath("//select[@class='react-datepicker__month-select']"))).selectByVisibleText("November");
+        getSelect(getDriver().findElement(By.xpath("//select[@class='react-datepicker__year-select']"))).selectByVisibleText("1985");
         getDriver().findElement(By.xpath("//div[@aria-label='Choose Friday, November 15th, 1985']")).click();
 
         WebElement subjectMenu = getDriver().findElement(By.id("subjectsInput"));
@@ -166,7 +164,7 @@ public class SpiritMastersTest extends BaseTest {
         currentAddressField.click();
         currentAddressField.sendKeys("CA, San Francisco, 17 avn, 1");
 
-        getJavascriptExecutor(getDriver().findElement(By.id("submit")));
+        getActions().scrollToElement(getDriver().findElement(By.id("submit")));
 
         WebElement nameStateMenu = getDriver().findElement(By.id("react-select-3-input"));
         nameStateMenu.sendKeys("NCR");
@@ -180,12 +178,12 @@ public class SpiritMastersTest extends BaseTest {
 
         getDriver().findElement(By.id("submit")).click();
 
-        new WebDriverWait(getDriver(),Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody/tr")));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody/tr")));
 
         List<WebElement> rows = getDriver().findElements(By.xpath("//tbody/tr"));
         Map<String, String> actualTableResult = new HashMap<>();
         for (WebElement row : rows) {
-            actualTableResult.put(row.findElements(By.tagName("td")).get(0).getText(),row.findElements(By.tagName("td")).get(1).getText());
+            actualTableResult.put(row.findElements(By.tagName("td")).get(0).getText(), row.findElements(By.tagName("td")).get(1).getText());
         }
 
         Assert.assertEquals(actualTableResult, expectedTableResult);
@@ -200,7 +198,7 @@ public class SpiritMastersTest extends BaseTest {
     }
 
     @Test
-    public void testRedirectToSeleniumTrainingTab_PK(){
+    public void testRedirectToSeleniumTrainingTab_PK() {
         getDriver().get(URL_DEMOQA);
         String currentWindow = getDriver().getWindowHandle();
         WebElement newWindow = getDriver().findElement(By.xpath("//div[@class='home-banner']/a"));
@@ -218,7 +216,7 @@ public class SpiritMastersTest extends BaseTest {
     }
 
     @Test
-    public void zyzBankRegisterLogin_MW_Test()  {
+    public void zyzBankRegisterLogin_MW_Test() {
         getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login");
         getDriver().findElement(By.xpath("//button[normalize-space()='Bank Manager Login']")).click();
         getDriver().findElement(By.xpath("//button[normalize-space()='Add Customer']")).click();
@@ -290,7 +288,7 @@ public class SpiritMastersTest extends BaseTest {
         Thread.sleep(1000);
         WebElement openButton = getDriver().findElement(By.xpath("//span[@class='navbar__tutorial-menu--text']"));
         Thread.sleep(1000);
-        Assert.assertEquals(openButton.getText(),"TUTORIALS");
+        Assert.assertEquals(openButton.getText(), "TUTORIALS");
     }
 
     @Test
@@ -350,8 +348,9 @@ public class SpiritMastersTest extends BaseTest {
         tbPermAddress.sendKeys(pAddress);
 
         WebElement submitBtn = getDriver().findElement(By.id("submit"));
-        getJavascriptExecutor(submitBtn);
+        getActions().scrollToElement(submitBtn);
         submitBtn.click();
+
 
         List<String> actualResult = new ArrayList<>();
         actualResult.add(getDriver().findElement(By.id("name")).getText());
@@ -361,11 +360,12 @@ public class SpiritMastersTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
     @Ignore
     @Test
     public void testCheckBoxes_AFedorova() {
         List<String> expectedResult = new ArrayList<>(List.of("You have " +
-                "selected :","desktop","notes","commands"));
+                "selected :", "desktop", "notes", "commands"));
 
         getDriver().get(URL_DEMOQA);
 
@@ -382,7 +382,7 @@ public class SpiritMastersTest extends BaseTest {
         listOfCheckBoxes.get(3).click();
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("span" +
-                ".text-success")).getText(),"commands");
+                ".text-success")).getText(), "commands");
 
         listOfCheckBoxes.get(2).click();
 
@@ -390,28 +390,24 @@ public class SpiritMastersTest extends BaseTest {
                 getDriver().findElements(By.cssSelector(".display-result" +
                         ".mt-4>span"));
         List<String> actualResult = new ArrayList<>();
-        for (WebElement element:listOfSelectedCheckBoxesDesktop) {
+        for (WebElement element : listOfSelectedCheckBoxesDesktop) {
             actualResult.add(element.getText());
         }
 
-        Assert.assertEquals(actualResult,expectedResult);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Ignore
     @Test
     public void testSlider_KI() {
         getDriver().get(URL_DEMOQA);
 
         getDriver().findElement(By.xpath("//div[@class='category-cards']/div[4]")).click();
-        getJavascriptExecutor(getDriver().findElement(By.xpath("//span[text()='Slider']")));
-        getDriver().findElement(By.xpath("//span[text()='Slider']")).click();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        getActions().scrollToElement(getDriver().findElement(By.xpath("//span[text()='Slider']")));
+        getActions().moveToElement(getDriver().findElement(By.xpath("//span[text()='Slider']")))
+                .click().pause(500).perform();
+
         WebElement slider = getDriver().findElement(By.xpath("//input[@type='range']"));
-        getActions().dragAndDropBy(slider,350, 0).perform();
+        getActions().dragAndDropBy(slider, 350, 0).pause(500).perform();
         String actualSliderValue = getDriver().findElement(By.id("sliderValue")).getAttribute("value");
 
         Assert.assertEquals(actualSliderValue, "100");
@@ -430,7 +426,6 @@ public class SpiritMastersTest extends BaseTest {
                         By.xpath("//div[@class='owm-loader-container']/div")));
 
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
         getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[@href='/guide']")).click();
 
         String currentUrl = getDriver().getCurrentUrl();
@@ -439,4 +434,32 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertEquals(currentUrl, "https://openweathermap.org/guide");
         Assert.assertEquals(currentTitle, "OpenWeatherMap API guide - OpenWeatherMap");
     }
+
+    @Test
+    public void testWebTables_KI() {
+        getDriver().get(URL_DEMOQA);
+
+        getDriver().findElement(By.xpath("//div[@class='category-cards']/div[1]")).click();
+        getActions().moveToElement(getDriver().findElement(By.xpath("//span[text()='Web Tables']")))
+                    .click().pause(250).perform();
+        getDriver().findElement(By.id("addNewRecordButton")).click();
+
+        additionEmoji("firstName", "\uD83D\uDCA9\uD83D\uDCA9\uD83D\uDCA9");
+        additionEmoji("lastName", "(ノಠ益ಠ)ノ彡┻━┻");
+
+        getActions().pause(250)
+                .moveToElement(getDriver().findElement(By.id("firstName"))).click().sendKeys(" ")
+                .moveToElement(getDriver().findElement(By.id("lastName"))).click().sendKeys(" ")
+                .moveToElement(getDriver().findElement(By.id("userEmail"))).click().sendKeys("email...@...domain...com")
+                .moveToElement(getDriver().findElement(By.id("age"))).click().sendKeys("0")
+                .moveToElement(getDriver().findElement(By.id("salary"))).click().sendKeys("0000999999")
+                .moveToElement(getDriver().findElement(By.id("department"))).click().sendKeys("ООО \"3,14-3-ДАТА\"")
+                .moveToElement(getDriver().findElement(By.id("submit"))).click().perform();
+
+        List<WebElement> actualNumberWorkers = getDriver().
+                findElements(By.xpath("//div[@class='action-buttons']"));
+
+        Assert.assertEquals(actualNumberWorkers.size(), 4);
+    }
+
 }
