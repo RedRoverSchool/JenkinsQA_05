@@ -194,7 +194,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         Assert.assertFalse(zeroOpacityButton.isDisplayed());
 
         zeroOpacityButton.click();
-        Thread.sleep(150);
+        Thread.sleep(300);
 
         WebElement modalWindow = getDriver().findElement(By.id("myModalMoveClick"));
         Assert.assertTrue(modalWindow.isDisplayed());
