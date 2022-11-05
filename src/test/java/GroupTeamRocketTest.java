@@ -275,4 +275,22 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class='Title m-no-margin']")).isDisplayed());
     }
+
+    @Test
+    public void testCandymapper_EZ() {
+        getDriver().get("https://candymapper.com/");
+        getDriver().findElement(By.id("popup-widget5132-close-icon")).click();
+        getDriver().findElement(By.xpath("//a[text()='Get in Touch']")).click();
+        getDriver().switchTo().frame(getDriver().findElement(By.cssSelector("iframe[id*='iframe']")));
+        getDriver().findElement(By.xpath("//div/a/img")).click();
+
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//a[contains(text(),'simCaptcha')]")).isDisplayed());
+
+        getDriver().switchTo().defaultContent();
+
+        Assert.assertTrue(getDriver().findElement(
+                        By.xpath("//div[@id='header_stickynav5143']/nav/div/div[1]/div[2]/div/a/div/img"))
+                .isEnabled());
+    }
 }
