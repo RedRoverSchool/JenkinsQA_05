@@ -9,11 +9,11 @@ public class KirillSumTest extends BaseTest {
     @Test
     public void testWeathercom(){
 
-        getDriver().get("https://weather.com/");
+        getDriver().get("https://the-internet.herokuapp.com/");
 
-        WebElement link = getDriver().findElement(By.xpath("//a[@href='https://newsroom.ibm.com/the-weather-company']"));
+        WebElement link = getDriver().findElement(By.xpath("//a[@href='/dropdown']"));
 
-        Assert.assertEquals(link.getText(), "Press Room");
+        Assert.assertEquals(link.getText(), "Dropdown");
 
     }
 }
