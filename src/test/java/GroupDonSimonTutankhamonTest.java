@@ -180,4 +180,17 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), url);
     }
+
+    @Test
+    public void testChangeCategoryInSidebarWhenChoosingWomenCategory() {
+        getDriver().get("http://automationpractice.com/");
+
+        WebElement womenCategoryButton = getDriver().findElement(By.xpath("//li/a[@title='Women']"));
+        womenCategoryButton.click();
+
+        WebElement sidebarCategoryName = getDriver().findElement(
+                By.xpath("//div[@id='categories_block_left']/h2"));
+        sidebarCategoryName.getText();
+        Assert.assertEquals(sidebarCategoryName.getText(), "WOMEN");
+    }
 }
