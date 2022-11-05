@@ -327,4 +327,13 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver()
                 .findElement(By.xpath("//h1")).getText(), "Compare Quotes");
     }
+
+    @Test
+    public void testCheckTheMostRelevantBook_AnastasiaKuz(){
+        getDriver().get("https://www.powells.com/");
+        getDriver().findElement(By.id("keyword")).sendKeys("Software Testing\n");
+
+        Assert.assertEquals(getDriver().getTitle(),"Search Results - Powell's Books");
+        Assert.assertTrue(getDriver().findElement(By.xpath("//img[contains(@alt,'Software Testing and Quality Assurance: Theory and Practice')]")).isDisplayed());
+    }
 }
