@@ -10,6 +10,7 @@ import runner.BaseTest;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class SpiritMastersTest extends BaseTest {
 
@@ -118,8 +119,8 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertEquals(link.getText(), "Autocomplete");
     }
 
-    @Test
     @Ignore
+    @Test
     public void testCheckButtonLink_AFedorova() {
         getDriver().get("https://formy-project.herokuapp.com/");
         WebElement link = getDriver().findElement(By.cssSelector("a.btn-lg" +
@@ -319,11 +320,11 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("showLargeModal")).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testToolTips_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/tool-tips");
 
-        scrollToElement(getDriver().findElement(By.xpath("//a[text()='Contrary']")));
         getActions().moveToElement(getDriver().findElement(By.xpath("//a[text()='Contrary']"))).build().perform();
         String actualToolTip = new WebDriverWait(getDriver(), Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tooltip-inner']"))).getText();
 
@@ -375,6 +376,7 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test
     public void testCheckBoxes_AFedorova() {
         List<String> expectedResult = new ArrayList<>(List.of("You have " +
@@ -427,12 +429,34 @@ public class SpiritMastersTest extends BaseTest {
     }
 
     @Test
+    public void testOpenweathermap_justGoToGuide_gdiksanov() {
+
+        String url = "https://openweathermap.org/";
+
+        getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+
+        getDriver().get(url);
+        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+                .until(ExpectedConditions.invisibilityOfElementLocated(
+                        By.xpath("//div[@class='owm-loader-container']/div")));
+
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[@href='/guide']")).click();
+
+        String currentUrl = getDriver().getCurrentUrl();
+        String currentTitle = getDriver().getTitle();
+
+        Assert.assertEquals(currentUrl, "https://openweathermap.org/guide");
+        Assert.assertEquals(currentTitle, "OpenWeatherMap API guide - OpenWeatherMap");
+    }
+
+    @Test
     public void testWebTables_KI() {
         getDriver().get(URL_DEMOQA);
 
         getDriver().findElement(By.xpath("//div[@class='category-cards']/div[1]")).click();
         getActions().moveToElement(getDriver().findElement(By.xpath("//span[text()='Web Tables']")))
-                .click().pause(250).perform();
+                    .click().pause(250).perform();
         getDriver().findElement(By.id("addNewRecordButton")).click();
 
         additionEmoji("firstName", "\uD83D\uDCA9\uD83D\uDCA9\uD83D\uDCA9");

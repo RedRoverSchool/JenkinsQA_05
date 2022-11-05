@@ -45,10 +45,5 @@ public class RustamKhRedCodeTest extends BaseTest {
         submitButton.click();
         String actualResult = getDriver().findElement(By.xpath("//div[@class='alert alert-success']")).getText();
         Assert.assertEquals(actualResult, "The form was successfully submitted!");
-
-
-
-
-
     }
 }
