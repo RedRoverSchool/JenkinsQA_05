@@ -12,7 +12,7 @@ public class GroupNikkiTest extends BaseTest {
     }
 
     @Test
-    public void julieTest() {
+    public void julieTest1() {
 
         getDriver().get("https://katalon-demo-cura.herokuapp.com/");
         String actualTitle = getDriver().getTitle();
