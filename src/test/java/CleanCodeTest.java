@@ -16,6 +16,17 @@ public class CleanCodeTest extends BaseTest {
     }
 
     @Test
+    public void testFolkInstrumentsEn() {
+        getDriver().get("http://ludowe.instrumenty.edu.pl/pl/o-projekcie");
+        WebElement plEn = getDriver().findElement(By.xpath("/html/body/div[2]/div[1]/div/div/div[2]/div[2]/div/ul/li[3]/a"));
+        plEn.click();
+
+        WebElement languageChange = getDriver().findElement(By.xpath("//*[@id=\"main\"]/div[4]/div/div/div/div/div[1]/h2"));
+        Assert.assertEquals(languageChange.getText(), "About");
+    }
+
+
+    @Test
     public void testBox24Menu() {
         final String URL = "https://box24.com.ua/";
         int expectedNumbersMenu = 11;
@@ -27,4 +38,55 @@ public class CleanCodeTest extends BaseTest {
 
         Assert.assertEquals(actualNumbersMenu, expectedNumbersMenu);
     }
+
+    @Test
+    public void testPageSales() {
+        getDriver().get("https://klinik.by/");
+        WebElement bottomSales = getDriver().findElement(By.xpath("//*[@id=\"menu-item-2570\"]/a[text() = 'Акции']"));
+
+        bottomSales.click();
+
+        WebElement pageSales = getDriver().findElement(By.xpath("//*[@id=\"page\"]//h1[text() ='Специальные предложения']"));
+
+        Assert.assertEquals(pageSales.getText(), "Специальные предложения");
+    }
+
+  @Test
+    public void testFormyProject() {
+        getDriver().get("https://formy-project.herokuapp.com/");
+
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/dropdown']"));
+
+        Assert.assertEquals(link.getText(), "Dropdown"); }
+
+    @Test
+    public void testTextContactsIsPresent() {
+        getDriver().get("https://heropark.by/");
+
+        WebElement text = getDriver().findElement(By.xpath("//span[text()='КОНТАКТЫ']"));
+
+        Assert.assertEquals(text.getText(), "КОНТАКТЫ");
+
+    }
+
+    @Test
+    public void testWeb(){
+        getDriver().get("https://formy-project.herokuapp.com");
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/buttons']"));
+        Assert.assertEquals(link.getText(),"Buttons");
+    }
+
+
+
+        @Test
+        public void testAstraCom() {
+            getDriver().get("https://www.astracom.ru/");
+            getDriver().findElement(By.className("button")).click();
+            getDriver().findElement(By.partialLinkText("АРСО P25")).click();
+            WebElement text = getDriver().findElement(By.partialLinkText("Ретрансляторы"));
+            Assert.assertEquals(text.getText(), "Ретрансляторы");
+
+        }
+
+
 }

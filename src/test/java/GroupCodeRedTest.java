@@ -1,6 +1,8 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -220,5 +222,49 @@ public class GroupCodeRedTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(),"https://insurance.experian.com/sign-up/phone");
         buttonNext.click();sleep(4);
 
+    }
+
+    @Test
+    public void testFindRome() throws InterruptedException {
+
+        String url = "https://openweathermap.org/";
+        String city = "Rome";
+        boolean expectedResult = true;
+
+        getDriver().get(url);
+
+        Thread.sleep(5000);
+
+        WebElement searchFieldByCity = getDriver().findElement(
+                By.xpath("//div[@id='desktop-menu']//input[@placeholder='Weather in your city']")
+        );
+
+        searchFieldByCity.click();
+        searchFieldByCity.sendKeys(city);
+        Thread.sleep(700);
+        searchFieldByCity.sendKeys(Keys.ENTER);
+
+        boolean actualResult = getDriver().getCurrentUrl().contains("find") && getDriver().getCurrentUrl().contains(city);
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testOpenWeatherMapGuidePageTitle() throws InterruptedException {
+        String baseUrl = "https://openweathermap.org/";
+        String expectedResult_1 = "https://openweathermap.org/guide";
+        String expectedResult_2 = "OpenWeatherMap API guide - OpenWeatherMap";
+
+        getDriver().get(baseUrl);
+        Thread.sleep(5000);
+        WebElement guideButton = getDriver().findElement(
+                By.xpath("//div[@id = 'desktop-menu']//li/a [@href='/guide']")
+        );
+        guideButton.click();
+        String actualResult_1 = getDriver().getCurrentUrl();
+        String actualResult_2 = getDriver().getTitle();
+
+        Assert.assertEquals(actualResult_1, expectedResult_1);
+        Assert.assertEquals(actualResult_2, expectedResult_2);
     }
 }
