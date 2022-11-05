@@ -1,11 +1,13 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -354,5 +356,16 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@onclick='addElement()']")).click();
         Assert.assertEquals(getDriver().findElements(By.xpath("//button[@class='added-manually']"))
                 .size(),3);
+    }
+
+    @Test
+    public void testContextMenu_ET() {
+        getDriver().get("https://the-internet.herokuapp.com/");
+        getDriver().findElement(By.xpath("//a[text()='Context Menu']")).click();
+        Actions actions = new Actions(getDriver());
+        WebElement rectangle = getDriver().findElement(By.id("hot-spot"));
+        actions.contextClick(rectangle).perform();
+
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "You selected a context menu");
     }
 }
