@@ -190,7 +190,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
         WebElement sidebarCategoryName = getDriver().findElement(
                 By.xpath("//div[@id='categories_block_left']/h2"));
-        sidebarCategoryName.getText();
+
         Assert.assertEquals(sidebarCategoryName.getText(), "WOMEN");
     }
 }
