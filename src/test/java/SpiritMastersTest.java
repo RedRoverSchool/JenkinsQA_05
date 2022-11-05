@@ -1,3 +1,4 @@
+import org.checkerframework.checker.initialization.qual.Initialized;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -445,8 +446,8 @@ public class SpiritMastersTest extends BaseTest {
         getDriver().findElement(By.id("addNewRecordButton")).click();
 
         getActions().pause(250)
-                .moveToElement(getDriver().findElement(By.id("firstName"))).click().sendKeys("ᴮᴵᴳᴮᴵᴿᴰ")
-                .moveToElement(getDriver().findElement(By.id("lastName"))).click().sendKeys("(ノಠ益ಠ)ノ彡┻━┻")
+                .moveToElement(getDriver().findElement(By.id("firstName"))).click().sendKeys("Chloë")
+                .moveToElement(getDriver().findElement(By.id("lastName"))).click().sendKeys("Rømer")
                 .moveToElement(getDriver().findElement(By.id("userEmail"))).click().sendKeys("email...@...domain...com")
                 .moveToElement(getDriver().findElement(By.id("age"))).click().sendKeys("0")
                 .moveToElement(getDriver().findElement(By.id("salary"))).click().sendKeys("0000999999")
