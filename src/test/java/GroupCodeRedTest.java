@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
+import java.util.List;
 
 
 public class GroupCodeRedTest extends BaseTest {
@@ -266,5 +267,26 @@ public class GroupCodeRedTest extends BaseTest {
 
         Assert.assertEquals(actualResult_1, expectedResult_1);
         Assert.assertEquals(actualResult_2, expectedResult_2);
+    }
+
+    @Test
+    public void testAPICheck30Buttons() throws InterruptedException {
+
+        String url = "https://openweathermap.org/";
+        int expectedResult = 30;
+
+        getDriver().get(url);
+        getDriver().manage().window().maximize();
+        Thread.sleep(4000);
+
+        WebElement aPIButton = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[@href='/api']"));
+        aPIButton.click();
+
+        List<WebElement> orangeButtons29 = getDriver().findElements(By.xpath("//a[@class='btn_block orange round']"));
+        List<WebElement> orangeButtons1 = getDriver().findElements(By.xpath("//a[@class='ow-btn round btn-orange']"));
+
+        int actualResult = orangeButtons29.size() + orangeButtons1.size();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
