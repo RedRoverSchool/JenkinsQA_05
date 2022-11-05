@@ -3,6 +3,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
+import org.openqa.selenium.support.locators.RelativeLocator;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -192,6 +193,18 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         WebElement disabledRadioButton = getDriver().findElement(By.xpath("//input[@type='radio' and @disabled]"));
         Assert.assertEquals(disabledRadioButton.getAttribute("type"), "radio");
         Assert.assertFalse(disabledRadioButton.isEnabled());
+    }
+
+    @Test
+    public void testRelativeLocator_WebdDiverUniversityCom() {
+
+        getDriver().get("https://webdriveruniversity.com/Data-Table/index.html");
+
+        WebElement blockQuote = getDriver().findElement(By.xpath("//blockquote/p"));
+        RelativeLocator.RelativeBy relativeBy = RelativeLocator.with(By.tagName("mark"));
+
+        WebElement fieldWithRandowText = getDriver().findElement(relativeBy.above(blockQuote));
+        Assert.assertEquals(fieldWithRandowText.getText(), "sed do eiusmod tempor incididunt ut labore");
     }
 
     @Test
