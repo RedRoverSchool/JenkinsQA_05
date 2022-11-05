@@ -1,7 +1,4 @@
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -19,18 +16,26 @@ public class SpiritMastersTest extends BaseTest {
 
     private static final String URL_DEMOQA = "https://demoqa.com/";
 
-    private Actions action;
+    private WebDriverWait webDriverWait20;
 
     private Actions getActions() {
-        if(action == null) {
-            action = new Actions(getDriver());
-        }
-        return action;
+        return new Actions(getDriver());
     }
 
     private void getJavascriptExecutor(WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].scrollIntoView();", element);
+    }
+
+    private Select getSelect(WebElement element) {
+        return new Select(element);
+    }
+
+    private WebDriverWait getWait20() {
+        if (webDriverWait20 == null) {
+            webDriverWait20 = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        }
+        return webDriverWait20;
     }
 
     private WebElement findCard_PK(int index) {
@@ -114,7 +119,7 @@ public class SpiritMastersTest extends BaseTest {
                 "[href^=\"/butt\"]"));
         Assert.assertEquals(link.getText(), "Buttons");
     }
-    @Ignore
+
     @Test
     public void testFillRegistrationForm_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/automation-practice-form");
@@ -150,38 +155,36 @@ public class SpiritMastersTest extends BaseTest {
         userNumberField.sendKeys("1234567890");
 
         getDriver().findElement(By.id("dateOfBirthInput")).click();
-        new Select(getDriver().findElement(By.xpath("//select[@class='react-datepicker__month-select']"))).selectByVisibleText("November");
-        new Select(getDriver().findElement(By.xpath("//select[@class='react-datepicker__year-select']"))).selectByVisibleText("1985");
+
+        WebElement month = getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@class='react-datepicker__month-select']")));
+        getSelect(month).selectByVisibleText("November");
+
+        WebElement year = getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//select[@class='react-datepicker__year-select']")));
+        getSelect(year).selectByVisibleText("1985");
+
         getDriver().findElement(By.xpath("//div[@aria-label='Choose Friday, November 15th, 1985']")).click();
 
         WebElement subjectMenu = getDriver().findElement(By.id("subjectsInput"));
-        subjectMenu.click();
-        subjectMenu.sendKeys("Maths");
+        getActions().moveToElement(subjectMenu).click().sendKeys("Maths").pause(500).sendKeys(Keys.TAB)
+                    .scrollToElement(getDriver().findElement(By.id("submit"))).build().perform();
 
-        getDriver().findElement(By.id("react-select-2-option-0")).click();
-
-        getDriver().findElement(By.cssSelector("[for=hobbies-checkbox-1]")).click();
+        getDriver().findElement((By.cssSelector("[for=hobbies-checkbox-1]"))).click();;
 
         WebElement currentAddressField = getDriver().findElement(By.id("currentAddress"));
         currentAddressField.click();
         currentAddressField.sendKeys("CA, San Francisco, 17 avn, 1");
 
-        getJavascriptExecutor(getDriver().findElement(By.id("submit")));
-
         WebElement nameStateMenu = getDriver().findElement(By.id("react-select-3-input"));
         nameStateMenu.sendKeys("NCR");
-
-        getDriver().findElement(By.id("react-select-3-option-0")).click();
+        getActions().moveToElement(getDriver().findElement(By.id("react-select-3-option-0"))).sendKeys(Keys.TAB).perform();
 
         WebElement nameCityMenu = getDriver().findElement(By.id("react-select-4-input"));
         nameCityMenu.sendKeys("Delhi");
-
-        getDriver().findElement(By.id("react-select-4-option-0")).click();
+        getActions().moveToElement(getDriver().findElement(By.id("react-select-4-option-0"))).sendKeys(Keys.TAB).perform();
 
         getDriver().findElement(By.id("submit")).click();
 
-        new WebDriverWait(getDriver(),Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody/tr")));
-
+        getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody/tr")));
         List<WebElement> rows = getDriver().findElements(By.xpath("//tbody/tr"));
         Map<String, String> actualTableResult = new HashMap<>();
         for (WebElement row : rows) {
@@ -306,12 +309,12 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("showLargeModal")).isDisplayed());
     }
 
-    @Ignore
+
     @Test
     public void testToolTips_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/tool-tips");
 
-        getActions().moveToElement(getDriver().findElement(By.xpath("//a[text()='Contrary']"))).build().perform();
+        getActions().moveToElement(getDriver().findElement(By.xpath("//a[text()='Contrary']"))).perform();
         String actualToolTip = new WebDriverWait(getDriver(), Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tooltip-inner']"))).getText();
 
         Assert.assertEquals(actualToolTip, "You hovered over the Contrary");
