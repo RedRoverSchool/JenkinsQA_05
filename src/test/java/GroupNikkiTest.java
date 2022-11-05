@@ -45,6 +45,21 @@ public class GroupNikkiTest extends BaseTest {
 
     }
 
+    @Test
+    public void testKate_SuccessOpenUpMenu () {
+
+        getDriver().get("https://katalon-demo-cura.herokuapp.com/");
+        WebElement menu = getDriver().findElement(By.xpath("//body/a[@id='menu-toggle']"));
+        menu.click();
+
+        WebElement menuHeader = getDriver().findElement(By.xpath("//body/nav//a[@href='./']"));
+        String actualResult = menuHeader.getText();
+        String expectedResult = "CURA Healthcare";
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+    }
+
 
     }
 
