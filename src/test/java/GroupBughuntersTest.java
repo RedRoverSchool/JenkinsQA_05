@@ -63,7 +63,7 @@ public class GroupBughuntersTest extends BaseTest {
     }
 
     @Test
-    public void testPythonOrg() throws InterruptedException {
+    public void testPythonOrg() {
         getDriver().get("https://www.python.org/");
         WebElement talks = getDriver().findElement(By.xpath("//*[@id='container']/li[3]/ul/li[2]/a"));
         ((JavascriptExecutor)getDriver()).executeScript("arguments[0].scrollIntoView(true);",talks);
