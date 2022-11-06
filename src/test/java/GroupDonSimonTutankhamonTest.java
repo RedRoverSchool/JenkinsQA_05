@@ -63,7 +63,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         WebElement dropDownMenu = getDriver().findElement(By.xpath("//select[@name='tablepress-1_length']"));
 
         Actions actions = new Actions(getDriver());
-        actions.scrollToElement(dropDownMenu);
+        actions.scrollToElement(dropDownMenu).build().perform();
 
         Select select = new Select(dropDownMenu);
         select.selectByVisibleText("100");
@@ -325,6 +325,28 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
         WebElement sliderValueWindow = getDriver().findElement(By.id("sliderValue"));
         Assert.assertEquals(sliderValueWindow.getAttribute("value"), String.valueOf(resultSliderValue));
+    }
+
+    @Test
+    public void testButtonsClicks_DemoqaCom() {
+
+        getDriver().get("https://demoqa.com/buttons");
+        Actions actions = new Actions(getDriver());
+
+        WebElement dropDown1 = getDriver().findElement(By.id("doubleClickBtn"));
+        actions.doubleClick(dropDown1).build().perform();
+        WebElement contextMenu1 = getDriver().findElement(By.id("doubleClickMessage"));
+        Assert.assertTrue(contextMenu1.isDisplayed());
+
+        WebElement dropDown2 = getDriver().findElement(By.id("rightClickBtn"));
+        actions.contextClick(dropDown2).build().perform();
+        WebElement contextMenu2 = getDriver().findElement(By.id("rightClickMessage"));
+        Assert.assertTrue(contextMenu2.isDisplayed());
+
+        WebElement dropDown3 = getDriver().findElement(By.xpath("//button[text()='Click Me']"));
+        actions.click(dropDown3).build().perform();
+        WebElement contextMenu3 = getDriver().findElement(By.id("dynamicClickMessage"));
+        Assert.assertTrue(contextMenu3.isDisplayed());
     }
 
     @Test
