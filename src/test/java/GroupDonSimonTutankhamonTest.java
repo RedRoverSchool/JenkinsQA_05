@@ -9,6 +9,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -265,6 +268,24 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         String actualDate = datePicker.getAttribute("value");
 
         Assert.assertEquals(actualDate, expectedDate);
+    }
+
+    @Test
+    public void testFileUpload_WebdDiverUniversityCom() throws IOException {
+
+        String url ="https://webdriveruniversity.com/File-Upload/index.html";
+        Path tempFile = Files.createTempFile("tempfiles", ".tmp");
+        String fileName = tempFile.toAbsolutePath().toString();
+
+        getDriver().get(url);
+
+        WebElement uploadFileField = getDriver().findElement(By.id("myFile"));
+        uploadFileField.sendKeys(fileName);
+
+        WebElement submitButton = getDriver().findElement(By.id("submit-button"));
+        submitButton.submit();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), url + "?filename=" + tempFile.getFileName());
     }
 
     @Test
