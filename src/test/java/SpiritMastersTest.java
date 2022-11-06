@@ -122,6 +122,7 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertEquals(link.getText(), "Buttons");
     }
 
+    @Ignore
     @Test
     public void testFillRegistrationForm_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/automation-practice-form");
@@ -172,7 +173,7 @@ public class SpiritMastersTest extends BaseTest {
         getActions().moveToElement(subjectMenu).click().sendKeys("Maths").pause(500).sendKeys(Keys.TAB)
                     .scrollToElement(getDriver().findElement(By.id("submit"))).build().perform();
 
-        getDriver().findElement((By.cssSelector("[for=hobbies-checkbox-1]"))).click();;
+        getDriver().findElement((By.cssSelector("[for=hobbies-checkbox-1]"))).click();
 
         WebElement currentAddressField = getDriver().findElement(By.id("currentAddress"));
         currentAddressField.click();
