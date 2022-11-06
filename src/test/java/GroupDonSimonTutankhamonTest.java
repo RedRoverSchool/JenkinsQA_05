@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -9,6 +10,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -59,7 +63,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         WebElement dropDownMenu = getDriver().findElement(By.xpath("//select[@name='tablepress-1_length']"));
 
         Actions actions = new Actions(getDriver());
-        actions.scrollToElement(dropDownMenu);
+        actions.scrollToElement(dropDownMenu).build().perform();
 
         Select select = new Select(dropDownMenu);
         select.selectByVisibleText("100");
@@ -178,6 +182,12 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         WebElement unCheckedCheckbox = getDriver().findElement(By.cssSelector("[type=checkbox]:not(:checked)"));
         Assert.assertEquals(unCheckedCheckbox.getAttribute("value"), "option-1");
         Assert.assertFalse(unCheckedCheckbox.isSelected());
+
+        checkedCheckbox.click();
+        Assert.assertFalse(checkedCheckbox.isSelected());
+
+        unCheckedCheckbox.click();
+        Assert.assertTrue(unCheckedCheckbox.isSelected());
     }
 
     @Test
@@ -196,6 +206,10 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         WebElement disabledRadioButton = getDriver().findElement(By.xpath("//input[@type='radio' and @disabled]"));
         Assert.assertEquals(disabledRadioButton.getAttribute("type"), "radio");
         Assert.assertFalse(disabledRadioButton.isEnabled());
+
+        unCheckedRadioButton.click();
+        Assert.assertFalse(checkedRadioButton.isSelected());
+        Assert.assertTrue(unCheckedRadioButton.isSelected());
     }
 
     @Test
@@ -265,6 +279,74 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         String actualDate = datePicker.getAttribute("value");
 
         Assert.assertEquals(actualDate, expectedDate);
+    }
+
+    @Test
+    public void testFileUpload_WebdDiverUniversityCom() throws IOException {
+
+        String url ="https://webdriveruniversity.com/File-Upload/index.html";
+        Path tempFile = Files.createTempFile("tempfiles", ".tmp");
+        String fileName = tempFile.toAbsolutePath().toString();
+
+        getDriver().get(url);
+
+        WebElement uploadFileField = getDriver().findElement(By.id("myFile"));
+        uploadFileField.sendKeys(fileName);
+
+        WebElement submitButton = getDriver().findElement(By.id("submit-button"));
+        submitButton.submit();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), url + "?filename=" + tempFile.getFileName());
+    }
+
+    @Test
+    public void testSlider_DemoqaCom() {
+
+        String minSliderValue = "0";
+        String maxSliderValue = "100";
+        String defaultSliderValue = "25";
+        int stepsToMove = 55;
+
+        getDriver().get("https://demoqa.com/slider");
+
+        WebElement slider = getDriver().findElement(By.xpath("//input[@type='range']"));
+
+        Assert.assertEquals(slider.getAttribute("min"), minSliderValue);
+        Assert.assertEquals(slider.getAttribute("max"), maxSliderValue);
+        Assert.assertEquals(slider.getAttribute("value"), defaultSliderValue);
+
+        for (int i = 0; i < stepsToMove; i++) {
+            slider.sendKeys(Keys.ARROW_RIGHT);
+        }
+
+        int resultSliderValue = Integer.parseInt(defaultSliderValue) + stepsToMove;
+
+        Assert.assertEquals(slider.getAttribute("value"), String.valueOf(resultSliderValue));
+
+        WebElement sliderValueWindow = getDriver().findElement(By.id("sliderValue"));
+        Assert.assertEquals(sliderValueWindow.getAttribute("value"), String.valueOf(resultSliderValue));
+    }
+
+    @Test
+    public void testButtonsClicks_DemoqaCom() {
+
+        getDriver().get("https://demoqa.com/buttons");
+        Actions actions = new Actions(getDriver());
+
+        WebElement dropDown1 = getDriver().findElement(By.id("doubleClickBtn"));
+        actions.doubleClick(dropDown1).build().perform();
+        WebElement contextMenu1 = getDriver().findElement(By.id("doubleClickMessage"));
+        Assert.assertTrue(contextMenu1.isDisplayed());
+
+        WebElement dropDown2 = getDriver().findElement(By.id("rightClickBtn"));
+        actions.contextClick(dropDown2).build().perform();
+        WebElement contextMenu2 = getDriver().findElement(By.id("rightClickMessage"));
+        Assert.assertTrue(contextMenu2.isDisplayed());
+
+        WebElement dropDown3 = getDriver().findElement(By.xpath("//button[text()='Click Me']"));
+        actions.click(dropDown3).build().perform();
+        WebElement contextMenu3 = getDriver().findElement(By.id("dynamicClickMessage"));
+        Assert.assertTrue(contextMenu3.isDisplayed());
     }
 
     @Test

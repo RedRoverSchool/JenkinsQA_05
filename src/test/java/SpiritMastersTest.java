@@ -412,6 +412,7 @@ public class SpiritMastersTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
     @Ignore
     @Test
     public void testSlider_KI() {
