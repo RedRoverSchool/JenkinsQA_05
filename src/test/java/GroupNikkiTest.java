@@ -1,9 +1,13 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class GroupNikkiTest extends BaseTest {
 
@@ -58,6 +62,27 @@ public class GroupNikkiTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
 
+    }
+    @Test
+    public void testMouseover_WebdDiverUniversityCom() {
+
+        getDriver().get("https://webdriveruniversity.com/Actions/index.html");
+
+        Actions actions = new Actions(getDriver());
+
+        List<String> buttonsList = Arrays.asList("Hover Over Me First!", "Hover Over Me Second!", "Hover Over Me Third!");
+
+        for (int i = 0; i < buttonsList.size(); i++) {
+            String xpath = String.format("//button[text()='%s']", buttonsList.get(i));
+
+            WebElement button = getDriver().findElement(By.xpath(xpath));
+
+            actions.moveToElement(button).build().perform();
+
+            WebElement dropDownText = getDriver().findElement(By.xpath(String.format("//*[@id=\"div-hover\"]/div[%d]/div/a", i + 1)));
+
+            Assert.assertTrue(dropDownText.isDisplayed());
+        }
     }
 
 
