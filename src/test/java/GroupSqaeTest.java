@@ -94,6 +94,7 @@ public class GroupSqaeTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "http://www.seleniumframework.com/about-2/");
     }
 
+    @Ignore
     @Test
     public void testUrlTitleHeading() {
         getDriver().get("http://www.seleniumframework.com/about-2/");

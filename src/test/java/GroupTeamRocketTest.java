@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -9,9 +10,18 @@ import runner.BaseTest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupTeamRocketTest extends BaseTest {
+
+    final List<String> EXPECTED_ITEMS = List.of(
+            "What's New",
+            "Women",
+            "Men",
+            "Gear",
+            "Training",
+            "Sale");
 
     @Test
     public void testAddElementHerokuapp() {
@@ -75,6 +85,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(), "Food - Los Angeles Times");
     }
 
+    @Ignore
     @Test
     public void testAboutUs(){
         getDriver().get("http://automationpractice.com/index.php");
@@ -98,6 +109,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//img[@class='captchaMediaImage']")).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testInformationDelivery() {
         getDriver().get("http://automationpractice.com/index.php");
@@ -107,6 +119,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(), "Delivery - My Store");
     }
 
+    @Ignore
     @Test
     public void testGoToTermsAndConditionsPage_AnastasiaYakimova() {
         getDriver().get ("http://automationpractice.com");
@@ -140,7 +153,7 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testAddToCartButton() {
         getDriver().get("https://www.demoblaze.com");
         getDriver().findElement(By.xpath("//div[@class='list-group']/a[4]")).click();
-        getDriver().findElement(By.xpath("//div[@class='card-block']/h4[1]/a[@href=\"prod.html?idp_=10\"]")).click();
+        getDriver().findElement(By.xpath("//div[@class='card-block']/h4[1]/a[@href='prod.html?idp_=10']")).click();
         Assert.assertTrue(getDriver().findElement(By.xpath("//a[@class='btn btn-success btn-lg']")).isDisplayed());
     }
 
@@ -203,6 +216,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
     }
 
+    @Ignore
     @Test
     public void testSaleSticker_ET() {
         getDriver().get("http://automationpractice.com/index.php");
@@ -282,5 +296,144 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@title='reddit']/img")).click();
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class='Title m-no-margin']")).isDisplayed());
+    }
+
+    @Test
+    public void testGoToStepTwoForGetQuote_VadimTref() {
+        getDriver().get("https://commercialinsurance.net/");
+        getDriver().findElement(By.xpath("//div[@id='cobranding-steps']//input[@name='zipcode']")).sendKeys("11230");
+        getDriver().findElement(By.xpath("//div[@id='cobranding-steps']//a[@class='btn next-step']")).click();
+
+        Assert.assertEquals(getDriver()
+                .findElement(By.xpath("//button[@type='submit'][@class='btn cobranding-form-submit']"))
+                .getText(), "Go To Final Step");
+    }
+
+    @Test
+    public void testSamsungGalaxyS7Price_ZB() {
+        getDriver().get("https://www.demoblaze.com/");
+        getDriver().findElement(By.xpath("//h4/a[@href='prod.html?idp_=4']")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h3[@class='price-container']")).getText(),
+                "$800 *includes tax");
+    }
+
+    @Ignore
+    @Test
+    public void testSwitchToPageCompareInsuranceQuote_VadimTref() {
+        getDriver().get("https://www.statewidedealerinsurance.com/");
+        getDriver().findElement(By.id("ZipCode")).sendKeys("11230");
+        getDriver().findElement(By.id("Type")).click();
+        getDriver().findElement(By.xpath("//select[@id='Type']/option[@value='Home']")).click();
+        getDriver().findElement(By.xpath("//form[@id='miniQuote']//button[@type='submit']")).click();
+        WebElement iframeSwitch = getDriver().findElement(By.id("cpIframe"));
+        getDriver().switchTo().frame(iframeSwitch);
+
+        Assert.assertEquals(getDriver()
+                .findElement(By.xpath("//div[@id='body']//p[@class='cpInstructions cpPage0']"))
+                .getText(), "An insurance quote does not impact your credit score. "
+                + "Quote will take approximately 3-5 minutes to complete.");
+
+        getDriver().switchTo().defaultContent();
+
+        Assert.assertEquals(getDriver()
+                .findElement(By.xpath("//h1")).getText(), "Compare Quotes");
+    }
+
+    @Test
+    public void testCheckTheMostRelevantBook_AnastasiaKuz(){
+        getDriver().get("https://www.powells.com/");
+        getDriver().findElement(By.id("keyword")).sendKeys("Software Testing\n");
+
+        Assert.assertEquals(getDriver().getTitle(),"Search Results - Powell's Books");
+        Assert.assertTrue(getDriver().findElement(By.xpath("//img[contains(@alt,'Software Testing and Quality Assurance: Theory and Practice')]")).isDisplayed());
+    }
+    @Test
+    public void testRemoveElementHerokuapp() {
+        getDriver().get("https://the-internet.herokuapp.com/");
+        getDriver().findElement(By.xpath("//a[@href='/add_remove_elements/']")).click();
+        getDriver().findElement(By.xpath("//button[@onclick='addElement()']")).click();
+        getDriver().findElement(By.xpath("//button[@class='added-manually']")).click();
+        Assert.assertTrue(getDriver().findElements(By.xpath("//button[@class='added-manually']")).isEmpty());
+    }
+
+    @Test
+    public void testAddElementsHerokuapp() {
+        getDriver().get("https://the-internet.herokuapp.com/");
+        getDriver().findElement(By.xpath("//a[@href='/add_remove_elements/']")).click();
+        getDriver().findElement(By.xpath("//button[@onclick='addElement()']")).click();
+        getDriver().findElement(By.xpath("//button[@onclick='addElement()']")).click();
+        getDriver().findElement(By.xpath("//button[@onclick='addElement()']")).click();
+        Assert.assertEquals(getDriver().findElements(By.xpath("//button[@class='added-manually']"))
+                .size(),3);
+    }
+
+    @Test
+    public void testContactUsMessagePopsUp_WhenSendingMessage_AnastasiaYakimova() {
+        getDriver().get("https://www.demoblaze.com/");
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Contact')]")).click();
+        getDriver().findElement(By.xpath("//button[@type = 'button'][contains(text(), 'Send message')]")).click();
+
+        Assert.assertEquals(getDriver().switchTo().alert().getText(),"Thanks for the message!!");
+    }
+
+    @Test
+    public void testContextMenu_ET() {
+        getDriver().get("https://the-internet.herokuapp.com/");
+        getDriver().findElement(By.xpath("//a[text()='Context Menu']")).click();
+        Actions actions = new Actions(getDriver());
+        WebElement rectangle = getDriver().findElement(By.id("hot-spot"));
+        actions.contextClick(rectangle).perform();
+
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "You selected a context menu");
+    }
+
+    @Test
+    public void testDoingSmthDontKnowWhatExactly_Tchernomor() {
+        String url = "https://demoqa.com/";
+        getDriver().get("https://www.toolsqa.com/selenium-training/");
+
+        WebElement findDemoSiteLink = getDriver().findElement(By.xpath(
+                "//div[@class='col-auto']//li[3]/a"
+        ));
+        findDemoSiteLink.click();
+
+        for (String pages : getDriver().getWindowHandles()) {
+            getDriver().switchTo().window(pages);
+        }
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), url);
+    }
+    
+    @Test
+    public void testLumaTabPanel() {
+
+        getDriver().get("https://magento.softwaretestingboard.com");
+
+        List<WebElement> elementList = getDriver().findElements(By.xpath("//ul[@class='ui-menu ui-widget ui-widget-content ui-corner-all']/li"));
+        List<String> strlist  = WebelementToString(elementList);
+
+        Assert.assertEquals(strlist, EXPECTED_ITEMS);
+    }
+
+    public static List<String> WebelementToString (List<WebElement> elementList) {
+        List<String> stringList = new ArrayList<>();
+        for (WebElement element : elementList) {
+            stringList.add(element.getText());
+        }
+        return stringList;
+    }
+
+    @Test
+    public void testCategoriesPanel_ZB() {
+        getDriver().get("https://www.demoblaze.com/");
+
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//div[@class='list-group']/a[text()='CATEGORIES']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//div[@class='list-group']/a[text()='Phones']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//div[@class='list-group']/a[text()='Laptops']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//div[@class='list-group']/a[text()='Monitors']")).isDisplayed());
     }
 }

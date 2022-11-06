@@ -51,6 +51,14 @@ public class GroupBughuntersTest extends BaseTest {
 
 
     }
+    @Test
+    public void testW3Resource() {
+        getDriver().get("https://www.w3resource.com/index.php");
+
+        WebElement link = getDriver().findElement(By.xpath("//a[@href='https://www.w3resource.com/java-tutorial/index.php']"));
+
+        Assert.assertEquals(link.getText(), "Java");
+    }
 
     @Test
     public void testPythonOrg() throws InterruptedException {
@@ -73,8 +81,8 @@ public class GroupBughuntersTest extends BaseTest {
         getDriver().findElement(By.name("password")).sendKeys(password);
         getDriver().findElement(By.className("orangehrm-login-button")).click();
 
-        Assert.assertEquals(
-                getDriver().findElement(By.className("oxd-userdropdown-name")).getText(), "Paul Collings");
+        Assert.assertEquals(getDriver().findElement(By
+                .xpath("//span[@class='oxd-topbar-header-breadcrumb']")).getText(), "PIM");
     }
 
     @Test
@@ -88,6 +96,4 @@ public class GroupBughuntersTest extends BaseTest {
 
         Assert.assertEquals(dropdown.getFirstSelectedOption().getText(), "USD");
     }
-
-
 }
