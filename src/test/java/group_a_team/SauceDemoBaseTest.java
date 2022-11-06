@@ -10,6 +10,15 @@ public abstract class SauceDemoBaseTest extends BaseTest {
     protected final static String STANDARD_USER = "standard_user";
     protected final static String CORRECT_PASSWORD = "secret_sauce";
 
+    private Actions action;
+
+    protected Actions getAction() {
+        if (action == null) {
+            return new Actions(getDriver());
+        }
+        return action;
+    }
+
     @BeforeMethod
     protected void maximizeWindow() {
         getDriver().manage().window().maximize();
@@ -17,7 +26,7 @@ public abstract class SauceDemoBaseTest extends BaseTest {
 
     protected void loginIn(String username, String password) {
         getDriver().get(URL);
-        new Actions(getDriver()).
+        getAction().
                 moveToElement(getDriver().findElement(By.id("user-name"))).click().sendKeys(username).
                 moveToElement(getDriver().findElement(By.id("password"))).click().sendKeys(password).
                 moveToElement(getDriver().findElement(By.id("login-button"))).click().perform();
