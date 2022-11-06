@@ -102,7 +102,7 @@ public class GroupBughuntersTest extends BaseTest {
     }
 
     @Test
-    public void testСhoosingСlothes(){
+    public void testChoosingClothes(){
 
         String[] expectedResult = {"TOPS", "DRESSES"};
 
@@ -118,7 +118,7 @@ public class GroupBughuntersTest extends BaseTest {
         Assert.assertEquals(actualResult,expectedResult);
     }
     @Test
-    public void testFillingInContactInformation(){
+    public void testFillingInContactInformation() {
 
         getDriver().get(AUTO_PRACTICE_URL);
         getDriver().findElement(By.xpath("//div[@id='contact-link']/a[@title='Contact Us']")).click();
