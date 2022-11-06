@@ -350,6 +350,20 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
+    public void testDragAndDrop_WebdDiverUniversityCom() {
+
+        getDriver().get("https://webdriveruniversity.com/Actions/index.html");
+        Actions actions = new Actions(getDriver());
+
+        WebElement draggable = getDriver().findElement(By.id("draggable"));
+        WebElement target = getDriver().findElement(By.id("droppable"));
+
+        actions.dragAndDrop(draggable, target).build().perform();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='droppable']//b")).getText(), "Dropped!");
+    }
+
+    @Test
     public void testButtonsLinkText_HerokuApp() {
 
         getDriver().get("https://formy-project.herokuapp.com/");
