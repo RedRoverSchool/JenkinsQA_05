@@ -12,6 +12,9 @@ import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe;
+import static org.openqa.selenium.support.ui.ExpectedConditions.urlToBe;
+
 public class SpiritMastersTest extends BaseTest {
 
     private static final String URL_DEMOQA = "https://demoqa.com/";
@@ -476,4 +479,102 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertEquals(actualNumberWorkers.size(), 4);
     }
 
+    @Test
+    public void test10Openweathermap_APIButtons_gdiksanov() {
+
+        String url = "https://openweathermap.org/";
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+
+        getDriver().get(url);
+        getDriver().manage().window().maximize();
+
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//div[@class='owm-loader-container']/div")));
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[@href='/api']")).click();
+
+        Assert.assertEquals(getDriver().findElements(By.xpath("//a[contains(@class,'orange')]")).size(), 30);
+    }
+
+    @Test
+    public void test9Openweathermap_searchRome_gdiksanov() {
+
+        String url = "https://openweathermap.org/";
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+
+        getDriver().get(url);
+        getDriver().manage().window().maximize();
+
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//div[@class='owm-loader-container']/div")));
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        getDriver().findElement(By.xpath("//div[@id='desktop-menu']//input[@name='q']"))
+                .sendKeys("Rome", Keys.RETURN);
+
+        Assert.assertTrue(getDriver().getCurrentUrl().contains("find") && getDriver().getCurrentUrl().contains("Rome"));
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//input[@id='search_str']")).getAttribute("value").equals("Rome"));
+    }
+
+    @Test
+    public void test5Openweathermap_captchaError_gdiksanov() {
+
+        String url = "https://openweathermap.org/";
+        String email = "qwerty@qwerty.org";
+        String message = "Hello world";
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+
+        getDriver().get(url);
+        getDriver().manage().window().maximize();
+
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//div[@class='owm-loader-container']/div")));
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        getDriver().findElement(By.xpath("//div[@id='support-dropdown']")).click();
+
+        String originalWindow = getDriver().getWindowHandle();
+
+        Assert.assertTrue(getDriver().getWindowHandles().size() == 1);
+
+        getDriver().findElement(
+                By.xpath("//ul[@id='support-dropdown-menu']//a[contains (text(), 'Ask a question')]")).click();
+
+        wait.until(numberOfWindowsToBe(2));
+
+        for (String windowHandle : getDriver().getWindowHandles()) {
+            if (!originalWindow.contentEquals(windowHandle)) {
+                getDriver().switchTo().window(windowHandle);
+                break;
+            }
+        }
+
+        wait.until(urlToBe("https://home.openweathermap.org/questions"));
+
+        getDriver().findElement(
+                By.xpath("//input[@id='question_form_email']")).sendKeys(email);
+
+        Select select = new Select(getDriver().findElement(
+                By.xpath("//select[@id='question_form_subject']")));
+        select.selectByValue("Sales");
+
+        getDriver().findElement(
+                By.xpath("//textarea[@id='question_form_message']")).sendKeys(message);
+
+        getDriver().findElement(
+                By.xpath("//input[@type='submit'][@name='commit']")).click();
+
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//form[@id='new_question_form']//div[@class='help-block']"))
+                .getText().equals("reCAPTCHA verification failed, please try again."));
+    }
 }
