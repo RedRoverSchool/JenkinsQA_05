@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -286,6 +287,34 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         submitButton.submit();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), url + "?filename=" + tempFile.getFileName());
+    }
+
+    @Test
+    public void testSlider_DemoqaCom() {
+
+        String minSliderValue = "0";
+        String maxSliderValue = "100";
+        String defaultSliderValue = "25";
+        int stepsToMove = 55;
+
+        getDriver().get("https://demoqa.com/slider");
+
+        WebElement slider = getDriver().findElement(By.xpath("//input[@type='range']"));
+
+        Assert.assertEquals(slider.getAttribute("min"), minSliderValue);
+        Assert.assertEquals(slider.getAttribute("max"), maxSliderValue);
+        Assert.assertEquals(slider.getAttribute("value"), defaultSliderValue);
+
+        for (int i = 0; i < stepsToMove; i++) {
+            slider.sendKeys(Keys.ARROW_RIGHT);
+        }
+
+        int resultSliderValue = Integer.parseInt(defaultSliderValue) + stepsToMove;
+
+        Assert.assertEquals(slider.getAttribute("value"), String.valueOf(resultSliderValue));
+
+        WebElement sliderValueWindow = getDriver().findElement(By.id("sliderValue"));
+        Assert.assertEquals(sliderValueWindow.getAttribute("value"), String.valueOf(resultSliderValue));
     }
 
     @Test
