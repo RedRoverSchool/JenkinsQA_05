@@ -128,13 +128,7 @@ public class CleanCodeTest extends BaseTest {
         getDriver().get("https://www.flowerchimp.co.id/");
         WebElement SingIn = getDriver().findElement(By.xpath("//span[text()='Login']"));
         SingIn.click();
-        WebElement Email = getDriver().findElement(By.xpath("//div[@id='login_form']/form/input[@type='email']"));
-        Email.sendKeys("Heli@dmail.com");
-        WebElement Password = getDriver().findElement(By.xpath("//input[@type='password']"));
-        Password.sendKeys("12634");
-        WebElement LOGIN = getDriver().findElement(By.xpath("//form/input[@class='btn action_button']"));
-        LOGIN.click();
-        WebElement actual = getDriver().findElement(By.xpath("//p[@class='shopify-challenge__message']"));
-        Assert.assertEquals(actual.getText(), "To continue, let us know you're not a robot.");
+        String LOGIN = getDriver().findElement(By.xpath("//div[@class='sixteen columns clearfix collection_nav']")).getText();
+        Assert.assertEquals(LOGIN, "Customer Login");
     }
 }
