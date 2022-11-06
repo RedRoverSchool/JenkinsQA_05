@@ -318,6 +318,7 @@ public class SpiritMastersTest extends BaseTest {
     }
 
 
+    @Ignore
     @Test
     public void testToolTips_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/tool-tips");
