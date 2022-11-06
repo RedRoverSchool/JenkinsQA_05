@@ -9,6 +9,8 @@ import runner.BaseTest;
 
 public class GroupBughuntersTest extends BaseTest {
 
+    private final String AUTO_PRACTICE_URL = "http://automationpractice.com/index.php";
+
     @Test
     public void ticketonSearch(){
         getDriver().get("https://ticketon.kz/");
@@ -102,10 +104,9 @@ public class GroupBughuntersTest extends BaseTest {
     @Test
     public void testСhoosingСlothes(){
 
-        getDriver().get("http://automationpractice.com/index.php");
-
         String[] expectedResult = {"TOPS", "DRESSES"};
 
+        getDriver().get(AUTO_PRACTICE_URL);
         getDriver().findElement(By.xpath("//div[@id='block_top_menu']/ul/li/a[@title='Women']")).click();
         WebElement tops = getDriver().findElement(
                 By.xpath("//div[@id='subcategories']/ul/li/h5/a[text()='Tops']"));
@@ -115,5 +116,15 @@ public class GroupBughuntersTest extends BaseTest {
         String[] actualResult = {tops.getText(), dresses.getText()};
 
         Assert.assertEquals(actualResult,expectedResult);
+    }
+    @Test
+    public void testFillingInContactInformation(){
+
+        getDriver().get(AUTO_PRACTICE_URL);
+        getDriver().findElement(By.xpath("//div[@id='contact-link']/a[@title='Contact Us']")).click();
+        getDriver().findElement(By.xpath("//div[@class='submit']/button/span[text()='Send']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath(
+                "//div[@class='alert alert-danger']/p")).getText(), "There is 1 error");
     }
 }
