@@ -1,7 +1,9 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -41,7 +43,8 @@ public class JavanistyTest extends BaseTest {
 
         Assert.assertEquals(expectedConfirmationMessage, actualConfirmationMessage);
     }
-
+     
+    @Ignore
     @Test
     public void testBdoWarrior2() throws InterruptedException {
         getDriver().get("https://bdocodex.com/ru/skillbuilder/");
@@ -59,6 +62,7 @@ public class JavanistyTest extends BaseTest {
         Assert.assertEquals(counterValue, "10");
     }
 
+    @Ignore
     @Test
     public void testZipCodeInputField() {
         getDriver().get("https://www.sharelane.com/cgi-bin/register.py");
@@ -85,5 +89,51 @@ public class JavanistyTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name='ht']")).sendKeys("60");
         getDriver().findElement(By.xpath("//input[@value='Calculate']")).click();
         Assert.assertTrue(getDriver().findElement(By.xpath("//input[@class='content']")).isDisplayed());
+    }
+    
+    @Ignore
+    @Test
+    public void testTextHlebnica(){
+        getDriver().get("http://hlebnitca.ru/");
+        getDriver().findElement(By.xpath("//a[@class= 'tn-atom']")).click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), "http://hlebnitca.ru/about");
+    }
+
+    @Ignore
+    @Test
+    public void testAboutHlebnica(){
+        getDriver().get ("http://hlebnitca.ru/about");
+        String aboutHlebnica =  getDriver().findElement(By.xpath("//div[@class = 't396__elem tn-elem tn-elem__3963063211640603855210']")).getText();
+        Assert.assertEquals(aboutHlebnica, "Вкус настоящей домашней выпечки");
+    }
+    
+    @Test
+    public void testIlyaSecondTest() {
+        getDriver().get("https://karkas.k3-cottage.ru/");
+        WebElement text = getDriver().findElement(By.xpath("//li/a[@href='#features']"));
+        Assert.assertEquals(text.getText(), "ВОЗМОЖНОСТИ");
+    }
+
+    @Test
+    public void testAratinveMainMenuTitle() {
+        String titleExpected = "Главная страница\nО программе\nНовости\nПродукты\nОбучение" +
+                "\nСкачать\nКупить\nFAQ\nО нас";
+
+        getDriver().get("https://k3-mebel.ru/");
+        String titleActual = getDriver().findElement(By.id("menu-verhnee-menyu")).getText();
+        Assert.assertEquals(titleActual, titleExpected);
+    }
+    @Test
+    public void testWeightPoundsHeight2(){
+        getDriver().get("https://healthunify.com/bmicalculator/");
+        Select weight = new Select(getDriver().findElement(By.name("opt1")));
+        weight.selectByValue("pounds");
+        getDriver().findElement(By.name("wg")).sendKeys("88");
+        Select height = new Select(getDriver().findElement(By.name("opt2")));
+        height.selectByValue("5");
+        Select height2 = new Select(getDriver().findElement(By.name("opt3")));
+        height2.selectByValue("4");
+        getDriver().findElement(By.name("cc")).click();
+        Assert.assertEquals(getDriver().findElement(By.name("si")).getAttribute("value"), "15.05");
     }
 }
