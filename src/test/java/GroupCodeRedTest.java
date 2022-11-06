@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -99,6 +100,7 @@ public class GroupCodeRedTest extends BaseTest {
         Assert.assertEquals(actualResult, "https://formy-project.herokuapp.com/buttons");
     }
 
+    @Ignore
     @Test
     public void testDatepicker() {
         getDriver().get("https://formy-project.herokuapp.com/");
