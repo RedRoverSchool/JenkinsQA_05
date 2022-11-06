@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class CleanCodeTest extends BaseTest {
 
@@ -121,5 +122,13 @@ public class CleanCodeTest extends BaseTest {
                 By.cssSelector("#j-catalog-header")).getText();
 
         Assert.assertEquals(actualH1, expectedH1);
+    }
+    @Test
+    public void testFlower(){
+        getDriver().get("https://www.flowerchimp.co.id/");
+        WebElement SingIn = getDriver().findElement(By.xpath("//span[text()='Login']"));
+        SingIn.click();
+        String LOGIN = getDriver().findElement(By.xpath("//div[@class='sixteen columns clearfix collection_nav']")).getText();
+        Assert.assertEquals(LOGIN, "Customer Login");
     }
 }
