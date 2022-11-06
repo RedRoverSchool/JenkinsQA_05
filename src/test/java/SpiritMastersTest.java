@@ -422,10 +422,10 @@ public class SpiritMastersTest extends BaseTest {
         js.executeScript("arguments[0].scrollIntoView();", getDriver()
                 .findElement(By.xpath("//span[text()='Slider']")));
         getActions().moveToElement(getDriver().findElement(By.xpath("//span[text()='Slider']")))
-                .click().pause(500).perform();
+                .click().perform();
 
         WebElement slider = getDriver().findElement(By.xpath("//input[@type='range']"));
-        getActions().dragAndDropBy(slider, 350, 0).pause(500).perform();
+        getActions().scrollToElement(slider).pause(250).dragAndDropBy(slider, 350, 0).pause(500).perform();
         String actualSliderValue = getDriver().findElement(By.id("sliderValue")).getAttribute("value");
 
         Assert.assertEquals(actualSliderValue, "100");
