@@ -17,6 +17,13 @@ public class GroupObukhovTest extends BaseTest {
 
     private final String URLFranchise = "https://start.urent.ru/";
 
+    private final List<String> BASIC_COLORS_HEX = Arrays.asList("#804AFF", "#000000", "#FFFFFF");
+
+    List<String> LINK_TO_CHECK_BASIC_COLORS = Arrays.asList(
+            "https://design.urent.ru/img/colors/804aff.svg",
+            "https://design.urent.ru/img/colors/000000.svg",
+            "https://design.urent.ru/img/colors/ffffff.svg");
+
     private List<WebElement> getMainMenu() {
         return getDriver().findElements(By.xpath("//ul[@class=\"menu-list\"]/li"));
     }
@@ -72,6 +79,11 @@ public class GroupObukhovTest extends BaseTest {
     private void goToStartPage() {
         getDriver().get(URLFranchise);
         getMenuFranchise().get(3).click();
+    }
+
+    private void goToPalette() {
+        goToBrandBookPage();
+        getDriver().findElement(By.linkText("Палитра")).click();
     }
 
     @Test
@@ -229,20 +241,17 @@ public class GroupObukhovTest extends BaseTest {
 
     @Test
     public void testCheckBrandBookBasicColorsHEX() {
-        goToBrandBookPage();
-        getDriver().findElement(By.linkText("Палитра")).click();
+        goToPalette();
         List<WebElement> colors = getDriver().findElements(By.xpath("//div[@id = 'palette-three']//div[@class = 'colorchart']"));
-        List<String> expectedResult = Arrays.asList("#804AFF", "#000000", "#FFFFFF");
 
         for (int i = 0; i < colors.size(); i++) {
-            Assert.assertEquals(colors.get(i).getText().substring(0, 7), expectedResult.get(i));
+            Assert.assertEquals(colors.get(i).getText().substring(0, 7), BASIC_COLORS_HEX.get(i));
         }
     }
 
     @Test
     public void testCheckBrandBookAdditionalColorsHEX() {
-        goToBrandBookPage();
-        getDriver().findElement(By.linkText("Палитра")).click();
+        goToPalette();
         List<WebElement> colors = getDriver().findElements(By.xpath("//div[@id = 'palette-four']//div[@class = 'colorchart']"));
         List<String> expectedResult = Arrays.asList("#FFC65B", "#FF73D5", "#9FD7FF");
 
@@ -384,5 +393,38 @@ public class GroupObukhovTest extends BaseTest {
         goToStartPage();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://start.urent.ru/#start");
+    }
+
+    @Test
+    public void testCheckPaletteBasicColorsLinks() {
+        goToPalette();
+        List<String> actualLinksToCheckBasicColors = new ArrayList<>();
+
+        List<WebElement> basicColorsExamples = getDriver()
+                .findElements(By.xpath("//div[@id = 'palette-three']/div[@class= 'block-grid-colorblock']/div[1]"));
+        for (int i = 0; i < basicColorsExamples.size(); i++) {
+            actualLinksToCheckBasicColors.add(i, basicColorsExamples.get(i).getCssValue("background-image")
+                    .replace("url(\"", "").replace("\")", ""));
+        }
+
+        Assert.assertEquals(actualLinksToCheckBasicColors, LINK_TO_CHECK_BASIC_COLORS);
+    }
+
+    @Test(dependsOnMethods = "testCheckPaletteBasicColorsLinks")
+    public void testCheckMatchColorAnnotationAndLinkColor() {
+        goToPalette();
+
+        List<String> checkColors = new ArrayList<>();
+        List<WebElement> basicColorsTextDescriptionsFromDesignPage = getDriver().findElements(By.xpath("//div[@id = 'palette-three']//div[@class = 'colorchart']"));
+        List<String> basicColors = new ArrayList<>();
+        for (int i = 0; i < basicColorsTextDescriptionsFromDesignPage.size(); i++) {
+            basicColors.add(i, basicColorsTextDescriptionsFromDesignPage.get(i).getText().substring(0, 7));
+        }
+        for (String str : LINK_TO_CHECK_BASIC_COLORS) {
+            getDriver().get(str);
+            checkColors.add(Color.fromString(getDriver().findElement(By.cssSelector(" path")).getCssValue("fill")).asHex().toUpperCase());
+        }
+
+        Assert.assertEquals(checkColors, basicColors);
     }
 }
