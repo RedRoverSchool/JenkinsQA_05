@@ -128,4 +128,21 @@ public class GroupFremenTest extends BaseTest {
         String actualResult = getDriver().getCurrentUrl();
         Assert.assertEquals(expectedResult,actualResult);
     }
+
+    @Test
+    public void testKristina_SwitchWindow() {
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//a[@class='btn btn-lg'][text()='Switch Window']")).click();
+        getDriver().findElement(By.xpath("//div/button[@id='new-tab-button']")).click();
+        String currentHandle= getDriver().getWindowHandle();
+        getDriver().switchTo().window(currentHandle);
+        getDriver().findElement(By.xpath("//div/button[@id='alert-button']")).click();
+
+        Assert.assertEquals(getDriver().switchTo().alert().getText(), "This is a test alert!");
+        getDriver().switchTo().alert().accept();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("h1")).getText(),
+                "Switch Window");
+    }
+
 }

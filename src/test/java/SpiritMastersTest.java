@@ -11,6 +11,8 @@ import runner.BaseTest;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe;
+import static org.openqa.selenium.support.ui.ExpectedConditions.urlToBe;
 
 public class SpiritMastersTest extends BaseTest {
 
@@ -173,7 +175,7 @@ public class SpiritMastersTest extends BaseTest {
         getActions().moveToElement(subjectMenu).click().sendKeys("Maths").pause(500).sendKeys(Keys.TAB)
                     .scrollToElement(getDriver().findElement(By.id("submit"))).build().perform();
 
-        getDriver().findElement((By.cssSelector("[for=hobbies-checkbox-1]"))).click();;
+        getDriver().findElement((By.cssSelector("[for=hobbies-checkbox-1]"))).click();
 
         WebElement currentAddressField = getDriver().findElement(By.id("currentAddress"));
         currentAddressField.click();
@@ -318,8 +320,6 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("showLargeModal")).isDisplayed());
     }
 
-
-    @Ignore
     @Test
     public void testToolTips_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/tool-tips");
@@ -417,12 +417,14 @@ public class SpiritMastersTest extends BaseTest {
         getDriver().get(URL_DEMOQA);
 
         getDriver().findElement(By.xpath("//div[@class='category-cards']/div[4]")).click();
-        getActions().scrollToElement(getDriver().findElement(By.xpath("//span[text()='Slider']")));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", getDriver()
+                .findElement(By.xpath("//span[text()='Slider']")));
         getActions().moveToElement(getDriver().findElement(By.xpath("//span[text()='Slider']")))
-                .click().pause(500).perform();
+                .click().perform();
 
         WebElement slider = getDriver().findElement(By.xpath("//input[@type='range']"));
-        getActions().dragAndDropBy(slider, 350, 0).pause(500).perform();
+        getActions().scrollToElement(slider).pause(250).dragAndDropBy(slider, 350, 0).pause(500).perform();
         String actualSliderValue = getDriver().findElement(By.id("sliderValue")).getAttribute("value");
 
         Assert.assertEquals(actualSliderValue, "100");
@@ -477,4 +479,129 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertEquals(actualNumberWorkers.size(), 4);
     }
 
+    @Test
+    public void testCheckValueCart_AKaz() {
+        getDriver().get("http://saucedemo.com/");
+
+        String login = "standard_user";
+        String pass = "secret_sauce";
+
+        WebElement loginInput = getDriver().findElement(By.id("user-name"));
+        loginInput.sendKeys(login);
+
+        WebElement passwordInput = getDriver().findElement(By.id("password"));
+        passwordInput.sendKeys(pass);
+
+        WebElement loginBtn = getDriver().findElement(By.id("login-button"));
+        loginBtn.click();
+
+        List<WebElement> productList = getDriver().findElements(By.cssSelector(".inventory_item"));
+        for (int i = 1; i <= productList.size(); i++) {
+            String path = "//div[@class='inventory_item'][" + i + "]//button";
+            getDriver().findElement(By.xpath(path)).click();
+        }
+
+        WebElement actualResult = getDriver().findElement(By.cssSelector("span.shopping_cart_badge"));
+
+        Assert.assertEquals(actualResult.getText(), "6");
+    }
+
+    @Test
+    public void test10Openweathermap_APIButtons_gdiksanov() {
+
+        String url = "https://openweathermap.org/";
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+
+        getDriver().get(url);
+        getDriver().manage().window().maximize();
+
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//div[@class='owm-loader-container']/div")));
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[@href='/api']")).click();
+
+        Assert.assertEquals(getDriver().findElements(By.xpath("//a[contains(@class,'orange')]")).size(), 30);
+    }
+
+    @Test
+    public void test9Openweathermap_searchRome_gdiksanov() {
+
+        String url = "https://openweathermap.org/";
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+
+        getDriver().get(url);
+        getDriver().manage().window().maximize();
+
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//div[@class='owm-loader-container']/div")));
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        getDriver().findElement(By.xpath("//div[@id='desktop-menu']//input[@name='q']"))
+                .sendKeys("Rome", Keys.RETURN);
+
+        Assert.assertTrue(getDriver().getCurrentUrl().contains("find") && getDriver().getCurrentUrl().contains("Rome"));
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//input[@id='search_str']")).getAttribute("value").equals("Rome"));
+    }
+
+    @Test
+    public void test5Openweathermap_captchaError_gdiksanov() {
+
+        String url = "https://openweathermap.org/";
+        String email = "qwerty@qwerty.org";
+        String message = "Hello world";
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+
+        getDriver().get(url);
+        getDriver().manage().window().maximize();
+
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//div[@class='owm-loader-container']/div")));
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        getDriver().findElement(By.xpath("//div[@id='support-dropdown']")).click();
+
+        String originalWindow = getDriver().getWindowHandle();
+
+        Assert.assertTrue(getDriver().getWindowHandles().size() == 1);
+
+        getDriver().findElement(
+                By.xpath("//ul[@id='support-dropdown-menu']//a[contains (text(), 'Ask a question')]")).click();
+
+        wait.until(numberOfWindowsToBe(2));
+
+        for (String windowHandle : getDriver().getWindowHandles()) {
+            if (!originalWindow.contentEquals(windowHandle)) {
+                getDriver().switchTo().window(windowHandle);
+                break;
+            }
+        }
+
+        wait.until(urlToBe("https://home.openweathermap.org/questions"));
+
+        getDriver().findElement(
+                By.xpath("//input[@id='question_form_email']")).sendKeys(email);
+
+        Select select = new Select(getDriver().findElement(
+                By.xpath("//select[@id='question_form_subject']")));
+        select.selectByValue("Sales");
+
+        getDriver().findElement(
+                By.xpath("//textarea[@id='question_form_message']")).sendKeys(message);
+
+        getDriver().findElement(
+                By.xpath("//input[@type='submit'][@name='commit']")).click();
+
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//form[@id='new_question_form']//div[@class='help-block']"))
+                .getText().equals("reCAPTCHA verification failed, please try again."));
+    }
 }
