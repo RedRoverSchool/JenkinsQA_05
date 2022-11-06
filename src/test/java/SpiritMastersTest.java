@@ -413,13 +413,14 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Ignore
     @Test
     public void testSlider_KI() {
         getDriver().get(URL_DEMOQA);
 
         getDriver().findElement(By.xpath("//div[@class='category-cards']/div[4]")).click();
-        getActions().scrollToElement(getDriver().findElement(By.xpath("//span[text()='Slider']")));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", getDriver()
+                .findElement(By.xpath("//span[text()='Slider']")));
         getActions().moveToElement(getDriver().findElement(By.xpath("//span[text()='Slider']")))
                 .click().pause(500).perform();
 
