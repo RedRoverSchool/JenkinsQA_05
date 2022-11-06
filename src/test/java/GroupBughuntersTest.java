@@ -95,5 +95,25 @@ public class GroupBughuntersTest extends BaseTest {
         dropdown.selectByIndex(3);
 
         Assert.assertEquals(dropdown.getFirstSelectedOption().getText(), "USD");
+
+    getDriver().get("https://developers.mts.ru");
+    }
+
+    @Test
+    public void testСhoosingСlothes(){
+
+        getDriver().get("http://automationpractice.com/index.php");
+
+        String[] expectedResult = {"TOPS", "DRESSES"};
+
+        getDriver().findElement(By.xpath("//div[@id='block_top_menu']/ul/li/a[@title='Women']")).click();
+        WebElement tops = getDriver().findElement(
+                By.xpath("//div[@id='subcategories']/ul/li/h5/a[text()='Tops']"));
+        WebElement dresses = getDriver().findElement(
+                By.xpath("//div[@id='subcategories']/ul/li/h5/a[text()='Dresses']"));
+
+        String[] actualResult = {tops.getText(), dresses.getText()};
+
+        Assert.assertEquals(actualResult,expectedResult);
     }
 }
