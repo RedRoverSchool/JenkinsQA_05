@@ -27,10 +27,9 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
         Assert.assertTrue(getDriver().findElement(By.cssSelector("div.bm-menu")).isDisplayed());
 
         List<String> expectedMenuItemNames = Arrays.asList("ALL ITEMS", "ABOUT", "LOGOUT", "RESET APP STATE");
-        List<WebElement> actualMenuItems;
-        new WebDriverWait(getDriver(), Duration.ofSeconds(20))
+        List<WebElement> actualMenuItems = new WebDriverWait(getDriver(), Duration.ofSeconds(20))
                 .ignoring(StaleElementReferenceException.class)
-                .until(ExpectedConditions.visibilityOfAllElements(actualMenuItems = getDriver().findElements(By.xpath("//nav[@class='bm-item-list']/a"))));
+                .until(ExpectedConditions.visibilityOfAllElements(getDriver().findElements(By.xpath("//nav[@class='bm-item-list']/a"))));
         List<String> actualMenuItemNames = new ArrayList<>();
         actualMenuItems.stream().forEach(webElement -> actualMenuItemNames.add(webElement.getText()));
 
