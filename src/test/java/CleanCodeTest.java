@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class CleanCodeTest extends BaseTest {
 
@@ -121,5 +122,19 @@ public class CleanCodeTest extends BaseTest {
                 By.cssSelector("#j-catalog-header")).getText();
 
         Assert.assertEquals(actualH1, expectedH1);
+    }
+    @Test
+    public void testFlower(){
+        getDriver().get("https://www.flowerchimp.co.id/");
+        WebElement SingIn = getDriver().findElement(By.xpath("//span[text()='Login']"));
+        SingIn.click();
+        WebElement Email = getDriver().findElement(By.xpath("//div[@id='login_form']/form/input[@type='email']"));
+        Email.sendKeys("Heli@dmail.com");
+        WebElement Password = getDriver().findElement(By.xpath("//input[@type='password']"));
+        Password.sendKeys("12634");
+        WebElement LOGIN = getDriver().findElement(By.xpath("//form/input[@class='btn action_button']"));
+        LOGIN.click();
+        WebElement actual = getDriver().findElement(By.xpath("//p[@class='shopify-challenge__message']"));
+        Assert.assertEquals(actual.getText(), "To continue, let us know you're not a robot.");
     }
 }
