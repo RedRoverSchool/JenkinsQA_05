@@ -5,10 +5,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
+
+import static java.sql.DriverManager.getDriver;
 
 
 public class GroupCodeRedTest extends BaseTest {
@@ -97,6 +100,7 @@ public class GroupCodeRedTest extends BaseTest {
         Assert.assertEquals(actualResult, "https://formy-project.herokuapp.com/buttons");
     }
 
+    @Ignore
     @Test
     public void testDatepicker() {
         getDriver().get("https://formy-project.herokuapp.com/");
@@ -309,4 +313,24 @@ public class GroupCodeRedTest extends BaseTest {
         String actualResult = getDriver().findElement(By.xpath("//h5")).getText();
         Assert.assertEquals(actualResult,"Modal title");
     }
+
+    @Test
+    public void testCorrectTitlePresence() throws InterruptedException {
+
+        String baseUrl = "https://portal.311.nyc.gov/";
+        String expectedResult = "Home  · NYC311";
+        String actualResult = "";
+
+        getDriver().get(baseUrl);
+        Thread.sleep(2000);
+        actualResult = getDriver().getTitle();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+        getDriver().quit();
+    }
+
+
+
+
 }
