@@ -60,7 +60,13 @@ public class GroupNikkiTest extends BaseTest {
 
     }
 
-
+    @Test
+    public void testArailymIsElementsDisplayed(){
+        getDriver().get("https://katalon-demo-cura.herokuapp.com/");
+        Assert.assertTrue(getDriver().findElement(By.xpath("//i[@class='fa fa-facebook fa-fw fa-3x']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//i[@class='fa fa-twitter fa-fw fa-3x']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//i[@class='fa fa-dribbble fa-fw fa-3x']")).isDisplayed());
+    }
     }
 
 
