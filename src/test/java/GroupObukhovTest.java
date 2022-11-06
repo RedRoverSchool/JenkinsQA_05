@@ -196,6 +196,38 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     @Test
+    public void testActiveElementsOfMainMenu(){
+        getDriver().get(URL);
+        List<WebElement> nowMainMenu = getDriver().findElements(By.cssSelector(".menu-list"));
+        //List<String> expectedMainMenu = Arrays.asList("Главная", "Помощь", "Вакансии", "Франшиза");
+        int size = nowMainMenu.size();
+        int activeElement = size;
+        int countInactiveElement = 0;
+        int countClick = 0;
+        for (int i = 0; i < size - 2; i++){
+            if(activeElement < size){ // проверяем элемент "Главная" два раза, при начальной загрузке сайта и при клике.
+                if(countClick == 0){
+                    i = 0;
+                }
+                nowMainMenu.get(i).click();
+                countClick++;
+            }// пропускаем первый раз.
+            for (int j = 0; j < size; j++) {
+                if (nowMainMenu.get(j).getAttribute("class").contains("menu-active-link")) {
+                    activeElement = j;
+                } else {
+                    countInactiveElement++;
+                }
+            }
+
+            Assert.assertTrue(activeElement == i && size - countInactiveElement == 1);
+
+            countInactiveElement = 0;
+        }
+
+    }
+
+    @Test
     public void testCheckBrandBookBasicColorsHEX() {
         goToBrandBookPage();
         getDriver().findElement(By.linkText("Палитра")).click();
