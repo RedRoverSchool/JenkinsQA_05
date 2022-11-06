@@ -182,6 +182,12 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         WebElement unCheckedCheckbox = getDriver().findElement(By.cssSelector("[type=checkbox]:not(:checked)"));
         Assert.assertEquals(unCheckedCheckbox.getAttribute("value"), "option-1");
         Assert.assertFalse(unCheckedCheckbox.isSelected());
+
+        checkedCheckbox.click();
+        Assert.assertFalse(checkedCheckbox.isSelected());
+
+        unCheckedCheckbox.click();
+        Assert.assertTrue(unCheckedCheckbox.isSelected());
     }
 
     @Test
@@ -200,6 +206,10 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         WebElement disabledRadioButton = getDriver().findElement(By.xpath("//input[@type='radio' and @disabled]"));
         Assert.assertEquals(disabledRadioButton.getAttribute("type"), "radio");
         Assert.assertFalse(disabledRadioButton.isEnabled());
+
+        unCheckedRadioButton.click();
+        Assert.assertFalse(checkedRadioButton.isSelected());
+        Assert.assertTrue(unCheckedRadioButton.isSelected());
     }
 
     @Test
