@@ -11,7 +11,6 @@ import runner.BaseTest;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-
 import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe;
 import static org.openqa.selenium.support.ui.ExpectedConditions.urlToBe;
 
@@ -477,6 +476,33 @@ public class SpiritMastersTest extends BaseTest {
                 findElements(By.xpath("//div[@class='action-buttons']"));
 
         Assert.assertEquals(actualNumberWorkers.size(), 4);
+    }
+
+    @Test
+    public void testCheckValueCart_AKaz() {
+        getDriver().get("http://saucedemo.com/");
+
+        String login = "standard_user";
+        String pass = "secret_sauce";
+
+        WebElement loginInput = getDriver().findElement(By.id("user-name"));
+        loginInput.sendKeys(login);
+
+        WebElement passwordInput = getDriver().findElement(By.id("password"));
+        passwordInput.sendKeys(pass);
+
+        WebElement loginBtn = getDriver().findElement(By.id("login-button"));
+        loginBtn.click();
+
+        List<WebElement> productList = getDriver().findElements(By.cssSelector(".inventory_item"));
+        for (int i = 1; i <= productList.size(); i++) {
+            String path = "//div[@class='inventory_item'][" + i + "]//button";
+            getDriver().findElement(By.xpath(path)).click();
+        }
+
+        WebElement actualResult = getDriver().findElement(By.cssSelector("span.shopping_cart_badge"));
+
+        Assert.assertEquals(actualResult.getText(), "6");
     }
 
     @Test
