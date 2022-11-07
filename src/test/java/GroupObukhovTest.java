@@ -337,7 +337,8 @@ public class GroupObukhovTest extends BaseTest {
             Assert.assertEquals(stepNumbersHowToUseService.get(i).getCssValue("border"), propertyActiveButton);
             Assert.assertEquals(stepNumbersHowToUseService.get(i).getText(), String.valueOf(i + 1));
             Assert.assertEquals(stepNamesHowToUseService.get(i).getText().substring(2), stepsNames.get(i));
-            Assert.assertEquals(descriptionHowToUseService.get(i).getText().replace("\n", ""), stepsDescriptions.get(i));
+            Assert.assertEquals(descriptionHowToUseService
+                    .get(i).getText().replace("\n", ""), stepsDescriptions.get(i));
         }
     }
 
@@ -437,14 +438,16 @@ public class GroupObukhovTest extends BaseTest {
         goToPalette();
 
         List<String> checkColors = new ArrayList<>();
-        List<WebElement> basicColorsTextDescriptionsFromDesignPage = getDriver().findElements(By.xpath("//div[@id = 'palette-three']//div[@class = 'colorchart']"));
+        List<WebElement> basicColorsTextDescriptionsFromDesignPage = getDriver()
+                .findElements(By.xpath("//div[@id = 'palette-three']//div[@class = 'colorchart']"));
         List<String> basicColors = new ArrayList<>();
         for (int i = 0; i < basicColorsTextDescriptionsFromDesignPage.size(); i++) {
             basicColors.add(i, basicColorsTextDescriptionsFromDesignPage.get(i).getText().substring(0, 7));
         }
         for (String str : LINK_TO_CHECK_BASIC_COLORS) {
             getDriver().get(str);
-            checkColors.add(Color.fromString(getDriver().findElement(By.cssSelector(" path")).getCssValue("fill")).asHex().toUpperCase());
+            checkColors.add(Color.fromString(getDriver()
+                    .findElement(By.cssSelector(" path")).getCssValue("fill")).asHex().toUpperCase());
         }
 
         Assert.assertEquals(checkColors, basicColors);
@@ -463,7 +466,8 @@ public class GroupObukhovTest extends BaseTest {
                 getRandomString(5)
 
         );
-        List<WebElement> fields = getDriver().findElements(By.xpath("//div[@class = 'content-grid-form']//form[@class = 'call-respond']/input[@type][@placeholder]"));
+        List<WebElement> fields = getDriver().findElements(By
+                .xpath("//div[@class = 'content-grid-form']//form[@class = 'call-respond']/input[@type][@placeholder]"));
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
         Actions action = new Actions(getDriver());
@@ -471,18 +475,22 @@ public class GroupObukhovTest extends BaseTest {
             wait.until(ExpectedConditions.elementToBeClickable(fields.get(i)));
             action.moveToElement(fields.get(i)).click().sendKeys(data.get(i)).perform();
         }
-        WebElement submitButton = getDriver().findElement(By.xpath("//div[@class = 'content-grid-form']//form[@class = 'call-respond']/button[@type = 'submit']"));
+        WebElement submitButton = getDriver().findElement(By
+                .xpath("//div[@class = 'content-grid-form']//form[@class = 'call-respond']/button[@type = 'submit']"));
         getAction()
                 .moveToElement(submitButton)
                 .click()
                 .perform();
 
+        String successStart = "Форма отправлена! Мы скоро свяжемся с вами.";
+        String failureStart = "Вы не прошли проверку на человечность, попробуйте еще раз!";
+
         if (getDriver().getCurrentUrl().equals("https://start.urent.ru/thank-you.html")) {
 
-            Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class = 'text-center']")).getText(), "Форма отправлена! Мы скоро свяжемся с вами.");
+            Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class = 'text-center']")).getText().contains(successStart));
         } else {
 
-            Assert.assertEquals(getDriver().findElement(By.xpath("//body")).getText().substring(0, 58), "Вы не прошли проверку на человечность, попробуйте еще раз!");
+            Assert.assertTrue(getDriver().findElement(By.xpath("//body")).getText().contains(failureStart));
         }
     }
 }
