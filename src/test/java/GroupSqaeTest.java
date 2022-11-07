@@ -1,7 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -77,41 +76,37 @@ public class GroupSqaeTest extends BaseTest {
     }
 
     @Test
-    public void testPageTitleOfSite() {
+    public void testPageTitleOfPracticeform() {
         getDriver().get("http://www.seleniumframework.com/Practiceform/");
 
+        final String expectedSiteTitle = "Selenium Framework | Practiceform";
         String actualSiteTitle = getDriver().getTitle();
-        String expectedSiteTitle = "Selenium Framework | Practiceform";
 
         Assert.assertEquals(actualSiteTitle, expectedSiteTitle);
     }
 
     @Test
-    public void testUrlOfSite() {
+    public void testUrlOfPagePracticeform() {
         getDriver().get("http://www.seleniumframework.com/Practiceform/");
-        getDriver().findElement(By.xpath("//*[@id=\"main-nav\"]/li[8]/a/span")).click();
+        getDriver().findElement(By.xpath("//nav/ul/li[8]/a")).click();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "http://www.seleniumframework.com/about-2/");
     }
 
-    @Ignore
     @Test
-    public void testUrlTitleHeading() {
+    public void testUrlTitleHeadingOfPageAbout() {
+        final String expectedUrl = "http://www.seleniumframework.com/";
+        final String expectedTitle = "Selenium Framework | Selenium, Cucumber, Ruby, Java et al.";
+
         getDriver().get("http://www.seleniumframework.com/about-2/");
-        getDriver().findElement(By.xpath("//*[@id=\"main-nav\"]/li[1]/a/span")).click();
+        getDriver().findElement(By.xpath("//nav/ul/li[1]/a")).click();
 
         String actualUrl = getDriver().getCurrentUrl();
-        String expectedUrl = "http://www.seleniumframework.com/";
-
-        Assert.assertEquals(actualUrl, expectedUrl);
-
         String actualTitle = getDriver().getTitle();
-        String expectedTitle = "Selenium Framework | Selenium, Cucumber, Ruby, Java et al.";
-
-        Assert.assertEquals(actualTitle, expectedTitle);
-
         WebElement actualH2 = getDriver().findElement(By.cssSelector("h2"));
 
+        Assert.assertEquals(actualUrl, expectedUrl);
+        Assert.assertEquals(actualTitle, expectedTitle);
         Assert.assertEquals(actualH2.getText(), "Agile Testing and ATDD Automation –  Free Tutorials");
     }
 }
