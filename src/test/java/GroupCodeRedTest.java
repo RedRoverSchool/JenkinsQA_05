@@ -116,7 +116,7 @@ public class GroupCodeRedTest extends BaseTest {
                 ("/html/body/div[2]/div[1]/table/tbody/tr/td[@class='today day']"));
         todayDate.click();
     }
-
+    @Ignore
     @Test
     public void testDropdown() throws InterruptedException {
         getDriver().get("https://formy-project.herokuapp.com/");
@@ -330,7 +330,22 @@ public class GroupCodeRedTest extends BaseTest {
         getDriver().quit();
     }
 
-
+    @Test
+    public void testCheckbox() {
+        getDriver().get("https://formy-project.herokuapp.com/");
+        String actualTitle = getDriver().getTitle();
+        Assert.assertEquals(actualTitle, "Formy");
+        getDriver().findElement(By.xpath("//li[3]/a[@class = 'btn btn-lg']")).click();
+        WebElement name=getDriver().findElement(By.xpath( "//h1[contains(text(),'Checkboxes')]"));
+        Assert.assertEquals(name.getText(), "Checkboxes");
+        WebElement name1=getDriver().findElement(By.xpath( "//div[@class = 'col-sm-8']"));
+        Assert.assertEquals(name1.getText(), "Checkbox1");
+        getDriver().findElement(By.xpath("//input[@id='checkbox-2']")).click();
+        WebElement name2=getDriver().findElement(By.xpath( "//div[2]/div/div"));
+        Assert.assertEquals(name2.getText(), "Checkbox2");
+        WebElement name3=getDriver().findElement(By.xpath( "//div[3]/div/div"));
+        Assert.assertEquals(name3.getText(), "Checkbox3");
+    }
 
 
 }
