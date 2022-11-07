@@ -152,9 +152,9 @@ public class GroupFremenTest extends BaseTest {
     public void testDZAmountElementsOfLinksInTabComponents() {
         getDriver().get(URL);
         int expectedResult = 14;
-        WebElement LinkComponents = getDriver().findElement(
+        WebElement linkComponents = getDriver().findElement(
                 By.id("navbarDropdownMenuLink"));
-        LinkComponents.click();
+        linkComponents.click();
         int actualResult = getDriver().findElements(
                 By.xpath("//div[@class='dropdown-menu show']/a")).size();
         Assert.assertEquals(expectedResult, actualResult);
@@ -164,10 +164,10 @@ public class GroupFremenTest extends BaseTest {
     public void testDZSubmitAnEmptyForm() {
         getDriver().get(URL);
         String expectedResult = "The form was successfully submitted!";
-        WebElement LinkForm = getDriver().findElement(By.xpath("//a[text()='Form']"));
-        LinkForm.click();
-        WebElement PressSubmit = getDriver().findElement(By.xpath("//a[@class='btn btn-lg btn-primary']"));
-        PressSubmit.click();
+        WebElement linkForm = getDriver().findElement(By.xpath("//a[text()='Form']"));
+        linkForm.click();
+        WebElement pressSubmit = getDriver().findElement(By.xpath("//a[@class='btn btn-lg btn-primary']"));
+        pressSubmit.click();
         Assert.assertEquals(getDriver().findElement(
                 By.xpath("//div[@class='alert alert-success']")).getText(), expectedResult);
     }

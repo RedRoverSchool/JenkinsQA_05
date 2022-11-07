@@ -403,6 +403,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), url);
     }
 
+    @Ignore
     @Test
     public void testChangeCategoryInSidebarWhenChoosingWomenCategory() {
         getDriver().get("http://automationpractice.com/");
