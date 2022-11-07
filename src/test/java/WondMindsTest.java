@@ -23,12 +23,11 @@ public class WondMindsTest extends BaseTest {
 
         getDriver().get(url);
         getDriver().manage().window().maximize();
-        Thread.sleep(2000);
+        Thread.sleep(5000);
 
-        WebElement searchButton = getDriver().findElement(
-                By.xpath("//a[@href='/guide']"));
+        WebElement searchButton = getDriver().findElement(By.xpath("//a[@href='/guide']"));
         searchButton.click();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         String actualResultTitle = getDriver().getTitle();
         Assert.assertEquals(actualResultTitle, expectedResultTitle);
