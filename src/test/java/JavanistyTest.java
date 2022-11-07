@@ -1,6 +1,8 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -135,5 +137,38 @@ public class JavanistyTest extends BaseTest {
         height2.selectByValue("4");
         getDriver().findElement(By.name("cc")).click();
         Assert.assertEquals(getDriver().findElement(By.name("si")).getAttribute("value"), "15.05");
+    }
+
+    @Test
+    public void testH2TagText_WhenSearchingCityCountry() throws InterruptedException {
+
+        String url = "https://openweathermap.org/";
+        String cityName = "Paris";
+        String expectedResult = "Paris, FR";
+
+        getDriver().get(url);
+        Thread.sleep(5000);
+
+        WebElement searchCityField = getDriver().findElement(
+                By.xpath("//div[@id='weather-widget']//input[@placeholder='Search city']"));
+        searchCityField.click();
+        searchCityField.sendKeys(cityName);
+
+        WebElement searchButton = getDriver().findElement(
+                By.xpath("//div[@id='weather-widget']//button[@type='submit']"));
+        searchButton.click();
+        Thread.sleep(1000);
+
+        WebElement parisFRChoiceInDropdownMenu = getDriver().findElement(
+                By.xpath("//ul[@class='search-dropdown-menu']/li/span[text()='Paris, FR ']"));
+        parisFRChoiceInDropdownMenu.click();
+
+        WebElement h2CityCountryHeader = getDriver().findElement(
+                By.xpath("//div[@id='weather-widget']//h2"));
+
+        Thread.sleep(2000);
+        String actualResult = h2CityCountryHeader.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
