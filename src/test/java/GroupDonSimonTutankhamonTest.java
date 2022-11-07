@@ -417,4 +417,31 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
         Assert.assertEquals(sidebarCategoryName.getText(), "WOMEN");
     }
+
+    @Test
+    public void testSuccessfulLoginAndLogout() {
+        getDriver().get("http://the-internet.herokuapp.com/login");
+
+        WebElement usernameInput = getDriver().findElement(By.id("username"));
+        String usernameText = getDriver().findElement(By.xpath("//h4/em")).getText();
+        usernameInput.sendKeys(usernameText);
+
+        WebElement usernamePassword = getDriver().findElement(By.id("password"));
+        String usernamePasswordText= getDriver().findElement(By.xpath("//h4/em[2]")).getText();
+        usernamePassword.sendKeys(usernamePasswordText);
+
+        WebElement loginButton = getDriver().findElement(By.xpath("//button[@type='submit']"));
+        loginButton.click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "http://the-internet.herokuapp.com/secure");
+
+        WebElement logoutButton = getDriver().findElement(
+                By.xpath("//div[@id='content']//a[@href='/logout']"));
+        logoutButton.click();
+
+        WebElement loginPage = getDriver().findElement(By.xpath("//h2"));
+
+        Assert.assertEquals(loginPage.getText(), "Login Page");
+    }
 }
+
