@@ -11,7 +11,7 @@ public class SauceDemoLoginPageTest extends SauceDemoBaseTest {
     @Test
     public void testStandardUserLoginIn() {
         loginIn(STANDARD_USER, CORRECT_PASSWORD);
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
+        Assert.assertEquals(getDriver().getCurrentUrl(), INVENTORY_PAGE_URL);
     }
 
     @Test
