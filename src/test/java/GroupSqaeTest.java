@@ -78,7 +78,7 @@ public class GroupSqaeTest extends BaseTest {
     }
 
     @Test
-    public void testPageTitleOfPracticeform() {
+    public void testPageTitleOfPracticeForm() {
         getDriver().get("http://www.seleniumframework.com/Practiceform/");
 
         final String expectedSiteTitle = "Selenium Framework | Practiceform";
@@ -88,7 +88,7 @@ public class GroupSqaeTest extends BaseTest {
     }
 
     @Test
-    public void testUrlOfPagePracticeform() {
+    public void testUrlOfPagePracticeForm() {
         getDriver().get("http://www.seleniumframework.com/Practiceform/");
         getDriver().findElement(By.xpath("//nav/ul/li[8]/a")).click();
 
