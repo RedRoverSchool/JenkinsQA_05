@@ -1,9 +1,13 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class CleanCodeTest extends BaseTest {
 
@@ -57,7 +61,8 @@ public class CleanCodeTest extends BaseTest {
 
         WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/dropdown']"));
 
-        Assert.assertEquals(link.getText(), "Dropdown"); }
+        Assert.assertEquals(link.getText(), "Dropdown"); 
+    }
 
     @Test
     public void testTextContactsIsPresent() {
@@ -66,7 +71,6 @@ public class CleanCodeTest extends BaseTest {
         WebElement text = getDriver().findElement(By.xpath("//span[text()='КОНТАКТЫ']"));
 
         Assert.assertEquals(text.getText(), "КОНТАКТЫ");
-
     }
 
     @Test
@@ -75,18 +79,56 @@ public class CleanCodeTest extends BaseTest {
         WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/buttons']"));
         Assert.assertEquals(link.getText(),"Buttons");
     }
-
-
-
-        @Test
+    
+       @Test
         public void testAstraCom() {
             getDriver().get("https://www.astracom.ru/");
             getDriver().findElement(By.className("button")).click();
             getDriver().findElement(By.partialLinkText("АРСО P25")).click();
             WebElement text = getDriver().findElement(By.partialLinkText("Ретрансляторы"));
             Assert.assertEquals(text.getText(), "Ретрансляторы");
-
         }
 
+    @Test
+    public void testBox24Language() {
+        final String URL = "https://box24.com.ua/";
+        String expectedLanguage = "Укр";
 
+        getDriver().get(URL);
+        String actualLanguage = getDriver().findElement(
+                By.xpath("//div[@class='lang-menu__button']")).getText();
+
+        Assert.assertEquals(actualLanguage, expectedLanguage);
+    }
+
+    @Test
+    public void testBox24SearchForm() {
+        final String URL = "https://box24.com.ua/";
+
+        String expectedH1 = "Результати пошуку «plane»";
+        String input = "plane";
+
+        getDriver().get(URL);
+        getDriver().findElement(By.cssSelector(".search__input")).sendKeys(input);
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector(".search__button")));
+
+        getDriver().findElement(By.cssSelector(".search__button")).click();
+
+        String actualH1 = getDriver().findElement(
+                By.cssSelector("#j-catalog-header")).getText();
+
+        Assert.assertEquals(actualH1, expectedH1);
+    }
+    @Test
+    public void testFlower(){
+        getDriver().get("https://www.flowerchimp.co.id/");
+        WebElement SingIn = getDriver().findElement(By.xpath("//span[text()='Login']"));
+        SingIn.click();
+        String LOGIN = getDriver().findElement(By.xpath("//div[@class='sixteen columns clearfix collection_nav']")).getText();
+        Assert.assertEquals(LOGIN, "Customer Login");
+    }
 }

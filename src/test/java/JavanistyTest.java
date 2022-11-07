@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -121,5 +122,18 @@ public class JavanistyTest extends BaseTest {
         getDriver().get("https://k3-mebel.ru/");
         String titleActual = getDriver().findElement(By.id("menu-verhnee-menyu")).getText();
         Assert.assertEquals(titleActual, titleExpected);
+    }
+    @Test
+    public void testWeightPoundsHeight2(){
+        getDriver().get("https://healthunify.com/bmicalculator/");
+        Select weight = new Select(getDriver().findElement(By.name("opt1")));
+        weight.selectByValue("pounds");
+        getDriver().findElement(By.name("wg")).sendKeys("88");
+        Select height = new Select(getDriver().findElement(By.name("opt2")));
+        height.selectByValue("5");
+        Select height2 = new Select(getDriver().findElement(By.name("opt3")));
+        height2.selectByValue("4");
+        getDriver().findElement(By.name("cc")).click();
+        Assert.assertEquals(getDriver().findElement(By.name("si")).getAttribute("value"), "15.05");
     }
 }

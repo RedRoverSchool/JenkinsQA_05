@@ -3,10 +3,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class ViktoriiHukFirstTest extends BaseTest {
+
 
     @Test
     public void testWenPageApiHas30OrangeButten () throws InterruptedException {
@@ -19,7 +21,7 @@ public class ViktoriiHukFirstTest extends BaseTest {
         Thread.sleep(5000);
 
         WebElement MenuAPI = getDriver().findElement(
-                By.xpath("//div[@id = 'desktop-menu']//li[2]/a")
+                By.xpath("//div[@id = 'desktop-menu']/ul/li[2]/a")
         );
         MenuAPI.click();
 

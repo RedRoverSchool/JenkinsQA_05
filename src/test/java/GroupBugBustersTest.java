@@ -67,6 +67,16 @@ public class GroupBugBustersTest extends BaseTest {
         Thread.sleep(2000);
         getDriver().findElement(By.xpath("//div[@id = 'global-header']//button[@class = 'wu-account close-login ng-star-inserted']")).click();
         Assert.assertEquals(getDriver().findElement(By.xpath("//li[@translatecontext='wu-header-user-login']")).getText(), "Welcome back!");
-
+    }
+    @Test
+    public void testArailymCheckAddress(){
+        getDriver().get("https://katalon-demo-cura.herokuapp.com/");
+        String addressLogOut = getDriver().findElement(By.xpath("//body/footer/div/div/div/p[1]")).getText();
+        getDriver().findElement(By.id("btn-make-appointment")).click();
+        getDriver().findElement(By.id("txt-username")).sendKeys("John Doe");
+        getDriver().findElement(By.id("txt-password")).sendKeys("ThisIsNotAPassword");
+        getDriver().findElement(By.id("btn-login")).click();
+        String addressLogIn = getDriver().findElement(By.xpath("//body/footer/div/div/div/p[1]")).getText();
+        Assert.assertEquals(addressLogOut, addressLogIn);
     }
 }

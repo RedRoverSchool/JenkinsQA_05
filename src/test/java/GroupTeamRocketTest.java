@@ -7,13 +7,21 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupTeamRocketTest extends BaseTest {
+
+    final List<String> EXPECTED_ITEMS = List.of(
+            "What's New",
+            "Women",
+            "Men",
+            "Gear",
+            "Training",
+            "Sale");
 
     @Test
     public void testAddElementHerokuapp() {
@@ -145,7 +153,7 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testAddToCartButton() {
         getDriver().get("https://www.demoblaze.com");
         getDriver().findElement(By.xpath("//div[@class='list-group']/a[4]")).click();
-        getDriver().findElement(By.xpath("//div[@class='card-block']/h4[1]/a[@href=\"prod.html?idp_=10\"]")).click();
+        getDriver().findElement(By.xpath("//div[@class='card-block']/h4[1]/a[@href='prod.html?idp_=10']")).click();
         Assert.assertTrue(getDriver().findElement(By.xpath("//a[@class='btn btn-success btn-lg']")).isDisplayed());
     }
 
@@ -308,8 +316,9 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//h3[@class='price-container']")).getText(),
                 "$800 *includes tax");
     }
-    
-    @Test 
+
+    @Ignore
+    @Test
     public void testSwitchToPageCompareInsuranceQuote_VadimTref() {
         getDriver().get("https://www.statewidedealerinsurance.com/");
         getDriver().findElement(By.id("ZipCode")).sendKeys("11230");
@@ -359,6 +368,15 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
+    public void testContactUsMessagePopsUp_WhenSendingMessage_AnastasiaYakimova() {
+        getDriver().get("https://www.demoblaze.com/");
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Contact')]")).click();
+        getDriver().findElement(By.xpath("//button[@type = 'button'][contains(text(), 'Send message')]")).click();
+
+        Assert.assertEquals(getDriver().switchTo().alert().getText(),"Thanks for the message!!");
+    }
+
+    @Test
     public void testContextMenu_ET() {
         getDriver().get("https://the-internet.herokuapp.com/");
         getDriver().findElement(By.xpath("//a[text()='Context Menu']")).click();
@@ -367,5 +385,55 @@ public class GroupTeamRocketTest extends BaseTest {
         actions.contextClick(rectangle).perform();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "You selected a context menu");
+    }
+
+    @Test
+    public void testDoingSmthDontKnowWhatExactly_Tchernomor() {
+        String url = "https://demoqa.com/";
+        getDriver().get("https://www.toolsqa.com/selenium-training/");
+
+        WebElement findDemoSiteLink = getDriver().findElement(By.xpath(
+                "//div[@class='col-auto']//li[3]/a"
+        ));
+        findDemoSiteLink.click();
+
+        for (String pages : getDriver().getWindowHandles()) {
+            getDriver().switchTo().window(pages);
+        }
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), url);
+    }
+    
+    @Test
+    public void testLumaTabPanel() {
+
+        getDriver().get("https://magento.softwaretestingboard.com");
+
+        List<WebElement> elementList = getDriver().findElements(By.xpath("//ul[@class='ui-menu ui-widget ui-widget-content ui-corner-all']/li"));
+        List<String> strlist  = WebelementToString(elementList);
+
+        Assert.assertEquals(strlist, EXPECTED_ITEMS);
+    }
+
+    public static List<String> WebelementToString (List<WebElement> elementList) {
+        List<String> stringList = new ArrayList<>();
+        for (WebElement element : elementList) {
+            stringList.add(element.getText());
+        }
+        return stringList;
+    }
+
+    @Test
+    public void testCategoriesPanel_ZB() {
+        getDriver().get("https://www.demoblaze.com/");
+
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//div[@class='list-group']/a[text()='CATEGORIES']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//div[@class='list-group']/a[text()='Phones']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//div[@class='list-group']/a[text()='Laptops']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//div[@class='list-group']/a[text()='Monitors']")).isDisplayed());
     }
 }
