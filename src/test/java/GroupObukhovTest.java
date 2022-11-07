@@ -483,14 +483,13 @@ public class GroupObukhovTest extends BaseTest {
                 .perform();
 
         String successStart = "Форма отправлена! Мы скоро свяжемся с вами.";
-        String failureStart = "Вы не прошли проверку на человечность, попробуйте еще раз!";
 
         if (getDriver().getCurrentUrl().equals("https://start.urent.ru/thank-you.html")) {
 
             Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class = 'text-center']")).getText().contains(successStart));
         } else {
 
-            Assert.assertTrue(getDriver().findElement(By.xpath("//body")).getText().contains(failureStart));
+            Assert.assertEquals(getDriver().getCurrentUrl(), "https://start.urent.ru/js/mail.php");
         }
     }
 }
