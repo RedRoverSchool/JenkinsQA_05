@@ -155,7 +155,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@class='card-block']/h4[1]/a[@href='prod.html?idp_=10']")).click();
         Assert.assertTrue(getDriver().findElement(By.xpath("//a[@class='btn btn-success btn-lg']")).isDisplayed());
     }
-
+    @Ignore
     @Test
     public void testContactUs() {
         getDriver().get("http://automationpractice.com/index.php");
