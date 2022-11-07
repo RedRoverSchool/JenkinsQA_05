@@ -320,6 +320,7 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("showLargeModal")).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testToolTips_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/tool-tips");
@@ -430,6 +431,7 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertEquals(actualSliderValue, "100");
     }
 
+    @Ignore
     @Test
     public void testOpenweathermap_justGoToGuide_gdiksanov() {
 
