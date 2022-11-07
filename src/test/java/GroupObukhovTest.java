@@ -1,11 +1,15 @@
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.Color;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -84,6 +88,24 @@ public class GroupObukhovTest extends BaseTest {
     private void goToPalette() {
         goToBrandBookPage();
         getDriver().findElement(By.linkText("Палитра")).click();
+    }
+
+    private void goToStartBusinessPage() {
+        getDriver().get(URL);
+        getMainMenu().get(3).click();
+    }
+
+    private static String getRandomString(int length) {
+        return RandomStringUtils.random(length,
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    }
+
+    private static String getRandomEmail() {
+        return getRandomString(5).concat("@").concat(getRandomString(5)).concat(".com").toLowerCase();
+    }
+
+    private Actions getAction() {
+        return new Actions(getDriver());
     }
 
     @Test
@@ -261,7 +283,7 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     @Test
-    public void testCheckDownloadAppButtonColors(){
+    public void testCheckDownloadAppButtonColors() {
         getDriver().get(URL);
         WebElement downloadAppButton = getDriver().findElement(By.cssSelector(".menu-button"));
 
@@ -270,7 +292,7 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     @Test
-    public void testCheckHeroButtonColors(){
+    public void testCheckHeroButtonColors() {
         getDriver().get(URL);
         WebElement heroButton = getDriver().findElement(By.cssSelector(".hero-button-text"));
 
@@ -279,12 +301,12 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     @Test
-    public void testCheckHeroButtonColorsAfterNavigateMouse(){
+    public void testCheckHeroButtonColorsAfterNavigateMouse() {
         getDriver().get(URL);
         WebElement heroButton = getDriver().findElement(By.cssSelector(".hero-button"));
 
         String startBackgroundColor = Color.fromString(heroButton.getCssValue("background-color")).asRgb();
-        new Actions(getDriver())
+        getAction()
                 .moveToElement(heroButton)
                 .perform();
         String afterMouseNavigateBackgroundColor = Color.fromString(heroButton.getCssValue("background-color")).asRgb();
@@ -294,7 +316,7 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     @Test
-    public void testCheckHowToUseService(){
+    public void testCheckHowToUseService() {
         getDriver().get(URL);
 
         List<WebElement> stepNumbersHowToUseService = getDriver().findElements(By.cssSelector(".block3-grid span"));
@@ -315,7 +337,8 @@ public class GroupObukhovTest extends BaseTest {
             Assert.assertEquals(stepNumbersHowToUseService.get(i).getCssValue("border"), propertyActiveButton);
             Assert.assertEquals(stepNumbersHowToUseService.get(i).getText(), String.valueOf(i + 1));
             Assert.assertEquals(stepNamesHowToUseService.get(i).getText().substring(2), stepsNames.get(i));
-            Assert.assertEquals(descriptionHowToUseService.get(i).getText().replace("\n", ""), stepsDescriptions.get(i));
+            Assert.assertEquals(descriptionHowToUseService
+                    .get(i).getText().replace("\n", ""), stepsDescriptions.get(i));
         }
     }
 
@@ -415,16 +438,58 @@ public class GroupObukhovTest extends BaseTest {
         goToPalette();
 
         List<String> checkColors = new ArrayList<>();
-        List<WebElement> basicColorsTextDescriptionsFromDesignPage = getDriver().findElements(By.xpath("//div[@id = 'palette-three']//div[@class = 'colorchart']"));
+        List<WebElement> basicColorsTextDescriptionsFromDesignPage = getDriver()
+                .findElements(By.xpath("//div[@id = 'palette-three']//div[@class = 'colorchart']"));
         List<String> basicColors = new ArrayList<>();
         for (int i = 0; i < basicColorsTextDescriptionsFromDesignPage.size(); i++) {
             basicColors.add(i, basicColorsTextDescriptionsFromDesignPage.get(i).getText().substring(0, 7));
         }
         for (String str : LINK_TO_CHECK_BASIC_COLORS) {
             getDriver().get(str);
-            checkColors.add(Color.fromString(getDriver().findElement(By.cssSelector(" path")).getCssValue("fill")).asHex().toUpperCase());
+            checkColors.add(Color.fromString(getDriver()
+                    .findElement(By.cssSelector(" path")).getCssValue("fill")).asHex().toUpperCase());
         }
 
         Assert.assertEquals(checkColors, basicColors);
+    }
+
+    @Test
+    public void testFillFieldsStartPage() {
+        goToStartBusinessPage();
+        Set<String> openBrowserPages = getDriver().getWindowHandles();
+        getDriver().switchTo().window(openBrowserPages.toArray()[1].toString());
+
+        List<String> data = Arrays.asList(
+                getRandomString(6),
+                RandomStringUtils.random(10, "0123456789"),
+                getRandomEmail(),
+                getRandomString(5)
+
+        );
+        List<WebElement> fields = getDriver().findElements(By
+                .xpath("//div[@class = 'content-grid-form']//form[@class = 'call-respond']/input[@type][@placeholder]"));
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        Actions action = new Actions(getDriver());
+        for (int i = 0; i < fields.size(); i++) {
+            wait.until(ExpectedConditions.elementToBeClickable(fields.get(i)));
+            action.moveToElement(fields.get(i)).click().sendKeys(data.get(i)).perform();
+        }
+        WebElement submitButton = getDriver().findElement(By
+                .xpath("//div[@class = 'content-grid-form']//form[@class = 'call-respond']/button[@type = 'submit']"));
+        getAction()
+                .moveToElement(submitButton)
+                .click()
+                .perform();
+
+        String successStart = "Форма отправлена! Мы скоро свяжемся с вами.";
+
+        if (getDriver().getCurrentUrl().equals("https://start.urent.ru/thank-you.html")) {
+
+            Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class = 'text-center']")).getText().contains(successStart));
+        } else {
+
+            Assert.assertEquals(getDriver().getCurrentUrl(), "https://start.urent.ru/js/mail.php");
+        }
     }
 }

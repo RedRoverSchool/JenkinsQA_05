@@ -15,7 +15,7 @@ import static java.sql.DriverManager.getDriver;
 
 
 public class GroupCodeRedTest extends BaseTest {
-    private String baseUrlHerokuapp = "https://formy-project.herokuapp.com";
+    private final String baseUrlHerokuapp = "https://formy-project.herokuapp.com";
 
     public static void get(WebDriver driver, String url) {
         driver.get(url);
@@ -29,7 +29,7 @@ public class GroupCodeRedTest extends BaseTest {
 
 
     public static void sleep(int sec) throws InterruptedException {
-        Thread.sleep(sec * 1000);
+        Thread.sleep(1000);
     }
     @Test
     public void testAutocomplete() throws InterruptedException {
@@ -319,7 +319,7 @@ public class GroupCodeRedTest extends BaseTest {
 
         String baseUrl = "https://portal.311.nyc.gov/";
         String expectedResult = "Home  · NYC311";
-        String actualResult = "";
+        String actualResult;
 
         getDriver().get(baseUrl);
         Thread.sleep(2000);
@@ -330,6 +330,22 @@ public class GroupCodeRedTest extends BaseTest {
         getDriver().quit();
     }
 
+    @Test
+    public void testCheckbox() {
+        getDriver().get("https://formy-project.herokuapp.com/");
+        String actualTitle = getDriver().getTitle();
+        Assert.assertEquals(actualTitle, "Formy");
+        getDriver().findElement(By.xpath("//li[3]/a[@class = 'btn btn-lg']")).click();
+        WebElement name=getDriver().findElement(By.xpath( "//h1[contains(text(),'Checkboxes')]"));
+        Assert.assertEquals(name.getText(), "Checkboxes");
+        WebElement name1=getDriver().findElement(By.xpath( "//div[@class = 'col-sm-8']"));
+        Assert.assertEquals(name1.getText(), "Checkbox1");
+        getDriver().findElement(By.xpath("//input[@id='checkbox-2']")).click();
+        WebElement name2=getDriver().findElement(By.xpath( "//div[2]/div/div"));
+        Assert.assertEquals(name2.getText(), "Checkbox2");
+        WebElement name3=getDriver().findElement(By.xpath( "//div[3]/div/div"));
+        Assert.assertEquals(name3.getText(), "Checkbox3");
+    }
 
 
 

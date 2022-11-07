@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
@@ -23,10 +22,10 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
 
     @Test
     public void testSidebarMenuForItems() {
-        getAction().moveToElement(getDriver().findElement(By.id("react-burger-menu-btn"))).click().perform();
+        clickOnSidebarMenuBtn();
         Assert.assertTrue(getDriver().findElement(By.cssSelector("div.bm-menu")).isDisplayed());
 
-        List<String> expectedMenuItemNames = Arrays.asList("ALL ITEMS", "ABOUT", "LOGOUT", "RESET APP STATE");
+        List<String> expectedMenuItemNames = List.of("ALL ITEMS", "ABOUT", "LOGOUT", "RESET APP STATE");
         List<WebElement> actualMenuItems = new WebDriverWait(getDriver(), Duration.ofSeconds(20))
                 .ignoring(StaleElementReferenceException.class)
                 .until(ExpectedConditions.visibilityOfAllElements(getDriver().findElements(By.xpath("//nav[@class='bm-item-list']/a"))));
@@ -34,5 +33,36 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
         actualMenuItems.stream().forEach(webElement -> actualMenuItemNames.add(webElement.getText()));
 
         Assert.assertEquals(actualMenuItemNames, expectedMenuItemNames);
+    }
+
+    @Test(dependsOnMethods = "testSidebarMenuForItems")
+    public void testAllItemsLinkFromSidebarMenu() {
+        goThrowLinkOfSidebarMenu("inventory_sidebar_link");
+        Assert.assertEquals(getDriver().getCurrentUrl(), INVENTORY_PAGE_URL);
+    }
+
+    @Test(dependsOnMethods = "testSidebarMenuForItems")
+    public void testAboutUsLinkFromSideBarMenu() {
+        goThrowLinkOfSidebarMenu("about_sidebar_link");
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://saucelabs.com/");
+    }
+
+    @Test(dependsOnMethods = "testSidebarMenuForItems")
+    public void testLogOutFromSideBarMenu() {
+        goThrowLinkOfSidebarMenu("logout_sidebar_link");
+        Assert.assertEquals(getDriver().getCurrentUrl(), URL);
+    }
+
+    private void goThrowLinkOfSidebarMenu(String locator) {
+        clickOnSidebarMenuBtn();
+        WebElement link = new WebDriverWait(getDriver(), Duration.ofSeconds(20))
+                .ignoring(StaleElementReferenceException.class)
+                .until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id(locator))));
+
+        getAction().moveToElement(link).click().perform();
+    }
+
+    private void clickOnSidebarMenuBtn() {
+        getAction().moveToElement(getDriver().findElement(By.id("react-burger-menu-btn"))).click().perform();
     }
 }
