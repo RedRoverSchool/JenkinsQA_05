@@ -365,7 +365,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void copyPaste_WebdDiverUniversityCom() throws InterruptedException {
+    public void testCopyPaste_WebdDiverUniversityCom() throws InterruptedException {
 
         getDriver().get("https://webdriveruniversity.com/Contact-Us/contactus.html");
         Actions actions = new Actions(getDriver());
