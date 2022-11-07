@@ -95,7 +95,22 @@ public class GroupNikkiTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//i[@class='fa fa-dribbble fa-fw fa-3x']"))
                 .isDisplayed());
     }
+
+    @Test
+    public void testSergeDotMintHouseForm() {
+
+        String url = "https://minthouse.com/";
+
+        getDriver().get(url);
+        getDriver().findElement(By.xpath("//ul[contains(@role,'menu')]//li[contains(@class,'contact-us-trigger-wrap')]//a[contains(@class,'menu__link')]//span[contains(@class,'global-menu__span')][contains(text(),'Contact us')]")).click();
+        getDriver().findElement(By.cssSelector("div form span > input[id='off-first-name']")).sendKeys("NameName");
+        getDriver().findElement(By.cssSelector("#off-first-name")).submit();
+        String actualResult = getDriver().findElement(By.xpath("//form[@action='/#wpcf7-f928-o5']//span[@class='wpcf7-form-control-wrap']/span")).getText();
+        String expectedResult = "The field is required.";
+
+        Assert.assertEquals(actualResult,expectedResult);
     }
+}
 
 
 
