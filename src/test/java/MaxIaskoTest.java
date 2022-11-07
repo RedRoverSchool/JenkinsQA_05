@@ -11,7 +11,6 @@ public class MaxIaskoTest extends BaseTest {
 
         String url = "https://formy-project.herokuapp.com/";
         String expectedButton = "Danger";
-
         getDriver().get(url);
 
         WebElement linkButton = getDriver().findElement(
