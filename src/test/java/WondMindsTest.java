@@ -7,7 +7,7 @@ import runner.BaseTest;
 public class WondMindsTest extends BaseTest {
 
     @Test
-    public void testGorodTulaTheBest(){
+    public void testGorodTulaTheBest() {
         getDriver().get("https://rp5.ru");
         WebElement search = getDriver().findElement(By.name("searchStr"));
         search.sendKeys("Тула\n");
@@ -34,5 +34,20 @@ public class WondMindsTest extends BaseTest {
 
         String actualResultUrl = getDriver().getCurrentUrl();
         Assert.assertEquals(actualResultUrl, expectedResultUrl);
+        }
+
+public void testAmazingBouqets() {
+
+        String url = "https://paeonia-boutique.ca/";
+        String expectedResult = "Paeonia Fleuristerie Boutique";
+
+        getDriver().get(url);
+
+        WebElement link = getDriver().findElement(By.xpath("//span[text() = "
+                + "'Paeonia Fleuristerie Boutique']"));
+
+        String actualResult = link.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
