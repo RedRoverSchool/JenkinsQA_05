@@ -1,4 +1,4 @@
-package group_a_team;
+package group_a_team_test;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;

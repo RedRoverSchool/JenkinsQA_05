@@ -1,4 +1,4 @@
-package group_a_team;
+package group_a_team_test;
 
 public final class SauceDemoConsts {
     public static final String URL = "https://www.saucedemo.com/";
