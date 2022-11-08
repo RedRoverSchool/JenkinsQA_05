@@ -24,7 +24,7 @@ public class GroupJavanistyTest extends BaseTest {
     }
 
     @Test
-    public void test_IriSamo_Registration(){
+    public void test_Registration_IriSamo(){
         getDriver().get("https://www.sharelane.com/cgi-bin/register.py");
 
         getDriver().findElement(By.name("zip_code")).sendKeys("196240");
