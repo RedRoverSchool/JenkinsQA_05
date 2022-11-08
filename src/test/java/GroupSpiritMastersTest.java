@@ -256,7 +256,6 @@ public class GroupSpiritMastersTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@class='btn btn-lg tab btn-primary']")).click();
         getDriver().findElement(By.cssSelector(".btn.home")).click();
         WebElement login = getDriver().findElement(By.xpath("//button[normalize-space()='Customer Login']"));
-
         login.click();
         WebElement selectNameVariant = getDriver().findElement(By.id("userSelect"));
         Select dropdown = new Select(selectNameVariant);
