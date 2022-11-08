@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -46,7 +47,7 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
         goThrowLinkOfSidebarMenu("about_sidebar_link");
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://saucelabs.com/");
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testSidebarMenuForItems")
     public void testLogOutFromSideBarMenu() {
         goThrowLinkOfSidebarMenu("logout_sidebar_link");
