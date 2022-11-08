@@ -177,6 +177,7 @@ public class GroupCodeRedTest extends BaseTest {
         homeLink.click();
     }
 
+    @Ignore
     @Test
     public void testToggleMenuDashboard() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");

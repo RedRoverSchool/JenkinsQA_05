@@ -1,24 +1,25 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class JavanistyTest extends BaseTest {
+public class GroupJavanistyTest extends BaseTest {
 
     @Test
-    public void test1(){
+    public void test_CheckMessage(){
+
+        final String expectedResult = "24.69";
+
         getDriver().get("https://healthunify.com/bmicalculator/");
+
         getDriver().findElement(By.name("wg")).sendKeys("80");
         getDriver().findElement(By.name("ht")).sendKeys("180");
         getDriver().findElement(By.name("cc")).click();
-        String expectedResult = "24.69";
-        System.out.println(getDriver().findElement(By.name("si")).getAttribute("value"));
+
         Assert.assertEquals(getDriver().findElement(By.name("si")).getAttribute("value"), expectedResult);
     }
 

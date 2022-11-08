@@ -331,6 +331,7 @@ public class GroupSpiritMastersTest extends BaseTest {
         Assert.assertEquals(actualToolTip, "You hovered over the Contrary");
     }
 
+    @Ignore
     @Test
     public void testTextBoxFields_AFedorova() {
         getDriver().get(URL_DEMOQA);
