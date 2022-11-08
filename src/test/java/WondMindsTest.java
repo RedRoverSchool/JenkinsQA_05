@@ -24,7 +24,7 @@ public class WondMindsTest extends BaseTest {
         getDriver().get(url);
         getDriver().manage().window().maximize();
 
-        WebElement searchButton = getDriver().findElement(By.xpath("//div[@id=\"desktop-menu\"]/ul/li[1]/a"));
+        WebElement searchButton = getDriver().findElement(By.xpath("//*[@id=\"desktop-menu\"]/ul/li[1]/a"));
         searchButton.click();
         Thread.sleep(5000);
 
