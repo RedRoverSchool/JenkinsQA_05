@@ -1,7 +1,4 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -290,6 +287,7 @@ public class GroupCodeRedTest extends BaseTest {
 
 
         getDriver().get(baseUrlHerokuapp + "/form");
+
         WebElement firstName = getDriver().findElement(By.xpath("//input[@id ='first-name']"));
         firstName.sendKeys("Don");
         WebElement lastName = getDriver().findElement(By.xpath("//input[@id ='last-name']"));
@@ -311,18 +309,21 @@ public class GroupCodeRedTest extends BaseTest {
         WebElement submitButton = getDriver().findElement(By.xpath("//a[@href='/thanks']"));
         submitButton.click();
         String actualResult = getDriver().findElement(By.xpath("//div[@class='alert alert-success']")).getText();
+
         Assert.assertEquals(actualResult, "The form was successfully submitted!");
     }
 
     @Test
     public void testModalWindow() throws InterruptedException{
         getDriver().get(baseUrlHerokuapp);
+
         WebElement modalLink = getDriver().findElement(By.xpath("//li/a[@href='/modal']"));
         modalLink.click();
         WebElement buttonOpenModal = getDriver().findElement(By.xpath("//button[@id='modal-button']"));
         buttonOpenModal.click();
         Thread.sleep(2000);
         String actualResult = getDriver().findElement(By.xpath("//h5")).getText();
+
         Assert.assertEquals(actualResult,"Modal title");
     }
 
@@ -344,8 +345,11 @@ public class GroupCodeRedTest extends BaseTest {
 
     @Test
     public void testCheckbox() {
-        getDriver().get("https://formy-project.herokuapp.com/");
         String actualTitle = getDriver().getTitle();
+
+        getDriver().get("https://formy-project.herokuapp.com/");
+
+
         Assert.assertEquals(actualTitle, "Formy");
         getDriver().findElement(By.xpath("//li[3]/a[@class = 'btn btn-lg']")).click();
         WebElement name=getDriver().findElement(By.xpath( "//h1[contains(text(),'Checkboxes')]"));
@@ -356,7 +360,28 @@ public class GroupCodeRedTest extends BaseTest {
         WebElement name2=getDriver().findElement(By.xpath( "//div[2]/div/div"));
         Assert.assertEquals(name2.getText(), "Checkbox2");
         WebElement name3=getDriver().findElement(By.xpath( "//div[3]/div/div"));
+
         Assert.assertEquals(name3.getText(), "Checkbox3");
+    }
+    @Test
+    public void test_scrollPageDownAndFillingFields() {
+        final String  fullName ="Don Sanches";
+        final String date = "11/07/2022";
+
+        getDriver().get(baseUrlHerokuapp);
+
+        getDriver().findElement(By.xpath("//a[@class ='btn btn-lg' and @href='/scroll']")).click();
+        JavascriptExecutor jsScroll = (JavascriptExecutor) getDriver();
+        WebElement elementFullName = getDriver().findElement(By.xpath("//input[@placeholder='Full name']"));
+        WebElement elementDate = getDriver().findElement(By.xpath("//input[@placeholder='MM/DD/YYYY']"));
+        jsScroll.executeScript("arguments[0].scrollIntoView();",elementFullName);
+        elementFullName.sendKeys(fullName);
+        elementDate.sendKeys(date);
+
+        Assert.assertEquals(elementFullName.getAttribute("value"), fullName);
+        Assert.assertEquals(elementDate.getAttribute("value"), date);
+
+
     }
 
 
