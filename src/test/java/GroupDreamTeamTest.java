@@ -1,5 +1,5 @@
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -45,28 +45,14 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testFoxtiptopSliderMouse() {
-        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
-        WebElement exampleRange = getDriver().findElement(By.cssSelector("body main  div form div div:nth-child(3) label:nth-child(3) input"));
-        Assert.assertTrue(exampleRange.isDisplayed());
+    public void NataliaTest() {
 
-        Actions slide = new Actions(getDriver());
-        slide.moveToElement(exampleRange).clickAndHold(exampleRange).moveByOffset(50, 0)
-                .release().build().perform();
+        getDriver().get("https://formy-project.herokuapp.com/");
 
-        int rangeValue = Integer.parseInt(exampleRange.getAttribute("value"));
-        Assert.assertEquals(rangeValue, 6);
-    }
+        getDriver().findElement(By.xpath("//li/a[@href='/buttons']")).click();
 
-    @Test
-    public void testFoxtiptopSliderKeyboard() {
-        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
-        WebElement exampleRange = getDriver().findElement(By.name("my-range"));
-        for (int i = 1; i <= 4; i++) {
-            exampleRange.sendKeys(Keys.ARROW_RIGHT);
-        }
+        String actualResult = getDriver().findElement(By.xpath("/html/body/div/nav")).getText();
+        Assert.assertEquals(actualResult, "FORMY\n" + "Form\n" + "Components");
 
-        int rangeValue = Integer.parseInt(exampleRange.getAttribute("value"));
-        Assert.assertEquals(rangeValue, 9);
     }
 }
