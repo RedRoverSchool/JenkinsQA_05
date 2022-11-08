@@ -37,6 +37,7 @@ public class GroupWonderingMindsTest extends BaseTest {
         getDriver().get("https://demoqa.com/books");
         WebElement searchBook = getDriver().findElement(By.xpath("//*[@id='searchBox']"));
         searchBook.sendKeys("Guide");
+
         Assert.assertTrue(getDriver().findElement(By.id("see-book-Git Pocket Guide")).isDisplayed());
     }
 
