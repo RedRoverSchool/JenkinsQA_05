@@ -368,7 +368,6 @@ public class SpiritMastersTest extends BaseTest {
         getActions().scrollToElement(submitBtn);
         submitBtn.click();
 
-
         List<String> actualResult = new ArrayList<>();
         actualResult.add(getDriver().findElement(By.id("name")).getText());
         actualResult.add(getDriver().findElement(By.id("email")).getText());
