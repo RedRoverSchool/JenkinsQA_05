@@ -95,6 +95,11 @@ public class GroupObukhovTest extends BaseTest {
         getMainMenu().get(3).click();
     }
 
+    private void goToRoundButtonOnHelpPage(){
+        goToHelpPage();
+        getWait(2).until(ExpectedConditions.elementToBeClickable(By.id("uw-main-button"))).click();
+    }
+
     private static String getRandomString(int length) {
         return RandomStringUtils.random(length,
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -106,6 +111,10 @@ public class GroupObukhovTest extends BaseTest {
 
     private Actions getAction() {
         return new Actions(getDriver());
+    }
+
+    private WebDriverWait getWait(int timeWaiting){
+        return new WebDriverWait(getDriver(), Duration.ofSeconds(timeWaiting));
     }
 
     @Test
@@ -457,6 +466,8 @@ public class GroupObukhovTest extends BaseTest {
 
     @Test
     public void testFillFieldsStartPage() {
+        final String successStart = "Форма отправлена! Мы скоро свяжемся с вами.";
+
         goToStartBusinessPage();
         Set<String> openBrowserPages = getDriver().getWindowHandles();
         getDriver().switchTo().window(openBrowserPages.toArray()[1].toString());
@@ -471,10 +482,9 @@ public class GroupObukhovTest extends BaseTest {
         List<WebElement> fields = getDriver().findElements(By
                 .xpath("//div[@class = 'content-grid-form']//form[@class = 'call-respond']/input[@type][@placeholder]"));
 
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
         Actions action = new Actions(getDriver());
         for (int i = 0; i < fields.size(); i++) {
-            wait.until(ExpectedConditions.elementToBeClickable(fields.get(i)));
+            getWait(2).until(ExpectedConditions.elementToBeClickable(fields.get(i)));
             action.moveToElement(fields.get(i)).click().sendKeys(data.get(i)).perform();
         }
         WebElement submitButton = getDriver().findElement(By
@@ -483,8 +493,6 @@ public class GroupObukhovTest extends BaseTest {
                 .moveToElement(submitButton)
                 .click()
                 .perform();
-
-        String successStart = "Форма отправлена! Мы скоро свяжемся с вами.";
 
         if (getDriver().getCurrentUrl().equals("https://start.urent.ru/thank-you.html")) {
 
@@ -497,12 +505,34 @@ public class GroupObukhovTest extends BaseTest {
 
     @Test
     public void testCheckRoundButtonHelpMenu(){
-        goToHelpPage();
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("uw-main-button"))).click();
+        goToRoundButtonOnHelpPage();
 
         Assert.assertTrue(getDriver().findElement(By.id("uw-button-chat")).isDisplayed());
         Assert.assertTrue(getDriver().findElement(By.id("uw-button-telegram")).isDisplayed());
         Assert.assertTrue(getDriver().findElement(By.id("uw-main-button-close")).isDisplayed());
+    }
+
+    @Test
+    public void testCheckRoundButtonHelpMenuLinkToTelegram() {
+        goToRoundButtonOnHelpPage();
+
+        getDriver().findElement(By.id("uw-button-telegram")).click();
+        Set<String> openPages = getDriver().getWindowHandles();
+
+        String actualString = getDriver().switchTo().window(openPages.toArray()[1].toString()).getCurrentUrl();
+        Assert.assertEquals(actualString, "https://t.me/Urent_support_bot");
+    }
+
+    @Test
+    public void testCheckRoundButtonHelpMenuLinkToLiveChat() {
+        String expectedFrameText = "Используя чат, вы соглашаетесь с нашей политикой обработки персональных данных";
+
+        goToRoundButtonOnHelpPage();
+        getDriver().findElement(By.id("uw-button-chat")).click();
+
+        String actualFrameText = getWait(5).until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@class = 'sc-gzOgki uw__messenger-layout__frame jVOnDE']"))).getText();
+
+        Assert.assertTrue(actualFrameText.contains(expectedFrameText));
     }
 }
