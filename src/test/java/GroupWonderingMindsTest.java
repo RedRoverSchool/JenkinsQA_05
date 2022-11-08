@@ -34,6 +34,7 @@ public class GroupWonderingMindsTest extends BaseTest {
 
     @Test
     public void testDemodaBookGuide_HappyStrawberry() {
+
         getDriver().get("https://demoqa.com/books");
         WebElement searchBook = getDriver().findElement(By.xpath("//*[@id='searchBox']"));
         searchBook.sendKeys("Guide");
