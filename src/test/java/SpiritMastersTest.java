@@ -1,4 +1,5 @@
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -605,5 +606,16 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(
                 By.xpath("//form[@id='new_question_form']//div[@class='help-block']"))
                 .getText().equals("reCAPTCHA verification failed, please try again."));
+    }
+
+    @Test
+    public void testCheckboxesPageHerokuApp_MRakhmanava() {
+        String url = "http://the-internet.herokuapp.com/checkboxes";
+        getDriver().get(url);
+        getDriver().manage().window().maximize();
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        List<WebElement> checkboxes = getDriver().findElements(By.cssSelector("[type=checkbox]"));
+        checkboxes.get(1).click();
+        Assert.assertFalse(checkboxes.get(1).isSelected());
     }
 }
