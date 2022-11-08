@@ -9,7 +9,7 @@ import runner.BaseTest;
 import java.time.Duration;
 
 
-public class CleanCodeTest extends BaseTest {
+public class GroupCleanCodeTest extends BaseTest {
 
     @Test
     public void testFolkInstruments() {
@@ -24,7 +24,7 @@ public class CleanCodeTest extends BaseTest {
     public void testFolkInstrumentsPolishEnglish() {
         getDriver().get("http://ludowe.instrumenty.edu.pl/pl/o-projekcie");
 
-        WebElement polishEnglish = getDriver().findElement(By.xpath("/html/body/div[2]/div[1]/div/div/div[2]/div[2]/div/ul/li[3]/a"));
+        WebElement polishEnglish = getDriver().findElement(By.xpath("//a[@href='/en/about']"));
         polishEnglish.click();
 
         WebElement languageChange = getDriver().findElement(By.xpath("//*[@id='main']/div[4]/div/div/div/div/div[1]/h2"));
@@ -49,6 +49,7 @@ public class CleanCodeTest extends BaseTest {
     @Test
     public void testPageSales() {
         getDriver().get("https://klinik.by/");
+
         WebElement bottomSales = getDriver().findElement(By.xpath("//*[@id='menu-item-2570']/a[text() = 'Акции']"));
 
         bottomSales.click();
@@ -56,6 +57,7 @@ public class CleanCodeTest extends BaseTest {
         WebElement pageSales = getDriver().findElement(By.xpath("//*[@id='page']//h1[text() ='Специальные предложения']"));
 
         Assert.assertEquals(pageSales.getText(), "Специальные предложения");
+
     }
 
     @Test
