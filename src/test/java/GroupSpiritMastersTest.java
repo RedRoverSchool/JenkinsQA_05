@@ -1,5 +1,4 @@
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -15,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe;
 import static org.openqa.selenium.support.ui.ExpectedConditions.urlToBe;
 
-public class SpiritMastersTest extends BaseTest {
+public class GroupSpiritMastersTest extends BaseTest {
 
     private static final String URL_DEMOQA = "https://demoqa.com/";
 
