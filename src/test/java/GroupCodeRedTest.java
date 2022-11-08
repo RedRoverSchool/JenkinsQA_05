@@ -1,5 +1,6 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -7,6 +8,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
+import java.util.TreeSet;
 
 import static java.sql.DriverManager.getDriver;
 
@@ -362,6 +364,7 @@ public class GroupCodeRedTest extends BaseTest {
 
         Assert.assertEquals(name3.getText(), "Checkbox3");
     }
+
     @Test
     public void test_scrollPageDownAndFillingFields() {
         final String  fullName ="Don Sanches";
@@ -380,9 +383,23 @@ public class GroupCodeRedTest extends BaseTest {
         Assert.assertEquals(elementFullName.getAttribute("value"), fullName);
         Assert.assertEquals(elementDate.getAttribute("value"), date);
 
-
     }
 
+    @Test
+    public void test_dragAndDropElement(){
+        final String EXPECTED_TEXT_DROPBOX= "Dropped!";
+
+        getDriver().get("http://jqueryui.com/droppable");
+
+        getDriver().switchTo().frame(0);
+        WebElement sourceElement=  getDriver().findElement(By.id("draggable"));
+        WebElement distinationElement=  getDriver().findElement(By.id("droppable"));
+        Actions action = new Actions( getDriver());
+        action.dragAndDrop(sourceElement, distinationElement).build().perform();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id ='droppable']/p")).getText(),
+                EXPECTED_TEXT_DROPBOX);
+    }
 
 
 }
