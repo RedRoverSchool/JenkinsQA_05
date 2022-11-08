@@ -54,8 +54,8 @@ public class GroupDreamTeamTest extends BaseTest {
         slide.moveToElement(exampleRange).clickAndHold(exampleRange).moveByOffset(50, 0)
                 .release().build().perform();
 
-        int value = Integer.parseInt(exampleRange.getAttribute("value"));
-        Assert.assertEquals(value, 6);
+        int rangeValue = Integer.parseInt(exampleRange.getAttribute("value"));
+        Assert.assertEquals(rangeValue, 6);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class GroupDreamTeamTest extends BaseTest {
             exampleRange.sendKeys(Keys.ARROW_RIGHT);
         }
 
-        int value = Integer.parseInt(exampleRange.getAttribute("value"));
-        Assert.assertEquals(value, 9);
+        int rangeValue = Integer.parseInt(exampleRange.getAttribute("value"));
+        Assert.assertEquals(rangeValue, 9);
     }
 }
