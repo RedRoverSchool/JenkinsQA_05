@@ -77,6 +77,7 @@ public class GroupSqaeTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.theatlantic.com/newsletters/");
     }
 
+    @Ignore
     @Test
     public void testPageTitleOfPracticeForm() {
         getDriver().get("http://www.seleniumframework.com/Practiceform/");

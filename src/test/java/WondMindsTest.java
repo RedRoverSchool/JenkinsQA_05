@@ -16,18 +16,15 @@ public class WondMindsTest extends BaseTest {
     }
 
     @Test
-    public void testGuide() throws InterruptedException {
+    public void testGuide() {
         String url = "https://openweathermap.org/";
         String expectedResultTitle = "OpenWeatherMap API guide - OpenWeatherMap";
         String expectedResultUrl = "https://openweathermap.org/guide";
 
         getDriver().get(url);
         getDriver().manage().window().maximize();
-        Thread.sleep(5000);
-
         WebElement searchButton = getDriver().findElement(By.xpath("//a[@href='/guide']"));
         searchButton.click();
-        Thread.sleep(2000);
 
         String actualResultTitle = getDriver().getTitle();
         Assert.assertEquals(actualResultTitle, expectedResultTitle);
@@ -36,7 +33,8 @@ public class WondMindsTest extends BaseTest {
         Assert.assertEquals(actualResultUrl, expectedResultUrl);
         }
 
-public void testAmazingBouqets() {
+    @Test
+    public void testAmazingBouqets() {
 
         String url = "https://paeonia-boutique.ca/";
         String expectedResult = "Paeonia Fleuristerie Boutique";
