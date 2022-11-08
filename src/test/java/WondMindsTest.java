@@ -15,6 +15,7 @@ public class WondMindsTest extends BaseTest {
         Assert.assertEquals(actualText, "Search result");
     }
 
+
     @Test
     public void testGuide() throws InterruptedException {
         String url = "https://openweathermap.org/";
@@ -23,8 +24,9 @@ public class WondMindsTest extends BaseTest {
 
         getDriver().get(url);
         getDriver().manage().window().maximize();
+        Thread.sleep(5000);
 
-        WebElement searchButton = getDriver().findElement(By.xpath("//*[@id=\"desktop-menu\"]/ul/li[1]/a"));
+        WebElement searchButton = getDriver().findElement(By.xpath("//a[@href='/guide']"));
         searchButton.click();
         Thread.sleep(5000);
 
