@@ -16,15 +16,17 @@ public class WondMindsTest extends BaseTest {
     }
 
     @Test
-    public void testGuide() {
+    public void testGuide() throws InterruptedException {
         String url = "https://openweathermap.org/";
         String expectedResultTitle = "OpenWeatherMap API guide - OpenWeatherMap";
         String expectedResultUrl = "https://openweathermap.org/guide";
 
         getDriver().get(url);
         getDriver().manage().window().maximize();
+
         WebElement searchButton = getDriver().findElement(By.xpath("//a[@href='/guide']"));
         searchButton.click();
+        Thread.sleep(5000);
 
         String actualResultTitle = getDriver().getTitle();
         Assert.assertEquals(actualResultTitle, expectedResultTitle);
