@@ -40,7 +40,6 @@ public class GroupSpiritMastersTest extends BaseTest {
         javascriptExecutor.executeScript("document.getElementById('" + elementById + "').value='" + emoji + "';");
     }
 
-
     private WebElement findCard_PK(int index) {
         getDriver().get(URL_DEMOQA);
         List<WebElement> category = getDriver().findElements(By.className("card"));
