@@ -24,25 +24,24 @@ public class GroupJavanistyTest extends BaseTest {
     }
 
     @Test
-    public void testIriSamoRegistration(){
+    public void test_IriSamo_Registration(){
         getDriver().get("https://www.sharelane.com/cgi-bin/register.py");
-        WebElement boxZIP = getDriver().findElement(By.name("zip_code"));
-        boxZIP.sendKeys("196240");
-        getDriver().findElement(By.xpath("//input[@value='Continue']")).click();
-        WebElement boxFirstName = getDriver().findElement(By.name("first_name"));
-        boxFirstName.sendKeys("Imya");
-        WebElement boxLastName = getDriver().findElement(By.name("last_name"));
-        boxLastName.sendKeys("Familiya");
-        WebElement boxEmail = getDriver().findElement(By.name("email"));
-        boxEmail.sendKeys("Familiya@gmail.com");
-        WebElement boxPassword = getDriver().findElement(By.name("password1"));
-        boxPassword.sendKeys("777555333");
-        WebElement boxConfirmPassword = getDriver().findElement(By.name("password2"));
-        boxConfirmPassword.sendKeys("777555333");
-        getDriver().findElement(By.xpath("//input[@value='Register']")).click();
-        WebElement confirmationMessage = getDriver().findElement(By.xpath("//span[@class='confirmation_message']"));
-        String expectedConfirmationMessage = "Account is created!";
-        String actualConfirmationMessage = confirmationMessage.getText();
+
+        getDriver().findElement(By.name("zip_code")).sendKeys("196240");
+        getDriver().findElement(
+                By.xpath("//input[@value='Continue']")).click();
+        getDriver().findElement(By.name("first_name")).sendKeys("Imya");
+        getDriver().findElement(By.name("last_name")).sendKeys("Familiya");
+        getDriver().findElement(
+                By.name("email")).sendKeys("Familiya@gmail.com");
+        getDriver().findElement(By.name("password1")).sendKeys("777555333");
+        getDriver().findElement(By.name("password2")).sendKeys("777555333");
+        getDriver().findElement(
+                By.xpath("//input[@value='Register']")).click();
+
+        final String expectedConfirmationMessage = "Account is created!";
+        String actualConfirmationMessage = getDriver().findElement(
+                By.xpath("//span[@class='confirmation_message']")).getText();
 
         Assert.assertEquals(expectedConfirmationMessage, actualConfirmationMessage);
     }
