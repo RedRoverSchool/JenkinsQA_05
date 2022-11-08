@@ -71,8 +71,8 @@ public class GroupDreamTeamTest extends BaseTest {
     }
     @Test
     public void testTemperatureInFahrenheit() throws InterruptedException {
-        String url = "https://openweathermap.org/";
-        String symbolF = "°F";
+        final String url = "https://openweathermap.org/";
+        final String symbolF = "°F";
 
         getDriver().get(url);
         Thread.sleep(3000);
@@ -81,6 +81,7 @@ public class GroupDreamTeamTest extends BaseTest {
         Thread.sleep(2000);
         temperatureF.click();
         WebElement imageTempF = getDriver().findElement(By.xpath("//div[@class ='current-temp']"));
+
         Assert.assertTrue(imageTempF.getText().contains(symbolF));
     }
 }
