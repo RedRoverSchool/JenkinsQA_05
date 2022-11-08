@@ -312,7 +312,7 @@ public class GroupTeamRocketTest extends BaseTest {
                 .findElement(By.xpath("//button[@type='submit'][@class='btn cobranding-form-submit']"))
                 .getText(), "Go To Final Step");
     }
-
+    @Ignore
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
         getDriver().get("https://www.demoblaze.com/");

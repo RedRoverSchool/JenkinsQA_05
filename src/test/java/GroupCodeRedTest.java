@@ -342,7 +342,7 @@ public class GroupCodeRedTest extends BaseTest {
 
         getDriver().quit();
     }
-
+   @Ignore
     @Test
     public void testCheckbox() {
         String actualTitle = getDriver().getTitle();
