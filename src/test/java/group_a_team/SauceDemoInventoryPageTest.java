@@ -17,13 +17,12 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
 
     @BeforeMethod
     private void navigateToPage() {
-        loginIn(STANDARD_USER, CORRECT_PASSWORD);
+        loginIn(SauceDemoBaseConsts.STANDARD_USER, SauceDemoBaseConsts.CORRECT_PASSWORD);
     }
 
     @Test
     public void testSidebarMenuForItems() {
         clickOnSidebarMenuBtn();
-        Assert.assertTrue(getDriver().findElement(By.cssSelector("div.bm-menu")).isDisplayed());
 
         List<String> expectedMenuItemNames = List.of("ALL ITEMS", "ABOUT", "LOGOUT", "RESET APP STATE");
         List<WebElement> actualMenuItems = new WebDriverWait(getDriver(), Duration.ofSeconds(20))
@@ -38,7 +37,7 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
     @Test(dependsOnMethods = "testSidebarMenuForItems")
     public void testAllItemsLinkFromSidebarMenu() {
         goThrowLinkOfSidebarMenu("inventory_sidebar_link");
-        Assert.assertEquals(getDriver().getCurrentUrl(), INVENTORY_PAGE_URL);
+        Assert.assertEquals(getDriver().getCurrentUrl(), SauceDemoBaseConsts.INVENTORY_PAGE_URL);
     }
 
     @Test(dependsOnMethods = "testSidebarMenuForItems")
@@ -50,7 +49,7 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
     @Test(dependsOnMethods = "testSidebarMenuForItems")
     public void testLogOutFromSideBarMenu() {
         goThrowLinkOfSidebarMenu("logout_sidebar_link");
-        Assert.assertEquals(getDriver().getCurrentUrl(), URL);
+        Assert.assertEquals(getDriver().getCurrentUrl(), SauceDemoBaseConsts.URL);
     }
 
     private void goThrowLinkOfSidebarMenu(String locator) {
