@@ -372,7 +372,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().findElements(By.xpath("//button[@class='added-manually']"))
                 .size(), 3);
     }
-
+    @Ignore
     @Test
     public void testContactUsMessagePopsUp_WhenSendingMessage_AnastasiaYakimova() {
         getDriver().get("https://www.demoblaze.com/");
