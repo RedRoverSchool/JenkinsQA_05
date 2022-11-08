@@ -1,10 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -14,6 +7,8 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupFremenTest extends BaseTest {
 
@@ -125,9 +120,11 @@ public class GroupFremenTest extends BaseTest {
     public void testMainPageAutocompleteLink() {
         getDriver().get(URL);
         String expectedResult = "https://formy-project.herokuapp.com/autocomplete";
+
         WebElement LinkAutocomplete = getDriver().findElement(
                 By.xpath("//div[@class = 'jumbotron-fluid']/li/a[@href = '/autocomplete']"));
         LinkAutocomplete.click();
+
         String actualResult = getDriver().getCurrentUrl();
         Assert.assertEquals(expectedResult, actualResult);
     }
@@ -135,6 +132,7 @@ public class GroupFremenTest extends BaseTest {
     @Test
     public void testKristina_SwitchWindow() {
         getDriver().get(URL);
+
         getDriver().findElement(By.xpath("//a[@class='btn btn-lg'][text()='Switch Window']")).click();
         getDriver().findElement(By.xpath("//div/button[@id='new-tab-button']")).click();
         String currentHandle = getDriver().getWindowHandle();

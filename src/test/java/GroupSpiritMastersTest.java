@@ -40,7 +40,6 @@ public class GroupSpiritMastersTest extends BaseTest {
         javascriptExecutor.executeScript("document.getElementById('" + elementById + "').value='" + emoji + "';");
     }
 
-
     private WebElement findCard_PK(int index) {
         getDriver().get(URL_DEMOQA);
         List<WebElement> category = getDriver().findElements(By.className("card"));
@@ -234,8 +233,10 @@ public class GroupSpiritMastersTest extends BaseTest {
     @Test
     public void zyzBankRegisterLogin_MW_Test() {
         getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login");
+
         getDriver().findElement(By.xpath("//button[normalize-space()='Bank Manager Login']")).click();
         getDriver().findElement(By.xpath("//button[normalize-space()='Add Customer']")).click();
+
         WebElement firstName = getDriver().findElement(By.xpath("//input[@placeholder='First Name']"));
         firstName.click();
         firstName.sendKeys("John");
@@ -245,18 +246,23 @@ public class GroupSpiritMastersTest extends BaseTest {
         WebElement postcode = getDriver().findElement(By.xpath("//input[@placeholder='Post Code']"));
         postcode.click();
         postcode.sendKeys("12334");
+
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
         Alert confAllert = getDriver().switchTo().alert();
         confAllert.accept();
+
         getDriver().findElement(By.xpath("//button[@class='btn btn-lg tab btn-primary']")).click();
         getDriver().findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/button[1]")).click();
         WebElement login = getDriver().findElement(By.xpath("//button[normalize-space()='Customer Login']"));
+
         Assert.assertEquals(login.getText(), "Customer Login");
+
         login.click();
         WebElement selectNameVariant = getDriver().findElement(By.id("userSelect"));
         Select dropdown = new Select(selectNameVariant);
         dropdown.selectByValue("6");
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
         Assert.assertEquals(getDriver().findElement(By.xpath("/html/body/div/div/div[2]/div/div[1]/strong/span")).getText(), "John NeJonh");
     }
 
@@ -331,6 +337,7 @@ public class GroupSpiritMastersTest extends BaseTest {
         Assert.assertEquals(actualToolTip, "You hovered over the Contrary");
     }
 
+    @Ignore
     @Test
     public void testTextBoxFields_AFedorova() {
         getDriver().get(URL_DEMOQA);

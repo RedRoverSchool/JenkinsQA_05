@@ -2,12 +2,17 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class GroupNikkiTest extends BaseTest {
 
@@ -109,6 +114,41 @@ public class GroupNikkiTest extends BaseTest {
         String expectedResult = "The field is required.";
 
         Assert.assertEquals(actualResult,expectedResult);
+    }
+
+    @Test
+    public void testSergeDotMintHouseDateSelection(){
+
+        getDriver().get("https://minthouse.com/");
+
+        WebElement propertyList = getDriver().findElement(By
+                .xpath("//div[@class='hero hero-home']//span[@class='text'][contains(text(),'Where to next')]"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(propertyList));
+        new Actions(getDriver()).click(propertyList).perform();
+        getDriver().findElement(By
+                .xpath("//div[@class='dropdown active']//a[@tabindex='0'][contains(text(),'Mint House Austin – South Congress')]")).click();
+
+        WebElement dates = getDriver().findElement(By
+                .xpath("//div[@class='hero hero-home']//span[@class='value']//span[@class='t-check-in'][contains(text(),'Select date')]"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(dates));
+        new Actions(getDriver()).click(dates).perform();
+        String i = "none";
+        List<WebElement> DATELIST = new ArrayList<>(getDriver().findElements(By
+                .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@class='day-item']")));
+        for(WebElement element : DATELIST) {
+            if(TimeUnit.MILLISECONDS.toDays(Math.subtractExact(Long.parseLong(element.getAttribute("data-time")), System.currentTimeMillis())) == 14 ) {
+                i = element.getAttribute("data-time");
+                new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(element));
+                new Actions(getDriver()).click(element).perform();
+                break;
+            }
+        }
+        String actualResult = getDriver()
+                .findElement(By
+                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + i + "]"))
+                .getAttribute("class");
+
+        Assert.assertTrue(actualResult.contains("is-start-date is-locked"));
     }
 }
 

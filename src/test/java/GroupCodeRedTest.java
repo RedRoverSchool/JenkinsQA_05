@@ -179,6 +179,7 @@ public class GroupCodeRedTest extends BaseTest {
         homeLink.click();
     }
 
+    @Ignore
     @Test
     public void testToggleMenuDashboard() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
@@ -217,6 +218,8 @@ public class GroupCodeRedTest extends BaseTest {
         inputTest.sendKeys("142 1/2 E Broadway St, Shelbyville, IN 46176");sleep(2);
 
     }
+
+    @Ignore
     @Test
     public void testEmail() throws InterruptedException {
         get(getDriver(),"https://insurance.experian.com/sign-up/email");sleep(4);
