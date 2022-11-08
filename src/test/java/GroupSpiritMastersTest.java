@@ -232,10 +232,12 @@ public class GroupSpiritMastersTest extends BaseTest {
     }
 
     @Test
-    public void zyzBankRegisterLogin_MW_Test() {
+    public void testBankRegisterLogin_MW() {
         getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login");
+
         getDriver().findElement(By.xpath("//button[normalize-space()='Bank Manager Login']")).click();
         getDriver().findElement(By.xpath("//button[normalize-space()='Add Customer']")).click();
+
         WebElement firstName = getDriver().findElement(By.xpath("//input[@placeholder='First Name']"));
         firstName.click();
         firstName.sendKeys("John");
@@ -246,18 +248,22 @@ public class GroupSpiritMastersTest extends BaseTest {
         postcode.click();
         postcode.sendKeys("12334");
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
         Alert confAllert = getDriver().switchTo().alert();
+        String userId = confAllert.getText().substring(confAllert.getText().indexOf(":") + 1);
         confAllert.accept();
+
         getDriver().findElement(By.xpath("//button[@class='btn btn-lg tab btn-primary']")).click();
-        getDriver().findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/button[1]")).click();
+        getDriver().findElement(By.cssSelector(".btn.home")).click();
         WebElement login = getDriver().findElement(By.xpath("//button[normalize-space()='Customer Login']"));
-        Assert.assertEquals(login.getText(), "Customer Login");
         login.click();
         WebElement selectNameVariant = getDriver().findElement(By.id("userSelect"));
         Select dropdown = new Select(selectNameVariant);
-        dropdown.selectByValue("6");
+        dropdown.selectByValue(userId);
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("/html/body/div/div/div[2]/div/div[1]/strong/span")).getText(), "John NeJonh");
+
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//strong/span[@class='fontBig ng-binding']")).getText(), "John NeJonh");
     }
 
     @Test
