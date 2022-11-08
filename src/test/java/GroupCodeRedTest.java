@@ -342,14 +342,13 @@ public class GroupCodeRedTest extends BaseTest {
 
         getDriver().quit();
     }
-   @Ignore
+
     @Test
     public void testCheckbox() {
-        String actualTitle = getDriver().getTitle();
 
         getDriver().get("https://formy-project.herokuapp.com/");
 
-
+        String actualTitle = getDriver().getTitle();
         Assert.assertEquals(actualTitle, "Formy");
         getDriver().findElement(By.xpath("//li[3]/a[@class = 'btn btn-lg']")).click();
         WebElement name=getDriver().findElement(By.xpath( "//h1[contains(text(),'Checkboxes')]"));
