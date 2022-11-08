@@ -21,7 +21,7 @@ public class GroupCubsTest extends BaseTest {
         WebElement actualRes = getDriver().findElement(By.xpath("//h1[@data-test-id='articleTitle']"));
         Assert.assertEquals(actualRes.getText(), "Как установить приоритет тест-кейса в TestNG с помощью Selenium");
     }
-
+     @Ignore
     @Test
     public void testRp5() {
         getDriver().get("https://rp5.ru");
