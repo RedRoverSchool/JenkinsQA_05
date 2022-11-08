@@ -92,6 +92,18 @@ public class GroupCodeRedTest extends BaseTest {
     }
 
     @Test
+    public void testverifyAPI() throws InterruptedException {
+        getDriver().get("https://openweathermap.org");
+        Thread.sleep(5000);
+        getDriver().findElement(By.cssSelector("#desktop-menu > ul > li:nth-child(2) > a")).click();
+        getDriver().findElement(By.cssSelector("h2 > a")).click();
+        WebElement onecallAPI = getDriver().findElement(By.xpath("//section[@id='how']/div/code"));
+
+        Assert.assertEquals(onecallAPI.getText(), "https://api.openweathermap.org/data/3.0/onecall?lat={lat}" +
+                "&lon={lon}&exclude={part}&appid={API key}");
+    }
+
+    @Test
     public void testButton() {
         getDriver().get("https://formy-project.herokuapp.com/");
         WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/buttons']"));

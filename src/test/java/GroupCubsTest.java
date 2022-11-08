@@ -78,6 +78,16 @@ public class GroupCubsTest extends BaseTest {
         WebElement link = getDriver().findElement(By.xpath("//*[@id=\"MenuContent\"]/a[3]"));
         Assert.assertEquals(link.getText(), "?");
     }
+
+    @Test
+    public void testPochekirya() {
+        getDriver().get("https://louna.ru/");
+        getDriver().findElement(By.xpath("//*[@id='menu']/a[2]/img")).click();
+
+        WebElement link = getDriver().findElement(By.xpath("//*[@id='content']/p[2]/b"));
+
+        Assert.assertEquals(link.getText(), "23.05.09");
+    }
 }
 
 

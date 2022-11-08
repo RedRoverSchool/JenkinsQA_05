@@ -1,5 +1,7 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -450,5 +452,18 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/h2")).getText();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/h2")).getText(), "Welcome to 99 Bottles of Beer");
+    }
+
+    @Test
+    public void testBROWSE_LANGUAGES_M_NO() {
+        String expectedResult = "MySQL";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='m.html']")).click();
+
+        String actualResult = getDriver().findElement(By.xpath("//tr[last()]/td/a")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }

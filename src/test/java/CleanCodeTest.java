@@ -1,12 +1,15 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class CleanCodeTest extends BaseTest {
@@ -130,5 +133,21 @@ public class CleanCodeTest extends BaseTest {
         SingIn.click();
         String LOGIN = getDriver().findElement(By.xpath("//div[@class='sixteen columns clearfix collection_nav']")).getText();
         Assert.assertEquals(LOGIN, "Customer Login");
+    }
+
+    @Test
+    public void  testFirst() {
+        getDriver().get("https://openweathermap.org/guide");
+        getDriver().manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS);
+        getDriver().findElement(By.xpath("//div[@id='support-dropdown']")).click();
+        getDriver().findElement(By.xpath("//ul[@class='dropdown-menu dropdown-visible']")).isDisplayed();
+        getDriver().findElement(By.xpath("//div//ul[@id='support-dropdown-menu']//li//a[contains(text(), 'Ask a question')]")).click();
+        List<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
+        Assert.assertEquals(tabs.size(), 2);
+        getDriver().switchTo().window(tabs.get(1));
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("question_form_email")));
+        String currentUrl = getDriver().getCurrentUrl();
+        Assert.assertEquals(currentUrl, "https://home.openweathermap.org/questions");
     }
 }

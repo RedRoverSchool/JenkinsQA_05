@@ -25,4 +25,14 @@ public class GroupJavaStartTest extends BaseTest {
 
         Assert.assertEquals(link1.getText(), "Checkbox");
     }
+
+
+    @Test
+    public void testHerokuAppComponentsList(){
+        getDriver().get("https://formy-project.herokuapp.com/");
+
+        WebElement buttons = getDriver().findElement(By.xpath("//li/a[text()='Buttons']"));
+
+        Assert.assertEquals(buttons.getText(), "Buttons");
+    }
 }
