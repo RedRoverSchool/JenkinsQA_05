@@ -1,6 +1,6 @@
 package group_a_team;
 
-public final class SauceDemoBaseConsts {
+public final class SauceDemoConsts {
     public static final String URL = "https://www.saucedemo.com/";
     public static final String INVENTORY_PAGE_URL = "https://www.saucedemo.com/inventory.html";
     public static final String STANDARD_USER = "standard_user";

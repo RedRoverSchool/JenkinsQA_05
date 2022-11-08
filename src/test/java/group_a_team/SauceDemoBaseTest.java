@@ -15,7 +15,7 @@ public abstract class SauceDemoBaseTest extends BaseTest {
     }
 
     protected void loginIn(String username, String password) {
-        getDriver().get(SauceDemoBaseConsts.URL);
+        getDriver().get(SauceDemoConsts.URL);
         getAction().
                 moveToElement(getDriver().findElement(By.id("user-name"))).click().sendKeys(username).
                 moveToElement(getDriver().findElement(By.id("password"))).click().sendKeys(password).

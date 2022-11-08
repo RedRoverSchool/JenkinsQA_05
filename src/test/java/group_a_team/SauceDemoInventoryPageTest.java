@@ -17,7 +17,7 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
 
     @BeforeMethod
     private void navigateToPage() {
-        loginIn(SauceDemoBaseConsts.STANDARD_USER, SauceDemoBaseConsts.CORRECT_PASSWORD);
+        loginIn(SauceDemoConsts.STANDARD_USER, SauceDemoConsts.CORRECT_PASSWORD);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
     @Test(dependsOnMethods = "testSidebarMenuForItems")
     public void testAllItemsLinkFromSidebarMenu() {
         goThrowLinkOfSidebarMenu("inventory_sidebar_link");
-        Assert.assertEquals(getDriver().getCurrentUrl(), SauceDemoBaseConsts.INVENTORY_PAGE_URL);
+        Assert.assertEquals(getDriver().getCurrentUrl(), SauceDemoConsts.INVENTORY_PAGE_URL);
     }
 
     @Test(dependsOnMethods = "testSidebarMenuForItems")
@@ -49,7 +49,7 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
     @Test(dependsOnMethods = "testSidebarMenuForItems")
     public void testLogOutFromSideBarMenu() {
         goThrowLinkOfSidebarMenu("logout_sidebar_link");
-        Assert.assertEquals(getDriver().getCurrentUrl(), SauceDemoBaseConsts.URL);
+        Assert.assertEquals(getDriver().getCurrentUrl(), SauceDemoConsts.URL);
     }
 
     private void goThrowLinkOfSidebarMenu(String locator) {
