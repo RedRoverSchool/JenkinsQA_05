@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 public class RomanTTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testVerifyTextBoxOutputResult() {
         getDriver().get("https://demoqa.com/");
