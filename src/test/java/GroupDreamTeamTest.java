@@ -75,7 +75,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testSergeDotMintHouseDateSelectionNoPastDate(){
+    public void testSimonGertzMintHouseDateSelectionNoPastDate(){
         final long dayInMillis = 86400000;
         getDriver().get("https://minthouse.com/");
 
