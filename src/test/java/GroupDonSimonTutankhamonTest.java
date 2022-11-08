@@ -365,6 +365,23 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
+    public void testCopyPaste_WebdDiverUniversityCom() throws InterruptedException {
+
+        getDriver().get("https://webdriveruniversity.com/Contact-Us/contactus.html");
+        Actions actions = new Actions(getDriver());
+
+        WebElement firstNameField = getDriver().findElement(By.name("first_name"));
+        WebElement lastNameField = getDriver().findElement(By.name("last_name"));
+
+        actions.sendKeys(firstNameField, "John Cena").keyDown(Keys.CONTROL).sendKeys(firstNameField, "a")
+                .sendKeys(firstNameField, "c").sendKeys(lastNameField, "v").build().perform();
+
+        Assert.assertEquals(firstNameField.getText(), lastNameField.getText());
+
+        Thread.sleep(5000);
+    }
+
+    @Test
     public void testButtonsLinkText_HerokuApp() {
 
         getDriver().get("https://formy-project.herokuapp.com/");

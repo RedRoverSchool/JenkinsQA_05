@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe;
 import static org.openqa.selenium.support.ui.ExpectedConditions.urlToBe;
 
-public class SpiritMastersTest extends BaseTest {
+public class GroupSpiritMastersTest extends BaseTest {
 
     private static final String URL_DEMOQA = "https://demoqa.com/";
 
@@ -368,7 +368,6 @@ public class SpiritMastersTest extends BaseTest {
         getActions().scrollToElement(submitBtn);
         submitBtn.click();
 
-
         List<String> actualResult = new ArrayList<>();
         actualResult.add(getDriver().findElement(By.id("name")).getText());
         actualResult.add(getDriver().findElement(By.id("email")).getText());
@@ -606,5 +605,16 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(
                 By.xpath("//form[@id='new_question_form']//div[@class='help-block']"))
                 .getText().equals("reCAPTCHA verification failed, please try again."));
+    }
+
+    @Test
+    public void testCheckboxesPageHerokuApp_MRakhmanava() {
+        String url = "http://the-internet.herokuapp.com/checkboxes";
+        getDriver().get(url);
+        getDriver().manage().window().maximize();
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        List<WebElement> checkboxes = getDriver().findElements(By.cssSelector("[type=checkbox]"));
+        checkboxes.get(1).click();
+        Assert.assertFalse(checkboxes.get(1).isSelected());
     }
 }

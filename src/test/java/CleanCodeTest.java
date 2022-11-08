@@ -1,12 +1,15 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class CleanCodeTest extends BaseTest {
@@ -130,5 +133,24 @@ public class CleanCodeTest extends BaseTest {
         SingIn.click();
         String LOGIN = getDriver().findElement(By.xpath("//div[@class='sixteen columns clearfix collection_nav']")).getText();
         Assert.assertEquals(LOGIN, "Customer Login");
+    }
+
+    @Test
+    public void testSauceLabsEvgeniya() {
+        getDriver().get("https://www.saucedemo.com/");
+        getDriver().findElement(By.id("user-name")).sendKeys("standard_user");
+        getDriver().findElement(By.xpath("//input[@placeholder='Password']")).sendKeys("secret_sauce");
+        getDriver().findElement(By.xpath("//input[@type='submit']")).click();
+        String header = getDriver().findElement(By.xpath("//span[@class='title']")).getText();
+        Assert.assertEquals(header,"PRODUCTS");
+    }
+
+    @Test
+    public void testVitebskbiz()
+    {
+       String Vitebskbiz = "https://vitebsk.biz/";
+       getDriver().get(Vitebskbiz);
+       WebElement link = getDriver().findElement(By.xpath("//div/a[@href='https://vitebsk.biz/news/tc/']"));
+       Assert.assertEquals(link.getText(), "Запостить");
     }
 }

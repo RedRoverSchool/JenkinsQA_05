@@ -312,7 +312,7 @@ public class GroupTeamRocketTest extends BaseTest {
                 .findElement(By.xpath("//button[@type='submit'][@class='btn cobranding-form-submit']"))
                 .getText(), "Go To Final Step");
     }
-
+    @Ignore
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
         getDriver().get("https://www.demoblaze.com/");
@@ -375,10 +375,16 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Ignore
     @Test
-    public void testContactUsMessagePopsUp_WhenSendingMessage_AnastasiaYakimova() {
+    public void testContactUs_ThankYouMessagePopsUp_AnastasiaY() {
+
         getDriver().get("https://www.demoblaze.com/");
-        getDriver().findElement(By.xpath("//a[contains(text(), 'Contact')]")).click();
-        getDriver().findElement(By.xpath("//button[@type = 'button'][contains(text(), 'Send message')]")).click();
+
+        getDriver().findElement(
+                By.xpath("//div[@id = 'navbarExample']//a[@class = 'nav-link'][contains(text(),'Contact')]")).click();
+        getDriver().findElement(By.id("recipient-email")).sendKeys("anatestova123@gmail.com");
+        getDriver().findElement(By.id("recipient-name")).sendKeys("Ana");
+        getDriver().findElement(By.id("message-text")).sendKeys("Hi");
+        getDriver().findElement(By.xpath("//button[@type = 'button'][@onclick = 'send()']")).click();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "Thanks for the message!!");
     }
