@@ -25,6 +25,7 @@ public class GroupJavanistyTest extends BaseTest {
 
     @Test
     public void test_IriSamo_Registration(){
+
         getDriver().get("https://www.sharelane.com/cgi-bin/register.py");
 
         getDriver().findElement(By.name("zip_code")).sendKeys("196240");
@@ -39,11 +40,10 @@ public class GroupJavanistyTest extends BaseTest {
         getDriver().findElement(
                 By.xpath("//input[@value='Register']")).click();
 
-        final String expectedConfirmationMessage = "Account is created!";
         String actualConfirmationMessage = getDriver().findElement(
                 By.xpath("//span[@class='confirmation_message']")).getText();
 
-        Assert.assertEquals(expectedConfirmationMessage, actualConfirmationMessage);
+        Assert.assertEquals(actualConfirmationMessage, "Account is created!");
     }
      
     @Ignore
