@@ -39,7 +39,6 @@ public class GroupBugBustersTest extends BaseTest {
                 "[@value='Hongkong CURA Healthcare Center']")).click();
         //Thread.sleep(2000);
         getDriver().findElement(By.xpath("//input[@id='chk_hospotal_readmission']")).click();
-        //Thread.sleep(1000);
         getDriver().findElement(By.xpath("//input[@id='radio_program_medicaid']")).click();
         getDriver().findElement(By.xpath("//section[@id=\"appointment\"]/div/div/form/div/div/div/div/span" +
                 "[@class='glyphicon glyphicon-calendar']")).click();
