@@ -69,4 +69,18 @@ public class GroupDreamTeamTest extends BaseTest {
         int rangeValue = Integer.parseInt(exampleRange.getAttribute("value"));
         Assert.assertEquals(rangeValue, 9);
     }
+    @Test
+    public void testTemperatureInFahrenheit() throws InterruptedException {
+        String url = "https://openweathermap.org/";
+        String symbolF = "°F";
+
+        getDriver().get(url);
+        Thread.sleep(3000);
+        WebElement temperatureF = getDriver().findElement
+                (By.xpath("//div[text()='Imperial: °F, mph']"));
+        Thread.sleep(2000);
+        temperatureF.click();
+        WebElement imageTempF = getDriver().findElement(By.xpath("//div[@class ='current-temp']"));
+        Assert.assertTrue(imageTempF.getText().contains(symbolF));
+    }
 }
