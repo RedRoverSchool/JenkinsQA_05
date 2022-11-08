@@ -1,9 +1,9 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -12,6 +12,7 @@ import runner.BaseTest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -472,5 +473,38 @@ public class GroupTeamRocketTest extends BaseTest {
         String actualResult = getDriver().findElement(By.xpath("//tr[last()]/td/a")).getText();
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testSergeDotMintHouseDateSelectionYesterdayIsNotClickable(){
+        final long dayInMillis = 86400000;
+        getDriver().get("https://minthouse.com/");
+
+        WebElement propertyList = getDriver().findElement(By
+                .xpath("//div[@class='hero hero-home']//span[@class='text'][contains(text(),'Where to next')]"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(propertyList));
+        new Actions(getDriver()).click(propertyList).perform();
+        getDriver().findElement(By
+                .xpath("//div[@class='dropdown active']//a[@tabindex='0'][contains(text(),'Mint House Austin – South Congress')]")).click();
+
+        WebElement dates = getDriver().findElement(By
+                .xpath("//div[@class='hero hero-home']//span[@class='value']//span[@class='t-check-in'][contains(text(),'Select date')]"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(dates));
+        new Actions(getDriver()).click(dates).perform();
+
+        long todayInMillis = Long.parseLong(getDriver()
+                .findElement(By
+                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@class='day-item is-today']"))
+                .getAttribute("data-time"));
+        WebElement yesterdayDate = getDriver()
+                .findElement(By
+                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + Math.subtractExact(todayInMillis, dayInMillis) + "]"));
+        System.out.println(Math.subtractExact(todayInMillis, dayInMillis));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(yesterdayDate));
+        new Actions(getDriver()).click(dates).perform();
+
+        String actualResult = yesterdayDate.getAttribute("class");
+
+        Assert.assertFalse(actualResult.contains("is-start-date") || actualResult.contains("is-end-date") || actualResult.contains("is-in-range"));
     }
 }
