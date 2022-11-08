@@ -373,6 +373,7 @@ public class GroupTeamRocketTest extends BaseTest {
                 .size(), 3);
     }
 
+    @Ignore
     @Test
     public void testContactUsMessagePopsUp_WhenSendingMessage_AnastasiaYakimova() {
         getDriver().get("https://www.demoblaze.com/");
