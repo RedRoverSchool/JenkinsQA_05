@@ -11,6 +11,7 @@ import java.util.Set;
 public class GroupJavaStartTest extends BaseTest {
 
     private final String FARM_PROJECT_URL = "https://formy-project.herokuapp.com/";
+    private final String OMAYO_PAGE_URL= "http://omayo.blogspot.com/";
 
     @Test
     public void tes_tHerokuApp() {
@@ -25,7 +26,6 @@ public class GroupJavaStartTest extends BaseTest {
     public void test_HerokuAppSearchCheckboxMenu() {
         getDriver().get(FARM_PROJECT_URL);
 
-        //Thread.sleep(5000);
         WebElement link1 = getDriver().findElement(By.xpath("//li/a[@href='/checkbox']"));
 
         Assert.assertEquals(link1.getText(), "Checkbox");
@@ -65,7 +65,7 @@ public class GroupJavaStartTest extends BaseTest {
 
     @Test
     public void test_GoToPopUpWindow() {
-        getDriver().get("http://omayo.blogspot.com/");
+        getDriver().get(OMAYO_PAGE_URL);
 
         String mainWindow = getDriver().getWindowHandle();
 
@@ -89,5 +89,25 @@ public class GroupJavaStartTest extends BaseTest {
 
         Assert.assertEquals(text, "A paragraph of text");
         Assert.assertEquals(text2, "Another paragraph of text");
+    }
+
+    @Test
+    public void test_GoToIframe() {
+        getDriver().get(OMAYO_PAGE_URL);
+
+        String iframe2 = getDriver().findElement(By.id("iframe2")).getText();
+
+        getDriver().switchTo().frame("iframe2");
+        String h2 = getDriver().findElement(By.xpath("//body/h2/text()")).getText();
+        System.out.println(h2);
+//
+//        Assert.assertEquals(getDriver().findElement(By.xpath("//body/h1")).getText(), "Error: Server Error");
+//        Assert.assertEquals(getDriver().findElement(By.xpath("//body/h2/text()")).getText(),
+//                "The server encountered an error and could not complete your request.");
+//        Assert.assertEquals(getDriver().findElement(By.xpath("//body/h2/p")).getText(), "Please try again in 30 seconds.");
+
+
+
+
     }
 }
