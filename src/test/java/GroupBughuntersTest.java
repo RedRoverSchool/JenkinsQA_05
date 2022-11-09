@@ -178,6 +178,6 @@ public class GroupBughuntersTest extends BaseTest {
         action.moveToElement(storiesForChildren).perform();
         storiesForChildren.click();
 
-        Assert.assertEquals(getDriver().getTitle(), "BBC Learning English - Stories for Children / No Pets Here");
+        Assert.assertEquals(getDriver().getTitle(), "BBC Learning English - Stories for Children / Camping");
     }
 }
