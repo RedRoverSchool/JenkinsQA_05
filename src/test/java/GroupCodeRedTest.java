@@ -210,7 +210,7 @@ public class GroupCodeRedTest extends BaseTest {
                 ("input[name='email']")).sendKeys("MinnieMouse@cheese.com");
         getDriver().findElement(By.cssSelector("button[data-title='Next Step']")).click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),"https://insurance.experian.com/sign-up/phone");
+        Assert.assertEquals(getDriver().getCurrentUrl(),"https://insurance.experian.com/sign-up/email");
     }
     @Test
     public void testTermsOfCondition() throws InterruptedException {
