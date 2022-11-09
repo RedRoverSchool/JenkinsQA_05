@@ -2,54 +2,40 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
 import java.time.Duration;
 
 public class GroupCodeRedTest extends BaseTest {
-    private final String baseUrlHerokuapp = "https://formy-project.herokuapp.com";
+    private final String BASE_URL_HEROKUAPP = "https://formy-project.herokuapp.com";
+    private final String WEATHER_URL = "https://openweathermap.org/";
 
-    public static void get(WebDriver driver, String url) {
-        driver.get(url);
-    }
-
-    public static WebElement findElementBy(WebDriver driver, String cssSelector) {
-
-        return driver.findElement(By.cssSelector(cssSelector));
-    }
-
-
-
-    public static void sleep(int sec) throws InterruptedException {
-        Thread.sleep(1000);
-    }
     @Test
     public void testAutocomplete() throws InterruptedException {
-        getDriver().get("https://formy-project.herokuapp.com/");
-        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/autocomplete']"));
-        link.click();
+        getDriver().get(BASE_URL_HEROKUAPP);
+
+        getDriver().findElement(By.xpath("//li/a[@href='/autocomplete']")).click();
         Thread.sleep(500);
         String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
+
         Assert.assertEquals(actualResult, "Autocomplete");
     }
 
     @Test
     public void testAutocompleteAddress() throws InterruptedException {
-        getDriver().get("https://formy-project.herokuapp.com/");
-        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/autocomplete']"));
-        link.click();
+        getDriver().get(BASE_URL_HEROKUAPP);
+
+        getDriver().findElement(By.xpath("//li/a[@href='/autocomplete']")).click();
         Thread.sleep(500);
-        String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
-        Assert.assertEquals(actualResult, "Autocomplete");
-        WebElement address = getDriver().findElement(By.xpath("//div/input[@placeholder='Enter address']"));
-        address.sendKeys("555 Open road");
-        Thread.sleep(500);
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Autocomplete");
+
+        getDriver().findElement(By.xpath
+                ("//div/input[@placeholder='Enter address']")).sendKeys("555 Open road");
         getDriver().findElement(By.xpath("//button[@class='dismissButton']")).click();
-        WebElement enteredAddress = getDriver().findElement(By.xpath("//input[@id='autocomplete']"));
-        Thread.sleep(500);
-        Assert.assertEquals(enteredAddress.getAttribute("value"), "555 Open road");
+
+        Assert.assertEquals(getDriver().findElement(By.xpath
+                ("//input[@id='autocomplete']")).getAttribute("value"), "555 Open road");
     }
 
     @Test
@@ -95,7 +81,8 @@ public class GroupCodeRedTest extends BaseTest {
 
     @Test
     public void testFormyButton() {
-        getDriver().get(baseUrlHerokuapp);
+        getDriver().get(BASE_URL_HEROKUAPP);
+
         getDriver().findElement(By.xpath("//li/a[@href='/buttons']")).click();
         String actualResult = getDriver().getCurrentUrl();
 
@@ -105,7 +92,8 @@ public class GroupCodeRedTest extends BaseTest {
 
     @Test
     public void testFormyDatepicker() {
-        getDriver().get(baseUrlHerokuapp);
+        getDriver().get(BASE_URL_HEROKUAPP);
+
         getDriver().findElement(By.xpath("//li/a[@href='/datepicker']")).click();
         getDriver().findElement(By.xpath("//div[@class='row']//input[@id='datepicker']")).click();
         getDriver().findElement(By.xpath
@@ -120,7 +108,8 @@ public class GroupCodeRedTest extends BaseTest {
     @Test
     public void testFormyDropdown()  {
         String dropdownMenu = "Dropdown";
-        getDriver().get(baseUrlHerokuapp);
+        getDriver().get(BASE_URL_HEROKUAPP);
+
         getDriver().findElement(By.linkText(dropdownMenu)).click();
         getDriver().findElement(By.id("dropdownMenuButton")).click();
 
@@ -135,48 +124,57 @@ public class GroupCodeRedTest extends BaseTest {
 
     @Test
     public void testToggleMenuGuide() throws InterruptedException {
-        getDriver().get("https://openweathermap.org/");
-        Thread.sleep(5000);
-        WebElement guideLink = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[text()='Guide']"));
-        Assert.assertEquals(guideLink.getText(), "Guide");
-        guideLink.click();
-        String currentUrl = getDriver().getCurrentUrl();
-        Assert.assertEquals(currentUrl, "https://openweathermap.org/guide");
+        getDriver().get(WEATHER_URL);
+        Thread.sleep(7000);
 
-        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
+        WebElement guideLink = getDriver().findElement(By.xpath
+                ("//div[@id='desktop-menu']//a[text()='Guide']"));
+
+        Assert.assertEquals(guideLink.getText(), "Guide");
+
+        guideLink.click();
+        Thread.sleep(500);
+        Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/guide");
+
+        WebElement homeLink = getDriver().findElement(By.xpath
+                ("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
         Assert.assertEquals(homeLink.getText(), "Home");
-        homeLink.click();
     }
 
     @Test
     public void testToggleMenuAPI() throws InterruptedException {
-        getDriver().get("https://openweathermap.org/");
-        Thread.sleep(5000);
+        getDriver().get(WEATHER_URL);
+        Thread.sleep(7000);
+
         WebElement apiLink = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[text()='API']"));
+
         Assert.assertEquals(apiLink.getText(), "API");
         apiLink.click();
-        Thread.sleep(2000);
+        Thread.sleep(500);
+
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/api");
 
-        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
+        WebElement homeLink = getDriver().findElement(By.xpath
+                ("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
         Assert.assertEquals(homeLink.getText(), "Home");
-        homeLink.click();
     }
 
-    @Ignore
     @Test
     public void testToggleMenuDashboard() throws InterruptedException {
-        getDriver().get("https://openweathermap.org/");
-        Thread.sleep(5000);
-        WebElement dashboardLink = getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[text()='Dashboard']"));
+        getDriver().get(WEATHER_URL);
+        Thread.sleep(7000);
+
+        WebElement dashboardLink = getDriver().findElement(By.xpath
+                ("//div[@id='desktop-menu']//a[text()='Dashboard']"));
         Assert.assertEquals(dashboardLink.getText(), "Dashboard");
         dashboardLink.click();
-        Thread.sleep(2000);
+        Thread.sleep(500);
+
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/weather-dashboard");
 
-        WebElement homeLink = getDriver().findElement(By.xpath("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
+        WebElement homeLink = getDriver().findElement(By.xpath
+                ("//ol[@class='breadcrumb pull-right hidden-xs']//a"));
         Assert.assertEquals(homeLink.getText(), "Home");
-        homeLink.click();
     }
 
     @Test
@@ -196,40 +194,37 @@ public class GroupCodeRedTest extends BaseTest {
 
     @Test
     public void testYourAdress() throws InterruptedException {
-        get(getDriver(), "https://insurance.experian.com/sign-up/address");
-        sleep(2);
-        WebElement  inputTest = findElementBy(getDriver(),"input[name='address_field_input']");sleep(2);
-        inputTest.sendKeys("142 1/2 E Broadway St, Shelbyville, IN 46176");sleep(2);
+        getDriver().get("https://insurance.experian.com/sign-up/address");
 
+        Thread.sleep(2000);
+        getDriver().findElement(By.cssSelector("input[name='address_field_input']")).sendKeys
+                ("input[name='address_field_input']");
     }
 
-    @Ignore
     @Test
     public void testEmail() throws InterruptedException {
-        get(getDriver(),"https://insurance.experian.com/sign-up/email");sleep(4);
+        getDriver().get("https://insurance.experian.com/sign-up/email");
 
-        WebElement inputEmailAddress = getDriver().findElement(
-                By.cssSelector("input[name='email']"));sleep(3);
-        inputEmailAddress.sendKeys("MinnieMouse@cheese.com");
-        WebElement buttonNext = getDriver().findElement(By.cssSelector("button[data-title='Next Step']"));sleep(2);
-        buttonNext.click();sleep(2);
+        Thread.sleep(2000);
+        getDriver().findElement(By.cssSelector
+                ("input[name='email']")).sendKeys("MinnieMouse@cheese.com");
+        getDriver().findElement(By.cssSelector("button[data-title='Next Step']")).click();
+
         Assert.assertEquals(getDriver().getCurrentUrl(),"https://insurance.experian.com/sign-up/phone");
     }
     @Test
     public void testTermsOfCondition() throws InterruptedException {
-        get(getDriver(),"https://insurance.experian.com/sign-up/phone");sleep(4);
-        WebElement enterPhoNumber = getDriver().findElement(
-                By.xpath("//input[@name='phone_number']"));
-        enterPhoNumber.sendKeys("8318888888");
-        WebElement buttonNext = getDriver().findElement(By.cssSelector("button[data-title='Next Step']"));sleep(4);
-        Assert.assertEquals(getDriver().getCurrentUrl(),"https://insurance.experian.com/sign-up/phone");
-        buttonNext.click();sleep(4);
+        getDriver().get("https://insurance.experian.com/sign-up/phone");
 
+        Thread.sleep(500);
+        getDriver().findElement(By.xpath("//input[@name='phone_number']")).sendKeys("831888888");
+        WebElement enteredPhone = getDriver().findElement(By.xpath("//input[@name='phone_number']"));
+
+        Assert.assertEquals(enteredPhone.getAttribute("value"), "(831) 888 888");
     }
 
     @Test
     public void testFindRome() throws InterruptedException {
-
         String url = "https://openweathermap.org/";
         String city = "Rome";
         boolean expectedResult = true;
@@ -275,7 +270,7 @@ public class GroupCodeRedTest extends BaseTest {
     public void testAutoCompleteFieldsWebForm() {
 
 
-        getDriver().get(baseUrlHerokuapp + "/form");
+        getDriver().get(BASE_URL_HEROKUAPP + "/form");
 
         WebElement firstName = getDriver().findElement(By.xpath("//input[@id ='first-name']"));
         firstName.sendKeys("Don");
@@ -304,7 +299,7 @@ public class GroupCodeRedTest extends BaseTest {
 
     @Test
     public void testModalWindow() throws InterruptedException{
-        getDriver().get(baseUrlHerokuapp);
+        getDriver().get(BASE_URL_HEROKUAPP);
 
         WebElement modalLink = getDriver().findElement(By.xpath("//li/a[@href='/modal']"));
         modalLink.click();
@@ -366,7 +361,7 @@ public class GroupCodeRedTest extends BaseTest {
         final String  fullName ="Don Sanches";
         final String date = "11/07/2022";
 
-        getDriver().get(baseUrlHerokuapp);
+        getDriver().get(BASE_URL_HEROKUAPP);
 
         getDriver().findElement(By.xpath("//a[@class ='btn btn-lg' and @href='/scroll']")).click();
         JavascriptExecutor jsScroll = (JavascriptExecutor) getDriver();
@@ -413,7 +408,6 @@ public class GroupCodeRedTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("user-dropdown-menu-link")).getText().contains("test-user"));
     }
 
-
     @Test
     public void negativeLoginTest()  {
         getDriver().get("http://qa.jtalks.org/jcommune/");
@@ -429,6 +423,5 @@ public class GroupCodeRedTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//span[@class = 'help-inline _error']"))
                 .getText().contains("Неверное имя пользователя или пароль"));
     }
-
 
 }
