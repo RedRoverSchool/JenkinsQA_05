@@ -1,5 +1,4 @@
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -8,10 +7,6 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
-import java.util.TreeSet;
-
-import static java.sql.DriverManager.getDriver;
-
 
 public class GroupCodeRedTest extends BaseTest {
     private final String baseUrlHerokuapp = "https://formy-project.herokuapp.com";
@@ -48,14 +43,11 @@ public class GroupCodeRedTest extends BaseTest {
         Thread.sleep(500);
         String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
         Assert.assertEquals(actualResult, "Autocomplete");
-//        getDriver().findElement(By.id("autocomplete")).clear();
-//        getDriver().findElement(By.id("autocomplete")).sendKeys("Sample text");
         WebElement address = getDriver().findElement(By.xpath("//div/input[@placeholder='Enter address']"));
         address.sendKeys("555 Open road");
         Thread.sleep(500);
         getDriver().findElement(By.xpath("//button[@class='dismissButton']")).click();
         WebElement enteredAddress = getDriver().findElement(By.xpath("//input[@id='autocomplete']"));
-//        enteredAddress.clear();
         Thread.sleep(500);
         Assert.assertEquals(enteredAddress.getAttribute("value"), "555 Open road");
     }
@@ -102,50 +94,43 @@ public class GroupCodeRedTest extends BaseTest {
     }
 
     @Test
-    public void testButton() {
-        getDriver().get("https://formy-project.herokuapp.com/");
-        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/buttons']"));
-        link.click();
+    public void testFormyButton() {
+        getDriver().get(baseUrlHerokuapp);
+        getDriver().findElement(By.xpath("//li/a[@href='/buttons']")).click();
         String actualResult = getDriver().getCurrentUrl();
+
         Assert.assertEquals(actualResult, "https://formy-project.herokuapp.com/buttons");
     }
 
 
     @Test
-    public void testDatepicker() {
-        getDriver().get("https://formy-project.herokuapp.com/");
-        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/datepicker']"));
-        link.click();
+    public void testFormyDatepicker() {
+        getDriver().get(baseUrlHerokuapp);
+        getDriver().findElement(By.xpath("//li/a[@href='/datepicker']")).click();
+        getDriver().findElement(By.xpath("//div[@class='row']//input[@id='datepicker']")).click();
+        getDriver().findElement(By.xpath
+                ("/html/body/div[2]/div[1]/table/tbody/tr/td[@class='today day']")).click();
         String actualTitle = getDriver().findElement(By.xpath("/html/body/div/h1")).getText();
-        Assert.assertEquals(actualTitle, "Datepicker");
         String actualAddress = getDriver().getCurrentUrl();
+
+        Assert.assertEquals(actualTitle, "Datepicker");
         Assert.assertEquals(actualAddress, "https://formy-project.herokuapp.com/datepicker");
-        WebElement dateInput = getDriver().findElement(By.xpath("//div[@class='row']//input[@id='datepicker']"));
-        dateInput.click();
-        WebElement todayDate = getDriver().findElement(By.xpath
-                ("/html/body/div[2]/div[1]/table/tbody/tr/td[@class='today day']"));
-        todayDate.click();
     }
 
     @Test
-    public void testDropdown() throws InterruptedException {
-        getDriver().get("https://formy-project.herokuapp.com/");
-        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/dropdown']"));
-        link.click();
+    public void testFormyDropdown()  {
+        String dropdownMenu = "Dropdown";
+        getDriver().get(baseUrlHerokuapp);
+        getDriver().findElement(By.linkText(dropdownMenu)).click();
+        getDriver().findElement(By.id("dropdownMenuButton")).click();
+
         String actualResult = getDriver().getCurrentUrl();
-        Assert.assertEquals(actualResult, "https://formy-project.herokuapp.com/dropdown");
         String actualTitle = getDriver().findElement(By.xpath("/html/body/div/h1")).getText();
-        Assert.assertEquals(actualTitle, "Dropdown");
-        WebElement dropDown = getDriver().findElement(By.xpath("//div[@class='dropdown']" +
-                "//button[@id=\"dropdownMenuButton\"]"));
-        dropDown.click();
-        WebElement modal = getDriver().findElement(By.xpath("/html/body/div/div/div/a[11]"));
-        modal.click();
-        String actualModalResult = getDriver().getCurrentUrl();
-        Assert.assertEquals(actualModalResult, "https://formy-project.herokuapp.com/modal");
-        Thread.sleep(100);
-        String actualModalHeader = getDriver().findElement(By.xpath("/html/body/div/h1")).getText();
-        Assert.assertEquals(actualModalHeader, "Modal");
+
+        Assert.assertEquals(actualTitle, dropdownMenu);
+        Assert.assertEquals(actualResult, "https://formy-project.herokuapp.com/dropdown");
+        Assert.assertEquals(getDriver().findElements(By.xpath(
+                "/html/body/div/div/div/a[@class='dropdown-item']")).size(),15);
     }
 
     @Test
@@ -348,7 +333,7 @@ public class GroupCodeRedTest extends BaseTest {
     }
 
     @Test
-    public void testCheckbox() {
+    public void testCheckbox() throws InterruptedException {
 
         getDriver().get("https://formy-project.herokuapp.com/");
 
@@ -359,12 +344,21 @@ public class GroupCodeRedTest extends BaseTest {
         Assert.assertEquals(name.getText(), "Checkboxes");
         WebElement name1=getDriver().findElement(By.xpath( "//div[@class = 'col-sm-8']"));
         Assert.assertEquals(name1.getText(), "Checkbox1");
-        getDriver().findElement(By.xpath("//input[@id='checkbox-2']")).click();
         WebElement name2=getDriver().findElement(By.xpath( "//div[2]/div/div"));
         Assert.assertEquals(name2.getText(), "Checkbox2");
         WebElement name3=getDriver().findElement(By.xpath( "//div[3]/div/div"));
-
         Assert.assertEquals(name3.getText(), "Checkbox3");
+
+        WebElement checkBox1 =getDriver().findElement(By.id( "checkbox-1"));
+        checkBox1.click();
+        Assert.assertTrue(checkBox1.isSelected());
+        WebElement checkBox2 =getDriver().findElement(By.id( "checkbox-2"));
+        checkBox2.click();
+        Assert.assertTrue(checkBox2.isSelected());
+        WebElement checkBox3 =getDriver().findElement(By.id( "checkbox-3"));
+        checkBox3.click();
+        Thread.sleep(2000);
+        Assert.assertTrue(checkBox3.isSelected());
     }
 
     @Test

@@ -2,6 +2,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -69,6 +70,7 @@ public class GroupDreamTeamTest extends BaseTest {
         int rangeValue = Integer.parseInt(exampleRange.getAttribute("value"));
         Assert.assertEquals(rangeValue, 9);
     }
+    @Ignore
     @Test
     public void testTemperatureInFahrenheit() throws InterruptedException {
         final String url = "https://openweathermap.org/";
