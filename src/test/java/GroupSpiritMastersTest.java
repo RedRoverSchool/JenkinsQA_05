@@ -614,10 +614,8 @@ public class GroupSpiritMastersTest extends BaseTest {
     }
 
     @Test
-    public void testCheckboxesPageHerokuApp_MRakhmanava() {
-        String url = "http://the-internet.herokuapp.com/checkboxes";
-        getDriver().get(url);
-        getDriver().manage().window().maximize();
+    public void testCheckboxesPage_herokuapp_MRakhmanava() {
+        getDriver().get("http://the-internet.herokuapp.com/checkboxes");
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         List<WebElement> checkboxes = getDriver().findElements(By.cssSelector("[type=checkbox]"));
         checkboxes.get(1).click();
