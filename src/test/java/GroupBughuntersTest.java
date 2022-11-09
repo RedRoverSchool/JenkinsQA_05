@@ -158,6 +158,7 @@ public class GroupBughuntersTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test
     public void testBbcStoriesForChildren(){
         getDriver().get("https://www.bbc.co.uk/learningenglish/english/");

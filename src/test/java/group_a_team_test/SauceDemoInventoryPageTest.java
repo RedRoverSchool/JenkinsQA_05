@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -26,7 +25,7 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
         clickOnSidebarMenuBtn();
 
         List<String> expectedMenuItemNames = List.of("ALL ITEMS", "ABOUT", "LOGOUT", "RESET APP STATE");
-        List<WebElement> actualMenuItems = new WebDriverWait(getDriver(), Duration.ofSeconds(20))
+        List<WebElement> actualMenuItems = new WebDriverWait(getDriver(), Duration.ofSeconds(60))
                 .ignoring(StaleElementReferenceException.class)
                 .until(ExpectedConditions.visibilityOfAllElements(getDriver().findElements(By.xpath("//nav[@class='bm-item-list']/a"))));
         List<String> actualMenuItemNames = new ArrayList<>();
@@ -46,7 +45,6 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
         goThrowLinkOfSidebarMenu("about_sidebar_link");
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://saucelabs.com/");
     }
-    @Ignore
     @Test(dependsOnMethods = "testSidebarMenuForItems")
     public void testLogOutFromSideBarMenu() {
         goThrowLinkOfSidebarMenu("logout_sidebar_link");
@@ -55,7 +53,7 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
 
     private void goThrowLinkOfSidebarMenu(String locator) {
         clickOnSidebarMenuBtn();
-        WebElement link = new WebDriverWait(getDriver(), Duration.ofSeconds(20))
+        WebElement link = new WebDriverWait(getDriver(), Duration.ofSeconds(60))
                 .ignoring(StaleElementReferenceException.class)
                 .until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id(locator))));
 

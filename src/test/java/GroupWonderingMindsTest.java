@@ -41,4 +41,11 @@ public class GroupWonderingMindsTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("see-book-Git Pocket Guide")).isDisplayed());
     }
 
+    @Test
+    public void testFindWebTables_YuliyaShershen() {
+        getDriver().get("https://demoqa.com");
+        Assert.assertTrue(getDriver().findElement(By.xpath("//img[@src='/images/Toolsqa.jpg']"))
+                .isDisplayed());
+
+    }
 }
