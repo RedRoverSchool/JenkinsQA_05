@@ -51,9 +51,8 @@ public class GroupTeamRocketTest extends BaseTest {
         Thread.sleep(1000);
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/guide");
         Assert.assertEquals(
-                getDriver()
-                        .findElement(By.xpath("//div[@class='col-sm-7']/h1[text()='Guide']"))
-                        .getText(), "Guide");
+                getDriver().findElement(By.xpath("//div[@class='col-sm-7']/h1[text()='Guide']")).getText(),
+                "Guide");
     }
 
     @Test
