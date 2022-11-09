@@ -46,5 +46,6 @@ public class GroupWonderingMindsTest extends BaseTest {
         getDriver().get("https://demoqa.com");
         Assert.assertTrue(getDriver().findElement(By.xpath("//img[@src='/images/Toolsqa.jpg']"))
                 .isDisplayed());
+
     }
 }
