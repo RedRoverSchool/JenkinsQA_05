@@ -98,7 +98,7 @@ public class GroupObukhovTest extends BaseTest {
         getMainMenu().get(3).click();
     }
 
-    private void goToRoundButtonOnHelpPage(){
+    private void goToRoundButtonOnHelpPage() {
         goToHelpPage();
         getWait(2).until(ExpectedConditions.elementToBeClickable(By.id("uw-main-button"))).click();
     }
@@ -108,15 +108,21 @@ public class GroupObukhovTest extends BaseTest {
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
     }
 
-    private static String getRandomEmail() {
-        return getRandomString(5).concat("@").concat(getRandomString(5)).concat(".com").toLowerCase();
+    private static String getRandomDomen() {
+        String[] array = new String[]{".com", ".org", ".ru", ".info", ".edu", ".de", ".kz", ".by"};
+        int a = (int) (Math.random() * array.length);
+        return array[a];
+    }
+
+    private static String getRandomEmail(int a, int b) {
+        return getRandomString(a).concat("@").concat(getRandomString(b)).concat(getRandomDomen());
     }
 
     private Actions getAction() {
         return new Actions(getDriver());
     }
 
-    private WebDriverWait getWait(int timeWaiting){
+    private WebDriverWait getWait(int timeWaiting) {
         return new WebDriverWait(getDriver(), Duration.ofSeconds(timeWaiting));
     }
 
@@ -172,7 +178,7 @@ public class GroupObukhovTest extends BaseTest {
     public void testHelpsMenuContent() {
         goToHelpPage();
 
-         final List<String> expectedResult = Arrays.asList(
+        final List<String> expectedResult = Arrays.asList(
                 "Часовой тариф",
                 "Тариф \"Пока не сядет\"",
                 "Daily Pass",
@@ -238,7 +244,7 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     @Test
-    public void testActiveElementsOfMainMenu(){
+    public void testActiveElementsOfMainMenu() {
         getDriver().get(MAIN_PAGE);
         List<WebElement> nowMainMenu = getDriver().findElements(By.cssSelector(".menu-list"));
         //List<String> expectedMainMenu = Arrays.asList("Главная", "Помощь", "Вакансии", "Франшиза");
@@ -246,9 +252,9 @@ public class GroupObukhovTest extends BaseTest {
         int activeElement = size;
         int countInactiveElement = 0;
         int countClick = 0;
-        for (int i = 0; i < size - 2; i++){
-            if(activeElement < size){ // проверяем элемент "Главная" два раза, при начальной загрузке сайта и при клике.
-                if(countClick == 0){
+        for (int i = 0; i < size - 2; i++) {
+            if (activeElement < size) { // проверяем элемент "Главная" два раза, при начальной загрузке сайта и при клике.
+                if (countClick == 0) {
                     i = 0;
                 }
                 nowMainMenu.get(i).click();
@@ -381,7 +387,7 @@ public class GroupObukhovTest extends BaseTest {
     public void testCheckCountMenuFranchiseButtons() {
         getDriver().get(URLFranchise);
 
-        Assert.assertEquals( getMenuFranchise().size(), 4);
+        Assert.assertEquals(getMenuFranchise().size(), 4);
     }
 
     @Test
@@ -473,7 +479,7 @@ public class GroupObukhovTest extends BaseTest {
         List<String> data = Arrays.asList(
                 getRandomString(6),
                 RandomStringUtils.random(10, "0123456789"),
-                getRandomEmail(),
+                getRandomEmail(8, 10),
                 getRandomString(5)
 
         );
@@ -502,7 +508,7 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     @Test
-    public void testCheckRoundButtonHelpMenu(){
+    public void testCheckRoundButtonHelpMenu() {
         goToRoundButtonOnHelpPage();
 
         Assert.assertTrue(getDriver().findElement(By.id("uw-button-chat")).isDisplayed());
