@@ -3,6 +3,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -131,7 +132,7 @@ public class GroupCleanCodeTest extends BaseTest {
 
         Assert.assertEquals(actualH1, expectedH1);
     }
-
+    @Ignore
     @Test
     public void testFlower() {
         getDriver().get("https://www.flowerchimp.co.id/");
