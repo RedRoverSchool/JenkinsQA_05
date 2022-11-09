@@ -522,6 +522,7 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     @Test
+    @Ignore
     public void testCheckRoundButtonHelpMenuLinkToLiveChat() {
         final String expectedFrameText = "Используя чат, вы соглашаетесь с нашей политикой обработки персональных данных";
 
