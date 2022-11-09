@@ -19,7 +19,6 @@ public class MariJernTest extends BaseTest {
     @Test
     public void testH2PopUpText_WhenClickingCookiesButton() throws InterruptedException {
         getDriver().get("https://rus.delfi.lv/");
-
         Thread.sleep(1000);
 
         WebElement otherCookiesButton = getDriver().findElement(
