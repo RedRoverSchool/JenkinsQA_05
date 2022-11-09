@@ -22,7 +22,6 @@ public class GroupBughuntersTest extends BaseTest {
         button.click();
 
         Assert.assertEquals(getDriver().getTitle(), "Поиск - Система онлайн-покупки билетов в кино и на концерты Ticketon.kz");
-
     }
 
     @Test
@@ -30,10 +29,8 @@ public class GroupBughuntersTest extends BaseTest {
         getDriver().get("https://www.bbc.co.uk/learningenglish/english/");
 
         String text = getDriver().findElement(By.id("heading-things-you-cant-miss")).getText();
-        String expectedResult = "THINGS YOU CAN'T MISS";
 
-        Assert.assertEquals(text, expectedResult);
-
+        Assert.assertEquals(text, "THINGS YOU CAN'T MISS");
     }
 
     @Test
@@ -46,7 +43,6 @@ public class GroupBughuntersTest extends BaseTest {
         button.click();
 
         Assert.assertEquals(getDriver().getTitle(), "BBC Learning English - Search");
-
     }
 
     @Test
@@ -59,8 +55,6 @@ public class GroupBughuntersTest extends BaseTest {
         searchButton.click();
 
         Assert.assertEquals( getDriver().getTitle(), "Schools in 06032, 1-20 | GreatSchools");
-
-
     }
     @Test
     public void testW3Resource() {
@@ -166,7 +160,6 @@ public class GroupBughuntersTest extends BaseTest {
         persianLanguage.click();
 
         Assert.assertEquals(getDriver().getTitle(), "BBC BBC Learning English - Persian Home Page (Dari)");
-
     }
 
     @Test
