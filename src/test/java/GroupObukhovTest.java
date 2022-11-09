@@ -6,6 +6,7 @@ import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -464,6 +465,7 @@ public class GroupObukhovTest extends BaseTest {
         Assert.assertEquals(checkColors, basicColors);
     }
 
+    @Ignore // тест рабочий. поставили игнор, что бы запросами не перегружать сайт.
     @Test
     public void testFillFieldsStartPage() {
         final String successStart = "Форма отправлена! Мы скоро свяжемся с вами.";
