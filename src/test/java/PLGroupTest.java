@@ -1,7 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -93,8 +92,7 @@ public class PLGroupTest extends BaseTest {
 
     @Test
     public void testOpenPageCooker() {
-        System.setProperty("webdriver.chrome.driver", "/Users/romanmorozov/Desktop/ChromDriver/chromedriver");
-        WebDriver driver = new ChromeDriver();
+        WebDriver driver = getDriver();
 
         String url = "https://www.russianfood.com/";
         String recipePie = "Быстрый пирог-шарлотка с яблоками\n";
@@ -125,8 +123,6 @@ public class PLGroupTest extends BaseTest {
         String actualResult = h1RecipePieHeader.getText();
 
         Assert.assertEquals(actualResult,expectedResult);
-
-        driver.quit();
     }
 }
 
