@@ -150,6 +150,18 @@ public class GroupNikkiTest extends BaseTest {
 
         Assert.assertTrue(actualResult.contains("is-start-date is-locked"));
     }
+
+    @Test
+    public void backgroundColorTest() {
+        getDriver().get("https://webdriveruniversity.com/Actions/index.html");
+
+        WebElement doubleClick = getDriver().findElement(By.id("double-click"));
+
+        Actions actions = new Actions(getDriver());
+        actions.doubleClick(doubleClick).perform();
+
+        Assert.assertEquals(doubleClick.getCssValue("background-color"), "rgba(147, 203, 90, 1)");
+    }
 }
 
 
