@@ -44,4 +44,40 @@ public class GroupQAGangTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
 
     }
+
+    @Test
+    public void testLinkFromMainPageToDashboardAndBackToMainPage_WhenClick() {
+
+        String url = "https://openweathermap.org/";
+        String expectedResult = "Сurrent weather and forecast - OpenWeatherMap";
+
+        getDriver().get(url);
+
+        Boolean dynamicElement = (new WebDriverWait(getDriver(), Duration.ofSeconds(60)))
+                .until(ExpectedConditions.invisibilityOfElementLocated(
+                        By.xpath("//div[@class ='owm-loader-container']/div[@class='owm-loader']")));
+
+        WebElement dashboardButton = getDriver().findElement(
+                By.xpath("//div[@id='desktop-menu']//li/a[text() = 'Dashboard']"));
+
+        dashboardButton.click();
+
+        WebElement NameHeader = getDriver().findElement(By.xpath("//div/h1/b")
+        );
+
+        String actualResult1 = NameHeader.getText();
+
+        WebElement HomeButton = getDriver().findElement(
+                By.xpath("//div/ol/li/a[@href = '/']"));
+
+        HomeButton.click();
+
+        dynamicElement = (new WebDriverWait(getDriver(), Duration.ofSeconds(60)))
+                .until(ExpectedConditions.invisibilityOfElementLocated(
+                        By.xpath("//div[@class ='owm-loader-container']/div[@class='owm-loader']")));
+
+        String actualResult = getDriver().getTitle();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
