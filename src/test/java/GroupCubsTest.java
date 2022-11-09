@@ -21,7 +21,7 @@ public class GroupCubsTest extends BaseTest {
         WebElement actualRes = getDriver().findElement(By.xpath("//h1[@data-test-id='articleTitle']"));
         Assert.assertEquals(actualRes.getText(), "Как установить приоритет тест-кейса в TestNG с помощью Selenium");
     }
-
+     @Ignore
     @Test
     public void testRp5() {
         getDriver().get("https://rp5.ru");
@@ -45,9 +45,7 @@ public class GroupCubsTest extends BaseTest {
         Assert.assertEquals(link.getText(), "Widgets");
     }
 
-
-
-@Ignore
+    @Ignore
     @Test
     public void testJudmi() {
         getDriver().get("http://automationpractice.com/");
@@ -87,6 +85,18 @@ public class GroupCubsTest extends BaseTest {
         WebElement link = getDriver().findElement(By.xpath("//*[@id='content']/p[2]/b"));
 
         Assert.assertEquals(link.getText(), "23.05.09");
+    }
+
+    @Test
+    public void testKirillShumakov() {
+        getDriver().get("https://habr.com/ru/all/");
+        getDriver().findElement(By.xpath("//a[contains(text(),'Компании')]")).click();
+        getDriver().findElement(By.xpath("//input[@name='searchQuery']")).sendKeys("Selectel");
+
+        WebElement actualResult = getDriver().findElement(By.xpath("//em[contains(text(),'Selectel')]"));
+
+        Assert.assertEquals(actualResult.getText(), "Selectel");
+
     }
 }
 
