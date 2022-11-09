@@ -521,8 +521,8 @@ public class GroupObukhovTest extends BaseTest {
         Assert.assertEquals(actualString, "https://t.me/Urent_support_bot");
     }
 
-    @Test
     @Ignore
+    @Test
     public void testCheckRoundButtonHelpMenuLinkToLiveChat() {
         final String expectedFrameText = "Используя чат, вы соглашаетесь с нашей политикой обработки персональных данных";
 
