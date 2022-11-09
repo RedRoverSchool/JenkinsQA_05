@@ -23,7 +23,7 @@ public class GroupObukhovTest extends BaseTest {
 
     private final List<String> BASIC_COLORS_HEX = Arrays.asList("#804AFF", "#000000", "#FFFFFF");
 
-    List<String> LINK_TO_CHECK_BASIC_COLORS = Arrays.asList(
+    private final List<String> LINK_TO_CHECK_BASIC_COLORS = Arrays.asList(
             "https://design.urent.ru/img/colors/804aff.svg",
             "https://design.urent.ru/img/colors/000000.svg",
             "https://design.urent.ru/img/colors/ffffff.svg");
@@ -165,7 +165,7 @@ public class GroupObukhovTest extends BaseTest {
         getDriver().get(URL);
         goToHelpPage();
 
-        List<String> expectedResult = Arrays.asList(
+         List<String> expectedResult = Arrays.asList(
                 "Часовой тариф",
                 "Тариф \"Пока не сядет\"",
                 "Daily Pass",
@@ -176,18 +176,19 @@ public class GroupObukhovTest extends BaseTest {
                 "Проблемы с завершением аренды",
                 "Как работает страхование?");
 
-        List<String> menuHelp1 = new ArrayList<>();
+        List<String> helpMenuContent = new ArrayList<>();
         for (WebElement w : checkMenuHelp("Часто задаваемые вопросы")) {
-            menuHelp1.add(w.getText());
+            helpMenuContent.add(w.getText());
         }
 
-        Assert.assertEquals(menuHelp1, expectedResult);
+        Assert.assertEquals(helpMenuContent, expectedResult);
     }
 
     @Test
     public void testCheckUrentPageButton() {
         getDriver().get(URL);
         goToHelpPage();
+
         getDriver().findElement(By.cssSelector(".logotype-img")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Привет! Мы — Юрент, шеринг электросамокатов и велосипедов");
@@ -195,10 +196,11 @@ public class GroupObukhovTest extends BaseTest {
 
     @Test
     public void testCheckFooterMenu() {
+        final List<String> footerHeaders = Arrays.asList("Документы", "Мы тут", "Контакты");
+
         getDriver().get(URL);
         List<WebElement> footerMenu = getDriver().findElements(By.cssSelector(".footer div p"));
 
-        List<String> footerHeaders = Arrays.asList("Документы", "Мы тут", "Контакты");
         for (int i = 0; i < footerMenu.size(); i++) {
             Assert.assertEquals(footerMenu.get(i).getText(), footerHeaders.get(i));
         }
@@ -491,5 +493,16 @@ public class GroupObukhovTest extends BaseTest {
 
             Assert.assertEquals(getDriver().getCurrentUrl(), "https://start.urent.ru/js/mail.php");
         }
+    }
+
+    @Test
+    public void testCheckRoundButtonHelpMenu(){
+        goToHelpPage();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("uw-main-button"))).click();
+
+        Assert.assertTrue(getDriver().findElement(By.id("uw-button-chat")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.id("uw-button-telegram")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.id("uw-main-button-close")).isDisplayed());
     }
 }

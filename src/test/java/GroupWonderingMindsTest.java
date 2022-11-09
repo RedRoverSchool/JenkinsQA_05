@@ -1,12 +1,10 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class WondMindsTest extends BaseTest {
+public class GroupWonderingMindsTest extends BaseTest {
 
     @Test
     public void testGorodTulaTheBest() {
@@ -32,4 +30,15 @@ public class WondMindsTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+
+    @Test
+    public void testDemodaBookGuide_HappyStrawberry() {
+        getDriver().get("https://demoqa.com/books");
+        WebElement searchBook = getDriver().findElement(By.xpath("//*[@id='searchBox']"));
+        searchBook.sendKeys("Guide");
+
+        Assert.assertTrue(getDriver().findElement(By.id("see-book-Git Pocket Guide")).isDisplayed());
+    }
+
 }

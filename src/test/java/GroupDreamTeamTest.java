@@ -4,6 +4,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -74,9 +75,11 @@ public class GroupDreamTeamTest extends BaseTest {
         Assert.assertEquals(rangeValue, 9);
     }
 
+
     @Test
     public void testSimonGertzMintHouseDateSelectionNoPastDate(){
         final long dayInMillis = 86400000;
+        
         getDriver().get("https://minthouse.com/");
 
         WebElement propertyList = getDriver().findElement(By
@@ -107,5 +110,23 @@ public class GroupDreamTeamTest extends BaseTest {
                 .getAttribute("class");
 
         Assert.assertTrue(actualResult.contains("is-locked"));
+}
+
+    @Ignore
+    @Test
+    public void testTemperatureInFahrenheit() throws InterruptedException {
+        final String url = "https://openweathermap.org/";
+        final String symbolF = "°F";
+
+        getDriver().get(url);
+        Thread.sleep(3000);
+        WebElement temperatureF = getDriver().findElement
+                (By.xpath("//div[text()='Imperial: °F, mph']"));
+        Thread.sleep(2000);
+        temperatureF.click();
+        WebElement imageTempF = getDriver().findElement(By.xpath("//div[@class ='current-temp']"));
+
+        Assert.assertTrue(imageTempF.getText().contains(symbolF));
+
     }
 }

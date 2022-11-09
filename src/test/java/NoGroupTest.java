@@ -1,25 +1,26 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RomanTTest extends BaseTest {
+public class NoGroupTest extends BaseTest {
 
-    @Ignore
     @Test
     public void testVerifyTextBoxOutputResult() {
         getDriver().get("https://demoqa.com/");
 
-        String name = "TestUser";
-        String email = "userTest@gmail.com";
-        String currentAdr = "123 Main Street";
-        String permanentAdr = "123 Main Street";
+        final String name = "TestUser";
+        final String email = "userTest@gmail.com";
+        final String currentAdr = "123 Main Street";
+        final String permanentAdr = "123 Main Street";
 
-        List<String> expectedResult = new ArrayList<>();
+        final List<String> expectedResult = new ArrayList<>();
         expectedResult.add(String.format("Name:%s", name));
         expectedResult.add(String.format("Email:%s", email));
         expectedResult.add(String.format("Current Address :%s", currentAdr));
@@ -33,7 +34,10 @@ public class RomanTTest extends BaseTest {
         getDriver().findElement(By.id("permanentAddress")).sendKeys(permanentAdr);
         getDriver().findElement(By.id("submit")).click();
 
-        List<String> actualResult = new ArrayList<>();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
+
+        final List<String> actualResult = new ArrayList<>();
         actualResult.add(getDriver().findElement(By.id("name")).getText());
         actualResult.add(getDriver().findElement(By.id("email")).getText());
         actualResult.add(getDriver().findElement(By.cssSelector("#output #currentAddress")).getText());
@@ -41,5 +45,4 @@ public class RomanTTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-
 }
