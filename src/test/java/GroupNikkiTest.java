@@ -150,6 +150,24 @@ public class GroupNikkiTest extends BaseTest {
 
         Assert.assertTrue(actualResult.contains("is-start-date is-locked"));
     }
+
+    @Test
+    public void testIncorrectCredentials(){
+        getDriver().get("https://rahulshettyacademy.com/locatorspractice/");
+
+        WebElement userName = getDriver().findElement(By.id("inputUsername"));
+        userName.sendKeys("Some Name");
+
+        WebElement password = getDriver().findElement(By.name("inputPassword"));
+        password.sendKeys("Some wrong password");
+
+        WebElement signInButton = getDriver().findElement(By.className("signInBtn"));
+        signInButton.click();
+
+        String actualErrorMessage = getDriver().findElement(By.cssSelector("p.error")).getText();
+
+        Assert.assertEquals(actualErrorMessage, "* Incorrect username or password");
+    }
 }
 
 
