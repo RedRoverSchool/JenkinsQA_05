@@ -102,6 +102,7 @@ public class GroupBughuntersTest extends BaseTest {
     getDriver().get("https://developers.mts.ru");
     }
 
+    @Ignore
     @Test
     public void testChoosingClothes(){
 
@@ -118,6 +119,7 @@ public class GroupBughuntersTest extends BaseTest {
 
         Assert.assertEquals(actualResult,expectedResult);
     }
+    @Ignore
     @Test
     public void testFillingInContactInformation() {
 
@@ -144,6 +146,7 @@ public class GroupBughuntersTest extends BaseTest {
         Assert.assertEquals("Sorry, that password is too short. It needs to be eight characters or more.", errorMessage.getText());
     }
 
+    @Ignore
     @Test
     public void testBbcChangeLanguage(){
         getDriver().get("https://www.bbc.co.uk/learningenglish/english/");

@@ -1,7 +1,8 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -42,5 +43,47 @@ public class GroupDreamTeamTest extends BaseTest {
         sel.selectByValue("1");
         WebElement one = getDriver().findElement(By.xpath("//option[@value='1']"));
         Assert.assertTrue(one.isSelected());
+    }
+
+    @Test
+    public void testFoxtiptopSliderMouse() {
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        WebElement exampleRange = getDriver().findElement(By.cssSelector("body main  div form div div:nth-child(3) label:nth-child(3) input"));
+        Assert.assertTrue(exampleRange.isDisplayed());
+
+        Actions slide = new Actions(getDriver());
+        slide.moveToElement(exampleRange).clickAndHold(exampleRange).moveByOffset(50, 0)
+                .release().build().perform();
+
+        int rangeValue = Integer.parseInt(exampleRange.getAttribute("value"));
+        Assert.assertEquals(rangeValue, 6);
+    }
+
+    @Test
+    public void testFoxtiptopSliderKeyboard() {
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        WebElement exampleRange = getDriver().findElement(By.name("my-range"));
+        for (int i = 1; i <= 4; i++) {
+            exampleRange.sendKeys(Keys.ARROW_RIGHT);
+        }
+
+        int rangeValue = Integer.parseInt(exampleRange.getAttribute("value"));
+        Assert.assertEquals(rangeValue, 9);
+    }
+    @Ignore
+    @Test
+    public void testTemperatureInFahrenheit() throws InterruptedException {
+        final String url = "https://openweathermap.org/";
+        final String symbolF = "°F";
+
+        getDriver().get(url);
+        Thread.sleep(3000);
+        WebElement temperatureF = getDriver().findElement
+                (By.xpath("//div[text()='Imperial: °F, mph']"));
+        Thread.sleep(2000);
+        temperatureF.click();
+        WebElement imageTempF = getDriver().findElement(By.xpath("//div[@class ='current-temp']"));
+
+        Assert.assertTrue(imageTempF.getText().contains(symbolF));
     }
 }

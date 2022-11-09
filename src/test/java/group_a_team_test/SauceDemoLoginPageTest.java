@@ -1,6 +1,5 @@
 package group_a_team_test;
 
-import group_a_team.SauceDemoBaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.testng.Assert;

@@ -1,7 +1,9 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -10,6 +12,7 @@ import runner.BaseTest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -155,7 +158,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@class='card-block']/h4[1]/a[@href='prod.html?idp_=10']")).click();
         Assert.assertTrue(getDriver().findElement(By.xpath("//a[@class='btn btn-success btn-lg']")).isDisplayed());
     }
-
+    @Ignore
     @Test
     public void testContactUs() {
         getDriver().get("http://automationpractice.com/index.php");
@@ -310,7 +313,7 @@ public class GroupTeamRocketTest extends BaseTest {
                 .findElement(By.xpath("//button[@type='submit'][@class='btn cobranding-form-submit']"))
                 .getText(), "Go To Final Step");
     }
-
+    @Ignore
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
         getDriver().get("https://www.demoblaze.com/");
@@ -371,11 +374,18 @@ public class GroupTeamRocketTest extends BaseTest {
                 .size(), 3);
     }
 
+    @Ignore
     @Test
-    public void testContactUsMessagePopsUp_WhenSendingMessage_AnastasiaYakimova() {
+    public void testContactUs_ThankYouMessagePopsUp_AnastasiaY() {
+
         getDriver().get("https://www.demoblaze.com/");
-        getDriver().findElement(By.xpath("//a[contains(text(), 'Contact')]")).click();
-        getDriver().findElement(By.xpath("//button[@type = 'button'][contains(text(), 'Send message')]")).click();
+
+        getDriver().findElement(
+                By.xpath("//div[@id = 'navbarExample']//a[@class = 'nav-link'][contains(text(),'Contact')]")).click();
+        getDriver().findElement(By.id("recipient-email")).sendKeys("anatestova123@gmail.com");
+        getDriver().findElement(By.id("recipient-name")).sendKeys("Ana");
+        getDriver().findElement(By.id("message-text")).sendKeys("Hi");
+        getDriver().findElement(By.xpath("//button[@type = 'button'][@onclick = 'send()']")).click();
 
         Assert.assertEquals(getDriver().switchTo().alert().getText(), "Thanks for the message!!");
     }
@@ -450,5 +460,51 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/h2")).getText();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/h2")).getText(), "Welcome to 99 Bottles of Beer");
+    }
+
+    @Test
+    public void testBROWSE_LANGUAGES_M_NO() {
+        String expectedResult = "MySQL";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='m.html']")).click();
+
+        String actualResult = getDriver().findElement(By.xpath("//tr[last()]/td/a")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testSergeDotMintHouseDateSelectionYesterdayIsNotClickable(){
+        final long dayInMillis = 86400000;
+        getDriver().get("https://minthouse.com/");
+
+        WebElement propertyList = getDriver().findElement(By
+                .xpath("//div[@class='hero hero-home']//span[@class='text'][contains(text(),'Where to next')]"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(propertyList));
+        new Actions(getDriver()).click(propertyList).perform();
+        getDriver().findElement(By
+                .xpath("//div[@class='dropdown active']//a[@tabindex='0'][contains(text(),'Mint House Austin – South Congress')]")).click();
+
+        WebElement dates = getDriver().findElement(By
+                .xpath("//div[@class='hero hero-home']//span[@class='value']//span[@class='t-check-in'][contains(text(),'Select date')]"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(dates));
+        new Actions(getDriver()).click(dates).perform();
+
+        long todayInMillis = Long.parseLong(getDriver()
+                .findElement(By
+                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@class='day-item is-today']"))
+                .getAttribute("data-time"));
+        WebElement yesterdayDate = getDriver()
+                .findElement(By
+                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + Math.subtractExact(todayInMillis, dayInMillis) + "]"));
+        System.out.println(Math.subtractExact(todayInMillis, dayInMillis));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(yesterdayDate));
+        new Actions(getDriver()).click(dates).perform();
+
+        String actualResult = yesterdayDate.getAttribute("class");
+
+        Assert.assertFalse(actualResult.contains("is-start-date") || actualResult.contains("is-end-date") || actualResult.contains("is-in-range"));
     }
 }

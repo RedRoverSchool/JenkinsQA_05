@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe;
 import static org.openqa.selenium.support.ui.ExpectedConditions.urlToBe;
 
-public class SpiritMastersTest extends BaseTest {
+public class GroupSpiritMastersTest extends BaseTest {
 
     private static final String URL_DEMOQA = "https://demoqa.com/";
 
@@ -39,7 +39,6 @@ public class SpiritMastersTest extends BaseTest {
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) getDriver();
         javascriptExecutor.executeScript("document.getElementById('" + elementById + "').value='" + emoji + "';");
     }
-
 
     private WebElement findCard_PK(int index) {
         getDriver().get(URL_DEMOQA);
@@ -232,10 +231,12 @@ public class SpiritMastersTest extends BaseTest {
     }
 
     @Test
-    public void zyzBankRegisterLogin_MW_Test() {
+    public void testBankRegisterLogin_MW() {
         getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login");
+
         getDriver().findElement(By.xpath("//button[normalize-space()='Bank Manager Login']")).click();
         getDriver().findElement(By.xpath("//button[normalize-space()='Add Customer']")).click();
+
         WebElement firstName = getDriver().findElement(By.xpath("//input[@placeholder='First Name']"));
         firstName.click();
         firstName.sendKeys("John");
@@ -245,19 +246,24 @@ public class SpiritMastersTest extends BaseTest {
         WebElement postcode = getDriver().findElement(By.xpath("//input[@placeholder='Post Code']"));
         postcode.click();
         postcode.sendKeys("12334");
+
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
         Alert confAllert = getDriver().switchTo().alert();
+        String userId = confAllert.getText().substring(confAllert.getText().indexOf(":") + 1);
         confAllert.accept();
+
         getDriver().findElement(By.xpath("//button[@class='btn btn-lg tab btn-primary']")).click();
-        getDriver().findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/button[1]")).click();
+        getDriver().findElement(By.cssSelector(".btn.home")).click();
         WebElement login = getDriver().findElement(By.xpath("//button[normalize-space()='Customer Login']"));
-        Assert.assertEquals(login.getText(), "Customer Login");
         login.click();
         WebElement selectNameVariant = getDriver().findElement(By.id("userSelect"));
         Select dropdown = new Select(selectNameVariant);
-        dropdown.selectByValue("6");
+        dropdown.selectByValue(userId);
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("/html/body/div/div/div[2]/div/div[1]/strong/span")).getText(), "John NeJonh");
+
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//strong/span[@class='fontBig ng-binding']")).getText(), "John NeJonh");
     }
 
     @Test
@@ -331,6 +337,7 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertEquals(actualToolTip, "You hovered over the Contrary");
     }
 
+    @Ignore
     @Test
     public void testTextBoxFields_AFedorova() {
         getDriver().get(URL_DEMOQA);
@@ -366,7 +373,6 @@ public class SpiritMastersTest extends BaseTest {
         WebElement submitBtn = getDriver().findElement(By.id("submit"));
         getActions().scrollToElement(submitBtn);
         submitBtn.click();
-
 
         List<String> actualResult = new ArrayList<>();
         actualResult.add(getDriver().findElement(By.id("name")).getText());
@@ -412,7 +418,7 @@ public class SpiritMastersTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-
+    @Ignore
     @Test
     public void testSlider_KI() {
         getDriver().get(URL_DEMOQA);
@@ -605,5 +611,16 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(
                 By.xpath("//form[@id='new_question_form']//div[@class='help-block']"))
                 .getText().equals("reCAPTCHA verification failed, please try again."));
+    }
+
+    @Test
+    public void testCheckboxesPageHerokuApp_MRakhmanava() {
+        String url = "http://the-internet.herokuapp.com/checkboxes";
+        getDriver().get(url);
+        getDriver().manage().window().maximize();
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        List<WebElement> checkboxes = getDriver().findElements(By.cssSelector("[type=checkbox]"));
+        checkboxes.get(1).click();
+        Assert.assertFalse(checkboxes.get(1).isSelected());
     }
 }

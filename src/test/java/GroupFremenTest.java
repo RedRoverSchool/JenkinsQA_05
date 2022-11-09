@@ -1,9 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -11,7 +5,10 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupFremenTest extends BaseTest {
 
@@ -92,7 +89,7 @@ public class GroupFremenTest extends BaseTest {
     }
 
     @Test
-    public void testVera_optionValuesForSelectedElementsInSelectMenu(){
+    public void testVera_optionValuesForSelectedElementsInSelectMenu() {
         getDriver().get(URL);
         getDriver().findElement(
                 By.xpath("//div[@class='jumbotron-fluid']//a[text()='Complete Web Form']")).click();
@@ -118,23 +115,27 @@ public class GroupFremenTest extends BaseTest {
     private static void assertSelectedValueEquals(Select select, String expectedValue) {
         Assert.assertEquals(select.getFirstSelectedOption().getAttribute("value"), expectedValue);
     }
+
     @Test
-    public void testMainPageAutocompleteLink(){
+    public void testMainPageAutocompleteLink() {
         getDriver().get(URL);
         String expectedResult = "https://formy-project.herokuapp.com/autocomplete";
+
         WebElement LinkAutocomplete = getDriver().findElement(
                 By.xpath("//div[@class = 'jumbotron-fluid']/li/a[@href = '/autocomplete']"));
         LinkAutocomplete.click();
+
         String actualResult = getDriver().getCurrentUrl();
-        Assert.assertEquals(expectedResult,actualResult);
+        Assert.assertEquals(expectedResult, actualResult);
     }
 
     @Test
     public void testKristina_SwitchWindow() {
         getDriver().get(URL);
+
         getDriver().findElement(By.xpath("//a[@class='btn btn-lg'][text()='Switch Window']")).click();
         getDriver().findElement(By.xpath("//div/button[@id='new-tab-button']")).click();
-        String currentHandle= getDriver().getWindowHandle();
+        String currentHandle = getDriver().getWindowHandle();
         getDriver().switchTo().window(currentHandle);
         getDriver().findElement(By.xpath("//div/button[@id='alert-button']")).click();
 
@@ -143,6 +144,30 @@ public class GroupFremenTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("h1")).getText(),
                 "Switch Window");
+    }
+
+    @Test
+    public void testDZAmountElementsOfLinksInTabComponents() {
+        getDriver().get(URL);
+        int expectedResult = 14;
+        WebElement linkComponents = getDriver().findElement(
+                By.id("navbarDropdownMenuLink"));
+        linkComponents.click();
+        int actualResult = getDriver().findElements(
+                By.xpath("//div[@class='dropdown-menu show']/a")).size();
+        Assert.assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void testDZSubmitAnEmptyForm() {
+        getDriver().get(URL);
+        String expectedResult = "The form was successfully submitted!";
+        WebElement linkForm = getDriver().findElement(By.xpath("//a[text()='Form']"));
+        linkForm.click();
+        WebElement pressSubmit = getDriver().findElement(By.xpath("//a[@class='btn btn-lg btn-primary']"));
+        pressSubmit.click();
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//div[@class='alert alert-success']")).getText(), expectedResult);
     }
 
 }
