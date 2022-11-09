@@ -349,7 +349,7 @@ public class GroupCodeRedTest extends BaseTest {
     }
 
     @Test
-    public void testCheckbox() {
+    public void testCheckbox() throws InterruptedException {
 
         getDriver().get("https://formy-project.herokuapp.com/");
 
@@ -360,12 +360,21 @@ public class GroupCodeRedTest extends BaseTest {
         Assert.assertEquals(name.getText(), "Checkboxes");
         WebElement name1=getDriver().findElement(By.xpath( "//div[@class = 'col-sm-8']"));
         Assert.assertEquals(name1.getText(), "Checkbox1");
-        getDriver().findElement(By.xpath("//input[@id='checkbox-2']")).click();
         WebElement name2=getDriver().findElement(By.xpath( "//div[2]/div/div"));
         Assert.assertEquals(name2.getText(), "Checkbox2");
         WebElement name3=getDriver().findElement(By.xpath( "//div[3]/div/div"));
-
         Assert.assertEquals(name3.getText(), "Checkbox3");
+
+        WebElement checkBox1 =getDriver().findElement(By.id( "checkbox-1"));
+        checkBox1.click();
+        Assert.assertTrue(checkBox1.isSelected());
+        WebElement checkBox2 =getDriver().findElement(By.id( "checkbox-2"));
+        checkBox2.click();
+        Assert.assertTrue(checkBox2.isSelected());
+        WebElement checkBox3 =getDriver().findElement(By.id( "checkbox-3"));
+        checkBox3.click();
+        Thread.sleep(2000);
+        Assert.assertTrue(checkBox3.isSelected());
     }
 
     @Test
