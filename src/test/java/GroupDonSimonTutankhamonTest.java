@@ -64,7 +64,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     public void testFormSubm_AutomationinTestingOnline() {
 
         String testName = "John Cena";
-        String actualConfirmationTitle = String.format("Thanks for getting in touch %s!",testName);
+        String actualConfirmationTitle = String.format("Thanks for getting in touch %s!", testName);
 
         getDriver().get("https://automationintesting.online/");
 
