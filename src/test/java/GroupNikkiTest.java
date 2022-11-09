@@ -150,6 +150,24 @@ public class GroupNikkiTest extends BaseTest {
 
         Assert.assertTrue(actualResult.contains("is-start-date is-locked"));
     }
+
+    @Test
+    public void testArailymNavigateInBrowser(){
+        final String expectedResult = "Facility";
+
+        getDriver().navigate().to("https://katalon-demo-cura.herokuapp.com/");
+
+        getDriver().findElement(By.xpath("//a[@id = 'btn-make-appointment']")).click();
+        getDriver().findElement(By.id("txt-username")).sendKeys("John Doe");
+        getDriver().findElement(By.id("txt-password")).sendKeys("ThisIsNotAPassword");
+        getDriver().findElement(By.id("btn-login")).click();
+        getDriver().navigate().back();
+        getDriver().navigate().forward();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//label[@for = 'combo_facility']")).getText(),
+                expectedResult);
+    }
+
 }
 
 
