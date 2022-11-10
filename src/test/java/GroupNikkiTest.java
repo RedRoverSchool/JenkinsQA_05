@@ -5,6 +5,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -55,19 +56,17 @@ public class GroupNikkiTest extends BaseTest {
     }
 
     @Test
-    public void testKate_SuccessOpenUpMenu () {
+    public void test_Kate_SuccessOpenUpMenu () {
+        String expectedResult = "CURA Healthcare";
 
         getDriver().get("https://katalon-demo-cura.herokuapp.com/");
         WebElement menu = getDriver().findElement(By.xpath("//body/a[@id='menu-toggle']"));
         menu.click();
-
         WebElement menuHeader = getDriver().findElement(By.xpath("//body/nav//a[@href='./']"));
-        String actualResult = menuHeader.getText();
-        String expectedResult = "CURA Healthcare";
 
-        Assert.assertEquals(actualResult, expectedResult);
-
+        Assert.assertEquals(menuHeader.getText(), expectedResult);
     }
+
     @Test
     public void testMouseover_WebdDiverUniversityCom() {
 
@@ -163,6 +162,24 @@ public class GroupNikkiTest extends BaseTest {
         Assert.assertEquals(doubleClick.getCssValue("background-color"), "rgba(147, 203, 90, 1)");
     }
 
+    @Ignore
+    @Test
+    public void alinkTest() {
+        getDriver().get("https://www.rammstein.de/en/");
+
+        getDriver().findElement(By.xpath("//a[@href='/en/live/']")).click();
+        List<WebElement> linkList = getDriver().findElements(By.xpath("//div[@class=' flex whitespace-normal pt-2 text-left lg:w-[100px] lg:pt-0']"));
+
+        Assert.assertEquals(linkList.get(6).getAttribute("innerHTML"), "Munich");
+    }
+    @Test
+    public void linkTest() {
+        getDriver().get("https://www.rammstein.de/en/live/");
+
+        List<WebElement> linkList = getDriver().findElements(By.cssSelector("div[class=' flex whitespace-normal pt-2 text-left lg:w-[100px] lg:pt-0']"));
+
+        Assert.assertEquals(linkList.get(11).getAttribute("innerHTML"), "Bern");
+    }
     @Test
     public void testIncorrectCredentials(){
         getDriver().get("https://rahulshettyacademy.com/locatorspractice/");
@@ -181,7 +198,3 @@ public class GroupNikkiTest extends BaseTest {
         Assert.assertEquals(actualErrorMessage, "* Incorrect username or password");
     }
 }
-
-
-
-

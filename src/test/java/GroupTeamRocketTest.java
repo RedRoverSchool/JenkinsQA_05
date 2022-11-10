@@ -1,4 +1,3 @@
-import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -207,10 +206,12 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testBrowseLanguages_NO() {
         getDriver().get("http://www.99-bottles-of-beer.net/");
         getDriver().findElement(By.xpath("//div[@id='navigation']/ul[@id='menu']/li/a[@href='/abc.html']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Language']"))
-                .getText(), "Language");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Author']"))
-                .getText(), "Author");
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Language']")).getText(),
+                "Language");
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Author']")).getText(),
+                "Author");
     }
 
     @Test
@@ -267,8 +268,8 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testSignGuestbookTest_NO() {
+        final String random = String.valueOf((int) (Math.random() * 900) + 100);
 
-        String random = "" + ((int) (Math.random() * 900) + 100);
         getDriver().get("http://www.99-bottles-of-beer.net/");
         getDriver().findElement(By.xpath("//a[@href='/guestbookv2.html']")).click();
         getDriver().findElement(By.xpath("//a[@href='./signv2.html']")).click();
@@ -279,9 +280,10 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name='captcha']")).sendKeys(random);
         getDriver().findElement(By.xpath("//textarea[@name='comment']")).sendKeys("test message");
         getDriver().findElement(By.xpath("//input[@type='submit']")).click();
+
         Assert.assertEquals(getDriver().findElement(
-                        By.xpath("//div[@id='main']/p[contains(text(),' Error: Invalid security code.')]"))
-                .getText(), "Error: Error: Invalid security code.");
+                        By.xpath("//div[@id='main']/p[contains(text(),' Error: Invalid security code.')]")).getText(),
+                "Error: Error: Invalid security code.");
     }
 
     @Test
@@ -305,7 +307,6 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class='Title m-no-margin']")).isDisplayed());
     }
-
 
     @Test
     public void testGoToStepTwoForGetQuote_VadimTref() {
@@ -548,4 +549,20 @@ public class GroupTeamRocketTest extends BaseTest {
         }
     }
 
+    @Test
+    public void testSearchDuckDuckGo_AnastasiaY() {
+
+        getDriver().get("https://duckduckgo.com/");
+
+        WebElement searchInput = getDriver().findElement(By.id("search_form_input_homepage"));
+        searchInput.sendKeys("siberian tiger");
+
+        getDriver().findElement(By.id("search_button_homepage")).click();
+
+        List<WebElement> resultLinks = getDriver().findElements(
+                By.xpath("//div[@class = 'nrn-react-div']/article//div/h2"));
+        for (WebElement link: resultLinks) {
+            Assert.assertTrue(link.getText().matches("(?i).*tiger.*"));
+        }
+    }
 }
