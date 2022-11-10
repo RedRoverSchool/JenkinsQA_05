@@ -1,9 +1,12 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -92,22 +95,21 @@ public class GroupJavaStartTest extends BaseTest {
     }
 
     @Test
-    public void test_GoToIframe() {
+    public void test_EnableUnavailableButton() {
         getDriver().get(OMAYO_PAGE_URL);
 
-        String iframe2 = getDriver().findElement(By.id("iframe2")).getText();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(25));
 
-        getDriver().switchTo().frame("iframe2");
-        String h2 = getDriver().findElement(By.xpath("//body/h2/text()")).getText();
-        System.out.println(h2);
-//
-//        Assert.assertEquals(getDriver().findElement(By.xpath("//body/h1")).getText(), "Error: Server Error");
-//        Assert.assertEquals(getDriver().findElement(By.xpath("//body/h2/text()")).getText(),
-//                "The server encountered an error and could not complete your request.");
-//        Assert.assertEquals(getDriver().findElement(By.xpath("//body/h2/p")).getText(), "Please try again in 30 seconds.");
+        WebElement checkbox = getDriver().findElement(By.id("dte"));
 
+        if (getDriver().findElement(By.id("dte")).getAttribute("disabled").equals("true")) {
+            getDriver().findElement(By.xpath("//div[@class='widget-content']/button[text() = 'Check this']")).click();
+            wait.until(ExpectedConditions.elementToBeClickable(checkbox));
+            checkbox.click();
+        } else {
+            checkbox.click();
+        }
 
-
-
+        Assert.assertTrue(checkbox.isSelected());
     }
 }
