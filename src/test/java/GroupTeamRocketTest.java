@@ -205,10 +205,12 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testBrowseLanguages_NO() {
         getDriver().get("http://www.99-bottles-of-beer.net/");
         getDriver().findElement(By.xpath("//div[@id='navigation']/ul[@id='menu']/li/a[@href='/abc.html']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Language']"))
-                .getText(), "Language");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Author']"))
-                .getText(), "Author");
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Language']")).getText(),
+                "Language");
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Author']")).getText(),
+                "Author");
     }
 
     @Test
