@@ -144,4 +144,25 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//h2[text() = 'Make Appointment']")).isDisplayed());
     }
+
+    @Test
+    public void test_appointmentDarina2(){
+        final var url = "https://katalon-demo-cura.herokuapp.com/";
+        final var username = "John Doe";
+        final var password = "ThisIsNotAPassword";
+        final var textAppointment = "Help me! Java kills me!";
+
+        getDriver().get(url);
+        getDriver().findElement(By.xpath("//a[@id='btn-make-appointment']")).click();
+        getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(username);
+        getDriver().findElement(By.xpath("//input[@id='txt-password']")).sendKeys(password);
+        getDriver().findElement(By.xpath("//button[@id='btn-login']")).click();
+        getDriver().findElement(By.xpath("//div[@class='input-group-addon']")).click();
+        getDriver().findElement(By.xpath("//td[@class = 'day' and text() = '30']")).click();
+        getDriver().findElement(By.xpath("//textarea[@class = 'form-control']")).sendKeys(textAppointment);
+        getDriver().findElement(By.xpath("//button[@id = 'btn-book-appointment']")).click();
+        var confirmationText = getDriver().findElement(By.xpath("//h2[text() = 'Appointment Confirmation']")).getText();
+
+        Assert.assertEquals(confirmationText, "Appointment Confirmation");
+    }
 }
