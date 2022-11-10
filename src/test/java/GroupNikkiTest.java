@@ -153,7 +153,7 @@ public class GroupNikkiTest extends BaseTest {
 
     @Test
     public void testArailymNavigateInBrowser(){
-        final String expectedResult = "Facility";
+        final String facility_field = "Facility";
 
         getDriver().navigate().to("https://katalon-demo-cura.herokuapp.com/");
 
@@ -165,7 +165,7 @@ public class GroupNikkiTest extends BaseTest {
         getDriver().navigate().forward();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//label[@for = 'combo_facility']")).getText(),
-                expectedResult);
+                facility_field);
     }
 
 }
