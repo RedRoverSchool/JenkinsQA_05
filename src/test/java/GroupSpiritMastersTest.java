@@ -121,6 +121,7 @@ public class GroupSpiritMastersTest extends BaseTest {
     }
 
 
+    @Ignore
     @Test
     public void testFillRegistrationForm_OlPolezhaeva() {
 
