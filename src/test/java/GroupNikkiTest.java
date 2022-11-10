@@ -152,6 +152,18 @@ public class GroupNikkiTest extends BaseTest {
     }
 
     @Test
+    public void backgroundColorTest() {
+        getDriver().get("https://webdriveruniversity.com/Actions/index.html");
+
+        WebElement doubleClick = getDriver().findElement(By.id("double-click"));
+
+        Actions actions = new Actions(getDriver());
+        actions.doubleClick(doubleClick).perform();
+
+        Assert.assertEquals(doubleClick.getCssValue("background-color"), "rgba(147, 203, 90, 1)");
+    }
+
+    @Test
     public void testIncorrectCredentials(){
         getDriver().get("https://rahulshettyacademy.com/locatorspractice/");
 
