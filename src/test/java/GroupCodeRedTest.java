@@ -55,7 +55,8 @@ public class GroupCodeRedTest extends BaseTest {
         getDriver().findElement(By.xpath("//div/a[@href='/thanks']")).click();
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='alert alert-success']")).getText().contains("The form was successfully submitted!"));
+        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='alert alert-success']"))
+                .getText().contains("The form was successfully submitted!"));
     }
 
     @Test
@@ -226,27 +227,19 @@ public class GroupCodeRedTest extends BaseTest {
     }
 
     @Test
-    public void testFindRome() throws InterruptedException {
-        String url = "https://openweathermap.org/";
+    public void test_FindRome() throws InterruptedException {
+
         String city = "Rome";
-        boolean expectedResult = true;
 
-        getDriver().get(url);
+        getDriver().get(WEATHER_URL);
+        Thread.sleep(8000);
 
-        Thread.sleep(5000);
-
-        WebElement searchFieldByCity = getDriver().findElement(
+        getDriver().findElement(
                 By.xpath("//div[@id='desktop-menu']//input[@placeholder='Weather in your city']")
-        );
-
-        searchFieldByCity.click();
-        searchFieldByCity.sendKeys(city);
+        ).sendKeys(city + "\n");
         Thread.sleep(700);
-        searchFieldByCity.sendKeys(Keys.ENTER);
 
-        boolean actualResult = getDriver().getCurrentUrl().contains("find") && getDriver().getCurrentUrl().contains(city);
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertTrue(getDriver().getCurrentUrl().contains("find") && getDriver().getCurrentUrl().contains(city));
     }
 
     @Test
@@ -258,8 +251,7 @@ public class GroupCodeRedTest extends BaseTest {
         getDriver().get(baseUrl);
         Thread.sleep(5000);
         WebElement guideButton = getDriver().findElement(
-                By.xpath("//div[@id = 'desktop-menu']//li/a [@href='/guide']")
-        );
+                By.xpath("//div[@id = 'desktop-menu']//li/a [@href='/guide']"));
         guideButton.click();
         String actualResult_1 = getDriver().getCurrentUrl();
         String actualResult_2 = getDriver().getTitle();
@@ -325,8 +317,6 @@ public class GroupCodeRedTest extends BaseTest {
         actualResult = getDriver().getTitle();
 
         Assert.assertEquals(actualResult, expectedResult);
-
-        getDriver().quit();
     }
 
     @Test
@@ -426,4 +416,34 @@ public class GroupCodeRedTest extends BaseTest {
                 .getText().contains("Неверное имя пользователя или пароль"));
     }
 
+    @Test
+    public void testButtonHerokuApp() {
+
+        getDriver().get("https://formy-project.herokuapp.com/");
+
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/buttons']"));
+
+        Assert.assertEquals(link.getText(), "Buttons");
+    }
+
+    @Test
+    public void testH2PopUpText_WhenClickingCookiesButton() throws InterruptedException {
+        getDriver().get("https://rus.delfi.lv/");
+        Thread.sleep(1000);
+
+        WebElement otherCookiesButton = getDriver().findElement(
+                By.xpath("//div[@id='qc-cmp2-ui'] //button[@mode='secondary']")
+        );
+
+        otherCookiesButton.click();
+
+        WebElement popupH2Text = getDriver().findElement(
+                By.xpath("//div[@id ='qc-cmp2-ui']//h2")
+        );
+
+        Assert.assertEquals(popupH2Text
+                .getTagName(),"h2");
+        Assert.assertEquals(popupH2Text
+                .getText(),"Мы с уважением относимся к вашей конфиденциальности");
+    }
 }

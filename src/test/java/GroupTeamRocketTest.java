@@ -51,9 +51,8 @@ public class GroupTeamRocketTest extends BaseTest {
         Thread.sleep(1000);
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/guide");
         Assert.assertEquals(
-                getDriver()
-                        .findElement(By.xpath("//div[@class='col-sm-7']/h1[text()='Guide']"))
-                        .getText(), "Guide");
+                getDriver().findElement(By.xpath("//div[@class='col-sm-7']/h1[text()='Guide']")).getText(),
+                "Guide");
     }
 
     @Test
@@ -77,6 +76,8 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.id("about_sidebar_link")).click();
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://saucelabs.com/");
     }
+
+    @Ignore
     @Test
     public void testAtt_RS() {
         getDriver().get("https://www.att.com/");
@@ -161,6 +162,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@class='card-block']/h4[1]/a[@href='prod.html?idp_=10']")).click();
         Assert.assertTrue(getDriver().findElement(By.xpath("//a[@class='btn btn-success btn-lg']")).isDisplayed());
     }
+
     @Ignore
     @Test
     public void testContactUs() {
@@ -204,10 +206,12 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testBrowseLanguages_NO() {
         getDriver().get("http://www.99-bottles-of-beer.net/");
         getDriver().findElement(By.xpath("//div[@id='navigation']/ul[@id='menu']/li/a[@href='/abc.html']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Language']"))
-                .getText(), "Language");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Author']"))
-                .getText(), "Author");
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Language']")).getText(),
+                "Language");
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Author']")).getText(),
+                "Author");
     }
 
     @Test
@@ -264,8 +268,8 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testSignGuestbookTest_NO() {
+        final String random = String.valueOf((int) (Math.random() * 900) + 100);
 
-        String random = "" + ((int) (Math.random() * 900) + 100);
         getDriver().get("http://www.99-bottles-of-beer.net/");
         getDriver().findElement(By.xpath("//a[@href='/guestbookv2.html']")).click();
         getDriver().findElement(By.xpath("//a[@href='./signv2.html']")).click();
@@ -276,9 +280,10 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name='captcha']")).sendKeys(random);
         getDriver().findElement(By.xpath("//textarea[@name='comment']")).sendKeys("test message");
         getDriver().findElement(By.xpath("//input[@type='submit']")).click();
+
         Assert.assertEquals(getDriver().findElement(
-                        By.xpath("//div[@id='main']/p[contains(text(),' Error: Invalid security code.')]"))
-                .getText(), "Error: Error: Invalid security code.");
+                        By.xpath("//div[@id='main']/p[contains(text(),' Error: Invalid security code.')]")).getText(),
+                "Error: Error: Invalid security code.");
     }
 
     @Test
@@ -302,7 +307,7 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class='Title m-no-margin']")).isDisplayed());
     }
-@Ignore
+
     @Test
     public void testGoToStepTwoForGetQuote_VadimTref() {
         getDriver().get("https://commercialinsurance.net/");
@@ -316,6 +321,7 @@ public class GroupTeamRocketTest extends BaseTest {
                 .findElement(By.xpath("//button[@type='submit'][@class='btn cobranding-form-submit']"))
                 .getText(), "Go To Final Step");
     }
+
     @Ignore
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
@@ -329,23 +335,18 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testSwitchToPageCompareInsuranceQuote_VadimTref() {
         getDriver().get("https://www.statewidedealerinsurance.com/");
 
-        String expectedResultHead1 = "Compare Quotes";
-        String expectedResultNoteText = "An insurance quote does not impact your "
+        final String EXPECTED_NOTE_TEXT = "An insurance quote does not impact your "
                 + "credit score. Quote will take approximately 3-5 minutes to complete.";
 
         getDriver().findElement(By.id("ZipCode")).sendKeys("11230");
         getDriver().findElement(By.id("Type")).click();
         getDriver().findElement(By.xpath("//select[@id='Type']/option[@value='Home']")).click();
         getDriver().findElement(By.xpath("//form[@id='miniQuote']//button[@type='submit']")).click();
-
-        Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//h1")).getText(), expectedResultHead1);
-
         getDriver().switchTo().frame(getDriver().findElement(By.id("cpIframe")));
 
-        Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//div[@id='body']//p[@class='cpInstructions cpPage0']"))
-                .getText(), expectedResultNoteText);
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//div[@id='body']//p[@class='cpInstructions cpPage0']")).getText(),
+                EXPECTED_NOTE_TEXT);
     }
 
     @Test
@@ -479,7 +480,7 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
-    public void testSergeDotMintHouseDateSelectionYesterdayIsNotClickable(){
+    public void testSergeDotMintHouseDateSelectionYesterdayIsNotClickable() {
         final long dayInMillis = 86400000;
         getDriver().get("https://minthouse.com/");
 
@@ -509,5 +510,59 @@ public class GroupTeamRocketTest extends BaseTest {
         String actualResult = yesterdayDate.getAttribute("class");
 
         Assert.assertFalse(actualResult.contains("is-start-date") || actualResult.contains("is-end-date") || actualResult.contains("is-in-range"));
+    }
+
+    @Test
+    public void testCountAndNamesOfRadioButtons_VadimTref() {
+        getDriver().get("https://demoqa.com/");
+
+        getDriver().findElement(
+                By.xpath("//*[name()='svg'][@stroke='currentColor']/*[local-name() = 'path'][1]")).click();
+        getDriver().findElement(By.id("item-2")).click();
+        List<WebElement> radioButtons = getDriver().findElements(
+                By.xpath("//div[contains(@class,'custom-control')]"));
+
+        Assert.assertEquals(radioButtons.size(), 3);
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//div[contains(@class,'custom-control')][1]/label")).getText(), "Yes");
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//div[contains(@class,'custom-control')][2]/label")).getText(), "Impressive");
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//div[contains(@class,'custom-control')][3]/label")).getText(), "No");
+    }
+
+    @Test
+    public void  testHeaderIsDisplayedInEach (){
+
+        final String expectedHeaderText = "Smart By Design";
+        final String carouselContainerPath = "//div[contains(@class, 'swiper-slide')]//div[@class='image']//img[contains(@class, 'd-none')]";
+
+        getDriver().get("https://minthouse.com/");
+        List<WebElement> carousel = getDriver().findElements(By.xpath(carouselContainerPath));
+        for(WebElement element : carousel) {
+            new WebDriverWait(getDriver(), Duration.ofSeconds(8)).until(ExpectedConditions.visibilityOf(element));
+            if (!element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText().equals(expectedHeaderText)) {
+                System.out.println("Missing text in " + element.getAttribute("src"));
+            }
+
+            Assert.assertEquals(element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText(), expectedHeaderText);
+        }
+    }
+
+    @Test
+    public void testSearchDuckDuckGo_AnastasiaY() {
+
+        getDriver().get("https://duckduckgo.com/");
+
+        WebElement searchInput = getDriver().findElement(By.id("search_form_input_homepage"));
+        searchInput.sendKeys("siberian tiger");
+
+        getDriver().findElement(By.id("search_button_homepage")).click();
+
+        List<WebElement> resultLinks = getDriver().findElements(
+                By.xpath("//div[@class = 'nrn-react-div']/article//div/h2"));
+        for (WebElement link: resultLinks) {
+            Assert.assertTrue(link.getText().matches("(?i).*tiger.*"));
+        }
     }
 }
