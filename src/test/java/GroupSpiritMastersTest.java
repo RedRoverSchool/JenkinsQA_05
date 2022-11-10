@@ -418,7 +418,7 @@ public class GroupSpiritMastersTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-    @Ignore
+
     @Test
     public void testSlider_KI() {
         getDriver().get(URL_DEMOQA);
@@ -431,7 +431,9 @@ public class GroupSpiritMastersTest extends BaseTest {
                 .click().perform();
 
         WebElement slider = getDriver().findElement(By.xpath("//input[@type='range']"));
-        getActions().scrollToElement(slider).pause(250).dragAndDropBy(slider, 350, 0).pause(500).perform();
+        getActions().moveToElement(slider).pause(1500).dragAndDropBy(slider, 350, 0)
+                .pause(1500).perform();
+
         String actualSliderValue = getDriver().findElement(By.id("sliderValue")).getAttribute("value");
 
         Assert.assertEquals(actualSliderValue, "100");
