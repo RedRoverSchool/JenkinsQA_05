@@ -21,14 +21,16 @@ public class GroupCubsTest extends BaseTest {
         WebElement actualRes = getDriver().findElement(By.xpath("//h1[@data-test-id='articleTitle']"));
         Assert.assertEquals(actualRes.getText(), "Как установить приоритет тест-кейса в TestNG с помощью Selenium");
     }
-     @Ignore
+
     @Test
-    public void testRp5() {
-        getDriver().get("https://rp5.ru");
+    public void testRp5SearchLocation() {
+        getDriver().get("https://rp5.ru/Weather_in_the_world");
+
         WebElement search = getDriver().findElement(By.name("searchStr"));
-        search.sendKeys("Танжер\n");
-        String actualText = getDriver().findElement(By.xpath("//h1")).getText();
-        Assert.assertEquals(actualText, "Search result");
+        search.sendKeys("Tanger\n");
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),
+                "Search result");
     }
 
     @Test
