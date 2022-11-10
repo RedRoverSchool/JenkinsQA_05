@@ -54,7 +54,11 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testFindTitleGuide_NataliiaOliver() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
 
+
         Thread.sleep(6000);
+
+        Thread.sleep(8000);
+
         getDriver().findElement(By.xpath("//div[@id='desktop-menu']/ul/li/a[@href='/guide']")).click();
         Thread.sleep(1000);
 
@@ -311,7 +315,9 @@ public class GroupTeamRocketTest extends BaseTest {
     @Test
     public void testTenLanguageStartNumbers_NO() {
 
+
         getDriver().get(URL_99);
+
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath("//a[@href='0.html']")).click();
@@ -322,7 +328,9 @@ public class GroupTeamRocketTest extends BaseTest {
     @Test
     public void testBrowseLanguagesAlternativeVersions_NO() {
 
+
         getDriver().get(URL_99);
+
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath("//a[@href='a.html']")).click();
