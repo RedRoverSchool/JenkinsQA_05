@@ -77,7 +77,6 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://saucelabs.com/");
     }
 
-    @Ignore
     @Test
     public void testAtt_RS() {
         getDriver().get("https://www.att.com/");
@@ -85,11 +84,11 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath(" //input[@id='z1-searchfield']")).sendKeys("Bundles");
         getDriver().findElement(By.xpath("//div/form/button")).click();
         getDriver().findElement(By.xpath("//button[contains(text(),'Bundle & save')]")).click();
-        WebElement checkAvailBtn = getDriver().findElement(
-                By.xpath("(//a[@class='btn-primary-2 btn-full-width '])[1]"));
+        WebElement cardsTitle = getDriver().findElement(
+                By.xpath("//h2[contains(text(),'DIRECTV STREAM CHOICE™ PACKAGE + AT&T FIBER | 300 ')]"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOf(cardsTitle));
 
-        Assert.assertTrue(checkAvailBtn.isDisplayed());
-        Assert.assertEquals(checkAvailBtn.getText(), "Check availability");
+        Assert.assertTrue(cardsTitle.isDisplayed());
     }
 
     @Ignore
