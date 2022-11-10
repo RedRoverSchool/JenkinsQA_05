@@ -48,4 +48,16 @@ public class GroupWonderingMindsTest extends BaseTest {
                 .isDisplayed());
 
     }
+
+    @Test
+    public void testStartMenu_EkaterinaLizina() throws InterruptedException {
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        String expectedResult = "START";
+        WebElement startMenu = getDriver().findElement(
+                By.xpath("//div[@id = 'navigation']//a[text() = 'Start']"));
+        String actualResult = startMenu.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
