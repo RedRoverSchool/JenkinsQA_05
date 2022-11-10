@@ -21,7 +21,7 @@ public class GroupCodeRedTest extends BaseTest {
 
         Assert.assertEquals(actualResult, "Autocomplete");
     }
-
+    @Ignore
     @Test
     public void testAutocompleteAddress() throws InterruptedException {
         getDriver().get(BASE_URL_HEROKUAPP);
