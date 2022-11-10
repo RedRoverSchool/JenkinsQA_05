@@ -159,7 +159,7 @@ public class GroupFremenTest extends BaseTest {
 
         int actualResult = getDriver().findElements(
                 By.xpath("//div[@class='dropdown-menu show']/a")).size();
-        Assert.assertEquals(expectedResult, actualResult);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
