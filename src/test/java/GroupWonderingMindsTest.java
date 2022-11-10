@@ -48,4 +48,15 @@ public class GroupWonderingMindsTest extends BaseTest {
                 .isDisplayed());
 
     }
+
+    @Test
+    public void testTextIsDisplayedOnMainPage_EkaterinaLizina(){
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        String expectedResult = "Welcome to 99 Bottles of Beer";
+        WebElement text = getDriver().findElement(
+                By.xpath("//div[@id='main']/h2[text() ='Welcome to 99 Bottles of Beer']"));
+        String actualResult = text.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
