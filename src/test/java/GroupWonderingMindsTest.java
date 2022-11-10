@@ -85,7 +85,7 @@ public class GroupWonderingMindsTest extends BaseTest {
     }
 
     @Test
-    public void testSendForm_HappyStrawberry() throws InterruptedException {
+    public void testSendForm_HappyStrawberry() {
         getDriver().get("https://demoqa.com/elements");
                 getDriver().findElement(By.className("text")).click();
 
