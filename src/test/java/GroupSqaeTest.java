@@ -223,7 +223,7 @@ public class GroupSqaeTest extends BaseTest {
         checkoutButton().click();
         Assert.assertEquals(successfulMessage().getText(), "Спасибо!");
     }
-
+    @Ignore
     @Test
     public void testCheckoutWithUniqueEmailErrorMsg() {
         openMainPage();
@@ -242,7 +242,7 @@ public class GroupSqaeTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//span[@class='ssc-w-input__error']")).getText(),
                 "Уже используется (должно быть уникальным).");
     }
-
+    @Ignore
     @Test
     public void testDeleteItemFromCart() {
         openMainPage();
@@ -252,7 +252,7 @@ public class GroupSqaeTest extends BaseTest {
         deleteItemFromCart().click();
         Assert.assertEquals(cartIsEmpty().getText(), "Корзина пуста");
     }
-
+    @Ignore
     @Test
     public void testMultipleItemsPresentInCart() {
         openMainPage();
