@@ -21,6 +21,7 @@ public class GroupQAGangTest extends BaseTest {
         Assert.assertEquals(link.getText(), "Strona główna");
     }
 
+
     @Test
     public void testLinkOfApiPage() throws InterruptedException {
 
