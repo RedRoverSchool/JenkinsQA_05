@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoGroupTest extends BaseTest {
-@Ignore
+    @Ignore
     @Test
     public void testVerifyTextBoxOutputResult() {
         getDriver().get("https://demoqa.com/");
@@ -27,16 +27,18 @@ public class NoGroupTest extends BaseTest {
         expectedResult.add(String.format("Current Address :%s", currentAdr));
         expectedResult.add(String.format("Permananet Address :%s", permanentAdr));
 
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+
         getDriver().findElement(By.xpath("//div[@class='card-body']/h5[text()='Elements']")).click();
         getDriver().findElement(By.xpath("//div[@class='element-list collapse show']//li[@id='item-0']")).click();
         getDriver().findElement(By.id("userName")).sendKeys(name);
         getDriver().findElement(By.id("userEmail")).sendKeys(email);
         getDriver().findElement(By.id("currentAddress")).sendKeys(currentAdr);
         getDriver().findElement(By.id("permanentAddress")).sendKeys(permanentAdr);
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("submit")));
         getDriver().findElement(By.id("submit")).click();
 
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='output']/div")));
 
         final List<String> actualResult = new ArrayList<>();
         actualResult.add(getDriver().findElement(By.id("name")).getText());

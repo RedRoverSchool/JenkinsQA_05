@@ -133,17 +133,20 @@ public class GroupFremenTest extends BaseTest {
     public void testKristina_SwitchWindow() {
         getDriver().get(URL);
 
-        getDriver().findElement(By.xpath("//a[@class='btn btn-lg'][text()='Switch Window']")).click();
-        getDriver().findElement(By.xpath("//div/button[@id='new-tab-button']")).click();
-        String currentHandle = getDriver().getWindowHandle();
-        getDriver().switchTo().window(currentHandle);
-        getDriver().findElement(By.xpath("//div/button[@id='alert-button']")).click();
+        String expectedResultTitle = "Switch Window";
+        String expectedResultAlert = "This is a test alert!";
 
-        Assert.assertEquals(getDriver().switchTo().alert().getText(), "This is a test alert!");
+        getDriver().findElement(By.xpath("//a[@class='btn btn-lg'][text()='Switch Window']")).click();
+        String actualResultTitle = getDriver().findElement(By.xpath("//h1[text()='Switch Window']")).getText();
+
+        getDriver().findElement(By.xpath("//button[@id='alert-button']")).click();
+        String actualResultAlert = getDriver().switchTo().alert().getText();
         getDriver().switchTo().alert().accept();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("h1")).getText(),
-                "Switch Window");
+        getDriver().findElement(By.xpath("//button[@id='new-tab-button']")).click();
+
+        Assert.assertEquals(actualResultTitle, expectedResultTitle);
+        Assert.assertEquals(actualResultAlert, expectedResultAlert);
     }
 
     @Test
@@ -169,5 +172,27 @@ public class GroupFremenTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(
                 By.xpath("//div[@class='alert alert-success']")).getText(), expectedResult);
     }
+
+    @Test
+    public void testModal() {
+        getDriver().get(URL);
+        String expectedResult = "Modal";
+        getDriver().findElement(By.xpath("//div/div/li/a[@href='/modal']")).click();
+        getDriver().findElement(By.xpath("//form/button[@type='button']")).click();
+        getDriver().findElement(By.id("close-button")).click();
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//h1[text()='Modal']")).getText(), expectedResult);
+    }
+
+    @Test
+    public void testHerokuappButtonsContainWarning() {
+        getDriver().get(URL);
+        WebElement link = getDriver().findElement(By.xpath("//div/li/a[text()='Buttons']"));
+        link.click();
+        WebElement buttonsPage = getDriver().findElement(
+                By.xpath("//div/div/div/button[text()='Warning']"));
+        Assert.assertEquals(buttonsPage.getText(), "Warning");
+    }
+
 
 }

@@ -557,6 +557,7 @@ public class GroupSpiritMastersTest extends BaseTest {
                 By.xpath("//input[@id='search_str']")).getAttribute("value").equals("Rome"));
     }
 
+    @Ignore
     @Test
     public void test5Openweathermap_captchaError_gdiksanov() {
 
@@ -620,5 +621,33 @@ public class GroupSpiritMastersTest extends BaseTest {
         List<WebElement> checkboxes = getDriver().findElements(By.cssSelector("[type=checkbox]"));
         checkboxes.get(1).click();
         Assert.assertFalse(checkboxes.get(1).isSelected());
+    }
+
+    @Test
+    public void testCheckOpenHerokuApp_MAnna503() {
+        getDriver().get("https://formy-project.herokuapp.com/");
+
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//li/a[@href='/radiobutton']")).getText(),
+                "Radio Button");
+    }
+
+    @Test
+    public void testOpenPageCooker() {
+
+        final String url = "https://www.russianfood.com/";
+        final String expectedResult = "Быстрый пирог-шарлотка с яблоками";
+
+        getDriver().get(url);
+
+        WebElement searchFormField = getDriver().findElement(By.id("sskw_title"));
+        searchFormField.click();
+        searchFormField.sendKeys("Быстрый пирог-шарлотка с яблоками");
+
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(By.xpath("//a[@name='el127921']")).click();
+        getDriver().findElement(By.xpath("//h1[@class ='title ']")).getText();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class ='title ']")).getText(),expectedResult);
     }
 }
