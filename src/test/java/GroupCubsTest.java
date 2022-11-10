@@ -60,43 +60,44 @@ public class GroupCubsTest extends BaseTest {
     public void testAsh() {
         getDriver().get("https://www.saucedemo.com/");
 
-        WebElement text = getDriver().findElement(By.id("user-name"));
-        text.sendKeys("standard_user");
-        WebElement text2 = getDriver().findElement(By.id("password"));
-        text2.sendKeys("secret_sauce");
-        WebElement link = getDriver().findElement(By.id("login-button"));
+        getDriver().findElement(By.id("user-name")).sendKeys("standard_user");
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
+
         getDriver().findElement(By.id("login-button")).click();
+
         getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
-        String link2 = getDriver().findElement(By.xpath("//*[contains(@name, 'remove-sauce-labs-backpack')]")).getText();
-        Assert.assertEquals(link2, "REMOVE");
+
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//button[@id='remove-sauce-labs-backpack']")).getText(),
+                "REMOVE");
     }
+
      @Test
      public void testLiza() {
         getDriver().get("https://petstore.octoperf.com/actions/Catalog.action");
-        WebElement link = getDriver().findElement(By.xpath("//*[@id=\"MenuContent\"]/a[3]"));
-        Assert.assertEquals(link.getText(), "?");
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='MenuContent']/a[3]")).getText(),
+                "?");
     }
 
     @Test
     public void testPochekirya() {
         getDriver().get("https://louna.ru/");
-        getDriver().findElement(By.xpath("//*[@id='menu']/a[2]/img")).click();
+        getDriver().findElement(By.xpath("//div[@id='menu']/a[2]/img")).click();
 
-        WebElement link = getDriver().findElement(By.xpath("//*[@id='content']/p[2]/b"));
-
-        Assert.assertEquals(link.getText(), "23.05.09");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='content']/p[2]/b")).getText(),
+                "23.05.09");
     }
 
     @Test
     public void testKirillShumakov() {
         getDriver().get("https://habr.com/ru/all/");
+
         getDriver().findElement(By.xpath("//a[contains(text(),'Компании')]")).click();
         getDriver().findElement(By.xpath("//input[@name='searchQuery']")).sendKeys("Selectel");
 
-        WebElement actualResult = getDriver().findElement(By.xpath("//em[contains(text(),'Selectel')]"));
-
-        Assert.assertEquals(actualResult.getText(), "Selectel");
-
+        Assert.assertEquals(getDriver().findElement(By.xpath("//em[contains(text(),'Selectel')]")).getText(),
+                "Selectel");
     }
 }
 
