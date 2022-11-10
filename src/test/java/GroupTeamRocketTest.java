@@ -27,7 +27,7 @@ public class GroupTeamRocketTest extends BaseTest {
             "Training",
             "Sale");
     private static final String URL = "https://www.saucedemo.com";
-    private static final String USER_NAME = "standart user";
+    private static final String USER_NAME = "standard_user";
     private static final String PASSWORD = "secret_sauce";
     private static final String URL_99 = "http://www.99-bottles-of-beer.net/";
     private static final String URL_INTERNET_HERO = "https://the-internet.herokuapp.com/";
@@ -49,7 +49,8 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.id("password")).sendKeys(PASSWORD);
         getDriver().findElement(By.id("login-button")).click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
+        Assert.assertEquals(getDriver().findElement (By.xpath ("//span[@class = 'title']")).getText (),
+                "PRODUCTS");
     }
 
     @Test
@@ -76,7 +77,8 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
         getDriver().findElement(By.id("shopping_cart_container")).click();
 
-        Assert.assertTrue(getDriver().findElement(By.id("item_4_title_link")).isDisplayed());
+        Assert.assertEquals (getDriver().findElement(By.xpath ("//div[@class = 'inventory_item_name']")).getText (),
+                "Sauce Labs Backpack");
     }
 
     @Test
