@@ -173,9 +173,8 @@ public class GroupNikkiTest extends BaseTest {
     }
     @Test
     public void linkTest() {
-        getDriver().get("https://www.rammstein.de/en/");
+        getDriver().get("https://www.rammstein.de/en/live/");
 
-        getDriver().findElement(By.cssSelector("a[href='/en/live/']")).click();
         List<WebElement> linkList = getDriver().findElements(By.cssSelector("div[class=' flex whitespace-normal pt-2 text-left lg:w-[100px] lg:pt-0']"));
 
         Assert.assertEquals(linkList.get(11).getAttribute("innerHTML"), "Bern");
