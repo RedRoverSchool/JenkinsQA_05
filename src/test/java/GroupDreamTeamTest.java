@@ -13,7 +13,7 @@ import java.time.Duration;
 public class GroupDreamTeamTest extends BaseTest {
 
     @Test
-    public void testDarina() {
+    public void test_signInDarina1() {
         getDriver().get("https://the-internet.herokuapp.com/login");
         WebElement usernameTextField = getDriver().findElement(By.id("username"));
         WebElement passwordTextField = getDriver().findElement(By.id("password"));
@@ -22,8 +22,8 @@ public class GroupDreamTeamTest extends BaseTest {
         usernameTextField.sendKeys("tomsmith");
         passwordTextField.sendKeys("SuperSecretPassword!");
         loginButton.click();
-
         WebElement confirmationMessage = getDriver().findElement(By.xpath("//div[@id='flash']"));
+
         Assert.assertEquals(confirmationMessage.getText(), "You logged into a secure area!\n" + "×");
     }
 
@@ -128,5 +128,20 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertTrue(imageTempF.getText().contains(symbolF));
 
+    }
+
+    @Test
+    public void test_signInDarina2() {
+        final var url = "https://katalon-demo-cura.herokuapp.com/";
+        final var username = "John Doe";
+        final var password = "ThisIsNotAPassword";
+
+        getDriver().get(url);
+        getDriver().findElement(By.xpath("//a[@id='btn-make-appointment']")).click();
+        getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(username);
+        getDriver().findElement(By.xpath("//input[@id='txt-password']")).sendKeys(password);
+        getDriver().findElement(By.xpath("//button[@id='btn-login']")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//h2[text() = 'Make Appointment']")).isDisplayed());
     }
 }
