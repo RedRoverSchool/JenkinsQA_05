@@ -21,9 +21,8 @@ public class GroupSpiritMastersTest extends BaseTest {
     private WebDriverWait webDriverWait20;
 
     private WebDriverWait getWait20() {
-        if (webDriverWait20 == null) {
-            webDriverWait20 = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
-        }
+        webDriverWait20 = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+
         return webDriverWait20;
     }
 
@@ -51,8 +50,6 @@ public class GroupSpiritMastersTest extends BaseTest {
 
         getDriver().get("https://www.toolsqa.com/selenium-training/");
 
-        WebElement toolsQAHeader = getDriver().findElement(By.xpath("//div[@class='col-auto']//li[3]"));
-        toolsQAHeader.click();
         getDriver().findElement(By.xpath("//div[@class='col-auto']//li[3]")).click();
 
         for (String tab : getDriver().getWindowHandles()) {
@@ -123,12 +120,11 @@ public class GroupSpiritMastersTest extends BaseTest {
         Assert.assertEquals(link.getText(), "Buttons");
     }
 
-    @Ignore
+
     @Test
     public void testFillRegistrationForm_OlPolezhaeva() {
-        getDriver().get("https://demoqa.com/automation-practice-form");
 
-        Map<String, String> expectedTableResult = new HashMap<>();
+        final Map<String, String> expectedTableResult = new TreeMap<>();
         expectedTableResult.put("Student Name", "Peter Ivanov");
         expectedTableResult.put("Student Email", "a@a.ru");
         expectedTableResult.put("Gender", "Male");
@@ -139,6 +135,8 @@ public class GroupSpiritMastersTest extends BaseTest {
         expectedTableResult.put("Picture", "");
         expectedTableResult.put("Address", "CA, San Francisco, 17 avn, 1");
         expectedTableResult.put("State and City", "NCR Delhi");
+
+        getDriver().get("https://demoqa.com/automation-practice-form");
 
         WebElement firstNameField = getDriver().findElement(By.id("firstName"));
         firstNameField.click();
@@ -196,7 +194,8 @@ public class GroupSpiritMastersTest extends BaseTest {
 
         getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody/tr")));
         List<WebElement> rows = getDriver().findElements(By.xpath("//tbody/tr"));
-        Map<String, String> actualTableResult = new HashMap<>();
+
+        Map<String, String> actualTableResult = new TreeMap<>();
         for (WebElement row : rows) {
             actualTableResult.put(row.findElements(By.tagName("td")).get(0).getText(), row.findElements(By.tagName("td")).get(1).getText());
         }
@@ -323,6 +322,7 @@ public class GroupSpiritMastersTest extends BaseTest {
             getDriver().switchTo().window(tab);
         }
         getDriver().findElement(By.id("closeSmallModal")).click();
+
         Assert.assertTrue(getDriver().findElement(By.id("showLargeModal")).isDisplayed());
     }
 
@@ -331,10 +331,11 @@ public class GroupSpiritMastersTest extends BaseTest {
     public void testToolTips_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/tool-tips");
 
-        getActions().moveToElement(getDriver().findElement(By.xpath("//a[text()='Contrary']"))).perform();
-        String actualToolTip = new WebDriverWait(getDriver(), Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tooltip-inner']"))).getText();
+        getActions().moveToElement(getDriver().findElement(By.xpath("//div[@id='texToolTopContainer']/a[contains(text(),'Contrary')]"))).pause(5000).perform();
 
-        Assert.assertEquals(actualToolTip, "You hovered over the Contrary");
+        getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tooltip-inner']")));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='tooltip-inner']")).getText(), "You hovered over the Contrary");
     }
 
     @Ignore
@@ -418,7 +419,7 @@ public class GroupSpiritMastersTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-    @Ignore
+
     @Test
     public void testSlider_KI() {
         getDriver().get(URL_DEMOQA);
@@ -431,7 +432,9 @@ public class GroupSpiritMastersTest extends BaseTest {
                 .click().perform();
 
         WebElement slider = getDriver().findElement(By.xpath("//input[@type='range']"));
-        getActions().scrollToElement(slider).pause(250).dragAndDropBy(slider, 350, 0).pause(500).perform();
+        getActions().moveToElement(slider).pause(1500).dragAndDropBy(slider, 350, 0)
+                .pause(1500).perform();
+
         String actualSliderValue = getDriver().findElement(By.id("sliderValue")).getAttribute("value");
 
         Assert.assertEquals(actualSliderValue, "100");
