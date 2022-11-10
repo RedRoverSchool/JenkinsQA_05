@@ -301,7 +301,7 @@ public class GroupSqaeTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='ssc-b-order-item ssc-b-order-item_large']//a[contains(text(),'Конструктор LEGO Star Wars Шлем штурмовика 75276')]"))
                 .isDisplayed(), "Конструктор LEGO Star Wars Шлем штурмовика 75276 - is not present in cart");
     }
-
+    @Ignore
     @Test
     public void testSearchField() throws InterruptedException {
         openMainPage();
