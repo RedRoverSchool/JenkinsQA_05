@@ -115,13 +115,9 @@ public class GroupJavaStartTest extends BaseTest {
 
     @Test
     public void testCheckCheckboxStatus() {
+    final List expectedResult = Arrays.asList("Kishore 22 Delhi", "Manish 25 Pune", "Praveen 29 Bangalore", "Dheepthi 31 Mumbai");
+    
         getDriver().get(OMAYO_PAGE_URL);
-
-        List<String> expectedResult = new ArrayList<>();
-        expectedResult.add("Kishore 22 Delhi");
-        expectedResult.add("Manish 25 Pune");
-        expectedResult.add("Praveen 29 Bangalore");
-        expectedResult.add("Dheepthi 31 Mumbai");
 
         List<WebElement> elements = getDriver().findElements(By.xpath("//table[@id='table1']/tbody/tr"));
 
@@ -129,7 +125,6 @@ public class GroupJavaStartTest extends BaseTest {
 
         for (WebElement temp : elements) {
             actualResult.add(temp.getText());
-            System.out.println(temp.getText());
         }
 
         Assert.assertEquals(actualResult, expectedResult);
