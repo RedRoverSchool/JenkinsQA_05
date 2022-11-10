@@ -106,6 +106,7 @@ public class GroupWonderingMindsTest extends BaseTest {
 
         getDriver().findElement(By.cssSelector("#submit")).click();
         String actualResult = getDriver().findElement(By.xpath("//p[@id='email']")).getText();
+
         Assert.assertEquals(actualResult, "Email:ashur@smith.com");
     }
 }
