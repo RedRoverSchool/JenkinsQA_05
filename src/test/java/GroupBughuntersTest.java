@@ -149,7 +149,7 @@ public class GroupBughuntersTest extends BaseTest {
 
         Assert.assertEquals(errorMessage.getText(), "Sorry, that password is too short. It needs to be eight characters or more.");
     }
-    @Ignore
+
     @Test
     public void testBbcChangeLanguage(){
         getDriver().get("https://www.bbc.co.uk/learningenglish/english/");
