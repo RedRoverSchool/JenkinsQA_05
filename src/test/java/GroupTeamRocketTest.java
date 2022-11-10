@@ -307,6 +307,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class='Title m-no-margin']")).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testGoToStepTwoForGetQuote_VadimTref() {
         getDriver().get("https://commercialinsurance.net/");
@@ -330,6 +331,7 @@ public class GroupTeamRocketTest extends BaseTest {
                 "$800 *includes tax");
     }
 
+    @Ignore
     @Test
     public void testSwitchToPageCompareInsuranceQuote_VadimTref() {
         getDriver().get("https://www.statewidedealerinsurance.com/");
