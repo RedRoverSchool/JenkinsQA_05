@@ -168,7 +168,7 @@ public class GroupNikkiTest extends BaseTest {
         getDriver().get("https://www.rammstein.de/en/");
 
         getDriver().findElement(By.xpath("//a[@href='/en/live/']")).click();
-        WebElement element = getDriver().findElement(By.xpath("//*[@id=\"HomeLiveSection\"]/div/ol/li[6]"));
+        WebElement element = getDriver().findElement(By.xpath("//*[@id=\"HomeLiveSection\"]/div/ol/li[6]/a/div/div/div[3]"));
 
         Assert.assertEquals(element.getAttribute("innerHTML"), "Munich");
     }
