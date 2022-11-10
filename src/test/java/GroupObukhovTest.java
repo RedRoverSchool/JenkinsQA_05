@@ -228,6 +228,7 @@ public class GroupObukhovTest extends BaseTest {
     @Test
     public void testLinkPrivacyPolicy() {
         getDriver().get(MAIN_PAGE);
+
         WebElement linkPrivacyPolicy = getDriver().findElement(By.xpath("//a[@href='/docs/privacy.html'] "));
         linkPrivacyPolicy.click();
         WebElement titlePrivacyPolicy = getDriver().findElement(By.xpath("//h1[text()='Политика конфиденциальности']"));
@@ -251,7 +252,8 @@ public class GroupObukhovTest extends BaseTest {
         final List<String> BASIC_COLORS_HEX = List.of("#804AFF", "#000000", "#FFFFFF");
 
         goToPalette();
-        List<WebElement> colors = getDriver().findElements(By.xpath("//div[@id = 'palette-three']//div[@class = 'colorchart']"));
+        List<WebElement> colors = getDriver().findElements(
+                By.xpath("//div[@id = 'palette-three']//div[@class = 'colorchart']"));
 
         for (int i = 0; i < colors.size(); i++) {
             Assert.assertEquals(colors.get(i).getText().substring(0, 7), BASIC_COLORS_HEX.get(i));
@@ -327,12 +329,14 @@ public class GroupObukhovTest extends BaseTest {
         );
 
         getDriver().get(MAIN_PAGE);
+
         List<WebElement> stepNumbersHowToUseService = getDriver().findElements(By.cssSelector(".block3-grid span"));
         List<WebElement> stepNamesHowToUseService = getDriver().findElements(By.cssSelector(".block3-grid li"));
         List<WebElement> descriptionHowToUseService = getDriver().findElements(By.cssSelector(".block3-grid p"));
 
         for (int i = 0; i < stepNumbersHowToUseService.size(); i++) {
             stepNumbersHowToUseService.get(i).click();
+
             Assert.assertEquals(stepNumbersHowToUseService.get(i).getCssValue("border"), propertyActiveButton);
             Assert.assertEquals(stepNumbersHowToUseService.get(i).getText(), String.valueOf(i + 1));
             Assert.assertEquals(stepNamesHowToUseService.get(i).getText().substring(2), stepsNames.get(i));
@@ -344,6 +348,7 @@ public class GroupObukhovTest extends BaseTest {
     @Test
     public void testLinkVacancy() {
         getDriver().get(MAIN_PAGE);
+
         WebElement linkVacancy = getDriver().findElement(By.xpath("//li[@class = 'menu-item']/a[text()='Вакансии']"));
         Set<String> oldWindowsSet = getDriver().getWindowHandles();
         linkVacancy.click();
@@ -358,6 +363,7 @@ public class GroupObukhovTest extends BaseTest {
     @Test
     public void testLinkVKontakte() {
         getDriver().get(MAIN_PAGE);
+
         WebElement vKontakte = getDriver().findElement(By.xpath("//a[@href='https://vk.com/urent_russia']"));
         Set<String> oldWindowsSet = getDriver().getWindowHandles();
         vKontakte.click();
@@ -514,7 +520,7 @@ public class GroupObukhovTest extends BaseTest {
         String actualString = getDriver().switchTo().window(openPages.toArray()[1].toString()).getCurrentUrl();
         Assert.assertEquals(actualString, "https://t.me/Urent_support_bot");
     }
-
+    @Ignore
     @Test
     public void testCheckRoundButtonHelpMenuLinkToLiveChat() {
         final String expectedFrameText = "чат";
@@ -529,24 +535,18 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     @Test
-    public void testActiveElementsOfMainMenu() {
+    public void testChangeActivedElementOfMainMenu() {
         getDriver().get(MAIN_PAGE);
 
-        List<WebElement> nowMainMenu = getDriver().findElements(By.cssSelector(".menu-list"));
+        List<WebElement> nowMainMenu = getDriver().findElements(By.cssSelector(".menu-link"));
         int size = nowMainMenu.size();
-        int activeElement = size;
-        int countInactiveElement = 0;
-        int countClick = 0;
         for (int i = 0; i < size - 2; i++) {
-            if (activeElement < size) {
-                if (countClick == 0) {
-                    i = 0;
-                }
-                nowMainMenu.get(i).click();
-                countClick++;
-            }
+            int activeElement = size;
+            int countInactiveElement = 0;
+            nowMainMenu.get(i).click();
+            nowMainMenu = getDriver().findElements(By.cssSelector(".menu-link"));
             for (int j = 0; j < size; j++) {
-                if (nowMainMenu.get(j).getAttribute("class").contains("menu-active-link")) {
+                if ((nowMainMenu.get(j).getAttribute("class")).contains("menu-active-link")) {
                     activeElement = j;
                 } else {
                     countInactiveElement++;
@@ -554,8 +554,6 @@ public class GroupObukhovTest extends BaseTest {
             }
 
             Assert.assertTrue(activeElement == i && size - countInactiveElement == 1);
-
-            countInactiveElement = 0;
         }
     }
 }
