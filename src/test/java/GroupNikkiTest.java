@@ -5,6 +5,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -160,6 +161,8 @@ public class GroupNikkiTest extends BaseTest {
 
         Assert.assertEquals(doubleClick.getCssValue("background-color"), "rgba(147, 203, 90, 1)");
     }
+
+    @Ignore
     @Test
     public void alinkTest() {
         getDriver().get("https://www.rammstein.de/en/");
