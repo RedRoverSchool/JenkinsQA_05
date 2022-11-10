@@ -30,18 +30,12 @@ public class GroupWonderingMindsTest extends BaseTest {
 
     @Test
     public void testAmazingBouqets() {
-
-        String url = "https://paeonia-boutique.ca/";
-        String expectedResult = "Paeonia Fleuristerie Boutique";
-
-        getDriver().get(url);
+        getDriver().get("https://paeonia-boutique.ca/");
 
         WebElement link = getDriver().findElement(By.xpath("//span[text() = "
                 + "'Paeonia Fleuristerie Boutique']"));
 
-        String actualResult = link.getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(link.getText(), "Paeonia Fleuristerie Boutique");
     }
 
 
