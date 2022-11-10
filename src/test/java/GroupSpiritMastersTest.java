@@ -557,6 +557,7 @@ public class GroupSpiritMastersTest extends BaseTest {
                 By.xpath("//input[@id='search_str']")).getAttribute("value").equals("Rome"));
     }
 
+    @Ignore
     @Test
     public void test5Openweathermap_captchaError_gdiksanov() {
 
