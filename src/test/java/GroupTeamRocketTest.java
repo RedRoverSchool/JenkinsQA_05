@@ -1,4 +1,3 @@
-import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -225,10 +224,12 @@ public class GroupTeamRocketTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//div[@id='navigation']/ul[@id='menu']/li/a[@href='/abc.html']")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Language']"))
-                .getText(), "Language");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Author']"))
-                .getText(), "Author");
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Language']")).getText(),
+                "Language");
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Author']")).getText(),
+                "Author");
     }
 
     @Test
@@ -332,7 +333,6 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class='Title m-no-margin']")).isDisplayed());
     }
-
 
     @Test
     public void testGoToStepTwoForGetQuote_VadimTref() {
@@ -582,4 +582,5 @@ public class GroupTeamRocketTest extends BaseTest {
             Assert.assertEquals(element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText(), expectedHeaderText);
         }
     }
+
 }
