@@ -13,7 +13,7 @@ import java.time.Duration;
 public class GroupDreamTeamTest extends BaseTest {
 
     @Test
-    public void test_signInDarina1() {
+    public void test_signInDarina() {
         getDriver().get("https://the-internet.herokuapp.com/login");
         WebElement usernameTextField = getDriver().findElement(By.id("username"));
         WebElement passwordTextField = getDriver().findElement(By.id("password"));
@@ -131,7 +131,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void test_signInDarina2() {
+    public void test_signInAppointmentDarina() {
         final var url = "https://katalon-demo-cura.herokuapp.com/";
         final var username = "John Doe";
         final var password = "ThisIsNotAPassword";
@@ -146,7 +146,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void test_appointmentDarina2(){
+    public void test_appointmentDarina(){
         final var url = "https://katalon-demo-cura.herokuapp.com/";
         final var username = "John Doe";
         final var password = "ThisIsNotAPassword";
