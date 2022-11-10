@@ -18,6 +18,7 @@ import java.util.List;
 
 public class GroupTeamRocketTest extends BaseTest {
 
+
     final List<String> EXPECTED_ITEMS = List.of(
             "What's New",
             "Women",
