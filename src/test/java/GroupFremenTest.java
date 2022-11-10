@@ -173,4 +173,26 @@ public class GroupFremenTest extends BaseTest {
                 By.xpath("//div[@class='alert alert-success']")).getText(), expectedResult);
     }
 
+    @Test
+    public void testModal() {
+        getDriver().get(URL);
+        String expectedResult = "Modal";
+        getDriver().findElement(By.xpath("//div/div/li/a[@href='/modal']")).click();
+        getDriver().findElement(By.xpath("//form/button[@type='button']")).click();
+        getDriver().findElement(By.id("close-button")).click();
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//h1[text()='Modal']")).getText(), expectedResult);
+    }
+
+    @Test
+    public void testHerokuappButtonsContainWarning() {
+        getDriver().get(URL);
+        WebElement link = getDriver().findElement(By.xpath("//div/li/a[text()='Buttons']"));
+        link.click();
+        WebElement buttonsPage = getDriver().findElement(
+                By.xpath("//div/div/div/button[text()='Warning']"));
+        Assert.assertEquals(buttonsPage.getText(), "Warning");
+    }
+
+
 }

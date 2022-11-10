@@ -160,8 +160,21 @@ public class GroupNikkiTest extends BaseTest {
 
         Assert.assertEquals(doubleClick.getCssValue("background-color"), "rgba(147, 203, 90, 1)");
     }
+    @Test
+    public void alinkTest() {
+        getDriver().get("https://www.rammstein.de/en/");
+
+        getDriver().findElement(By.xpath("//a[@href='/en/live/']")).click();
+        List<WebElement> linkList = getDriver().findElements(By.xpath("//div[@class=' flex whitespace-normal pt-2 text-left lg:w-[100px] lg:pt-0']"));
+
+        Assert.assertEquals(linkList.get(6).getAttribute("innerHTML"), "Munich");
+    }
+    @Test
+    public void linkTest() {
+        getDriver().get("https://www.rammstein.de/en/live/");
+
+        List<WebElement> linkList = getDriver().findElements(By.cssSelector("div[class=' flex whitespace-normal pt-2 text-left lg:w-[100px] lg:pt-0']"));
+
+        Assert.assertEquals(linkList.get(11).getAttribute("innerHTML"), "Bern");
+    }
 }
-
-
-
-
