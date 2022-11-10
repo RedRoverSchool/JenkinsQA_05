@@ -223,7 +223,7 @@ public class GroupSqaeTest extends BaseTest {
         checkoutButton().click();
         Assert.assertEquals(successfulMessage().getText(), "Спасибо!");
     }
-    @Ignore
+
     @Test
     @Ignore
     public void testCheckoutWithUniqueEmailErrorMsg() {
@@ -243,7 +243,7 @@ public class GroupSqaeTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//span[@class='ssc-w-input__error']")).getText(),
                 "Уже используется (должно быть уникальным).");
     }
-    @Ignore
+
     @Test
     @Ignore
     public void testDeleteItemFromCart() {
@@ -254,7 +254,7 @@ public class GroupSqaeTest extends BaseTest {
         deleteItemFromCart().click();
         Assert.assertEquals(cartIsEmpty().getText(), "Корзина пуста");
     }
-    @Ignore
+
     @Test
     @Ignore
     public void testMultipleItemsPresentInCart() {
@@ -304,7 +304,7 @@ public class GroupSqaeTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='ssc-b-order-item ssc-b-order-item_large']//a[contains(text(),'Конструктор LEGO Star Wars Шлем штурмовика 75276')]"))
                 .isDisplayed(), "Конструктор LEGO Star Wars Шлем штурмовика 75276 - is not present in cart");
     }
-    @Ignore
+
     @Test
     @Ignore
     public void testSearchField() throws InterruptedException {
