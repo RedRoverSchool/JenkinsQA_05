@@ -1,5 +1,3 @@
-import com.sun.source.tree.AssertTree;
-import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -532,20 +530,35 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
-    public void testSearchYandex_AnastasiaY() {
+    public void  testHeaderIsDisplayedInEach (){
 
-        getDriver().get("https://yandex.com/");
+        final String expectedHeaderText = "Smart By Design";
+        final String carouselContainerPath = "//div[contains(@class, 'swiper-slide')]//div[@class='image']//img[contains(@class, 'd-none')]";
 
-        WebElement searchInput = getDriver().findElement(
-                By.xpath("//input[@class = 'input__control input__input mini-suggest__input']"));
+        getDriver().get("https://minthouse.com/");
+        List<WebElement> carousel = getDriver().findElements(By.xpath(carouselContainerPath));
+        for(WebElement element : carousel) {
+            new WebDriverWait(getDriver(), Duration.ofSeconds(8)).until(ExpectedConditions.visibilityOf(element));
+            if (!element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText().equals(expectedHeaderText)) {
+                System.out.println("Missing text in " + element.getAttribute("src"));
+            }
+
+            Assert.assertEquals(element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText(), expectedHeaderText);
+        }
+    }
+
+    @Test
+    public void testSearchDuckDuckGo_AnastasiaY() {
+
+        getDriver().get("https://duckduckgo.com/");
+
+        WebElement searchInput = getDriver().findElement(By.id("search_form_input_homepage"));
         searchInput.sendKeys("siberian tiger");
 
-        WebElement searchButton = getDriver().findElement(
-                By.xpath("//div[@class = 'search2__button']/button"));
-        searchButton.click();
+        getDriver().findElement(By.id("search_button_homepage")).click();
 
-        List<WebElement> resultLinks = getDriver().findElements(By.xpath
-                ("//li[@class = 'serp-item serp-item_card']//h2/span[@class = 'OrganicTitleContentSpan organic__title']"));
+        List<WebElement> resultLinks = getDriver().findElements(
+                By.xpath("//div[@class = 'nrn-react-div']/article//div/h2"));
         for (WebElement link: resultLinks) {
             Assert.assertTrue(link.getText().matches("(?i).*tiger.*"));
         }
