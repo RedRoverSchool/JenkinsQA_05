@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -51,6 +52,7 @@ public class GroupBugBustersTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.id("comment")).getText(), EXPECTED_RESULT_COMMENT);
     }
 
+    @Ignore
     @Test
     public void testRadasSuccessLogIn() throws InterruptedException {
 
