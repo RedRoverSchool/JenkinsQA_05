@@ -23,16 +23,16 @@ import java.util.stream.Collectors;
 public class GroupDonSimonTutankhamonTest extends BaseTest {
 
     @Test
-    public void testFormSubm_AutomationinTestingOnline() {
+    public void test_FormSubmAutomationinTestingOnline_IKrlkv() {
 
-        String testName = "John Cena";
-        String actualConfirmationTitle = String.format("Thanks for getting in touch %s!", testName);
+        final String testName = "John Cena";
+        final String actualConfirmationTitle = String.format("Thanks for getting in touch %s!", testName);
 
         getDriver().get("https://automationintesting.online/");
 
         WebElement nameField = getDriver().findElement(By.id("name"));
         Actions action = new Actions(getDriver());
-        action.moveToElement(nameField);
+        action.moveToElement(nameField).build().perform();
         nameField.sendKeys("John Cena");
 
         WebElement emailField = getDriver().findElement(By.xpath("//input[@data-testid='ContactEmail']"));
@@ -50,9 +50,9 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         WebElement submitButton = getDriver().findElement(By.id("submitContact"));
         submitButton.click();
 
-        WebElement confirmationTitle = getDriver().findElement(By.xpath("//div[@class='row contact']//h2"));
+        WebElement confirmationFormTitle = getDriver().findElement(By.xpath("//div[@class='row contact']//h2"));
 
-        Assert.assertEquals(confirmationTitle.getText(), actualConfirmationTitle);
+        Assert.assertEquals(confirmationFormTitle.getText(), actualConfirmationTitle);
     }
 
     @Test
