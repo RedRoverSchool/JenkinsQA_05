@@ -622,4 +622,13 @@ public class GroupSpiritMastersTest extends BaseTest {
         checkboxes.get(1).click();
         Assert.assertFalse(checkboxes.get(1).isSelected());
     }
+
+    @Test
+    public void testCheckOpenHerokuApp_MAnna503(){
+        getDriver().get("https://formy-project.herokuapp.com/");
+
+       WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/radiobutton']"));
+
+       Assert.assertEquals(link.getText(),"Radio Button");
+    }
 }
