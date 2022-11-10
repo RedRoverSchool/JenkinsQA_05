@@ -165,4 +165,9 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertEquals(confirmationText, "Appointment Confirmation");
     }
+
+    @Test
+    public void test_rejectDarina(){
+        //THIS IS REJECTED TEST
+    }
 }
