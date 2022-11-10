@@ -165,4 +165,13 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertEquals(confirmationText, "Appointment Confirmation");
     }
+
+    @Test
+    public void testMintHouseSource2(){
+        getDriver().get("https://minthouse.com/");
+        String currentSource = getDriver().getPageSource();
+        boolean actualResult = currentSource.contains("div");
+
+        Assert.assertTrue(actualResult);
+    }
 }
