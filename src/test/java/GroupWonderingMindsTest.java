@@ -70,4 +70,30 @@ public class GroupWonderingMindsTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testSendForm_HappyStrawberry() {
+        getDriver().get("https://demoqa.com/elements");
+
+        getDriver().manage().window().maximize();
+
+        WebElement clickTextBooks = getDriver().findElement(By.xpath("//span[text()='Text Box']  "));
+        clickTextBooks.click();
+        WebElement fillFullName = getDriver().findElement(By.xpath("//input[@id='userName']"));
+        fillFullName.sendKeys("Ashur Smith");
+        WebElement fillEmail = getDriver().findElement(By.xpath("//input[@id='userEmail']"));
+        fillEmail.sendKeys("ashur@smith.com");
+        WebElement fillCurrentAddress = getDriver().findElement(By.xpath("//textarea[@id='currentAddress']"));
+        fillCurrentAddress.sendKeys("2500 west End A, Cooksville, Az,67490");
+        WebElement fillPermanentAddress = getDriver().findElement(By.xpath("//textarea[@id='permanentAddress']"));
+        fillPermanentAddress.sendKeys("2500 west End A, Cooksville, Az,67490");
+        WebElement clickButtonSubmit = getDriver().findElement(By.xpath("//button[@id='submit']"));
+        clickButtonSubmit.click();
+        WebElement printNameAndEmail = getDriver().findElement(By.xpath("//p[@id='email']"));
+        String actualResult =printNameAndEmail.getText();
+
+        Assert.assertEquals(actualResult, "Email:ashur@smith.com");
+
+    }
+
 }
