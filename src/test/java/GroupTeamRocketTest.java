@@ -268,8 +268,8 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testSignGuestbookTest_NO() {
+        final String random = String.valueOf((int) (Math.random() * 900) + 100);
 
-        String random = "" + ((int) (Math.random() * 900) + 100);
         getDriver().get("http://www.99-bottles-of-beer.net/");
         getDriver().findElement(By.xpath("//a[@href='/guestbookv2.html']")).click();
         getDriver().findElement(By.xpath("//a[@href='./signv2.html']")).click();
@@ -280,9 +280,10 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name='captcha']")).sendKeys(random);
         getDriver().findElement(By.xpath("//textarea[@name='comment']")).sendKeys("test message");
         getDriver().findElement(By.xpath("//input[@type='submit']")).click();
+
         Assert.assertEquals(getDriver().findElement(
-                        By.xpath("//div[@id='main']/p[contains(text(),' Error: Invalid security code.')]"))
-                .getText(), "Error: Error: Invalid security code.");
+                        By.xpath("//div[@id='main']/p[contains(text(),' Error: Invalid security code.')]")).getText(),
+                "Error: Error: Invalid security code.");
     }
 
     @Test
