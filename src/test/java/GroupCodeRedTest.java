@@ -227,26 +227,19 @@ public class GroupCodeRedTest extends BaseTest {
     }
 
     @Test
-    public void testFindRome() throws InterruptedException {
-        String url = "https://openweathermap.org/";
+    public void test_FindRome() throws InterruptedException {
+
         String city = "Rome";
-        boolean expectedResult = true;
 
-        getDriver().get(url);
+        getDriver().get(WEATHER_URL);
+        Thread.sleep(8000);
 
-        Thread.sleep(5000);
-
-        WebElement searchFieldByCity = getDriver().findElement(
-                By.xpath("//div[@id='desktop-menu']//input[@placeholder='Weather in your city']"));
-
-        searchFieldByCity.click();
-        searchFieldByCity.sendKeys(city);
+        getDriver().findElement(
+                By.xpath("//div[@id='desktop-menu']//input[@placeholder='Weather in your city']")
+        ).sendKeys(city + "\n");
         Thread.sleep(700);
-        searchFieldByCity.sendKeys(Keys.ENTER);
 
-        boolean actualResult = getDriver().getCurrentUrl().contains("find") && getDriver().getCurrentUrl().contains(city);
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertTrue(getDriver().getCurrentUrl().contains("find") && getDriver().getCurrentUrl().contains(city));
     }
 
     @Test
