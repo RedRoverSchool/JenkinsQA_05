@@ -332,10 +332,9 @@ public class GroupSpiritMastersTest extends BaseTest {
     public void testToolTips_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/tool-tips");
 
-        getActions().moveToElement(getDriver().findElement(By.xpath("//a[text()='Contrary']"))).perform();
-        String actualToolTip = new WebDriverWait(getDriver(), Duration.ofSeconds(30)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tooltip-inner']"))).getText();
+        getActions().moveToElement(getDriver().findElement(By.xpath("//a[text()='Contrary']"))).pause(5000).perform();
 
-        Assert.assertEquals(actualToolTip, "You hovered over the Contrary");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='tooltip-inner']")).getText(), "You hovered over the Contrary");
     }
 
     @Ignore
