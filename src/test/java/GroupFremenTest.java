@@ -220,4 +220,17 @@ public class GroupFremenTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Test
+    public void testHerokuAppButtonsName() {
+        final String expectedButton = "Danger";
+
+        getDriver().get(URL);
+        getDriver().findElement(
+                By.xpath("//li/a[@href='/buttons']")).click();
+
+        String actualButton = getDriver().findElement(
+                By.xpath("//button[@class ='btn btn-lg btn-danger']")).getText();
+
+        Assert.assertEquals(actualButton, expectedButton);
+    }
 }
