@@ -124,7 +124,7 @@ public class GroupSpiritMastersTest extends BaseTest {
     @Test
     public void testFillRegistrationForm_OlPolezhaeva() {
 
-        final TreeMap<String, String> expectedTableResult = new TreeMap<>();
+        final Map<String, String> expectedTableResult = new TreeMap<>();
         expectedTableResult.put("Student Name", "Peter Ivanov");
         expectedTableResult.put("Student Email", "a@a.ru");
         expectedTableResult.put("Gender", "Male");
@@ -195,7 +195,7 @@ public class GroupSpiritMastersTest extends BaseTest {
         getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody/tr")));
         List<WebElement> rows = getDriver().findElements(By.xpath("//tbody/tr"));
 
-        TreeMap<String, String> actualTableResult = new TreeMap<>();
+        Map<String, String> actualTableResult = new TreeMap<>();
         for (WebElement row : rows) {
             actualTableResult.put(row.findElements(By.tagName("td")).get(0).getText(), row.findElements(By.tagName("td")).get(1).getText());
         }
