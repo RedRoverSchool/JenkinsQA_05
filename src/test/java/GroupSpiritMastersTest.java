@@ -11,8 +11,10 @@ import runner.BaseTest;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfWindowsToBe;
+import static org.openqa.selenium.support.ui.ExpectedConditions.urlToBe;
 
-public class SpiritMastersTest extends BaseTest {
+public class GroupSpiritMastersTest extends BaseTest {
 
     private static final String URL_DEMOQA = "https://demoqa.com/";
 
@@ -37,7 +39,6 @@ public class SpiritMastersTest extends BaseTest {
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) getDriver();
         javascriptExecutor.executeScript("document.getElementById('" + elementById + "').value='" + emoji + "';");
     }
-
 
     private WebElement findCard_PK(int index) {
         getDriver().get(URL_DEMOQA);
@@ -122,6 +123,7 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertEquals(link.getText(), "Buttons");
     }
 
+    @Ignore
     @Test
     public void testFillRegistrationForm_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/automation-practice-form");
@@ -172,7 +174,7 @@ public class SpiritMastersTest extends BaseTest {
         getActions().moveToElement(subjectMenu).click().sendKeys("Maths").pause(500).sendKeys(Keys.TAB)
                     .scrollToElement(getDriver().findElement(By.id("submit"))).build().perform();
 
-        getDriver().findElement((By.cssSelector("[for=hobbies-checkbox-1]"))).click();;
+        getDriver().findElement((By.cssSelector("[for=hobbies-checkbox-1]"))).click();
 
         WebElement currentAddressField = getDriver().findElement(By.id("currentAddress"));
         currentAddressField.click();
@@ -229,10 +231,12 @@ public class SpiritMastersTest extends BaseTest {
     }
 
     @Test
-    public void zyzBankRegisterLogin_MW_Test() {
+    public void testBankRegisterLogin_MW() {
         getDriver().get("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login");
+
         getDriver().findElement(By.xpath("//button[normalize-space()='Bank Manager Login']")).click();
         getDriver().findElement(By.xpath("//button[normalize-space()='Add Customer']")).click();
+
         WebElement firstName = getDriver().findElement(By.xpath("//input[@placeholder='First Name']"));
         firstName.click();
         firstName.sendKeys("John");
@@ -242,19 +246,24 @@ public class SpiritMastersTest extends BaseTest {
         WebElement postcode = getDriver().findElement(By.xpath("//input[@placeholder='Post Code']"));
         postcode.click();
         postcode.sendKeys("12334");
+
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
         Alert confAllert = getDriver().switchTo().alert();
+        String userId = confAllert.getText().substring(confAllert.getText().indexOf(":") + 1);
         confAllert.accept();
+
         getDriver().findElement(By.xpath("//button[@class='btn btn-lg tab btn-primary']")).click();
-        getDriver().findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/button[1]")).click();
+        getDriver().findElement(By.cssSelector(".btn.home")).click();
         WebElement login = getDriver().findElement(By.xpath("//button[normalize-space()='Customer Login']"));
-        Assert.assertEquals(login.getText(), "Customer Login");
         login.click();
         WebElement selectNameVariant = getDriver().findElement(By.id("userSelect"));
         Select dropdown = new Select(selectNameVariant);
-        dropdown.selectByValue("6");
+        dropdown.selectByValue(userId);
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("/html/body/div/div/div[2]/div/div[1]/strong/span")).getText(), "John NeJonh");
+
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//strong/span[@class='fontBig ng-binding']")).getText(), "John NeJonh");
     }
 
     @Test
@@ -317,7 +326,7 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("showLargeModal")).isDisplayed());
     }
 
-
+    @Ignore
     @Test
     public void testToolTips_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/tool-tips");
@@ -328,6 +337,7 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertEquals(actualToolTip, "You hovered over the Contrary");
     }
 
+    @Ignore
     @Test
     public void testTextBoxFields_AFedorova() {
         getDriver().get(URL_DEMOQA);
@@ -363,7 +373,6 @@ public class SpiritMastersTest extends BaseTest {
         WebElement submitBtn = getDriver().findElement(By.id("submit"));
         getActions().scrollToElement(submitBtn);
         submitBtn.click();
-
 
         List<String> actualResult = new ArrayList<>();
         actualResult.add(getDriver().findElement(By.id("name")).getText());
@@ -409,23 +418,26 @@ public class SpiritMastersTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-
+    @Ignore
     @Test
     public void testSlider_KI() {
         getDriver().get(URL_DEMOQA);
 
         getDriver().findElement(By.xpath("//div[@class='category-cards']/div[4]")).click();
-        getActions().scrollToElement(getDriver().findElement(By.xpath("//span[text()='Slider']")));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", getDriver()
+                .findElement(By.xpath("//span[text()='Slider']")));
         getActions().moveToElement(getDriver().findElement(By.xpath("//span[text()='Slider']")))
-                .click().pause(500).perform();
+                .click().perform();
 
         WebElement slider = getDriver().findElement(By.xpath("//input[@type='range']"));
-        getActions().dragAndDropBy(slider, 350, 0).pause(500).perform();
+        getActions().scrollToElement(slider).pause(250).dragAndDropBy(slider, 350, 0).pause(500).perform();
         String actualSliderValue = getDriver().findElement(By.id("sliderValue")).getAttribute("value");
 
         Assert.assertEquals(actualSliderValue, "100");
     }
 
+    @Ignore
     @Test
     public void testOpenweathermap_justGoToGuide_gdiksanov() {
 
@@ -475,4 +487,167 @@ public class SpiritMastersTest extends BaseTest {
         Assert.assertEquals(actualNumberWorkers.size(), 4);
     }
 
+    @Test
+    public void testCheckValueCart_AKaz() {
+        getDriver().get("http://saucedemo.com/");
+
+        String login = "standard_user";
+        String pass = "secret_sauce";
+
+        WebElement loginInput = getDriver().findElement(By.id("user-name"));
+        loginInput.sendKeys(login);
+
+        WebElement passwordInput = getDriver().findElement(By.id("password"));
+        passwordInput.sendKeys(pass);
+
+        WebElement loginBtn = getDriver().findElement(By.id("login-button"));
+        loginBtn.click();
+
+        List<WebElement> productList = getDriver().findElements(By.cssSelector(".inventory_item"));
+        for (int i = 1; i <= productList.size(); i++) {
+            String path = "//div[@class='inventory_item'][" + i + "]//button";
+            getDriver().findElement(By.xpath(path)).click();
+        }
+
+        WebElement actualResult = getDriver().findElement(By.cssSelector("span.shopping_cart_badge"));
+
+        Assert.assertEquals(actualResult.getText(), "6");
+    }
+
+    @Test
+    public void test10Openweathermap_APIButtons_gdiksanov() {
+
+        String url = "https://openweathermap.org/";
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+
+        getDriver().get(url);
+        getDriver().manage().window().maximize();
+
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//div[@class='owm-loader-container']/div")));
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        getDriver().findElement(By.xpath("//div[@id='desktop-menu']//a[@href='/api']")).click();
+
+        Assert.assertEquals(getDriver().findElements(By.xpath("//a[contains(@class,'orange')]")).size(), 30);
+    }
+
+    @Test
+    public void test9Openweathermap_searchRome_gdiksanov() {
+
+        String url = "https://openweathermap.org/";
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+
+        getDriver().get(url);
+        getDriver().manage().window().maximize();
+
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//div[@class='owm-loader-container']/div")));
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        getDriver().findElement(By.xpath("//div[@id='desktop-menu']//input[@name='q']"))
+                .sendKeys("Rome", Keys.RETURN);
+
+        Assert.assertTrue(getDriver().getCurrentUrl().contains("find") && getDriver().getCurrentUrl().contains("Rome"));
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//input[@id='search_str']")).getAttribute("value").equals("Rome"));
+    }
+
+    @Ignore
+    @Test
+    public void test5Openweathermap_captchaError_gdiksanov() {
+
+        String url = "https://openweathermap.org/";
+        String email = "qwerty@qwerty.org";
+        String message = "Hello world";
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+
+        getDriver().get(url);
+        getDriver().manage().window().maximize();
+
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//div[@class='owm-loader-container']/div")));
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        getDriver().findElement(By.xpath("//div[@id='support-dropdown']")).click();
+
+        String originalWindow = getDriver().getWindowHandle();
+
+        Assert.assertTrue(getDriver().getWindowHandles().size() == 1);
+
+        getDriver().findElement(
+                By.xpath("//ul[@id='support-dropdown-menu']//a[contains (text(), 'Ask a question')]")).click();
+
+        wait.until(numberOfWindowsToBe(2));
+
+        for (String windowHandle : getDriver().getWindowHandles()) {
+            if (!originalWindow.contentEquals(windowHandle)) {
+                getDriver().switchTo().window(windowHandle);
+                break;
+            }
+        }
+
+        wait.until(urlToBe("https://home.openweathermap.org/questions"));
+
+        getDriver().findElement(
+                By.xpath("//input[@id='question_form_email']")).sendKeys(email);
+
+        Select select = new Select(getDriver().findElement(
+                By.xpath("//select[@id='question_form_subject']")));
+        select.selectByValue("Sales");
+
+        getDriver().findElement(
+                By.xpath("//textarea[@id='question_form_message']")).sendKeys(message);
+
+        getDriver().findElement(
+                By.xpath("//input[@type='submit'][@name='commit']")).click();
+
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//form[@id='new_question_form']//div[@class='help-block']"))
+                .getText().equals("reCAPTCHA verification failed, please try again."));
+    }
+
+    @Test
+    public void testCheckboxesPage_herokuapp_MRakhmanava() {
+        getDriver().get("http://the-internet.herokuapp.com/checkboxes");
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        List<WebElement> checkboxes = getDriver().findElements(By.cssSelector("[type=checkbox]"));
+        checkboxes.get(1).click();
+        Assert.assertFalse(checkboxes.get(1).isSelected());
+    }
+
+    @Test
+    public void testCheckOpenHerokuApp_MAnna503() {
+        getDriver().get("https://formy-project.herokuapp.com/");
+
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//li/a[@href='/radiobutton']")).getText(),
+                "Radio Button");
+    }
+
+    @Test
+    public void testOpenPageCooker() {
+
+        final String url = "https://www.russianfood.com/";
+        final String expectedResult = "Быстрый пирог-шарлотка с яблоками";
+
+        getDriver().get(url);
+
+        WebElement searchFormField = getDriver().findElement(By.id("sskw_title"));
+        searchFormField.click();
+        searchFormField.sendKeys("Быстрый пирог-шарлотка с яблоками");
+
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(By.xpath("//a[@name='el127921']")).click();
+        getDriver().findElement(By.xpath("//h1[@class ='title ']")).getText();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class ='title ']")).getText(),expectedResult);
+    }
 }
