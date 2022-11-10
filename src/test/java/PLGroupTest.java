@@ -90,39 +90,5 @@ public class PLGroupTest extends BaseTest {
         Assert.assertTrue(actualResult.contains("F"));
 
     }
-
-    @Test
-    public void testOpenPageCooker() {
-
-        String url = "https://www.russianfood.com/";
-        String recipePie = "Быстрый пирог-шарлотка с яблоками\n";
-        String expectedResult = "Быстрый пирог-шарлотка с яблоками";
-
-        getDriver().get(url);
-
-        WebElement searchFormField = getDriver().findElement(
-                By.xpath("//form[@action='/search/simple/index.php#beforesearchform']/div/div/div/div/input[@class='search-form__input']")
-        );
-        searchFormField.click();
-        searchFormField.sendKeys(recipePie);
-
-        WebElement searchButton = getDriver().findElement(
-                By.xpath("//button[@type='submit']")
-        );
-        searchButton.click();
-
-        WebElement choiceFindPie = getDriver().findElement(
-                By.xpath("//a[@name='el127921']")
-        );
-        choiceFindPie.click();
-
-        WebElement h1RecipePieHeader = getDriver().findElement(
-                By.xpath("//h1[@class ='title ']")
-        );
-
-        String actualResult = h1RecipePieHeader.getText();
-
-        Assert.assertEquals(actualResult,expectedResult);
-    }
 }
 
