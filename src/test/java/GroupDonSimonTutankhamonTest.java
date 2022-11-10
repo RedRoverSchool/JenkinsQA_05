@@ -53,7 +53,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
         Assert.assertEquals(confirmationTitle.getText(), actualConfirmationTitle);
     }
-
+    @Ignore
     @Test
     public void testDropDown_SelectorsHubCom() {
 
@@ -73,7 +73,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
         Assert.assertEquals(expectedRowsCount, actualRowsCount.size());
     }
-
+    @Ignore
     @Test
     public void testFilterTable_SelectorsHubCom() {
 
@@ -93,7 +93,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
             Assert.assertEquals(expectedCountry, actualValue);
         }
     }
-
+    @Ignore
     @Test
     public void testFirstNameInputField_SelectorsHubCom() throws InterruptedException {
 
@@ -133,7 +133,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
         Assert.assertNotNull(sessionId);
     }
-
+    @Ignore
     @Test
     public void testFooter_SelectorsHubCom() {
 
