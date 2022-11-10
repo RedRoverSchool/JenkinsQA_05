@@ -83,7 +83,9 @@ public class GroupTeamRocketTest extends BaseTest {
 
         getDriver().findElement(By.xpath(" //input[@id='z1-searchfield']")).sendKeys("Bundles");
         getDriver().findElement(By.xpath("//div/form/button")).click();
-        getDriver().findElement(By.xpath("//button[contains(text(),'Bundle & save')]")).click();
+        WebElement bundleBttn = getDriver().findElement(By.xpath("//button[contains(text(),'Bundle & save')]"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOf(bundleBttn));
+        bundleBttn.click();
         WebElement cardsTitle = getDriver().findElement(
                 By.xpath("//h2[contains(text(),'DIRECTV STREAM CHOICE™ PACKAGE + AT&T FIBER | 300 ')]"));
         new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOf(cardsTitle));
