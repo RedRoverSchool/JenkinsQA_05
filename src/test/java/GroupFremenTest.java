@@ -224,7 +224,6 @@ public class GroupFremenTest extends BaseTest {
         getDriver().get(URL);
         getDriver().findElement(
                 By.xpath("//li/a[@href='/buttons']")).click();
-
         String actualButton = getDriver().findElement(
                 By.xpath("//button[@class ='btn btn-lg btn-danger']")).getText();
 
