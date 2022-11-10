@@ -168,6 +168,6 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void test_rejectDarina(){
-        //THIS IS REJECTED TEST
+
     }
 }
