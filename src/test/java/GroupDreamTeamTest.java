@@ -112,7 +112,7 @@ public class GroupDreamTeamTest extends BaseTest {
         Assert.assertTrue(actualResult.contains("is-locked"));
 }
 
-    @Ignore
+    //@Ignore
     @Test
     public void testTemperatureInFahrenheit() throws InterruptedException {
         final String url = "https://openweathermap.org/";
@@ -128,5 +128,22 @@ public class GroupDreamTeamTest extends BaseTest {
 
         Assert.assertTrue(imageTempF.getText().contains(symbolF));
 
+    }
+
+    public void testNataliaClickButtonHerokuepp() {
+        getDriver().get("https://formy-project.herokuapp.com/");
+        getDriver().findElement(By.xpath("//li/a[@href='/buttons']")).click();
+        String actualResult = getDriver().findElement(By.xpath("/html/body/div/nav")).getText();
+        Assert.assertEquals(actualResult, "FORMY\n" + "Form\n" + "Components");
+    }
+
+    @Test
+    public void testMintHouseSource2(){
+
+        getDriver().get("https://minthouse.com/");
+        String currentSource = getDriver().getPageSource();
+        boolean actualResult = currentSource.contains("div");
+
+        Assert.assertTrue(actualResult);
     }
 }
