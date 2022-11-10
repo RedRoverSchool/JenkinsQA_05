@@ -55,19 +55,17 @@ public class GroupNikkiTest extends BaseTest {
     }
 
     @Test
-    public void testKate_SuccessOpenUpMenu () {
+    public void test_Kate_SuccessOpenUpMenu () {
+        String expectedResult = "CURA Healthcare";
 
         getDriver().get("https://katalon-demo-cura.herokuapp.com/");
         WebElement menu = getDriver().findElement(By.xpath("//body/a[@id='menu-toggle']"));
         menu.click();
-
         WebElement menuHeader = getDriver().findElement(By.xpath("//body/nav//a[@href='./']"));
-        String actualResult = menuHeader.getText();
-        String expectedResult = "CURA Healthcare";
 
-        Assert.assertEquals(actualResult, expectedResult);
-
+        Assert.assertEquals(menuHeader.getText(), expectedResult);
     }
+
     @Test
     public void testMouseover_WebdDiverUniversityCom() {
 
@@ -149,6 +147,18 @@ public class GroupNikkiTest extends BaseTest {
                 .getAttribute("class");
 
         Assert.assertTrue(actualResult.contains("is-start-date is-locked"));
+    }
+
+    @Test
+    public void backgroundColorTest() {
+        getDriver().get("https://webdriveruniversity.com/Actions/index.html");
+
+        WebElement doubleClick = getDriver().findElement(By.id("double-click"));
+
+        Actions actions = new Actions(getDriver());
+        actions.doubleClick(doubleClick).perform();
+
+        Assert.assertEquals(doubleClick.getCssValue("background-color"), "rgba(147, 203, 90, 1)");
     }
 }
 

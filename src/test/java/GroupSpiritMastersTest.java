@@ -557,6 +557,7 @@ public class GroupSpiritMastersTest extends BaseTest {
                 By.xpath("//input[@id='search_str']")).getAttribute("value").equals("Rome"));
     }
 
+    @Ignore
     @Test
     public void test5Openweathermap_captchaError_gdiksanov() {
 
@@ -614,10 +615,8 @@ public class GroupSpiritMastersTest extends BaseTest {
     }
 
     @Test
-    public void testCheckboxesPageHerokuApp_MRakhmanava() {
-        String url = "http://the-internet.herokuapp.com/checkboxes";
-        getDriver().get(url);
-        getDriver().manage().window().maximize();
+    public void testCheckboxesPage_herokuapp_MRakhmanava() {
+        getDriver().get("http://the-internet.herokuapp.com/checkboxes");
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         List<WebElement> checkboxes = getDriver().findElements(By.cssSelector("[type=checkbox]"));
         checkboxes.get(1).click();
