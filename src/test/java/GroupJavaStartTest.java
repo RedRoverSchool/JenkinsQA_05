@@ -112,4 +112,26 @@ public class GroupJavaStartTest extends BaseTest {
 
         Assert.assertTrue(checkbox.isSelected());
     }
+
+    @Test
+    public void testCheckCheckboxStatus() {
+        getDriver().get(OMAYO_PAGE_URL);
+
+        List<String> expectedResult = new ArrayList<>();
+        expectedResult.add("Kishore 22 Delhi");
+        expectedResult.add("Manish 25 Pune");
+        expectedResult.add("Praveen 29 Bangalore");
+        expectedResult.add("Dheepthi 31 Mumbai");
+
+        List<WebElement> elements = getDriver().findElements(By.xpath("//table[@id='table1']/tbody/tr"));
+
+        List<String> actualResult = new ArrayList<>();
+
+        for (WebElement temp : elements) {
+            actualResult.add(temp.getText());
+            System.out.println(temp.getText());
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
