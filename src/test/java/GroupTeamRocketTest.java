@@ -292,7 +292,6 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testSignGuestbookTest_NO() {
         final String random = String.valueOf((int) (Math.random() * 900) + 100);
 
-        String random = "" + ((int) (Math.random() * 900) + 100);
         getDriver().get("http://www.99-bottles-of-beer.net/");
         getDriver().findElement(By.xpath("//a[@href='/guestbookv2.html']")).click();
         getDriver().findElement(By.xpath("//a[@href='./signv2.html']")).click();
