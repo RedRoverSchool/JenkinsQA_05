@@ -515,7 +515,6 @@ public class GroupObukhovTest extends BaseTest {
         Assert.assertEquals(actualString, "https://t.me/Urent_support_bot");
     }
 
-    @Ignore
     @Test
     public void testCheckRoundButtonHelpMenuLinkToLiveChat() {
         final String expectedFrameText = "чат";
