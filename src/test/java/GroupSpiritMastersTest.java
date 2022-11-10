@@ -21,9 +21,8 @@ public class GroupSpiritMastersTest extends BaseTest {
     private WebDriverWait webDriverWait20;
 
     private WebDriverWait getWait20() {
-        if (webDriverWait20 == null) {
-            webDriverWait20 = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
-        }
+        webDriverWait20 = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+
         return webDriverWait20;
     }
 
