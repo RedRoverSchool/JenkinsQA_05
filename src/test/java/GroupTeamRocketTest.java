@@ -331,6 +331,7 @@ public class GroupTeamRocketTest extends BaseTest {
                 "$800 *includes tax");
     }
 
+    @Ignore
     @Test
     public void testSwitchToPageCompareInsuranceQuote_VadimTref() {
         getDriver().get("https://www.statewidedealerinsurance.com/");
