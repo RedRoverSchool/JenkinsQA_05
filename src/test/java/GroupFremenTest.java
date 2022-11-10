@@ -248,5 +248,3 @@ public class GroupFremenTest extends BaseTest {
         Assert.assertEquals(actualText, expectedText);
     }
 }
-
-
