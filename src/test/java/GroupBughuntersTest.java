@@ -15,44 +15,46 @@ public class GroupBughuntersTest extends BaseTest {
     @Test
     public void testTicketonSearch(){
         getDriver().get("https://ticketon.kz/");
+
         WebElement search = getDriver().findElement(By.name("q"));
         WebElement button = getDriver().findElement(By.xpath("//button[@class='button postfix secondary search__postfix']"));
         search.sendKeys("Maneskin");
         button.click();
-        Assert.assertEquals("Поиск - Система онлайн-покупки билетов в кино и на концерты Ticketon.kz", getDriver().getTitle());
 
+        Assert.assertEquals(getDriver().getTitle(), "Поиск - Система онлайн-покупки билетов в кино и на концерты Ticketon.kz");
     }
 
     @Test
     public void testBbcHeading(){
         getDriver().get("https://www.bbc.co.uk/learningenglish/english/");
-        String text = getDriver().findElement(By.id("heading-things-you-cant-miss")).getText();
-        String actualResult = "THINGS YOU CAN'T MISS";
-        Assert.assertEquals(actualResult, text);
 
+        String text = getDriver().findElement(By.id("heading-things-you-cant-miss")).getText();
+
+        Assert.assertEquals(text, "THINGS YOU CAN'T MISS");
     }
 
     @Test
     public void testBbcSearch(){
         getDriver().get("https://www.bbc.co.uk/learningenglish/english/");
+
         WebElement search = getDriver().findElement(By.xpath("//div/div/form/input[@name='q']"));
         WebElement button = getDriver().findElement(By.xpath("//div/div/form/input[@name ='submit']"));
         search.sendKeys("newspaper");
         button.click();
-        Assert.assertEquals("BBC Learning English - Search", getDriver().getTitle());
 
+        Assert.assertEquals(getDriver().getTitle(), "BBC Learning English - Search");
     }
 
     @Test
-    public void testgreatSchoolMainPage(){
+    public void testGreatSchoolMainPage(){
         getDriver().get("https://www.greatschools.org");
+
         WebElement searchBox = getDriver().findElement(By.xpath("//*[@class=\"full-width pam search_form_field\"]"));
         WebElement searchButton = getDriver().findElement(By.xpath("//*[@class=\"search-label\"]"));
         searchBox.sendKeys("06032");
         searchButton.click();
-        Assert.assertEquals("Schools in 06032, 1-20 | GreatSchools", getDriver().getTitle());
 
-
+        Assert.assertEquals( getDriver().getTitle(), "Schools in 06032, 1-20 | GreatSchools");
     }
     @Test
     public void testW3Resource() {
@@ -132,8 +134,9 @@ public class GroupBughuntersTest extends BaseTest {
     }
 
     @Test
-    public void testBbcLogin()  {
+    public void testBbcLogin(){
         getDriver().get("https://www.bbc.co.uk/learningenglish/english/");
+
         WebElement signInButton = getDriver().findElement(By.id("idcta-link"));
         signInButton.click();
         WebElement account = getDriver().findElement(By.id("user-identifier-input"));
@@ -143,31 +146,31 @@ public class GroupBughuntersTest extends BaseTest {
         WebElement button = getDriver().findElement(By.id("submit-button"));
         button.click();
         WebElement errorMessage = getDriver().findElement(By.className("form-message__text"));
-        Assert.assertEquals("Sorry, that password is too short. It needs to be eight characters or more.", errorMessage.getText());
+
+        Assert.assertEquals(errorMessage.getText(), "Sorry, that password is too short. It needs to be eight characters or more.");
     }
 
-    @Ignore
     @Test
     public void testBbcChangeLanguage(){
         getDriver().get("https://www.bbc.co.uk/learningenglish/english/");
+
         WebElement changeLanguageButton = getDriver().findElement(By.id("floating-dropdown-toggle"));
         changeLanguageButton.click();
         WebElement persianLanguage = getDriver().findElement(By.xpath("//*[@id=\"language-selections\"]/li[2]/a"));
         persianLanguage.click();
-        Assert.assertEquals("BBC BBC Learning English - Persian Home Page (Dari)", getDriver().getTitle());
 
+        Assert.assertEquals(getDriver().getTitle(), "BBC BBC Learning English - Persian Home Page (Dari)");
     }
 
-    @Ignore
     @Test
     public void testBbcStoriesForChildren(){
         getDriver().get("https://www.bbc.co.uk/learningenglish/english/");
+
         Actions action = new Actions(getDriver());
         WebElement storiesForChildren = getDriver().findElement(By.xpath("//*[@id=\"bbcle-content\"]/div/div[4]/div[5]/div/div[1]/a"));
         action.moveToElement(storiesForChildren).perform();
         storiesForChildren.click();
-        Assert.assertEquals("BBC Learning English - Stories for Children / No Pets Here", getDriver().getTitle());
 
-
+        Assert.assertEquals(getDriver().getTitle(), "BBC Learning English - Stories for Children / Camping");
     }
 }
