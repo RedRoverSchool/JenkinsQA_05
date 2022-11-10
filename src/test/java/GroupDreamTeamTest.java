@@ -1,10 +1,14 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.time.Duration;
 
 public class GroupDreamTeamTest extends BaseTest {
 
@@ -70,6 +74,44 @@ public class GroupDreamTeamTest extends BaseTest {
         int rangeValue = Integer.parseInt(exampleRange.getAttribute("value"));
         Assert.assertEquals(rangeValue, 9);
     }
+
+
+    @Test
+    public void testSimonGertzMintHouseDateSelectionNoPastDate(){
+        final long dayInMillis = 86400000;
+        
+        getDriver().get("https://minthouse.com/");
+
+        WebElement propertyList = getDriver().findElement(By
+                .xpath("//div[@class='hero hero-home']//span[@class='text'][contains(text(),'Where to next')]"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(propertyList));
+        new Actions(getDriver()).click(propertyList).perform();
+        getDriver().findElement(By
+                .xpath("//div[@class='dropdown active']//a[@tabindex='0'][contains(text(),'Mint House Austin – South Congress')]")).click();
+
+        WebElement dates = getDriver().findElement(By
+                .xpath("//div[@class='hero hero-home']//span[@class='value']//span[@class='t-check-in'][contains(text(),'Select date')]"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(dates));
+        new Actions(getDriver()).click(dates).perform();
+
+        WebElement checkClickable = getDriver()
+                .findElement(By
+                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@class='day-item is-today']"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(checkClickable));
+        new Actions(getDriver()).click(dates).perform();
+
+        long todayMillis = Long.parseLong(getDriver()
+                .findElement(By
+                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@class='day-item is-today']"))
+                .getAttribute("data-time"));
+        String actualResult = getDriver()
+                .findElement(By
+                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + Math.subtractExact(todayMillis,dayInMillis) + "]"))
+                .getAttribute("class");
+
+        Assert.assertTrue(actualResult.contains("is-locked"));
+}
+
     @Ignore
     @Test
     public void testTemperatureInFahrenheit() throws InterruptedException {
@@ -85,5 +127,6 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement imageTempF = getDriver().findElement(By.xpath("//div[@class ='current-temp']"));
 
         Assert.assertTrue(imageTempF.getText().contains(symbolF));
+
     }
 }
