@@ -130,6 +130,7 @@ public class GroupJavanistyTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.name("si")).getAttribute("value"), "15.05");
     }
 
+    @Ignore
     @Test
     public void testH2TagText_WhenSearchingCityCountry() throws InterruptedException {
 
