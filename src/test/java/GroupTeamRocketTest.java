@@ -1,4 +1,3 @@
-import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -47,7 +46,7 @@ public class GroupTeamRocketTest extends BaseTest {
     @Test
     public void testFindTitleGuide_NataliiaOliver() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
-        Thread.sleep(6000);
+        Thread.sleep(8000);
         getDriver().findElement(By.xpath("//div[@id='desktop-menu']/ul/li/a[@href='/guide']")).click();
         Thread.sleep(1000);
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/guide");
@@ -207,10 +206,12 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testBrowseLanguages_NO() {
         getDriver().get("http://www.99-bottles-of-beer.net/");
         getDriver().findElement(By.xpath("//div[@id='navigation']/ul[@id='menu']/li/a[@href='/abc.html']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Language']"))
-                .getText(), "Language");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Author']"))
-                .getText(), "Author");
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Language']")).getText(),
+                "Language");
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/th[text()='Author']")).getText(),
+                "Author");
     }
 
     @Test
@@ -267,8 +268,8 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testSignGuestbookTest_NO() {
+        final String random = String.valueOf((int) (Math.random() * 900) + 100);
 
-        String random = "" + ((int) (Math.random() * 900) + 100);
         getDriver().get("http://www.99-bottles-of-beer.net/");
         getDriver().findElement(By.xpath("//a[@href='/guestbookv2.html']")).click();
         getDriver().findElement(By.xpath("//a[@href='./signv2.html']")).click();
@@ -279,23 +280,23 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name='captcha']")).sendKeys(random);
         getDriver().findElement(By.xpath("//textarea[@name='comment']")).sendKeys("test message");
         getDriver().findElement(By.xpath("//input[@type='submit']")).click();
+
         Assert.assertEquals(getDriver().findElement(
-                        By.xpath("//div[@id='main']/p[contains(text(),' Error: Invalid security code.')]"))
-                .getText(), "Error: Error: Invalid security code.");
+                        By.xpath("//div[@id='main']/p[contains(text(),' Error: Invalid security code.')]")).getText(),
+                "Error: Error: Invalid security code.");
     }
 
     @Test
     public void testTenLanguageStartNumbers_NO() {
-
         getDriver().get("http://www.99-bottles-of-beer.net/");
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath("//a[@href='0.html']")).click();
+
         Assert.assertEquals(getDriver().findElements(By.xpath("//tbody/tr/td/a")).size(), 10);
     }
 
     @Test
     public void testBrowseLanguagesAlternativeVersions_NO() {
-
         getDriver().get("http://www.99-bottles-of-beer.net/");
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath("//a[@href='a.html']")).click();
@@ -305,7 +306,6 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class='Title m-no-margin']")).isDisplayed());
     }
-
 
     @Test
     public void testGoToStepTwoForGetQuote_VadimTref() {
@@ -530,4 +530,38 @@ public class GroupTeamRocketTest extends BaseTest {
                 By.xpath("//div[contains(@class,'custom-control')][3]/label")).getText(), "No");
     }
 
+    @Test
+    public void  testHeaderIsDisplayedInEach (){
+
+        final String expectedHeaderText = "Smart By Design";
+        final String carouselContainerPath = "//div[contains(@class, 'swiper-slide')]//div[@class='image']//img[contains(@class, 'd-none')]";
+
+        getDriver().get("https://minthouse.com/");
+        List<WebElement> carousel = getDriver().findElements(By.xpath(carouselContainerPath));
+        for(WebElement element : carousel) {
+            new WebDriverWait(getDriver(), Duration.ofSeconds(8)).until(ExpectedConditions.visibilityOf(element));
+            if (!element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText().equals(expectedHeaderText)) {
+                System.out.println("Missing text in " + element.getAttribute("src"));
+            }
+
+            Assert.assertEquals(element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText(), expectedHeaderText);
+        }
+    }
+
+    @Test
+    public void testSearchDuckDuckGo_AnastasiaY() {
+
+        getDriver().get("https://duckduckgo.com/");
+
+        WebElement searchInput = getDriver().findElement(By.id("search_form_input_homepage"));
+        searchInput.sendKeys("siberian tiger");
+
+        getDriver().findElement(By.id("search_button_homepage")).click();
+
+        List<WebElement> resultLinks = getDriver().findElements(
+                By.xpath("//div[@class = 'nrn-react-div']/article//div/h2"));
+        for (WebElement link: resultLinks) {
+            Assert.assertTrue(link.getText().matches("(?i).*tiger.*"));
+        }
+    }
 }

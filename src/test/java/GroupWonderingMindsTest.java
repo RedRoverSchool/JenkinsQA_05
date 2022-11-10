@@ -1,10 +1,23 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.time.Duration;
+
+
+
 public class GroupWonderingMindsTest extends BaseTest {
+
+
+
 
     @Test
     public void testGorodTulaTheBest() {
@@ -47,5 +60,53 @@ public class GroupWonderingMindsTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//img[@src='/images/Toolsqa.jpg']"))
                 .isDisplayed());
 
+    }
+
+    @Test
+    public void testStartMenu_EkaterinaLizina() throws InterruptedException {
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        String expectedResult = "START";
+        WebElement startMenu = getDriver().findElement(
+                By.xpath("//div[@id = 'navigation']//a[text() = 'Start']"));
+        String actualResult = startMenu.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testFindSubMenuTeam_TsetskL() {
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        String expectedResult = "Team";
+        WebElement subMenuTeam = getDriver().findElement(By.xpath("//ul[@id='submenu']//a[@href='team.html']"));
+        String actualResult = subMenuTeam.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testSendForm_HappyStrawberry() {
+        getDriver().get("https://demoqa.com/elements");
+                getDriver().findElement(By.className("text")).click();
+
+        WebElement fullName = getDriver().findElement(By.id("userName"));
+        fullName.sendKeys("Ashur Smith");
+
+        WebElement email = getDriver().findElement(By.id("userEmail"));
+        email.sendKeys("ashur@smith.com");
+
+        WebElement currentAddress = getDriver().findElement(By.id("currentAddress"));
+        currentAddress.sendKeys("2500 west End A, Cooksville, AZ, 67490");
+
+        WebElement permanentAddress = getDriver().findElement(By.id("permanentAddress"));
+        permanentAddress.sendKeys("2500 west End A, Cooksville, AZ, 67490");
+
+        JavascriptExecutor js = (JavascriptExecutor)getDriver();
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+
+        getDriver().findElement(By.cssSelector("#submit")).click();
+        String actualResult = getDriver().findElement(By.xpath("//p[@id='email']")).getText();
+
+        Assert.assertEquals(actualResult, "Email:ashur@smith.com");
     }
 }
