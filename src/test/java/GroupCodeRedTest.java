@@ -417,6 +417,16 @@ public class GroupCodeRedTest extends BaseTest {
     }
 
     @Test
+    public void testButtonHerokuApp() {
+
+        getDriver().get("https://formy-project.herokuapp.com/");
+
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/buttons']"));
+
+        Assert.assertEquals(link.getText(), "Buttons");
+    }
+
+    @Test
     public void testH2PopUpText_WhenClickingCookiesButton() throws InterruptedException {
         getDriver().get("https://rus.delfi.lv/");
         Thread.sleep(1000);
