@@ -1,3 +1,4 @@
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -460,5 +461,20 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
         Assert.assertEquals(loginPage.getText(), "Login Page");
     }
+
+    @Test
+    public void testEnteringNameInAlertAndConfirmation () {
+        getDriver().get("https://demoqa.com/alerts");
+
+        String name = "Emma";
+        String resultAlertText = "You entered " + name;
+        getDriver().findElement(By.id("promtButton")).click();
+        Alert alert = getDriver().switchTo().alert();
+        alert.sendKeys(name);
+        alert.accept();
+
+        Assert.assertEquals(getDriver().findElement(By.id("promptResult")).getText(), resultAlertText);
+    }
+
 }
 

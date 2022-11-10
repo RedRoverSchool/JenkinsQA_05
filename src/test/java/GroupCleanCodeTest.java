@@ -32,18 +32,14 @@ public class GroupCleanCodeTest extends BaseTest {
         Assert.assertEquals(languageChange.getText(), "About");
     }
 
-
     @Test
     public void testBox24Menu() {
-        final String URL = "https://box24.com.ua/";
-        int expectedNumbersMenu = 11;
-
-        getDriver().get(URL);
+        getDriver().get("https://box24.com.ua/");
 
         int actualNumbersMenu = getDriver().findElements(
                 By.cssSelector(".products-menu__title-link")).size();
 
-        Assert.assertEquals(actualNumbersMenu, expectedNumbersMenu);
+        Assert.assertEquals(actualNumbersMenu, 11);
     }
 
     @Test
@@ -98,11 +94,11 @@ public class GroupCleanCodeTest extends BaseTest {
     }
 
     @Test
-    public void testBox24Language() {
-        final String URL = "https://box24.com.ua/";
-        String expectedLanguage = "Укр";
+    public void testBox24BaseLanguage() {
+        final String expectedLanguage = "Укр";
 
-        getDriver().get(URL);
+        getDriver().get("https://box24.com.ua/");
+
         String actualLanguage = getDriver().findElement(
                 By.xpath("//div[@class='lang-menu__button']")).getText();
 
@@ -111,25 +107,20 @@ public class GroupCleanCodeTest extends BaseTest {
 
     @Test
     public void testBox24SearchForm() {
-        final String URL = "https://box24.com.ua/";
+        final String SEARCH_TEXT = "plane";
+        final String EXPECTED_H1 = "Результати пошуку «" + SEARCH_TEXT + "»";
 
-        String expectedH1 = "Результати пошуку «plane»";
-        String input = "plane";
-
-        getDriver().get(URL);
-        getDriver().findElement(By.cssSelector(".search__input")).sendKeys(input);
+        getDriver().get("https://box24.com.ua/");
+        getDriver().findElement(By.cssSelector(".search__input")).sendKeys(SEARCH_TEXT);
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
-
-        wait.until(ExpectedConditions.elementToBeClickable(
-                By.cssSelector(".search__button")));
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".search__button")));
 
         getDriver().findElement(By.cssSelector(".search__button")).click();
 
-        String actualH1 = getDriver().findElement(
-                By.cssSelector("#j-catalog-header")).getText();
+        String actualH1 = getDriver().findElement(By.cssSelector("#j-catalog-header")).getText();
 
-        Assert.assertEquals(actualH1, expectedH1);
+        Assert.assertEquals(actualH1, EXPECTED_H1);
     }
 
     @Test
