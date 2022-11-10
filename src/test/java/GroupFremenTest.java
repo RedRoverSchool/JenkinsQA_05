@@ -121,12 +121,10 @@ public class GroupFremenTest extends BaseTest {
         getDriver().get(URL);
         String expectedResult = "https://formy-project.herokuapp.com/autocomplete";
 
-        WebElement LinkAutocomplete = getDriver().findElement(
-                By.xpath("//div[@class = 'jumbotron-fluid']/li/a[@href = '/autocomplete']"));
-        LinkAutocomplete.click();
+        getDriver().findElement(
+                By.xpath("//div[@class = 'jumbotron-fluid']/li/a[@href = '/autocomplete']")).click();
 
-        String actualResult = getDriver().getCurrentUrl();
-        Assert.assertEquals(expectedResult, actualResult);
+        Assert.assertEquals(expectedResult, getDriver().getCurrentUrl());
     }
 
     @Test
