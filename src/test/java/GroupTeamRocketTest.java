@@ -26,7 +26,7 @@ public class GroupTeamRocketTest extends BaseTest {
             "Training",
             "Sale");
     private static final String URL = "https://www.saucedemo.com";
-    private static final String USER_NAME = "standart user";
+    private static final String USER_NAME = "standard_user";
     private static final String PASSWORD = "secret_sauce";
     private static final String URL_99 = "http://www.99-bottles-of-beer.net/";
     @Test
