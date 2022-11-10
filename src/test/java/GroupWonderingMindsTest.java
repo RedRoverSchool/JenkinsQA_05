@@ -109,4 +109,22 @@ public class GroupWonderingMindsTest extends BaseTest {
 
         Assert.assertEquals(actualResult, "Email:ashur@smith.com");
     }
+
+    @Test
+    public void testFindEnglishLanguageInBrowseLanguages() {
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+        WebElement browseLanguages = getDriver().findElement(
+                By.xpath("//div/ul/li[2]/a[text()='Browse Languages']"));
+        browseLanguages.click();
+
+        WebElement findLetterE = getDriver().findElement(By.xpath("//li/a[text()='E']"));
+        findLetterE.click();
+
+        WebElement findEnglish = getDriver().findElement(By.xpath("//a[text()='English']"));
+        findEnglish.click();
+
+        WebElement findLanguageEnglish = getDriver().findElement(By.xpath("//*[@id=\"main\"]/h2"));
+
+        Assert.assertEquals(findLanguageEnglish.getText(), "Language English");
+    }
 }
