@@ -205,7 +205,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//span[@data-cy='listing-title']"))
                 .getText(), "The Tragedy of Tolstoy");
     }
-
+    @Ignore
     @Test
     public void testSaucedemo_EZ() {
         getDriver().get(URL);
