@@ -1,3 +1,4 @@
+import com.sun.source.tree.AssertTree;
 import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -530,4 +531,23 @@ public class GroupTeamRocketTest extends BaseTest {
                 By.xpath("//div[contains(@class,'custom-control')][3]/label")).getText(), "No");
     }
 
+    @Test
+    public void testSearchYandex_AnastasiaY() {
+
+        getDriver().get("https://yandex.com/");
+
+        WebElement searchInput = getDriver().findElement(
+                By.xpath("//input[@class = 'input__control input__input mini-suggest__input']"));
+        searchInput.sendKeys("siberian tiger");
+
+        WebElement searchButton = getDriver().findElement(
+                By.xpath("//div[@class = 'search2__button']/button"));
+        searchButton.click();
+
+        List<WebElement> resultLinks = getDriver().findElements(By.xpath
+                ("//li[@class = 'serp-item serp-item_card']//h2/span[@class = 'OrganicTitleContentSpan organic__title']"));
+        for (WebElement link: resultLinks) {
+            Assert.assertTrue(link.getText().matches("(?i).*tiger.*"));
+        }
+    }
 }
