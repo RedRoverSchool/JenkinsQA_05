@@ -334,6 +334,8 @@ public class GroupSpiritMastersTest extends BaseTest {
 
         getActions().moveToElement(getDriver().findElement(By.xpath("//div[@id='texToolTopContainer']/a[contains(text(),'Contrary')]"))).pause(5000).perform();
 
+        getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='tooltip-inner']")));
+
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='tooltip-inner']")).getText(), "You hovered over the Contrary");
     }
 
