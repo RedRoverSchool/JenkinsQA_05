@@ -225,6 +225,7 @@ public class GroupSqaeTest extends BaseTest {
     }
     @Ignore
     @Test
+    @Ignore
     public void testCheckoutWithUniqueEmailErrorMsg() {
         openMainPage();
         sideMenuCategoryElectronics().click();
@@ -244,6 +245,7 @@ public class GroupSqaeTest extends BaseTest {
     }
     @Ignore
     @Test
+    @Ignore
     public void testDeleteItemFromCart() {
         openMainPage();
         sideMenuCategoryFurniture().click();
@@ -254,6 +256,7 @@ public class GroupSqaeTest extends BaseTest {
     }
     @Ignore
     @Test
+    @Ignore
     public void testMultipleItemsPresentInCart() {
         openMainPage();
 
@@ -303,6 +306,7 @@ public class GroupSqaeTest extends BaseTest {
     }
     @Ignore
     @Test
+    @Ignore
     public void testSearchField() throws InterruptedException {
         openMainPage();
         searchField().click();
