@@ -1,3 +1,4 @@
+import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -162,6 +163,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@class='card-block']/h4[1]/a[@href='prod.html?idp_=10']")).click();
         Assert.assertTrue(getDriver().findElement(By.xpath("//a[@class='btn btn-success btn-lg']")).isDisplayed());
     }
+
     @Ignore
     @Test
     public void testContactUs() {
@@ -303,7 +305,8 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class='Title m-no-margin']")).isDisplayed());
     }
-@Ignore
+
+
     @Test
     public void testGoToStepTwoForGetQuote_VadimTref() {
         getDriver().get("https://commercialinsurance.net/");
@@ -317,6 +320,7 @@ public class GroupTeamRocketTest extends BaseTest {
                 .findElement(By.xpath("//button[@type='submit'][@class='btn cobranding-form-submit']"))
                 .getText(), "Go To Final Step");
     }
+
     @Ignore
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
@@ -330,23 +334,18 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testSwitchToPageCompareInsuranceQuote_VadimTref() {
         getDriver().get("https://www.statewidedealerinsurance.com/");
 
-        String expectedResultHead1 = "Compare Quotes";
-        String expectedResultNoteText = "An insurance quote does not impact your "
+        final String EXPECTED_NOTE_TEXT = "An insurance quote does not impact your "
                 + "credit score. Quote will take approximately 3-5 minutes to complete.";
 
         getDriver().findElement(By.id("ZipCode")).sendKeys("11230");
         getDriver().findElement(By.id("Type")).click();
         getDriver().findElement(By.xpath("//select[@id='Type']/option[@value='Home']")).click();
         getDriver().findElement(By.xpath("//form[@id='miniQuote']//button[@type='submit']")).click();
-
-        Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//h1")).getText(), expectedResultHead1);
-
         getDriver().switchTo().frame(getDriver().findElement(By.id("cpIframe")));
 
-        Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//div[@id='body']//p[@class='cpInstructions cpPage0']"))
-                .getText(), expectedResultNoteText);
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//div[@id='body']//p[@class='cpInstructions cpPage0']")).getText(),
+                EXPECTED_NOTE_TEXT);
     }
 
     @Test
@@ -480,7 +479,7 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
-    public void testSergeDotMintHouseDateSelectionYesterdayIsNotClickable(){
+    public void testSergeDotMintHouseDateSelectionYesterdayIsNotClickable() {
         final long dayInMillis = 86400000;
         getDriver().get("https://minthouse.com/");
 
@@ -511,4 +510,24 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertFalse(actualResult.contains("is-start-date") || actualResult.contains("is-end-date") || actualResult.contains("is-in-range"));
     }
+
+    @Test
+    public void testCountAndNamesOfRadioButtons_VadimTref() {
+        getDriver().get("https://demoqa.com/");
+
+        getDriver().findElement(
+                By.xpath("//*[name()='svg'][@stroke='currentColor']/*[local-name() = 'path'][1]")).click();
+        getDriver().findElement(By.id("item-2")).click();
+        List<WebElement> radioButtons = getDriver().findElements(
+                By.xpath("//div[contains(@class,'custom-control')]"));
+
+        Assert.assertEquals(radioButtons.size(), 3);
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//div[contains(@class,'custom-control')][1]/label")).getText(), "Yes");
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//div[contains(@class,'custom-control')][2]/label")).getText(), "Impressive");
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//div[contains(@class,'custom-control')][3]/label")).getText(), "No");
+    }
+
 }
