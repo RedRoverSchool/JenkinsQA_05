@@ -171,7 +171,6 @@ public class GroupNikkiTest extends BaseTest {
 
         Assert.assertEquals(linkList.get(6).getAttribute("innerHTML"), "Munich");
     }
-
     @Test
     public void linkTest() {
         getDriver().get("https://www.rammstein.de/en/");
