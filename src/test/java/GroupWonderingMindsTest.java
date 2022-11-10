@@ -60,4 +60,14 @@ public class GroupWonderingMindsTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testFindSubMenuTeam_TsetskL() {
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        String expectedResult = "Team";
+        WebElement subMenuTeam = getDriver().findElement(By.xpath("//ul[@id='submenu']//a[@href='team.html']"));
+        String actualResult = subMenuTeam.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
