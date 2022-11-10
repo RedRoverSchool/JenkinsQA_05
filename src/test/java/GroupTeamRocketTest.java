@@ -530,4 +530,22 @@ public class GroupTeamRocketTest extends BaseTest {
                 By.xpath("//div[contains(@class,'custom-control')][3]/label")).getText(), "No");
     }
 
+    @Test
+    public void  testHeaderIsDisplayedInEach (){
+
+        final String expectedHeaderText = "Smart By Design";
+        final String carouselContainerPath = "//div[contains(@class, 'swiper-slide')]//div[@class='image']//img[contains(@class, 'd-none')]";
+
+        getDriver().get("https://minthouse.com/");
+        List<WebElement> carousel = getDriver().findElements(By.xpath(carouselContainerPath));
+        for(WebElement element : carousel) {
+            new WebDriverWait(getDriver(), Duration.ofSeconds(8)).until(ExpectedConditions.visibilityOf(element));
+            if (!element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText().equals(expectedHeaderText)) {
+                System.out.println("Missing text in " + element.getAttribute("src"));
+            }
+
+            Assert.assertEquals(element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText(), expectedHeaderText);
+        }
+    }
+
 }
