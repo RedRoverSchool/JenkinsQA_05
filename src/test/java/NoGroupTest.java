@@ -1,8 +1,8 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoGroupTest extends BaseTest {
-    @Ignore
+
     @Test
     public void testVerifyTextBoxOutputResult() {
         getDriver().get("https://demoqa.com/");
@@ -31,6 +31,8 @@ public class NoGroupTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//div[@class='card-body']/h5[text()='Elements']")).click();
         getDriver().findElement(By.xpath("//div[@class='element-list collapse show']//li[@id='item-0']")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("userName")));
+        getDriver().findElement(By.id("userName")).click();
         getDriver().findElement(By.id("userName")).sendKeys(name);
         getDriver().findElement(By.id("userEmail")).sendKeys(email);
         getDriver().findElement(By.id("currentAddress")).sendKeys(currentAdr);
@@ -45,6 +47,21 @@ public class NoGroupTest extends BaseTest {
         actualResult.add(getDriver().findElement(By.id("email")).getText());
         actualResult.add(getDriver().findElement(By.cssSelector("#output #currentAddress")).getText());
         actualResult.add(getDriver().findElement(By.cssSelector("#output #permanentAddress")).getText());
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testSearchResults() {
+        final String expectedResult = "en.wikipedia.org";
+
+        getDriver().get("https://ya.ru/");
+
+        getDriver().findElement(By.id("text")).sendKeys("Vilnius");
+        getDriver().findElement(By.xpath("//*[@type='submit']")).click();
+
+        String actualResult = getDriver().findElement(By.xpath("//b[contains(text(), 'en.wikipedia.org')]"))
+                .getText();
 
         Assert.assertEquals(actualResult, expectedResult);
     }

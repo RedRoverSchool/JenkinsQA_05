@@ -21,7 +21,7 @@ public class GroupCodeRedTest extends BaseTest {
 
         Assert.assertEquals(actualResult, "Autocomplete");
     }
-
+    @Ignore
     @Test
     public void testAutocompleteAddress() throws InterruptedException {
         getDriver().get(BASE_URL_HEROKUAPP);
@@ -414,6 +414,16 @@ public class GroupCodeRedTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//span[@class = 'help-inline _error']"))
                 .getText().contains("Неверное имя пользователя или пароль"));
+    }
+
+    @Test
+    public void testButtonHerokuApp() {
+
+        getDriver().get("https://formy-project.herokuapp.com/");
+
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/buttons']"));
+
+        Assert.assertEquals(link.getText(), "Buttons");
     }
 
     @Test
