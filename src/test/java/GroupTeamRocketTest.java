@@ -30,9 +30,10 @@ public class GroupTeamRocketTest extends BaseTest {
     private static final String USER_NAME = "standart user";
     private static final String PASSWORD = "secret_sauce";
     private static final String URL_99 = "http://www.99-bottles-of-beer.net/";
+    private static final String URL_INTERNET_HERO = "https://the-internet.herokuapp.com/";
     @Test
     public void testAddElementHerokuapp() {
-        getDriver().get("https://the-internet.herokuapp.com/");
+        getDriver().get(URL_INTERNET_HERO);
 
         getDriver().findElement(By.xpath("//a[@href='/add_remove_elements/']")).click();
         getDriver().findElement(By.xpath("//button[@onclick='addElement()']")).click();
@@ -387,7 +388,7 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testRemoveElementHerokuapp() {
-        getDriver().get("https://the-internet.herokuapp.com/");
+        getDriver().get(URL_INTERNET_HERO);
 
         getDriver().findElement(By.xpath("//a[@href='/add_remove_elements/']")).click();
         getDriver().findElement(By.xpath("//button[@onclick='addElement()']")).click();
@@ -398,7 +399,7 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testAddElementsHerokuapp() {
-        getDriver().get("https://the-internet.herokuapp.com/");
+        getDriver().get(URL_INTERNET_HERO);
 
         getDriver().findElement(By.xpath("//a[@href='/add_remove_elements/']")).click();
         getDriver().findElement(By.xpath("//button[@onclick='addElement()']")).click();
@@ -427,7 +428,7 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testContextMenu_ET() {
-        getDriver().get("https://the-internet.herokuapp.com/");
+        getDriver().get(URL_INTERNET_HERO);
 
         getDriver().findElement(By.xpath("//a[text()='Context Menu']")).click();
         Actions actions = new Actions(getDriver());
