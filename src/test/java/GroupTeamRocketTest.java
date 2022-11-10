@@ -46,7 +46,7 @@ public class GroupTeamRocketTest extends BaseTest {
     @Test
     public void testFindTitleGuide_NataliiaOliver() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
-        Thread.sleep(6000);
+        Thread.sleep(8000);
         getDriver().findElement(By.xpath("//div[@id='desktop-menu']/ul/li/a[@href='/guide']")).click();
         Thread.sleep(1000);
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/guide");
