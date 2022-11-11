@@ -541,7 +541,7 @@ public class GroupObukhovTest extends BaseTest {
         String actualString = getDriver().switchTo().window(openPages.toArray()[1].toString()).getCurrentUrl();
         Assert.assertEquals(actualString, "https://t.me/Urent_support_bot");
     }
-
+    @Ignore
     @Test
     public void testRoundButtonHelpMenuLinkToLiveChat() {
         final String expectedFrameText = "чат";
