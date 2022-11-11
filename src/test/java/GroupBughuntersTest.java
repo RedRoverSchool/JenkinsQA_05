@@ -2,11 +2,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.time.Duration;
+import java.util.Random;
 
 public class GroupBughuntersTest extends BaseTest {
 
@@ -173,4 +178,77 @@ public class GroupBughuntersTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getTitle(), "BBC Learning English - Stories for Children / Camping");
     }
+
+    public static void toSelectByVisibleText(String text, WebElement webelement){
+        Select select = new Select(webelement);
+        select.selectByVisibleText(text);
+    }
+    public static String getRandomDigitAndLetterString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 10) {
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
+    }
+    @Test
+    public void testInsuranceCompanyQuote() throws InterruptedException {
+        getDriver().get("https://demo.guru99.com/insurance/v1/register.php");
+        String randomDig = getRandomDigitAndLetterString();
+        String registration = getRandomDigitAndLetterString();
+        toSelectByVisibleText("Mr",getDriver().findElement(By.id("user_title")));
+        getDriver().findElement(By.id("user_firstname")).sendKeys("Baha");
+        getDriver().findElement(By.id("user_surname")).sendKeys("Python");
+        getDriver().findElement(By.id("user_phone")).sendKeys("1234567890");
+        toSelectByVisibleText("1980",getDriver().findElement(By.id("user_dateofbirth_1i")));
+        toSelectByVisibleText("August",getDriver().findElement(By.id("user_dateofbirth_2i")));
+        toSelectByVisibleText("20",getDriver().findElement(By.id("user_dateofbirth_3i")));
+        getDriver().findElement(By.id("licencetype_f")).click();
+        toSelectByVisibleText("2",getDriver().findElement(By.id("user_licenceperiod")));
+        toSelectByVisibleText("Student",getDriver().findElement(By.id("user_occupation_id")));
+        getDriver().findElement(By.id("user_address_attributes_street")).sendKeys("100 main street");
+        getDriver().findElement(By.id("user_address_attributes_city")).sendKeys("Jersey city");
+        getDriver().findElement(By.id("user_address_attributes_county")).sendKeys("United States");
+        getDriver().findElement(By.id("user_address_attributes_postcode")).sendKeys("19125");
+        getDriver().findElement(By.id("user_user_detail_attributes_email")).sendKeys(randomDig+"@gmail.com");
+        getDriver().findElement(By.id("user_user_detail_attributes_password")).sendKeys(randomDig);
+        getDriver().findElement(By.id("user_user_detail_attributes_password_confirmation")).sendKeys(randomDig);
+        getDriver().findElement(By.xpath("//input[@name='submit']")).click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[text()='Register']")));
+
+        getDriver().findElement(By.id("email")).sendKeys(randomDig+"@gmail.com");
+        getDriver().findElement(By.id("password")).sendKeys(randomDig);
+        getDriver().findElement(By.xpath("//input[@value='Log in']")).click();
+        getDriver().findElement(By.id("newquote")).click();
+        toSelectByVisibleText("European", getDriver().findElement(By.id("quotation_breakdowncover")));
+        getDriver().findElement(By.id("quotation_incidents")).sendKeys("1");
+        getDriver().findElement(By.id("quotation_vehicle_attributes_registration")).sendKeys(registration);
+        getDriver().findElement(By.id("quotation_vehicle_attributes_mileage")).sendKeys("50000");
+        getDriver().findElement(By.id("quotation_vehicle_attributes_value")).sendKeys("7000");
+        toSelectByVisibleText("Locked Garage", getDriver().findElement(By.id("quotation_vehicle_attributes_parkinglocation")));
+        toSelectByVisibleText("2022", getDriver().findElement(By.id("quotation_vehicle_attributes_policystart_1i")));
+        toSelectByVisibleText("February", getDriver().findElement(By.id("quotation_vehicle_attributes_policystart_2i")));
+        toSelectByVisibleText("1", getDriver().findElement(By.id("quotation_vehicle_attributes_policystart_3i")));
+        getDriver().findElement(By.xpath("//input[@value='Calculate Premium']")).click();
+        String premiumAmount = getDriver().findElement(By.id("calculatedpremium")).getText();
+        getDriver().findElement(By.xpath("//input[@value='Save Quotation']")).click();
+        String identificNumber = getDriver().findElement(By.xpath("/html/body")).getText();
+        String idNumerReal = "";
+        for(int i = 0; i < identificNumber.length();i++){
+            if(Character.isDigit(identificNumber.charAt(i))){
+                idNumerReal += String.valueOf(identificNumber.charAt(i));
+            }
+        }
+        getDriver().navigate().back();
+        getDriver().findElement(By.id("retrieve")).click();
+        getDriver().findElement(By.xpath("//input[@placeholder='identification number']")).sendKeys(idNumerReal);
+        getDriver().findElement(By.id("getquote")).click();
+        String registrationValue = getDriver().findElement(By.xpath("/html/body/table/tbody/tr[6]/td[2]")).getText();
+        Assert.assertEquals(registrationValue,registration);
+    }
+
 }
