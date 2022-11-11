@@ -3,6 +3,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -149,7 +150,7 @@ public class GroupJavaStartTest extends BaseTest {
         Assert.assertEquals(actualResultUrl, expectedResultUrl);
         Assert.assertEquals(actualResultTitle, expectedResultTitle);
     }
-
+    @Ignore
     @Test
     public void test_TemperatureForCity_CordedWare() {
 
