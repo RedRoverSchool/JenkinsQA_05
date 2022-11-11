@@ -9,13 +9,10 @@ public class CordedWareTest extends BaseTest {
     @Test
     public void testTittleAndUrlWhenGuideMenu_HappyPath_Test() throws InterruptedException{
 
-        // AAA
-        // Arrange
         String url = "https://openweathermap.org/";
         String expectedResultUrl = "https://openweathermap.org/guide";
         String expectedResultTitle = "OpenWeatherMap API guide - OpenWeatherMap";
 
-        // Act
         getDriver().get(url);
         Thread.sleep(10000);
 
@@ -28,23 +25,17 @@ public class CordedWareTest extends BaseTest {
         String actualResultUrl = getDriver().getCurrentUrl();
         String actualResultTitle = getDriver().getTitle();
 
-        // Assert
         Assert.assertEquals(actualResultUrl, expectedResultUrl);
         Assert.assertEquals(actualResultTitle, expectedResultTitle);
-
-        getDriver().quit();
     }
 
     @Test
     public void testTemperatureForCity_HappyPath_Test() throws InterruptedException {
 
-        // AAA
-        // Arrange
         String url = "https://openweathermap.org/";
         String fSymbol = "°F";
         String expectedResult = "°F";
 
-        // Act
         getDriver().get(url);
         Thread.sleep(10000);
 
@@ -62,9 +53,6 @@ public class CordedWareTest extends BaseTest {
 
         String actualResult = checkTemperatureHeader.getText().substring(checkTemperatureHeader.getText().length()-2);
 
-        // Assert
         Assert.assertEquals(actualResult, expectedResult);
-
-        getDriver().quit();
     }
 }
