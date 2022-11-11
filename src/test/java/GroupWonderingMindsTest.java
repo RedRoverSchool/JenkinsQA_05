@@ -30,12 +30,18 @@ public class GroupWonderingMindsTest extends BaseTest {
 
     @Test
     public void testAmazingBouqets() {
-        getDriver().get("https://paeonia-boutique.ca/");
+
+        String url = "https://paeonia-boutique.ca/";
+        String expectedResult = "Paeonia Fleuristerie Boutique";
+
+        getDriver().get(url);
 
         WebElement link = getDriver().findElement(By.xpath("//span[text() = "
                 + "'Paeonia Fleuristerie Boutique']"));
 
-        Assert.assertEquals(link.getText(), "Paeonia Fleuristerie Boutique");
+        String actualResult = link.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
 
@@ -120,5 +126,17 @@ public class GroupWonderingMindsTest extends BaseTest {
         WebElement findLanguageEnglish = getDriver().findElement(By.xpath("//*[@id=\"main\"]/h2"));
 
         Assert.assertEquals(findLanguageEnglish.getText(), "Language English");
+    }
+
+    @Test
+    public void testTextIsDisplayedOnMainPage_EkaterinaLizina(){
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        String expectedResult = "Welcome to 99 Bottles of Beer";
+        WebElement text = getDriver().findElement(
+                By.xpath("//div[@id='main']/h2[text() ='Welcome to 99 Bottles of Beer']"));
+        String actualResult = text.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
