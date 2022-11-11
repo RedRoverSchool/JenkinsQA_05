@@ -41,10 +41,9 @@ public class GroupSqaeTest extends BaseTest {
     @Test
     public void testPageTitleOfMagazine() {
         getDriver().get("https://www.theatlantic.com/");
-        String actualTitle = getDriver().getTitle();
-        String expectedTitle = "The Atlantic";
+        final String expectedTitle = "The Atlantic";
 
-        Assert.assertEquals(actualTitle, expectedTitle);
+        Assert.assertEquals(getDriver().getTitle(), expectedTitle);
     }
 
     @Test
@@ -53,7 +52,7 @@ public class GroupSqaeTest extends BaseTest {
         WebElement subscribeButton = getDriver().findElement(By.xpath("//*[@id='__next']/nav/div/div[2]/ul/li[2]/a"));
         subscribeButton.click();
 
-        String expectedCancelLabel = "You can cancel anytime.";
+        final String expectedCancelLabel = "You can cancel anytime.";
 
         WebElement cancelAnyTimeLabel = getDriver().findElement(By.xpath("//*[@id='root']/div[2]/div/header/h3"));
         Assert.assertEquals(cancelAnyTimeLabel.getText(), expectedCancelLabel);
