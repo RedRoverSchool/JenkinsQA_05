@@ -634,21 +634,21 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertTrue(isMercedesCLKfound);
     }
 
-        @Test
-        public void testStaticDropDown_VZ () throws InterruptedException {
-            getDriver().get("https://rahulshettyacademy.com/dropdownsPractise/");
+    @Test
+    public void testStaticDropDown_VZ () throws InterruptedException {
+        getDriver().get("https://rahulshettyacademy.com/dropdownsPractise/");
 
-            WebElement staticDropdown = getDriver().findElement(By.id("ctl00_mainContent_DropDownListCurrency"));
-            Select dropdown = new Select(staticDropdown);
-            dropdown.selectByIndex(3);
+        WebElement staticDropdown = getDriver().findElement(By.id("ctl00_mainContent_DropDownListCurrency"));
+        Select dropdown = new Select(staticDropdown);
+        dropdown.selectByIndex(3);
 
-            getDriver().findElement(By.id("divpaxinfo")).click();
-            Thread.sleep(2000);
-            for (int i = 1; i < 5; i++) {
-                getDriver().findElement(By.id("hrefIncAdt")).click();
-            }
-            getDriver().findElement(By.id("btnclosepaxoption")).click();
-
-            Assert.assertEquals(getDriver().findElement(By.id("divpaxinfo")).getText(), "5 Adult");
+        getDriver().findElement(By.id("divpaxinfo")).click();
+        Thread.sleep(2000);
+        for (int i = 1; i < 5; i++) {
+            getDriver().findElement(By.id("hrefIncAdt")).click();
         }
+        getDriver().findElement(By.id("btnclosepaxoption")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.id("divpaxinfo")).getText(), "5 Adult");
     }
+}
