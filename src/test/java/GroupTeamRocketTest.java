@@ -54,9 +54,6 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testFindTitleGuide_NataliiaOliver() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
 
-
-        Thread.sleep(6000);
-
         Thread.sleep(8000);
 
         getDriver().findElement(By.xpath("//div[@id='desktop-menu']/ul/li/a[@href='/guide']")).click();
@@ -177,8 +174,10 @@ public class GroupTeamRocketTest extends BaseTest {
     @Test
     public void testAddToCartButton() {
         getDriver().get("https://www.demoblaze.com");
+
         getDriver().findElement(By.xpath("//div[@class='list-group']/a[4]")).click();
         getDriver().findElement(By.xpath("//div[@class='card-block']/h4[1]/a[@href='prod.html?idp_=10']")).click();
+
         Assert.assertTrue(getDriver().findElement(By.xpath("//a[@class='btn btn-success btn-lg']")).isDisplayed());
     }
 
@@ -186,6 +185,7 @@ public class GroupTeamRocketTest extends BaseTest {
     @Test
     public void testContactUs() {
         getDriver().get("http://automationpractice.com/index.php");
+
         getDriver().findElement(By.xpath("//a[@title='Contact Us']")).click();
         Select dropdown = new Select(getDriver().findElement(By.id("id_contact")));
         dropdown.selectByVisibleText("Customer service");
@@ -193,6 +193,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.id("id_order")).sendKeys("super order");
         getDriver().findElement(By.id("message")).sendKeys("super message test");
         getDriver().findElement(By.id("submitMessage")).click();
+
         Assert.assertEquals(getDriver().findElement(By.xpath("//p[@class='alert alert-success']"))
                 .getText(), "Your message has been successfully sent to our team.");
     }
@@ -201,6 +202,7 @@ public class GroupTeamRocketTest extends BaseTest {
     @Test
     public void testFindBook_VZ() {
         getDriver().get("https://www.abebooks.com/");
+
         getDriver().findElement(By.id("rare-books")).click();
         getDriver().findElement(By.xpath("//input[@placeholder='Enter author']")).sendKeys("Tolstoy");
         getDriver().findElement(By.name("prl")).sendKeys("400");
@@ -267,8 +269,8 @@ public class GroupTeamRocketTest extends BaseTest {
     @Test
     public void testCheckForBrokenIMGs() throws IOException {
         getDriver().get("https://www.rifle.com");
-        List<WebElement> listOfElementsWithIMGtag = getDriver().findElements(By.tagName("img"));
 
+        List<WebElement> listOfElementsWithIMGtag = getDriver().findElements(By.tagName("img"));
         if (listOfElementsWithIMGtag.size() != 0) {
             for (WebElement tempElement : listOfElementsWithIMGtag) {
                 String imgSource = tempElement.getAttribute("src");
@@ -314,10 +316,7 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testTenLanguageStartNumbers_NO() {
-
-
         getDriver().get(URL_99);
-
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath("//a[@href='0.html']")).click();
@@ -327,10 +326,7 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testBrowseLanguagesAlternativeVersions_NO() {
-
-
         getDriver().get(URL_99);
-
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath("//a[@href='a.html']")).click();
@@ -360,7 +356,9 @@ public class GroupTeamRocketTest extends BaseTest {
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
         getDriver().get("https://www.demoblaze.com/");
+
         getDriver().findElement(By.xpath("//h4/a[@href='prod.html?idp_=4']")).click();
+
         Assert.assertEquals(getDriver().findElement(By.xpath("//h3[@class='price-container']")).getText(),
                 "$800 *includes tax");
     }
@@ -498,7 +496,6 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testSergeDotMenuStartTitle() {
-
         getDriver().get(URL_99);
 
         getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='navigation']/ul[@id='menu']/li/a[@href='/abc.html']")).click();
@@ -510,7 +507,7 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testBROWSE_LANGUAGES_M_NO() {
-        String expectedResult = "MySQL";
+        final String expectedResult = "MySQL";
 
         getDriver().get(URL_99);
 
@@ -576,7 +573,6 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void  testHeaderIsDisplayedInEach (){
-
         final String expectedHeaderText = "Smart By Design";
         final String carouselContainerPath = "//div[contains(@class, 'swiper-slide')]//div[@class='image']//img[contains(@class, 'd-none')]";
 
@@ -591,5 +587,18 @@ public class GroupTeamRocketTest extends BaseTest {
             Assert.assertEquals(element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText(), expectedHeaderText);
         }
     }
+    @Test
+    public void testSearchDuckDuckGo_AnastasiaY() {
+        getDriver().get("https://duckduckgo.com/");
 
+        WebElement searchInput = getDriver().findElement(By.id("search_form_input_homepage"));
+        searchInput.sendKeys("siberian tiger");
+        getDriver().findElement(By.id("search_button_homepage")).click();
+        List<WebElement> resultLinks = getDriver().findElements(
+                By.xpath("//div[@class = 'nrn-react-div']/article//div/h2"));
+        for (WebElement link: resultLinks) {
+
+            Assert.assertTrue(link.getText().matches("(?i).*tiger.*"));
+        }
+    }
 }
