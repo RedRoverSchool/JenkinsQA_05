@@ -520,18 +520,17 @@ public class GroupObukhovTest extends BaseTest {
         String actualString = getDriver().switchTo().window(openPages.toArray()[1].toString()).getCurrentUrl();
         Assert.assertEquals(actualString, "https://t.me/Urent_support_bot");
     }
-    @Ignore
+
     @Test
-    public void testCheckRoundButtonHelpMenuLinkToLiveChat() {
+    public void testRoundButtonHelpMenuLinkToLiveChat() {
         final String expectedFrameText = "чат";
 
         goToRoundButtonOnHelpPage();
         getWait(10).until(ExpectedConditions.elementToBeClickable(By.id("uw-button-chat"))).click();
+        WebElement liveChatFrame = getWait(10).until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[contains(@class, 'uw__messenger-layout__frame')]")));
 
-        String actualFrameText = getWait(10).until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//div[@class = 'sc-gzOgki uw__messenger-layout__frame jVOnDE']"))).getText().toLowerCase();
-
-       Assert.assertTrue(actualFrameText.contains(expectedFrameText));
+        Assert.assertTrue(liveChatFrame.getText().toLowerCase().contains(expectedFrameText));
     }
 
     @Test

@@ -29,6 +29,8 @@ public class GroupTeamRocketTest extends BaseTest {
     private static final String USER_NAME = "standard_user";
     private static final String PASSWORD = "secret_sauce";
     private static final String URL_99 = "http://www.99-bottles-of-beer.net/";
+    private static final String URL_PICKNPULL = "https://www.picknpull.com/check-inventory/vehicle-search?make=182&model=3611&distance=25&zip=95123&year=";
+    private static final String URL_ELCATS = "http://www.elcats.ru/mercedes/";
     @Test
     public void testAddElementHerokuapp() {
         getDriver().get("https://the-internet.herokuapp.com/");
@@ -587,6 +589,7 @@ public class GroupTeamRocketTest extends BaseTest {
             Assert.assertEquals(element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText(), expectedHeaderText);
         }
     }
+
     @Test
     public void testSearchDuckDuckGo_AnastasiaY() {
         getDriver().get("https://duckduckgo.com/");
@@ -600,5 +603,33 @@ public class GroupTeamRocketTest extends BaseTest {
 
             Assert.assertTrue(link.getText().matches("(?i).*tiger.*"));
         }
+    }
+
+    @Test
+    public void tesFindMercedesVinOnJunkYardAndDecodeIt() {
+        getDriver().get(URL_PICKNPULL);
+
+        WebElement firstSearchResult = new WebDriverWait(getDriver(), Duration.ofMillis(100L)).until(
+                ExpectedConditions.elementToBeClickable(
+                        By.xpath("//*/div[@class='fixed-table-body']/table//img[contains(@alt, 'Mercedes')][1]")));
+        firstSearchResult.click();
+
+        String vinNumber = getDriver().getCurrentUrl().substring(getDriver().getCurrentUrl().length() - 17);
+        getDriver().get(URL_ELCATS);
+
+        getDriver().findElement(By.id("cphMasterPage_txbVIN")).sendKeys(vinNumber);
+        getDriver().findElement(By.id("cphMasterPage_btnFindByVIN")).click();
+
+        List<WebElement> vehicleInfoRow = getDriver().findElements(By.xpath("//table[@id='cphMasterPage_tblComplectation']//tr[2]/td"));
+
+        boolean isMercedesCLKfound = false;
+        for (WebElement webElement : vehicleInfoRow) {
+            if (webElement.getText().contains("CLK")) {
+                isMercedesCLKfound = true;
+                break;
+            }
+        }
+
+        Assert.assertTrue(isMercedesCLKfound);
     }
 }
