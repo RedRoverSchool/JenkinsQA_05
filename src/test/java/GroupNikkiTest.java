@@ -179,9 +179,6 @@ public class GroupNikkiTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//label[@for = 'combo_facility']")).getText(),
                 facility_field);
     }
-
-
-
     @Ignore
     @Test
     public void alinkTest() {
