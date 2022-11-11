@@ -2,7 +2,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.time.Duration;
@@ -21,19 +20,20 @@ public class GroupCodeRedTest extends BaseTest {
 
         Assert.assertEquals(actualResult, "Autocomplete");
     }
-    @Ignore
+
     @Test
     public void testAutocompleteAddress() throws InterruptedException {
         getDriver().get(BASE_URL_HEROKUAPP);
 
         getDriver().findElement(By.xpath("//li/a[@href='/autocomplete']")).click();
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Autocomplete");
 
         getDriver().findElement(By.xpath
                 ("//div/input[@placeholder='Enter address']")).sendKeys("555 Open road");
         getDriver().findElement(By.xpath("//button[@class='dismissButton']")).click();
+        Thread.sleep(1000);
 
         Assert.assertEquals(getDriver().findElement(By.xpath
                 ("//input[@id='autocomplete']")).getAttribute("value"), "555 Open road");
@@ -161,17 +161,16 @@ public class GroupCodeRedTest extends BaseTest {
         Assert.assertEquals(homeLink.getText(), "Home");
     }
 
-    @Ignore
     @Test
     public void testToggleMenuDashboard() throws InterruptedException {
         getDriver().get(WEATHER_URL);
-        Thread.sleep(7000);
+        Thread.sleep(10000);
 
         WebElement dashboardLink = getDriver().findElement(By.xpath
                 ("//div[@id='desktop-menu']//a[text()='Dashboard']"));
         Assert.assertEquals(dashboardLink.getText(), "Dashboard");
         dashboardLink.click();
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/weather-dashboard");
 
