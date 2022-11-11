@@ -18,6 +18,7 @@ public class GroupJavaStartTest extends BaseTest {
     private final String OMAYO_PAGE_URL = "http://omayo.blogspot.com/";
     private final String WEATHER_PAGE_URL = "https://openweathermap.org/";
 
+
     @Test
     public void tes_tHerokuApp() {
         getDriver().get(FARM_PROJECT_URL);
@@ -131,6 +132,7 @@ public class GroupJavaStartTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
     @Test
     public void test_TittleAndUrlWhenGuideMenu_CordedWare() {
 
