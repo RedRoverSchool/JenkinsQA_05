@@ -33,6 +33,7 @@ public class GroupDreamTeamTest extends BaseTest {
         getDriver().findElement(By.id("my-text-id")).sendKeys("Hello!");
         getDriver().findElement(By.xpath("//button")).click();
         String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
+
         Assert.assertEquals(actualResult, "Form submitted");
     }
 
@@ -46,6 +47,7 @@ public class GroupDreamTeamTest extends BaseTest {
         Select sel = new Select(dropdownSelect);
         sel.selectByValue("1");
         WebElement one = getDriver().findElement(By.xpath("//option[@value='1']"));
+
         Assert.assertTrue(one.isSelected());
     }
 
@@ -77,9 +79,9 @@ public class GroupDreamTeamTest extends BaseTest {
 
 
     @Test
-    public void testSimonGertzMintHouseDateSelectionNoPastDate(){
+    public void testSimonGertzMintHouseDateSelectionNoPastDate() {
         final long dayInMillis = 86400000;
-        
+
         getDriver().get("https://minthouse.com/");
 
         WebElement propertyList = getDriver().findElement(By
@@ -106,11 +108,11 @@ public class GroupDreamTeamTest extends BaseTest {
                 .getAttribute("data-time"));
         String actualResult = getDriver()
                 .findElement(By
-                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + Math.subtractExact(todayMillis,dayInMillis) + "]"))
+                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + Math.subtractExact(todayMillis, dayInMillis) + "]"))
                 .getAttribute("class");
 
         Assert.assertTrue(actualResult.contains("is-locked"));
-}
+    }
 
     @Ignore
     @Test
@@ -146,7 +148,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void test_appointmentDarina(){
+    public void test_appointmentDarina() {
         final var url = "https://katalon-demo-cura.herokuapp.com/";
         final var username = "John Doe";
         final var password = "ThisIsNotAPassword";
@@ -164,5 +166,16 @@ public class GroupDreamTeamTest extends BaseTest {
         var confirmationText = getDriver().findElement(By.xpath("//h2[text() = 'Appointment Confirmation']")).getText();
 
         Assert.assertEquals(confirmationText, "Appointment Confirmation");
+    }
+
+    @Test
+    public void testElena2() {
+        getDriver().get("https://katalon-demo-cura.herokuapp.com/");
+        final String username = "John Doe";
+        final String password = "ThisIsNotAPassword";
+        getDriver().findElement(By.id("menu-toggle")).click();
+        getDriver().findElement(By.xpath("//li/a[text()='Login']")).click();
+        getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(username);
+        getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(password);
     }
 }
