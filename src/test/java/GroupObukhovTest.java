@@ -101,14 +101,18 @@ public class GroupObukhovTest extends BaseTest {
         return RandomStringUtils.random(length, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
     }
 
-    private static String getRandomDomen() {
+    private static int getRandomNumber(int countDigits) {
+        return  Integer.parseInt(RandomStringUtils.random(countDigits, "1234567890"));
+    }
+
+    private static String getRandomDomain() {
         String[] array = new String[]{".com", ".org", ".ru", ".info", ".edu", ".de", ".kz", ".by"};
         int a = (int) (Math.random() * array.length);
         return array[a];
     }
 
     private static String getRandomEmail(int a, int b) {
-        return getRandomString(a).concat("@").concat(getRandomString(b)).concat(getRandomDomen());
+        return getRandomString(getRandomNumber(a)).concat("@").concat(getRandomString(getRandomNumber(b))).concat(getRandomDomain());
     }
 
     private Actions getAction() {
@@ -173,7 +177,7 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     @Test
-    public void testHelpsMenuContent() {
+    public void testHelpsMenuContentFAQ() {
         final List<String> expectedResult = Arrays.asList(
                 "Часовой тариф",
                 "Тариф \"Пока не сядет\"",
@@ -188,6 +192,23 @@ public class GroupObukhovTest extends BaseTest {
         goToHelpPage();
         List<String> helpMenuContent = new ArrayList<>();
         for (WebElement w : getMenuHelp("Часто задаваемые вопросы")) {
+            helpMenuContent.add(w.getText());
+        }
+
+        Assert.assertEquals(helpMenuContent, expectedResult);
+    }
+
+    @Test
+    public void testHelpsMenuContentAnotherQuestions() {
+        final List<String> expectedResult = Arrays.asList(
+                "Как удалить аккаунт?",
+                "Почему я заблокирован?",
+                "Где взять промокод?",
+                "Что делать, если во время аренды сел телефон?");
+
+        goToHelpPage();
+        List<String> helpMenuContent = new ArrayList<>();
+        for (WebElement w : getMenuHelp("Другие вопросы")) {
             helpMenuContent.add(w.getText());
         }
 
@@ -472,7 +493,7 @@ public class GroupObukhovTest extends BaseTest {
 
         List<String> data = Arrays.asList(
                 getRandomString(6),
-                RandomStringUtils.random(10, "0123456789"),
+                String.valueOf(getRandomNumber(10)),
                 getRandomEmail(8, 10),
                 getRandomString(5)
 
