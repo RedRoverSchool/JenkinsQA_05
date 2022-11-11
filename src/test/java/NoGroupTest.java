@@ -9,6 +9,7 @@ import runner.BaseTest;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class NoGroupTest extends BaseTest {
     @Ignore
@@ -47,5 +48,16 @@ public class NoGroupTest extends BaseTest {
         actualResult.add(getDriver().findElement(By.cssSelector("#output #permanentAddress")).getText());
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testSignUp() {
+        getDriver().get("https://www.incollect.com/");
+        getDriver().findElement(By.cssSelector("[href=\"https://www.incollect.com/cms_login/sign_up\"]")).click();
+        getDriver().findElement(By.id("edit-first-name")).sendKeys("Maria");
+        getDriver().findElement(By.id("edit-last-name")).sendKeys("Shchepina");
+        Random random = new Random();
+        int n = random.nextInt(30) + 1;
+        String email = "Shchepina" + n + "@mail.ru";
     }
 }
