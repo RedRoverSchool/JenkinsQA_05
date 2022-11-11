@@ -181,7 +181,6 @@ public class GroupCleanCodeTest extends BaseTest {
         Thread.sleep(2000);
         WebElement text2 = getDriver().findElement(By.xpath("//div[@class='e d']"));
         text2.click();
-        System.out.println(text2.getText());
         Thread.sleep(2000);
         Assert.assertEquals(text2.getText(),"Top-bottom");
     }
