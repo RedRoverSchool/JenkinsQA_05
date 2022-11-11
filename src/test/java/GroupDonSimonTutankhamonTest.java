@@ -17,6 +17,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -416,21 +418,6 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), url);
     }
 
-    @Ignore
-    @Test
-    public void testChangeCategoryInSidebarWhenChoosingWomenCategory() {
-        getDriver().get("http://automationpractice.com/");
-
-        WebElement womenCategoryButton = getDriver().findElement(By.xpath("//li/a[@title='Women']"));
-        womenCategoryButton.click();
-
-        WebElement sidebarCategoryName = getDriver().findElement(
-                By.xpath("//div[@id='categories_block_left']/h2"));
-
-
-        Assert.assertEquals(sidebarCategoryName.getText(), "WOMEN");
-    }
-
     @Test
     public void testSuccessfulLoginAndLogout() {
         getDriver().get("http://the-internet.herokuapp.com/login");
@@ -438,11 +425,9 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         WebElement usernameInput = getDriver().findElement(By.id("username"));
         String usernameText = getDriver().findElement(By.xpath("//h4/em")).getText();
         usernameInput.sendKeys(usernameText);
-
         WebElement usernamePassword = getDriver().findElement(By.id("password"));
         String usernamePasswordText= getDriver().findElement(By.xpath("//h4/em[2]")).getText();
         usernamePassword.sendKeys(usernamePasswordText);
-
         WebElement loginButton = getDriver().findElement(By.xpath("//button[@type='submit']"));
         loginButton.click();
 
@@ -451,24 +436,47 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         WebElement logoutButton = getDriver().findElement(
                 By.xpath("//div[@id='content']//a[@href='/logout']"));
         logoutButton.click();
-
         WebElement loginPage = getDriver().findElement(By.xpath("//h2"));
 
         Assert.assertEquals(loginPage.getText(), "Login Page");
     }
 
     @Test
-    public void testEnteringNameInAlertAndConfirmation () {
-        getDriver().get("https://demoqa.com/alerts");
+    public void testEnteringNameInAlertAndConfirmation_Snegafal() {
+        final String name = "Emma";
 
-        String name = "Emma";
-        String resultAlertText = "You entered " + name;
+        getDriver().get("https://demoqa.com/alerts");
+        String resultAlertText = String.format("You entered %s", name);
         getDriver().findElement(By.id("promtButton")).click();
         Alert alert = getDriver().switchTo().alert();
         alert.sendKeys(name);
         alert.accept();
 
         Assert.assertEquals(getDriver().findElement(By.id("promptResult")).getText(), resultAlertText);
+    }
+
+    @Test
+    public void test_CheckItemsPriceSortedFromLowToHigh_Snegafal() throws InterruptedException {
+        final String username = "standard_user";
+        final String password = "secret_sauce";
+
+        getDriver().get("https://www.saucedemo.com/");
+        getDriver().findElement(By.id("user-name")).sendKeys(username);
+        getDriver().findElement(By.id("password")).sendKeys(password);
+        getDriver().findElement(By.id("login-button")).click();
+        Select dropdown = new Select(getDriver().findElement(By.xpath("//select[@class='product_sort_container']")));
+        dropdown.selectByValue("lohi");
+        Thread.sleep(1000);
+        List<WebElement> itemsPrice = getDriver().findElements(By.xpath("//div[@class='inventory_item_price']"));
+        List prices = new ArrayList();
+        for (WebElement web : itemsPrice) {
+            Double price = Double.valueOf(web.getText().substring(1));
+            prices.add(price);
+        }
+        List tempList = new ArrayList(prices);
+        Collections.sort(tempList);
+
+        Assert.assertEquals(tempList, prices);
     }
 
 }
