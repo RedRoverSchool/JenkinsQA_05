@@ -5,15 +5,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-
 public class GroupWonderingMindsTest extends BaseTest {
-
 
     private static final String URL_DEMOQA_ELEMENTS = "https://demoqa.com/elements";
     private static final String URL_99BOTTLES = "http://www.99-bottles-of-beer.net/";
 
     @Test
-    public void testGetGorodTula_() {
+    public void testGetGorodTula_HappyStrawberry() {
         getDriver().get("https://rp5.ru");
 
         WebElement search = getDriver().findElement(By.name("searchStr"));
@@ -31,7 +29,6 @@ public class GroupWonderingMindsTest extends BaseTest {
 
         Assert.assertEquals(link.getText(), "Paeonia Fleuristerie Boutique");
     }
-
 
     @Test
     public void testDemodaBookGuide_HappyStrawberry() {
@@ -96,6 +93,24 @@ public class GroupWonderingMindsTest extends BaseTest {
         String actualResult = getDriver().findElement(By.xpath("//p[@id='email']")).getText();
 
         Assert.assertEquals(actualResult, "Email:ashur@smith.com");
+    }
+
+    @Test
+    public void testFindEnglishLanguageInBrowseLanguages() {
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+        WebElement browseLanguages = getDriver().findElement(
+                By.xpath("//div/ul/li[2]/a[text()='Browse Languages']"));
+        browseLanguages.click();
+
+        WebElement findLetterE = getDriver().findElement(By.xpath("//li/a[text()='E']"));
+        findLetterE.click();
+
+        WebElement findEnglish = getDriver().findElement(By.xpath("//a[text()='English']"));
+        findEnglish.click();
+
+        WebElement findLanguageEnglish = getDriver().findElement(By.xpath("//*[@id=\"main\"]/h2"));
+
+        Assert.assertEquals(findLanguageEnglish.getText(), "Language English");
     }
 
     @Test
