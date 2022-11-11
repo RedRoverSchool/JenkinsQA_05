@@ -101,14 +101,18 @@ public class GroupObukhovTest extends BaseTest {
         return RandomStringUtils.random(length, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
     }
 
-    private static String getRandomDomen() {
+    private static int getRandomNumber(int countDigits) {
+        return  Integer.parseInt(RandomStringUtils.random(countDigits, "1234567890"));
+    }
+
+    private static String getRandomDomain() {
         String[] array = new String[]{".com", ".org", ".ru", ".info", ".edu", ".de", ".kz", ".by"};
         int a = (int) (Math.random() * array.length);
         return array[a];
     }
 
     private static String getRandomEmail(int a, int b) {
-        return getRandomString(a).concat("@").concat(getRandomString(b)).concat(getRandomDomen());
+        return getRandomString(getRandomNumber(a)).concat("@").concat(getRandomString(getRandomNumber(b))).concat(getRandomDomain());
     }
 
     private Actions getAction() {
@@ -173,7 +177,7 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     @Test
-    public void testHelpsMenuContent() {
+    public void testHelpsMenuContentFAQ() {
         final List<String> expectedResult = Arrays.asList(
                 "Часовой тариф",
                 "Тариф \"Пока не сядет\"",
@@ -188,6 +192,23 @@ public class GroupObukhovTest extends BaseTest {
         goToHelpPage();
         List<String> helpMenuContent = new ArrayList<>();
         for (WebElement w : getMenuHelp("Часто задаваемые вопросы")) {
+            helpMenuContent.add(w.getText());
+        }
+
+        Assert.assertEquals(helpMenuContent, expectedResult);
+    }
+
+    @Test
+    public void testHelpsMenuContentAnotherQuestions() {
+        final List<String> expectedResult = Arrays.asList(
+                "Как удалить аккаунт?",
+                "Почему я заблокирован?",
+                "Где взять промокод?",
+                "Что делать, если во время аренды сел телефон?");
+
+        goToHelpPage();
+        List<String> helpMenuContent = new ArrayList<>();
+        for (WebElement w : getMenuHelp("Другие вопросы")) {
             helpMenuContent.add(w.getText());
         }
 
@@ -228,6 +249,7 @@ public class GroupObukhovTest extends BaseTest {
     @Test
     public void testLinkPrivacyPolicy() {
         getDriver().get(MAIN_PAGE);
+
         WebElement linkPrivacyPolicy = getDriver().findElement(By.xpath("//a[@href='/docs/privacy.html'] "));
         linkPrivacyPolicy.click();
         WebElement titlePrivacyPolicy = getDriver().findElement(By.xpath("//h1[text()='Политика конфиденциальности']"));
@@ -251,7 +273,8 @@ public class GroupObukhovTest extends BaseTest {
         final List<String> BASIC_COLORS_HEX = List.of("#804AFF", "#000000", "#FFFFFF");
 
         goToPalette();
-        List<WebElement> colors = getDriver().findElements(By.xpath("//div[@id = 'palette-three']//div[@class = 'colorchart']"));
+        List<WebElement> colors = getDriver().findElements(
+                By.xpath("//div[@id = 'palette-three']//div[@class = 'colorchart']"));
 
         for (int i = 0; i < colors.size(); i++) {
             Assert.assertEquals(colors.get(i).getText().substring(0, 7), BASIC_COLORS_HEX.get(i));
@@ -327,12 +350,14 @@ public class GroupObukhovTest extends BaseTest {
         );
 
         getDriver().get(MAIN_PAGE);
+
         List<WebElement> stepNumbersHowToUseService = getDriver().findElements(By.cssSelector(".block3-grid span"));
         List<WebElement> stepNamesHowToUseService = getDriver().findElements(By.cssSelector(".block3-grid li"));
         List<WebElement> descriptionHowToUseService = getDriver().findElements(By.cssSelector(".block3-grid p"));
 
         for (int i = 0; i < stepNumbersHowToUseService.size(); i++) {
             stepNumbersHowToUseService.get(i).click();
+
             Assert.assertEquals(stepNumbersHowToUseService.get(i).getCssValue("border"), propertyActiveButton);
             Assert.assertEquals(stepNumbersHowToUseService.get(i).getText(), String.valueOf(i + 1));
             Assert.assertEquals(stepNamesHowToUseService.get(i).getText().substring(2), stepsNames.get(i));
@@ -344,6 +369,7 @@ public class GroupObukhovTest extends BaseTest {
     @Test
     public void testLinkVacancy() {
         getDriver().get(MAIN_PAGE);
+
         WebElement linkVacancy = getDriver().findElement(By.xpath("//li[@class = 'menu-item']/a[text()='Вакансии']"));
         Set<String> oldWindowsSet = getDriver().getWindowHandles();
         linkVacancy.click();
@@ -358,6 +384,7 @@ public class GroupObukhovTest extends BaseTest {
     @Test
     public void testLinkVKontakte() {
         getDriver().get(MAIN_PAGE);
+
         WebElement vKontakte = getDriver().findElement(By.xpath("//a[@href='https://vk.com/urent_russia']"));
         Set<String> oldWindowsSet = getDriver().getWindowHandles();
         vKontakte.click();
@@ -466,7 +493,7 @@ public class GroupObukhovTest extends BaseTest {
 
         List<String> data = Arrays.asList(
                 getRandomString(6),
-                RandomStringUtils.random(10, "0123456789"),
+                String.valueOf(getRandomNumber(10)),
                 getRandomEmail(8, 10),
                 getRandomString(5)
 
@@ -516,37 +543,30 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     @Test
-    public void testCheckRoundButtonHelpMenuLinkToLiveChat() {
+    public void testRoundButtonHelpMenuLinkToLiveChat() {
         final String expectedFrameText = "чат";
 
         goToRoundButtonOnHelpPage();
         getWait(10).until(ExpectedConditions.elementToBeClickable(By.id("uw-button-chat"))).click();
+        WebElement liveChatFrame = getWait(10).until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[contains(@class, 'uw__messenger-layout__frame')]")));
 
-        String actualFrameText = getWait(10).until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//div[@class = 'sc-gzOgki uw__messenger-layout__frame jVOnDE']"))).getText().toLowerCase();
-
-       Assert.assertTrue(actualFrameText.contains(expectedFrameText));
+        Assert.assertTrue(liveChatFrame.getText().toLowerCase().contains(expectedFrameText));
     }
 
     @Test
-    public void testActiveElementsOfMainMenu() {
+    public void testChangeActivedElementOfMainMenu() {
         getDriver().get(MAIN_PAGE);
 
-        List<WebElement> nowMainMenu = getDriver().findElements(By.cssSelector(".menu-list"));
+        List<WebElement> nowMainMenu = getDriver().findElements(By.cssSelector(".menu-link"));
         int size = nowMainMenu.size();
-        int activeElement = size;
-        int countInactiveElement = 0;
-        int countClick = 0;
         for (int i = 0; i < size - 2; i++) {
-            if (activeElement < size) {
-                if (countClick == 0) {
-                    i = 0;
-                }
-                nowMainMenu.get(i).click();
-                countClick++;
-            }
+            int activeElement = size;
+            int countInactiveElement = 0;
+            nowMainMenu.get(i).click();
+            nowMainMenu = getDriver().findElements(By.cssSelector(".menu-link"));
             for (int j = 0; j < size; j++) {
-                if (nowMainMenu.get(j).getAttribute("class").contains("menu-active-link")) {
+                if ((nowMainMenu.get(j).getAttribute("class")).contains("menu-active-link")) {
                     activeElement = j;
                 } else {
                     countInactiveElement++;
@@ -554,8 +574,6 @@ public class GroupObukhovTest extends BaseTest {
             }
 
             Assert.assertTrue(activeElement == i && size - countInactiveElement == 1);
-
-            countInactiveElement = 0;
         }
     }
 }

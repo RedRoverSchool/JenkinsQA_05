@@ -9,6 +9,7 @@ import runner.BaseTest;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class NoGroupTest extends BaseTest {
 
@@ -65,4 +66,19 @@ public class NoGroupTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testModaldialogs_MariaSh() {
+        getDriver().get("https://demoqa.com/modal-dialogs");
+
+        getDriver().findElement(By.id("showSmallModal")).click();
+
+        for (String tab : getDriver().getWindowHandles()) {
+            getDriver().switchTo().window(tab);
+        }
+        getDriver().findElement(By.id("closeSmallModal")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.id("showLargeModal")).isDisplayed());
+    }
 }
+

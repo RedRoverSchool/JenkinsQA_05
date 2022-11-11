@@ -9,17 +9,18 @@ import java.util.Locale;
 
 public class GroupCubsTest extends BaseTest {
 
-    @Ignore
     @Test
     public void testFelix_IX() {
         getDriver().get("https://habr.com/ru/all/");
 
-        String query = "приоритет тест-кейса в TestNG";
         getDriver().findElement(By.xpath("//a[@data-test-id='search-button']")).click();
-        getDriver().findElement(By.className("tm-input-text-decorated__input")).sendKeys(query + "\n");
+        getDriver().findElement(By.className("tm-input-text-decorated__input"))
+                .sendKeys("приоритет тест-кейса в TestNG" + "\n");
+
         getDriver().findElement(By.xpath("//article[@id='588466']/div[1]/h2")).click();
-        WebElement actualRes = getDriver().findElement(By.xpath("//h1[@data-test-id='articleTitle']"));
-        Assert.assertEquals(actualRes.getText(), "Как установить приоритет тест-кейса в TestNG с помощью Selenium");
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1/span")).getText(),
+                "Как установить приоритет тест-кейса в TestNG с помощью Selenium");
     }
 
     @Test
