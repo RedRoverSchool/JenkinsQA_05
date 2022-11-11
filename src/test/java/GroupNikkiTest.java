@@ -164,6 +164,23 @@ public class GroupNikkiTest extends BaseTest {
 
 
     @Test
+    public void testArailymNavigateInBrowser(){
+        final String facility_field = "Facility";
+
+        getDriver().navigate().to("https://katalon-demo-cura.herokuapp.com/");
+
+        getDriver().findElement(By.xpath("//a[@id = 'btn-make-appointment']")).click();
+        getDriver().findElement(By.id("txt-username")).sendKeys("John Doe");
+        getDriver().findElement(By.id("txt-password")).sendKeys("ThisIsNotAPassword");
+        getDriver().findElement(By.id("btn-login")).click();
+        getDriver().navigate().back();
+        getDriver().navigate().forward();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//label[@for = 'combo_facility']")).getText(),
+                facility_field);
+    }
+    @Ignore
+    @Test
     public void alinkTest() {
         getDriver().get("https://www.rammstein.de/en/");
 
