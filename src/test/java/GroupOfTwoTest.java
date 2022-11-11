@@ -14,6 +14,8 @@ public void newSomethingTest() throws InterruptedException {
         WebElement checkBox = getDriver().findElement(By.xpath("//body/div[2]/div[1]/div[1]/form[1]/input[2]"));
         Assert.assertTrue(checkBox.isSelected());
         Assert.assertFalse(checkBoxElement.isSelected());
+
+
             }
         }
 
