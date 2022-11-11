@@ -196,6 +196,8 @@ public class GroupDreamTeamTest extends BaseTest {
         getDriver().findElement(By.id("menu-toggle")).click();
         getDriver().findElement(By.xpath("//li/a[text()='Login']")).click();
         getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(username);
-        getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(password);
+        getDriver().findElement(By.xpath("//input[@id='txt-password']")).sendKeys(password);
+
+        Assert.assertTrue(true, "//div[@class='col-sm-12 text-center']");
     }
 }
