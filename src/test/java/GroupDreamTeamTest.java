@@ -79,9 +79,9 @@ public class GroupDreamTeamTest extends BaseTest {
 
 
     @Test
-    public void testSimonGertzMintHouseDateSelectionNoPastDate() {
+    public void testSimonGertzMintHouseDateSelectionNoPastDate(){
         final long dayInMillis = 86400000;
-
+        
         getDriver().get("https://minthouse.com/");
 
         WebElement propertyList = getDriver().findElement(By
@@ -108,11 +108,11 @@ public class GroupDreamTeamTest extends BaseTest {
                 .getAttribute("data-time"));
         String actualResult = getDriver()
                 .findElement(By
-                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + Math.subtractExact(todayMillis, dayInMillis) + "]"))
+                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + Math.subtractExact(todayMillis,dayInMillis) + "]"))
                 .getAttribute("class");
 
         Assert.assertTrue(actualResult.contains("is-locked"));
-    }
+}
 
     @Ignore
     @Test
@@ -148,7 +148,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void test_appointmentDarina() {
+    public void test_appointmentDarina(){
         final var url = "https://katalon-demo-cura.herokuapp.com/";
         final var username = "John Doe";
         final var password = "ThisIsNotAPassword";
@@ -166,6 +166,26 @@ public class GroupDreamTeamTest extends BaseTest {
         var confirmationText = getDriver().findElement(By.xpath("//h2[text() = 'Appointment Confirmation']")).getText();
 
         Assert.assertEquals(confirmationText, "Appointment Confirmation");
+    }
+
+    @Test
+    public void testMintHouseSource2(){
+        getDriver().get("https://minthouse.com/");
+        String currentSource = getDriver().getPageSource();
+        boolean actualResult = currentSource.contains("div");
+
+        Assert.assertTrue(actualResult);
+    }
+
+    @Test
+    public void test_Ina() {
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        WebElement color = getDriver().findElement(By.name("my-colors"));
+        String initialColor = color.getAttribute("value");
+        color.sendKeys(Keys.ARROW_LEFT);
+        String changedColor = color.getAttribute("value");
+
+        Assert.assertNotEquals(initialColor, changedColor);
     }
 
     @Test

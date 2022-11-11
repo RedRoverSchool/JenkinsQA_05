@@ -29,6 +29,8 @@ public class GroupTeamRocketTest extends BaseTest {
     private static final String USER_NAME = "standard_user";
     private static final String PASSWORD = "secret_sauce";
     private static final String URL_99 = "http://www.99-bottles-of-beer.net/";
+    private static final String URL_PICKNPULL = "https://www.picknpull.com/check-inventory/vehicle-search?make=182&model=3611&distance=25&zip=95123&year=";
+    private static final String URL_ELCATS = "http://www.elcats.ru/mercedes/";
     @Test
     public void testAddElementHerokuapp() {
         getDriver().get("https://the-internet.herokuapp.com/");
@@ -54,7 +56,7 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testFindTitleGuide_NataliiaOliver() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
 
-        Thread.sleep(8000);
+        Thread.sleep(10000);
 
         getDriver().findElement(By.xpath("//div[@id='desktop-menu']/ul/li/a[@href='/guide']")).click();
         Thread.sleep(1000);
@@ -197,6 +199,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//p[@class='alert alert-success']"))
                 .getText(), "Your message has been successfully sent to our team.");
     }
+
 
     @Ignore
     @Test
@@ -587,6 +590,7 @@ public class GroupTeamRocketTest extends BaseTest {
             Assert.assertEquals(element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText(), expectedHeaderText);
         }
     }
+
     @Test
     public void testSearchDuckDuckGo_AnastasiaY() {
         getDriver().get("https://duckduckgo.com/");
@@ -601,4 +605,50 @@ public class GroupTeamRocketTest extends BaseTest {
             Assert.assertTrue(link.getText().matches("(?i).*tiger.*"));
         }
     }
-}
+
+    @Test
+    public void testFindMercedesVinOnJunkYardAndDecodeIt() {
+        getDriver().get(URL_PICKNPULL);
+
+        WebElement firstSearchResult = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(
+                ExpectedConditions.elementToBeClickable(
+                        By.xpath("//*/div[@class='fixed-table-body']/table//img[contains(@alt, 'Mercedes')][1]")));
+        firstSearchResult.click();
+
+        String vinNumber = getDriver().getCurrentUrl().substring(getDriver().getCurrentUrl().length() - 17);
+        getDriver().get(URL_ELCATS);
+
+        getDriver().findElement(By.id("cphMasterPage_txbVIN")).sendKeys(vinNumber);
+        getDriver().findElement(By.id("cphMasterPage_btnFindByVIN")).click();
+
+        List<WebElement> vehicleInfoRow = getDriver().findElements(By.xpath("//table[@id='cphMasterPage_tblComplectation']//tr[2]/td"));
+
+        boolean isMercedesCLKfound = false;
+        for (WebElement webElement : vehicleInfoRow) {
+            if (webElement.getText().contains("CLK")) {
+                isMercedesCLKfound = true;
+                break;
+            }
+        }
+
+        Assert.assertTrue(isMercedesCLKfound);
+    }
+
+        @Test
+        public void testStaticDropDown_VZ () throws InterruptedException {
+            getDriver().get("https://rahulshettyacademy.com/dropdownsPractise/");
+
+            WebElement staticDropdown = getDriver().findElement(By.id("ctl00_mainContent_DropDownListCurrency"));
+            Select dropdown = new Select(staticDropdown);
+            dropdown.selectByIndex(3);
+
+            getDriver().findElement(By.id("divpaxinfo")).click();
+            Thread.sleep(2000);
+            for (int i = 1; i < 5; i++) {
+                getDriver().findElement(By.id("hrefIncAdt")).click();
+            }
+            getDriver().findElement(By.id("btnclosepaxoption")).click();
+
+            Assert.assertEquals(getDriver().findElement(By.id("divpaxinfo")).getText(), "5 Adult");
+        }
+    }

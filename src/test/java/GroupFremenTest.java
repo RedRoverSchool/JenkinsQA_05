@@ -5,7 +5,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -230,5 +229,22 @@ public class GroupFremenTest extends BaseTest {
                 By.xpath("//button[@class ='btn btn-lg btn-danger']")).getText();
 
         Assert.assertEquals(actualButton, expectedButton);
+    }
+
+    @Test
+    public void testMICheckModalTitleMessage() throws InterruptedException {
+        final String expectedText = "Some text here";
+
+        getDriver().get(URL);
+        getDriver().findElement(
+                By.xpath("//li/a[@href = '/modal']")).click();
+        getDriver().findElement(
+                By.xpath("//button[@id = 'modal-button']")).click();
+
+        Thread.sleep(1000);
+        String actualText = getDriver().findElement(
+                By.xpath("//div[@class = 'modal-body']")).getText();
+
+        Assert.assertEquals(actualText, expectedText);
     }
 }

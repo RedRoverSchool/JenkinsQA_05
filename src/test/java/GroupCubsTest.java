@@ -9,9 +9,11 @@ import java.util.Locale;
 
 public class GroupCubsTest extends BaseTest {
 
+    private static final String URL_HABR = "https://habr.com/ru/all/";
+
     @Test
     public void testFelix_IX() {
-        getDriver().get("https://habr.com/ru/all/");
+        getDriver().get(URL_HABR);
 
         getDriver().findElement(By.xpath("//a[@data-test-id='search-button']")).click();
         getDriver().findElement(By.className("tm-input-text-decorated__input"))
@@ -93,8 +95,8 @@ public class GroupCubsTest extends BaseTest {
     }
 
     @Test
-    public void testKirillShumakov() {
-        getDriver().get("https://habr.com/ru/all/");
+    public void testCompanySearch_KirillShumakov() {
+        getDriver().get(URL_HABR);
 
         getDriver().findElement(By.xpath("//a[contains(text(),'Компании')]")).click();
         getDriver().findElement(By.xpath("//input[@name='searchQuery']")).sendKeys("Selectel");
@@ -103,6 +105,3 @@ public class GroupCubsTest extends BaseTest {
                 "Selectel");
     }
 }
-
-
-
