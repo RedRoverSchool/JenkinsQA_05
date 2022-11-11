@@ -8,6 +8,7 @@ import runner.BaseTest;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -111,5 +112,22 @@ public class GroupJavaStartTest extends BaseTest {
         }
 
         Assert.assertTrue(checkbox.isSelected());
+    }
+
+    @Test
+    public void testCheckCheckboxStatus() {
+    final List expectedResult = Arrays.asList("Kishore 22 Delhi", "Manish 25 Pune", "Praveen 29 Bangalore", "Dheepthi 31 Mumbai");
+    
+        getDriver().get(OMAYO_PAGE_URL);
+
+        List<WebElement> elements = getDriver().findElements(By.xpath("//table[@id='table1']/tbody/tr"));
+
+        List<String> actualResult = new ArrayList<>();
+
+        for (WebElement temp : elements) {
+            actualResult.add(temp.getText());
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }

@@ -162,25 +162,33 @@ public class GroupNikkiTest extends BaseTest {
         Assert.assertEquals(doubleClick.getCssValue("background-color"), "rgba(147, 203, 90, 1)");
     }
 
+    @Test
+    public void testArailymNavigateInBrowser(){
+        final String facility_field = "Facility";
+
+        getDriver().navigate().to("https://katalon-demo-cura.herokuapp.com/");
+
+        getDriver().findElement(By.xpath("//a[@id = 'btn-make-appointment']")).click();
+        getDriver().findElement(By.id("txt-username")).sendKeys("John Doe");
+        getDriver().findElement(By.id("txt-password")).sendKeys("ThisIsNotAPassword");
+        getDriver().findElement(By.id("btn-login")).click();
+        getDriver().navigate().back();
+        getDriver().navigate().forward();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//label[@for = 'combo_facility']")).getText(),
+                facility_field);
+    }
     @Ignore
     @Test
     public void alinkTest() {
         getDriver().get("https://www.rammstein.de/en/");
 
         getDriver().findElement(By.xpath("//a[@href='/en/live/']")).click();
-        List<WebElement> linkList = getDriver().findElements(By.xpath("//div[@class=' flex whitespace-normal pt-2 text-left lg:w-[100px] lg:pt-0']"));
+        WebElement element = getDriver().findElement(By.xpath("//*[@id=\"HomeLiveSection\"]/div/ol/li[6]/a/div/div/div[3]"));
 
-        Assert.assertEquals(linkList.get(6).getAttribute("innerHTML"), "Munich");
+        Assert.assertEquals(element.getAttribute("innerHTML"), "Munich");
     }
 
-    @Test
-    public void linkTest() {
-        getDriver().get("https://www.rammstein.de/en/live/");
-
-        List<WebElement> linkList = getDriver().findElements(By.cssSelector("div[class=' flex whitespace-normal pt-2 text-left lg:w-[100px] lg:pt-0']"));
-
-        Assert.assertEquals(linkList.get(11).getAttribute("innerHTML"), "Bern");
-    }
     @Test
     public void testIncorrectCredentials(){
         getDriver().get("https://rahulshettyacademy.com/locatorspractice/");
@@ -197,5 +205,17 @@ public class GroupNikkiTest extends BaseTest {
         String actualErrorMessage = getDriver().findElement(By.cssSelector("p.error")).getText();
 
         Assert.assertEquals(actualErrorMessage, "* Incorrect username or password");
+    }
+
+    @Test
+    public void picSizeTest() {
+        getDriver().get("https://www.hostinger.com/tutorials");
+
+        getDriver().findElement(By.id("s")).sendKeys("40 linux");
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
+        getDriver().findElement(By.cssSelector("a[href='/tutorials/linux-commands']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.id("thumbnail-image")).getSize().toString(), "(730, 320)");
     }
 }
