@@ -17,6 +17,7 @@ public class GroupBughuntersTest extends BaseTest {
 
     private final String AUTO_PRACTICE_URL = "http://automationpractice.com/index.php";
 
+    @Ignore
     @Test
     public void testTicketonSearch(){
         getDriver().get("https://ticketon.kz/");
