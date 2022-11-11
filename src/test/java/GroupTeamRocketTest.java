@@ -587,6 +587,7 @@ public class GroupTeamRocketTest extends BaseTest {
             Assert.assertEquals(element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText(), expectedHeaderText);
         }
     }
+
     @Test
     public void testSearchDuckDuckGo_AnastasiaY() {
         getDriver().get("https://duckduckgo.com/");
