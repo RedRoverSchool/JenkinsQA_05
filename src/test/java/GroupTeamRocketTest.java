@@ -56,7 +56,7 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testFindTitleGuide_NataliiaOliver() throws InterruptedException {
         getDriver().get("https://openweathermap.org/");
 
-        Thread.sleep(8000);
+        Thread.sleep(10000);
 
         getDriver().findElement(By.xpath("//div[@id='desktop-menu']/ul/li/a[@href='/guide']")).click();
         Thread.sleep(1000);
@@ -606,7 +606,7 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
-    public void tesFindMercedesVinOnJunkYardAndDecodeIt() {
+    public void testFindMercedesVinOnJunkYardAndDecodeIt() {
         getDriver().get(URL_PICKNPULL);
 
         WebElement firstSearchResult = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(
