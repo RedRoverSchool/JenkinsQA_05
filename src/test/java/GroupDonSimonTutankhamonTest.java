@@ -467,17 +467,16 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         Select dropdown = new Select(getDriver().findElement(By.xpath("//select[@class='product_sort_container']")));
         dropdown.selectByValue("lohi");
         Thread.sleep(1000);
-        List<WebElement> itemsPrice = getDriver().findElements(By.xpath("//div[@class='inventory_item_price']"));
-        List prices = new ArrayList();
-        for (WebElement web : itemsPrice) {
+        List<WebElement> itemPrice = getDriver().findElements(By.xpath("//div[@class='inventory_item_price']"));
+        List itemsPrices = new ArrayList();
+        for (WebElement web : itemPrice) {
             Double price = Double.valueOf(web.getText().substring(1));
-            prices.add(price);
+            itemsPrices.add(price);
         }
-        List tempList = new ArrayList(prices);
+        List tempList = new ArrayList(itemsPrices);
         Collections.sort(tempList);
 
-        Assert.assertEquals(tempList, prices);
+        Assert.assertEquals(itemsPrices, tempList);
     }
-
 }
 
