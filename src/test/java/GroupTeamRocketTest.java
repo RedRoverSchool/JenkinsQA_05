@@ -609,7 +609,7 @@ public class GroupTeamRocketTest extends BaseTest {
     public void tesFindMercedesVinOnJunkYardAndDecodeIt() {
         getDriver().get(URL_PICKNPULL);
 
-        WebElement firstSearchResult = new WebDriverWait(getDriver(), Duration.ofMillis(100L)).until(
+        WebElement firstSearchResult = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(
                 ExpectedConditions.elementToBeClickable(
                         By.xpath("//*/div[@class='fixed-table-body']/table//img[contains(@alt, 'Mercedes')][1]")));
         firstSearchResult.click();
