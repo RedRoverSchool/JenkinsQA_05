@@ -1,10 +1,23 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.time.Duration;
+
+
+
 public class GroupWonderingMindsTest extends BaseTest {
+
+
+
 
     @Test
     public void testGorodTulaTheBest() {
@@ -17,18 +30,12 @@ public class GroupWonderingMindsTest extends BaseTest {
 
     @Test
     public void testAmazingBouqets() {
-
-        String url = "https://paeonia-boutique.ca/";
-        String expectedResult = "Paeonia Fleuristerie Boutique";
-
-        getDriver().get(url);
+        getDriver().get("https://paeonia-boutique.ca/");
 
         WebElement link = getDriver().findElement(By.xpath("//span[text() = "
                 + "'Paeonia Fleuristerie Boutique']"));
 
-        String actualResult = link.getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(link.getText(), "Paeonia Fleuristerie Boutique");
     }
 
 
@@ -69,5 +76,49 @@ public class GroupWonderingMindsTest extends BaseTest {
         String actualResult = subMenuTeam.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testSendForm_HappyStrawberry() {
+        getDriver().get("https://demoqa.com/elements");
+                getDriver().findElement(By.className("text")).click();
+
+        WebElement fullName = getDriver().findElement(By.id("userName"));
+        fullName.sendKeys("Ashur Smith");
+
+        WebElement email = getDriver().findElement(By.id("userEmail"));
+        email.sendKeys("ashur@smith.com");
+
+        WebElement currentAddress = getDriver().findElement(By.id("currentAddress"));
+        currentAddress.sendKeys("2500 west End A, Cooksville, AZ, 67490");
+
+        WebElement permanentAddress = getDriver().findElement(By.id("permanentAddress"));
+        permanentAddress.sendKeys("2500 west End A, Cooksville, AZ, 67490");
+
+        JavascriptExecutor js = (JavascriptExecutor)getDriver();
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+
+        getDriver().findElement(By.cssSelector("#submit")).click();
+        String actualResult = getDriver().findElement(By.xpath("//p[@id='email']")).getText();
+
+        Assert.assertEquals(actualResult, "Email:ashur@smith.com");
+    }
+
+    @Test
+    public void testFindEnglishLanguageInBrowseLanguages() {
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+        WebElement browseLanguages = getDriver().findElement(
+                By.xpath("//div/ul/li[2]/a[text()='Browse Languages']"));
+        browseLanguages.click();
+
+        WebElement findLetterE = getDriver().findElement(By.xpath("//li/a[text()='E']"));
+        findLetterE.click();
+
+        WebElement findEnglish = getDriver().findElement(By.xpath("//a[text()='English']"));
+        findEnglish.click();
+
+        WebElement findLanguageEnglish = getDriver().findElement(By.xpath("//*[@id=\"main\"]/h2"));
+
+        Assert.assertEquals(findLanguageEnglish.getText(), "Language English");
     }
 }

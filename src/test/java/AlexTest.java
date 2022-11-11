@@ -1,10 +1,12 @@
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class AlexTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testSearchResults() {
         final String expectedResult = "en.wikipedia.org";

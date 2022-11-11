@@ -22,6 +22,9 @@ import java.util.stream.Collectors;
 
 public class GroupDonSimonTutankhamonTest extends BaseTest {
 
+
+    static final String SELECTROSHUB_URL = "https://selectorshub.com/xpath-practice-page/";
+    static final String WEBDRIVERUNI_DROPDOWN_URL = "https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html";
     @Test
     public void test_FormSubmAutomationinTestingOnline_IKrlkv() {
 
@@ -56,11 +59,11 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void testDropDown_SelectorsHubCom() {
+    public void test_DropDown_SelectorsHubCom_IKrlkv() {
 
-        int expectedRowsCount = 99;
+        final int expectedRowsCount = 99;
 
-        getDriver().get("https://selectorshub.com/xpath-practice-page/");
+        getDriver().get(SELECTROSHUB_URL);
 
         WebElement dropDownMenu = getDriver().findElement(By.xpath("//select[@name='tablepress-1_length']"));
 
@@ -72,16 +75,16 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
         List<WebElement> actualRowsCount = getDriver().findElements(By.xpath("//tbody[@class='row-hover']//tr"));
 
-        Assert.assertEquals(expectedRowsCount, actualRowsCount.size());
+        Assert.assertEquals(actualRowsCount.size(), expectedRowsCount);
     }
 
     @Test
-    public void testFilterTable_SelectorsHubCom() {
+    public void test_FilterTable_SelectorsHubCom_IKrlkv() {
 
-        int expectedRowsCount = 3;
-        String expectedCountry = "United States";
+        final int expectedRowsCount = 3;
+        final String expectedCountry = "United States";
 
-        getDriver().get("https://selectorshub.com/xpath-practice-page/");
+        getDriver().get(SELECTROSHUB_URL);
 
         WebElement tableFilterTextBox = getDriver().findElement(By.xpath("//input[@aria-controls='tablepress-1']"));
         tableFilterTextBox.sendKeys("United States");
@@ -89,16 +92,16 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         List<String> actualValues = getDriver().findElements(By.xpath("//td[@class='column-5']"))
                 .stream().map(WebElement::getText).collect(Collectors.toList());
 
-        Assert.assertEquals(expectedRowsCount, actualValues.size());
+        Assert.assertEquals(actualValues.size(), expectedRowsCount);
         for (String actualValue : actualValues) {
-            Assert.assertEquals(expectedCountry, actualValue);
+            Assert.assertEquals(actualValue, expectedCountry);
         }
     }
 
     @Test
-    public void testFirstNameInputField_SelectorsHubCom() throws InterruptedException {
+    public void test_FirstNameInputField_SelectorsHubCom_IKrlkv() throws InterruptedException {
 
-        getDriver().get("https://selectorshub.com/xpath-practice-page/");
+        getDriver().get(SELECTROSHUB_URL);
 
         WebElement firstNameInputField = getDriver()
                 .findElement(By.xpath("//input[@placeholder='First Enter name']"));
@@ -107,18 +110,16 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
         WebElement enableEditFirstNameInputFiledButton = getDriver()
                 .findElement(By.xpath("//label[text()='Can you enter name here through automation ']"));
-
         enableEditFirstNameInputFiledButton.click();
-
         Thread.sleep(2500);
 
         Assert.assertTrue(firstNameInputField.isEnabled());
     }
 
     @Test
-    public void testIfPageSourceContainsHtmlTag_SelectorsHubCom() {
+    public void test_IfPageSourceContainsHtmlTag_SelectorsHubCom_IKrlkv() {
 
-        getDriver().get("https://selectorshub.com/xpath-practice-page/");
+        getDriver().get(SELECTROSHUB_URL);
 
         String pageSource = getDriver().getPageSource();
 
@@ -126,9 +127,9 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void testSessionId_SelectorsHubCom() {
+    public void test_SessionId_SelectorsHubCom_IKrlkv() {
 
-        getDriver().get("https://selectorshub.com/xpath-practice-page/");
+        getDriver().get(SELECTROSHUB_URL);
 
         SessionId sessionId = ((RemoteWebDriver) getDriver()).getSessionId();
 
@@ -136,66 +137,60 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void testFooter_SelectorsHubCom() {
+    public void test_FooterEmailAddress_SelectorsHubCom_IKrlkv() {
 
-        String expectedEmail = "support@selectorshub.com";
+        final String expectedEmail = "support@selectorshub.com";
 
-        getDriver().get("https://selectorshub.com/xpath-practice-page/");
+        getDriver().get(SELECTROSHUB_URL);
 
         WebElement footer = getDriver().findElement(By.tagName("footer"));
 
         Assert.assertTrue(footer.isDisplayed());
         Assert.assertEquals(footer.getDomAttribute("id"), "colophon");
-
-        WebElement emailSpan = getDriver().findElement(By.xpath("//footer//li[last()]//span[last()]"));
-
-        Assert.assertEquals(emailSpan.getText(), expectedEmail);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//footer//li[last()]//span[last()]")).getText(), expectedEmail);
     }
 
     @Test
-    public void testTextByLink_SelectorsHubCom() throws InterruptedException {
+    public void test_TextByLink_SelectorsHubCom_IKrlkv() throws InterruptedException {
 
-        String textByLink = "A tool to generate manual test case automatically, click to learn more";
+        final String textByLink = "A tool to generate manual test case automatically, click to learn more";
 
-        getDriver().get("https://selectorshub.com/xpath-practice-page/");
+        getDriver().get(SELECTROSHUB_URL);
 
         WebElement linkByText = getDriver().findElement(By.linkText(textByLink));
+        WebElement linkByPartialText = getDriver().findElement(By.partialLinkText("generate"));
+        Thread.sleep(1500);
 
         Assert.assertEquals(linkByText.getTagName(), "a");
         Assert.assertEquals(linkByText.getCssValue("box-sizing"), "border-box");
-
-        WebElement linkByPartialText = getDriver().findElement(By.partialLinkText("generate"));
-
-        Thread.sleep(1500);
-
         Assert.assertEquals(linkByPartialText.getRect(), linkByText.getRect());
         Assert.assertEquals(linkByPartialText.getLocation(), linkByPartialText.getLocation());
     }
 
     @Test
-    public void testCheckBoxes_WebdDiverUniversityCom() {
+    public void test_CheckBoxes_WebdDiverUniversityCom() {
 
-        getDriver().get("https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html");
+        getDriver().get(WEBDRIVERUNI_DROPDOWN_URL);
 
         WebElement checkedCheckbox = getDriver().findElement(By.cssSelector("[type=checkbox]:checked"));
+        WebElement unCheckedCheckbox = getDriver().findElement(By.cssSelector("[type=checkbox]:not(:checked)"));
+
         Assert.assertEquals(checkedCheckbox.getAttribute("value"), "option-3");
         Assert.assertTrue(checkedCheckbox.isSelected());
-
-        WebElement unCheckedCheckbox = getDriver().findElement(By.cssSelector("[type=checkbox]:not(:checked)"));
         Assert.assertEquals(unCheckedCheckbox.getAttribute("value"), "option-1");
         Assert.assertFalse(unCheckedCheckbox.isSelected());
 
         checkedCheckbox.click();
-        Assert.assertFalse(checkedCheckbox.isSelected());
-
         unCheckedCheckbox.click();
+
+        Assert.assertFalse(checkedCheckbox.isSelected());
         Assert.assertTrue(unCheckedCheckbox.isSelected());
     }
 
     @Test
     public void testRadioButtons_WebdDiverUniversityCom() {
 
-        getDriver().get("https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html");
+        getDriver().get(WEBDRIVERUNI_DROPDOWN_URL);
 
         WebElement checkedRadioButton = getDriver().findElement(By.xpath("//input[@type='radio' and @checked]"));
         Assert.assertEquals(checkedRadioButton.getAttribute("value"), "pumpkin");
