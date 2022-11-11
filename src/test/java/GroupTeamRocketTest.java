@@ -31,6 +31,7 @@ public class GroupTeamRocketTest extends BaseTest {
     private static final String URL_99 = "http://www.99-bottles-of-beer.net/";
     private static final String URL_PICKNPULL = "https://www.picknpull.com/check-inventory/vehicle-search?make=182&model=3611&distance=25&zip=95123&year=";
     private static final String URL_ELCATS = "http://www.elcats.ru/mercedes/";
+    private static final String URL_DEMOBLAZE = "https://www.demoblaze.com/";
     @Test
     public void testAddElementHerokuapp() {
         getDriver().get("https://the-internet.herokuapp.com/");
@@ -289,12 +290,12 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testPriceNokia_ZoiaBut() {
-        getDriver().get("https://www.demoblaze.com/");
+        getDriver().get(URL_DEMOBLAZE);
 
         getDriver().findElement(By.xpath("//div/a[@href='prod.html?idp_=2']")).click();
 
-        Assert.assertFalse((getDriver().findElement(By.xpath("//h3[text()='$820']"))
-                .getText().contains("$620")));
+        Assert.assertTrue((getDriver().findElement(By.xpath("//h3[text()='$820']"))
+                .getText().contains("$820")));
     }
 
     @Test
@@ -355,10 +356,10 @@ public class GroupTeamRocketTest extends BaseTest {
                 .getText(), "Go To Final Step");
     }
 
-    @Ignore
+
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
-        getDriver().get("https://www.demoblaze.com/");
+        getDriver().get(URL_DEMOBLAZE);
 
         getDriver().findElement(By.xpath("//h4/a[@href='prod.html?idp_=4']")).click();
 
@@ -485,16 +486,16 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testCategoriesPanel_ZB() {
-        getDriver().get("https://www.demoblaze.com/");
+        getDriver().get(URL_DEMOBLAZE);
 
-        Assert.assertTrue(getDriver().findElement(
-                By.xpath("//div[@class='list-group']/a[text()='CATEGORIES']")).isDisplayed());
-        Assert.assertTrue(getDriver().findElement(
-                By.xpath("//div[@class='list-group']/a[text()='Phones']")).isDisplayed());
-        Assert.assertTrue(getDriver().findElement(
-                By.xpath("//div[@class='list-group']/a[text()='Laptops']")).isDisplayed());
-        Assert.assertTrue(getDriver().findElement(
-                By.xpath("//div[@class='list-group']/a[text()='Monitors']")).isDisplayed());
+        Assert.assertTrue(getDriver()
+                .findElement(By.xpath("//div[@class='list-group']/a[text()='CATEGORIES']")).isDisplayed());
+        Assert.assertTrue(getDriver()
+                .findElement(By.xpath("//div[@class='list-group']/a[text()='Phones']")).isDisplayed());
+        Assert.assertTrue(getDriver()
+                .findElement(By.xpath("//div[@class='list-group']/a[text()='Laptops']")).isDisplayed());
+        Assert.assertTrue(getDriver()
+                .findElement(By.xpath("//div[@class='list-group']/a[text()='Monitors']")).isDisplayed());
     }
 
     @Test
