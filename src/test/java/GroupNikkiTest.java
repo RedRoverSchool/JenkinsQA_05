@@ -217,6 +217,5 @@ public class GroupNikkiTest extends BaseTest {
         getDriver().findElement(By.cssSelector("a[href='/tutorials/linux-commands']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.id("thumbnail-image")).getSize().toString(), "(730, 320)");
-        Assert.assertEquals(getDriver().findElement(By.id("thumbnail-image")).getLocation().toString(), "(597, 370)");
     }
 }
