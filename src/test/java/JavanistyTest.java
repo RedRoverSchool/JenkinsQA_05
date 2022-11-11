@@ -116,13 +116,15 @@ public class JavanistyTest extends BaseTest {
 
     @Test
     public void testAratinveMainMenuTitle() {
-        String titleExpected = "Главная страница\nО программе\nНовости\nПродукты\nОбучение" +
-                "\nСкачать\nКупить\nFAQ\nО нас";
+        String titleExpected = "Главная страница\nО программе\nНовости\nПродукты\nОбучение"
+                                    + "\nСкачать\nКупить\nFAQ\nО нас";
 
         getDriver().get("https://k3-mebel.ru/");
         String titleActual = getDriver().findElement(By.id("menu-verhnee-menyu")).getText();
+
         Assert.assertEquals(titleActual, titleExpected);
     }
+
     @Test
     public void testWeightPoundsHeight2(){
         getDriver().get("https://healthunify.com/bmicalculator/");
