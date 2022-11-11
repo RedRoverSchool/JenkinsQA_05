@@ -3,6 +3,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -106,14 +107,40 @@ public class GroupJavanistyTest extends BaseTest {
         Assert.assertEquals(text.getText(), "ВОЗМОЖНОСТИ");
     }
 
-    @Test
-    public void testAratinveMainMenuTitle() {
-        String titleExpected = "Главная страница\nО программе\nНовости\nПродукты\nОбучение" +
-                "\nСкачать\nКупить\nFAQ\nО нас";
+    private final String baseMebelUrl = "https://k3-mebel.ru/";
 
-        getDriver().get("https://k3-mebel.ru/");
+    @Test
+    public void test_Aratinve_MainMenuTitle() {
+        String titleExpected = "Главная страница\nО программе\nНовости\nПродукты\nОбучение"
+                + "\nСкачать\nКупить\nFAQ\nО нас";
+
+        getDriver().get(baseMebelUrl);
         String titleActual = getDriver().findElement(By.id("menu-verhnee-menyu")).getText();
+
         Assert.assertEquals(titleActual, titleExpected);
+    }
+
+    @DataProvider(name = "Url-Id-Main-Menu")
+    public Object[][] urlMainMenuProvider() {
+        return new String[][] {
+                {"https://k3-mebel.ru/about.html", "menu-item-16"},
+                {"https://k3-mebel.ru/about/news.html", "menu-item-442"},
+                {"https://k3-mebel.ru/products/pkm.html", "menu-item-167"},
+                {"https://k3-mebel.ru/learning/doc.html", "menu-item-171"},
+                {"https://k3-mebel.ru/downloads/free-version.html", "menu-item-15856"},
+                {"https://k3-mebel.ru/buy/price.html", "menu-item-343"},
+                {"https://k3-mebel.ru/learning/faq.html", "menu-item-15916"},
+                {"https://k3-mebel.ru/developer.html", "menu-item-186"},
+        };
+    }
+
+    @Test(dataProvider = "Url-Id-Main-Menu")
+    public void test_Aratinve_MainMenuNavigation(String urlExpected, String id_menu) {
+
+        getDriver().get(baseMebelUrl);
+        getDriver().findElement(By.id(id_menu)).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), urlExpected);
     }
 
     @Test
