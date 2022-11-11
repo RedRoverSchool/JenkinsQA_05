@@ -2,12 +2,18 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class GroupNikkiTest extends BaseTest {
 
@@ -50,19 +56,17 @@ public class GroupNikkiTest extends BaseTest {
     }
 
     @Test
-    public void testKate_SuccessOpenUpMenu () {
+    public void test_Kate_SuccessOpenUpMenu () {
+        String expectedResult = "CURA Healthcare";
 
         getDriver().get("https://katalon-demo-cura.herokuapp.com/");
         WebElement menu = getDriver().findElement(By.xpath("//body/a[@id='menu-toggle']"));
         menu.click();
-
         WebElement menuHeader = getDriver().findElement(By.xpath("//body/nav//a[@href='./']"));
-        String actualResult = menuHeader.getText();
-        String expectedResult = "CURA Healthcare";
 
-        Assert.assertEquals(actualResult, expectedResult);
-
+        Assert.assertEquals(menuHeader.getText(), expectedResult);
     }
+
     @Test
     public void testMouseover_WebdDiverUniversityCom() {
 
@@ -110,8 +114,108 @@ public class GroupNikkiTest extends BaseTest {
 
         Assert.assertEquals(actualResult,expectedResult);
     }
+
+    @Test
+    public void testSergeDotMintHouseDateSelection(){
+
+        getDriver().get("https://minthouse.com/");
+
+        WebElement propertyList = getDriver().findElement(By
+                .xpath("//div[@class='hero hero-home']//span[@class='text'][contains(text(),'Where to next')]"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(propertyList));
+        new Actions(getDriver()).click(propertyList).perform();
+        getDriver().findElement(By
+                .xpath("//div[@class='dropdown active']//a[@tabindex='0'][contains(text(),'Mint House Austin – South Congress')]")).click();
+
+        WebElement dates = getDriver().findElement(By
+                .xpath("//div[@class='hero hero-home']//span[@class='value']//span[@class='t-check-in'][contains(text(),'Select date')]"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(dates));
+        new Actions(getDriver()).click(dates).perform();
+        String i = "none";
+        List<WebElement> DATELIST = new ArrayList<>(getDriver().findElements(By
+                .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@class='day-item']")));
+        for(WebElement element : DATELIST) {
+            if(TimeUnit.MILLISECONDS.toDays(Math.subtractExact(Long.parseLong(element.getAttribute("data-time")), System.currentTimeMillis())) == 14 ) {
+                i = element.getAttribute("data-time");
+                new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(element));
+                new Actions(getDriver()).click(element).perform();
+                break;
+            }
+        }
+        String actualResult = getDriver()
+                .findElement(By
+                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + i + "]"))
+                .getAttribute("class");
+
+        Assert.assertTrue(actualResult.contains("is-start-date is-locked"));
+    }
+
+    @Test
+    public void backgroundColorTest() {
+        getDriver().get("https://webdriveruniversity.com/Actions/index.html");
+
+        WebElement doubleClick = getDriver().findElement(By.id("double-click"));
+
+        Actions actions = new Actions(getDriver());
+        actions.doubleClick(doubleClick).perform();
+
+        Assert.assertEquals(doubleClick.getCssValue("background-color"), "rgba(147, 203, 90, 1)");
+    }
+
+    @Test
+    public void testArailymNavigateInBrowser(){
+        final String facility_field = "Facility";
+
+        getDriver().navigate().to("https://katalon-demo-cura.herokuapp.com/");
+
+        getDriver().findElement(By.xpath("//a[@id = 'btn-make-appointment']")).click();
+        getDriver().findElement(By.id("txt-username")).sendKeys("John Doe");
+        getDriver().findElement(By.id("txt-password")).sendKeys("ThisIsNotAPassword");
+        getDriver().findElement(By.id("btn-login")).click();
+        getDriver().navigate().back();
+        getDriver().navigate().forward();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//label[@for = 'combo_facility']")).getText(),
+                facility_field);
+    }
+    @Ignore
+    @Test
+    public void alinkTest() {
+        getDriver().get("https://www.rammstein.de/en/");
+
+        getDriver().findElement(By.xpath("//a[@href='/en/live/']")).click();
+        WebElement element = getDriver().findElement(By.xpath("//*[@id=\"HomeLiveSection\"]/div/ol/li[6]/a/div/div/div[3]"));
+
+        Assert.assertEquals(element.getAttribute("innerHTML"), "Munich");
+    }
+
+    @Test
+    public void testIncorrectCredentials(){
+        getDriver().get("https://rahulshettyacademy.com/locatorspractice/");
+
+        WebElement userName = getDriver().findElement(By.id("inputUsername"));
+        userName.sendKeys("Some Name");
+
+        WebElement password = getDriver().findElement(By.name("inputPassword"));
+        password.sendKeys("Some wrong password");
+
+        WebElement signInButton = getDriver().findElement(By.className("signInBtn"));
+        signInButton.click();
+
+        String actualErrorMessage = getDriver().findElement(By.cssSelector("p.error")).getText();
+
+        Assert.assertEquals(actualErrorMessage, "* Incorrect username or password");
+    }
+
+    @Test
+    public void picSizeTest() {
+        getDriver().get("https://www.hostinger.com/tutorials");
+
+        getDriver().findElement(By.id("s")).sendKeys("40 linux");
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
+        getDriver().findElement(By.cssSelector("a[href='/tutorials/linux-commands']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.id("thumbnail-image")).getSize().toString(), "(730, 320)");
+    }
 }
-
-
-
-

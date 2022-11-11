@@ -41,10 +41,9 @@ public class GroupSqaeTest extends BaseTest {
     @Test
     public void testPageTitleOfMagazine() {
         getDriver().get("https://www.theatlantic.com/");
-        String actualTitle = getDriver().getTitle();
-        String expectedTitle = "The Atlantic";
+        final String expectedTitle = "The Atlantic";
 
-        Assert.assertEquals(actualTitle, expectedTitle);
+        Assert.assertEquals(getDriver().getTitle(), expectedTitle);
     }
 
     @Test
@@ -53,7 +52,7 @@ public class GroupSqaeTest extends BaseTest {
         WebElement subscribeButton = getDriver().findElement(By.xpath("//*[@id='__next']/nav/div/div[2]/ul/li[2]/a"));
         subscribeButton.click();
 
-        String expectedCancelLabel = "You can cancel anytime.";
+        final String expectedCancelLabel = "You can cancel anytime.";
 
         WebElement cancelAnyTimeLabel = getDriver().findElement(By.xpath("//*[@id='root']/div[2]/div/header/h3"));
         Assert.assertEquals(cancelAnyTimeLabel.getText(), expectedCancelLabel);
@@ -223,7 +222,7 @@ public class GroupSqaeTest extends BaseTest {
         checkoutButton().click();
         Assert.assertEquals(successfulMessage().getText(), "Спасибо!");
     }
-
+    @Ignore
     @Test
     public void testCheckoutWithUniqueEmailErrorMsg() {
         openMainPage();
@@ -242,7 +241,7 @@ public class GroupSqaeTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//span[@class='ssc-w-input__error']")).getText(),
                 "Уже используется (должно быть уникальным).");
     }
-
+    @Ignore
     @Test
     public void testDeleteItemFromCart() {
         openMainPage();
@@ -252,7 +251,7 @@ public class GroupSqaeTest extends BaseTest {
         deleteItemFromCart().click();
         Assert.assertEquals(cartIsEmpty().getText(), "Корзина пуста");
     }
-
+    @Ignore
     @Test
     public void testMultipleItemsPresentInCart() {
         openMainPage();
@@ -301,7 +300,7 @@ public class GroupSqaeTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='ssc-b-order-item ssc-b-order-item_large']//a[contains(text(),'Конструктор LEGO Star Wars Шлем штурмовика 75276')]"))
                 .isDisplayed(), "Конструктор LEGO Star Wars Шлем штурмовика 75276 - is not present in cart");
     }
-
+    @Ignore
     @Test
     public void testSearchField() throws InterruptedException {
         openMainPage();
