@@ -173,6 +173,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id=\"checkout_complete_container\"]/h2")).getText(), "THANK YOU FOR YOUR ORDER");
     }
 
+    @Ignore
     @Test
     public void testAddToCartButton() {
         getDriver().get("https://www.demoblaze.com");
