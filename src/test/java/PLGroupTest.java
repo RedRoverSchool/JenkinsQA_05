@@ -90,5 +90,5 @@ public class PLGroupTest extends BaseTest {
         Assert.assertTrue(actualResult.contains("F"));
 
     }
-
 }
+
