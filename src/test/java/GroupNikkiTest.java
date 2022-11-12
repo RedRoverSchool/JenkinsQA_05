@@ -5,6 +5,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -55,19 +56,17 @@ public class GroupNikkiTest extends BaseTest {
     }
 
     @Test
-    public void testKate_SuccessOpenUpMenu () {
+    public void test_Kate_SuccessOpenUpMenu () {
+        String expectedResult = "CURA Healthcare";
 
         getDriver().get("https://katalon-demo-cura.herokuapp.com/");
         WebElement menu = getDriver().findElement(By.xpath("//body/a[@id='menu-toggle']"));
         menu.click();
-
         WebElement menuHeader = getDriver().findElement(By.xpath("//body/nav//a[@href='./']"));
-        String actualResult = menuHeader.getText();
-        String expectedResult = "CURA Healthcare";
 
-        Assert.assertEquals(actualResult, expectedResult);
-
+        Assert.assertEquals(menuHeader.getText(), expectedResult);
     }
+
     @Test
     public void testMouseover_WebdDiverUniversityCom() {
 
@@ -150,8 +149,73 @@ public class GroupNikkiTest extends BaseTest {
 
         Assert.assertTrue(actualResult.contains("is-start-date is-locked"));
     }
+
+    @Test
+    public void backgroundColorTest() {
+        getDriver().get("https://webdriveruniversity.com/Actions/index.html");
+
+        WebElement doubleClick = getDriver().findElement(By.id("double-click"));
+
+        Actions actions = new Actions(getDriver());
+        actions.doubleClick(doubleClick).perform();
+
+        Assert.assertEquals(doubleClick.getCssValue("background-color"), "rgba(147, 203, 90, 1)");
+    }
+
+    @Test
+    public void testArailymNavigateInBrowser(){
+        final String facility_field = "Facility";
+
+        getDriver().navigate().to("https://katalon-demo-cura.herokuapp.com/");
+
+        getDriver().findElement(By.xpath("//a[@id = 'btn-make-appointment']")).click();
+        getDriver().findElement(By.id("txt-username")).sendKeys("John Doe");
+        getDriver().findElement(By.id("txt-password")).sendKeys("ThisIsNotAPassword");
+        getDriver().findElement(By.id("btn-login")).click();
+        getDriver().navigate().back();
+        getDriver().navigate().forward();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//label[@for = 'combo_facility']")).getText(),
+                facility_field);
+    }
+    @Ignore
+    @Test
+    public void alinkTest() {
+        getDriver().get("https://www.rammstein.de/en/");
+
+        getDriver().findElement(By.xpath("//a[@href='/en/live/']")).click();
+        WebElement element = getDriver().findElement(By.xpath("//*[@id=\"HomeLiveSection\"]/div/ol/li[6]/a/div/div/div[3]"));
+
+        Assert.assertEquals(element.getAttribute("innerHTML"), "Munich");
+    }
+
+    @Test
+    public void testIncorrectCredentials(){
+        getDriver().get("https://rahulshettyacademy.com/locatorspractice/");
+
+        WebElement userName = getDriver().findElement(By.id("inputUsername"));
+        userName.sendKeys("Some Name");
+
+        WebElement password = getDriver().findElement(By.name("inputPassword"));
+        password.sendKeys("Some wrong password");
+
+        WebElement signInButton = getDriver().findElement(By.className("signInBtn"));
+        signInButton.click();
+
+        String actualErrorMessage = getDriver().findElement(By.cssSelector("p.error")).getText();
+
+        Assert.assertEquals(actualErrorMessage, "* Incorrect username or password");
+    }
+
+    @Test
+    public void picSizeTest() {
+        getDriver().get("https://www.hostinger.com/tutorials");
+
+        getDriver().findElement(By.id("s")).sendKeys("40 linux");
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
+        getDriver().findElement(By.cssSelector("a[href='/tutorials/linux-commands']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.id("thumbnail-image")).getSize().toString(), "(730, 320)");
+    }
 }
-
-
-
-
