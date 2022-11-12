@@ -17,6 +17,7 @@ public class GroupBughuntersTest extends BaseTest {
 
     private final String AUTO_PRACTICE_URL = "http://automationpractice.com/index.php";
 
+    @Ignore
     @Test
     public void testTicketonSearch(){
         getDriver().get("https://ticketon.kz/");
@@ -167,6 +168,7 @@ public class GroupBughuntersTest extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(), "BBC BBC Learning English - Persian Home Page (Dari)");
     }
 
+    @Ignore
     @Test
     public void testBbcStoriesForChildren(){
         getDriver().get("https://www.bbc.co.uk/learningenglish/english/");
