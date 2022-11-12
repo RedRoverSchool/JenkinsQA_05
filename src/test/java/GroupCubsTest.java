@@ -107,13 +107,13 @@ public class GroupCubsTest extends BaseTest {
     }
 
     @Test
-    public void testLoginAndPassword() throws InterruptedException {
+    public void testLoginAndPassword() {
         getDriver().get("https://www.saucedemo.com/");
-        WebElement login = getDriver().findElement(By.xpath("//div[@class='form_group']/input"));
-        login.sendKeys("standard_user");
-        WebElement password = getDriver().findElement(By.id("password"));
-        password.sendKeys("secret_sauce");
-        WebElement loginButton = getDriver().findElement(By.name("login-button"));
-        loginButton.click();
+
+        getDriver().findElement(By.xpath("//div[@class='form_group']/input")).sendKeys("standard_user");
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
+        getDriver().findElement(By.name("login-button")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div/span[@class='title']")).getText(),"PRODUCTS");
     }
 }

@@ -287,7 +287,7 @@ public class GroupTeamRocketTest extends BaseTest {
             }
         }
     }
-@Ignore
+
     @Test
     public void testPriceNokia_ZoiaBut() {
         getDriver().get(URL_DEMOBLAZE);
@@ -662,6 +662,7 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
+    @Ignore
     public void test_JenkinsPluginsRS() {
         getDriver().get("http://www.jenkins.io/");
 

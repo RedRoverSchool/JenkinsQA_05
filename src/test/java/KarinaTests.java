@@ -16,5 +16,6 @@ public class KarinaTests extends BaseTest {
         password.sendKeys("secret_sauce");
         WebElement loginButton = driver.findElement(By.name("login-button"));
         loginButton.click();
+        Thread.sleep(3000);
     }
 }
