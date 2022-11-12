@@ -196,6 +196,7 @@ public class GroupBughuntersTest extends BaseTest {
         String saltStr = salt.toString();
         return saltStr;
     }
+    @Ignore
     @Test
     public void testInsuranceCompanyQuote() throws InterruptedException {
         getDriver().get("https://demo.guru99.com/insurance/v1/register.php");
