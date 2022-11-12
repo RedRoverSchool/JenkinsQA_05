@@ -335,7 +335,36 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     @Test
-    public void testCheckHowToUseService() {
+    public void testHowUseServiceStepFirst() {
+        String step1 = "1 Найди самокат";
+        String step1Description = "На карте в приложении отмечены все наши самокаты, доступные для аренды." +
+                        "В жизни они фиолетовые, иногда на них бывает брендинг города";
+
+        getDriver().get(MAIN_PAGE);
+        WebElement actualStep1 = getDriver().findElement(By.xpath("//li[@class='block3-list-item source source-1']"));
+        WebElement description1 = getDriver().findElement(By.xpath("//p[@class = 'block3-textblock target target-1']"));
+
+        Assert.assertEquals(actualStep1.getText(), step1);
+        Assert.assertEquals(description1.getText().replace("\n", ""), step1Description);
+    }
+
+    @Test
+    public void testHowUseServiceStepTwo() {
+        String step2 = "2 Отсканируй QR";
+        String step2Description = "Когда самокат перед тобой – нажми на круглую кнопку сканирования." +
+                "Отсканируй QR-код.Он будет на руле самоката";
+
+        getDriver().get(MAIN_PAGE);
+        WebElement actualStep2 = getDriver().findElement(By.xpath("//li[@class='block3-list-item source source-2']"));
+        actualStep2.click();
+        WebElement description2 = getDriver().findElement(By.xpath("//p[@class = 'block3-textblock target target-2']"));
+
+        Assert.assertEquals(actualStep2.getText(), step2);
+        Assert.assertEquals(description2.getText().replace("\n", ""), step2Description);
+    }
+
+    @Test
+    public void testHowToUseService() {
         final String propertyActiveButton = "2px solid rgb(128, 74, 255)";
         final List<String> stepsNames = List.of("Найди самокат", "Отсканируй QR", "Выбери тариф", "Можно ехать!");
         final List<String> stepsDescriptions = List.of(
