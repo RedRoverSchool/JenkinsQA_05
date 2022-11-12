@@ -31,6 +31,7 @@ public class GroupTeamRocketTest extends BaseTest {
     private static final String URL_99 = "http://www.99-bottles-of-beer.net/";
     private static final String URL_PICKNPULL = "https://www.picknpull.com/check-inventory/vehicle-search?make=182&model=3611&distance=25&zip=95123&year=";
     private static final String URL_ELCATS = "http://www.elcats.ru/mercedes/";
+    private static final String URL_DEMOBLAZE = "https://www.demoblaze.com/";
     @Test
     public void testAddElementHerokuapp() {
         getDriver().get("https://the-internet.herokuapp.com/");
@@ -289,12 +290,12 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testPriceNokia_ZoiaBut() {
-        getDriver().get("https://www.demoblaze.com/");
+        getDriver().get(URL_DEMOBLAZE);
 
         getDriver().findElement(By.xpath("//div/a[@href='prod.html?idp_=2']")).click();
 
-        Assert.assertFalse((getDriver().findElement(By.xpath("//h3[text()='$820']"))
-                .getText().contains("$620")));
+        Assert.assertTrue((getDriver().findElement(By.xpath("//h3[text()='$820']"))
+                .getText().contains("$820")));
     }
 
     @Test
@@ -355,10 +356,10 @@ public class GroupTeamRocketTest extends BaseTest {
                 .getText(), "Go To Final Step");
     }
 
-    @Ignore
+
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
-        getDriver().get("https://www.demoblaze.com/");
+        getDriver().get(URL_DEMOBLAZE);
 
         getDriver().findElement(By.xpath("//h4/a[@href='prod.html?idp_=4']")).click();
 
@@ -485,16 +486,16 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testCategoriesPanel_ZB() {
-        getDriver().get("https://www.demoblaze.com/");
+        getDriver().get(URL_DEMOBLAZE);
 
-        Assert.assertTrue(getDriver().findElement(
-                By.xpath("//div[@class='list-group']/a[text()='CATEGORIES']")).isDisplayed());
-        Assert.assertTrue(getDriver().findElement(
-                By.xpath("//div[@class='list-group']/a[text()='Phones']")).isDisplayed());
-        Assert.assertTrue(getDriver().findElement(
-                By.xpath("//div[@class='list-group']/a[text()='Laptops']")).isDisplayed());
-        Assert.assertTrue(getDriver().findElement(
-                By.xpath("//div[@class='list-group']/a[text()='Monitors']")).isDisplayed());
+        Assert.assertTrue(getDriver()
+                .findElement(By.xpath("//div[@class='list-group']/a[text()='CATEGORIES']")).isDisplayed());
+        Assert.assertTrue(getDriver()
+                .findElement(By.xpath("//div[@class='list-group']/a[text()='Phones']")).isDisplayed());
+        Assert.assertTrue(getDriver()
+                .findElement(By.xpath("//div[@class='list-group']/a[text()='Laptops']")).isDisplayed());
+        Assert.assertTrue(getDriver()
+                .findElement(By.xpath("//div[@class='list-group']/a[text()='Monitors']")).isDisplayed());
     }
 
     @Test
@@ -634,21 +635,44 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertTrue(isMercedesCLKfound);
     }
 
-        @Test
-        public void testStaticDropDown_VZ () throws InterruptedException {
-            getDriver().get("https://rahulshettyacademy.com/dropdownsPractise/");
+    @Test
+    public void testStaticDropDown_VZ () throws InterruptedException {
+        getDriver().get("https://rahulshettyacademy.com/dropdownsPractise/");
 
-            WebElement staticDropdown = getDriver().findElement(By.id("ctl00_mainContent_DropDownListCurrency"));
-            Select dropdown = new Select(staticDropdown);
-            dropdown.selectByIndex(3);
+        WebElement staticDropdown = getDriver().findElement(By.id("ctl00_mainContent_DropDownListCurrency"));
+        Select dropdown = new Select(staticDropdown);
+        dropdown.selectByIndex(3);
 
-            getDriver().findElement(By.id("divpaxinfo")).click();
-            Thread.sleep(2000);
-            for (int i = 1; i < 5; i++) {
-                getDriver().findElement(By.id("hrefIncAdt")).click();
-            }
-            getDriver().findElement(By.id("btnclosepaxoption")).click();
-
-            Assert.assertEquals(getDriver().findElement(By.id("divpaxinfo")).getText(), "5 Adult");
+        getDriver().findElement(By.id("divpaxinfo")).click();
+        Thread.sleep(2000);
+        for (int i = 1; i < 5; i++) {
+            getDriver().findElement(By.id("hrefIncAdt")).click();
         }
+        getDriver().findElement(By.id("btnclosepaxoption")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.id("divpaxinfo")).getText(), "5 Adult");
     }
+
+    @Test
+    public void test_WixWebSiteAnnaPav() throws InterruptedException {
+        getDriver().get("https://www.wix.com/");
+        WebElement actualResult = getDriver().findElement(By.xpath("//span[contains(text(), 'Create a website without limits')]"));
+
+        Assert.assertEquals(actualResult.getText(), "Create a website without limits");
+    }
+
+    @Test
+    public void test_JenkinsPluginsRS() {
+        getDriver().get("http://www.jenkins.io/");
+
+        getDriver().findElement(By.xpath(" //div[@id='CollapsingNavbar']/ul[2]//a[@href='https://plugins.jenkins.io/']")).click();
+        getDriver().findElement(By.xpath("//div/input")).sendKeys("SSH");
+        getDriver().findElement(By.xpath("//div/button/i")).click();
+        WebElement cardsTitle = getDriver().findElement(
+                By.xpath("//div[@id='cb-item-finder-grid-box']/div[1]//h4[.='SSH']"));
+
+        Assert.assertTrue(cardsTitle.isDisplayed());
+        Assert.assertEquals(cardsTitle.getText(), "SSH");
+    }
+}
+

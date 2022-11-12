@@ -33,6 +33,7 @@ public class GroupDreamTeamTest extends BaseTest {
         getDriver().findElement(By.id("my-text-id")).sendKeys("Hello!");
         getDriver().findElement(By.xpath("//button")).click();
         String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
+
         Assert.assertEquals(actualResult, "Form submitted");
     }
 
@@ -46,6 +47,7 @@ public class GroupDreamTeamTest extends BaseTest {
         Select sel = new Select(dropdownSelect);
         sel.selectByValue("1");
         WebElement one = getDriver().findElement(By.xpath("//option[@value='1']"));
+
         Assert.assertTrue(one.isSelected());
     }
 
@@ -164,5 +166,38 @@ public class GroupDreamTeamTest extends BaseTest {
         var confirmationText = getDriver().findElement(By.xpath("//h2[text() = 'Appointment Confirmation']")).getText();
 
         Assert.assertEquals(confirmationText, "Appointment Confirmation");
+    }
+
+    @Test
+    public void testMintHouseSource2(){
+        getDriver().get("https://minthouse.com/");
+        String currentSource = getDriver().getPageSource();
+        boolean actualResult = currentSource.contains("div");
+
+        Assert.assertTrue(actualResult);
+    }
+
+    @Test
+    public void test_Ina() {
+        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        WebElement color = getDriver().findElement(By.name("my-colors"));
+        String initialColor = color.getAttribute("value");
+        color.sendKeys(Keys.ARROW_LEFT);
+        String changedColor = color.getAttribute("value");
+
+        Assert.assertNotEquals(initialColor, changedColor);
+    }
+
+    @Test
+    public void testElena2() {
+        getDriver().get("https://katalon-demo-cura.herokuapp.com/");
+        final String username = "John Doe";
+        final String password = "ThisIsNotAPassword";
+        getDriver().findElement(By.id("menu-toggle")).click();
+        getDriver().findElement(By.xpath("//li/a[text()='Login']")).click();
+        getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(username);
+        getDriver().findElement(By.xpath("//input[@id='txt-password']")).sendKeys(password);
+
+        Assert.assertTrue(true, "//div[@class='col-sm-12 text-center']");
     }
 }
