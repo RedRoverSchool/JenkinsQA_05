@@ -3,7 +3,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -135,13 +134,14 @@ public class GroupJavaStartTest extends BaseTest {
     }
 
     @Test
-    public void test_TittleAndUrlWhenGuideMenu_CordedWare() {
+    public void test_TittleAndUrlWhenGuideMenu_CordedWare() throws InterruptedException{
 
         String expectedResultUrl = "https://openweathermap.org/guide";
         String expectedResultTitle = "OpenWeatherMap API guide - OpenWeatherMap";
 
         getDriver().get(WEATHER_PAGE_URL);
-
+        Thread.sleep(10000); // без слипа будет ошибка на 144. Удалю этот комментарий во втором PR
+        
         getDriver().findElement(By.xpath("//a[@href = '/guide']")).click();
 
         String actualResultUrl = getDriver().getCurrentUrl();
@@ -150,17 +150,19 @@ public class GroupJavaStartTest extends BaseTest {
         Assert.assertEquals(actualResultUrl, expectedResultUrl);
         Assert.assertEquals(actualResultTitle, expectedResultTitle);
     }
-    @Ignore
+
     @Test
-    public void test_TemperatureForCity_CordedWare() {
+    public void test_TemperatureForCity_CordedWare() throws InterruptedException{
 
         String fSymbol = "°F";
         String expectedResult = "°F";
 
         getDriver().get(WEATHER_PAGE_URL);
-
+        Thread.sleep(10000); // без слипа будет ошибка на 162. Удалю этот комментарий во втором PR
+        
         getDriver().findElement(By.xpath("//div[3][@class = 'option']")).click();
-
+        Thread.sleep(10000); // без слипа будет ошибка на 165. Удалю этот комментарий во втором PR
+        
         WebElement checkTemperatureHeader = getDriver().findElement(By.xpath("//div[@class = 'current-container mobile-padding']/div[2]/div/span[@class = 'heading']"));
         checkTemperatureHeader.click();
 
