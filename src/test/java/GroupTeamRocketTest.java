@@ -659,5 +659,23 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertEquals(actualResult.getText(), "Create a website without limits");
     }
+
+    @Test
+    public void test_WixGetStartedAnnaPav() {
+        getDriver().get("https://www.wix.com/");
+        getDriver().findElement(By.xpath("//*[@id='main-menu-item-creation']"));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='main-menu-item-creation']")).getText(), "Creation");
+    }
+
+    @Test
+    public void test_WixCreationAnnaPav() throws InterruptedException {
+        getDriver().get("https://www.wix.com/");
+        getDriver().findElement(By.xpath("//a[@class='bOL8nw yOYgO_']")).click();
+        Thread.sleep(5000);
+        WebElement actualResult = getDriver().findElement(By.xpath("//h1[@class='log-in-title title ng-binding']"));
+
+        Assert.assertEquals(actualResult.getText(), "Log In");
+    }
 }
 
