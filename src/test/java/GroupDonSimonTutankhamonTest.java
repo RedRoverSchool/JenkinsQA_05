@@ -27,6 +27,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
     static final String SELECTROSHUB_URL = "https://selectorshub.com/xpath-practice-page/";
     static final String WEBDRIVERUNI_DROPDOWN_URL = "https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html";
+
     @Test
     public void test_FormSubmAutomationinTestingOnline_IKrlkv() {
 
@@ -283,7 +284,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     @Test
     public void testFileUpload_WebdDiverUniversityCom() throws IOException {
 
-        String url ="https://webdriveruniversity.com/File-Upload/index.html";
+        String url = "https://webdriveruniversity.com/File-Upload/index.html";
         Path tempFile = Files.createTempFile("tempfiles", ".tmp");
         String fileName = tempFile.toAbsolutePath().toString();
 
@@ -325,6 +326,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         WebElement sliderValueWindow = getDriver().findElement(By.id("sliderValue"));
         Assert.assertEquals(sliderValueWindow.getAttribute("value"), String.valueOf(resultSliderValue));
     }
+
     @Ignore
     @Test
     public void testButtonsClicks_DemoqaCom() {
@@ -426,7 +428,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         String usernameText = getDriver().findElement(By.xpath("//h4/em")).getText();
         usernameInput.sendKeys(usernameText);
         WebElement usernamePassword = getDriver().findElement(By.id("password"));
-        String usernamePasswordText= getDriver().findElement(By.xpath("//h4/em[2]")).getText();
+        String usernamePasswordText = getDriver().findElement(By.xpath("//h4/em[2]")).getText();
         usernamePassword.sendKeys(usernamePasswordText);
         WebElement loginButton = getDriver().findElement(By.xpath("//button[@type='submit']"));
         loginButton.click();
