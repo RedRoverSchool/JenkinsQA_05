@@ -358,12 +358,11 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
 
-    @Ignore
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
         getDriver().get(URL_DEMOBLAZE);
 
-        getDriver().findElement(By.xpath("//h4/a[@href='prod.html?idp_=4']")).click();
+        getDriver().findElement(By.xpath("//div[@id='tbodyid']//div[4]//h4/a[@href='prod.html?idp_=4']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h3[@class='price-container']")).getText(),
                 "$800 *includes tax");
