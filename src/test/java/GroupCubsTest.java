@@ -119,6 +119,7 @@ public class GroupCubsTest extends BaseTest {
         Assert.assertTrue(waitElementClickableCss(".sf-with-ul"));
         clickElementCss(".sf-with-ul").click();
         Assert.assertTrue(waitElementDisplayedCss(".category-name").isDisplayed());
+
     }
 
     private boolean waitElementClickableCss(String locator){
