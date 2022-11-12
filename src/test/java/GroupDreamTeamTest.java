@@ -16,9 +16,7 @@ public class GroupDreamTeamTest extends BaseTest {
     private static final String URL_DEMO = "https://katalon-demo-cura.herokuapp.com/";
     private static final String USERNAME_DEMO = "John Doe";
     private static final String PASSWORD_DEMO = "ThisIsNotAPassword";
-
     private static final String URL_MINTHOUSE = "https://minthouse.com/";
-
     private static final String URL_WEBFORM = "https://www.selenium.dev/selenium/web/web-form.html";
     private static final String URL_BOOKING = "https://automationintesting.online/";
 
