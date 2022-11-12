@@ -108,15 +108,14 @@ public class GroupCubsTest extends BaseTest {
 
     @Test
     public void testLoginAndPassword() throws InterruptedException {
-        ChromeDriver driver = new ChromeDriver();
-        driver.get("https://www.saucedemo.com/");
-        WebElement login = driver.findElement(By.xpath("//div[@class='form_group']/input"));
+        getDriver().get("https://www.saucedemo.com/");
+        WebElement login = getDriver().findElement(By.xpath("//div[@class='form_group']/input"));
         login.sendKeys("standard_user");
         Thread.sleep(1000);
-        WebElement password = driver.findElement(By.id("password"));
+        WebElement password = getDriver().findElement(By.id("password"));
         password.sendKeys("secret_sauce");
         Thread.sleep(1000);
-        WebElement loginButton = driver.findElement(By.name("login-button"));
+        WebElement loginButton = getDriver().findElement(By.name("login-button"));
         loginButton.click();
     }
 }
