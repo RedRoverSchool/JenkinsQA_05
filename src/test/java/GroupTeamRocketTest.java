@@ -677,6 +677,20 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
+    public void test_JenkinsPluginsRS() {
+        getDriver().get("http://www.jenkins.io/");
+
+        getDriver().findElement(By.xpath(" //div[@id='CollapsingNavbar']/ul[2]//a[@href='https://plugins.jenkins.io/']")).click();
+        getDriver().findElement(By.xpath("//div/input")).sendKeys("SSH");
+        getDriver().findElement(By.xpath("//div/button/i")).click();
+        WebElement cardsTitle = getDriver().findElement(
+                By.xpath("//div[@id='cb-item-finder-grid-box']/div[1]//h4[.='SSH']"));
+
+        Assert.assertTrue(cardsTitle.isDisplayed());
+        Assert.assertEquals(cardsTitle.getText(), "SSH");
+    }
+
+    @Test
     public void testJenkinsUnstartedDemoWatchMode_EZ() {
         getDriver().get(URL_JENKINS);
 
