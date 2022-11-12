@@ -1,10 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -12,8 +5,9 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupFremenTest extends BaseTest {
 
@@ -125,51 +119,132 @@ public class GroupFremenTest extends BaseTest {
     public void testMainPageAutocompleteLink() {
         getDriver().get(URL);
         String expectedResult = "https://formy-project.herokuapp.com/autocomplete";
-        WebElement LinkAutocomplete = getDriver().findElement(
-                By.xpath("//div[@class = 'jumbotron-fluid']/li/a[@href = '/autocomplete']"));
-        LinkAutocomplete.click();
-        String actualResult = getDriver().getCurrentUrl();
-        Assert.assertEquals(expectedResult, actualResult);
+
+        getDriver().findElement(
+                By.xpath("//div[@class = 'jumbotron-fluid']/li/a[@href = '/autocomplete']")).click();
+
+        Assert.assertEquals(expectedResult, getDriver().getCurrentUrl());
     }
 
     @Test
     public void testKristina_SwitchWindow() {
         getDriver().get(URL);
-        getDriver().findElement(By.xpath("//a[@class='btn btn-lg'][text()='Switch Window']")).click();
-        getDriver().findElement(By.xpath("//div/button[@id='new-tab-button']")).click();
-        String currentHandle = getDriver().getWindowHandle();
-        getDriver().switchTo().window(currentHandle);
-        getDriver().findElement(By.xpath("//div/button[@id='alert-button']")).click();
 
-        Assert.assertEquals(getDriver().switchTo().alert().getText(), "This is a test alert!");
+        String expectedResultTitle = "Switch Window";
+        String expectedResultAlert = "This is a test alert!";
+
+        getDriver().findElement(By.xpath("//a[@class='btn btn-lg'][text()='Switch Window']")).click();
+        String actualResultTitle = getDriver().findElement(By.xpath("//h1[text()='Switch Window']")).getText();
+
+        getDriver().findElement(By.xpath("//button[@id='alert-button']")).click();
+        String actualResultAlert = getDriver().switchTo().alert().getText();
         getDriver().switchTo().alert().accept();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("h1")).getText(),
-                "Switch Window");
+        getDriver().findElement(By.xpath("//button[@id='new-tab-button']")).click();
+
+        Assert.assertEquals(actualResultTitle, expectedResultTitle);
+        Assert.assertEquals(actualResultAlert, expectedResultAlert);
     }
 
     @Test
     public void testDZAmountElementsOfLinksInTabComponents() {
+        final int expectedResult = 14;
+
         getDriver().get(URL);
-        int expectedResult = 14;
-        WebElement linkComponents = getDriver().findElement(
-                By.id("navbarDropdownMenuLink"));
-        linkComponents.click();
+
+        getDriver().findElement(By.id("navbarDropdownMenuLink")).click();
+
         int actualResult = getDriver().findElements(
                 By.xpath("//div[@class='dropdown-menu show']/a")).size();
-        Assert.assertEquals(expectedResult, actualResult);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
     public void testDZSubmitAnEmptyForm() {
+        final String expectedResult = "The form was successfully submitted!";
+
         getDriver().get(URL);
-        String expectedResult = "The form was successfully submitted!";
-        WebElement linkForm = getDriver().findElement(By.xpath("//a[text()='Form']"));
-        linkForm.click();
-        WebElement pressSubmit = getDriver().findElement(By.xpath("//a[@class='btn btn-lg btn-primary']"));
-        pressSubmit.click();
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//div[@class='alert alert-success']")).getText(), expectedResult);
+
+        getDriver().findElement(By.xpath("//a[text()='Form']")).click();
+        getDriver().findElement(By.xpath("//a[@class='btn btn-lg btn-primary']")).click();
+
+        String actualResult = getDriver().findElement(
+                By.xpath("//div[@class='alert alert-success']")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Test
+    public void testModal() {
+        getDriver().get(URL);
+        String expectedResult = "Modal";
+        getDriver().findElement(By.xpath("//div/div/li/a[@href='/modal']")).click();
+        getDriver().findElement(By.xpath("//form/button[@type='button']")).click();
+        getDriver().findElement(By.id("close-button")).click();
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//h1[text()='Modal']")).getText(), expectedResult);
+    }
+
+    @Test
+    public void testHerokuappButtonsContainWarning() {
+        getDriver().get(URL);
+        WebElement link = getDriver().findElement(By.xpath("//div/li/a[text()='Buttons']"));
+        link.click();
+        WebElement buttonsPage = getDriver().findElement(
+                By.xpath("//div/div/div/button[text()='Warning']"));
+        Assert.assertEquals(buttonsPage.getText(), "Warning");
+    }
+
+    @Test
+    public void testDZSwitchToNewWindowCheckLogoName() {
+        final String expectedResult = "FORMY";
+
+        getDriver().get(URL);
+
+        getDriver().findElement(By.xpath("//a[@class='btn btn-lg' and text()='Switch Window']")).click();
+
+        String originalWindow = getDriver().getWindowHandle();
+        getDriver().findElement(By.id("new-tab-button")).click();
+
+        for (String windowNew : getDriver().getWindowHandles()) {
+            if (!originalWindow.contentEquals(windowNew)) {
+                getDriver().switchTo().window(windowNew);
+                break;
+            }
+        }
+        String actualResult = getDriver().findElement(By.xpath("//a[@id='logo']")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testHerokuAppButtonsName() {
+        final String expectedButton = "Danger";
+
+        getDriver().get(URL);
+        getDriver().findElement(
+                By.xpath("//li/a[@href='/buttons']")).click();
+
+        String actualButton = getDriver().findElement(
+                By.xpath("//button[@class ='btn btn-lg btn-danger']")).getText();
+
+        Assert.assertEquals(actualButton, expectedButton);
+    }
+
+    @Test
+    public void testMICheckModalTitleMessage() throws InterruptedException {
+        final String expectedText = "Some text here";
+
+        getDriver().get(URL);
+        getDriver().findElement(
+                By.xpath("//li/a[@href = '/modal']")).click();
+        getDriver().findElement(
+                By.xpath("//button[@id = 'modal-button']")).click();
+
+        Thread.sleep(1000);
+        String actualText = getDriver().findElement(
+                By.xpath("//div[@class = 'modal-body']")).getText();
+
+        Assert.assertEquals(actualText, expectedText);
+    }
 }

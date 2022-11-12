@@ -1,4 +1,4 @@
-package group_a_team;
+package group_a_team_test;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -17,16 +17,15 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
 
     @BeforeMethod
     private void navigateToPage() {
-        loginIn(STANDARD_USER, CORRECT_PASSWORD);
+        loginIn(SauceDemoConsts.STANDARD_USER, SauceDemoConsts.CORRECT_PASSWORD);
     }
 
     @Test
     public void testSidebarMenuForItems() {
         clickOnSidebarMenuBtn();
-        Assert.assertTrue(getDriver().findElement(By.cssSelector("div.bm-menu")).isDisplayed());
 
         List<String> expectedMenuItemNames = List.of("ALL ITEMS", "ABOUT", "LOGOUT", "RESET APP STATE");
-        List<WebElement> actualMenuItems = new WebDriverWait(getDriver(), Duration.ofSeconds(20))
+        List<WebElement> actualMenuItems = new WebDriverWait(getDriver(), Duration.ofSeconds(60))
                 .ignoring(StaleElementReferenceException.class)
                 .until(ExpectedConditions.visibilityOfAllElements(getDriver().findElements(By.xpath("//nav[@class='bm-item-list']/a"))));
         List<String> actualMenuItemNames = new ArrayList<>();
@@ -38,7 +37,7 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
     @Test(dependsOnMethods = "testSidebarMenuForItems")
     public void testAllItemsLinkFromSidebarMenu() {
         goThrowLinkOfSidebarMenu("inventory_sidebar_link");
-        Assert.assertEquals(getDriver().getCurrentUrl(), INVENTORY_PAGE_URL);
+        Assert.assertEquals(getDriver().getCurrentUrl(), SauceDemoConsts.INVENTORY_PAGE_URL);
     }
 
     @Test(dependsOnMethods = "testSidebarMenuForItems")
@@ -46,16 +45,15 @@ public class SauceDemoInventoryPageTest extends SauceDemoBaseTest {
         goThrowLinkOfSidebarMenu("about_sidebar_link");
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://saucelabs.com/");
     }
-
     @Test(dependsOnMethods = "testSidebarMenuForItems")
     public void testLogOutFromSideBarMenu() {
         goThrowLinkOfSidebarMenu("logout_sidebar_link");
-        Assert.assertEquals(getDriver().getCurrentUrl(), URL);
+        Assert.assertEquals(getDriver().getCurrentUrl(), SauceDemoConsts.URL);
     }
 
     private void goThrowLinkOfSidebarMenu(String locator) {
         clickOnSidebarMenuBtn();
-        WebElement link = new WebDriverWait(getDriver(), Duration.ofSeconds(20))
+        WebElement link = new WebDriverWait(getDriver(), Duration.ofSeconds(60))
                 .ignoring(StaleElementReferenceException.class)
                 .until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id(locator))));
 
