@@ -151,7 +151,7 @@ public class GroupNikkiTest extends BaseTest {
     }
 
     @Test
-    public void backgroundColorTest() {
+    public void testBackgroundColor() {
         getDriver().get("https://webdriveruniversity.com/Actions/index.html");
 
         WebElement doubleClick = getDriver().findElement(By.id("double-click"));
@@ -178,16 +178,6 @@ public class GroupNikkiTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//label[@for = 'combo_facility']")).getText(),
                 facility_field);
     }
-    @Ignore
-    @Test
-    public void alinkTest() {
-        getDriver().get("https://www.rammstein.de/en/");
-
-        getDriver().findElement(By.xpath("//a[@href='/en/live/']")).click();
-        WebElement element = getDriver().findElement(By.xpath("//*[@id=\"HomeLiveSection\"]/div/ol/li[6]/a/div/div/div[3]"));
-
-        Assert.assertEquals(element.getAttribute("innerHTML"), "Munich");
-    }
 
     @Test
     public void testIncorrectCredentials(){
@@ -208,7 +198,7 @@ public class GroupNikkiTest extends BaseTest {
     }
 
     @Test
-    public void picSizeTest() {
+    public void testPicSize() {
         getDriver().get("https://www.hostinger.com/tutorials");
 
         getDriver().findElement(By.id("s")).sendKeys("40 linux");
