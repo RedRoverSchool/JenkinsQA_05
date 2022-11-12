@@ -661,6 +661,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(actualResult.getText(), "Create a website without limits");
     }
 
+    @Ignore
     @Test
     public void test_JenkinsPluginsRS() {
         getDriver().get("http://www.jenkins.io/");
