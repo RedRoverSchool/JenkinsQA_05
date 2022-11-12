@@ -174,6 +174,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id=\"checkout_complete_container\"]/h2")).getText(), "THANK YOU FOR YOUR ORDER");
     }
 
+    @Ignore
     @Test
     public void testAddToCartButton() {
         getDriver().get("https://www.demoblaze.com");
@@ -357,6 +358,7 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
 
+    @Ignore
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
         getDriver().get(URL_DEMOBLAZE);
@@ -661,18 +663,33 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(actualResult.getText(), "Create a website without limits");
     }
 
+    @Ignore
     @Test
-    public void test_JenkinsPluginsRS() {
-        getDriver().get("http://www.jenkins.io/");
+    public void test_WixGetStartedAnnaPav() {
+        getDriver().get("https://www.wix.com/");
+        getDriver().findElement(By.xpath("//*[@id='main-menu-item-creation']"));
 
-        getDriver().findElement(By.xpath(" //div[@id='CollapsingNavbar']/ul[2]//a[@href='https://plugins.jenkins.io/']")).click();
-        getDriver().findElement(By.xpath("//div/input")).sendKeys("SSH");
-        getDriver().findElement(By.xpath("//div/button/i")).click();
-        WebElement cardsTitle = getDriver().findElement(
-                By.xpath("//div[@id='cb-item-finder-grid-box']/div[1]//h4[.='SSH']"));
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='main-menu-item-creation']")).getText(), "Creation");
+    }
 
-        Assert.assertTrue(cardsTitle.isDisplayed());
-        Assert.assertEquals(cardsTitle.getText(), "SSH");
+    @Test
+    public void test_WixCreationAnnaPav() throws InterruptedException {
+        getDriver().get("https://www.wix.com/");
+        getDriver().findElement(By.xpath("//a[@class='bOL8nw yOYgO_']")).click();
+        Thread.sleep(5000);
+        WebElement actualResult = getDriver().findElement(By.xpath("//h1[@class='log-in-title title ng-binding']"));
+
+        Assert.assertEquals(actualResult.getText(), "Log In");
+    }
+
+    @Test
+    public void test_WixLoginAnnaPav() throws InterruptedException {
+        getDriver().get("https://www.wix.com/");
+        getDriver().findElement(By.xpath("//a[@class='bOL8nw yOYgO_']")).click();
+        Thread.sleep(5000);
+        WebElement actualResult = getDriver().findElement(By.xpath("//button[@name='submit']"));
+
+        Assert.assertEquals(actualResult.getText(), "Continue with Email");
     }
 }
 

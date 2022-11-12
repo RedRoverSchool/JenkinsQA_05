@@ -175,24 +175,23 @@ public class GroupFremenTest extends BaseTest {
     }
 
     @Test
-    public void testModal() {
+    public void testCloseModalIO() {
         getDriver().get(URL);
-        String expectedResult = "Modal";
-        getDriver().findElement(By.xpath("//div/div/li/a[@href='/modal']")).click();
+        getDriver().findElement(By.xpath("//li/a[@href='/modal']")).click();
         getDriver().findElement(By.xpath("//form/button[@type='button']")).click();
         getDriver().findElement(By.id("close-button")).click();
+
         Assert.assertEquals(getDriver().findElement(
-                By.xpath("//h1[text()='Modal']")).getText(), expectedResult);
+                By.xpath("//h1[text()='Modal']")).getText(), "Modal");
     }
 
     @Test
-    public void testHerokuappButtonsContainWarning() {
+    public void testHerokuappButtonsContainWarningIO() {
         getDriver().get(URL);
-        WebElement link = getDriver().findElement(By.xpath("//div/li/a[text()='Buttons']"));
-        link.click();
-        WebElement buttonsPage = getDriver().findElement(
-                By.xpath("//div/div/div/button[text()='Warning']"));
-        Assert.assertEquals(buttonsPage.getText(), "Warning");
+        getDriver().findElement(By.xpath("//li/a[@href='/buttons']")).click();
+
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//button[@class='btn btn-lg btn-warning']")).getText(), "Warning");
     }
 
     @Test
