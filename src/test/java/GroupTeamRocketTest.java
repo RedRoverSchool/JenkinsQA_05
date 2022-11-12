@@ -677,5 +677,15 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertEquals(actualResult.getText(), "Log In");
     }
+
+    @Test
+    public void test_WixLoginAnnaPav() throws InterruptedException {
+        getDriver().get("https://www.wix.com/");
+        getDriver().findElement(By.xpath("//a[@class='bOL8nw yOYgO_']")).click();
+        Thread.sleep(5000);
+        WebElement actualResult = getDriver().findElement(By.xpath("//button[@name='submit']"));
+
+        Assert.assertEquals(actualResult.getText(), "Continue with Email");
+    }
 }
 
