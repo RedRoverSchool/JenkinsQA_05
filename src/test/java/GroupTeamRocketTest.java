@@ -287,7 +287,7 @@ public class GroupTeamRocketTest extends BaseTest {
             }
         }
     }
-
+@Ignore
     @Test
     public void testPriceNokia_ZoiaBut() {
         getDriver().get(URL_DEMOBLAZE);
