@@ -325,21 +325,24 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void testButtonsClicks_DemoqaCom_iKrlkv() {
+    public void testButtonsClicks_DemoqaCom_iKrlkv() throws InterruptedException {
 
         getDriver().get("https://demoqa.com/buttons");
         Actions actions = new Actions(getDriver());
 
         WebElement dropDown1 = getDriver().findElement(By.id("doubleClickBtn"));
         actions.doubleClick(dropDown1).build().perform();
+        Thread.sleep(200);
         WebElement contextMenu1 = getDriver().findElement(By.id("doubleClickMessage"));
 
         WebElement dropDown2 = getDriver().findElement(By.id("rightClickBtn"));
         actions.contextClick(dropDown2).build().perform();
+        Thread.sleep(200);
         WebElement contextMenu2 = getDriver().findElement(By.id("rightClickMessage"));
 
         WebElement dropDown3 = getDriver().findElement(By.xpath("//button[text()='Click Me']"));
         actions.click(dropDown3).build().perform();
+        Thread.sleep(200);
         WebElement contextMenu3 = getDriver().findElement(By.id("dynamicClickMessage"));
 
         Assert.assertTrue(contextMenu1.isDisplayed());
