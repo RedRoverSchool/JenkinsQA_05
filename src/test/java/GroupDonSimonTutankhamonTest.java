@@ -24,9 +24,10 @@ import java.util.stream.Collectors;
 public class GroupDonSimonTutankhamonTest extends BaseTest {
 
 
-    static final String SELECTROSHUB_URL = "https://selectorshub.com/xpath-practice-page/";
-    static final String WEBDRIVERUNI_DROPDOWN_URL = "https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html";
-    static final String HEROKUAPP_URL = "https://formy-project.herokuapp.com/";
+    private static final String SELECTROSHUB_URL = "https://selectorshub.com/xpath-practice-page/";
+    private static final String WEBDRIVERUNI_DROPDOWN_URL = "https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html";
+    private static final String HEROKUAPP_URL = "https://formy-project.herokuapp.com/";
+
     @Test
     public void testFormSubm_AutomationinTestingOnline_IKrlkv() {
 
