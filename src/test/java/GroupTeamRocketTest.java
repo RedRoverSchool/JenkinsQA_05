@@ -16,8 +16,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class
-GroupTeamRocketTest extends BaseTest {
+public class GroupTeamRocketTest extends BaseTest {
 
     final List<String> EXPECTED_ITEMS = List.of(
             "What's New",
