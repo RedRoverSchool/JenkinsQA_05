@@ -47,6 +47,7 @@ public class GroupDreamTeamTest extends BaseTest {
         Select sel = new Select(dropdownSelect);
         sel.selectByValue("1");
         WebElement one = getDriver().findElement(By.xpath("//option[@value='1']"));
+
         Assert.assertTrue(one.isSelected());
     }
 
@@ -71,15 +72,16 @@ public class GroupDreamTeamTest extends BaseTest {
         for (int i = 1; i <= 4; i++) {
             exampleRange.sendKeys(Keys.ARROW_RIGHT);
         }
+
         int rangeValue = Integer.parseInt(exampleRange.getAttribute("value"));
         Assert.assertEquals(rangeValue, 9);
     }
 
 
     @Test
-    public void testSimonGertzMintHouseDateSelectionNoPastDate() {
+    public void testSimonGertzMintHouseDateSelectionNoPastDate(){
         final long dayInMillis = 86400000;
-
+        
         getDriver().get("https://minthouse.com/");
 
         WebElement propertyList = getDriver().findElement(By
@@ -106,11 +108,11 @@ public class GroupDreamTeamTest extends BaseTest {
                 .getAttribute("data-time"));
         String actualResult = getDriver()
                 .findElement(By
-                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + Math.subtractExact(todayMillis, dayInMillis) + "]"))
+                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + Math.subtractExact(todayMillis,dayInMillis) + "]"))
                 .getAttribute("class");
 
         Assert.assertTrue(actualResult.contains("is-locked"));
-    }
+}
 
     @Ignore
     @Test
@@ -184,5 +186,18 @@ public class GroupDreamTeamTest extends BaseTest {
         String changedColor = color.getAttribute("value");
 
         Assert.assertNotEquals(initialColor, changedColor);
+    }
+
+    @Test
+    public void testElena2() {
+        getDriver().get("https://katalon-demo-cura.herokuapp.com/");
+        final String username = "John Doe";
+        final String password = "ThisIsNotAPassword";
+        getDriver().findElement(By.id("menu-toggle")).click();
+        getDriver().findElement(By.xpath("//li/a[text()='Login']")).click();
+        getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(username);
+        getDriver().findElement(By.xpath("//input[@id='txt-password']")).sendKeys(password);
+
+        Assert.assertTrue(true, "//div[@class='col-sm-12 text-center']");
     }
 }

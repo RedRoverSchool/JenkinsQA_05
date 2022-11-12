@@ -24,9 +24,10 @@ import java.util.stream.Collectors;
 public class GroupDonSimonTutankhamonTest extends BaseTest {
 
 
-    static final String SELECTROSHUB_URL = "https://selectorshub.com/xpath-practice-page/";
-    static final String WEBDRIVERUNI_DROPDOWN_URL = "https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html";
-    static final String HEROKUAPP_URL = "https://formy-project.herokuapp.com/";
+    private static final String SELECTROSHUB_URL = "https://selectorshub.com/xpath-practice-page/";
+    private static final String WEBDRIVERUNI_DROPDOWN_URL = "https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html";
+    private static final String HEROKUAPP_URL = "https://formy-project.herokuapp.com/";
+
     @Test
     public void testFormSubm_AutomationinTestingOnline_IKrlkv() {
 
@@ -261,12 +262,16 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
 
         WebElement datePicker = getDriver().findElement(By.xpath("//div[@id='datepicker']/input"));
         datePicker.click();
+
         WebElement monthAndYearButton = getDriver().findElement(By.xpath(String.format("//th[contains (text(), %s)]", currentYear)));
         monthAndYearButton.click();
+
         WebElement leftArrow = getDriver().findElement(RelativeLocator.with(By.tagName("th")).toRightOf(monthAndYearButton));
         leftArrow.click();
+
         WebElement monthToClick = getDriver().findElements(By.xpath("//div[@class='datepicker-months']//span")).get(currentMonth - 1);
         monthToClick.click();
+
         WebElement dayToClick = getDriver().findElements(By.xpath("//div[@class='datepicker-days']//td[@class='day']")).get(currentDay - 1);
         dayToClick.click();
 
@@ -416,7 +421,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         String usernameText = getDriver().findElement(By.xpath("//h4/em")).getText();
         usernameInput.sendKeys(usernameText);
         WebElement usernamePassword = getDriver().findElement(By.id("password"));
-        String usernamePasswordText= getDriver().findElement(By.xpath("//h4/em[2]")).getText();
+        String usernamePasswordText = getDriver().findElement(By.xpath("//h4/em[2]")).getText();
         usernamePassword.sendKeys(usernamePasswordText);
         WebElement loginButton = getDriver().findElement(By.xpath("//button[@type='submit']"));
         loginButton.click();
