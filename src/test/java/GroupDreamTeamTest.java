@@ -26,7 +26,7 @@ public class GroupDreamTeamTest extends BaseTest {
     public void test_signInDarina() {
         getDriver().get("https://the-internet.herokuapp.com/login");
         getDriver().findElement(By.id("username")).sendKeys("tomsmith");
-        getDriver().findElement(By.xpath("//button[@type='submit']")).sendKeys("SuperSecretPassword!");
+        getDriver().findElement(By.id("password")).sendKeys("SuperSecretPassword!");
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='flash']")).getText(), "You logged into a secure area!\n" + "×");
