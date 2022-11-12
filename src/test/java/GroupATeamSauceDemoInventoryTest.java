@@ -257,9 +257,12 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
                 , checkoutItem.findElement(inventoryNameLocator).getText()
                 , GroupATeamSauceDemoUtils.getDouble(checkoutItem.findElement(inventoryPriceLocator), "$"))));
 
-        double sum = GroupATeamSauceDemoUtils.getDouble(getDriver().findElement(By.cssSelector("div.summary_subtotal_label")), "Item total: $");
-        double tax = GroupATeamSauceDemoUtils.getDouble(getDriver().findElement(By.cssSelector("div.summary_tax_label")), "Tax: $");
-        double total = GroupATeamSauceDemoUtils.getDouble(getDriver().findElement(By.cssSelector("div.summary_total_label")), "Total: $");
+        double sum = GroupATeamSauceDemoUtils
+                .getDouble(getDriver().findElement(By.cssSelector("div.summary_subtotal_label")), "Item total: $");
+        double tax = GroupATeamSauceDemoUtils
+                .getDouble(getDriver().findElement(By.cssSelector("div.summary_tax_label")), "Tax: $");
+        double total = GroupATeamSauceDemoUtils
+                .getDouble(getDriver().findElement(By.cssSelector("div.summary_total_label")), "Total: $");
 
         Assert.assertEquals(checkoutItems, inventories);
         Assert.assertEquals(sum, summary);
@@ -267,7 +270,8 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
         Assert.assertEquals(total, sum + tax);
 
         clickOnDocumentElement(By.id("finish"));
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("h2.complete-header")).getText(), "THANK YOU FOR YOUR ORDER");
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("h2.complete-header")).getText()
+                , "THANK YOU FOR YOUR ORDER");
     }
 
     private void clickOnDocumentElement(WebElement webElement) {

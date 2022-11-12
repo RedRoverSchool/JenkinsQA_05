@@ -9,7 +9,8 @@ public class GroupATeamSauceDemoLoginTest extends GroupATeamSauceDemoBaseTest {
     public void testStandardUserLoginIn() {
         loginIn(GroupATeamSauceDemoUtils.STANDARD_USER, GroupATeamSauceDemoUtils.CORRECT_PASSWORD);
         Assert.assertEquals(getDriver().getTitle(), GroupATeamSauceDemoUtils.TITLE);
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("span.title")).getText(), GroupATeamSauceDemoUtils.TITLE_PRODUCTS);
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("span.title")).getText()
+                , GroupATeamSauceDemoUtils.TITLE_PRODUCTS);
     }
 
     @Test
