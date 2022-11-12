@@ -114,6 +114,7 @@ public class GroupCubsTest extends BaseTest {
 
    @Test
     public void testKseniaFindElement() {
+
         explicitlyWait = new WebDriverWait(getDriver(), Duration.ofSeconds(60));
         getDriver().get(URL_PRESTASHOP);
         Assert.assertTrue(waitElementClickableCss(".sf-with-ul"));
