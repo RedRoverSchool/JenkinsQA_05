@@ -26,9 +26,9 @@ public class GroupDreamTeamTest extends BaseTest {
         getDriver().findElement(By.id("username")).sendKeys("tomsmith");
         getDriver().findElement(By.id("password")).sendKeys("SuperSecretPassword!");
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-        WebElement confirmationText = getDriver().findElement(By.xpath("//div[@id='flash']"));
+        WebElement confirmationMessage = getDriver().findElement(By.xpath("//div[@id='flash']"));
 
-        Assert.assertEquals(confirmationText.getText(), "You logged into a secure area!\n" + "×");
+        Assert.assertEquals(confirmationMessage.getText(), "You logged into a secure area!\n" + "×");
     }
 
     @Test
@@ -61,8 +61,8 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement exampleRange = getDriver().findElement(By.cssSelector("body main  div form div div:nth-child(3) label:nth-child(3) input"));
         Assert.assertTrue(exampleRange.isDisplayed());
 
-        Actions slide = new Actions(getDriver());
-        slide.moveToElement(exampleRange).clickAndHold(exampleRange).moveByOffset(50, 0)
+        Actions action = new Actions(getDriver());
+        action.moveToElement(exampleRange).clickAndHold(exampleRange).moveByOffset(50, 0)
                 .release().build().perform();
 
         int rangeValue = Integer.parseInt(exampleRange.getAttribute("value"));
@@ -143,14 +143,16 @@ public class GroupDreamTeamTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(USERNAME_DEMO);
         getDriver().findElement(By.xpath("//input[@id='txt-password']")).sendKeys(PASSWORD_DEMO);
         getDriver().findElement(By.xpath("//button[@id='btn-login']")).click();
-        WebElement confirmationText = getDriver().findElement(By.xpath("//h2[text() = 'Make Appointment']"));
+        WebElement confirmationMessage = getDriver().findElement(By.xpath("//h2[text() = 'Make Appointment']"));
 
-        Assert.assertTrue(confirmationText.isDisplayed());
+        Assert.assertTrue(confirmationMessage.isDisplayed());
+        Assert.assertEquals(confirmationMessage.getText(),"Make Appointment");
+
     }
 
     @Test
     public void test_appointmentDarina(){
-        final var textAppointment = "Help me! Java kills me!";
+        final String textAppointment = "Help me! Java kills me!";
 
         getDriver().get(URL_DEMO);
         getDriver().findElement(By.xpath("//a[@id='btn-make-appointment']")).click();
@@ -161,9 +163,9 @@ public class GroupDreamTeamTest extends BaseTest {
         getDriver().findElement(By.xpath("//td[@class = 'day' and text() = '30']")).click();
         getDriver().findElement(By.xpath("//textarea[@class = 'form-control']")).sendKeys(textAppointment);
         getDriver().findElement(By.xpath("//button[@id = 'btn-book-appointment']")).click();
-        final var confirmationText = getDriver().findElement(By.xpath("//h2[text() = 'Appointment Confirmation']")).getText();
+        WebElement confirmationMessage = getDriver().findElement(By.xpath("//h2[text() = 'Appointment Confirmation']"));
 
-        Assert.assertEquals(confirmationText, "Appointment Confirmation");
+        Assert.assertEquals(confirmationMessage.getText(), "Appointment Confirmation");
     }
 
     @Test
@@ -209,9 +211,9 @@ public class GroupDreamTeamTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@data-testid='ContactSubject']")).sendKeys("Booking");
         getDriver().findElement(By.xpath("//textarea[@data-testid='ContactDescription']")).sendKeys("I need a room for today");
         getDriver().findElement(By.id("submitContact")).click();
-        final var confirmationText = getDriver().findElement(By.xpath("//div[@class = 'col-sm-5']/div/h2")).getText();
+        WebElement confirmationMessage = getDriver().findElement(By.xpath("//div[@class = 'col-sm-5']/div/h2"));
 
-        Assert.assertEquals(confirmationText, "Thanks for getting in touch " + USERNAME_DEMO + "!");
+        Assert.assertEquals(confirmationMessage.getText(), "Thanks for getting in touch " + USERNAME_DEMO + "!");
     }
 
     @Test
@@ -223,9 +225,9 @@ public class GroupDreamTeamTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@data-testid='ContactSubject']")).sendKeys("Booking");
         getDriver().findElement(By.xpath("//textarea[@data-testid='ContactDescription']")).sendKeys("I need a room");
         getDriver().findElement(By.id("submitContact")).click();
-        final var errorText = getDriver().findElement(By.xpath("//div[@class='alert alert-danger']/p")).getText();
+        WebElement errorMessage = getDriver().findElement(By.xpath("//div[@class='alert alert-danger']/p"));
 
-        Assert.assertEquals(errorText, "Message must be between 20 and 2000 characters.");
+        Assert.assertEquals(errorMessage.getText(), "Message must be between 20 and 2000 characters.");
     }
 
 }
