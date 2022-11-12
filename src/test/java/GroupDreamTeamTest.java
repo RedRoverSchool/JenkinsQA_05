@@ -26,8 +26,9 @@ public class GroupDreamTeamTest extends BaseTest {
         getDriver().findElement(By.id("username")).sendKeys("tomsmith");
         getDriver().findElement(By.id("password")).sendKeys("SuperSecretPassword!");
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        WebElement confirmationText = getDriver().findElement(By.xpath("//div[@id='flash']"));
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='flash']")).getText(), "You logged into a secure area!\n" + "×");
+        Assert.assertEquals(confirmationText.getText(), "You logged into a secure area!\n" + "×");
     }
 
     @Test
@@ -142,8 +143,9 @@ public class GroupDreamTeamTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(USERNAME_DEMO);
         getDriver().findElement(By.xpath("//input[@id='txt-password']")).sendKeys(PASSWORD_DEMO);
         getDriver().findElement(By.xpath("//button[@id='btn-login']")).click();
+        WebElement confirmationText = getDriver().findElement(By.xpath("//h2[text() = 'Make Appointment']"));
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//h2[text() = 'Make Appointment']")).isDisplayed());
+        Assert.assertTrue(confirmationText.isDisplayed());
     }
 
     @Test
