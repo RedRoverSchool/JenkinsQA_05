@@ -1,12 +1,11 @@
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
 import org.openqa.selenium.support.locators.RelativeLocator;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -14,6 +13,7 @@ import runner.BaseTest;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class GroupDonSimonTutankhamonTest extends BaseTest {
-
 
     private static final String SELECTROSHUB_URL = "https://selectorshub.com/xpath-practice-page/";
     private static final String WEBDRIVERUNI_DROPDOWN_URL = "https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html";
@@ -102,21 +101,20 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void testFirstNameInputField_SelectorsHubCom_IKrlkv() throws InterruptedException {
+    public void testFirstNameInputField_SelectorsHubCom_IKrlkv() {
 
         getDriver().get(SELECTROSHUB_URL);
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
         WebElement firstNameInputField = getDriver()
                 .findElement(By.xpath("//input[@placeholder='First Enter name']"));
 
         Assert.assertFalse(firstNameInputField.isEnabled());
 
-        WebElement enableEditFirstNameInputFiledButton = getDriver()
-                .findElement(By.xpath("//label[text()='Can you enter name here through automation ']"));
-        enableEditFirstNameInputFiledButton.click();
-        Thread.sleep(2500);
+        getDriver().findElement(By.xpath("//label[text()='Can you enter name here through automation ']"))
+                .click();
 
-        Assert.assertTrue(firstNameInputField.isEnabled());
+        Assert.assertTrue(wait.until(ExpectedConditions.elementToBeClickable(firstNameInputField)).isEnabled());
     }
 
     @Test
@@ -154,15 +152,18 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void testTextByLink_SelectorsHubCom_IKrlkv() throws InterruptedException {
+    public void testTextByLink_SelectorsHubCom_IKrlkv() {
 
         final String textByLink = "A tool to generate manual test case automatically, click to learn more";
 
         getDriver().get(SELECTROSHUB_URL);
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
-        WebElement linkByText = getDriver().findElement(By.linkText(textByLink));
-        WebElement linkByPartialText = getDriver().findElement(By.partialLinkText("generate"));
-        Thread.sleep(1500);
+        wait.until(ExpectedConditions
+                .attributeContains(By.xpath("//div[@data-id='aa151c7']"), "transform", "none"));
+
+        WebElement linkByText = wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText(textByLink)));
+        WebElement linkByPartialText = wait.until(ExpectedConditions.visibilityOfElementLocated(By.partialLinkText("generate")));
 
         Assert.assertEquals(linkByText.getTagName(), "a");
         Assert.assertEquals(linkByText.getCssValue("box-sizing"), "border-box");
@@ -225,9 +226,10 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void testHiddenElements_WebdDiverUniversityCom_iKrlkv() throws InterruptedException {
+    public void testHiddenElements_WebdDiverUniversityCom_iKrlkv() {
 
         getDriver().get("https://webdriveruniversity.com/Hidden-Elements/index.html");
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
         WebElement notDisplayedButton = getDriver().findElement(By.id("button1"));
         WebElement hiddenButton = getDriver().findElement(By.xpath("//span[@id='button2']"));
@@ -241,9 +243,9 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         Assert.assertFalse(zeroOpacityButton.isDisplayed());
 
         zeroOpacityButton.click();
-        Thread.sleep(300);
 
-        WebElement modalWindow = getDriver().findElement(By.id("myModalMoveClick"));
+        WebElement modalWindow = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("myModalMoveClick")));
+
         Assert.assertTrue(modalWindow.isDisplayed());
     }
 
@@ -325,25 +327,23 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void testButtonsClicks_DemoqaCom_iKrlkv() throws InterruptedException {
+    public void testButtonsClicks_DemoqaCom_iKrlkv() {
 
         getDriver().get("https://demoqa.com/buttons");
         Actions actions = new Actions(getDriver());
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
         WebElement dropDown1 = getDriver().findElement(By.id("doubleClickBtn"));
         actions.doubleClick(dropDown1).build().perform();
-        Thread.sleep(200);
-        WebElement contextMenu1 = getDriver().findElement(By.id("doubleClickMessage"));
+        WebElement contextMenu1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("doubleClickMessage")));
 
         WebElement dropDown2 = getDriver().findElement(By.id("rightClickBtn"));
         actions.contextClick(dropDown2).build().perform();
-        Thread.sleep(200);
-        WebElement contextMenu2 = getDriver().findElement(By.id("rightClickMessage"));
+        WebElement contextMenu2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("rightClickMessage")));
 
         WebElement dropDown3 = getDriver().findElement(By.xpath("//button[text()='Click Me']"));
         actions.click(dropDown3).build().perform();
-        Thread.sleep(200);
-        WebElement contextMenu3 = getDriver().findElement(By.id("dynamicClickMessage"));
+        WebElement contextMenu3 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("dynamicClickMessage")));
 
         Assert.assertTrue(contextMenu1.isDisplayed());
         Assert.assertTrue(contextMenu2.isDisplayed());
