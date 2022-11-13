@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -32,6 +33,7 @@ public class GroupTeamRocketTest extends BaseTest {
     private static final String URL_PICKNPULL = "https://www.picknpull.com/check-inventory/vehicle-search?make=182&model=3611&distance=25&zip=95123&year=";
     private static final String URL_ELCATS = "http://www.elcats.ru/mercedes/";
     private static final String URL_DEMOBLAZE = "https://www.demoblaze.com/";
+    private static final String URL_UI_TESTING_PLAYGROUND = "http://uitestingplayground.com";
 
     @Test
     public void testAddElementHerokuapp() {
@@ -692,5 +694,18 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertEquals(actualResult.getText(), "Continue with Email");
     }
+
+    @Test
+    public void test_UiTestingPlaygroundScrollbars_ArtCh() {
+        getDriver().get(URL_UI_TESTING_PLAYGROUND);
+
+        getDriver().findElement(By.xpath ("//a[@href = '/scrollbars']")).click ();
+        WebElement element = getDriver().findElement(By.xpath("//button[@id='hidingButton']"));
+        JavascriptExecutor jse = (JavascriptExecutor)getDriver();
+        jse.executeScript("arguments[0].scrollIntoView();", element);
+
+        Assert.assertEquals (element.getText (), "Hiding Button");
+    }
+
 }
 
