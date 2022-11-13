@@ -240,4 +240,6 @@ public class GroupDreamTeamTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("my-check-1")).isSelected() && check2.isSelected());
     }
 
+
+
 }
