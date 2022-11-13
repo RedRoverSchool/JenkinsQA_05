@@ -1,13 +1,12 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.List;
 
-public class PLGroupTest extends BaseTest {
+public class GroupPLTest extends BaseTest {
 
     @Test
     public void testH2HeaderSeleniumInteractionsWindows() {
@@ -44,51 +43,6 @@ public class PLGroupTest extends BaseTest {
         );
 
         Assert.assertEquals(link.getText(), "What you do with that power is entirely up to you.");
-    }
-
-    @Test
-    public void testSubMenu() throws InterruptedException {
-
-        getDriver().get("https://openweathermap.org/");
-
-        getDriver().manage().window().maximize();
-        WebElement support = getDriver().findElement(By.xpath(" //div[@id='support-dropdown']"));
-
-        Thread.sleep(5000);
-        support.click();
-
-        List<WebElement> allSupportMenu = getDriver().findElements(
-                By.xpath("//ul[@class='dropdown-menu dropdown-visible']/li/a")
-        );
-        String actualResult = "";
-        for (WebElement supportMenu : allSupportMenu) {
-            actualResult += supportMenu.getText() + " ";
-        }
-
-        Assert.assertEquals(actualResult, "FAQ How to start Ask a question ");
-
-    }
-
-    @Ignore
-    @Test
-    public void testConfirmTemperatureFaringate() throws InterruptedException {
-
-        getDriver().get("https://openweathermap.org/");
-
-        WebElement imperialF = getDriver().findElement(
-                By.xpath("//div[text()='Imperial: °F, mph']")
-        );
-        Thread.sleep(5000);
-        imperialF.click();
-
-        WebElement faringate = getDriver().findElement(
-                By.xpath("//div[@class = 'current-temp']/span")
-        );
-        Thread.sleep(5000);
-        String actualResult = faringate.getText();
-
-        Assert.assertTrue(actualResult.contains("F"));
-
     }
 }
 
