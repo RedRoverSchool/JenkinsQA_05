@@ -3,7 +3,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class GroupATeamSauceDemoLoginTest extends GroupATeamSauceDemoBaseTest {
-    private final By ERROR_MSG_LOCATOR = By.cssSelector("h3[data-test=error]");
+    private static final By ERROR_MSG_LOCATOR = By.cssSelector("h3[data-test=error]");
 
     @Test
     public void testStandardUserLoginIn() {
