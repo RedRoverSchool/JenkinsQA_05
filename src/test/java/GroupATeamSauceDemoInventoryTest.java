@@ -62,12 +62,12 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
     public void testSidebarMenuForItems() {
         clickOnDocumentElement(SIDEBAR_MENU_BTN_LOCATOR);
 
-        List<String> expectedMenuItemNames = List.of("ALL ITEMS", "ABOUT", "LOGOUT", "RESET APP STATE");
+        final List<String> expectedMenuItemNames = List.of("ALL ITEMS", "ABOUT", "LOGOUT", "RESET APP STATE");
         List<WebElement> actualMenuItems = new WebDriverWait(getDriver(), GroupATeamSauceDemoUtils.MAX_TIMEOUT)
                 .ignoring(StaleElementReferenceException.class)
                 .until(ExpectedConditions.visibilityOfAllElements(getDriver()
                         .findElements(By.xpath("//nav[@class='bm-item-list']/a"))));
-        List<String> actualMenuItemNames = new ArrayList<>();
+        final List<String> actualMenuItemNames = new ArrayList<>();
         actualMenuItems.forEach(webElement -> actualMenuItemNames.add(webElement.getText()));
 
         Assert.assertEquals(actualMenuItemNames, expectedMenuItemNames);
@@ -99,7 +99,7 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
     public void testCloseSidebarMenu() {
         goClickOnSidebarMenuElements("react-burger-cross-btn");
 
-        Boolean sidebarMenuIsHidden = new WebDriverWait(getDriver(), GroupATeamSauceDemoUtils.MAX_TIMEOUT)
+        final Boolean sidebarMenuIsHidden = new WebDriverWait(getDriver(), GroupATeamSauceDemoUtils.MAX_TIMEOUT)
                 .until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.bm-menu")));
 
         Assert.assertTrue(sidebarMenuIsHidden);
@@ -132,12 +132,12 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
 
     @Test
     public void testSortContainerByNameA2Z() {
-        List<Inventory> inventories = getInventories();
+        final List<Inventory> inventories = getInventories();
 
-        String sortingValue = "Name (A to Z)";
+        final String sortingValue = "Name (A to Z)";
         new Select(getDriver().findElement(SORT_CONTAINER_LOCATOR)).selectByVisibleText((sortingValue));
 
-        List<Inventory> inventoriesAfterSorting = getInventories();
+        final List<Inventory> inventoriesAfterSorting = getInventories();
         inventories.sort(Comparator.comparing(Inventory::getTitle));
 
         Assert.assertEquals(inventoriesAfterSorting, inventories);
@@ -146,12 +146,12 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
 
     @Test
     public void testSortContainerByNameZ2A() {
-        List<Inventory> inventories = getInventories();
+        final List<Inventory> inventories = getInventories();
 
-        String sortingValue = "Name (Z to A)";
+        final String sortingValue = "Name (Z to A)";
         new Select(getDriver().findElement(SORT_CONTAINER_LOCATOR)).selectByVisibleText((sortingValue));
 
-        List<Inventory> inventoriesAfterSorting = getInventories();
+        final List<Inventory> inventoriesAfterSorting = getInventories();
         inventories.sort(Comparator.comparing(Inventory::getTitle, Comparator.reverseOrder()));
 
         Assert.assertEquals(inventoriesAfterSorting, inventories);
@@ -160,12 +160,12 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
 
     @Test
     public void testSortContainerByPriceLow2High() {
-        List<Inventory> inventories = getInventories();
+        final List<Inventory> inventories = getInventories();
 
-        String sortingValue = "Price (low to high)";
+        final String sortingValue = "Price (low to high)";
         new Select(getDriver().findElement(SORT_CONTAINER_LOCATOR)).selectByVisibleText((sortingValue));
 
-        List<Inventory> inventoriesAfterSorting = getInventories();
+        final List<Inventory> inventoriesAfterSorting = getInventories();
         inventories.sort(Comparator.comparing(Inventory::getPrice));
 
         Assert.assertEquals(inventoriesAfterSorting, inventories);
@@ -174,12 +174,12 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
 
     @Test
     public void testSortContainerByPriceHigh2Low() {
-        List<Inventory> inventories = getInventories();
+        final List<Inventory> inventories = getInventories();
 
-        String sortingValue = "Price (high to low)";
+        final String sortingValue = "Price (high to low)";
         new Select(getDriver().findElement(SORT_CONTAINER_LOCATOR)).selectByVisibleText((sortingValue));
 
-        List<Inventory> inventoriesAfterSorting = getInventories();
+        final List<Inventory> inventoriesAfterSorting = getInventories();
         inventories.sort(Comparator.comparing(Inventory::getPrice, Comparator.reverseOrder()));
 
         Assert.assertEquals(inventoriesAfterSorting, inventories);
@@ -190,9 +190,9 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
     public void testAddToCartBtn() {
         WebElement firstInventory = getDriver().findElement(INVENTORIES_LOCATOR);
 
-        String firstInventoryId = firstInventory.findElement(INVENTORY_LABEL_LOCATOR).getAttribute("id");
+        final String firstInventoryId = firstInventory.findElement(INVENTORY_LABEL_LOCATOR).getAttribute("id");
         String shoppingCartBadge = getDriver().findElement(SHOPPING_CART_LOCATOR).getText();
-        int shoppingCartBadgeNumber = shoppingCartBadge.isEmpty() ? 0 : Integer.parseInt(shoppingCartBadge);
+        final int shoppingCartBadgeNumber = shoppingCartBadge.isEmpty() ? 0 : Integer.parseInt(shoppingCartBadge);
 
         clickOnDocumentElement(firstInventory.findElement(ADD_OR_REMOVE_BTN_LOCATOR));
 
@@ -202,7 +202,7 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
 
         clickOnDocumentElement(SHOPPING_CART_LOCATOR);
 
-        String firstCartItemId = getDriver()
+        final String firstCartItemId = getDriver()
                 .findElement(By.xpath("//div[@class='cart_list']/div//a")).getAttribute("id");
         Assert.assertEquals(firstCartItemId, firstInventoryId);
     }
@@ -212,7 +212,7 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
         clickOnDocumentElement(getDriver().findElement(By.xpath("//div[@class='inventory_list']/div//button")));
         clickOnDocumentElement(SHOPPING_CART_LOCATOR);
 
-        WebElement firstCartItem = getDriver().findElement(CART_ITEMS_LOCATOR);
+        final WebElement firstCartItem = getDriver().findElement(CART_ITEMS_LOCATOR);
         clickOnDocumentElement(firstCartItem.findElement(ADD_OR_REMOVE_BTN_LOCATOR));
 
         Assert.assertTrue(!(firstCartItem.isDisplayed()));
@@ -230,13 +230,13 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
     @Test
     public void testCheckout() {
         List<WebElement> webInventories = getDriver().findElements(INVENTORIES_LOCATOR);
-        List<Inventory> inventories = new ArrayList<>();
+        final List<Inventory> inventories = new ArrayList<>();
         double summary = 0;
 
         for (int i = 0; i < 2; i++) {
             WebElement webInventory = webInventories.get(i);
             clickOnDocumentElement(webInventory.findElement(ADD_OR_REMOVE_BTN_LOCATOR));
-            Inventory inventory = getInventory(webInventory);
+            final Inventory inventory = getInventory(webInventory);
             inventories.add(inventory);
             summary += inventory.price;
         }
@@ -249,7 +249,7 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
                 .moveToElement(getDriver().findElement(By.id("continue"))).click().perform();
 
         List<WebElement> webCheckoutItems = getDriver().findElements(CART_ITEMS_LOCATOR);
-        List<Inventory> checkoutItems = new ArrayList<>();
+        final List<Inventory> checkoutItems = new ArrayList<>();
         final By cartItemLabelLocator = By.xpath(".//div[@class='cart_item_label']/a");
 
         webCheckoutItems.forEach(checkoutItem -> checkoutItems.add(new Inventory(
@@ -257,11 +257,11 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
                 , checkoutItem.findElement(INVENTORY_NAME_LOCATOR).getText()
                 , GroupATeamSauceDemoUtils.getDouble(checkoutItem.findElement(INVENTORY_PRICE_LOCATOR), "$"))));
 
-        double sum = GroupATeamSauceDemoUtils
+        final double sum = GroupATeamSauceDemoUtils
                 .getDouble(getDriver().findElement(By.cssSelector("div.summary_subtotal_label")), "Item total: $");
-        double tax = GroupATeamSauceDemoUtils
+        final double tax = GroupATeamSauceDemoUtils
                 .getDouble(getDriver().findElement(By.cssSelector("div.summary_tax_label")), "Tax: $");
-        double total = GroupATeamSauceDemoUtils
+        final double total = GroupATeamSauceDemoUtils
                 .getDouble(getDriver().findElement(By.cssSelector("div.summary_total_label")), "Total: $");
 
         Assert.assertEquals(checkoutItems, inventories);
