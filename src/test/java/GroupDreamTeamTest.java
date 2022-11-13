@@ -32,7 +32,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void test_formSubmittedIna() {
+    public void test_formSubmitted_IC() {
         getDriver().get(URL_WEBFORM);
         getDriver().findElement(By.id("my-text-id")).sendKeys("Hello!");
         getDriver().findElement(By.xpath("//button")).click();
@@ -158,7 +158,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void test_changeColorIna() {
+    public void test_changeColor_IC() {
         getDriver().get(URL_WEBFORM);
         WebElement color = getDriver().findElement(By.name("my-colors"));
         String initialColor = color.getAttribute("value");
