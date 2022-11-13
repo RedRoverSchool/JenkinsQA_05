@@ -9,6 +9,7 @@ public class GroupWonderingMindsTest extends BaseTest {
 
     private static final String URL_DEMOQA_ELEMENTS = "https://demoqa.com/elements";
     private static final String URL_99BOTTLES = "http://www.99-bottles-of-beer.net/";
+    private static final String URL_DEMOQA = "https://demoqa.com";
 
     @Test
     public void testGetGorodTula_HappyStrawberry() {
@@ -42,7 +43,7 @@ public class GroupWonderingMindsTest extends BaseTest {
 
     @Test
     public void testFindWebTables_YuliyaShershen() {
-        getDriver().get("https://demoqa.com");
+        getDriver().get(URL_DEMOQA);
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//img[@src='/images/Toolsqa.jpg']"))
                 .isDisplayed());
@@ -69,7 +70,7 @@ public class GroupWonderingMindsTest extends BaseTest {
     }
 
     @Test
-    public void testSendForm_HappyStrawberry() throws InterruptedException {
+    public void testSendForm_HappyStrawberry() {
         getDriver().get(URL_DEMOQA_ELEMENTS);
 
         getDriver().findElement(By.className("text")).click();
@@ -96,8 +97,9 @@ public class GroupWonderingMindsTest extends BaseTest {
     }
 
     @Test
-    public void testFindEnglishLanguageInBrowseLanguages() {
-        getDriver().get("https://www.99-bottles-of-beer.net/");
+    public void testFindEnglishLanguageInBrowseLanguages_YuliyaShershen() {
+        getDriver().get(URL_99BOTTLES);
+
         WebElement browseLanguages = getDriver().findElement(
                 By.xpath("//div/ul/li[2]/a[text()='Browse Languages']"));
         browseLanguages.click();
@@ -114,8 +116,8 @@ public class GroupWonderingMindsTest extends BaseTest {
     }
 
     @Test
-    public void testTextIsDisplayedOnMainPage_EkaterinaLizina(){
-        getDriver().get("http://www.99-bottles-of-beer.net/");
+    public void testTextIsDisplayedOnMainPage_EkaterinaLizina() {
+        getDriver().get(URL_99BOTTLES);
 
         String expectedResult = "Welcome to 99 Bottles of Beer";
         WebElement text = getDriver().findElement(
@@ -134,4 +136,19 @@ public class GroupWonderingMindsTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='Home']")).isDisplayed());
     }
 
+    @Test
+    public void testFindLanguageCobra_HappyStrawberry() {
+        getDriver().get(URL_99BOTTLES);
+
+        WebElement findTopList = getDriver().findElement(
+                By.xpath("//a[text()='Top Lists']"));
+        findTopList.click();
+
+        WebElement findCobra = getDriver().findElement(By.xpath("//a[text()='Cobra']"));
+        findCobra.click();
+
+        WebElement findLanguageCobra = getDriver().findElement(By.xpath("//h2[text()='Language Cobra']"));
+
+        Assert.assertEquals(findLanguageCobra.getText(), "Language Cobra");
+    }
 }

@@ -1,12 +1,11 @@
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
 import org.openqa.selenium.support.locators.RelativeLocator;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -15,6 +14,7 @@ import runner.BaseTest;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,11 +24,12 @@ import java.util.stream.Collectors;
 
 public class GroupDonSimonTutankhamonTest extends BaseTest {
 
+    private static final String SELECTROSHUB_URL = "https://selectorshub.com/xpath-practice-page/";
+    private static final String WEBDRIVERUNI_DROPDOWN_URL = "https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html";
+    private static final String HEROKUAPP_URL = "https://formy-project.herokuapp.com/";
 
-    static final String SELECTROSHUB_URL = "https://selectorshub.com/xpath-practice-page/";
-    static final String WEBDRIVERUNI_DROPDOWN_URL = "https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html";
     @Test
-    public void test_FormSubmAutomationinTestingOnline_IKrlkv() {
+    public void testFormSubm_AutomationinTestingOnline_IKrlkv() {
 
         final String testName = "John Cena";
         final String actualConfirmationTitle = String.format("Thanks for getting in touch %s!", testName);
@@ -61,7 +62,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void test_DropDown_SelectorsHubCom_IKrlkv() {
+    public void testDropDown_SelectorsHubCom_IKrlkv() {
 
         final int expectedRowsCount = 99;
 
@@ -81,7 +82,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void test_FilterTable_SelectorsHubCom_IKrlkv() {
+    public void testFilterTable_SelectorsHubCom_IKrlkv() {
 
         final int expectedRowsCount = 3;
         final String expectedCountry = "United States";
@@ -101,25 +102,24 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void test_FirstNameInputField_SelectorsHubCom_IKrlkv() throws InterruptedException {
+    public void testFirstNameInputField_SelectorsHubCom_IKrlkv() {
 
         getDriver().get(SELECTROSHUB_URL);
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
         WebElement firstNameInputField = getDriver()
                 .findElement(By.xpath("//input[@placeholder='First Enter name']"));
 
         Assert.assertFalse(firstNameInputField.isEnabled());
 
-        WebElement enableEditFirstNameInputFiledButton = getDriver()
-                .findElement(By.xpath("//label[text()='Can you enter name here through automation ']"));
-        enableEditFirstNameInputFiledButton.click();
-        Thread.sleep(2500);
+        getDriver().findElement(By.xpath("//label[text()='Can you enter name here through automation ']"))
+                .click();
 
-        Assert.assertTrue(firstNameInputField.isEnabled());
+        Assert.assertTrue(wait.until(ExpectedConditions.elementToBeClickable(firstNameInputField)).isEnabled());
     }
 
     @Test
-    public void test_IfPageSourceContainsHtmlTag_SelectorsHubCom_IKrlkv() {
+    public void testIfPageSourceContainsHtmlTag_SelectorsHubCom_IKrlkv() {
 
         getDriver().get(SELECTROSHUB_URL);
 
@@ -129,7 +129,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void test_SessionId_SelectorsHubCom_IKrlkv() {
+    public void testSessionId_SelectorsHubCom_IKrlkv() {
 
         getDriver().get(SELECTROSHUB_URL);
 
@@ -139,7 +139,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void test_FooterEmailAddress_SelectorsHubCom_IKrlkv() {
+    public void testFooterEmailAddress_SelectorsHubCom_IKrlkv() {
 
         final String expectedEmail = "support@selectorshub.com";
 
@@ -153,15 +153,18 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void test_TextByLink_SelectorsHubCom_IKrlkv() throws InterruptedException {
+    public void testTextByLink_SelectorsHubCom_IKrlkv() {
 
         final String textByLink = "A tool to generate manual test case automatically, click to learn more";
 
         getDriver().get(SELECTROSHUB_URL);
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
-        WebElement linkByText = getDriver().findElement(By.linkText(textByLink));
-        WebElement linkByPartialText = getDriver().findElement(By.partialLinkText("generate"));
-        Thread.sleep(1500);
+        wait.until(ExpectedConditions
+                .attributeContains(By.xpath("//div[@data-id='aa151c7']"), "transform", "none"));
+
+        WebElement linkByText = wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText(textByLink)));
+        WebElement linkByPartialText = wait.until(ExpectedConditions.visibilityOfElementLocated(By.partialLinkText("generate")));
 
         Assert.assertEquals(linkByText.getTagName(), "a");
         Assert.assertEquals(linkByText.getCssValue("box-sizing"), "border-box");
@@ -170,7 +173,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void test_CheckBoxes_WebdDiverUniversityCom() {
+    public void testCheckBoxes_WebdDiverUniversityCom_iKrlkv() {
 
         getDriver().get(WEBDRIVERUNI_DROPDOWN_URL);
 
@@ -190,73 +193,73 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void testRadioButtons_WebdDiverUniversityCom() {
+    public void testRadioButtons_WebdDiverUniversityCom_iKrlkv() {
 
         getDriver().get(WEBDRIVERUNI_DROPDOWN_URL);
 
         WebElement checkedRadioButton = getDriver().findElement(By.xpath("//input[@type='radio' and @checked]"));
+        WebElement unCheckedRadioButton = getDriver().findElement(By.xpath("//input[@type='radio' and not(@checked) and @value='lettuce']"));
+        WebElement disabledRadioButton = getDriver().findElement(By.xpath("//input[@type='radio' and @disabled]"));
+
         Assert.assertEquals(checkedRadioButton.getAttribute("value"), "pumpkin");
         Assert.assertTrue(checkedRadioButton.isSelected());
-
-        WebElement unCheckedRadioButton = getDriver().findElement(By.xpath("//input[@type='radio' and not(@checked) and @value='lettuce']"));
         Assert.assertEquals(unCheckedRadioButton.getAttribute("name"), "vegetable");
         Assert.assertFalse(unCheckedRadioButton.isSelected());
-
-        WebElement disabledRadioButton = getDriver().findElement(By.xpath("//input[@type='radio' and @disabled]"));
         Assert.assertEquals(disabledRadioButton.getAttribute("type"), "radio");
         Assert.assertFalse(disabledRadioButton.isEnabled());
 
         unCheckedRadioButton.click();
+
         Assert.assertFalse(checkedRadioButton.isSelected());
         Assert.assertTrue(unCheckedRadioButton.isSelected());
     }
 
     @Test
-    public void testRelativeLocator_WebdDiverUniversityCom() {
+    public void testRelativeLocator_WebdDiverUniversityCom_iKrlkv() {
 
         getDriver().get("https://webdriveruniversity.com/Data-Table/index.html");
 
         WebElement blockQuote = getDriver().findElement(By.xpath("//blockquote/p"));
         RelativeLocator.RelativeBy relativeBy = RelativeLocator.with(By.tagName("mark"));
-
         WebElement fieldWithRandomText = getDriver().findElement(relativeBy.above(blockQuote));
+
         Assert.assertEquals(fieldWithRandomText.getText(), "sed do eiusmod tempor incididunt ut labore");
     }
 
     @Test
-    public void testHiddenElements_WebdDiverUniversityCom() throws InterruptedException {
+    public void testHiddenElements_WebdDiverUniversityCom_iKrlkv() {
 
         getDriver().get("https://webdriveruniversity.com/Hidden-Elements/index.html");
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
         WebElement notDisplayedButton = getDriver().findElement(By.id("button1"));
+        WebElement hiddenButton = getDriver().findElement(By.xpath("//span[@id='button2']"));
+        WebElement zeroOpacityButton = getDriver().findElement(By.id("button3"));
+
         Assert.assertTrue(notDisplayedButton.isEnabled());
         Assert.assertFalse(notDisplayedButton.isDisplayed());
-
-        WebElement hiddenButton = getDriver().findElement(By.xpath("//span[@id='button2']"));
         Assert.assertTrue(hiddenButton.isEnabled());
         Assert.assertFalse(hiddenButton.isDisplayed());
-
-        WebElement zeroOpacityButton = getDriver().findElement(By.id("button3"));
         Assert.assertTrue(zeroOpacityButton.isEnabled());
         Assert.assertFalse(zeroOpacityButton.isDisplayed());
 
         zeroOpacityButton.click();
-        Thread.sleep(300);
 
-        WebElement modalWindow = getDriver().findElement(By.id("myModalMoveClick"));
+        WebElement modalWindow = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("myModalMoveClick")));
+
         Assert.assertTrue(modalWindow.isDisplayed());
     }
 
     @Test
-    public void testDatePicker_WebdDiverUniversityCom() {
+    public void testDatePicker_WebdDiverUniversityCom_iKrlkv() {
 
-        LocalDate today = LocalDate.now();
-        LocalDate todayOneYearAgo = today.minusYears(1);
-        int currentYear = today.getYear();
-        int currentMonth = today.getMonthValue();
-        int currentDay = today.getDayOfMonth();
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-        String expectedDate = todayOneYearAgo.format(dateFormat);
+        final LocalDate today = LocalDate.now();
+        final LocalDate todayOneYearAgo = today.minusYears(1);
+        final int currentYear = today.getYear();
+        final int currentMonth = today.getMonthValue();
+        final int currentDay = today.getDayOfMonth();
+        final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        final String expectedDate = todayOneYearAgo.format(dateFormat);
 
         getDriver().get("https://webdriveruniversity.com/Datepicker/index.html");
 
@@ -275,36 +278,34 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         WebElement dayToClick = getDriver().findElements(By.xpath("//div[@class='datepicker-days']//td[@class='day']")).get(currentDay - 1);
         dayToClick.click();
 
-        String actualDate = datePicker.getAttribute("value");
-
+        final String actualDate = datePicker.getAttribute("value");
         Assert.assertEquals(actualDate, expectedDate);
     }
 
     @Test
-    public void testFileUpload_WebdDiverUniversityCom() throws IOException {
+    public void testFileUpload_WebdDiverUniversityCom_iKrlkv() throws IOException {
 
-        String url ="https://webdriveruniversity.com/File-Upload/index.html";
-        Path tempFile = Files.createTempFile("tempfiles", ".tmp");
-        String fileName = tempFile.toAbsolutePath().toString();
+        final String url ="https://webdriveruniversity.com/File-Upload/index.html";
+        final Path tempFile = Files.createTempFile("tempfiles", ".tmp");
+        final String fileName = tempFile.toAbsolutePath().toString();
 
         getDriver().get(url);
 
         WebElement uploadFileField = getDriver().findElement(By.id("myFile"));
         uploadFileField.sendKeys(fileName);
 
-        WebElement submitButton = getDriver().findElement(By.id("submit-button"));
-        submitButton.submit();
+        getDriver().findElement(By.id("submit-button")).submit();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), url + "?filename=" + tempFile.getFileName());
     }
 
     @Test
-    public void testSlider_DemoqaCom() {
+    public void testSlider_DemoqaCom_iKrlkv() {
 
-        String minSliderValue = "0";
-        String maxSliderValue = "100";
-        String defaultSliderValue = "25";
-        int stepsToMove = 55;
+        final String minSliderValue = "0";
+        final String maxSliderValue = "100";
+        final String defaultSliderValue = "25";
+        final int stepsToMove = 55;
 
         getDriver().get("https://demoqa.com/slider");
 
@@ -318,38 +319,42 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
             slider.sendKeys(Keys.ARROW_RIGHT);
         }
 
-        int resultSliderValue = Integer.parseInt(defaultSliderValue) + stepsToMove;
+        final int resultSliderValue = Integer.parseInt(defaultSliderValue) + stepsToMove;
 
         Assert.assertEquals(slider.getAttribute("value"), String.valueOf(resultSliderValue));
 
         WebElement sliderValueWindow = getDriver().findElement(By.id("sliderValue"));
         Assert.assertEquals(sliderValueWindow.getAttribute("value"), String.valueOf(resultSliderValue));
     }
+
     @Ignore
     @Test
-    public void testButtonsClicks_DemoqaCom() {
+    public void testButtonsClicks_DemoqaCom_iKrlkv() {
 
         getDriver().get("https://demoqa.com/buttons");
         Actions actions = new Actions(getDriver());
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
         WebElement dropDown1 = getDriver().findElement(By.id("doubleClickBtn"));
         actions.doubleClick(dropDown1).build().perform();
-        WebElement contextMenu1 = getDriver().findElement(By.id("doubleClickMessage"));
-        Assert.assertTrue(contextMenu1.isDisplayed());
+        WebElement contextMenu1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("doubleClickMessage")));
 
         WebElement dropDown2 = getDriver().findElement(By.id("rightClickBtn"));
         actions.contextClick(dropDown2).build().perform();
-        WebElement contextMenu2 = getDriver().findElement(By.id("rightClickMessage"));
-        Assert.assertTrue(contextMenu2.isDisplayed());
+        WebElement contextMenu2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("rightClickMessage")));
 
         WebElement dropDown3 = getDriver().findElement(By.xpath("//button[text()='Click Me']"));
         actions.click(dropDown3).build().perform();
-        WebElement contextMenu3 = getDriver().findElement(By.id("dynamicClickMessage"));
+        WebElement contextMenu3 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("dynamicClickMessage")));
+
+        Assert.assertTrue(contextMenu1.isDisplayed());
+        Assert.assertTrue(contextMenu2.isDisplayed());
         Assert.assertTrue(contextMenu3.isDisplayed());
     }
 
     @Test
-    public void testDragAndDrop_WebdDiverUniversityCom() {
+    @Ignore
+    public void testDragAndDrop_WebdDiverUniversityCom_iKrlkv() {
 
         getDriver().get("https://webdriveruniversity.com/Actions/index.html");
         Actions actions = new Actions(getDriver());
@@ -363,7 +368,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void testCopyPaste_WebdDiverUniversityCom() throws InterruptedException {
+    public void testCopyPaste_WebdDiverUniversityCom_iKrlkv() {
 
         getDriver().get("https://webdriveruniversity.com/Contact-Us/contactus.html");
         Actions actions = new Actions(getDriver());
@@ -375,14 +380,12 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
                 .sendKeys(firstNameField, "c").sendKeys(lastNameField, "v").build().perform();
 
         Assert.assertEquals(firstNameField.getText(), lastNameField.getText());
-
-        Thread.sleep(5000);
     }
 
     @Test
-    public void testButtonsLinkText_HerokuApp() {
+    public void testButtonsLinkText_HerokuApp_iKrlkv() {
 
-        getDriver().get("https://formy-project.herokuapp.com/");
+        getDriver().get(HEROKUAPP_URL);
 
         WebElement buttonsLink = getDriver().findElement(By.xpath("//li/a[@href='/buttons']"));
 
@@ -390,13 +393,11 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    public void testButtonsPageURL_HerokuApp() {
+    public void testButtonsPageURL_HerokuApp_iKrlkv() {
 
-        getDriver().get("https://formy-project.herokuapp.com/");
+        getDriver().get(HEROKUAPP_URL);
 
-        WebElement buttonsLink = getDriver().findElement(By.linkText("Buttons"));
-
-        buttonsLink.click();
+        getDriver().findElement(By.linkText("Buttons")).click();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://formy-project.herokuapp.com/buttons");
     }
@@ -426,7 +427,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         String usernameText = getDriver().findElement(By.xpath("//h4/em")).getText();
         usernameInput.sendKeys(usernameText);
         WebElement usernamePassword = getDriver().findElement(By.id("password"));
-        String usernamePasswordText= getDriver().findElement(By.xpath("//h4/em[2]")).getText();
+        String usernamePasswordText = getDriver().findElement(By.xpath("//h4/em[2]")).getText();
         usernamePassword.sendKeys(usernamePasswordText);
         WebElement loginButton = getDriver().findElement(By.xpath("//button[@type='submit']"));
         loginButton.click();

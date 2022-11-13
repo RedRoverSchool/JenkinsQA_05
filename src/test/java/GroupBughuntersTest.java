@@ -156,6 +156,7 @@ public class GroupBughuntersTest extends BaseTest {
         Assert.assertEquals(errorMessage.getText(), "Sorry, that password is too short. It needs to be eight characters or more.");
     }
 
+    @Ignore
     @Test
     public void testBbcChangeLanguage(){
         getDriver().get("https://www.bbc.co.uk/learningenglish/english/");
@@ -168,6 +169,7 @@ public class GroupBughuntersTest extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(), "BBC BBC Learning English - Persian Home Page (Dari)");
     }
 
+    @Ignore
     @Test
     public void testBbcStoriesForChildren(){
         getDriver().get("https://www.bbc.co.uk/learningenglish/english/");
@@ -195,6 +197,7 @@ public class GroupBughuntersTest extends BaseTest {
         String saltStr = salt.toString();
         return saltStr;
     }
+    @Ignore
     @Test
     public void testInsuranceCompanyQuote() throws InterruptedException {
         getDriver().get("https://demo.guru99.com/insurance/v1/register.php");
