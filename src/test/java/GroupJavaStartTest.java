@@ -16,6 +16,9 @@ public class GroupJavaStartTest extends BaseTest {
 
     private final String FARM_PROJECT_URL = "https://formy-project.herokuapp.com/";
     private final String OMAYO_PAGE_URL= "http://omayo.blogspot.com/";
+    private final String JENKINS_URL_CW = "http://192.168.201.154:8099/";
+    private final String LOGIN_CW = "CordedWare";
+    private final String PASSWORD_CW = "ОутлштыЕуые";
 
     @Test
     public void tes_tHerokuApp() {
@@ -127,6 +130,38 @@ public class GroupJavaStartTest extends BaseTest {
         for (WebElement temp : elements) {
             actualResult.add(temp.getText());
         }
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void test_CreateJobInJenkins_CordedWare() {
+
+        String expectedResult = "Freestyle";
+
+        getDriver().get(JENKINS_URL_CW);
+
+        getDriver().findElement(By.xpath("//input[@placeholder='Username']")).sendKeys(LOGIN_CW);
+
+        getDriver().findElement(By.xpath("//div[2]/input[@placeholder='Пароль']")).sendKeys(PASSWORD_CW);
+
+        getDriver().findElement(By.xpath("//div[4]/button[@type='submit']")).click();
+
+        getDriver().findElement(By.xpath("//div[1]/span[@class='task-link-wrapper ']")).click();
+
+        getDriver().findElement(By.xpath("//div[3]/div/div/div/div/form/div[1]/div/input[@name='name']")).sendKeys("Freestyle");
+
+        getDriver().findElement(By.xpath("//div[3]/div/div/div/div/form/div[2]/div/ul/li[@class='hudson_model_FreeStyleProject']")).click();
+
+        getDriver().findElement(By.xpath("//div[3]/div/div/div/div/form/div[3]/div/span")).click();
+
+        getDriver().findElement(By.xpath("//div[4]/div[2]/form/div[1]/div[10]/div/span[1]/span/button")).click();
+
+        getDriver().findElement(By.xpath("//div[3]/div[1]/div[1]/div[1]/span")).click();
+
+        WebElement JobFreestyle = getDriver().findElement(By.xpath("//div[3]/div[2]/div[2]/table/tbody/tr[1]/td[3]/a/span"));
+
+        String actualResult = JobFreestyle.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
     }
