@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -327,7 +326,6 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         Assert.assertEquals(sliderValueWindow.getAttribute("value"), String.valueOf(resultSliderValue));
     }
 
-    @Ignore
     @Test
     public void testButtonsClicks_DemoqaCom_iKrlkv() {
 
@@ -335,15 +333,15 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         Actions actions = new Actions(getDriver());
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
-        WebElement dropDown1 = getDriver().findElement(By.id("doubleClickBtn"));
+        WebElement dropDown1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("doubleClickBtn")));
         actions.doubleClick(dropDown1).build().perform();
         WebElement contextMenu1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("doubleClickMessage")));
 
-        WebElement dropDown2 = getDriver().findElement(By.id("rightClickBtn"));
+        WebElement dropDown2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("rightClickBtn")));
         actions.contextClick(dropDown2).build().perform();
         WebElement contextMenu2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("rightClickMessage")));
 
-        WebElement dropDown3 = getDriver().findElement(By.xpath("//button[text()='Click Me']"));
+        WebElement dropDown3 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Click Me']")));
         actions.click(dropDown3).build().perform();
         WebElement contextMenu3 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("dynamicClickMessage")));
 
@@ -353,14 +351,14 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
-    @Ignore
     public void testDragAndDrop_WebdDiverUniversityCom_iKrlkv() {
 
         getDriver().get("https://webdriveruniversity.com/Actions/index.html");
         Actions actions = new Actions(getDriver());
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
-        WebElement draggable = getDriver().findElement(By.id("draggable"));
-        WebElement target = getDriver().findElement(By.id("droppable"));
+        WebElement draggable = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("draggable")));
+        WebElement target = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("droppable")));
 
         actions.dragAndDrop(draggable, target).build().perform();
 
@@ -480,4 +478,3 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
         Assert.assertEquals(itemsPrices, tempList);
     }
 }
-
