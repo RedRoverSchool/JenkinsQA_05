@@ -228,7 +228,7 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void testRadioButtonCheckBoxIna(){
-        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        getDriver().get(URL_WEBFORM);
         WebElement radio1 = getDriver().findElement(By.id("my-radio-1"));
         WebElement radio2 = getDriver().findElement(By.id("my-radio-2"));
         radio2.click();
