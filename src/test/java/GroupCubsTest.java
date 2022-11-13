@@ -104,4 +104,18 @@ public class GroupCubsTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//em[contains(text(),'Selectel')]")).getText(),
                 "Selectel");
     }
+
+    @Test
+    public void testSearchItemName_MariaOrlova() {
+        getDriver().get("https://www.saucedemo.com/");
+
+        getDriver().findElement(By.id("user-name")).sendKeys("problem_user");
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
+        getDriver().findElement(By.id("login-button")).click();
+
+        WebElement actualResult= getDriver().findElement(
+                By.xpath("//a[@id='item_2_title_link']/div[contains(text(),'Sauce Labs Onesie')]"));
+
+        Assert.assertEquals(actualResult.getText(), "Sauce Labs Onesie");
+    }
 }
