@@ -121,7 +121,7 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
     @Test
     public void testFooterFacebookLink() {
         clickOnDocumentElement(By.xpath("//footer//li[@class='social_facebook']/a"));
-        Assert.assertTrue(newFirstOpenedTabTitleContains("Sauce Labs | Facebook"));
+        Assert.assertTrue(newFirstOpenedTabTitleContains("Facebook"));
     }
 
     @Test
