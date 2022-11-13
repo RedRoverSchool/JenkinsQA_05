@@ -8,20 +8,24 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 
 public class GroupDreamTeamTest extends BaseTest {
+    private static final String URL_DEMO = "https://katalon-demo-cura.herokuapp.com/";
+    private static final String USERNAME_DEMO = "John Doe";
+    private static final String PASSWORD_DEMO = "ThisIsNotAPassword";
+    private static final String URL_MINTHOUSE = "https://minthouse.com/";
+    private static final String URL_WEBFORM = "https://www.selenium.dev/selenium/web/web-form.html";
+    private static final String URL_BOOKING = "https://automationintesting.online/";
 
     @Test
     public void test_signInDarina() {
         getDriver().get("https://the-internet.herokuapp.com/login");
-        WebElement usernameTextField = getDriver().findElement(By.id("username"));
-        WebElement passwordTextField = getDriver().findElement(By.id("password"));
-        WebElement loginButton = getDriver().findElement(By.xpath("//button[@type='submit']"));
-
-        usernameTextField.sendKeys("tomsmith");
-        passwordTextField.sendKeys("SuperSecretPassword!");
-        loginButton.click();
+        getDriver().findElement(By.id("username")).sendKeys("tomsmith");
+        getDriver().findElement(By.id("password")).sendKeys("SuperSecretPassword!");
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
         WebElement confirmationMessage = getDriver().findElement(By.xpath("//div[@id='flash']"));
 
         Assert.assertEquals(confirmationMessage.getText(), "You logged into a secure area!\n" + "×");
@@ -29,7 +33,7 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void testIna() {
-        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        getDriver().get(URL_WEBFORM);
         getDriver().findElement(By.id("my-text-id")).sendKeys("Hello!");
         getDriver().findElement(By.xpath("//button")).click();
         String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
@@ -39,7 +43,7 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void ElenaTest() {
-        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        getDriver().get(URL_WEBFORM);
         WebElement textInput = getDriver().findElement(By.id("my-text-id"));
         textInput.clear();
         textInput.sendKeys("Hello everybody");
@@ -53,12 +57,12 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void testFoxtiptopSliderMouse() {
-        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        getDriver().get(URL_WEBFORM);
         WebElement exampleRange = getDriver().findElement(By.cssSelector("body main  div form div div:nth-child(3) label:nth-child(3) input"));
         Assert.assertTrue(exampleRange.isDisplayed());
 
-        Actions slide = new Actions(getDriver());
-        slide.moveToElement(exampleRange).clickAndHold(exampleRange).moveByOffset(50, 0)
+        Actions action = new Actions(getDriver());
+        action.moveToElement(exampleRange).clickAndHold(exampleRange).moveByOffset(50, 0)
                 .release().build().perform();
 
         int rangeValue = Integer.parseInt(exampleRange.getAttribute("value"));
@@ -67,7 +71,7 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void testFoxtiptopSliderKeyboard() {
-        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        getDriver().get(URL_WEBFORM);
         WebElement exampleRange = getDriver().findElement(By.name("my-range"));
         for (int i = 1; i <= 4; i++) {
             exampleRange.sendKeys(Keys.ARROW_RIGHT);
@@ -82,7 +86,7 @@ public class GroupDreamTeamTest extends BaseTest {
     public void testSimonGertzMintHouseDateSelectionNoPastDate(){
         final long dayInMillis = 86400000;
         
-        getDriver().get("https://minthouse.com/");
+        getDriver().get(URL_MINTHOUSE);
 
         WebElement propertyList = getDriver().findElement(By
                 .xpath("//div[@class='hero hero-home']//span[@class='text'][contains(text(),'Where to next')]"));
@@ -134,43 +138,39 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void test_signInAppointmentDarina() {
-        final var url = "https://katalon-demo-cura.herokuapp.com/";
-        final var username = "John Doe";
-        final var password = "ThisIsNotAPassword";
-
-        getDriver().get(url);
+        getDriver().get(URL_DEMO);
         getDriver().findElement(By.xpath("//a[@id='btn-make-appointment']")).click();
-        getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(username);
-        getDriver().findElement(By.xpath("//input[@id='txt-password']")).sendKeys(password);
+        getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(USERNAME_DEMO);
+        getDriver().findElement(By.xpath("//input[@id='txt-password']")).sendKeys(PASSWORD_DEMO);
         getDriver().findElement(By.xpath("//button[@id='btn-login']")).click();
+        WebElement confirmationMessage = getDriver().findElement(By.xpath("//h2[text() = 'Make Appointment']"));
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//h2[text() = 'Make Appointment']")).isDisplayed());
+        Assert.assertTrue(confirmationMessage.isDisplayed());
+        Assert.assertEquals(confirmationMessage.getText(),"Make Appointment");
+
     }
 
     @Test
     public void test_appointmentDarina(){
-        final var url = "https://katalon-demo-cura.herokuapp.com/";
-        final var username = "John Doe";
-        final var password = "ThisIsNotAPassword";
-        final var textAppointment = "Help me! Java kills me!";
+        final String textAppointment = "Help me! Java kills me!";
 
-        getDriver().get(url);
+        getDriver().get(URL_DEMO);
         getDriver().findElement(By.xpath("//a[@id='btn-make-appointment']")).click();
-        getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(username);
-        getDriver().findElement(By.xpath("//input[@id='txt-password']")).sendKeys(password);
+        getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(USERNAME_DEMO);
+        getDriver().findElement(By.xpath("//input[@id='txt-password']")).sendKeys(PASSWORD_DEMO);
         getDriver().findElement(By.xpath("//button[@id='btn-login']")).click();
         getDriver().findElement(By.xpath("//div[@class='input-group-addon']")).click();
         getDriver().findElement(By.xpath("//td[@class = 'day' and text() = '30']")).click();
         getDriver().findElement(By.xpath("//textarea[@class = 'form-control']")).sendKeys(textAppointment);
         getDriver().findElement(By.xpath("//button[@id = 'btn-book-appointment']")).click();
-        var confirmationText = getDriver().findElement(By.xpath("//h2[text() = 'Appointment Confirmation']")).getText();
+        WebElement confirmationMessage = getDriver().findElement(By.xpath("//h2[text() = 'Appointment Confirmation']"));
 
-        Assert.assertEquals(confirmationText, "Appointment Confirmation");
+        Assert.assertEquals(confirmationMessage.getText(), "Appointment Confirmation");
     }
 
     @Test
     public void testMintHouseSource2(){
-        getDriver().get("https://minthouse.com/");
+        getDriver().get(URL_MINTHOUSE);
         String currentSource = getDriver().getPageSource();
         boolean actualResult = currentSource.contains("div");
 
@@ -179,7 +179,7 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void test_Ina() {
-        getDriver().get("https://www.selenium.dev/selenium/web/web-form.html");
+        getDriver().get(URL_WEBFORM);
         WebElement color = getDriver().findElement(By.name("my-colors"));
         String initialColor = color.getAttribute("value");
         color.sendKeys(Keys.ARROW_LEFT);
@@ -190,14 +190,44 @@ public class GroupDreamTeamTest extends BaseTest {
 
     @Test
     public void testElena2() {
-        getDriver().get("https://katalon-demo-cura.herokuapp.com/");
-        final String username = "John Doe";
-        final String password = "ThisIsNotAPassword";
+        getDriver().get(URL_DEMO);
         getDriver().findElement(By.id("menu-toggle")).click();
         getDriver().findElement(By.xpath("//li/a[text()='Login']")).click();
-        getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(username);
-        getDriver().findElement(By.xpath("//input[@id='txt-password']")).sendKeys(password);
+        getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(USERNAME_DEMO);
+        getDriver().findElement(By.xpath("//input[@id='txt-password']")).sendKeys(PASSWORD_DEMO);
 
         Assert.assertTrue(true, "//div[@class='col-sm-12 text-center']");
     }
+
+    private static String getUniqueEmail(){
+        return "dar" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + "@gmail.com";
+    }
+    @Test
+    public void test_bookingDarina(){
+        getDriver().get(URL_BOOKING);
+        getDriver().findElement(By.xpath("//input[@data-testid='ContactName']")).sendKeys(USERNAME_DEMO);
+        getDriver().findElement(By.xpath("//input[@data-testid='ContactEmail']")).sendKeys(getUniqueEmail());
+        getDriver().findElement(By.xpath("//input[@data-testid='ContactPhone']")).sendKeys("12345678912");
+        getDriver().findElement(By.xpath("//input[@data-testid='ContactSubject']")).sendKeys("Booking");
+        getDriver().findElement(By.xpath("//textarea[@data-testid='ContactDescription']")).sendKeys("I need a room for today");
+        getDriver().findElement(By.id("submitContact")).click();
+        WebElement confirmationMessage = getDriver().findElement(By.xpath("//div[@class = 'col-sm-5']/div/h2"));
+
+        Assert.assertEquals(confirmationMessage.getText(), "Thanks for getting in touch " + USERNAME_DEMO + "!");
+    }
+
+    @Test
+    public void test_invalidBookingDarina(){
+        getDriver().get(URL_BOOKING);
+        getDriver().findElement(By.xpath("//input[@data-testid='ContactName']")).sendKeys(USERNAME_DEMO);
+        getDriver().findElement(By.xpath("//input[@data-testid='ContactEmail']")).sendKeys(getUniqueEmail());
+        getDriver().findElement(By.xpath("//input[@data-testid='ContactPhone']")).sendKeys("12345678912");
+        getDriver().findElement(By.xpath("//input[@data-testid='ContactSubject']")).sendKeys("Booking");
+        getDriver().findElement(By.xpath("//textarea[@data-testid='ContactDescription']")).sendKeys("I need a room");
+        getDriver().findElement(By.id("submitContact")).click();
+        WebElement errorMessage = getDriver().findElement(By.xpath("//div[@class='alert alert-danger']/p"));
+
+        Assert.assertEquals(errorMessage.getText(), "Message must be between 20 and 2000 characters.");
+    }
+
 }
