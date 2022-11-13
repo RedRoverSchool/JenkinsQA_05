@@ -80,5 +80,22 @@ public class NoGroupTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.id("showLargeModal")).isDisplayed());
     }
+
+    @Test
+    public void testGoFormHerokuApp() {
+        final String expectedResult = "https://formy-project.herokuapp.com/form";
+
+        getDriver().get("https://formy-project.herokuapp.com");
+
+        WebElement navFormLink = getDriver().findElement(
+                By.xpath("//div[@id='navbarNavDropdown']/ul/li[1]/a[@href='/form']"));
+        navFormLink.click();
+
+        Assert.assertEquals(navFormLink.getText(), "Form");
+
+        String actualResult = getDriver().getCurrentUrl();
+
+        Assert.assertEquals(actualResult,expectedResult);
+    }
 }
 

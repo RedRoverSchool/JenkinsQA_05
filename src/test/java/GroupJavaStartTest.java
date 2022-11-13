@@ -130,4 +130,16 @@ public class GroupJavaStartTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+
+
+
+    @Test
+    public void testProjectHerokuApp() {
+        getDriver().get("https://formy-project.herokuapp.com/");
+
+        WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/keypress']"));
+
+        Assert.assertEquals(link.getText(), "Key and Mouse Press");
+    }
 }
