@@ -170,5 +170,17 @@ public class GroupCleanCodeTest extends BaseTest {
 
         Assert.assertEquals(bow.getText(), "bow for mazanki");
     }
+    @Test
+    public void testWebElements(){
+        getDriver().get("http://json.parser.online.fr/");
 
+        WebElement text = getDriver().findElement(By.xpath("//div[2][@class='n b']/span[@class='l']"));
+
+        Assert.assertEquals(text.getText(),"Options");
+        text.click();
+        WebElement text2 = getDriver().findElement(By.xpath("//div[@class='e d']"));
+        text2.click();
+
+        Assert.assertEquals(text2.getText(),"Top-bottom");
+    }
 }

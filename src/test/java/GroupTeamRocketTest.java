@@ -174,6 +174,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id=\"checkout_complete_container\"]/h2")).getText(), "THANK YOU FOR YOUR ORDER");
     }
 
+    @Ignore
     @Test
     public void testAddToCartButton() {
         getDriver().get("https://www.demoblaze.com");
@@ -357,6 +358,7 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
 
+    @Ignore
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
         getDriver().get(URL_DEMOBLAZE);
@@ -659,6 +661,35 @@ public class GroupTeamRocketTest extends BaseTest {
         WebElement actualResult = getDriver().findElement(By.xpath("//span[contains(text(), 'Create a website without limits')]"));
 
         Assert.assertEquals(actualResult.getText(), "Create a website without limits");
+    }
+
+    @Ignore
+    @Test
+    public void test_WixGetStartedAnnaPav() {
+        getDriver().get("https://www.wix.com/");
+        getDriver().findElement(By.xpath("//*[@id='main-menu-item-creation']"));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='main-menu-item-creation']")).getText(), "Creation");
+    }
+
+    @Test
+    public void test_WixCreationAnnaPav() throws InterruptedException {
+        getDriver().get("https://www.wix.com/");
+        getDriver().findElement(By.xpath("//a[@class='bOL8nw yOYgO_']")).click();
+        Thread.sleep(5000);
+        WebElement actualResult = getDriver().findElement(By.xpath("//h1[@class='log-in-title title ng-binding']"));
+
+        Assert.assertEquals(actualResult.getText(), "Log In");
+    }
+
+    @Test
+    public void test_WixLoginAnnaPav() throws InterruptedException {
+        getDriver().get("https://www.wix.com/");
+        getDriver().findElement(By.xpath("//a[@class='bOL8nw yOYgO_']")).click();
+        Thread.sleep(5000);
+        WebElement actualResult = getDriver().findElement(By.xpath("//button[@name='submit']"));
+
+        Assert.assertEquals(actualResult.getText(), "Continue with Email");
     }
 }
 
