@@ -44,7 +44,7 @@ public class GroupCubsTest extends BaseTest {
     }
 
     @Test
-    public void testSmetankina(){
+    public void testSmetankina() {
         getDriver().get("https://demoqa.com/");
         WebElement link = getDriver().findElement(By.xpath("//*[@id=\"app\"]/div/div/div[2]/div/div[4]/div/div[3]/h5"));
         Assert.assertEquals(link.getText(), "Widgets");
@@ -77,8 +77,8 @@ public class GroupCubsTest extends BaseTest {
                 "REMOVE");
     }
 
-     @Test
-     public void testLiza() {
+    @Test
+    public void testLiza() {
         getDriver().get("https://petstore.octoperf.com/actions/Catalog.action");
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='MenuContent']/a[3]")).getText(),
@@ -103,5 +103,15 @@ public class GroupCubsTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//em[contains(text(),'Selectel')]")).getText(),
                 "Selectel");
+    }
+    @Test
+    public void testLoginAndPassword() {
+        getDriver().get("https://www.saucedemo.com/");
+
+        getDriver().findElement(By.xpath("//div[@class='form_group']/input")).sendKeys("standard_user");
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
+        getDriver().findElement(By.name("login-button")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div/span[@class='title']")).getText(),"PRODUCTS");
     }
 }
