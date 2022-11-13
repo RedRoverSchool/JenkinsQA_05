@@ -237,7 +237,7 @@ public class GroupDreamTeamTest extends BaseTest {
         check2.click();
 
         Assert.assertTrue(!(getDriver().findElement(By.id("my-radio-1")).isSelected()) && radio2.isSelected());
-        Assert.assertTrue(getDriver().findElement(By.id("my-check-2")).isSelected() && check2.isSelected());
+        Assert.assertTrue(getDriver().findElement(By.id("my-check-1")).isSelected() && check2.isSelected());
     }
 
 }
