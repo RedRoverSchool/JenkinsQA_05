@@ -353,6 +353,7 @@ public class GroupDonSimonTutankhamonTest extends BaseTest {
     }
 
     @Test
+    @Ignore
     public void testDragAndDrop_WebdDiverUniversityCom_iKrlkv() {
 
         getDriver().get("https://webdriveruniversity.com/Actions/index.html");

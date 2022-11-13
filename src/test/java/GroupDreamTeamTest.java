@@ -81,11 +81,10 @@ public class GroupDreamTeamTest extends BaseTest {
         Assert.assertEquals(rangeValue, 9);
     }
 
-
     @Test
-    public void testSimonGertzMintHouseDateSelectionNoPastDate(){
+    public void testSimonGertzMintHouseDateSelectionNoPastDate() {
         final long dayInMillis = 86400000;
-        
+
         getDriver().get(URL_MINTHOUSE);
 
         WebElement propertyList = getDriver().findElement(By
@@ -112,28 +111,10 @@ public class GroupDreamTeamTest extends BaseTest {
                 .getAttribute("data-time"));
         String actualResult = getDriver()
                 .findElement(By
-                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + Math.subtractExact(todayMillis,dayInMillis) + "]"))
+                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + Math.subtractExact(todayMillis, dayInMillis) + "]"))
                 .getAttribute("class");
 
         Assert.assertTrue(actualResult.contains("is-locked"));
-}
-
-    @Ignore
-    @Test
-    public void testTemperatureInFahrenheit() throws InterruptedException {
-        final String url = "https://openweathermap.org/";
-        final String symbolF = "°F";
-
-        getDriver().get(url);
-        Thread.sleep(3000);
-        WebElement temperatureF = getDriver().findElement
-                (By.xpath("//div[text()='Imperial: °F, mph']"));
-        Thread.sleep(2000);
-        temperatureF.click();
-        WebElement imageTempF = getDriver().findElement(By.xpath("//div[@class ='current-temp']"));
-
-        Assert.assertTrue(imageTempF.getText().contains(symbolF));
-
     }
 
     @Test
@@ -146,12 +127,11 @@ public class GroupDreamTeamTest extends BaseTest {
         WebElement confirmationMessage = getDriver().findElement(By.xpath("//h2[text() = 'Make Appointment']"));
 
         Assert.assertTrue(confirmationMessage.isDisplayed());
-        Assert.assertEquals(confirmationMessage.getText(),"Make Appointment");
-
+        Assert.assertEquals(confirmationMessage.getText(), "Make Appointment");
     }
 
     @Test
-    public void test_appointmentDarina(){
+    public void test_appointmentDarina() {
         final String textAppointment = "Help me! Java kills me!";
 
         getDriver().get(URL_DEMO);
@@ -169,7 +149,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testMintHouseSource2(){
+    public void testMintHouseSource2() {
         getDriver().get(URL_MINTHOUSE);
         String currentSource = getDriver().getPageSource();
         boolean actualResult = currentSource.contains("div");
@@ -195,15 +175,18 @@ public class GroupDreamTeamTest extends BaseTest {
         getDriver().findElement(By.xpath("//li/a[text()='Login']")).click();
         getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(USERNAME_DEMO);
         getDriver().findElement(By.xpath("//input[@id='txt-password']")).sendKeys(PASSWORD_DEMO);
+        getDriver().findElement(By.id("btn-login")).click();
+        WebElement textAppoint = getDriver().findElement(By.xpath("//h2[text() = 'Make Appointment']"));
 
-        Assert.assertTrue(true, "//div[@class='col-sm-12 text-center']");
+        Assert.assertEquals(textAppoint.getText(), "Make Appointment");
     }
 
-    private static String getUniqueEmail(){
+    private static String getUniqueEmail() {
         return "dar" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + "@gmail.com";
     }
+
     @Test
-    public void test_bookingDarina(){
+    public void test_bookingDarina() {
         getDriver().get(URL_BOOKING);
         getDriver().findElement(By.xpath("//input[@data-testid='ContactName']")).sendKeys(USERNAME_DEMO);
         getDriver().findElement(By.xpath("//input[@data-testid='ContactEmail']")).sendKeys(getUniqueEmail());
@@ -217,7 +200,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void test_invalidBookingDarina(){
+    public void test_invalidBookingDarina() {
         getDriver().get(URL_BOOKING);
         getDriver().findElement(By.xpath("//input[@data-testid='ContactName']")).sendKeys(USERNAME_DEMO);
         getDriver().findElement(By.xpath("//input[@data-testid='ContactEmail']")).sendKeys(getUniqueEmail());
@@ -230,4 +213,18 @@ public class GroupDreamTeamTest extends BaseTest {
         Assert.assertEquals(errorMessage.getText(), "Message must be between 20 and 2000 characters.");
     }
 
+    @Test
+    public void testElena3() {
+        getDriver().get(URL_WEBFORM);
+        WebElement messageInput = getDriver().findElement
+                (By.xpath("//label[contains(text(),'File input')]"));
+        WebElement checkbox2 = getDriver().findElement(By.id("my-check-2"));
+        checkbox2.click();
+        WebElement buttonDefault = getDriver().findElement(By.id("my-radio-2"));
+        buttonDefault.click();
+
+        Assert.assertEquals(messageInput.getText(), "File input");
+        Assert.assertTrue(checkbox2.isSelected());
+        Assert.assertTrue(buttonDefault.isSelected());
+    }
 }
