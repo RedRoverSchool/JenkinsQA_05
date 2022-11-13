@@ -3,7 +3,7 @@ import org.openqa.selenium.WebElement;
 import java.time.Duration;
 
 public final class GroupATeamSauceDemoUtils {
-    public static final String URL = "https://www.saucedemo.com/";
+    public static final String URL_SAUCE_DEMO = "https://www.saucedemo.com/";
     public static final String STANDARD_USER = "standard_user";
     public static final String CORRECT_PASSWORD = "secret_sauce";
     public static final String WRONG_USERNAME_OR_PASSWORD_ERROR_MSG =

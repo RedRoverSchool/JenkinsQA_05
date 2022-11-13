@@ -13,7 +13,7 @@ public abstract class GroupATeamSauceDemoBaseTest extends BaseTest {
     }
 
     protected final void loginIn(String username, String password) {
-        getDriver().get(GroupATeamSauceDemoUtils.URL);
+        getDriver().get(GroupATeamSauceDemoUtils.URL_SAUCE_DEMO);
         getAction().
                 moveToElement(getDriver().findElement(By.id("user-name"))).click().sendKeys(username).
                 moveToElement(getDriver().findElement(By.id("password"))).click().sendKeys(password).
