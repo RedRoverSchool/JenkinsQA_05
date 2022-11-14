@@ -9,10 +9,14 @@ import runner.BaseTest;
 
 import java.time.Duration;
 import java.util.Locale;
+import java.util.NoSuchElementException;
 
 public class GroupCubsTest extends BaseTest {
 
+    protected WebDriverWait explicitlyWait;
+
     private static final String URL_HABR = "https://habr.com/ru/all/";
+    private static final String URL_PRESTASHOP = "http://prestashop.qatestlab.com.ua/ru/";
 
     @Test
     public void testFelix_IX() {
@@ -148,4 +152,29 @@ public class GroupCubsTest extends BaseTest {
                 "This email is not recognized. Try again?");
     }
 
+    @Test
+    public void testKseniaFindElement() {
+        explicitlyWait = new WebDriverWait(getDriver(), Duration.ofSeconds(60));
+        getDriver().get(URL_PRESTASHOP);
+        Assert.assertTrue(waitElementClickableCss(".sf-with-ul"));
+        clickElementCss(".sf-with-ul").click();
+        Assert.assertTrue(waitElementDisplayedCss(".category-name").isDisplayed());
+    }
+
+    private boolean waitElementClickableCss(String locator){
+        try {
+            explicitlyWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locator)));
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    private WebElement waitElementDisplayedCss(String locator){
+        return explicitlyWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(locator)));
+    }
+
+    private WebElement clickElementCss(String locator){
+        return getDriver().findElement(By.cssSelector(locator));
+    }
 }
