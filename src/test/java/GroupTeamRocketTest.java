@@ -41,11 +41,17 @@ public class GroupTeamRocketTest extends BaseTest {
 
     private static final String URL_LITECART = "https://litecart.stqa.ru/en/";
 
+    private WebDriverWait webDriverWait20;
+
     private WebDriverWait wait20() {
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        if (webDriverWait20 == null) {
+            webDriverWait20 = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        }
+
+        return webDriverWait20;
     }
 
-    private Actions doAction() {
+    private Actions doAction(){
         return new Actions(getDriver());
     }
 
@@ -75,8 +81,7 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testFindTitleGuide_NataliiaOliver() {
         getDriver().get("https://openweathermap.org/");
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(20)).until(ExpectedConditions.invisibilityOfElementLocated(
-                By.className("owm-loader-container")));
+        wait20().until(ExpectedConditions.invisibilityOfElementLocated(By.className("owm-loader-container")));
 
         WebElement guide = getDriver().findElement(By.xpath("//div[@id='desktop-menu']/ul/li/a[@href='/guide']"));
         new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(guide));
@@ -758,27 +763,26 @@ public class GroupTeamRocketTest extends BaseTest {
 
         getDriver().findElement(By.id("player")).click();
         wait.until(ExpectedConditions.attributeContains(getDriver()
-                .findElement(By.id("movie_player")), "class", "playing-mode"));
+                .findElement(By.id("movie_player")),"class", "playing-mode"));
 
         getDriver().findElement(By.id("player")).click();
         wait.until(ExpectedConditions.attributeContains(getDriver()
-                .findElement(By.id("movie_player")), "class", "paused-mode"));
+                .findElement(By.id("movie_player")),"class", "paused-mode"));
 
         String playerState = getDriver().findElement(By.id("movie_player")).getAttribute("class");
 
         Assert.assertTrue(playerState.contains("paused-mode"));
     }
-
     @Test
     public void test_UiTestingPlaygroundScrollbars_ArtCh() {
         getDriver().get(URL_UI_TESTING_PLAYGROUND);
 
-        getDriver().findElement(By.xpath("//a[@href = '/scrollbars']")).click();
+        getDriver().findElement(By.xpath ("//a[@href = '/scrollbars']")).click ();
         WebElement element = getDriver().findElement(By.xpath("//button[@id='hidingButton']"));
-        JavascriptExecutor jse = (JavascriptExecutor) getDriver();
+        JavascriptExecutor jse = (JavascriptExecutor)getDriver();
         jse.executeScript("arguments[0].scrollIntoView();", element);
 
-        Assert.assertEquals(element.getText(), "Hiding Button");
+        Assert.assertEquals (element.getText (), "Hiding Button");
     }
 
     @Test
@@ -787,21 +791,21 @@ public class GroupTeamRocketTest extends BaseTest {
 
         new Actions(getDriver())
                 .moveToElement(getDriver().findElement(By.cssSelector("#destination-plus"))).click().pause(500).perform();
-        Map<String, Integer> slideOutImages = new HashMap<>();
+        Map<String,Integer> slideOutImages = new HashMap<>();
         List<WebElement> destList = getDriver().findElements(By.cssSelector("#destination-list .menu__item"));
         Iterator<WebElement> it = destList.iterator();
         while (it.hasNext()) {
             WebElement temp = it.next();
             new Actions(getDriver()).moveToElement(temp).pause(1000).perform();
             Integer numberOfImages = getDriver().findElements(By.cssSelector(".destination-item.active img")).size();
-            slideOutImages.put(temp.findElement(By.cssSelector("a")).getText(), numberOfImages);
+            slideOutImages.put(temp.findElement(By.cssSelector("a")).getText(),numberOfImages);
         }
 
-        Assert.assertEquals(slideOutImages.size(), destList.size());
+        Assert.assertEquals(slideOutImages.size(),destList.size());
 
         int missingImages = 0;
         for (String i : slideOutImages.keySet()) {
-            if (slideOutImages.get(i) < 2) {
+            if(slideOutImages.get(i) < 2) {
                 missingImages++;
             }
         }
@@ -834,5 +838,4 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector(".country")).getText(), "Kazakhstan");
     }
 }
-
 
