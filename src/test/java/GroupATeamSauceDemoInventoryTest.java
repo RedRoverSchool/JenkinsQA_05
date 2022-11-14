@@ -255,7 +255,8 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
         webCheckoutItems.forEach(checkoutItem -> checkoutItems.add(new Inventory(
                 checkoutItem.findElement(cartItemLabelLocator).getAttribute("id")
                 , checkoutItem.findElement(INVENTORY_NAME_LOCATOR).getText()
-                , GroupATeamSauceDemoUtils.getDouble(checkoutItem.findElement(INVENTORY_PRICE_LOCATOR), "$"))));
+                , GroupATeamSauceDemoUtils.getDouble(checkoutItem.findElement(INVENTORY_PRICE_LOCATOR)
+                , GroupATeamSauceDemoUtils.DOLLAR_SIGN))));
 
         final double sum = GroupATeamSauceDemoUtils
                 .getDouble(getDriver().findElement(By.cssSelector("div.summary_subtotal_label")), "Item total: $");
@@ -293,8 +294,13 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
     }
 
     private Boolean newFirstOpenedTabTitleContains(String title) {
-        String newOpenedTab = getDriver().getWindowHandles().toArray(new String[2])[1];
-        getDriver().switchTo().window(newOpenedTab);
+        String currentWindow = getDriver().getWindowHandle();
+        for (String newOpenedTab : getDriver().getWindowHandles()) {
+            if(!currentWindow.contentEquals(newOpenedTab)) {
+                getDriver().switchTo().window(newOpenedTab);
+                break;
+            }
+        }
         return new WebDriverWait(getDriver(), GroupATeamSauceDemoUtils.MAX_TIMEOUT)
                 .until(ExpectedConditions.titleContains(title));
     }
@@ -302,7 +308,8 @@ public class GroupATeamSauceDemoInventoryTest extends GroupATeamSauceDemoBaseTes
     private Inventory getInventory(WebElement inventory) {
         return new Inventory(inventory.findElement(INVENTORY_LABEL_LOCATOR).getAttribute("id")
                 , inventory.findElement(INVENTORY_NAME_LOCATOR).getText()
-                , GroupATeamSauceDemoUtils.getDouble(inventory.findElement(INVENTORY_PRICE_LOCATOR), "$"));
+                , GroupATeamSauceDemoUtils.getDouble(inventory.findElement(INVENTORY_PRICE_LOCATOR)
+                , GroupATeamSauceDemoUtils.DOLLAR_SIGN));
     }
 
     private List<Inventory> getInventories() {

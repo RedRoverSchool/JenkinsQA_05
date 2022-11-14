@@ -10,6 +10,7 @@ public final class GroupATeamSauceDemoUtils {
             "Epic sadface: Username and password do not match any user in this service";
     public static final String TITLE_PRODUCTS = "PRODUCTS";
     public static final String TITLE = "Swag Labs";
+    public static final String DOLLAR_SIGN = "$";
     public static final Duration MAX_TIMEOUT = Duration.ofSeconds(60);
 
     public static double getDouble(WebElement webElement, String prefix) {
