@@ -19,6 +19,7 @@ public class GroupBughuntersTest extends BaseTest {
     private final String BBC_URL = "https://www.bbc.co.uk/learningenglish/english/";
 
 
+    @Ignore
     @Test
     public void testTicketonSearch_NL(){
         getDriver().get("https://ticketon.kz/");

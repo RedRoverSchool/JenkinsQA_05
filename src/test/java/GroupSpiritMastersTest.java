@@ -308,6 +308,7 @@ public class GroupSpiritMastersTest extends BaseTest {
         Assert.assertEquals(openButton.getText(), "TUTORIALS");
     }
 
+    @Ignore
     @Test
     public void test_ModalDialogs_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/modal-dialogs");
