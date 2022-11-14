@@ -37,6 +37,16 @@ public class GroupTeamRocketTest extends BaseTest {
 
     private static final String URL_UI_TESTING_PLAYGROUND = "http://uitestingplayground.com";
 
+    private static final String URL_MINTHOUSE = "https://minthouse.com/";
+
+    private WebDriverWait wait20() {
+        return new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+    }
+
+    private Actions doAction(){
+        return new Actions(getDriver());
+    }
+
 
     @Test
     public void testAddElementHerokuapp() {
@@ -507,11 +517,12 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testSergeDotMenuStartTitle() {
         getDriver().get(URL_99);
 
-        getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='navigation']/ul[@id='menu']/li/a[@href='/abc.html']")).click();
-        getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='navigation']/ul[@id='menu']/li/a[@href='/']")).click();
-        getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/h2")).getText();
+        getDriver().findElement(By.cssSelector("#menu a[href='/abc.html']")).click();
+        getDriver().findElement(By.cssSelector("#menu a[href='/'")).click();
+        getDriver().findElement(By.cssSelector("#menu a[href='/']")).getText();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/h2")).getText(), "Welcome to 99 Bottles of Beer");
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main h2"))
+                .getText(), "Welcome to 99 Bottles of Beer");
     }
 
     @Test
@@ -531,34 +542,32 @@ public class GroupTeamRocketTest extends BaseTest {
     @Test
     public void testSergeDotMintHouseDateSelectionYesterdayIsNotClickable() {
         final long dayInMillis = 86400000;
-        getDriver().get("https://minthouse.com/");
+        getDriver().get(URL_MINTHOUSE);
 
-        WebElement propertyList = getDriver().findElement(By
-                .xpath("//div[@class='hero hero-home']//span[@class='text'][contains(text(),'Where to next')]"));
-        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(propertyList));
-        new Actions(getDriver()).click(propertyList).perform();
-        getDriver().findElement(By
-                .xpath("//div[@class='dropdown active']//a[@tabindex='0'][contains(text(),'Mint House Austin – South Congress')]")).click();
+        WebElement propertyList = getDriver().findElement(By.cssSelector(".hero .value .text"));
+        wait20().until(ExpectedConditions.elementToBeClickable(propertyList));
+        doAction().click(propertyList).perform();
+        getDriver().findElement(By.cssSelector(".dropdown.active a")).click();
 
-        WebElement dates = getDriver().findElement(By
-                .xpath("//div[@class='hero hero-home']//span[@class='value']//span[@class='t-check-in'][contains(text(),'Select date')]"));
-        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(dates));
-        new Actions(getDriver()).click(dates).perform();
+        WebElement dates = getDriver().findElement(By.cssSelector("#mainContent .booker-calendar .t-check-in"));
+        wait20().until(ExpectedConditions.elementToBeClickable(dates));
+        doAction().click(dates).perform();
 
         long todayInMillis = Long.parseLong(getDriver()
-                .findElement(By
-                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@class='day-item is-today']"))
+                .findElement(By.cssSelector(".hero .month-item .container__days .is-today"))
                 .getAttribute("data-time"));
+
         WebElement yesterdayDate = getDriver()
-                .findElement(By
-                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + Math.subtractExact(todayInMillis, dayInMillis) + "]"));
-        System.out.println(Math.subtractExact(todayInMillis, dayInMillis));
-        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(yesterdayDate));
+                .findElement(By.cssSelector(".hero .month-item .container__days div[data-time='" +
+                        Math.subtractExact(todayInMillis, dayInMillis) + "']"));
+        wait20().until(ExpectedConditions.elementToBeClickable(yesterdayDate));
         new Actions(getDriver()).click(dates).perform();
 
-        String actualResult = yesterdayDate.getAttribute("class");
+        boolean actualResult = yesterdayDate.getAttribute("class").contains("is-start-date") ||
+                yesterdayDate.getAttribute("class").contains("is-end-date") ||
+                yesterdayDate.getAttribute("class").contains("is-in-range");
 
-        Assert.assertFalse(actualResult.contains("is-start-date") || actualResult.contains("is-end-date") || actualResult.contains("is-in-range"));
+        Assert.assertFalse(actualResult);
     }
 
     @Test
@@ -582,19 +591,22 @@ public class GroupTeamRocketTest extends BaseTest {
 
     @Test
     public void testHeaderIsDisplayedInEach() {
+        boolean actualResult = false;
         final String expectedHeaderText = "Smart By Design";
-        final String carouselContainerPath = "//div[contains(@class, 'swiper-slide')]//div[@class='image']//img[contains(@class, 'd-none')]";
+        final String carouselContainerPath = ".swiper-slide .image .d-none";
 
-        getDriver().get("https://minthouse.com/");
-        List<WebElement> carousel = getDriver().findElements(By.xpath(carouselContainerPath));
+        getDriver().get(URL_MINTHOUSE);
+        List<WebElement> carousel = getDriver().findElements(By.cssSelector(carouselContainerPath));
         for (WebElement element : carousel) {
-            new WebDriverWait(getDriver(), Duration.ofSeconds(8)).until(ExpectedConditions.visibilityOf(element));
-            if (!element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText().equals(expectedHeaderText)) {
-                System.out.println("Missing text in " + element.getAttribute("src"));
+            wait20().until(ExpectedConditions.visibilityOf(element));
+            if (!element.findElement(By.xpath("parent::div/following-sibling::div//h2"))
+                    .getText().equals(expectedHeaderText)) {
+                System.out.println("Error report. Missing text in " + element.getAttribute("src"));
+                actualResult = true;
             }
-
-            Assert.assertEquals(element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText(), expectedHeaderText);
         }
+
+        Assert.assertFalse(actualResult);
     }
 
     @Test
@@ -659,7 +671,7 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
-    public void test_WixWebSiteAnnaPav() throws InterruptedException {
+    public void test_WixWebSiteAnnaPav() {
         getDriver().get("https://www.wix.com/");
         WebElement actualResult = getDriver().findElement(By.xpath("//span[contains(text(), 'Create a website without limits')]"));
 
@@ -754,7 +766,7 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertTrue(playerState.contains("paused-mode"));
     }
-
+    @Test
     public void test_UiTestingPlaygroundScrollbars_ArtCh() {
         getDriver().get(URL_UI_TESTING_PLAYGROUND);
 
@@ -766,12 +778,12 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals (element.getText (), "Hiding Button");
     }
 
+    @Test
     public void testMintHouseSlideOutImageCountsNegative_SergeDot() {
-        getDriver().get("https://minthouse.com/");
+        getDriver().get(URL_MINTHOUSE);
 
         new Actions(getDriver())
-                .moveToElement(getDriver().findElement(By
-                        .xpath("//*[local-name()='svg' and @id='destination-plus']/*[local-name()='path']"))).click().pause(500).perform();
+                .moveToElement(getDriver().findElement(By.cssSelector("#destination-plus"))).click().pause(500).perform();
         Map<String,Integer> slideOutImages = new HashMap<>();
         List<WebElement> destList = getDriver().findElements(By.cssSelector("#destination-list .menu__item"));
         Iterator<WebElement> it = destList.iterator();
@@ -784,13 +796,13 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertEquals(slideOutImages.size(),destList.size());
 
-        Integer missingImages = 0;
+        int missingImages = 0;
         for (String i : slideOutImages.keySet()) {
             if(slideOutImages.get(i) < 2) {
                 missingImages++;
             }
         }
-        Assert.assertFalse(missingImages == 0);
+        Assert.assertNotEquals(missingImages, 0);
     }
 }
 
