@@ -350,7 +350,6 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class='Title m-no-margin']")).isDisplayed());
     }
 
-    @Ignore
     @Test
     public void testGoToStepTwoForGetQuote_VadimTref() {
         getDriver().get("https://commercialinsurance.net/");
@@ -365,7 +364,6 @@ public class GroupTeamRocketTest extends BaseTest {
                 .getText(), "Go To Final Step");
     }
 
-
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
         getDriver().get(URL_DEMOBLAZE);
@@ -376,12 +374,11 @@ public class GroupTeamRocketTest extends BaseTest {
                 "$800 *includes tax");
     }
 
-    @Ignore
     @Test
     public void testSwitchToPageCompareInsuranceQuote_VadimTref() {
         getDriver().get("https://www.statewidedealerinsurance.com/");
 
-        final String EXPECTED_NOTE_TEXT = "An insurance quote does not impact your "
+        final String expectedNoteText = "An insurance quote does not impact your "
                 + "credit score. Quote will take approximately 3-5 minutes to complete.";
 
         getDriver().findElement(By.id("ZipCode")).sendKeys("11230");
@@ -390,9 +387,8 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//form[@id='miniQuote']//button[@type='submit']")).click();
         getDriver().switchTo().frame(getDriver().findElement(By.id("cpIframe")));
 
-        Assert.assertEquals(
-                getDriver().findElement(By.xpath("//div[@id='body']//p[@class='cpInstructions cpPage0']")).getText(),
-                EXPECTED_NOTE_TEXT);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='body']//p[@class='cpInstructions cpPage0']")).getText(),
+                expectedNoteText);
     }
 
     @Test
@@ -570,7 +566,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().get("https://demoqa.com/");
 
         getDriver().findElement(
-                By.xpath("//*[name()='svg'][@stroke='currentColor']/*[local-name() = 'path'][1]")).click();
+                By.cssSelector("div:nth-of-type(1) > div > .avatar.mx-auto.white > svg")).click();
         getDriver().findElement(By.id("item-2")).click();
         List<WebElement> radioButtons = getDriver().findElements(
                 By.xpath("//div[contains(@class,'custom-control')]"));
@@ -689,7 +685,7 @@ public class GroupTeamRocketTest extends BaseTest {
 
         Assert.assertEquals(actualResult.getText(), "Log In");
     }
-    
+
     @Ignore
     @Test
     public void test_WixLoginAnnaPav() throws InterruptedException {
