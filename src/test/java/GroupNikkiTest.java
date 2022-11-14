@@ -197,6 +197,7 @@ public class GroupNikkiTest extends BaseTest {
         Assert.assertEquals(actualErrorMessage, "* Incorrect username or password");
     }
 
+    @Ignore
     @Test
     public void testPicSize() {
         getDriver().get("https://www.hostinger.com/tutorials");

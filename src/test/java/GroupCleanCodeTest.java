@@ -3,6 +3,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -19,7 +20,7 @@ public class GroupCleanCodeTest extends BaseTest {
 
         Assert.assertEquals(link.getText(), "ritual scepter");
     }
-
+    @Ignore
     @Test
     public void testFolkInstrumentsPolishEnglish() {
         getDriver().get("http://ludowe.instrumenty.edu.pl/pl/o-projekcie");
@@ -170,5 +171,17 @@ public class GroupCleanCodeTest extends BaseTest {
 
         Assert.assertEquals(bow.getText(), "bow for mazanki");
     }
+    @Test
+    public void testWebElements(){
+        getDriver().get("http://json.parser.online.fr/");
 
+        WebElement text = getDriver().findElement(By.xpath("//div[2][@class='n b']/span[@class='l']"));
+
+        Assert.assertEquals(text.getText(),"Options");
+        text.click();
+        WebElement text2 = getDriver().findElement(By.xpath("//div[@class='e d']"));
+        text2.click();
+
+        Assert.assertEquals(text2.getText(),"Top-bottom");
+    }
 }
