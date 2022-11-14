@@ -3,6 +3,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -10,7 +11,7 @@ import runner.BaseTest;
 public class GroupJavanistyTest extends BaseTest {
 
     @Test
-    public void test_CheckMessage(){
+    public void test_CheckMessage() {
 
         final String expectedResult = "24.69";
 
@@ -24,7 +25,7 @@ public class GroupJavanistyTest extends BaseTest {
     }
 
     @Test
-    public void test_Registration_IriSamo(){
+    public void test_Registration_IriSamo() {
         getDriver().get("https://www.sharelane.com/cgi-bin/register.py");
 
         getDriver().findElement(By.name("zip_code")).sendKeys("196240");
@@ -45,7 +46,7 @@ public class GroupJavanistyTest extends BaseTest {
 
         Assert.assertEquals(actualConfirmationMessage, "Account is created!");
     }
-     
+
     @Ignore
     @Test
     public void testBdoWarrior2() throws InterruptedException {
@@ -77,25 +78,15 @@ public class GroupJavanistyTest extends BaseTest {
     }
 
     @Test
-    public void testIlyaFirstTest(){
+    public void testIlyaFirstTest() {
         getDriver().get("https://karkas.k3-cottage.ru/");
         WebElement text = getDriver().findElement(By.xpath("//li/a[@href='#config']"));
         Assert.assertEquals(text.getText(), "НАСТРОЙКИ");
     }
 
-    @Test
-    public void testThree() {
-        getDriver().get("https://healthunify.com/bmicalculator/");
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://healthunify.com/bmicalculator/");
-        getDriver().findElement(By.xpath("//input[@name='wg']")).sendKeys("55");
-        getDriver().findElement(By.xpath("//input[@name='ht']")).sendKeys("60");
-        getDriver().findElement(By.xpath("//input[@value='Calculate']")).click();
-        Assert.assertTrue(getDriver().findElement(By.xpath("//input[@class='content']")).isDisplayed());
-    }
-    
     @Ignore
     @Test
-    public void testTextHlebnica(){
+    public void testTextHlebnica() {
         getDriver().get("http://hlebnitca.ru/");
         getDriver().findElement(By.xpath("//a[@class= 'tn-atom']")).click();
         Assert.assertEquals(getDriver().getCurrentUrl(), "http://hlebnitca.ru/about");
@@ -103,12 +94,12 @@ public class GroupJavanistyTest extends BaseTest {
 
     @Ignore
     @Test
-    public void testAboutHlebnica(){
-        getDriver().get ("http://hlebnitca.ru/about");
-        String aboutHlebnica =  getDriver().findElement(By.xpath("//div[@class = 't396__elem tn-elem tn-elem__3963063211640603855210']")).getText();
+    public void testAboutHlebnica() {
+        getDriver().get("http://hlebnitca.ru/about");
+        String aboutHlebnica = getDriver().findElement(By.xpath("//div[@class = 't396__elem tn-elem tn-elem__3963063211640603855210']")).getText();
         Assert.assertEquals(aboutHlebnica, "Вкус настоящей домашней выпечки");
     }
-    
+
     @Test
     public void testIlyaSecondTest() {
         getDriver().get("https://karkas.k3-cottage.ru/");
@@ -116,17 +107,44 @@ public class GroupJavanistyTest extends BaseTest {
         Assert.assertEquals(text.getText(), "ВОЗМОЖНОСТИ");
     }
 
-    @Test
-    public void testAratinveMainMenuTitle() {
-        String titleExpected = "Главная страница\nО программе\nНовости\nПродукты\nОбучение" +
-                "\nСкачать\nКупить\nFAQ\nО нас";
+    private final String baseMebelUrl = "https://k3-mebel.ru/";
 
-        getDriver().get("https://k3-mebel.ru/");
+    @Test
+    public void test_Aratinve_MainMenuTitle() {
+        String titleExpected = "Главная страница\nО программе\nНовости\nПродукты\nОбучение"
+                + "\nСкачать\nКупить\nFAQ\nО нас";
+
+        getDriver().get(baseMebelUrl);
         String titleActual = getDriver().findElement(By.id("menu-verhnee-menyu")).getText();
+
         Assert.assertEquals(titleActual, titleExpected);
     }
+
+    @DataProvider(name = "Url-Id-Main-Menu")
+    public Object[][] urlMainMenuProvider() {
+        return new String[][] {
+                {"https://k3-mebel.ru/about.html", "menu-item-16"},
+                {"https://k3-mebel.ru/about/news.html", "menu-item-442"},
+                {"https://k3-mebel.ru/products/pkm.html", "menu-item-167"},
+                {"https://k3-mebel.ru/learning/doc.html", "menu-item-171"},
+                {"https://k3-mebel.ru/downloads/free-version.html", "menu-item-15856"},
+                {"https://k3-mebel.ru/buy/price.html", "menu-item-343"},
+                {"https://k3-mebel.ru/learning/faq.html", "menu-item-15916"},
+                {"https://k3-mebel.ru/developer.html", "menu-item-186"},
+        };
+    }
+
+    @Test(dataProvider = "Url-Id-Main-Menu")
+    public void test_Aratinve_MainMenuNavigation(String urlExpected, String id_menu) {
+
+        getDriver().get(baseMebelUrl);
+        getDriver().findElement(By.id(id_menu)).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), urlExpected);
+    }
+
     @Test
-    public void testWeightPoundsHeight2(){
+    public void testWeightPoundsHeight2() {
         getDriver().get("https://healthunify.com/bmicalculator/");
         Select weight = new Select(getDriver().findElement(By.name("opt1")));
         weight.selectByValue("pounds");
@@ -140,35 +158,40 @@ public class GroupJavanistyTest extends BaseTest {
     }
 
     @Test
-    public void testH2TagText_WhenSearchingCityCountry() throws InterruptedException {
+    public void testPageSearchLanguagesUrlAndTitle() {
+        final String expectedResultUrl = "https://www.99-bottles-of-beer.net/search.html";
+        final String expectedResultTitle = "99 Bottles of Beer | Search Languages";
 
-        String url = "https://openweathermap.org/";
-        String cityName = "Paris";
-        String expectedResult = "Paris, FR";
+        getDriver().get("https://www.99-bottles-of-beer.net/");
 
-        getDriver().get(url);
-        Thread.sleep(5000);
+        getDriver().findElement(By.xpath("//a[@href='/search.html']")).click();
 
-        WebElement searchCityField = getDriver().findElement(
-                By.xpath("//div[@id='weather-widget']//input[@placeholder='Search city']"));
-        searchCityField.click();
-        searchCityField.sendKeys(cityName);
+        Assert.assertEquals(getDriver().getCurrentUrl(), expectedResultUrl);
+        Assert.assertEquals(getDriver().getTitle(), expectedResultTitle);
+    }
 
-        WebElement searchButton = getDriver().findElement(
-                By.xpath("//div[@id='weather-widget']//button[@type='submit']"));
-        searchButton.click();
-        Thread.sleep(1000);
+    @Test
+    public void testCalculateThePercentageOfFat() {
+        getDriver().get("https://healthunify.com/bmicalculator/");
 
-        WebElement parisFRChoiceInDropdownMenu = getDriver().findElement(
-                By.xpath("//ul[@class='search-dropdown-menu']/li/span[text()='Paris, FR ']"));
-        parisFRChoiceInDropdownMenu.click();
+        WebElement element_ofSelectPounds = getDriver().findElement(By.name("opt1"));
+        Select selectPounds = new Select(element_ofSelectPounds);
+        WebElement element_ofSelectHeight1 = getDriver().findElement(By.name("opt2"));
+        Select selectHeight1 = new Select(element_ofSelectHeight1);
+        WebElement element_ofSelectHeight2 = getDriver().findElement(By.name("opt3"));
+        Select selectHeight2 = new Select(element_ofSelectHeight2);
+        WebElement textAboutYourWeight = getDriver().findElement(By.xpath("//input[@class='content']"));
 
-        WebElement h2CityCountryHeader = getDriver().findElement(
-                By.xpath("//div[@id='weather-widget']//h2"));
+        element_ofSelectPounds.click();
+        selectPounds.selectByIndex(0);
+        getDriver().findElement(By.xpath("//input[@name='wg']")).clear();
+        getDriver().findElement(By.xpath("//input[@name='wg']")).sendKeys("55");
+        element_ofSelectHeight1.click();
+        selectHeight1.selectByIndex(4);
+        element_ofSelectHeight2.click();
+        selectHeight2.selectByIndex(3);
+        getDriver().findElement(By.xpath("//input[@value='Calculate']")).click();
 
-        Thread.sleep(2000);
-        String actualResult = h2CityCountryHeader.getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertTrue(textAboutYourWeight.isDisplayed());
     }
 }
