@@ -14,8 +14,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GroupTeamRocketTest extends BaseTest {
 
@@ -768,6 +767,33 @@ public class GroupTeamRocketTest extends BaseTest {
         jse.executeScript("arguments[0].scrollIntoView();", element);
 
         Assert.assertEquals (element.getText (), "Hiding Button");
+    }
+
+    public void testMintHouseSlideOutImageCountsNegative_SergeDot() {
+        getDriver().get("https://minthouse.com/");
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By
+                        .xpath("//*[local-name()='svg' and @id='destination-plus']/*[local-name()='path']"))).click().pause(500).perform();
+        Map<String,Integer> slideOutImages = new HashMap<>();
+        List<WebElement> destList = getDriver().findElements(By.cssSelector("#destination-list .menu__item"));
+        Iterator<WebElement> it = destList.iterator();
+        while (it.hasNext()) {
+            WebElement temp = it.next();
+            new Actions(getDriver()).moveToElement(temp).pause(1000).perform();
+            Integer numberOfImages = getDriver().findElements(By.cssSelector(".destination-item.active img")).size();
+            slideOutImages.put(temp.findElement(By.cssSelector("a")).getText(),numberOfImages);
+        }
+
+        Assert.assertEquals(slideOutImages.size(),destList.size());
+
+        Integer missingImages = 0;
+        for (String i : slideOutImages.keySet()) {
+            if(slideOutImages.get(i) < 2) {
+                missingImages++;
+            }
+        }
+        Assert.assertFalse(missingImages == 0);
     }
 }
 
