@@ -137,7 +137,6 @@ public class GroupCubsTest extends BaseTest {
         getDriver().get("https://www.mirror.co/");
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
-        getDriver().findElement(By.xpath("//a[@class='close']")).click();
         getDriver().findElement(By.xpath("//button[@data-testid='footer-sign-in']")).click();
         getDriver().findElement(By.xpath("//input[@name='email']")).sendKeys("woman@flower.is");
         getDriver().findElement(By.xpath("//button[contains(@class,'Input__Button')]")).click();
