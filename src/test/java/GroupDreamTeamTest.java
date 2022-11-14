@@ -240,6 +240,15 @@ public class GroupDreamTeamTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("my-check-1")).isSelected() && check2.isSelected());
     }
 
+    @Test
+    public void testMintHouseSvg_SimonG() {
+        getDriver().get("https://minthouse.com/");
 
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By
+                        .xpath("//*[local-name()='svg' and @id='destination-plus']/*[local-name()='path']"))).click().perform();
+
+        Assert.assertEquals(getDriver().findElements(By.cssSelector("#destination-list .menu__item")).size(),12);
+    }
 
 }
