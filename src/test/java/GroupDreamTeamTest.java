@@ -239,4 +239,18 @@ public class GroupDreamTeamTest extends BaseTest {
         Assert.assertTrue(!(radio1.isSelected()) && radio2.isSelected());
         Assert.assertTrue(check1.isSelected() && check2.isSelected());
     }
+
+    @Test
+    public void testMintHouseSlideOutImageSimon() {
+        getDriver().get(URL_MINTHOUSE);
+
+        WebElement slideOutMenu = getDriver().findElement(
+                By.xpath("//*[local-name()='svg' and @id='destination-plus']/*[local-name()='path']"));
+        new Actions(getDriver())
+                .moveToElement(slideOutMenu).click().pause(500)
+                .moveToElement(getDriver().findElement(By.cssSelector("#destination-list a"))).pause(500).perform();
+        boolean actualResult = getDriver().findElement(By.cssSelector(".destination-item.active img")).isDisplayed();
+
+        Assert.assertTrue(actualResult);
+    }
 }

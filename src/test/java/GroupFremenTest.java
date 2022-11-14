@@ -64,8 +64,9 @@ public class GroupFremenTest extends BaseTest {
     }
 
     @Test
-    public void testVera_completeWebForm() throws InterruptedException {
+    public void testVera_completeWebForm() {
         getDriver().get(URL);
+
         getDriver().findElement(
                 By.xpath("//div[@class='jumbotron-fluid']//a[text()='Complete Web Form']")).click();
         getDriver().findElement(By.id("first-name")).sendKeys("Vera");
@@ -73,16 +74,16 @@ public class GroupFremenTest extends BaseTest {
         getDriver().findElement(By.id("job-title")).sendKeys("Software Tester");
         getDriver().findElement(By.id("radio-button-1")).click();
         getDriver().findElement(By.id("checkbox-2")).click();
+
         final Select select = new Select(getDriver().findElement(By.id("select-menu")));
         select.selectByVisibleText("0-1");
+
         WebElement datePicker = getDriver().findElement(By.id("datepicker"));
         datePicker.sendKeys(LocalDate.now().toString());
         datePicker.sendKeys(Keys.RETURN);
-        getDriver().findElement(By.cssSelector(".btn.btn-lg.btn-primary")).click();
-        Thread.sleep(2000);
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("h1")).getText(),
-                "Thanks for submitting your form");
+        getDriver().findElement(By.cssSelector(".btn.btn-lg.btn-primary")).click();
+
         Assert.assertEquals(getDriver().findElement(By.cssSelector(".alert.alert-success")).getText(),
                 "The form was successfully submitted!");
     }

@@ -551,6 +551,7 @@ public class GroupObukhovTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testCheckRoundButtonHelpMenu() {
         goToRoundButtonOnHelpPage();
