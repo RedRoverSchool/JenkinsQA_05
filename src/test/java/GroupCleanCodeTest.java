@@ -3,6 +3,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -19,7 +20,7 @@ public class GroupCleanCodeTest extends BaseTest {
 
         Assert.assertEquals(link.getText(), "ritual scepter");
     }
-
+    @Ignore
     @Test
     public void testFolkInstrumentsPolishEnglish() {
         getDriver().get("http://ludowe.instrumenty.edu.pl/pl/o-projekcie");

@@ -3,6 +3,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -13,6 +14,7 @@ import java.util.Random;
 
 public class NoGroupTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testVerifyTextBoxOutputResult() {
         getDriver().get("https://demoqa.com/");
