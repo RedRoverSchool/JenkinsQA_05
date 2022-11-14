@@ -364,6 +364,7 @@ public class GroupTeamRocketTest extends BaseTest {
                 .getText(), "Go To Final Step");
     }
 
+    @Ignore
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
         getDriver().get(URL_DEMOBLAZE);

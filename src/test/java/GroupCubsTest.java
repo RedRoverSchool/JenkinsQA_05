@@ -139,6 +139,7 @@ public class GroupCubsTest extends BaseTest {
         getDriver().get("https://www.mirror.co/");
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
 
+        getDriver().findElement(By.xpath("//button[@data-testid='footer-sign-in']")).click();
         getDriver().findElement(By.xpath("//input[@name='email']")).sendKeys("woman@flower.is");
         getDriver().findElement(By.xpath("//button[contains(@class,'Input__Button')]")).click();
         wait.until(ExpectedConditions.textToBe(By.xpath("//span[contains(@class,'Input__StyledError')]"),
@@ -154,15 +155,14 @@ public class GroupCubsTest extends BaseTest {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         final String FONT_FAMILY = "moderat-extended-bold-italic, sans-serif";
 
-        try {
-            getDriver().findElement(By.xpath("//a[@class='close']")).click();
-        } finally {
             js.executeScript(("window.scrollBy(0,document.body.scrollHeight)"));
-            List<WebElement> footerElements = getDriver().findElements(By.xpath("//span[contains(@id,'footer-heading')]"));
+            List<WebElement> footerElements = getDriver().findElements(By.xpath(
+                    "//span[contains(@id,'footer-heading')]"));
+
             Assert.assertEquals(footerElements.get(0).getCssValue("font-family"),FONT_FAMILY);
             Assert.assertEquals(footerElements.get(1).getCssValue("font-family"),FONT_FAMILY);
             Assert.assertEquals(footerElements.get(2).getCssValue("font-family"),FONT_FAMILY);
-        }
+
     }
 
 }
