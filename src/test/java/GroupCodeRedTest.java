@@ -420,4 +420,22 @@ public class GroupCodeRedTest extends BaseTest {
         Assert.assertEquals(popupH2Text.getTagName(),"h2");
         Assert.assertEquals(popupH2Text.getText(),"Мы с уважением относимся к вашей конфиденциальности");
     }
+    @Test
+    public void testFooterPanel_ZK() throws InterruptedException {
+        getDriver().get(WEATHER_URL);
+        getDriver().findElement(By.xpath("//input[@placeholder= 'Search city']")).isDisplayed();
+        getDriver().findElement(By.xpath("//button[@class= 'button-round dark']")).isDisplayed();
+        getDriver().findElement(By.xpath("//div[@class= 'control-el']")).isDisplayed();
+        Thread.sleep(10000);
+        getDriver().findElement(By.xpath("//div[@id = 'weather-widget']//span[contains(text(), 'Different Weather?')]"))
+                .click();
+        getDriver().findElement(By.xpath("//div[@class= 'pop-up-container']")).isDisplayed();
+        Thread.sleep(5000);
+        getDriver().findElement(By.xpath("//span[contains(text(),'clear sky')]/parent::li")).click();
+        getDriver().findElement(By.xpath("//div[@class = 'pop-up-container']//button[@class = 'button-round dark']"))
+                .click();
+
+
+
+    }
 }
