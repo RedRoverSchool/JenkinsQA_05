@@ -73,8 +73,7 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testFindTitleGuide_NataliiaOliver() {
         getDriver().get("https://openweathermap.org/");
 
-        wait20().until(ExpectedConditions.invisibilityOfElementLocated(
-                By.className("owm-loader-container")));
+        wait20().until(ExpectedConditions.invisibilityOfElementLocated(By.className("owm-loader-container")));
 
         WebElement guide = getDriver().findElement(By.xpath("//div[@id='desktop-menu']/ul/li/a[@href='/guide']"));
         new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(guide));
