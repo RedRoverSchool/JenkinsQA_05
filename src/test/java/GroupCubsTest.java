@@ -1,5 +1,4 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,9 +12,7 @@ import java.util.Locale;
 
 public class GroupCubsTest extends BaseTest {
 
-    protected WebDriverWait explicitlyWait;
     private static final String URL_HABR = "https://habr.com/ru/all/";
-    private static final String URL_PRESTASHOP = "http://prestashop.qatestlab.com.ua/ru";
 
     @Test
     public void testFelix_IX() {
@@ -135,30 +132,20 @@ public class GroupCubsTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div/span[@class='title']")).getText(),"PRODUCTS");
     }
-
     @Test
-    public void testKseniaFindElement() {
-        explicitlyWait = new WebDriverWait(getDriver(), Duration.ofSeconds(60));
-        getDriver().get(URL_PRESTASHOP);
-        Assert.assertTrue(waitElementClickableCss(".sf-with-ul"));
-        clickElementCss(".sf-with-ul").click();
-        Assert.assertTrue(waitElementDisplayedCss(".category-name").isDisplayed());
+    public void testNegativeLoginAsh() {
+        getDriver().get("https://www.mirror.co/");
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().findElement(By.xpath("//button[@data-testid='footer-sign-in']")).click();
+        getDriver().findElement(By.xpath("//input[@name='email']")).sendKeys("woman@flower.is");
+        getDriver().findElement(By.xpath("//button[contains(@class,'Input__Button')]")).click();
+        wait.until(ExpectedConditions.textToBe(By.xpath("//span[contains(@class,'Input__StyledError')]"),
+                "This email is not recognized. Try again?"));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath
+                        ("//span[contains(@class,'Input__StyledError')]")).getText(),
+                "This email is not recognized. Try again?");
     }
 
-    private boolean waitElementClickableCss(String locator){
-        try {
-            explicitlyWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locator)));
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
-    private WebElement waitElementDisplayedCss(String locator){
-        return explicitlyWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(locator)));
-    }
-
-    private WebElement clickElementCss(String locator){
-        return getDriver().findElement(By.cssSelector(locator));
-    }
 }
