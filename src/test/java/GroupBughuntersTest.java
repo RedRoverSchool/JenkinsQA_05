@@ -91,6 +91,7 @@ public class GroupBughuntersTest extends BaseTest {
     }
 
     @Test
+    @Ignore
     public void testChooseCurrency() {
         getDriver().get("https://rahulshettyacademy.com/dropdownsPractise/");
 
