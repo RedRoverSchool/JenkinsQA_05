@@ -39,8 +39,14 @@ public class GroupTeamRocketTest extends BaseTest {
 
     private static final String URL_MINTHOUSE = "https://minthouse.com/";
 
+    private WebDriverWait webDriverWait20;
+
     private WebDriverWait wait20() {
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        if (webDriverWait20 == null) {
+            webDriverWait20 = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        }
+
+        return webDriverWait20;
     }
 
     private Actions doAction(){
