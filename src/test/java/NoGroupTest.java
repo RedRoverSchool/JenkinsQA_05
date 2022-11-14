@@ -1,5 +1,7 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -99,5 +101,36 @@ public class NoGroupTest extends BaseTest {
 
         Assert.assertEquals(actualResult,expectedResult);
     }
+
+    @Test
+    public void testBrowseDiscountBoxes_UmidaK() {
+        getDriver().get("https://www.thredup.com/");
+
+        getDriver().findElement(By.xpath("//div[contains(@data-testid, 'deals')]")).click();
+        getDriver().findElement(By.xpath("//a[@class='ui-link-alt']")).click();
+
+        JavascriptExecutor js = (JavascriptExecutor)getDriver();
+        js.executeScript("window.scrollBy(0,350)", "");
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("(//button[text() = 'Get This Box'])[1]")).isDisplayed());
+    }
+
+    @Test
+    public void testSearchRandomBrand_UmidaK() {
+        getDriver().get("https://www.thredup.com/");
+
+        Actions action = new Actions(getDriver());
+        action.moveToElement(getDriver().findElement(By.xpath("//a[@data-testid = 'handbags']"))).perform();
+        getDriver().findElement(By.xpath("//a[@href='/brands/handbags']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/brands/handbags/A']")).click();
+
+        List<WebElement> bags = getDriver().findElements(By.xpath("//a[@class = 'u-items-center']"));
+        Random random = new Random();
+        int randomProduct = random.nextInt(500);
+        bags.get(randomProduct).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("(//button[@type=\"button\"])[4]")).isDisplayed());
+    }
+
 }
 
