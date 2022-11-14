@@ -187,7 +187,7 @@ public class GroupBughuntersTest extends BaseTest {
         toSelectByVisibleText("August",getDriver().findElement(By.id("user_dateofbirth_2i")));
         toSelectByVisibleText("20",getDriver().findElement(By.id("user_dateofbirth_3i")));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("licencetype_f")));
-        getDriver().findElement(By.id("licencetype_f")).click();
+        //getDriver().findElement(By.id("licencetype_f")).click();
         toSelectByVisibleText("2",getDriver().findElement(By.id("user_licenceperiod")));
         toSelectByVisibleText("Student",getDriver().findElement(By.id("user_occupation_id")));
         getDriver().findElement(By.id("user_address_attributes_street")).sendKeys("100 main street");
