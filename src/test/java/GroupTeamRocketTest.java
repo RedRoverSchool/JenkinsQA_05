@@ -338,6 +338,7 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
+    @Ignore
     public void testBrowseLanguagesAlternativeVersions_NO() {
         getDriver().get(URL_99);
 
