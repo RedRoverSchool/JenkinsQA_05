@@ -1,10 +1,13 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.time.Duration;
 import java.util.Locale;
 
 public class GroupCubsTest extends BaseTest {
@@ -129,4 +132,21 @@ public class GroupCubsTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div/span[@class='title']")).getText(),"PRODUCTS");
     }
+    @Test
+    public void testNegativeLoginAsh() {
+        getDriver().get("https://www.mirror.co/");
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().findElement(By.xpath("//a[@class='close']")).click();
+        getDriver().findElement(By.xpath("//button[@data-testid='footer-sign-in']")).click();
+        getDriver().findElement(By.xpath("//input[@name='email']")).sendKeys("woman@flower.is");
+        getDriver().findElement(By.xpath("//button[contains(@class,'Input__Button')]")).click();
+        wait.until(ExpectedConditions.textToBe(By.xpath("//span[contains(@class,'Input__StyledError')]"),
+                "This email is not recognized. Try again?"));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath
+                        ("//span[contains(@class,'Input__StyledError')]")).getText(),
+                "This email is not recognized. Try again?");
+    }
+
 }
