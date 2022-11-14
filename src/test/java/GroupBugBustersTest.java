@@ -7,10 +7,12 @@ import runner.BaseTest;
 
 public class GroupBugBustersTest extends BaseTest {
 
+    private static final String URL_HEALTHCARE = "https://katalon-demo-cura.herokuapp.com/";
+
     @Test
     public void testArailymSuccessLogIn() {
 
-        getDriver().get("https://katalon-demo-cura.herokuapp.com/");
+        getDriver().get(URL_HEALTHCARE);
 
         getDriver().findElement(By.id("menu-toggle")).click();
         getDriver().findElement(By.xpath("//a[@href = 'profile.php#login']")).click();
@@ -22,34 +24,34 @@ public class GroupBugBustersTest extends BaseTest {
     }
 
     @Test
-    public void testNadiaSucssesDoctorAppointment() throws InterruptedException {
+    public void testNadiaSuccessDoctorAppointment(){
 
-        final String EXPECTED_RESULT_HOSPITAL_NAME = "Hongkong CURA Healthcare Center";
-        final String EXPECTED_APPLAY_HOSPITAL_READMISSION = "Yes";
-        final String EXPECTED_RESULT_HEALTH_PROGRAM = "Medicaid";
-        final String EXPECTED_RESULT_COMMENT = "";
+        final String expectedResultHospitalName = "Hongkong CURA Healthcare Center";
+        final String expectedResultHospitalReadmission = "Yes";
+        final String expectedResultHealthProgram = "Medicaid";
+        final String expectedResultComment = "";
 
-        getDriver().get("https://katalon-demo-cura.herokuapp.com/");
+        getDriver().get(URL_HEALTHCARE);
 
-        getDriver().findElement(By.xpath("//a[@id='btn-make-appointment']")).click();
-        getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys("John Doe");
+        getDriver().findElement(By.id("btn-make-appointment")).click();
+        getDriver().findElement(By.id("txt-username")).sendKeys("John Doe");
         getDriver().findElement(By.id("txt-password")).sendKeys("ThisIsNotAPassword");
         getDriver().findElement(By.id("btn-login")).click();
         getDriver().findElement(By.id("combo_facility")).click();
 
         getDriver().findElement(By.xpath("//select[@id='combo_facility']/option" +
                 "[@value='Hongkong CURA Healthcare Center']")).click();
-        getDriver().findElement(By.xpath("//input[@id='chk_hospotal_readmission']")).click();
-        getDriver().findElement(By.xpath("//input[@id='radio_program_medicaid']")).click();
+        getDriver().findElement(By.id("chk_hospotal_readmission")).click();
+        getDriver().findElement(By.id("radio_program_medicaid")).click();
         getDriver().findElement(By.xpath("//span[@class='glyphicon glyphicon-calendar']")).click();
         getDriver().findElement(By.xpath("//body/div/div/table/tbody/tr[4]/td[4]")).click();
         getDriver().findElement(By.id("btn-book-appointment")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.id("facility")).getText(), EXPECTED_RESULT_HOSPITAL_NAME);
-        Assert.assertEquals(getDriver().findElement(By.id("hospital_readmission")).getText(), EXPECTED_APPLAY_HOSPITAL_READMISSION);
-        Assert.assertEquals(getDriver().findElement(By.id("program")).getText(), EXPECTED_RESULT_HEALTH_PROGRAM);
-        Assert.assertTrue(getDriver().findElement(By.id("visit_date")).getText() != null);
-        Assert.assertEquals(getDriver().findElement(By.id("comment")).getText(), EXPECTED_RESULT_COMMENT);
+        Assert.assertEquals(getDriver().findElement(By.id("facility")).getText(), expectedResultHospitalName);
+        Assert.assertEquals(getDriver().findElement(By.id("hospital_readmission")).getText(), expectedResultHospitalReadmission);
+        Assert.assertEquals(getDriver().findElement(By.id("program")).getText(), expectedResultHealthProgram);
+        Assert.assertNotNull(getDriver().findElement(By.id("visit_date")).getText());
+        Assert.assertEquals(getDriver().findElement(By.id("comment")).getText(), expectedResultComment);
     }
 
     @Ignore
@@ -74,42 +76,43 @@ public class GroupBugBustersTest extends BaseTest {
     @Test
     public void testArailymCheckAddress() {
 
-        getDriver().get("https://katalon-demo-cura.herokuapp.com/");
+        getDriver().get(URL_HEALTHCARE);
 
-        final String ADDRESS_LOG_OUT = getDriver().findElement(By.xpath("//body/footer/div/div/div/p[1]")).getText();
+        final String expecterResultAdressLogOut = getDriver().findElement(By.xpath("//body/footer/div/div/div/p[1]")).getText();
 
         getDriver().findElement(By.id("btn-make-appointment")).click();
         getDriver().findElement(By.id("txt-username")).sendKeys("John Doe");
         getDriver().findElement(By.id("txt-password")).sendKeys("ThisIsNotAPassword");
         getDriver().findElement(By.id("btn-login")).click();
 
-        String addressLogIn = getDriver().findElement(By.xpath("//body/footer/div/div/div/p[1]")).getText();
+        String actualResultAddressLogIn = getDriver().findElement(By.xpath("//body/footer/div/div/div/p[1]")).getText();
 
-        Assert.assertEquals(ADDRESS_LOG_OUT, addressLogIn);
+        Assert.assertEquals(expecterResultAdressLogOut, actualResultAddressLogIn);
     }
 
     @Test
     public void testArailymScrollDownByPixel() {
 
-        final String EXPECTED_RESULT = "Find out more";
+        final String expectedResult = "Find out more";
 
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         getDriver().get("https://learnenglish.britishcouncil.org/");
 
         js.executeScript("window.scrollBy(0,1000)", "");
         String actualResult = getDriver().findElement(
+
                 By.xpath(
                         "//a[@href='/online-courses/live-online-classes?promo_id=lc&promo_name=" +
                                 "live-classes&promo_creative=cards&promo_position=homepage']")
         ).getText();
 
-        Assert.assertEquals(actualResult, EXPECTED_RESULT);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
-    public void testScrollDownToBottom() {
+    public void testArailymScrollDownToBottom() {
 
-        final String EXPECTED_RESULT = "© British Council\n" +
+        final String expectedResult = "© British Council\n" +
                 "The United Kingdom's international organisation for cultural relations and educational opportunities.\n" +
                 "A registered charity: 209131 (England and Wales) SC037733 (Scotland).";
 
@@ -121,22 +124,21 @@ public class GroupBugBustersTest extends BaseTest {
                 By.xpath("//footer/div/section/section/div/p")
         ).getText();
 
-        Assert.assertEquals(actualResult, EXPECTED_RESULT);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
-    public void testGetUrlDataAndMoveToNewUrl() {
+    public void testArailymGetUrlDataAndMoveToNewUrl() {
 
-        final String DOMAIN = "katalon-demo-cura.herokuapp.com";
-        final String URL = "https://katalon-demo-cura.herokuapp.com/";
-        final String TITLE = "CURA Healthcare Service";
+        final String expectedResultDomain = "katalon-demo-cura.herokuapp.com";
+        final String expectedResultTitle = "CURA Healthcare Service";
 
-        getDriver().get(URL);
+        getDriver().get(URL_HEALTHCARE);
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
-        Assert.assertEquals(js.executeScript("return document.domain;").toString(), DOMAIN);
-        Assert.assertEquals(js.executeScript("return document.title;").toString(), TITLE);
-        Assert.assertEquals(js.executeScript("return document.URL;"), URL);
+        Assert.assertEquals(js.executeScript("return document.domain;").toString(), expectedResultDomain);
+        Assert.assertEquals(js.executeScript("return document.title;").toString(), expectedResultTitle);
+        Assert.assertEquals(js.executeScript("return document.URL;"), URL_HEALTHCARE);
 
         js.executeScript("window.location = 'https://learnenglish.britishcouncil.org/'");
     }

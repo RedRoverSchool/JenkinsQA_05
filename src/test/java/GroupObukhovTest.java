@@ -102,7 +102,7 @@ public class GroupObukhovTest extends BaseTest {
     }
 
     private static int getRandomNumber(int countDigits) {
-        return  Integer.parseInt(RandomStringUtils.random(countDigits, "1234567890"));
+        return Integer.parseInt(RandomStringUtils.random(countDigits, "1234567890"));
     }
 
     private static String getRandomDomain() {
@@ -136,7 +136,7 @@ public class GroupObukhovTest extends BaseTest {
 
         getDriver().get(MAIN_PAGE);
         List<String> actualNames = new ArrayList<>();
-        for(WebElement w : getMainMenu()) {
+        for (WebElement w : getMainMenu()) {
             actualNames.add(w.getText());
         }
 
@@ -153,12 +153,12 @@ public class GroupObukhovTest extends BaseTest {
     @Test
     public void testHelpMenuHeaders() {
         final List<String> headers = List.of(
-             "📌 Часто задаваемые вопросы:",
-             "🚦 Начало аренды:",
-             "💸 Стоимость аренды и финансы:",
-             "🛴 🚲 Во время аренды:",
-             "🏁 Завершение аренды:",
-             "⚙️ Другие вопросы:");
+                "📌 Часто задаваемые вопросы:",
+                "🚦 Начало аренды:",
+                "💸 Стоимость аренды и финансы:",
+                "🛴 🚲 Во время аренды:",
+                "🏁 Завершение аренды:",
+                "⚙️ Другие вопросы:");
 
         goToHelpPage();
         List<String> actualResult = new ArrayList<>();
@@ -338,7 +338,7 @@ public class GroupObukhovTest extends BaseTest {
     public void testHowUseServiceStepFirst() {
         String step1 = "1 Найди самокат";
         String step1Description = "На карте в приложении отмечены все наши самокаты, доступные для аренды." +
-                        "В жизни они фиолетовые, иногда на них бывает брендинг города";
+                "В жизни они фиолетовые, иногда на них бывает брендинг города";
 
         getDriver().get(MAIN_PAGE);
         WebElement actualStep1 = getDriver().findElement(By.xpath("//li[@class='block3-list-item source source-1']"));
@@ -570,6 +570,7 @@ public class GroupObukhovTest extends BaseTest {
         String actualString = getDriver().switchTo().window(openPages.toArray()[1].toString()).getCurrentUrl();
         Assert.assertEquals(actualString, "https://t.me/Urent_support_bot");
     }
+
     @Ignore
     @Test
     public void testRoundButtonHelpMenuLinkToLiveChat() {
@@ -605,4 +606,13 @@ public class GroupObukhovTest extends BaseTest {
             Assert.assertTrue(activeElement == i && size - countInactiveElement == 1);
         }
     }
+
+    @Test
+    public void testPhone() {
+        getDriver().get("https://www.rrb.by/");
+        WebElement phone = getDriver().findElement(By.xpath("//span/../a[contains(text(), '+375')]"));
+
+        Assert.assertEquals(phone.getText(), "+375 17 337 02 02");
+    }
+
 }
