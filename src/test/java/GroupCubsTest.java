@@ -1,34 +1,42 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.time.Duration;
 import java.util.Locale;
 
 public class GroupCubsTest extends BaseTest {
 
-    @Ignore
+    private static final String URL_HABR = "https://habr.com/ru/all/";
+
     @Test
     public void testFelix_IX() {
-        getDriver().get("https://habr.com/ru/all/");
+        getDriver().get(URL_HABR);
 
-        String query = "приоритет тест-кейса в TestNG";
         getDriver().findElement(By.xpath("//a[@data-test-id='search-button']")).click();
-        getDriver().findElement(By.className("tm-input-text-decorated__input")).sendKeys(query + "\n");
+        getDriver().findElement(By.className("tm-input-text-decorated__input"))
+                .sendKeys("приоритет тест-кейса в TestNG" + "\n");
+
         getDriver().findElement(By.xpath("//article[@id='588466']/div[1]/h2")).click();
-        WebElement actualRes = getDriver().findElement(By.xpath("//h1[@data-test-id='articleTitle']"));
-        Assert.assertEquals(actualRes.getText(), "Как установить приоритет тест-кейса в TestNG с помощью Selenium");
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1/span")).getText(),
+                "Как установить приоритет тест-кейса в TestNG с помощью Selenium");
     }
 
     @Test
-    public void testRp5() {
-        getDriver().get("https://rp5.ru");
+    public void testRp5SearchLocation() {
+        getDriver().get("https://rp5.ru/Weather_in_the_world");
+
         WebElement search = getDriver().findElement(By.name("searchStr"));
-        search.sendKeys("Танжер\n");
-        String actualText = getDriver().findElement(By.xpath("//h1")).getText();
-        Assert.assertEquals(actualText, "Search result");
+        search.sendKeys("Tanger\n");
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),
+                "Search result");
     }
 
     @Test
@@ -39,15 +47,13 @@ public class GroupCubsTest extends BaseTest {
     }
 
     @Test
-    public void testSmetankina(){
+    public void testSmetankina() {
         getDriver().get("https://demoqa.com/");
         WebElement link = getDriver().findElement(By.xpath("//*[@id=\"app\"]/div/div/div[2]/div/div[4]/div/div[3]/h5"));
         Assert.assertEquals(link.getText(), "Widgets");
     }
 
-
-
-@Ignore
+    @Ignore
     @Test
     public void testJudmi() {
         getDriver().get("http://automationpractice.com/");
@@ -62,23 +68,84 @@ public class GroupCubsTest extends BaseTest {
     public void testAsh() {
         getDriver().get("https://www.saucedemo.com/");
 
-        WebElement text = getDriver().findElement(By.id("user-name"));
-        text.sendKeys("standard_user");
-        WebElement text2 = getDriver().findElement(By.id("password"));
-        text2.sendKeys("secret_sauce");
-        WebElement link = getDriver().findElement(By.id("login-button"));
+        getDriver().findElement(By.id("user-name")).sendKeys("standard_user");
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
+
         getDriver().findElement(By.id("login-button")).click();
+
         getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
-        String link2 = getDriver().findElement(By.xpath("//*[contains(@name, 'remove-sauce-labs-backpack')]")).getText();
-        Assert.assertEquals(link2, "REMOVE");
+
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//button[@id='remove-sauce-labs-backpack']")).getText(),
+                "REMOVE");
     }
-     @Test
-     public void testLiza() {
+
+    @Test
+    public void testLiza() {
         getDriver().get("https://petstore.octoperf.com/actions/Catalog.action");
-        WebElement link = getDriver().findElement(By.xpath("//*[@id=\"MenuContent\"]/a[3]"));
-        Assert.assertEquals(link.getText(), "?");
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='MenuContent']/a[3]")).getText(),
+                "?");
     }
+
+    @Test
+    public void testPochekirya() {
+        getDriver().get("https://louna.ru/");
+        getDriver().findElement(By.xpath("//div[@id='menu']/a[2]/img")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='content']/p[2]/b")).getText(),
+                "23.05.09");
+    }
+
+    @Test
+    public void testCompanySearch_KirillShumakov() {
+        getDriver().get(URL_HABR);
+
+        getDriver().findElement(By.xpath("//a[contains(text(),'Компании')]")).click();
+        getDriver().findElement(By.xpath("//input[@name='searchQuery']")).sendKeys("Selectel");
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//em[contains(text(),'Selectel')]")).getText(),
+                "Selectel");
+    }
+    
+    @Test
+    public void testSearchItemName_MariaOrlova() {
+        getDriver().get("https://www.saucedemo.com/");
+
+        getDriver().findElement(By.id("user-name")).sendKeys("problem_user");
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
+        getDriver().findElement(By.id("login-button")).click();
+
+        WebElement actualResult= getDriver().findElement(
+                By.xpath("//a[@id='item_2_title_link']/div[contains(text(),'Sauce Labs Onesie')]"));
+
+        Assert.assertEquals(actualResult.getText(), "Sauce Labs Onesie");
+    }
+        
+    @Test
+    public void testLoginAndPassword() {
+        getDriver().get("https://www.saucedemo.com/");
+
+        getDriver().findElement(By.xpath("//div[@class='form_group']/input")).sendKeys("standard_user");
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
+        getDriver().findElement(By.name("login-button")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div/span[@class='title']")).getText(),"PRODUCTS");
+    }
+    @Test
+    public void testNegativeLoginAsh() {
+        getDriver().get("https://www.mirror.co/");
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().findElement(By.xpath("//button[@data-testid='footer-sign-in']")).click();
+        getDriver().findElement(By.xpath("//input[@name='email']")).sendKeys("woman@flower.is");
+        getDriver().findElement(By.xpath("//button[contains(@class,'Input__Button')]")).click();
+        wait.until(ExpectedConditions.textToBe(By.xpath("//span[contains(@class,'Input__StyledError')]"),
+                "This email is not recognized. Try again?"));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath
+                        ("//span[contains(@class,'Input__StyledError')]")).getText(),
+                "This email is not recognized. Try again?");
+    }
+
 }
-
-
-
