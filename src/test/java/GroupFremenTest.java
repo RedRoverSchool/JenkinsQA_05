@@ -88,34 +88,6 @@ public class GroupFremenTest extends BaseTest {
     }
 
     @Test
-    public void testVera_optionValuesForSelectedElementsInSelectMenu() {
-        getDriver().get(URL);
-        getDriver().findElement(
-                By.xpath("//div[@class='jumbotron-fluid']//a[text()='Complete Web Form']")).click();
-        final WebElement selectMenu = getDriver().findElement(By.id("select-menu"));
-        final Select select = new Select(selectMenu);
-
-        select.selectByVisibleText("Select an option");
-        assertSelectedValueEquals(select, "0");
-
-        select.selectByVisibleText("0-1");
-        assertSelectedValueEquals(select, "1");
-
-        select.selectByVisibleText("2-4");
-        assertSelectedValueEquals(select, "2");
-
-        select.selectByVisibleText("5-9");
-        assertSelectedValueEquals(select, "3");
-
-        select.selectByVisibleText("10+");
-        assertSelectedValueEquals(select, "4");
-    }
-
-    private static void assertSelectedValueEquals(Select select, String expectedValue) {
-        Assert.assertEquals(select.getFirstSelectedOption().getAttribute("value"), expectedValue);
-    }
-
-    @Test
     public void testMainPageAutocompleteLink() {
         getDriver().get(URL);
         String expectedResult = "https://formy-project.herokuapp.com/autocomplete";
