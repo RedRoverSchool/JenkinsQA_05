@@ -1,10 +1,13 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.time.Duration;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -15,7 +18,8 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateNewFreestyleProject() {
-        getDriver().findElement(By.xpath("//a[@title = 'New Item']")).click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@title = 'New Item']"))).click();
 
         final WebElement itemNameField = getDriver().findElement(By.id("name"));
         itemNameField.click();
