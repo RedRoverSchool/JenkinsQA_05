@@ -11,12 +11,21 @@ import java.time.Duration;
 
 public class FreestyleProjectTest extends BaseTest {
 
+    private WebDriverWait wait;
     private final String freestyleName = RandomStringUtils.randomAlphanumeric(10);
+
+    private WebDriverWait getWait() {
+        if (wait == null) {
+            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        }
+
+        return wait;
+    }
 
     @Test
     public void testCreateNewFreestyleProject() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@title = 'New Item']"))).click();
+
+        getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@title = 'New Item']"))).click();
 
         final WebElement itemNameField = getDriver().findElement(By.id("name"));
         itemNameField.click();
