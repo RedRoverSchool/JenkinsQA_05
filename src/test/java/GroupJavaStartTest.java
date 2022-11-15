@@ -117,7 +117,7 @@ public class GroupJavaStartTest extends BaseTest {
     @Test
     public void testCheckCheckboxStatus() {
     final List expectedResult = Arrays.asList("Kishore 22 Delhi", "Manish 25 Pune", "Praveen 29 Bangalore", "Dheepthi 31 Mumbai");
-    
+
         getDriver().get(OMAYO_PAGE_URL);
 
         List<WebElement> elements = getDriver().findElements(By.xpath("//table[@id='table1']/tbody/tr"));
@@ -141,5 +141,26 @@ public class GroupJavaStartTest extends BaseTest {
         WebElement link = getDriver().findElement(By.xpath("//li/a[@href='/keypress']"));
 
         Assert.assertEquals(link.getText(), "Key and Mouse Press");
+    }
+
+    @Test
+    public void testHerokuapp_Components() {
+        String url = "https://formy-project.herokuapp.com/";
+        String expectedText = "Components";
+        int amountOfElementsInComponentsMenu = 14;
+
+        getDriver().get(url);
+
+        WebElement componentsMenu = getDriver().findElement(By.id("navbarDropdownMenuLink"));
+        Assert.assertTrue(componentsMenu.isDisplayed());
+
+        String actualText = componentsMenu.getText();
+        Assert.assertEquals(actualText,expectedText);
+
+        componentsMenu.click();
+
+        Assert.assertEquals(getDriver().findElements(By.xpath(
+                "//div[@class='dropdown-menu show']/*[@class='dropdown-item']")
+        ).size(),amountOfElementsInComponentsMenu);
     }
 }
