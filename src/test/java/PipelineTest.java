@@ -1,7 +1,12 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.time.Duration;
 
 
 public class PipelineTest extends BaseTest {
@@ -10,11 +15,14 @@ public class PipelineTest extends BaseTest {
     public void test_CreatePipelineValidNameApplyDefaultConfigure() {
 
         getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys("Job15");
+        getDriver().findElement(By.id("name")).sendKeys("Job23");
         getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.id("yui-gen5-button")).click();
+        WebElement notificationSave = new WebDriverWait(getDriver(),
+                Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOf(getDriver()
+                .findElement(By.xpath("//div[@id='notification-bar']//span"))));
 
-        Assert.assertEquals(getDriver().findElement(By.id("notification-bar")).getText(), "Saved");
+        Assert.assertEquals(notificationSave.getText(), "Saved");
     }
 }
