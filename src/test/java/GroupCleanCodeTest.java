@@ -24,10 +24,10 @@ public class GroupCleanCodeTest extends BaseTest {
     public void testFolkInstrumentsPolishEnglish() {
         getDriver().get("http://ludowe.instrumenty.edu.pl/pl/o-projekcie");
 
-        WebElement polishEnglish = getDriver().findElement(By.xpath("//a[@href='/en/about']"));
+        WebElement polishEnglish = getDriver().findElement(By.xpath("//a[text()='en']"));
         polishEnglish.click();
 
-        WebElement languageChange = getDriver().findElement(By.xpath("//*[@id='main']/div[4]/div/div/div/div/div[1]/h2"));
+        WebElement languageChange = getDriver().findElement(By.xpath("//h2[text()='About']"));
 
         Assert.assertEquals(languageChange.getText(), "About");
     }
@@ -170,17 +170,30 @@ public class GroupCleanCodeTest extends BaseTest {
 
         Assert.assertEquals(bow.getText(), "bow for mazanki");
     }
+
     @Test
-    public void testWebElements(){
+    public void testWebElements() {
         getDriver().get("http://json.parser.online.fr/");
 
         WebElement text = getDriver().findElement(By.xpath("//div[2][@class='n b']/span[@class='l']"));
 
-        Assert.assertEquals(text.getText(),"Options");
+        Assert.assertEquals(text.getText(), "Options");
         text.click();
         WebElement text2 = getDriver().findElement(By.xpath("//div[@class='e d']"));
         text2.click();
 
-        Assert.assertEquals(text2.getText(),"Top-bottom");
+        Assert.assertEquals(text2.getText(), "Top-bottom");
+    }
+
+    @Test
+    public void testFolkInstrumentsIdiofon() {
+        getDriver().get("http://ludowe.instrumenty.edu.pl/pl");
+
+        getDriver().findElement(By.xpath("//li/a[text()='Instrumenty']")).click();
+
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//h2[text()='Opis grup']")).getText(), "Opis grup");
+
+
     }
 }
