@@ -31,7 +31,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
         String randFullName = getRandomDigitAndLetterString();
         String randEmail = getRandomDigitAndLetterString();
         String randPass = getRandomDigitAndLetterString();
-        getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']")).click();
+        getDriver().findElement(By.xpath("//a[@title='Manage Jenkins']")).click();
         Actions actions = new Actions(getDriver());
         actions.moveToElement(getDriver().findElement(By.xpath("//a[@href='securityRealm/']"))).click().perform();
         getDriver().findElement(By.xpath("//span[text()='Create User']")).click();
