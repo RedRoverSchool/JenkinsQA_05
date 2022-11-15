@@ -48,8 +48,8 @@ public class CreateUserVerifyCreateTest extends BaseTest {
         Assert.assertTrue(lst.contains(randUserName));
         Assert.assertTrue(lst.contains(randFullName));
 
-        getDriver().findElement(By.xpath("//a[@title='Back to Dashboard']")).click();
-        getDriver().findElement(By.xpath("//a[@title='People']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/' and @title]")).click();
+        getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']")).click();
         List<WebElement> listWithIdsOfPerson = getDriver().findElements(By.xpath("//table[@id='people']//tr//td"));
         List<String> lstStringWithNamesOnPeoplePage = listWithIdsOfPerson.stream().map(e -> e.getAttribute("innerText")).collect(Collectors.toList());
 
