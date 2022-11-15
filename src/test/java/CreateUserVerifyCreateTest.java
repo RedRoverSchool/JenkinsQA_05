@@ -34,7 +34,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         Actions actions = new Actions(getDriver());
         actions.moveToElement(getDriver().findElement(By.xpath("//a[@href='securityRealm/']"))).click().perform();
-        getDriver().findElement(By.xpath("//span[text()='Create User']")).click();
+        getDriver().findElement(By.xpath("//a[@href='addUser']")).click();
         getDriver().findElement(By.id("username")).sendKeys(randUserName);
         getDriver().findElement(By.xpath("//input[@name='password1']")).sendKeys(randPass);
         getDriver().findElement(By.xpath("//input[@name='password2']")).sendKeys(randPass);
