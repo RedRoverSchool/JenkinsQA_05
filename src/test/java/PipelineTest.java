@@ -19,7 +19,7 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen5-button")).click();
 
         Assert.assertEquals(
-                new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("notification-bar")))).getText(),
+                new WebDriverWait(getDriver(), Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("notification-bar")))).getText(),
                 "Saved");
     }
 }
