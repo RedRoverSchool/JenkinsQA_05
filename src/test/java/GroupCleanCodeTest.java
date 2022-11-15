@@ -3,7 +3,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -12,16 +11,15 @@ import java.time.Duration;
 
 public class GroupCleanCodeTest extends BaseTest {
 
-    @Ignore
     @Test
     public void testFolkInstruments() {
         getDriver().get("http://ludowe.instrumenty.edu.pl/en/instruments/show/instrument/4653");
 
-        WebElement link = getDriver().findElement(By.xpath("/html/body/div[2]/div[4]/div/div/div/div/div[5]/h2"));
+        WebElement link = getDriver().findElement(By.xpath("//div//h2[@class='hidden-xs'][text()='ritual scepter']"));
 
         Assert.assertEquals(link.getText(), "ritual scepter");
     }
-    @Ignore
+
     @Test
     public void testFolkInstrumentsPolishEnglish() {
         getDriver().get("http://ludowe.instrumenty.edu.pl/pl/o-projekcie");
@@ -155,25 +153,6 @@ public class GroupCleanCodeTest extends BaseTest {
         Assert.assertEquals(link.getText(), "Запостить");
     }
 
-    @Ignore
-    @Test
-    public void testFolkInstrumentsBow() {
-        getDriver().get("http://ludowe.instrumenty.edu.pl/en");
-
-        WebElement instrumentSearch = getDriver().findElement(By.xpath("/html/body/div[2]/div[2]/div/div/div/ul/li[2]/a"));
-        instrumentSearch.click();
-
-        WebElement instrumentSearch1 = getDriver().findElement(By.xpath("/html/body/div[2]/div[4]/div/div/div/div/div[2]/div/div[2]/div[1]/div/div[3]/a/h4"));
-        instrumentSearch1.click();
-
-        WebElement instrumentSearch2 = getDriver().findElement(By.xpath("/html/body/div[2]/div[4]/div/div/div/div/div[2]/div[3]/a[2]/div/img"));
-        instrumentSearch2.click();
-
-        WebElement bow = getDriver().findElement(By.xpath("/html/body/div[2]/div[4]/div/div/div/div/div[5]/h2"));
-
-        Assert.assertEquals(bow.getText(), "bow for mazanki");
-    }
-
     @Test
     public void testWebElements() {
         getDriver().get("http://json.parser.online.fr/");
@@ -189,7 +168,7 @@ public class GroupCleanCodeTest extends BaseTest {
     }
 
     @Test
-    public void testFolkInstrumentsIdiofon() {
+    public void testFolkInstrumentsOpsGroup() {
         getDriver().get("http://ludowe.instrumenty.edu.pl/pl");
 
         getDriver().findElement(By.xpath("//li/a[text()='Instrumenty']")).click();
