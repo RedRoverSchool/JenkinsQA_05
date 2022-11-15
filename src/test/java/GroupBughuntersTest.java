@@ -19,6 +19,7 @@ public class GroupBughuntersTest extends BaseTest {
     private final String BBC_URL = "https://www.bbc.co.uk/learningenglish/english/";
 
 
+    @Ignore
     @Test
     public void testTicketonSearch_NL(){
         getDriver().get("https://ticketon.kz/");
@@ -173,10 +174,10 @@ public class GroupBughuntersTest extends BaseTest {
         String saltStr = salt.toString();
         return saltStr;
     }
-    @Ignore
     @Test
     public void testInsuranceCompanyQuote() throws InterruptedException {
         getDriver().get("https://demo.guru99.com/insurance/v1/register.php");
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         String randomDig = getRandomDigitAndLetterString();
         String registration = getRandomDigitAndLetterString();
         toSelectByVisibleText("Mr",getDriver().findElement(By.id("user_title")));
@@ -186,7 +187,8 @@ public class GroupBughuntersTest extends BaseTest {
         toSelectByVisibleText("1980",getDriver().findElement(By.id("user_dateofbirth_1i")));
         toSelectByVisibleText("August",getDriver().findElement(By.id("user_dateofbirth_2i")));
         toSelectByVisibleText("20",getDriver().findElement(By.id("user_dateofbirth_3i")));
-        getDriver().findElement(By.id("licencetype_f")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("licencetype_f")));
+        //getDriver().findElement(By.id("licencetype_f")).click();
         toSelectByVisibleText("2",getDriver().findElement(By.id("user_licenceperiod")));
         toSelectByVisibleText("Student",getDriver().findElement(By.id("user_occupation_id")));
         getDriver().findElement(By.id("user_address_attributes_street")).sendKeys("100 main street");
@@ -196,14 +198,14 @@ public class GroupBughuntersTest extends BaseTest {
         getDriver().findElement(By.id("user_user_detail_attributes_email")).sendKeys(randomDig+"@gmail.com");
         getDriver().findElement(By.id("user_user_detail_attributes_password")).sendKeys(randomDig);
         getDriver().findElement(By.id("user_user_detail_attributes_password_confirmation")).sendKeys(randomDig);
-        getDriver().findElement(By.xpath("//input[@name='submit']")).click();
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[text()='Register']")));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='submit']"))).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("email")));
 
         getDriver().findElement(By.id("email")).sendKeys(randomDig+"@gmail.com");
         getDriver().findElement(By.id("password")).sendKeys(randomDig);
         getDriver().findElement(By.xpath("//input[@value='Log in']")).click();
         getDriver().findElement(By.id("newquote")).click();
+
         toSelectByVisibleText("European", getDriver().findElement(By.id("quotation_breakdowncover")));
         getDriver().findElement(By.id("quotation_incidents")).sendKeys("1");
         getDriver().findElement(By.id("quotation_vehicle_attributes_registration")).sendKeys(registration);
@@ -228,6 +230,7 @@ public class GroupBughuntersTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@placeholder='identification number']")).sendKeys(idNumerReal);
         getDriver().findElement(By.id("getquote")).click();
         String registrationValue = getDriver().findElement(By.xpath("/html/body/table/tbody/tr[6]/td[2]")).getText();
+
         Assert.assertEquals(registrationValue,registration);
     }
     @Test

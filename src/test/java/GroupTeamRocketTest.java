@@ -39,8 +39,14 @@ public class GroupTeamRocketTest extends BaseTest {
 
     private static final String URL_MINTHOUSE = "https://minthouse.com/";
 
+    private WebDriverWait webDriverWait20;
+
     private WebDriverWait wait20() {
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        if (webDriverWait20 == null) {
+            webDriverWait20 = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        }
+
+        return webDriverWait20;
     }
 
     private Actions doAction(){
@@ -73,12 +79,11 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testFindTitleGuide_NataliiaOliver() {
         getDriver().get("https://openweathermap.org/");
 
-        new WebDriverWait(getDriver(),Duration.ofSeconds(20)).until(ExpectedConditions.invisibilityOfElementLocated(
-                By.className("owm-loader-container")));
+        wait20().until(ExpectedConditions.invisibilityOfElementLocated(By.className("owm-loader-container")));
 
         WebElement guide = getDriver().findElement(By.xpath("//div[@id='desktop-menu']/ul/li/a[@href='/guide']"));
         new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(guide));
-        new Actions(getDriver()).click(guide).perform();
+        doAction().click(guide).perform();
 
         Assert.assertEquals(
                 getDriver().findElement(By.xpath("//div[@class='col-sm-7']/h1[text()='Guide']")).getText(),
@@ -374,6 +379,7 @@ public class GroupTeamRocketTest extends BaseTest {
                 .getText(), "Go To Final Step");
     }
 
+    @Ignore
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
         getDriver().get(URL_DEMOBLAZE);

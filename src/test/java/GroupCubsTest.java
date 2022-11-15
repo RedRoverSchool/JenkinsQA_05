@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -8,6 +9,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Locale;
 
 public class GroupCubsTest extends BaseTest {
@@ -146,6 +148,21 @@ public class GroupCubsTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath
                         ("//span[contains(@class,'Input__StyledError')]")).getText(),
                 "This email is not recognized. Try again?");
+    }
+    @Test
+    public void testFooterHeadersPropertiesAsh() {
+        getDriver().get("https://www.mirror.co/shop/packages");
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        final String FONT_FAMILY = "moderat-extended-bold-italic, sans-serif";
+
+            js.executeScript(("window.scrollBy(0,document.body.scrollHeight)"));
+            List<WebElement> footerElements = getDriver().findElements(By.xpath(
+                    "//span[contains(@id,'footer-heading')]"));
+
+            Assert.assertEquals(footerElements.get(0).getCssValue("font-family"),FONT_FAMILY);
+            Assert.assertEquals(footerElements.get(1).getCssValue("font-family"),FONT_FAMILY);
+            Assert.assertEquals(footerElements.get(2).getCssValue("font-family"),FONT_FAMILY);
+
     }
 
 }
