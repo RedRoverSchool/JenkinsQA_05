@@ -17,9 +17,9 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(By.id("name")).sendKeys("Job12");
         getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob")).click();
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.id("yui-gen5-button")).click();
-        WebElement notification = new WebDriverWait(getDriver(), Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("notification-bar"))));
+        getDriver().findElement(By.cssSelector("#yui-gen5-button")).click();
+        WebElement notificationSave = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("notification-bar"))));
 
-        Assert.assertEquals(notification.getText(), "Saved");
+        Assert.assertEquals(notificationSave.getText(), "Saved");
     }
 }
