@@ -15,12 +15,11 @@ public class PipelineTest extends BaseTest {
     public void test_CreatePipelineValidNameApplyDefaultConfigure() {
 
         getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys("Job14");
+        getDriver().findElement(By.id("name")).sendKeys("Job15");
         getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob")).click();
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.cssSelector("#yui-gen5-button")).click();
-        WebElement notificationSave = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.cssSelector("#notification-bar.notif-alert-clear"))));
+        getDriver().findElement(By.id("yui-gen5-button")).click();
 
-        Assert.assertEquals(notificationSave.getText(), "Saved");
+        Assert.assertEquals(getDriver().findElement(By.id("notification-bar")).getText(), "Saved");
     }
 }
