@@ -43,7 +43,7 @@ jobs:
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
       - name: Docker start
-        run: docker run --rm --detach -p 8080:8080 -p 50000:50000 -v ${{ github.workspace }}/jenkins_backup/var/jenkins_home:/var/jenkins_home jenkins/jenkins:2.332.3-lts-jdk11
+        run: docker run --rm --detach -p 8080:8080 -p 50000:50000 -v ${{ github.workspace }}/jenkins_backup/var/jenkins_home:/var/jenkins_home jenkins/jenkins:2.361.4-lts-jdk11
 
       - name: Wait for the Jenkins
         run: ./.github/wait-for-jenkins.sh
