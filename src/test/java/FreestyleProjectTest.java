@@ -24,8 +24,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateNewFreestyleProject() {
-
-        getWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@title = 'New Item']"))).click();
+        getWait().until(ExpectedConditions.elementToBeClickable(By.linkText("New Item"))).click();
 
         final WebElement itemNameField = getDriver().findElement(By.id("name"));
         itemNameField.click();
