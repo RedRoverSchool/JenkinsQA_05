@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -11,6 +12,7 @@ public class GroupWonderingMindsTest extends BaseTest {
     private static final String URL_99BOTTLES = "http://www.99-bottles-of-beer.net/";
     private static final String URL_DEMOQA = "https://demoqa.com";
 
+    @Ignore
     @Test
     public void testGetGorodTula_HappyStrawberry() {
         getDriver().get("https://rp5.ru");

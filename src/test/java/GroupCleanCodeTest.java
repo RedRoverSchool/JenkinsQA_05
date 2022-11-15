@@ -12,6 +12,7 @@ import java.time.Duration;
 
 public class GroupCleanCodeTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testFolkInstruments() {
         getDriver().get("http://ludowe.instrumenty.edu.pl/en/instruments/show/instrument/4653");
@@ -154,6 +155,7 @@ public class GroupCleanCodeTest extends BaseTest {
         Assert.assertEquals(link.getText(), "Запостить");
     }
 
+    @Ignore
     @Test
     public void testFolkInstrumentsBow() {
         getDriver().get("http://ludowe.instrumenty.edu.pl/en");
