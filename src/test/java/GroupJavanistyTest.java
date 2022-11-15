@@ -194,4 +194,15 @@ public class GroupJavanistyTest extends BaseTest {
 
         Assert.assertTrue(textAboutYourWeight.isDisplayed());
     }
+
+    @Test
+    public void testAlexFirstTest() {
+        getDriver().get("http://uitestingplayground.com/");
+
+        getDriver().findElement(By.xpath("//h3/a[@href='/click']")).click();
+
+        WebElement text = getDriver().findElement(By.xpath("//h3"));
+
+        Assert.assertEquals(text.getText(), "Click");
+    }
 }

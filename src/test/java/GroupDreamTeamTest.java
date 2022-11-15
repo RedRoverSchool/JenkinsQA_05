@@ -4,7 +4,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -21,7 +20,7 @@ public class GroupDreamTeamTest extends BaseTest {
     private static final String URL_BOOKING = "https://automationintesting.online/";
 
     @Test
-    public void test_signInDarina() {
+    public void testSignInDarina() {
         getDriver().get("https://the-internet.herokuapp.com/login");
         getDriver().findElement(By.id("username")).sendKeys("tomsmith");
         getDriver().findElement(By.id("password")).sendKeys("SuperSecretPassword!");
@@ -32,31 +31,31 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testIna() {
+    public void testFormSubmittedIna() {
         getDriver().get(URL_WEBFORM);
         getDriver().findElement(By.id("my-text-id")).sendKeys("Hello!");
         getDriver().findElement(By.xpath("//button")).click();
-        String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
+        WebElement confirmMessage = getDriver().findElement(By.xpath("//h1"));
 
-        Assert.assertEquals(actualResult, "Form submitted");
+        Assert.assertEquals(confirmMessage.getText(), "Form submitted");
     }
 
     @Test
-    public void ElenaTest() {
+    public void testDropdownMenuElena() {
         getDriver().get(URL_WEBFORM);
         WebElement textInput = getDriver().findElement(By.id("my-text-id"));
         textInput.clear();
         textInput.sendKeys("Hello everybody");
         WebElement dropdownSelect = getDriver().findElement(By.name("my-select"));
-        Select sel = new Select(dropdownSelect);
-        sel.selectByValue("1");
-        WebElement one = getDriver().findElement(By.xpath("//option[@value='1']"));
+        Select select = new Select(dropdownSelect);
+        select.selectByValue("1");
+        WebElement oneKey = getDriver().findElement(By.xpath("//option[@value='1']"));
 
-        Assert.assertTrue(one.isSelected());
+        Assert.assertTrue(oneKey.isSelected());
     }
 
     @Test
-    public void testFoxtiptopSliderMouse() {
+    public void testSliderMouseFoxtiptop() {
         getDriver().get(URL_WEBFORM);
         WebElement exampleRange = getDriver().findElement(By.cssSelector("body main  div form div div:nth-child(3) label:nth-child(3) input"));
         Assert.assertTrue(exampleRange.isDisplayed());
@@ -70,7 +69,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testFoxtiptopSliderKeyboard() {
+    public void testSliderKeyboardFoxtiptop() {
         getDriver().get(URL_WEBFORM);
         WebElement exampleRange = getDriver().findElement(By.name("my-range"));
         for (int i = 1; i <= 4; i++) {
@@ -82,7 +81,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testSimonGertzMintHouseDateSelectionNoPastDate() {
+    public void testMintHouseDateSelectionNoPastDateSimonGertz() {
         final long dayInMillis = 86400000;
 
         getDriver().get(URL_MINTHOUSE);
@@ -118,7 +117,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void test_signInAppointmentDarina() {
+    public void testSignInAppointmentDarina() {
         getDriver().get(URL_DEMO);
         getDriver().findElement(By.xpath("//a[@id='btn-make-appointment']")).click();
         getDriver().findElement(By.xpath("//input[@id='txt-username']")).sendKeys(USERNAME_DEMO);
@@ -131,7 +130,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void test_appointmentDarina() {
+    public void testAppointmentDarina() {
         final String textAppointment = "Help me! Java kills me!";
 
         getDriver().get(URL_DEMO);
@@ -149,16 +148,15 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testMintHouseSource2() {
+    public void testMintHouseSource2Natalia() {
         getDriver().get(URL_MINTHOUSE);
         String currentSource = getDriver().getPageSource();
-        boolean actualResult = currentSource.contains("div");
 
-        Assert.assertTrue(actualResult);
+        Assert.assertTrue(currentSource.contains("div"));
     }
 
     @Test
-    public void test_Ina() {
+    public void testChangeColorIna() {
         getDriver().get(URL_WEBFORM);
         WebElement color = getDriver().findElement(By.name("my-colors"));
         String initialColor = color.getAttribute("value");
@@ -169,7 +167,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testElena2() {
+    public void testMakeAppointmentElena() {
         getDriver().get(URL_DEMO);
         getDriver().findElement(By.id("menu-toggle")).click();
         getDriver().findElement(By.xpath("//li/a[text()='Login']")).click();
@@ -186,7 +184,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void test_bookingDarina() {
+    public void testBookingDarina() {
         getDriver().get(URL_BOOKING);
         getDriver().findElement(By.xpath("//input[@data-testid='ContactName']")).sendKeys(USERNAME_DEMO);
         getDriver().findElement(By.xpath("//input[@data-testid='ContactEmail']")).sendKeys(getUniqueEmail());
@@ -200,7 +198,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void test_invalidBookingDarina() {
+    public void testInvalidBookingDarina() {
         getDriver().get(URL_BOOKING);
         getDriver().findElement(By.xpath("//input[@data-testid='ContactName']")).sendKeys(USERNAME_DEMO);
         getDriver().findElement(By.xpath("//input[@data-testid='ContactEmail']")).sendKeys(getUniqueEmail());
@@ -214,7 +212,7 @@ public class GroupDreamTeamTest extends BaseTest {
     }
 
     @Test
-    public void testElena3() {
+    public void testCheckButtonElena() {
         getDriver().get(URL_WEBFORM);
         WebElement messageInput = getDriver().findElement
                 (By.xpath("//label[contains(text(),'File input')]"));
@@ -226,5 +224,33 @@ public class GroupDreamTeamTest extends BaseTest {
         Assert.assertEquals(messageInput.getText(), "File input");
         Assert.assertTrue(checkbox2.isSelected());
         Assert.assertTrue(buttonDefault.isSelected());
+    }
+
+    @Test
+    public void testRadioButtonCheckBoxIna(){
+        getDriver().get(URL_WEBFORM);
+        WebElement radio1 = getDriver().findElement(By.id("my-radio-1"));
+        WebElement radio2 = getDriver().findElement(By.id("my-radio-2"));
+        radio2.click();
+        WebElement check1 = getDriver().findElement(By.id("my-check-1"));
+        WebElement check2 = getDriver().findElement(By.id("my-check-2"));
+        check2.click();
+
+        Assert.assertTrue(!(radio1.isSelected()) && radio2.isSelected());
+        Assert.assertTrue(check1.isSelected() && check2.isSelected());
+    }
+
+    @Test
+    public void testMintHouseSlideOutImageSimon() {
+        getDriver().get(URL_MINTHOUSE);
+
+        WebElement slideOutMenu = getDriver().findElement(
+                By.xpath("//*[local-name()='svg' and @id='destination-plus']/*[local-name()='path']"));
+        new Actions(getDriver())
+                .moveToElement(slideOutMenu).click().pause(500)
+                .moveToElement(getDriver().findElement(By.cssSelector("#destination-list a"))).pause(500).perform();
+        boolean actualResult = getDriver().findElement(By.cssSelector(".destination-item.active img")).isDisplayed();
+
+        Assert.assertTrue(actualResult);
     }
 }

@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -13,8 +14,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GroupTeamRocketTest extends BaseTest {
 
@@ -32,6 +32,28 @@ public class GroupTeamRocketTest extends BaseTest {
     private static final String URL_PICKNPULL = "https://www.picknpull.com/check-inventory/vehicle-search?make=182&model=3611&distance=25&zip=95123&year=";
     private static final String URL_ELCATS = "http://www.elcats.ru/mercedes/";
     private static final String URL_DEMOBLAZE = "https://www.demoblaze.com/";
+
+    private static final String URL_JENKINS = "https://www.jenkins.io/";
+
+    private static final String URL_UI_TESTING_PLAYGROUND = "http://uitestingplayground.com";
+
+    private static final String URL_MINTHOUSE = "https://minthouse.com/";
+
+    private WebDriverWait webDriverWait20;
+
+    private WebDriverWait wait20() {
+        if (webDriverWait20 == null) {
+            webDriverWait20 = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        }
+
+        return webDriverWait20;
+    }
+
+    private Actions doAction(){
+        return new Actions(getDriver());
+    }
+
+
     @Test
     public void testAddElementHerokuapp() {
         getDriver().get("https://the-internet.herokuapp.com/");
@@ -54,15 +76,15 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
-    public void testFindTitleGuide_NataliiaOliver() throws InterruptedException {
+    public void testFindTitleGuide_NataliiaOliver() {
         getDriver().get("https://openweathermap.org/");
 
-        Thread.sleep(10000);
+        wait20().until(ExpectedConditions.invisibilityOfElementLocated(By.className("owm-loader-container")));
 
-        getDriver().findElement(By.xpath("//div[@id='desktop-menu']/ul/li/a[@href='/guide']")).click();
-        Thread.sleep(1000);
+        WebElement guide = getDriver().findElement(By.xpath("//div[@id='desktop-menu']/ul/li/a[@href='/guide']"));
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(guide));
+        doAction().click(guide).perform();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://openweathermap.org/guide");
         Assert.assertEquals(
                 getDriver().findElement(By.xpath("//div[@class='col-sm-7']/h1[text()='Guide']")).getText(),
                 "Guide");
@@ -216,6 +238,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//span[@data-cy='listing-title']"))
                 .getText(), "The Tragedy of Tolstoy");
     }
+
     @Ignore
     @Test
     public void testSaucedemo_EZ() {
@@ -342,7 +365,6 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1[@class='Title m-no-margin']")).isDisplayed());
     }
 
-    @Ignore
     @Test
     public void testGoToStepTwoForGetQuote_VadimTref() {
         getDriver().get("https://commercialinsurance.net/");
@@ -357,7 +379,7 @@ public class GroupTeamRocketTest extends BaseTest {
                 .getText(), "Go To Final Step");
     }
 
-
+    @Ignore
     @Test
     public void testSamsungGalaxyS7Price_ZB() {
         getDriver().get(URL_DEMOBLAZE);
@@ -368,12 +390,11 @@ public class GroupTeamRocketTest extends BaseTest {
                 "$800 *includes tax");
     }
 
-    @Ignore
     @Test
     public void testSwitchToPageCompareInsuranceQuote_VadimTref() {
         getDriver().get("https://www.statewidedealerinsurance.com/");
 
-        final String EXPECTED_NOTE_TEXT = "An insurance quote does not impact your "
+        final String expectedNoteText = "An insurance quote does not impact your "
                 + "credit score. Quote will take approximately 3-5 minutes to complete.";
 
         getDriver().findElement(By.id("ZipCode")).sendKeys("11230");
@@ -382,9 +403,8 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.xpath("//form[@id='miniQuote']//button[@type='submit']")).click();
         getDriver().switchTo().frame(getDriver().findElement(By.id("cpIframe")));
 
-        Assert.assertEquals(
-                getDriver().findElement(By.xpath("//div[@id='body']//p[@class='cpInstructions cpPage0']")).getText(),
-                EXPECTED_NOTE_TEXT);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='body']//p[@class='cpInstructions cpPage0']")).getText(),
+                expectedNoteText);
     }
 
     @Test
@@ -503,11 +523,12 @@ public class GroupTeamRocketTest extends BaseTest {
     public void testSergeDotMenuStartTitle() {
         getDriver().get(URL_99);
 
-        getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='navigation']/ul[@id='menu']/li/a[@href='/abc.html']")).click();
-        getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='navigation']/ul[@id='menu']/li/a[@href='/']")).click();
-        getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/h2")).getText();
+        getDriver().findElement(By.cssSelector("#menu a[href='/abc.html']")).click();
+        getDriver().findElement(By.cssSelector("#menu a[href='/'")).click();
+        getDriver().findElement(By.cssSelector("#menu a[href='/']")).getText();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/h2")).getText(), "Welcome to 99 Bottles of Beer");
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main h2"))
+                .getText(), "Welcome to 99 Bottles of Beer");
     }
 
     @Test
@@ -527,34 +548,32 @@ public class GroupTeamRocketTest extends BaseTest {
     @Test
     public void testSergeDotMintHouseDateSelectionYesterdayIsNotClickable() {
         final long dayInMillis = 86400000;
-        getDriver().get("https://minthouse.com/");
+        getDriver().get(URL_MINTHOUSE);
 
-        WebElement propertyList = getDriver().findElement(By
-                .xpath("//div[@class='hero hero-home']//span[@class='text'][contains(text(),'Where to next')]"));
-        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(propertyList));
-        new Actions(getDriver()).click(propertyList).perform();
-        getDriver().findElement(By
-                .xpath("//div[@class='dropdown active']//a[@tabindex='0'][contains(text(),'Mint House Austin – South Congress')]")).click();
+        WebElement propertyList = getDriver().findElement(By.cssSelector(".hero .value .text"));
+        wait20().until(ExpectedConditions.elementToBeClickable(propertyList));
+        doAction().click(propertyList).perform();
+        getDriver().findElement(By.cssSelector(".dropdown.active a")).click();
 
-        WebElement dates = getDriver().findElement(By
-                .xpath("//div[@class='hero hero-home']//span[@class='value']//span[@class='t-check-in'][contains(text(),'Select date')]"));
-        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(dates));
-        new Actions(getDriver()).click(dates).perform();
+        WebElement dates = getDriver().findElement(By.cssSelector("#mainContent .booker-calendar .t-check-in"));
+        wait20().until(ExpectedConditions.elementToBeClickable(dates));
+        doAction().click(dates).perform();
 
         long todayInMillis = Long.parseLong(getDriver()
-                .findElement(By
-                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@class='day-item is-today']"))
+                .findElement(By.cssSelector(".hero .month-item .container__days .is-today"))
                 .getAttribute("data-time"));
+
         WebElement yesterdayDate = getDriver()
-                .findElement(By
-                        .xpath("//div[@class='hero hero-home']//div[@class='month-item no-previous-month']//div[@class='container__days']//div[@data-time=" + Math.subtractExact(todayInMillis, dayInMillis) + "]"));
-        System.out.println(Math.subtractExact(todayInMillis, dayInMillis));
-        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(yesterdayDate));
+                .findElement(By.cssSelector(".hero .month-item .container__days div[data-time='" +
+                        Math.subtractExact(todayInMillis, dayInMillis) + "']"));
+        wait20().until(ExpectedConditions.elementToBeClickable(yesterdayDate));
         new Actions(getDriver()).click(dates).perform();
 
-        String actualResult = yesterdayDate.getAttribute("class");
+        boolean actualResult = yesterdayDate.getAttribute("class").contains("is-start-date") ||
+                yesterdayDate.getAttribute("class").contains("is-end-date") ||
+                yesterdayDate.getAttribute("class").contains("is-in-range");
 
-        Assert.assertFalse(actualResult.contains("is-start-date") || actualResult.contains("is-end-date") || actualResult.contains("is-in-range"));
+        Assert.assertFalse(actualResult);
     }
 
     @Test
@@ -562,7 +581,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().get("https://demoqa.com/");
 
         getDriver().findElement(
-                By.xpath("//*[name()='svg'][@stroke='currentColor']/*[local-name() = 'path'][1]")).click();
+                By.cssSelector("div:nth-of-type(1) > div > .avatar.mx-auto.white > svg")).click();
         getDriver().findElement(By.id("item-2")).click();
         List<WebElement> radioButtons = getDriver().findElements(
                 By.xpath("//div[contains(@class,'custom-control')]"));
@@ -577,20 +596,23 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
-    public void  testHeaderIsDisplayedInEach (){
+    public void testHeaderIsDisplayedInEach() {
+        boolean actualResult = false;
         final String expectedHeaderText = "Smart By Design";
-        final String carouselContainerPath = "//div[contains(@class, 'swiper-slide')]//div[@class='image']//img[contains(@class, 'd-none')]";
+        final String carouselContainerPath = ".swiper-slide .image .d-none";
 
-        getDriver().get("https://minthouse.com/");
-        List<WebElement> carousel = getDriver().findElements(By.xpath(carouselContainerPath));
-        for(WebElement element : carousel) {
-            new WebDriverWait(getDriver(), Duration.ofSeconds(8)).until(ExpectedConditions.visibilityOf(element));
-            if (!element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText().equals(expectedHeaderText)) {
-                System.out.println("Missing text in " + element.getAttribute("src"));
+        getDriver().get(URL_MINTHOUSE);
+        List<WebElement> carousel = getDriver().findElements(By.cssSelector(carouselContainerPath));
+        for (WebElement element : carousel) {
+            wait20().until(ExpectedConditions.visibilityOf(element));
+            if (!element.findElement(By.xpath("parent::div/following-sibling::div//h2"))
+                    .getText().equals(expectedHeaderText)) {
+                System.out.println("Error report. Missing text in " + element.getAttribute("src"));
+                actualResult = true;
             }
-
-            Assert.assertEquals(element.findElement(By.xpath("parent::div/following-sibling::div//h2")).getText(), expectedHeaderText);
         }
+
+        Assert.assertFalse(actualResult);
     }
 
     @Test
@@ -602,7 +624,7 @@ public class GroupTeamRocketTest extends BaseTest {
         getDriver().findElement(By.id("search_button_homepage")).click();
         List<WebElement> resultLinks = getDriver().findElements(
                 By.xpath("//div[@class = 'nrn-react-div']/article//div/h2"));
-        for (WebElement link: resultLinks) {
+        for (WebElement link : resultLinks) {
 
             Assert.assertTrue(link.getText().matches("(?i).*tiger.*"));
         }
@@ -637,7 +659,7 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
-    public void testStaticDropDown_VZ () throws InterruptedException {
+    public void testStaticDropDown_VZ() throws InterruptedException {
         getDriver().get("https://rahulshettyacademy.com/dropdownsPractise/");
 
         WebElement staticDropdown = getDriver().findElement(By.id("ctl00_mainContent_DropDownListCurrency"));
@@ -655,7 +677,7 @@ public class GroupTeamRocketTest extends BaseTest {
     }
 
     @Test
-    public void test_WixWebSiteAnnaPav() throws InterruptedException {
+    public void test_WixWebSiteAnnaPav() {
         getDriver().get("https://www.wix.com/");
         WebElement actualResult = getDriver().findElement(By.xpath("//span[contains(text(), 'Create a website without limits')]"));
 
@@ -671,6 +693,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='main-menu-item-creation']")).getText(), "Creation");
     }
 
+    @Ignore
     @Test
     public void test_WixCreationAnnaPav() throws InterruptedException {
         getDriver().get("https://www.wix.com/");
@@ -681,6 +704,7 @@ public class GroupTeamRocketTest extends BaseTest {
         Assert.assertEquals(actualResult.getText(), "Log In");
     }
 
+    @Ignore
     @Test
     public void test_WixLoginAnnaPav() throws InterruptedException {
         getDriver().get("https://www.wix.com/");
@@ -689,6 +713,102 @@ public class GroupTeamRocketTest extends BaseTest {
         WebElement actualResult = getDriver().findElement(By.xpath("//button[@name='submit']"));
 
         Assert.assertEquals(actualResult.getText(), "Continue with Email");
+    }
+
+    @Test
+    public void testJenkinsUnstartedDemoWatchMode_EZ() {
+        getDriver().get(URL_JENKINS);
+
+        getDriver().findElement(By.xpath("//div[@id='CollapsingNavbar']/ul[1]/li/button")).click();
+        getDriver().findElement(By.xpath("//a[@href='https://jenkins-x.io/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/v3/develop/developing/#demo']")).click();
+        getDriver().switchTo().frame(getDriver()
+                .findElement(By.xpath("//iframe[@title='Demo of developing with Jenkins X']")));
+
+        String playerState = getDriver().findElement(By.id("movie_player")).getAttribute("class");
+
+        Assert.assertTrue(playerState.contains("unstarted-mode"));
+    }
+
+    @Test
+    public void testJenkinsPlayingDemoWatchMode_EZ() {
+        getDriver().get(URL_JENKINS);
+
+        getDriver().findElement(By.xpath("//div[@id='CollapsingNavbar']/ul[1]/li/button")).click();
+        getDriver().findElement(By.xpath("//a[@href='https://jenkins-x.io/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/v3/develop/developing/#demo']")).click();
+        getDriver().switchTo().frame(getDriver()
+                .findElement(By.xpath("//iframe[@title='Demo of developing with Jenkins X']")));
+
+        getDriver().findElement(By.id("player")).click();
+
+        String playerState = getDriver().findElement(By.id("movie_player")).getAttribute("class");
+
+        Assert.assertTrue(playerState.contains("playing-mode"));
+    }
+
+    @Test
+    public void testJenkinsPausedDemoWatchMode_EZ() {
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+
+        getDriver().get(URL_JENKINS);
+
+        getDriver().findElement(By.xpath("//div[@id='CollapsingNavbar']/ul[1]/li/button")).click();
+        getDriver().findElement(By.xpath("//a[@href='https://jenkins-x.io/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/v3/develop/developing/#demo']")).click();
+        getDriver().switchTo().frame(getDriver()
+                .findElement(By.xpath("//iframe[@title='Demo of developing with Jenkins X']")));
+
+        getDriver().findElement(By.id("player")).click();
+        wait.until(ExpectedConditions.attributeContains(getDriver()
+                .findElement(By.id("movie_player")),"class", "playing-mode"));
+
+        getDriver().findElement(By.id("player")).click();
+        wait.until(ExpectedConditions.attributeContains(getDriver()
+                .findElement(By.id("movie_player")),"class", "paused-mode"));
+
+        String playerState = getDriver().findElement(By.id("movie_player")).getAttribute("class");
+
+        Assert.assertTrue(playerState.contains("paused-mode"));
+    }
+    @Test
+    public void test_UiTestingPlaygroundScrollbars_ArtCh() {
+        getDriver().get(URL_UI_TESTING_PLAYGROUND);
+
+        getDriver().findElement(By.xpath ("//a[@href = '/scrollbars']")).click ();
+        WebElement element = getDriver().findElement(By.xpath("//button[@id='hidingButton']"));
+        JavascriptExecutor jse = (JavascriptExecutor)getDriver();
+        jse.executeScript("arguments[0].scrollIntoView();", element);
+
+        Assert.assertEquals (element.getText (), "Hiding Button");
+    }
+
+    @Test
+    public void testMintHouseSlideOutImageCountsNegative_SergeDot() {
+        getDriver().get(URL_MINTHOUSE);
+
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.cssSelector("#destination-plus"))).click().pause(500).perform();
+        Map<String,Integer> slideOutImages = new HashMap<>();
+        List<WebElement> destList = getDriver().findElements(By.cssSelector("#destination-list .menu__item"));
+        Iterator<WebElement> it = destList.iterator();
+        while (it.hasNext()) {
+            WebElement temp = it.next();
+            new Actions(getDriver()).moveToElement(temp).pause(1000).perform();
+            Integer numberOfImages = getDriver().findElements(By.cssSelector(".destination-item.active img")).size();
+            slideOutImages.put(temp.findElement(By.cssSelector("a")).getText(),numberOfImages);
+        }
+
+        Assert.assertEquals(slideOutImages.size(),destList.size());
+
+        int missingImages = 0;
+        for (String i : slideOutImages.keySet()) {
+            if(slideOutImages.get(i) < 2) {
+                missingImages++;
+            }
+        }
+        Assert.assertNotEquals(missingImages, 0);
     }
 }
 

@@ -3,6 +3,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -11,6 +12,7 @@ import java.time.Duration;
 
 public class GroupCleanCodeTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testFolkInstruments() {
         getDriver().get("http://ludowe.instrumenty.edu.pl/en/instruments/show/instrument/4653");
@@ -19,7 +21,7 @@ public class GroupCleanCodeTest extends BaseTest {
 
         Assert.assertEquals(link.getText(), "ritual scepter");
     }
-
+    @Ignore
     @Test
     public void testFolkInstrumentsPolishEnglish() {
         getDriver().get("http://ludowe.instrumenty.edu.pl/pl/o-projekcie");
@@ -153,6 +155,7 @@ public class GroupCleanCodeTest extends BaseTest {
         Assert.assertEquals(link.getText(), "Запостить");
     }
 
+    @Ignore
     @Test
     public void testFolkInstrumentsBow() {
         getDriver().get("http://ludowe.instrumenty.edu.pl/en");

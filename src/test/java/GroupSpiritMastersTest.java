@@ -171,7 +171,7 @@ public class GroupSpiritMastersTest extends BaseTest {
 
         WebElement subjectMenu = getDriver().findElement(By.id("subjectsInput"));
         getActions().moveToElement(subjectMenu).click().sendKeys("Maths").pause(500).sendKeys(Keys.TAB)
-                    .scrollToElement(getDriver().findElement(By.id("submit"))).build().perform();
+                .scrollToElement(getDriver().findElement(By.id("submit"))).build().perform();
 
         getDriver().findElement((By.cssSelector("[for=hobbies-checkbox-1]"))).click();
 
@@ -308,6 +308,7 @@ public class GroupSpiritMastersTest extends BaseTest {
         Assert.assertEquals(openButton.getText(), "TUTORIALS");
     }
 
+    @Ignore
     @Test
     public void test_ModalDialogs_OlPolezhaeva() {
         getDriver().get("https://demoqa.com/modal-dialogs");
@@ -384,7 +385,7 @@ public class GroupSpiritMastersTest extends BaseTest {
         List<WebElement> listOfCheckBoxes = getDriver().findElements(By.cssSelector("span.rct-checkbox"));
         listOfCheckBoxes.get(3).click();
         listOfCheckBoxes.get(2).click();
-        List<WebElement> listOfSelectedCheckBoxesDesktop =  getDriver().findElements(By.cssSelector(".display-result.mt-4>span"));
+        List<WebElement> listOfSelectedCheckBoxesDesktop = getDriver().findElements(By.cssSelector(".display-result.mt-4>span"));
         List<String> actualResult = new ArrayList<>();
 
         for (WebElement element : listOfSelectedCheckBoxesDesktop) {
@@ -415,7 +416,7 @@ public class GroupSpiritMastersTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//div[@class='category-cards']/div[1]")).click();
         getActions().moveToElement(getDriver().findElement(By.xpath("//span[text()='Web Tables']")))
-                    .click().pause(250).perform();
+                .click().pause(250).perform();
         getDriver().findElement(By.id("addNewRecordButton")).click();
 
         additionEmoji("firstName", "\uD83D\uDCA9\uD83D\uDCA9\uD83D\uDCA9");
