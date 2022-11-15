@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -18,6 +19,7 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.cssSelector("#yui-gen5-button")).click();
+        new Actions(getDriver()).moveToElement(getDriver().findElement(By.id("notification-bar"))).perform();
         WebElement notificationSave = new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("notification-bar"))));
 
         Assert.assertEquals(notificationSave.getText(), "Saved");
