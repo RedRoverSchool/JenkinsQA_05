@@ -114,7 +114,7 @@ public class GroupNikkiTest extends BaseTest {
 
         Assert.assertEquals(actualResult,expectedResult);
     }
-
+    @Ignore
     @Test
     public void testSergeDotMintHouseDateSelection(){
 
