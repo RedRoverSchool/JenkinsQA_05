@@ -7,27 +7,28 @@ import runner.BaseTest;
 
 public class NewItemCreatePipelineTest extends BaseTest {
 
-    private final String BASE_URL = "http://localhost:8080/";
+private void click(By by){
+    getDriver().findElement(by).click();
+}
 
     @Test
-    public void test_CreatePipelineExistingNameError() {
+    public void testCreatePipelineExistingNameError() {
 
-        final String JOBNAME = "Job15";
+        final String jobname = "Job15";
 
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(JOBNAME);
-        getDriver().findElement(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-
-        getDriver().get(BASE_URL);
-        getDriver().findElement(By.linkText("New Item")).click();
+        click(By.linkText("New Item"));
+        getDriver().findElement(By.id("name")).sendKeys(jobname);
+        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+        click(By.id("ok-button"));
+        click(By.id("jenkins-home-link"));
+        click(By.linkText("New Item"));
 
         new Actions(getDriver()).moveToElement(getDriver().findElement(By.id("name"))).click()
-                .sendKeys(JOBNAME).build().perform();
+                .sendKeys(jobname).build().perform();
 
         final WebElement notificationError = getDriver()
                 .findElement(By.xpath("//div[@class='input-validation-message' and not(contains(@class, 'disabled')) and  @id='itemname-invalid']"));
 
-        Assert.assertEquals(notificationError.getText(), String.format("» A job already exists with the name ‘%s’", JOBNAME));
+        Assert.assertEquals(notificationError.getText(), String.format("» A job already exists with the name ‘%s’", jobname));
     }
 }
