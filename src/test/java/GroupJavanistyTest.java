@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -21,6 +22,9 @@ public class GroupJavanistyTest extends BaseTest {
 
     private void buttonClickXpath(String locator) {
         getDriver().findElement(By.xpath(locator)).click();
+    }
+    private void buttonClickID(String locator){
+        getDriver().findElement(By.id(locator)).click();
     }
 
     private void inputTextByXPath(String locator, String text) {
@@ -70,7 +74,9 @@ public class GroupJavanistyTest extends BaseTest {
 
         assertTextByXPath("//span[text()='MultibranchPipeline']", "MultibranchPipeline");
 
-        deleteItem();
+        buttonClickXpath("//table[@id='projectstatus']/tbody/tr/td/a/span");
+        buttonClickXpath("//div [@class='task '][5]/span");
+        buttonClickID("yui-gen1-button");
     }
 
 
