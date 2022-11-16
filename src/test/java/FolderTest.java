@@ -87,4 +87,27 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(changedName, secondJobName);
     }
+
+    @Test
+    public void configureFolderDisplayNameSaveFirstName() {
+        String firstJobName = "First job";
+        String secondJobName = "Second job";
+        getDriver().findElement(By.linkText("New Item")).click();
+        getInputName().sendKeys(firstJobName);
+        getFolder().click();
+        getOkButton().click();
+        getSaveButton().click();
+        getDashboard().click();
+        getDriver().findElement(By.xpath("//span[text()='" + firstJobName + "']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/job/First%20job/configure']")).click();
+        getDriver().findElement(By.xpath("//input[@name='_.displayNameOrNull']")).sendKeys(secondJobName);
+        getDriver().findElement(By.xpath("//textarea[@name='_.description']")).sendKeys("change name");
+        getSaveButton().click();
+        getDashboard().click();
+        getDriver().findElement(By.xpath("//span[text()='" + secondJobName + "']")).click();
+        String[] namesBlock = getDriver().findElement(By.id("main-panel")).getText().split("\n");
+
+        Assert.assertEquals(namesBlock[0], secondJobName);
+        Assert.assertEquals(namesBlock[1], "Folder name: " + firstJobName);
+    }
 }
