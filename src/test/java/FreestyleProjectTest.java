@@ -17,7 +17,11 @@ public class FreestyleProjectTest extends BaseTest {
     private WebDriverWait wait;
     private Actions action;
 
-   private final String freestyleName = RandomStringUtils.randomAlphanumeric(10);
+    private final String freestyleName = RandomStringUtils.randomAlphanumeric(10);
+
+    private void clickMenuSelector() {
+        getDriver().findElement(By.id("menuSelector")).click();
+    }
 
     private WebDriverWait getWait() {
         if (wait == null) {
@@ -35,7 +39,7 @@ public class FreestyleProjectTest extends BaseTest {
         return action;
     }
 
-    private List<String> getListExistingFreestyleProjectsNames(){
+    private List<String> getListExistingFreestyleProjectsNames() {
         List<WebElement> existingJobs = getDriver().findElements(By.xpath("//tr/td/a"));
         List<String> existingJobsNames = new ArrayList<>();
         for (int i = 0; i < existingJobs.size(); i++) {
@@ -45,11 +49,11 @@ public class FreestyleProjectTest extends BaseTest {
         return existingJobsNames;
     }
 
-    private void goToDashBoard(){
+    private void goToDashBoard() {
         getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
     }
 
-    private void clickSubmitButton(){
+    private void clickSubmitButton() {
 
         getDriver().findElement(By.xpath("//span[@name = 'Submit']")).click();
     }
@@ -80,9 +84,10 @@ public class FreestyleProjectTest extends BaseTest {
         final String newFreestyleName = RandomStringUtils.randomAlphanumeric(10);
 
         goToDashBoard();
-        final WebElement menuSelector = getDriver().findElement(By.cssSelector("#menuSelector"));
-        getAction().moveToElement(getDriver().findElement(By.xpath("//a[contains(text(), '" + freestyleName + "')]")))
-                .moveToElement(menuSelector).click().perform();
+        getAction()
+                .moveToElement(getDriver().findElement(By.xpath("//a[contains(text(), '" + freestyleName + "')]")))
+                .perform();
+        clickMenuSelector();
 
         final List<WebElement> breadCrumbMenu = getDriver().findElements(By.cssSelector("#breadcrumb-menu li"));
         getWait().until(ExpectedConditions.visibilityOfAllElements(breadCrumbMenu));
@@ -90,7 +95,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         final WebElement newNameRow = getDriver().findElement(By.xpath("//input[@name = 'newName']"));
         getAction().moveToElement(newNameRow).doubleClick().sendKeys(newFreestyleName).perform();
-
         clickSubmitButton();
         goToDashBoard();
 
