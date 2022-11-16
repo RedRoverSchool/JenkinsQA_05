@@ -85,7 +85,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         goToDashBoard();
         getAction()
-                .moveToElement(getDriver().findElement(By.xpath("//a[contains(text(), '" + freestyleName + "')]")))
+                .moveToElement(getDriver().findElement(By.linkText(freestyleName)))
                 .perform();
         clickMenuSelector();
 
