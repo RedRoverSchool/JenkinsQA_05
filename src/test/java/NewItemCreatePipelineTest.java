@@ -7,9 +7,9 @@ import runner.BaseTest;
 
 public class NewItemCreatePipelineTest extends BaseTest {
 
-private void click(By by){
-    getDriver().findElement(by).click();
-}
+    private void click(By by) {
+        getDriver().findElement(by).click();
+    }
 
     @Test
     public void testCreatePipelineExistingNameError() {
