@@ -1,6 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -14,7 +15,9 @@ import java.util.List;
 public class FreestyleProjectTest extends BaseTest {
 
     private WebDriverWait wait;
-    private final String freestyleName = RandomStringUtils.randomAlphanumeric(10);
+    private Actions action;
+
+   private final String freestyleName = RandomStringUtils.randomAlphanumeric(10);
 
     private WebDriverWait getWait() {
         if (wait == null) {
@@ -22,6 +25,33 @@ public class FreestyleProjectTest extends BaseTest {
         }
 
         return wait;
+    }
+
+    private Actions getAction() {
+        if (action == null) {
+            action = new Actions(getDriver());
+        }
+
+        return action;
+    }
+
+    private List<String> getListExistingFreestyleProjectsNames(){
+        List<WebElement> existingJobs = getDriver().findElements(By.xpath("//tr/td/a"));
+        List<String> existingJobsNames = new ArrayList<>();
+        for (int i = 0; i < existingJobs.size(); i++) {
+            existingJobsNames.add(i, existingJobs.get(i).getText());
+        }
+
+        return existingJobsNames;
+    }
+
+    private void goToDashBoard(){
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
+    }
+
+    private void clickSubmitButton(){
+
+        getDriver().findElement(By.xpath("//span[@name = 'Submit']")).click();
     }
 
     @Test
@@ -33,21 +63,37 @@ public class FreestyleProjectTest extends BaseTest {
         itemNameField.sendKeys(freestyleName);
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.cssSelector("#ok-button")).click();
-        getDriver().findElement(By.xpath("//span[@name = 'Submit']")).click();
+        clickSubmitButton();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + freestyleName);
     }
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testPresentationNewProjectOnDashboard() {
-        getDriver().findElement(By.xpath("//a[contains(text(), 'Dashboard')]")).click();
+        goToDashBoard();
 
-        List<WebElement> existingJobs = getDriver().findElements(By.xpath("//tr/td/a"));
-        List<String> existingJobsNames = new ArrayList<>();
-        for (int i = 0; i < existingJobs.size(); i++) {
-            existingJobsNames.add(i, existingJobs.get(i).getText());
-        }
+        Assert.assertTrue(getListExistingFreestyleProjectsNames().contains(freestyleName));
+    }
 
-        Assert.assertTrue(existingJobsNames.contains(freestyleName));
+    @Test(dependsOnMethods = "testCreateNewFreestyleProject")
+    public void testRenameFreestyleProject() {
+        final String newFreestyleName = RandomStringUtils.randomAlphanumeric(10);
+        final WebElement menuSelector = getDriver().findElement(By.cssSelector("#menuSelector"));
+
+        getAction().moveToElement(getDriver().findElement(By.xpath("//a[contains(text(), '" + freestyleName + "')]")))
+                .moveToElement(menuSelector).click().perform();
+
+        final List<WebElement> breadCrumbMenu = getDriver().findElements(By.cssSelector("#breadcrumb-menu li"));
+        getWait().until(ExpectedConditions.visibilityOfAllElements(breadCrumbMenu));
+        getAction().moveToElement(getDriver().findElement(By.cssSelector("#yui-gen6"))).click().perform();
+
+        final WebElement newNameRow = getDriver().findElement(By.xpath("//input[@name = 'newName']"));
+        getAction().moveToElement(newNameRow).doubleClick().sendKeys(newFreestyleName).perform();
+
+        clickSubmitButton();
+        goToDashBoard();
+
+        Assert.assertFalse(getListExistingFreestyleProjectsNames().contains(freestyleName));
+        Assert.assertTrue(getListExistingFreestyleProjectsNames().contains(newFreestyleName));
     }
 }
