@@ -67,7 +67,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         Actions actions = new Actions(getDriver());
         actions.moveToElement(getDriver().findElement(By.xpath("//a[@href='securityRealm/']"))).click().perform();
-        WebElement deleteButton = getDriver().findElement(By.xpath("//a[@class='jenkins-table__button jenkins-table__button--red']"));
+        WebElement deleteButton = getDriver().findElement(By.xpath("//a[@href='user/"+randUserName.toLowerCase()+"/delete']"));
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         List<WebElement> listWithUsersIncludingAdmin = getDriver().findElements(By.xpath("//table[@id='people']/tbody/tr/td[2]/a"));
         List<String> listStringov = listWithUsersIncludingAdmin.stream().map(WebElement::getText).collect(Collectors.toList());
