@@ -78,8 +78,9 @@ public class FreestyleProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testRenameFreestyleProject() {
         final String newFreestyleName = RandomStringUtils.randomAlphanumeric(10);
-        final WebElement menuSelector = getDriver().findElement(By.cssSelector("#menuSelector"));
 
+        goToDashBoard();
+        final WebElement menuSelector = getDriver().findElement(By.cssSelector("#menuSelector"));
         getAction().moveToElement(getDriver().findElement(By.xpath("//a[contains(text(), '" + freestyleName + "')]")))
                 .moveToElement(menuSelector).click().perform();
 
