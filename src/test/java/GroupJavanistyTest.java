@@ -1,6 +1,5 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -23,7 +22,8 @@ public class GroupJavanistyTest extends BaseTest {
     private void buttonClickXpath(String locator) {
         getDriver().findElement(By.xpath(locator)).click();
     }
-    private void buttonClickID(String locator){
+
+    private void buttonClickID(String locator) {
         getDriver().findElement(By.id(locator)).click();
     }
 
@@ -53,35 +53,28 @@ public class GroupJavanistyTest extends BaseTest {
         Thread.sleep(500);
     }
 
-    private void deleteItem() {
-        buttonClickXpath("//table[@id='projectstatus']/tbody/tr/td/a/span");
-        buttonClickXpath("//div [@class='task '][5]/span");
-        buttonClickXpath("//span/button [@id='yui-gen1-button']");
+    private void deleteItem(String nameOfItem) {
+        getDriver().get("http://localhost:8080/job/" + nameOfItem + "/delete");
+        getDriver().findElement(By.id("yui-gen1-button")).click();
     }
 
     @Test
     public void Create_Multibranch_pipeline() throws InterruptedException {
+        String nameOfItem = "MultibranchPipeline";
         buttonClickXpath(NEW_ITEM_XPATH);
-        inputTextByXPath(ENTER_AN_ITEM_NAME_XPATH, "MultibranchPipeline");
+        inputTextByXPath(ENTER_AN_ITEM_NAME_XPATH, nameOfItem);
         buttonClickXpath(MULTIBRANCH_PIPELINE_XPATH);
         buttonClickXpath(BUTTON_OK_XPATH);
         buttonClickXpath("//button [@id='yui-gen8-button']");
 
         urlCheck("http://localhost:8080/job/MultibranchPipeline/");
-        assertTextByXPath("//ul [@id='breadcrumbs']/li[3]/a[@class='model-link']", "MultibranchPipeline");
+        assertTextByXPath("//ul [@id='breadcrumbs']/li[3]/a[@class='model-link']", nameOfItem);
 
         buttonClickXpath(DASHBOARD_XPATH);
 
-        assertTextByXPath("//span[text()='MultibranchPipeline']", "MultibranchPipeline");
+        assertTextByXPath("//span[text()='MultibranchPipeline']", nameOfItem);
 
-       // buttonClickXpath("//table[@id='projectstatus']/tbody/tr/td/a/span");
-
-
-       // buttonClickXpath("//div [@class='task '][5]/span");
-
-        //getDriver().findElement(By.id("yui-gen1-button")).click();
-        getDriver().get("http://localhost:8080/job/" + "MultibranchPipeline" + "/delete");
-        getDriver().findElement(By.id("yui-gen1-button")).click();
+        deleteItem(nameOfItem);
     }
 
 
