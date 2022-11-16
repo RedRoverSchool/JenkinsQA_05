@@ -74,6 +74,4 @@ public class GroupJavanistyTest extends BaseTest {
     }
 
 
-
-
 }
