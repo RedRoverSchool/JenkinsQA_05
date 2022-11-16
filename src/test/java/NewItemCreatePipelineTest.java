@@ -44,18 +44,13 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test(dataProvider = "new-item-unsafe-names")
     public void testCreateNewItemWithUnsafeCharactersName(String name) {
-        getDriver().findElement(By.cssSelector("a.task-link")).click();
-        getDriver().findElement(By.cssSelector("input#name")).sendKeys(
-                name);
-
         Matcher matcher = Pattern.compile("[!@#$%^&*|:?></.']").matcher(name);
         matcher.find();
-        StringBuilder expectedResult = new StringBuilder();
-        expectedResult.append("» ‘").append(name.charAt(matcher.start()))
-                .append("’ is an unsafe character");
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("div" +
-                        "#itemname-invalid")).getAttribute("textContent"),
-                expectedResult.toString());
+        getDriver().findElement(By.cssSelector("a.task-link")).click();
+        getDriver().findElement(By.cssSelector("input#name")).sendKeys(name);
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("div#itemname-invalid")).getAttribute("textContent"),
+                String.format("» ‘%s’ is an unsafe character", name.charAt(matcher.start())));
     }
 }
