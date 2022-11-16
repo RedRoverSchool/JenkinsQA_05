@@ -51,8 +51,8 @@ public class GroupJavanistyTest extends BaseTest {
 
     private void deleteItem() {
         buttonClickXpath("//table[@id='projectstatus']/tbody/tr/td/a/span");
-        buttonClickXpath("//div [@class='task '][5]");
-        buttonClickXpath("//button [@id='yui-gen1-button']");
+        buttonClickXpath("//div [@class='task '][5]/span");
+        buttonClickXpath("//span/button [@id='yui-gen1-button']");
     }
 
     @Test
@@ -68,10 +68,12 @@ public class GroupJavanistyTest extends BaseTest {
 
         buttonClickXpath(DASHBOARD_XPATH);
 
-        //assertTextByXPath("//a [@class='jenkins-table__link model-link inside']", "MultibranchPipeline");
+        assertTextByXPath("//span[text()='MultibranchPipeline']", "MultibranchPipeline");
 
-        //deleteItem();
+        deleteItem();
     }
+
+
 
 
 }
