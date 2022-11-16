@@ -46,22 +46,18 @@ public class GroupJavanistyTest extends BaseTest {
         Assert.assertEquals(expectedConfirmationMessage, actualConfirmationMessage);
     }
      
-    @Ignore
+
     @Test
     public void testBdoWarrior2() throws InterruptedException {
         getDriver().get("https://bdocodex.com/ru/skillbuilder/");
-        Thread.sleep(2000);
-        WebElement buttobWarrior = getDriver().findElement(By.xpath("//div[@class='class_cell'][1]/*"));
-        buttobWarrior.click();
-        Thread.sleep(2000);
-        WebElement buttonSkillAbsolute = getDriver().findElement(By.xpath
-                ("//div[@data-gid=\"618\"]"));
-        buttonSkillAbsolute.click();
-        Thread.sleep(2000);
-        WebElement counter = getDriver().findElement(By.xpath
-                ("//tr[4]//descendant::div[@class='level_cell current_level']"));
-        String counterValue = counter.getText();
-        Assert.assertEquals(counterValue, "10");
+
+        getDriver().findElement(By.xpath
+                ("//div[@class='class_cell'][1]/img[@oldtitle='Воин']")).click();
+        getDriver().findElement(By.xpath("//div[@data-gid=618]")).click();
+        String counterSkillValue = getDriver().findElement(By.xpath
+                ("//tr[4]//descendant::div[@class='level_cell current_level']")).getText();
+
+        Assert.assertEquals(counterSkillValue, "10");
     }
 
     @Ignore
