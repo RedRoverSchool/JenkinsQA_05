@@ -60,7 +60,7 @@ public class GroupJavanistyTest extends BaseTest {
     }
 
     @Test
-    public void Create_Multibranch_pipeline() {
+    public void Create_Multibranch_pipeline() throws InterruptedException {
         buttonClickXpath(NEW_ITEM_XPATH);
         inputTextByXPath(ENTER_AN_ITEM_NAME_XPATH, "MultibranchPipeline");
         buttonClickXpath(MULTIBRANCH_PIPELINE_XPATH);
@@ -74,9 +74,14 @@ public class GroupJavanistyTest extends BaseTest {
 
         assertTextByXPath("//span[text()='MultibranchPipeline']", "MultibranchPipeline");
 
-        buttonClickXpath("//table[@id='projectstatus']/tbody/tr/td/a/span");
-        buttonClickXpath("//div [@class='task '][5]/span");
-        buttonClickID("yui-gen1-button");
+       // buttonClickXpath("//table[@id='projectstatus']/tbody/tr/td/a/span");
+
+
+       // buttonClickXpath("//div [@class='task '][5]/span");
+
+        //getDriver().findElement(By.id("yui-gen1-button")).click();
+        getDriver().get("http://localhost:8080/job/" + "MultibranchPipeline" + "/delete");
+        getDriver().findElement(By.id("yui-gen1-button")).click();
     }
 
 
