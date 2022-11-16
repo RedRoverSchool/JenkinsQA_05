@@ -1,25 +1,30 @@
 package runner;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.annotations.AfterMethod;
 
-import java.util.concurrent.TimeUnit;
+import java.lang.reflect.Method;
 
 public abstract class BaseTest {
 
     private WebDriver driver;
 
     @BeforeMethod
-    protected void beforeMethod() {
-        driver = new ChromeDriver(BaseUtils.chromeOptions);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    protected void beforeMethod(Method method) {
+        BaseUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
+
+        driver = BaseUtils.createDriver();
+        ProjectUtils.login(driver);
     }
 
     @AfterMethod
-    protected void afterMethod() {
+    protected void afterMethod(Method method, ITestResult testResult) {
+        ProjectUtils.logout(driver);
         driver.quit();
+
+        BaseUtils.logf("Execution time is %o sec\n\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000);
     }
 
     protected WebDriver getDriver() {
