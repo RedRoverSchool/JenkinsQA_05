@@ -95,7 +95,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         goToDashBoard();
         getDriver().findElement(By.linkText(freestyleProjectName)).click();
-        getDriver().findElement(By.xpath("//a[@title = 'Rename']")).click();
+        getDriver().findElement(By.linkText("Rename")).click();
 
         WebElement newNameRow = getDriver().findElement(By.xpath("//input[@name = 'newName']"));
         getAction().moveToElement(newNameRow).doubleClick().sendKeys(newFreestyleProjectName).perform();
