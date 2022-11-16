@@ -70,7 +70,7 @@ public class GroupJavanistyTest extends BaseTest {
 
         //assertTextByXPath("//a [@class='jenkins-table__link model-link inside']", "MultibranchPipeline");
 
-        deleteItem();
+        //deleteItem();
     }
 
 
