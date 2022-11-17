@@ -75,7 +75,7 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
                 "‘@’ is an unsafe character");
 
-        getDriver().findElement(By.cssSelector(JENKINS_HOME_LINK_CSS)).click();
+        getDriver().get("http://localhost:8080/");
 
         getDriver().findElement(By.xpath("//div [@class='empty-state-block']")).isDisplayed();
     }
