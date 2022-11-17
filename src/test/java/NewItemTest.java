@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class NewItemTest extends BaseTest {
 
     @Test
-    public void testContainsItemsWithoutCreatedProject() {
+    public void testNewItemsPageContainsItemsWithoutCreatedProject() {
         final List<String> expectedResult = List.of("Freestyle project", "Pipeline", "Multi-configuration project",
                 "Folder", "Multibranch Pipeline", "Organization Folder");
 
