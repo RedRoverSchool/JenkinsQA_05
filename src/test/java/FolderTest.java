@@ -89,17 +89,6 @@ public class FolderTest extends BaseTest {
     }
     @Test
     public void testConfigureFolderDisplayNameSaveFirstName() {
-        List<String> hrefs = getDriver()
-                .findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td/a"))
-                .stream()
-                .map(element -> element.getAttribute("href"))
-                .collect(Collectors.toList());
-        for (String href : hrefs) {
-            getDriver().get(href + "/delete");
-            getDriver().findElement(By.id("yui-gen1-button")).click();
-        }
-
-        String generatedString = UUID.randomUUID().toString().substring(0, 8);
         String secondJobName = "Second name";
         createFolder();
         getDashboard().click();
