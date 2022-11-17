@@ -11,8 +11,8 @@ public class NewItemTest extends BaseTest {
 
     @Test
     public void testContainsItemsWithoutCreatedProject() {
-        final List<String> expectedResult = List.of("Freestyle project", "Pipeline", "Multi-configuration project", "Folder",
-                "Multibranch Pipeline", "Organization Folder");
+        final List<String> expectedResult = List.of("Freestyle project", "Pipeline", "Multi-configuration project",
+                "Folder", "Multibranch Pipeline", "Organization Folder");
 
         getDriver().findElement(By.linkText("New Item")).click();
 
