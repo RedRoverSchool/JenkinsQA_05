@@ -55,6 +55,15 @@ public class NewItemCreatePipelineTest extends BaseTest {
     }
 
     @Test
+    public void testCreatePipelineWithoutName() {
+        click(By.linkText("New Item"));
+        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+
+        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
+                "» This field cannot be empty, please enter a valid name");
+    }
+
+    @Test
     public void testCreatedPipelineOnBreadcrumbs () {
 
     }
