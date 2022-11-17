@@ -13,7 +13,6 @@ public class MultibranchPipelineTest extends BaseTest {
     private final String JENKINS_HOME_LINK_CSS = "#jenkins-home-link";
 
 
-
     private void buttonClickXpath(String locator) {
         getDriver().findElement(By.xpath(locator)).click();
     }
@@ -58,6 +57,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
         deleteItem(nameOfItem);
     }
+
     @Test
     public void Create_Multibranch_Pipeline_Invalid_Name() {
         buttonClickXpath(NEW_ITEM_XPATH);
@@ -76,7 +76,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 "‘@’ is an unsafe character");
 
     }
-    
+
     @Test
     public void testCreateMbPipelineEmptyName() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -85,6 +85,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 "» This field cannot be empty, please enter a valid name");
         Assert.assertFalse(getDriver().findElement(By.xpath("//button[@type='submit']")).isEnabled());
     }
+}
     
 
 
