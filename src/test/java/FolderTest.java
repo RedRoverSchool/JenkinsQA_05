@@ -87,7 +87,6 @@ public class FolderTest extends BaseTest {
         } catch (NoSuchElementException ignored) {
         }
     }
-
     @Test
     public void testConfigureFolderDisplayNameSaveFirstName() {
         List<String> hrefs = getDriver()
