@@ -80,6 +80,17 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
+    public void testDisableProject(){
+        final String freestyleProjectName = getRandomName();
+
+        goToDashBoard();
+
+        getDriver().findElement(By.linkText(freestyleProjectName)).click();
+        getDriver().findElement(By.xpath("//button[contains(text(), 'Disable Project')]"));
+        getDriver().findElement(By.xpath("//div[@class = \"warning\"]")).isDisplayed();
+    }
+
+    @Test
     public void testRenameFreestyleProject() {
         final String freestyleProjectName = getRandomName();
         final String newFreestyleProjectName = getRandomName();
