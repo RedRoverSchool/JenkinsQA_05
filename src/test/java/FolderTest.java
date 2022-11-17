@@ -132,7 +132,6 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(description, "Add description");
     }
-
     @Test
     public void testNameAfterRenamingFolder() {
         final String expectedResult = "Folder2";
