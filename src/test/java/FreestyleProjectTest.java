@@ -94,8 +94,9 @@ public class FreestyleProjectTest extends BaseTest {
         getWait().until(ExpectedConditions.visibilityOfAllElements(breadCrumbMenu));
         getAction().moveToElement(getDriver().findElement(By.cssSelector("#yui-gen6"))).click().perform();
 
-        WebElement newNameRow = getDriver().findElement(By.xpath("//input[@name = 'newName']"));
-        getAction().moveToElement(newNameRow).doubleClick().sendKeys(newFreestyleProjectName).perform();
+        getAction()
+                .moveToElement(getDriver().findElement(By.xpath("//input[@name = 'newName']")))
+                .doubleClick().sendKeys(newFreestyleProjectName).perform();
         clickSubmitButton();
         goToDashBoard();
 
