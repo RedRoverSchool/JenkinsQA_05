@@ -53,4 +53,9 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("div#itemname-invalid")).getAttribute("textContent"),
                 String.format("» ‘%s’ is an unsafe character", name.charAt(matcher.start())));
     }
+
+    @Test
+    public void testCreatedPipelineOnBreadcrumbs () {
+
+    }
 }
