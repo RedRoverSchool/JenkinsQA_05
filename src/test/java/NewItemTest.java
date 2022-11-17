@@ -21,6 +21,4 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertEquals(newItemsName, expectedResult);
     }
-
-
 }
