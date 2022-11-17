@@ -95,7 +95,7 @@ public class FreestyleProjectTest extends BaseTest {
         getAction().moveToElement(getDriver().findElement(By.cssSelector("#yui-gen6"))).click().perform();
 
         getAction()
-                .moveToElement(getDriver().findElement(By.xpath("//input[@name = 'newName']")))
+                .moveToElement(getDriver().findElement(By.xpath("//div[@class = 'jenkins-form-item tr ']/div[2]")))
                 .doubleClick().sendKeys(newFreestyleProjectName).perform();
         clickSubmitButton();
         goToDashBoard();
