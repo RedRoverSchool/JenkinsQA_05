@@ -109,6 +109,7 @@ public class FolderTest extends BaseTest {
             getDriver().get(href + "/delete");
             getDriver().findElement(By.id("yui-gen1-button")).click();
         }
+
         String generatedString = UUID.randomUUID().toString().substring(0, 8);
         String secondJobName = "Second name";
         getDriver().findElement(By.linkText("New Item")).click();
