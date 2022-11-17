@@ -2,8 +2,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NewItemCreatePipelineTest extends BaseTest {
 
@@ -30,5 +34,23 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 .findElement(By.xpath("//div[@class='input-validation-message' and not(contains(@class, 'disabled')) and  @id='itemname-invalid']"));
 
         Assert.assertEquals(notificationError.getText(), String.format("» A job already exists with the name ‘%s’", jobname));
+    }
+
+    @DataProvider(name = "new-item-unsafe-names")
+    public Object[][] dpMethod() {
+        return new Object[][]{{"!Pipeline1"}, {"pipel@ne2"}, {"PipeLine3#"},
+                {"PIPL$N@4"}, {"5%^PiPl$^Ne)"}};
+    }
+
+    @Test(dataProvider = "new-item-unsafe-names")
+    public void testCreateNewItemWithUnsafeCharactersName(String name) {
+        Matcher matcher = Pattern.compile("[!@#$%^&*|:?></.']").matcher(name);
+        matcher.find();
+
+        getDriver().findElement(By.cssSelector("a.task-link")).click();
+        getDriver().findElement(By.cssSelector("input#name")).sendKeys(name);
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("div#itemname-invalid")).getAttribute("textContent"),
+                String.format("» ‘%s’ is an unsafe character", name.charAt(matcher.start())));
     }
 }
