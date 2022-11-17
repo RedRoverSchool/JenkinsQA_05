@@ -17,7 +17,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateMulticonfigurationProject_HappyPath() {
+    public void testCreateMulticonfigurationProjectWithRandomName_HappyPath() {
 
         click(By.linkText("New Item"));
         getDriver().findElement(By.id("name")).sendKeys(RANDOM_PROJECT_NAME);
