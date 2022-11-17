@@ -76,9 +76,15 @@ public class MultibranchPipelineTest extends BaseTest {
                 "‘@’ is an unsafe character");
 
     }
-
-
-
-
-
+    
+    @Test
+    public void testCreateMbPipelineEmptyName() {
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
+        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
+                "» This field cannot be empty, please enter a valid name");
+        Assert.assertFalse(getDriver().findElement(By.xpath("//button[@type='submit']")).isEnabled());
     }
+    
+
+
