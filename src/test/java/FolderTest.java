@@ -132,7 +132,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void renameFolder() {
+    public void testNameAfterRenamingFolder() {
         final String expectedResult = "Folder2";
 
         getDriver().findElement(By.linkText("New Item")).click();
