@@ -20,7 +20,10 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By LINK_FREESTYLE_PROJECT = By.cssSelector(".hudson_model_FreeStyleProject");
     private static final By BUTTON_OK_IN_NEW_ITEM = By.cssSelector("#ok-button");
     private static final By LINK_CHANGES = By.linkText("Changes");
+
+    private static final By BUTTON_SAVE = By.xpath("//span[@name = 'Submit']");
     private WebDriverWait wait;
+
     private Actions action;
 
     private String getRandomName() {
@@ -113,20 +116,17 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testViewChangesNoBuildsSignAppears() {
-        String expectedResult = "Changes\nNo builds.";
+        String expectedText = "Changes\nNo builds.";
 
-        String name = getRandomName();
         getDriver().findElement(LINK_NEW_ITEM).click();
-        WebElement fieldEnterAnItemName = getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME);
-        fieldEnterAnItemName.click();
-        fieldEnterAnItemName.sendKeys(name);
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(getRandomName());
         getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
         getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
-        clickSubmitButton();
+        getDriver().findElement(BUTTON_SAVE).click();
         getDriver().findElement(LINK_CHANGES).click();
 
-        String actualResult = getDriver().findElement(By.xpath("//div[@id= 'main-panel']")).getText();
+        String actualText = getDriver().findElement(By.xpath("//div[@id= 'main-panel']")).getText();
 
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(actualText, expectedText);
     }
 }
