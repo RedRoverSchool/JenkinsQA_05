@@ -4,7 +4,6 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -22,19 +21,6 @@ public class FolderTest extends BaseTest {
 
     private static final By DASHBOARD = By.xpath("//a[text()='Dashboard']");
 
-
-    public WebElement getInputName() {
-        return getDriver().findElement(INPUT_NAME);
-    }
-
-    public WebElement getFolder() {
-        return getDriver().findElement(FOLDER);
-    }
-
-    public WebElement getOkButton() {
-        return getDriver().findElement(OK_BUTTON);
-    }
-
     public WebElement getSaveButton() {
         return getDriver().findElement(SAVE_BUTTON);
     }
@@ -43,14 +29,28 @@ public class FolderTest extends BaseTest {
         return getDriver().findElement(DASHBOARD);
     }
 
+    String generatedString = UUID.randomUUID().toString().substring(0, 8);
+
+    public void createFolder() {
+        List<String> hrefs = getDriver()
+                .findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td/a"))
+                .stream()
+                .map(element -> element.getAttribute("href"))
+                .collect(Collectors.toList());
+        for (String href : hrefs) {
+            getDriver().get(href + "/delete");
+            getDriver().findElement(By.id("yui-gen1-button")).click();
+        }
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(generatedString);
+        getDriver().findElement(FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON);
+    }
+
     @Test
     public void testCreate() {
-        String generatedString = UUID.randomUUID().toString().substring(0, 8);
-        getDriver().findElement(By.linkText("New Item")).click();
-        getInputName().sendKeys(generatedString);
-        getFolder().click();
-        getOkButton().click();
-        getSaveButton().click();
+        createFolder();
         getDashboard().click();
         String job = getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).getText();
 
@@ -59,13 +59,8 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testConfigureFolderDisplayName() {
-        String generatedString = UUID.randomUUID().toString().substring(0, 8);
         String secondJobName = "Second job";
-        getDriver().findElement(By.linkText("New Item")).click();
-        getInputName().sendKeys(generatedString);
-        getFolder().click();
-        getOkButton().click();
-        getSaveButton().click();
+        createFolder();
         getDashboard().click();
         getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).click();
         getDriver().findElement(By.xpath("//a[@href='/job/" + generatedString + "/configure']")).click();
@@ -80,12 +75,7 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testDeleteFolder() {
-        String generatedString = UUID.randomUUID().toString().substring(0, 8);
-        getDriver().findElement(By.linkText("New Item")).click();
-        getInputName().sendKeys(generatedString);
-        getFolder().click();
-        getOkButton().click();
-        getSaveButton().click();
+        createFolder();
         getDashboard().click();
         getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).click();
         getDriver().findElement(By.xpath("//span//*[@class='icon-edit-delete icon-md']")).click();
@@ -112,11 +102,7 @@ public class FolderTest extends BaseTest {
 
         String generatedString = UUID.randomUUID().toString().substring(0, 8);
         String secondJobName = "Second name";
-        getDriver().findElement(By.linkText("New Item")).click();
-        getInputName().sendKeys(generatedString);
-        getFolder().click();
-        getOkButton().click();
-        getSaveButton().click();
+        createFolder();
         getDashboard().click();
         getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).click();
         getDriver().findElement(By.xpath("//a[@href='/job/" + generatedString + "/configure']")).click();
@@ -129,6 +115,22 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(namesBlock[0], secondJobName);
         Assert.assertEquals(namesBlock[1], "Folder name: " + generatedString);
+    }
+
+    @Test
+    public void testConfigureFolderAddDescription() {
+        String generatedString = UUID.randomUUID().toString().substring(0, 8);
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(generatedString);
+        getDriver().findElement(FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(By.xpath("//textarea[@name='_.description']")).sendKeys("Add description");
+        getSaveButton().click();
+        getDashboard().click();
+        getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).click();
+        String description = getDriver().findElement(By.xpath("//div[text()='Add description']")).getText();
+
+        Assert.assertEquals(description, "Add description");
     }
 
     @Test
