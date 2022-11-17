@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 public class MultiConfigurationProjectTest extends BaseTest {
     private WebDriverWait wait;
-    private final String freestyleName = RandomStringUtils.randomAlphanumeric(10);
 
     private WebDriverWait getWait() {
         if (wait == null) {
