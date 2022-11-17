@@ -90,11 +90,11 @@ public class FreestyleProjectTest extends BaseTest {
                 .click()
                 .perform();
 
-        final List<WebElement> breadCrumbMenu = getDriver().findElements(By.cssSelector("#breadcrumb-menu li"));
+        List<WebElement> breadCrumbMenu = getDriver().findElements(By.cssSelector("#breadcrumb-menu li"));
         getWait().until(ExpectedConditions.visibilityOfAllElements(breadCrumbMenu));
         getAction().moveToElement(getDriver().findElement(By.cssSelector("#yui-gen6"))).click().perform();
 
-        final WebElement newNameRow = getDriver().findElement(By.xpath("//input[@name = 'newName']"));
+        WebElement newNameRow = getDriver().findElement(By.cssSelector(".setting-main"));
         getAction().moveToElement(newNameRow).doubleClick().sendKeys(newFreestyleProjectName).perform();
         clickSubmitButton();
         goToDashBoard();
