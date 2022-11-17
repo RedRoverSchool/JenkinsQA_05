@@ -53,4 +53,13 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("div#itemname-invalid")).getAttribute("textContent"),
                 String.format("» ‘%s’ is an unsafe character", name.charAt(matcher.start())));
     }
+
+    @Test
+    public void testCreatePipelineWithoutName() {
+        click(By.linkText("New Item"));
+        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+
+        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
+                "» This field cannot be empty, please enter a valid name");
+    }
 }
