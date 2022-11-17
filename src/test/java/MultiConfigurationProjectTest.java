@@ -43,6 +43,5 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 .collect(Collectors.toList());
 
         Assert.assertFalse(foldersList.contains("test1"));
-
     }
 }
