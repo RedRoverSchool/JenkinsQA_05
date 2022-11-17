@@ -91,11 +91,13 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//span//*[@class='icon-edit-delete icon-md']")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDashboard().click();
-         try {
+        try {
             getDriver().findElement((By.xpath("//span[text()='" + generatedString + "']")));
             Assert.fail("Folder with name " + generatedString + " expected to not to be found on the screen");
-        } catch (NoSuchElementException ignored) {}
+        } catch (NoSuchElementException ignored) {
+        }
     }
+
     @Test
     public void testConfigureFolderDisplayNameSaveFirstName() {
         List<String> hrefs = getDriver()
@@ -126,5 +128,30 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(namesBlock[0], secondJobName);
         Assert.assertEquals(namesBlock[1], "Folder name: " + generatedString);
+    }
+
+    @Test
+    public void renameFolder() {
+        final String expectedResult = "Folder2";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys("Folder1");
+        getDriver().findElement(By.className("com_cloudbees_hudson_plugins_folder_Folder")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.id("yui-gen6-button")).click();
+
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+        getDriver().findElement(By.xpath("//a[@href='job/Folder1/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/job/Folder1/confirm-rename']")).click();
+        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).clear();
+        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).sendKeys(expectedResult);
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/Folder2/']")).getText(), expectedResult);
+
+        getDriver().findElement(By.xpath("//a[@href='job/Folder2/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/job/Folder2/delete']")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
     }
 }
