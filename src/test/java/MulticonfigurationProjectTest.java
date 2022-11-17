@@ -1,41 +1,43 @@
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MulticonfigurationProjectTest extends BaseTest {
 
-    private static final String RANDOM_PROJECT_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String PROJECT_NAME = "FirstMultiProject";
+    private static final By FIRST_MC_PROJECT =
+            By.xpath("//table[@id = 'projectstatus']//td/a/span[text() =  'FirstMultiProject']");
+
+    public WebElement getFirstMCProject() {
+        return getDriver().findElement(FIRST_MC_PROJECT);
+    }
 
     private void click(By by) {
         getDriver().findElement(by).click();
     }
 
     @Test
-    public void testCreateMulticonfigurationProjectWithRandomName_HappyPath() {
+    public void testCreateMultiConfigurationProjectWithValidName_HappyPath() {
 
         click(By.linkText("New Item"));
-        getDriver().findElement(By.id("name")).sendKeys(RANDOM_PROJECT_NAME);
+        getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
         click(By.className("hudson_matrix_MatrixProject"));
         click(By.id("ok-button"));
         click(By.id("yui-gen27-button"));
         click(By.xpath("//ul[@id = 'breadcrumbs']//a[@class= 'model-link'][contains(., 'Dashboard')]"));
 
-        Assert.assertTrue(getProjectsNames().contains(RANDOM_PROJECT_NAME));
+        Assert.assertEquals(getFirstMCProject().getText(), PROJECT_NAME);
+
+        deleteNewMCProject();
     }
 
-    private List<String> getProjectsNames() {
-        List<WebElement> projects = getDriver().findElements(By.xpath("//table[@id = 'projectstatus']//td/a/span"));
-        List<String> projectList = new ArrayList<>();
-        for (WebElement project : projects) {
-            projectList.add(project.getText());
-        }
-
-        return projectList;
+    private void deleteNewMCProject() {
+        getFirstMCProject().click();
+        getDriver().findElement(By.xpath("//a[@href = contains(., 'FirstMultiProject')]/button")).click();
+        getDriver().findElement(
+                By.xpath("//div[@id = 'tasks']//span[contains(text(), 'Delete Multi-configuration project')]")).click();
+        getDriver().switchTo().alert().accept();
     }
 }
