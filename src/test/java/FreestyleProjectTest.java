@@ -14,15 +14,20 @@ import java.util.List;
 
 public class FreestyleProjectTest extends BaseTest {
 
+    private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final By LINK_NEW_ITEM = By.linkText("New Item");
+    private static final By FIELD_ENTER_AN_ITEM_NAME = By.id("name");
+    private static final By LINK_FREESTYLE_PROJECT = By.cssSelector(".hudson_model_FreeStyleProject");
+    private static final By BUTTON_OK_IN_NEW_ITEM = By.cssSelector("#ok-button");
+    private static final By LINK_CHANGES = By.linkText("Changes");
     private WebDriverWait wait;
     private Actions action;
 
-    private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
-
-    private String getRandomName(){
+    private String getRandomName() {
 
         return RandomStringUtils.randomAlphanumeric(10);
     }
+
     private WebDriverWait getWait() {
         if (wait == null) {
             wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
@@ -104,5 +109,24 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertFalse(getListExistingFreestyleProjectsNames().contains(freestyleProjectName));
         Assert.assertTrue(getListExistingFreestyleProjectsNames().contains(newFreestyleProjectName));
+    }
+
+    @Test
+    public void testViewChangesNoBuildsSignAppears() {
+        String expectedResult = "Changes\nNo builds.";
+
+        String name = getRandomName();
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        WebElement fieldEnterAnItemName = getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME);
+        fieldEnterAnItemName.click();
+        fieldEnterAnItemName.sendKeys(name);
+        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+        getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
+        clickSubmitButton();
+        getDriver().findElement(LINK_CHANGES).click();
+
+        String actualResult = getDriver().findElement(By.xpath("//div[@id= 'main-panel']")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
