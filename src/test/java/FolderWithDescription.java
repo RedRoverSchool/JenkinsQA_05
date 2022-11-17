@@ -6,7 +6,7 @@ import runner.BaseTest;
 public class FolderWithDescription extends BaseTest {
     private final String DESCRIPTION = "This folder contains job's documentation";
     @Test
-    public void createFolderDescription() throws InterruptedException {
+    public void createFolderDescriptionTest() {
 
         getDriver().findElement(By.xpath("//span[normalize-space()='Create a job']")).click();
         getDriver().findElement(By.cssSelector("#name")).sendKeys("Docs");
