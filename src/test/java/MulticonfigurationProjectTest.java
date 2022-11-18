@@ -1,9 +1,12 @@
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import java.util.List;
+import java.util.ArrayList;
 
 public class MulticonfigurationProjectTest extends BaseTest {
     private static final String PROJECT_NAME = "FirstMultiProject";
@@ -35,6 +38,15 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen2-button")).click();
 //        getDriver().findElement (DASHBOARD);
     }
+    private List<String> getListExistingProjectsNames() {
+        List<WebElement> existingJobs = getDriver().findElements(By.xpath("//tr/td/a"));
+        List<String> existingJobsNames = new ArrayList<>();
+        for (int i = 0; i < existingJobs.size(); i++) {
+            existingJobsNames.add(i, existingJobs.get(i).getText());
+        }
+        return existingJobsNames;
+    }
+
     @Test
     public void testCreateMultiConfigurationProjectWithValidName_HappyPath() {
 
@@ -85,5 +97,18 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals (getDriver ().findElement (
                 By.xpath (String.format ("//h1[contains(text(),'Project %s')]", newName))).getText (),String.format ("Project %s",newName));
+    }
+
+    @Test
+    public void testMultiConfigurationProjectDelete(){
+        createMulticonfigurationProject ();
+
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+        getDriver().findElement(By.xpath("//tr[@id = 'job_FirstMultiProject']/descendant::td//button")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Delete Multi-configuration project')]")).click();
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+
+        Assert.assertFalse(getListExistingProjectsNames().contains(PROJECT_NAME));
     }
 }
