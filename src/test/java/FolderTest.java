@@ -1,13 +1,9 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
-import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -129,39 +125,21 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateSubFolder(){
-//        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-//
-//        getDriver().findElement(By.linkText("New Item")).click();
-//        getDriver().findElement(INPUT_NAME).sendKeys(generatedString);
-//        getDriver().findElement(FOLDER).click();
-//        getDriver().findElement(OK_BUTTON).click();
-//        wait.until(ExpectedConditions.elementToBeClickable(getDashboard()));
-//        getDashboard().click();
-//
-//        getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).click();
-//        getDriver().findElement(By.linkText("New Item")).click();
-//        getDriver().findElement(INPUT_NAME).sendKeys(generatedString2);
-//        getDriver().findElement(FOLDER).click();
-//        getDriver().findElement(OK_BUTTON).click();
-//        WebElement breadcrumbsElement = getDriver().findElement(By.xpath("//ul[@id=\"breadcrumbs\"]/li[last()]"));
-//        System.out.println(breadcrumbsElement.getText());
-//        String breadCrumbsElementHref = getDriver().findElement(By.xpath("//ul[@id=\"breadcrumbs\"]/li[last()]")).getAttribute("href");
-//        System.out.println(breadCrumbsElementHref);
-//        Assert.assertEquals(breadCrumbsElementHref, "/job/" + generatedString + "/job/" + generatedString2 + "/");
-
-
-            String generatedString = UUID.randomUUID().toString().substring(0, 8);
-            getDriver().findElement(By.linkText("New Item")).click();
-            getDriver().findElement(INPUT_NAME).sendKeys(generatedString);
-            getDriver().findElement(FOLDER).click();
-            getDriver().findElement(OK_BUTTON).click();
-            getDriver().findElement(By.xpath("//textarea[@name='_.description']")).sendKeys("Add description");
-            getSaveButton().click();
-            getDashboard().click();
-            getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).click();
-            String description = getDriver().findElement(By.xpath("//div[text()='Add description']")).getText();
-
-            Assert.assertEquals(description, "Add description");
-
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(generatedString);
+        getDriver().findElement(FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getSaveButton().click();
+        getDashboard().click();
+        getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).click();
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(generatedString2);
+        getDriver().findElement(FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        WebElement breadcrumbsElement = getDriver().findElement(By.xpath("//ul[@id=\"breadcrumbs\"]/li[last()]"));
+        System.out.println(breadcrumbsElement.getText());
+        String breadCrumbsElementHref = getDriver().findElement(By.xpath("//ul[@id=\"breadcrumbs\"]/li[last()]")).getAttribute("href");
+        System.out.println(breadCrumbsElementHref);
+        Assert.assertEquals(breadCrumbsElementHref, "/job/" + generatedString + "/job/" + generatedString2 + "/");
     }
 }
