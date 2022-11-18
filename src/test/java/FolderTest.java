@@ -139,9 +139,5 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/Folder2/']")).getText(), expectedResult);
-
-        getDriver().findElement(By.xpath("//a[@href='job/Folder2/']")).click();
-        getDriver().findElement(By.xpath("//a[@href='/job/Folder2/delete']")).click();
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
     }
 }
