@@ -106,6 +106,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
         getDriver().findElement(By.xpath("//tr[@id = 'job_FirstMultiProject']/descendant::td//button")).click();
         getDriver().findElement(By.xpath("//span[contains(text(), 'Delete Multi-configuration project')]")).click();
+
         Alert alert = getDriver().switchTo().alert();
         alert.accept();
 
