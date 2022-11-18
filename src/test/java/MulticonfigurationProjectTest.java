@@ -8,6 +8,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,15 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen2-button")).click();
 //        getDriver().findElement (DASHBOARD);
     }
+    private List<String> getListExistingProjectsNames() {
+        List<WebElement> existingJobs = getDriver().findElements(By.xpath("//tr/td/a"));
+        List<String> existingJobsNames = new ArrayList<>();
+        for (int i = 0; i < existingJobs.size(); i++) {
+            existingJobsNames.add(i, existingJobs.get(i).getText());
+        }
+        return existingJobsNames;
+    }
+
     @Test
     public void testCreateMultiConfigurationProjectWithValidName_HappyPath() {
 
@@ -100,16 +110,9 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
         getDriver().findElement(By.xpath("//tr[@id = 'job_FirstMultiProject']/descendant::td//button")).click();
         getDriver().findElement(By.xpath("//span[contains(text(), 'Delete Multi-configuration project')]")).click();
-       // getWait().until(ExpectedConditions.alertIsPresent());
         Alert alert = getDriver().switchTo().alert();
         alert.accept();
 
-        List<String> foldersList = getDriver()
-                .findElements(By.xpath("//tr/td[3]/a/span"))
-                .stream()
-                .map(element -> element.getText())
-                .collect(Collectors.toList());
-
-        Assert.assertFalse(foldersList.contains(PROJECT_NAME));
+        Assert.assertFalse(getListExistingProjectsNames().contains(PROJECT_NAME));
     }
 }
