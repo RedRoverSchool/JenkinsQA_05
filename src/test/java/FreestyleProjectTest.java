@@ -1,5 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,14 +18,21 @@ public class FreestyleProjectTest extends BaseTest {
 
 
     private void click(By by) {getDriver().findElement(by).click();}
+    private static final List<String> BREAD_CRUMB_MENU = List.of(
+            "Changes",
+            "Workspace",
+            "Build Now",
+            "Configure",
+            "Delete Project",
+            "Rename");
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final By LINK_NEW_ITEM = By.linkText("New Item");
     private static final By FIELD_ENTER_AN_ITEM_NAME = By.id("name");
     private static final By LINK_FREESTYLE_PROJECT = By.cssSelector(".hudson_model_FreeStyleProject");
     private static final By BUTTON_OK_IN_NEW_ITEM = By.cssSelector("#ok-button");
     private static final By LINK_CHANGES = By.linkText("Changes");
-
     private static final By BUTTON_SAVE = By.xpath("//span[@name = 'Submit']");
+    private static final By NEW_NAME_INPUT_ROW = By.xpath("//input[@name = 'newName']");
     private WebDriverWait wait;
 
     private Actions action;
@@ -49,6 +58,16 @@ public class FreestyleProjectTest extends BaseTest {
         return action;
     }
 
+    private void findFreestyleProjectOnDashBoard(String nameFreestyleProject){
+        getWait().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.linkText(nameFreestyleProject))));
+        getAction()
+                .moveToElement(getDriver().findElement(By.linkText(nameFreestyleProject)))
+                .moveToElement(getDriver().findElement(By.xpath("//tr[@id = 'job_" + nameFreestyleProject + "']//td/a/button")))
+                .click()
+                .build()
+                .perform();
+    }
+
     private List<String> getListExistingFreestyleProjectsNames() {
         List<WebElement> existingJobs = getDriver().findElements(By.xpath("//tr/td/a"));
         List<String> existingJobsNames = new ArrayList<>();
@@ -68,16 +87,27 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[@name = 'Submit']")).click();
     }
 
-    @Test
-    public void testCreateNewFreestyleProjectWithCorrectName() {
-        getWait().until(ExpectedConditions.elementToBeClickable(By.linkText("New Item"))).click();
+    private void findAndClickBreadCrumbsMenu(String menu){
+        getWait().until(ExpectedConditions.visibilityOfAllElements(getDriver().findElements(By.cssSelector("#breadcrumb-menu div ul li"))));
+        WebElement breadCrumbsMenu = getDriver().findElement(By.linkText(menu));
+        getAction().moveToElement(breadCrumbsMenu).click().perform();
+    }
+
+    private void createNewFreestyleProject(String freestyleName){
+        getDriver().findElement(By.linkText("New Item")).click();
 
         WebElement itemNameField = getDriver().findElement(By.id("name"));
         itemNameField.click();
-        itemNameField.sendKeys(FREESTYLE_NAME);
+        itemNameField.sendKeys(freestyleName);
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-        getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("#ok-button"))).click();
+        JavascriptExecutor js = (JavascriptExecutor)getDriver();
+        js.executeScript("document.getElementById('ok-button').click();");
         clickSubmitButton();
+    }
+
+    @Test
+    public void testCreateNewFreestyleProjectWithCorrectName() {
+        createNewFreestyleProject(FREESTYLE_NAME);
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
     }
@@ -89,29 +119,22 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getListExistingFreestyleProjectsNames().contains(FREESTYLE_NAME));
     }
 
-    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
+    @Test
     public void testRenameFreestyleProject() {
-        final String newFreestyleProjectName = getRandomName();
+        final String startFreestyleProjectName = getRandomName();
+        final String finishFreestyleProjectName = getRandomName();
 
+        createNewFreestyleProject(startFreestyleProjectName);
         goToDashBoard();
-        getAction()
-                .moveToElement(getDriver().findElement(By.linkText(FREESTYLE_NAME)))
-                .moveToElement(getDriver().findElement(By.xpath("//tr[@id = 'job_" + FREESTYLE_NAME + "']//td/a/button")))
-                .click()
-                .perform();
-
-        List<WebElement> breadCrumbMenu = getDriver().findElements(By.cssSelector("#breadcrumb-menu li"));
-        getWait().until(ExpectedConditions.visibilityOfAllElements(breadCrumbMenu));
-        getAction().moveToElement(getDriver().findElement(By.cssSelector("#yui-gen6"))).click().perform();
-
-        getAction()
-                .moveToElement(getDriver().findElement(By.xpath("//div[@class = 'jenkins-form-item tr ']/div[2]")))
-                .doubleClick().sendKeys(newFreestyleProjectName).perform();
+        getDriver().findElement(By.xpath("//tr[@id = 'job_" + startFreestyleProjectName + "']//td/a/button")).click();
+        getDriver().findElement(By.linkText(BREAD_CRUMB_MENU.get(5))).click();
+        getDriver().findElement(NEW_NAME_INPUT_ROW).clear();
+        getDriver().findElement(NEW_NAME_INPUT_ROW).sendKeys(finishFreestyleProjectName);
         clickSubmitButton();
         goToDashBoard();
 
-        Assert.assertFalse(getListExistingFreestyleProjectsNames().contains(FREESTYLE_NAME));
-        Assert.assertTrue(getListExistingFreestyleProjectsNames().contains(newFreestyleProjectName));
+        Assert.assertFalse(getListExistingFreestyleProjectsNames().contains(startFreestyleProjectName));
+        Assert.assertTrue(getListExistingFreestyleProjectsNames().contains(finishFreestyleProjectName));
     }
 
     @Test
@@ -146,5 +169,24 @@ public class FreestyleProjectTest extends BaseTest {
         String actualResult = registeredProject.getText().substring(registeredProject.getText().length()-8);
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testDeleteFreestyleProject() {
+        final String testFreestyleProjectName = getRandomName();
+
+        createNewFreestyleProject(testFreestyleProjectName);
+        goToDashBoard();
+        final List<String> startListExistingFreestyleProjects = getListExistingFreestyleProjectsNames();
+
+        findFreestyleProjectOnDashBoard(testFreestyleProjectName);
+        findAndClickBreadCrumbsMenu(BREAD_CRUMB_MENU.get(4));
+
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+        final List<String> finishListExistingFreestyleProjects = getListExistingFreestyleProjectsNames();
+
+        Assert.assertEquals(startListExistingFreestyleProjects.size() - finishListExistingFreestyleProjects.size(), 1);
+        Assert.assertFalse(finishListExistingFreestyleProjects.contains(testFreestyleProjectName));
     }
 }

@@ -64,6 +64,15 @@ public class NewItemCreatePipelineTest extends BaseTest {
     }
 
     @Test
+    public void testCreateNewItemWithoutChooseAnyFolder(){
+        click(By.linkText("New Item"));
+        click(By.xpath("//span[@class = 'yui-button primary large-button']"));
+
+        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
+                "» This field cannot be empty, please enter a valid name");
+    }
+
+    @Test
     public void testCreatePipelineOnBreadcrumbs () {
         final String itemName = "AFJenkins05";
 
