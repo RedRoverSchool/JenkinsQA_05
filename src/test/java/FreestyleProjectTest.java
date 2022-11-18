@@ -16,7 +16,6 @@ import java.util.List;
 
 public class FreestyleProjectTest extends BaseTest {
 
-
     private void click(By by) {getDriver().findElement(by).click();}
     private static final List<String> BREAD_CRUMB_MENU = List.of(
             "Changes",
@@ -27,12 +26,14 @@ public class FreestyleProjectTest extends BaseTest {
             "Rename");
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final By LINK_NEW_ITEM = By.linkText("New Item");
-    private static final By FIELD_ENTER_AN_ITEM_NAME = By.id("name");
-    private static final By LINK_FREESTYLE_PROJECT = By.cssSelector(".hudson_model_FreeStyleProject");
-    private static final By BUTTON_OK_IN_NEW_ITEM = By.cssSelector("#ok-button");
+    private static final By INPUT_NAME = By.id("name");
+    private static final By SELECT_FREESTYLE_PROJECT = By.xpath("//span[text()='Freestyle project']");
+    private static final By BUTTON_OK = By.id("ok-button");
     private static final By LINK_CHANGES = By.linkText("Changes");
     private static final By BUTTON_SAVE = By.xpath("//span[@name = 'Submit']");
     private static final By NEW_NAME_INPUT_ROW = By.xpath("//input[@name = 'newName']");
+    private static final By SELECT_FOLDER = By.xpath("//span[text()='Folder']");
+    private static final By DASHBOARD = By.linkText("Dashboard");
     private WebDriverWait wait;
 
     private Actions action;
@@ -105,6 +106,16 @@ public class FreestyleProjectTest extends BaseTest {
         clickSubmitButton();
     }
 
+    private List<String> getProjectNameFromProjectTable() {
+        List<WebElement> projectTable = getDriver().findElements(By.xpath("//tr/td/a"));
+        List<String> projectTableNames = new ArrayList<>();
+        for (WebElement name : projectTable) {
+            projectTableNames.add(name.getText());
+        }
+
+        return projectTableNames;
+    }
+
     @Test
     public void testCreateNewFreestyleProjectWithCorrectName() {
         createNewFreestyleProject(FREESTYLE_NAME);
@@ -142,9 +153,9 @@ public class FreestyleProjectTest extends BaseTest {
         String expectedText = "Changes\nNo builds.";
 
         getDriver().findElement(LINK_NEW_ITEM).click();
-        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(getRandomName());
-        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
-        getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(getRandomName());
+        getDriver().findElement(SELECT_FREESTYLE_PROJECT).click();
+        getDriver().findElement(BUTTON_OK).click();
         getDriver().findElement(BUTTON_SAVE).click();
         getDriver().findElement(LINK_CHANGES).click();
 
@@ -188,5 +199,28 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(startListExistingFreestyleProjects.size() - finishListExistingFreestyleProjects.size(), 1);
         Assert.assertFalse(finishListExistingFreestyleProjects.contains(testFreestyleProjectName));
+    }
+
+    @Test
+    public void testCreateFreestyleProjectInFolder() {
+        final String folderName = getRandomName();
+        final String freestyleProjectName = getRandomName();
+
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(folderName);
+        getDriver().findElement(SELECT_FOLDER).click();
+        getDriver().findElement(BUTTON_OK).click();
+        getDriver().findElement(BUTTON_SAVE).click();
+
+        getDriver().findElement(By.xpath("//span[text() = 'Create a job']")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(freestyleProjectName);
+        getDriver().findElement(SELECT_FREESTYLE_PROJECT).click();
+        getDriver().findElement(BUTTON_OK).click();
+        getDriver().findElement(BUTTON_SAVE).click();
+        getDriver().findElement(DASHBOARD).click();
+
+        getDriver().findElement(By.xpath("//span[text()='" + folderName + "']")).click();
+
+        Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
     }
 }
