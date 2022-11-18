@@ -19,8 +19,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testUserIdInUserAccountLinkAndInUserPage() {
-        String usernameInUserAccountLink = getDriver().findElement(
-                USER_ACCOUNT_LINK).getText();
+        String usernameInUserAccountLink = getDriver().findElement(USER_ACCOUNT_LINK).getText();
 
         getDriver().findElement(USER_ACCOUNT_LINK).click();
         String usernameInUserPage = getDriver().findElement(
