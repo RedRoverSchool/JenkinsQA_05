@@ -30,6 +30,7 @@ public class FolderTest extends BaseTest {
     }
 
     String generatedString = UUID.randomUUID().toString().substring(0, 8);
+    String generatedString2 = UUID.randomUUID().toString().substring(0, 8);
 
     public void createFolder() {
         List<String> hrefs = getDriver()
@@ -45,7 +46,7 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(INPUT_NAME).sendKeys(generatedString);
         getDriver().findElement(FOLDER).click();
         getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON);
+        getDriver().findElement(SAVE_BUTTON).click();
     }
 
     @Test
@@ -120,5 +121,25 @@ public class FolderTest extends BaseTest {
         String description = getDriver().findElement(By.xpath("//div[text()='Add description']")).getText();
 
         Assert.assertEquals(description, "Add description");
+    }
+
+    @Test
+    public void testCreateSubFolder(){
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(generatedString);
+        getDriver().findElement(FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(generatedString2);
+        getDriver().findElement(FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        WebElement breadcrumbsElement = getDriver().findElement(By.xpath("//ul[@id=\"breadcrumbs\"]/li[last()]"));
+        System.out.println(breadcrumbsElement.getText());
+        String breadCrumbsElementHref = getDriver().findElement(By.xpath("//ul[@id=\"breadcrumbs\"]/li[last()]")).getAttribute("href");
+        System.out.println(breadCrumbsElementHref);
+        Assert.assertEquals(breadCrumbsElementHref, "/job/" + generatedString + "/job/" + generatedString2 + "/");
     }
 }
