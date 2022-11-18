@@ -36,7 +36,7 @@ public class FooterLinksVisibilityTest extends BaseTest {
 
         getDriver().findElement(JENKINS_LINK).click();
 
-        ArrayList<String> tabs= new ArrayList<>(getDriver().getWindowHandles());
+        ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(tabs.get(1));
 
         Assert.assertTrue(getDriver().getCurrentUrl().contains("jenkins"));
@@ -44,5 +44,4 @@ public class FooterLinksVisibilityTest extends BaseTest {
 
         getDriver().switchTo().window(tabs.get(0));
     }
-
 }
