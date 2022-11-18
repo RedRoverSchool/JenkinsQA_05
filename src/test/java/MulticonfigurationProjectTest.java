@@ -14,7 +14,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
         getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.id("yui-gen27-button")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
         getDriver().findElement(By.cssSelector(".icon-up")).click();
     }
 
@@ -39,7 +39,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
         getDriver().findElement(By.className("hudson_matrix_MatrixProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.id("yui-gen27-button")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
         getDriver().findElement(By.cssSelector("li .model-link")).click();
 
         Assert.assertEquals(getDriver().findElement(FIRST_MC_PROJECT).getText(), PROJECT_NAME);
