@@ -8,7 +8,7 @@ import runner.BaseTest;
 public class MulticonfigurationProjectTest extends BaseTest {
     private static final String PROJECT_NAME = "FirstMultiProject";
     private static final By FIRST_MC_PROJECT =
-            By.xpath("//table[@id = 'projectstatus']//td/a/span[text() =  'FirstMultiProject']");
+            By.xpath("//table[@id = 'projectstatus']//td/a/span[contains(text(),'" + PROJECT_NAME + "')]");
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By DASHBOARD = By.xpath("//img[@id='jenkins-head-icon']");
     private static final By NEW_ITEM = By.xpath ("//a[@href='/view/all/newJob']");
@@ -27,7 +27,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(by).click();
     }
 
-    public void createMulticonfigurationProject() {
+
+    public void createMulticonfigurationProject(){
         getDriver().findElement(By.className("task-icon-link")).click();
         getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
         getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
@@ -37,7 +38,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(DASHBOARD).click();
 
     }
-    public void deleteDescription(){
+
+    public void deleteDescription() {
         getDriver().findElement(By.id("description-link")).click();
         getDriver().findElement(By.name("description")).clear();
         getDriver().findElement(By.id("yui-gen2-button")).click();
@@ -54,7 +56,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         click(SAVE_BUTTON);
         click(DASHBOARD);
 
-        Assert.assertEquals(getFirstMCProject().getText(), PROJECT_NAME);
+        Assert.assertEquals(getDriver().findElement(FIRST_MC_PROJECT).getText(), PROJECT_NAME);
 
         deleteNewMCProject();
     }
