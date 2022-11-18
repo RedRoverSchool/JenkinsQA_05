@@ -31,14 +31,13 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath(locator)).getText(), text);
     }
 
-
     private void deleteItem(String nameOfItem) {
         getDriver().get("http://localhost:8080/job/" + nameOfItem + "/delete");
         getDriver().findElement(By.id("yui-gen1-button")).click();
     }
 
     @Test
-    public void Create_Multibranch_pipeline() {
+    public void Create_Multibranch_pipeline_Test() {
         String nameOfItem = "MultibranchPipeline";
         buttonClickXpath(NEW_ITEM_XPATH);
         inputTextByXPath(ENTER_AN_ITEM_NAME_XPATH, nameOfItem);
@@ -46,7 +45,6 @@ public class MultibranchPipelineTest extends BaseTest {
         buttonClickXpath(BUTTON_OK_XPATH);
         buttonClickXpath("//button [@id='yui-gen8-button']");
 
-        urlCheck("http://localhost:8080/job/MultibranchPipeline/");
         assertTextByXPath("//ul [@id='breadcrumbs']/li[3]/a[@class='model-link']", nameOfItem);
 
         buttonClickXpath(DASHBOARD_XPATH);
@@ -54,6 +52,24 @@ public class MultibranchPipelineTest extends BaseTest {
         assertTextByXPath("//span[text()='MultibranchPipeline']", nameOfItem);
 
         deleteItem(nameOfItem);
+    }
+
+    @Test
+    public void Create_Multibranch_Pipeline_Invalid_Name_Test() {
+        buttonClickXpath(NEW_ITEM_XPATH);
+        inputTextByXPath(ENTER_AN_ITEM_NAME_XPATH, "MultibranchPipeline@");
+        buttonClickXpath(MULTIBRANCH_PIPELINE_XPATH);
+
+        Assert.assertEquals((getDriver().findElement(By.cssSelector("#itemname-invalid")).getText()),
+                "» ‘@’ is an unsafe character");
+
+        buttonClickXpath(BUTTON_OK_XPATH);
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "http://localhost:8080/view/all/createItem");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                "Error");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
+                "‘@’ is an unsafe character");
     }
 
     @Test
