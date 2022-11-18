@@ -15,6 +15,7 @@ import java.util.List;
 public class FreestyleProjectTest extends BaseTest {
 
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final By LINK_NEW_ITEM = By.linkText("New Item");
     private static final By FIELD_ENTER_AN_ITEM_NAME = By.id("name");
     private static final By LINK_FREESTYLE_PROJECT = By.cssSelector(".hudson_model_FreeStyleProject");
@@ -24,31 +25,16 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By BUTTON_SAVE = By.xpath("//span[@name = 'Submit']");
     private WebDriverWait wait;
 
-    private Actions action;
-
-    private String getRandomName() {
-
-        return RandomStringUtils.randomAlphanumeric(10);
-    }
-
     private WebDriverWait getWait() {
         if (wait == null) {
             wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
         }
-
         return wait;
     }
 
-    private Actions getAction() {
-        if (action == null) {
-            action = new Actions(getDriver());
-        }
-
-        return action;
-    }
-
     private List<String> getListExistingFreestyleProjectsNames() {
-        List<WebElement> existingJobs = getDriver().findElements(By.xpath("//tr/td/a"));
+        List<WebElement> existingJobs =
+                getDriver().findElements(By.xpath("//a[@class='jenkins-table__link model-link inside']"));
         List<String> existingJobsNames = new ArrayList<>();
         for (int i = 0; i < existingJobs.size(); i++) {
             existingJobsNames.add(i, existingJobs.get(i).getText());
@@ -70,14 +56,14 @@ public class FreestyleProjectTest extends BaseTest {
     public void testCreateNewFreestyleProjectWithCorrectName() {
         getWait().until(ExpectedConditions.elementToBeClickable(By.linkText("New Item"))).click();
 
-        WebElement itemNameField = getDriver().findElement(By.id("name"));
-        itemNameField.click();
-        itemNameField.sendKeys(FREESTYLE_NAME);
-        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-        getWait().until(ExpectedConditions.elementToBeClickable(By.cssSelector("#ok-button"))).click();
-        clickSubmitButton();
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).click();
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(FREESTYLE_NAME);
+        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+        getWait().until(ExpectedConditions.elementToBeClickable(BUTTON_OK_IN_NEW_ITEM)).click();
+        getDriver().findElement(BUTTON_SAVE).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
+        Assert.assertEquals(getDriver()
+                .findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
     }
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
@@ -89,35 +75,27 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
     public void testRenameFreestyleProject() {
-        final String newFreestyleProjectName = getRandomName();
 
         goToDashBoard();
-        getAction()
-                .moveToElement(getDriver().findElement(By.linkText(FREESTYLE_NAME)))
-                .moveToElement(getDriver().findElement(By.xpath("//tr[@id = 'job_" + FREESTYLE_NAME + "']//td/a/button")))
-                .click()
-                .perform();
-
-        List<WebElement> breadCrumbMenu = getDriver().findElements(By.cssSelector("#breadcrumb-menu li"));
-        getWait().until(ExpectedConditions.visibilityOfAllElements(breadCrumbMenu));
-        getAction().moveToElement(getDriver().findElement(By.cssSelector("#yui-gen6"))).click().perform();
-
-        getAction()
-                .moveToElement(getDriver().findElement(By.xpath("//div[@class = 'jenkins-form-item tr ']/div[2]")))
-                .doubleClick().sendKeys(newFreestyleProjectName).perform();
-        clickSubmitButton();
+        getDriver().findElement(By.cssSelector("tr#job_" + FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
+        getDriver().findElement(By.xpath("//a[@href='/job/" + FREESTYLE_NAME +"/confirm-rename']")).click();
+        getDriver().findElement(By.cssSelector("input[name='newName']")).clear();
+        getDriver().findElement(By.cssSelector("input[name='newName']")).sendKeys(NEW_FREESTYLE_NAME);
+        getDriver().findElement(By.cssSelector("#yui-gen1-button")).click();
         goToDashBoard();
+
+        System.out.println(getListExistingFreestyleProjectsNames());
 
         Assert.assertFalse(getListExistingFreestyleProjectsNames().contains(FREESTYLE_NAME));
-        Assert.assertTrue(getListExistingFreestyleProjectsNames().contains(newFreestyleProjectName));
+        Assert.assertTrue(getListExistingFreestyleProjectsNames().contains(NEW_FREESTYLE_NAME));
     }
 
-    @Test
+    @Test(dependsOnMethods = "testRenameFreestyleProject")
     public void testViewChangesNoBuildsSignAppears() {
         String expectedText = "Changes\nNo builds.";
 
         getDriver().findElement(LINK_NEW_ITEM).click();
-        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(getRandomName());
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(FREESTYLE_NAME);
         getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
         getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
         getDriver().findElement(BUTTON_SAVE).click();
