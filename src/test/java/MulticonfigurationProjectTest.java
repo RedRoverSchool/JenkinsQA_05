@@ -4,6 +4,12 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MulticonfigurationProjectTest extends BaseTest {
     private static final String PROJECT_NAME = "FirstMultiProject";
@@ -85,5 +91,25 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals (getDriver ().findElement (
                 By.xpath (String.format ("//h1[contains(text(),'Project %s')]", newName))).getText (),String.format ("Project %s",newName));
+    }
+
+    @Test
+    public void testMultiConfigurationProjectDelete(){
+        createMulticonfigurationProject ();
+
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+        getDriver().findElement(By.xpath("//tr[@id = 'job_FirstMultiProject']/descendant::td//button")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Delete Multi-configuration project')]")).click();
+       // getWait().until(ExpectedConditions.alertIsPresent());
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+
+        List<String> foldersList = getDriver()
+                .findElements(By.xpath("//tr/td[3]/a/span"))
+                .stream()
+                .map(element -> element.getText())
+                .collect(Collectors.toList());
+
+        Assert.assertFalse(foldersList.contains(PROJECT_NAME));
     }
 }
