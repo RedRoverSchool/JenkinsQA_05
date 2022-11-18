@@ -124,7 +124,7 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testNameAfterRenamingFolder() {
-        final String expectedResult = "Folder2";
+        final String expectedResult = "Folder_2";
 
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys("Folder1");
