@@ -3,6 +3,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MultibranchPipelineTest extends BaseTest {
     private final String NEW_ITEM_XPATH = "//div [@class='task '][1]";
     private final String ENTER_AN_ITEM_NAME_XPATH = "//input[@id='name']";
@@ -71,5 +74,19 @@ public class MultibranchPipelineTest extends BaseTest {
 
         assertTextById("itemname-required", warnMessage);
         assertDisabledById("ok-button");
+    }
+
+    @Test
+    public void testCreateWithUnsafeCharsInName() {
+        String itemName = "MultiBranch!Pipeline/000504";
+        Matcher matcher = Pattern.compile("[»!@#$%^&*|:?></.'\\]\\[;]").matcher(itemName);
+        matcher.find();
+        String warnMessage = String.format("» ‘%s’ is an unsafe character", itemName.charAt(matcher.start()));
+
+        buttonClickXpath(NEW_ITEM_XPATH);
+        buttonClickXpath(MULTIBRANCH_PIPELINE_XPATH);
+        inputTextByXPath(ENTER_AN_ITEM_NAME_XPATH, itemName);
+
+        assertTextById("itemname-invalid", warnMessage);
     }
 }
