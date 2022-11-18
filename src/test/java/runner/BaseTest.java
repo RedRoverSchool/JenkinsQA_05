@@ -47,10 +47,8 @@ public abstract class BaseTest {
     }
 
     protected List<String> getListNames(By by) {
-        List<WebElement> existingJobs =
-                getDriver().findElements(by);
-        List<String> existingJobsNames = existingJobs.stream().map(WebElement::getText).collect(Collectors.toList());
-
-        return existingJobsNames;
+        return getDriver().findElements(by)
+                .stream().map(WebElement::getText)
+                .collect(Collectors.toList());
     }
 }
