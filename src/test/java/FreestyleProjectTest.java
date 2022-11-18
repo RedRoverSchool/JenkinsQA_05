@@ -16,6 +16,8 @@ import java.util.List;
 
 public class FreestyleProjectTest extends BaseTest {
 
+
+    private void click(By by) {getDriver().findElement(by).click();}
     private static final List<String> BREAD_CRUMB_MENU = List.of(
             "Changes",
             "Workspace",
@@ -149,6 +151,24 @@ public class FreestyleProjectTest extends BaseTest {
         String actualText = getDriver().findElement(By.xpath("//div[@id= 'main-panel']")).getText();
 
         Assert.assertEquals(actualText, expectedText);
+    }
+
+    @Test
+    public void createFreestyleProjectWithEngineerName() {
+
+        final String expectedResult = "Engineer";
+
+        click(By.linkText("New Item"));
+        getDriver().findElement(By.id("name")).sendKeys(expectedResult);
+        click(By.className("label"));
+        click(By.id("ok-button"));
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        WebElement registeredProject = getDriver().findElement(By.xpath("//h1[@class='job-index-" +
+                "headline page-headline']"));
+
+        String actualResult = registeredProject.getText().substring(registeredProject.getText().length()-8);
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
