@@ -1,5 +1,4 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -8,53 +7,44 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     private static final String PROJECT_NAME = "FirstMultiProject";
     private static final By FIRST_MC_PROJECT =
-            By.xpath("//table[@id = 'projectstatus']//td/a/span[text() =  'FirstMultiProject']");
+            By.xpath("//table[@id = 'projectstatus']//td/a/span[contains(text(),'" + PROJECT_NAME + "')]");
 
-    public WebElement getFirstMCProject() {
-        return getDriver().findElement(FIRST_MC_PROJECT);
-    }
-
-    private void click(By by) {
-        getDriver().findElement(by).click();
-    }
-
-    public void createMulticonfigurationProject(){
+    public void createMulticonfigurationProject() {
         getDriver().findElement(By.className("task-icon-link")).click();
         getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
         getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.id("yui-gen27-button")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
         getDriver().findElement(By.cssSelector(".icon-up")).click();
-
     }
-    public void deleteDescription(){
+
+    public void deleteDescription() {
         getDriver().findElement(By.id("description-link")).click();
         getDriver().findElement(By.name("description")).clear();
         getDriver().findElement(By.id("yui-gen2-button")).click();
-        click(By.xpath("//ul[@id = 'breadcrumbs']//a[@class= 'model-link'][contains(., 'Dashboard')]"));
+        getDriver().findElement(By.cssSelector("li .model-link")).click();
+    }
+
+    private void deleteNewMCProject() {
+        getDriver().findElement(FIRST_MC_PROJECT).click();
+        getDriver().findElement(
+                By.xpath("//div[@id = 'tasks']//span[contains(text(), 'Delete Multi-configuration project')]")).click();
+        getDriver().switchTo().alert().accept();
     }
 
     @Test
     public void testCreateMultiConfigurationProjectWithValidName_HappyPath() {
 
-        click(By.linkText("New Item"));
+        getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
-        click(By.className("hudson_matrix_MatrixProject"));
-        click(By.id("ok-button"));
-        click(By.id("yui-gen27-button"));
-        click(By.xpath("//ul[@id = 'breadcrumbs']//a[@class= 'model-link'][contains(., 'Dashboard')]"));
+        getDriver().findElement(By.className("hudson_matrix_MatrixProject")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(By.cssSelector("li .model-link")).click();
 
-        Assert.assertEquals(getFirstMCProject().getText(), PROJECT_NAME);
+        Assert.assertEquals(getDriver().findElement(FIRST_MC_PROJECT).getText(), PROJECT_NAME);
 
         deleteNewMCProject();
-    }
-
-    private void deleteNewMCProject() {
-        getFirstMCProject().click();
-        getDriver().findElement(By.xpath("//a[@href = contains(., 'FirstMultiProject')]/button")).click();
-        getDriver().findElement(
-                By.xpath("//div[@id = 'tasks']//span[contains(text(), 'Delete Multi-configuration project')]")).click();
-        getDriver().switchTo().alert().accept();
     }
 
     @Test
