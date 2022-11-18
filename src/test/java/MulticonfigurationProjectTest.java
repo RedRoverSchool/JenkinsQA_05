@@ -17,9 +17,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
     public WebElement getFirstMCProject() {
         return getDriver().findElement(FIRST_MC_PROJECT);
     }
-    private String getRandomName() {
-        return RandomStringUtils.randomAlphanumeric(10);
-    }
     public void createMulticonfigurationProject(){
         getDriver().findElement(By.className("task-icon-link")).click();
         getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
@@ -33,11 +30,10 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.id("description-link")).click();
         getDriver().findElement(By.name("description")).clear();
         getDriver().findElement(By.id("yui-gen2-button")).click();
-//        getDriver().findElement (DASHBOARD);
+        getDriver().findElement (DASHBOARD);
     }
     @Test
     public void testCreateMultiConfigurationProjectWithValidName_HappyPath() {
-
         getDriver ().findElement (NEW_ITEM).click ();
         getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
         getDriver ().findElement (By.className("hudson_matrix_MatrixProject")).click ();
@@ -74,10 +70,25 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
     @Test
     public void testMultiConfigurationProjectRenameProjectViaDropDownMenu(){
-        final String newName = getRandomName ();
         createMulticonfigurationProject ();
+        final String newName = RandomStringUtils.randomAlphanumeric(10);
 
-        getDriver ().findElement (By.xpath (String.format (" //a[@href='job/%s/']/button",PROJECT_NAME))).click ();
+        getDriver ().findElement (
+                By.xpath ("//a[@class='jenkins-table__link model-link inside']//button[@class='jenkins-menu-dropdown-chevron']")).click ();
+        getDriver ().findElement (By.xpath (String.format ("//a[@href='/job/%s/confirm-rename']", PROJECT_NAME))).click ();
+        getDriver ().findElement (By.xpath (String.format ("//input[@value='%s']",PROJECT_NAME))).clear ();
+        getDriver ().findElement (By.xpath (String.format ("//input[@value='%s']",PROJECT_NAME))).sendKeys (newName);
+        getDriver ().findElement (By.id ("yui-gen1-button")).click ();
+
+        Assert.assertEquals (getDriver ().findElement (
+                By.xpath (String.format ("//h1[contains(text(),'Project %s')]", newName))).getText (),String.format ("Project %s",newName));
+    }
+    @Test
+    public void testMultiConfigurationProjectRenameProjectViaSideMenu(){
+        createMulticonfigurationProject ();
+        final String newName = RandomStringUtils.randomAlphanumeric (10);
+
+        getDriver ().findElement (By.xpath (String.format ("//a[@href='job/%s/']", PROJECT_NAME))).click ();
         getDriver ().findElement (By.xpath (String.format ("//a[@href='/job/%s/confirm-rename']", PROJECT_NAME))).click ();
         getDriver ().findElement (By.xpath (String.format ("//input[@value='%s']",PROJECT_NAME))).clear ();
         getDriver ().findElement (By.xpath (String.format ("//input[@value='%s']",PROJECT_NAME))).sendKeys (newName);
