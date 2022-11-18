@@ -21,7 +21,6 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By LINK_FREESTYLE_PROJECT = By.cssSelector(".hudson_model_FreeStyleProject");
     private static final By BUTTON_OK_IN_NEW_ITEM = By.cssSelector("#ok-button");
     private static final By LINK_CHANGES = By.linkText("Changes");
-
     private static final By BUTTON_SAVE = By.xpath("//span[@name = 'Submit']");
     private WebDriverWait wait;
 
@@ -39,7 +38,6 @@ public class FreestyleProjectTest extends BaseTest {
         for (int i = 0; i < existingJobs.size(); i++) {
             existingJobsNames.add(i, existingJobs.get(i).getText());
         }
-
         return existingJobsNames;
     }
 
@@ -48,13 +46,12 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     private void clickSubmitButton() {
-
         getDriver().findElement(By.xpath("//span[@name = 'Submit']")).click();
     }
 
     @Test
     public void testCreateNewFreestyleProjectWithCorrectName() {
-        getWait().until(ExpectedConditions.elementToBeClickable(By.linkText("New Item"))).click();
+        getWait().until(ExpectedConditions.elementToBeClickable(LINK_NEW_ITEM)).click();
 
         getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).click();
         getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(FREESTYLE_NAME);
@@ -83,8 +80,6 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(By.cssSelector("input[name='newName']")).sendKeys(NEW_FREESTYLE_NAME);
         getDriver().findElement(By.cssSelector("#yui-gen1-button")).click();
         goToDashBoard();
-
-        System.out.println(getListExistingFreestyleProjectsNames());
 
         Assert.assertFalse(getListExistingFreestyleProjectsNames().contains(FREESTYLE_NAME));
         Assert.assertTrue(getListExistingFreestyleProjectsNames().contains(NEW_FREESTYLE_NAME));
