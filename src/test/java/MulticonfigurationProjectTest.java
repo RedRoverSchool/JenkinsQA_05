@@ -23,11 +23,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
         return RandomStringUtils.randomAlphanumeric(10);
     }
 
-    private void click(By by) {
-        getDriver().findElement(by).click();
-    }
-
-
     public void createMulticonfigurationProject(){
         getDriver().findElement(By.className("task-icon-link")).click();
         getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
@@ -43,18 +38,18 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.id("description-link")).click();
         getDriver().findElement(By.name("description")).clear();
         getDriver().findElement(By.id("yui-gen2-button")).click();
-        click(DASHBOARD);
+        getDriver().findElement (DASHBOARD);
     }
 
     @Test
     public void testCreateMultiConfigurationProjectWithValidName_HappyPath() {
 
-        click(NEW_ITEM);
+        getDriver ().findElement (NEW_ITEM);
         getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
-        click(By.className("hudson_matrix_MatrixProject"));
-        click(OK_BUTTON);
-        click(SAVE_BUTTON);
-        click(DASHBOARD);
+        getDriver ().findElement (By.className("hudson_matrix_MatrixProject"));
+        getDriver ().findElement (OK_BUTTON);
+        getDriver ().findElement (SAVE_BUTTON);
+        getDriver ().findElement (DASHBOARD);
 
         Assert.assertEquals(getDriver().findElement(FIRST_MC_PROJECT).getText(), PROJECT_NAME);
 
