@@ -40,10 +40,6 @@ public class FreestyleProjectTest extends BaseTest {
         return existingJobsNames;
     }
 
-    private void goToDashBoard() {
-        getDriver().findElement(By.linkText("Dashboard")).click();
-    }
-
     @Test
     public void testCreateNewFreestyleProjectWithCorrectName() {
         getWait().until(ExpectedConditions.elementToBeClickable(LINK_NEW_ITEM)).click();
@@ -60,7 +56,6 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
     public void testPresentationNewProjectOnDashboard() {
-        goToDashBoard();
 
         Assert.assertTrue(getListExistingFreestyleProjectsNames().contains(FREESTYLE_NAME));
     }
@@ -68,13 +63,12 @@ public class FreestyleProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
     public void testRenameFreestyleProject() {
 
-        goToDashBoard();
         getDriver().findElement(By.cssSelector("tr#job_" + FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
         getDriver().findElement(By.xpath("//a[@href='/job/" + FREESTYLE_NAME +"/confirm-rename']")).click();
         getDriver().findElement(By.cssSelector("input[name='newName']")).clear();
         getDriver().findElement(By.cssSelector("input[name='newName']")).sendKeys(NEW_FREESTYLE_NAME);
         getDriver().findElement(By.cssSelector("#yui-gen1-button")).click();
-        goToDashBoard();
+        getDriver().findElement(By.linkText("Dashboard")).click();
 
         Assert.assertFalse(getListExistingFreestyleProjectsNames().contains(FREESTYLE_NAME));
         Assert.assertTrue(getListExistingFreestyleProjectsNames().contains(NEW_FREESTYLE_NAME));
