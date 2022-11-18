@@ -18,6 +18,22 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(by).click();
     }
 
+    public void createMulticonfigurationProject(){
+        getDriver().findElement(By.className("task-icon-link")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
+        getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.id("yui-gen27-button")).click();
+        getDriver().findElement(By.cssSelector(".icon-up")).click();
+
+    }
+    public void deleteDescription(){
+        getDriver().findElement(By.id("description-link")).click();
+        getDriver().findElement(By.name("description")).clear();
+        getDriver().findElement(By.id("yui-gen2-button")).click();
+        click(By.xpath("//ul[@id = 'breadcrumbs']//a[@class= 'model-link'][contains(., 'Dashboard')]"));
+    }
+
     @Test
     public void testCreateMultiConfigurationProjectWithValidName_HappyPath() {
 
@@ -39,5 +55,23 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(
                 By.xpath("//div[@id = 'tasks']//span[contains(text(), 'Delete Multi-configuration project')]")).click();
         getDriver().switchTo().alert().accept();
+    }
+
+    @Test
+    public void testMulticonfigurationProjectAddDescription() {
+        final String description = "Description";
+
+        createMulticonfigurationProject();
+
+        getDriver().findElement(By.xpath("//span[contains(text(),'" + PROJECT_NAME + "')]")).click();
+        getDriver().findElement(By.id("description-link")).click();
+        getDriver().findElement(By.name("description")).sendKeys(description);
+        getDriver().findElement(By.id("yui-gen2-button")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description div")).getText(), description);
+
+        deleteDescription();
+
+        deleteNewMCProject();
     }
 }
