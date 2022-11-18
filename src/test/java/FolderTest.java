@@ -129,7 +129,7 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(INPUT_NAME).sendKeys(generatedString);
         getDriver().findElement(FOLDER).click();
         getDriver().findElement(OK_BUTTON).click();
-
+        getDriver().findElement(By.linkText(generatedString)).click();
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(INPUT_NAME).sendKeys(generatedString2);
         getDriver().findElement(FOLDER).click();
