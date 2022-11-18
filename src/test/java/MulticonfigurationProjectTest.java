@@ -18,10 +18,17 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.className("task-icon-link")).click();
         getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
         getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
-        getDriver().findElement (By.className("hudson_matrix_MatrixProject")).click ();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(DASHBOARD).click();
+    }
+
+    private void deleteNewMCProject() {
+        getDriver().findElement(FIRST_MC_PROJECT).click();
+        getDriver().findElement(By.xpath("//a[@href = contains(., 'FirstMultiProject')]/button")).click();
+        getDriver().findElement(
+                By.xpath("//div[@id = 'tasks']//span[contains(text(), 'Delete Multi-configuration project')]")).click();
+        getDriver().switchTo().alert().accept();
     }
 
     public void deleteDescription() {
@@ -35,7 +42,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     public void testCreateMultiConfigurationProjectWithValidName_HappyPath() {
         getDriver ().findElement (NEW_ITEM).click ();
         getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
-        getDriver ().findElement (By.className("hudson_matrix_MatrixProject")).click ();
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
         getDriver ().findElement (OK_BUTTON).click ();
         getDriver ().findElement (SAVE_BUTTON).click ();
         getDriver ().findElement (DASHBOARD).click ();
@@ -59,14 +66,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         deleteDescription();
         deleteNewMCProject();
-    }
-
-    private void deleteNewMCProject() {
-        getDriver().findElement(FIRST_MC_PROJECT).click();
-        getDriver().findElement(By.xpath("//a[@href = contains(., 'FirstMultiProject')]/button")).click();
-        getDriver().findElement(
-                By.xpath("//div[@id = 'tasks']//span[contains(text(), 'Delete Multi-configuration project')]")).click();
-        getDriver().switchTo().alert().accept();
     }
 
     @Test
