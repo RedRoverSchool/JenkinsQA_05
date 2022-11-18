@@ -31,6 +31,13 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath(locator)).getText(), text);
     }
 
+    private void assertTextById(String id, String text) {
+        Assert.assertEquals(getDriver().findElement(By.id(id)).getText(), text);
+    }
+
+    private void assertDisabledById(String id) {
+        Assert.assertFalse(getDriver().findElement(By.id(id)).isEnabled());
+    }
 
     private void deleteItem(String nameOfItem) {
         getDriver().get("http://localhost:8080/job/" + nameOfItem + "/delete");
@@ -58,10 +65,11 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testCreateMbPipelineEmptyName() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
-        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
-                "» This field cannot be empty, please enter a valid name");
-        Assert.assertFalse(getDriver().findElement(By.xpath("//button[@type='submit']")).isEnabled());
+        String warnMessage = "» This field cannot be empty, please enter a valid name";
+        buttonClickXpath(NEW_ITEM_XPATH);
+        buttonClickXpath(MULTIBRANCH_PIPELINE_XPATH);
+
+        assertTextById("itemname-required", warnMessage);
+        assertDisabledById("ok-button");
     }
 }
