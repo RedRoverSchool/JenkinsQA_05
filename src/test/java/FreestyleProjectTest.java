@@ -45,10 +45,6 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(By.linkText("Dashboard")).click();
     }
 
-    private void clickSubmitButton() {
-        getDriver().findElement(By.xpath("//span[@name = 'Submit']")).click();
-    }
-
     @Test
     public void testCreateNewFreestyleProjectWithCorrectName() {
         getWait().until(ExpectedConditions.elementToBeClickable(LINK_NEW_ITEM)).click();
