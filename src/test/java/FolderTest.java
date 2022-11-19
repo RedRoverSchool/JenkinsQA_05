@@ -20,6 +20,7 @@ public class FolderTest extends BaseTest {
     private static final By DASHBOARD = By.xpath("//a[text()='Dashboard']");
     private static final By CREATE_NEW_ITEM = By.linkText("New Item");
     private static final By SELECT_FREESTYLE_PROJECT = By.xpath("//span[text()='Freestyle project']");
+    private static final By CREATE_A_JOB = By.linkText("Create a job");
 
     public WebElement getSaveButton() {
         return getDriver().findElement(SAVE_BUTTON);
@@ -201,5 +202,33 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text()='" + folderName + "']")).click();
 
         Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
+    }
+
+    @Test
+    public void testCreateFolderInFolder() {
+
+        final String folderName = getRandomName();
+        final String subFolderName = getRandomName();
+        final String expectedResult = String.format("/job/%s/job/%s/", folderName, subFolderName);
+
+        getDriver().findElement(CREATE_NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(folderName);
+        getDriver().findElement(FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        getDriver().findElement(CREATE_A_JOB).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(subFolderName);
+        getDriver().findElement(FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", folderName))).click();
+        getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", subFolderName))).click();
+
+        List<WebElement> breadcrumbs = getDriver().findElements(By.xpath("//ul[@id='breadcrumbs']//li"));
+
+        Assert.assertEquals(breadcrumbs.get(breadcrumbs.size() - 1).getAttribute("href"), expectedResult);
     }
 }
