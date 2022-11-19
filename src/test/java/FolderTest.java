@@ -198,7 +198,7 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text() = 'Create a job']")).click();
 
         getDriver().findElement(INPUT_NAME).sendKeys(freestyleProjectName);
-        getDriver().findElement(FREESTYLE_PROJECT).click();
+        getDriver().findElement(SELECT_FREESTYLE_PROJECT).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(DASHBOARD).click();
