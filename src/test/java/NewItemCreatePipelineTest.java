@@ -88,15 +88,16 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreateNewPipeline() {
+        final String nameOfNewPipeline = "JustUnicName";
 
         click(By.linkText("New Item"));
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("JustUnicName");
-        click(By.xpath("//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']//label"));
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(nameOfNewPipeline);
+        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
         click(By.id("ok-button"));
 
         new Actions(getDriver()).moveToElement(getDriver().findElement(By.id("yui-gen6-button"))).click().perform();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']")).getText(),
-                "Pipeline JustUnicName");
+                String.format("Pipeline %s", nameOfNewPipeline));
     }
 }
