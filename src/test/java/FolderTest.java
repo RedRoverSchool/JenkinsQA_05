@@ -121,4 +121,25 @@ public class FolderTest extends BaseTest {
 
         Assert.assertEquals(description, "Add description");
     }
+
+    @Test
+    public void testNameAfterRenamingFolder() {
+        final String expectedResult = "Folder2";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys("Folder1");
+        getDriver().findElement(By.className("com_cloudbees_hudson_plugins_folder_Folder")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.id("yui-gen6-button")).click();
+
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+        getDriver().findElement(By.xpath("//a[@href='job/Folder1/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/job/Folder1/confirm-rename']")).click();
+        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).clear();
+        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).sendKeys(expectedResult);
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/Folder2/']")).getText(), expectedResult);
+    }
 }
