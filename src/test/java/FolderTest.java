@@ -1,7 +1,5 @@
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -201,5 +199,23 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text()='" + folderName + "']")).click();
 
         Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
+    }
+
+    @Test
+    public void testDeleteFolder2() {
+        createFolder();
+
+        getDashboard().click();
+        getDriver().findElement(By.xpath("//span[text() = '"+ generatedString +"']")).click();
+        getDriver().findElement(By.xpath("//a[@href = '/job/"+ generatedString +"/delete']")).click();
+        getDriver().findElement(By.xpath("//button[@type= 'submit']")).click();
+
+        List<String> foldersList = getDriver()
+                .findElements(By.xpath("//tr/td[3]/a/span"))
+                .stream()
+                .map(element -> element.getText())
+                .collect(Collectors.toList());
+
+        Assert.assertFalse(foldersList.contains(generatedString));
     }
 }
