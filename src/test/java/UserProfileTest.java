@@ -38,5 +38,6 @@ public class UserProfileTest extends BaseTest {
             getWait().until(ExpectedConditions.elementToBeClickable(ADD_DES)).click();
             getDriver().findElement(INPUT_FIELD).clear();
             getDriver().findElement(SAVE_BUTTON).click();
+
         }
     }
