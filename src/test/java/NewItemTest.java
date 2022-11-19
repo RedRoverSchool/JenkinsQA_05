@@ -21,4 +21,13 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertEquals(newItemsName, expectedResult);
     }
+
+    @Test
+    public void testGoToNewItemPage() {
+        final String expectedResult = "Enter an item name";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.className("h3")).getText(), expectedResult);
+    }
 }
