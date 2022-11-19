@@ -38,7 +38,7 @@ public class FolderMoveTest extends BaseTest {
         createFolder(folderName2);
 
         getDriver().findElement(FOLDER1).click();
-        getDriver().findElement(By.xpath("//span[text()='Move']")).click();
+        getDriver().findElement(By.xpath("//li[@index='5']")).click();
 
         Select dropdown = new Select(getDriver().findElement(By.cssSelector(".select.setting-input")));
         dropdown.selectByVisibleText("Jenkins » " + folderName2);
