@@ -64,7 +64,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreateNewItemWithoutChooseAnyFolder() {
+    public void testCreateNewItemWithoutChooseAnyFolder(){
         click(By.linkText("New Item"));
         click(By.xpath("//span[@class = 'yui-button primary large-button']"));
 
@@ -73,7 +73,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreatePipelineOnBreadcrumbs() {
+    public void testCreatePipelineOnBreadcrumbs () {
         final String itemName = "AFJenkins05";
 
         getDriver().findElement(By.linkText("New Item")).click();
@@ -99,5 +99,19 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']")).getText(),
                 String.format("Pipeline %s", nameOfNewPipeline));
+    }
+
+    @Test
+    public void testCreatePipelineWithName() {
+        final String name = "Pipeline2";
+
+        click(By.xpath("//a[@href='/view/all/newJob']"));
+        getDriver().findElement(By.id("name")).sendKeys(name);
+        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+        click(By.id("ok-button"));
+        click(By.id("yui-gen6-button"));
+        click(By.id("jenkins-name-icon"));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/Pipeline2/']")).getText(), name);
     }
 }

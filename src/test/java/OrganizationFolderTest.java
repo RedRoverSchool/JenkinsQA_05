@@ -7,13 +7,21 @@ import runner.BaseTest;
 
 import java.util.List;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class OrganizationFolderTest extends BaseTest {
+    private static final String uniqueOrganizationFolderName = "folder" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
     private static final By ORGANIZATION_FOLDER = By.xpath("//li[@class = 'jenkins_branch_OrganizationFolder']");
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By DASHBOARD = By.xpath("//a[text()='Dashboard']");
     private static final By APPLY_BUTTON = By.id("yui-gen13-button");
+    private static final By SAVE_BUTTON = By.id("yui-gen15-button");
+    private static final By INPUT_LINE = By.name("newName");
+    private static final By RENAME_BUTTON = By.id("yui-gen1-button");
+    private static final By TITLE = By.xpath("//div[@id='main-panel']/h1");
 
     public WebElement getInputName() {
         return getDriver().findElement(INPUT_NAME);
@@ -29,6 +37,14 @@ public class OrganizationFolderTest extends BaseTest {
     }
     public WebElement getApplyButton() {
         return getDriver().findElement(APPLY_BUTTON);
+    }
+
+    private void createNewOrganizationFolder() {
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName);
+        getDriver().findElement(ORGANIZATION_FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
     }
 
     @Ignore
@@ -61,6 +77,18 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/New%20Organization%20Folder/']"))
                 .getText(), "New Organization Folder");
+    }
+
+    @Test
+    public void testRenameOrganizationFolder1() {
+        createNewOrganizationFolder();
+
+        getDriver().findElement(By.linkText("Rename")).click();
+        getDriver().findElement(INPUT_LINE).clear();
+        getDriver().findElement(INPUT_LINE).sendKeys(uniqueOrganizationFolderName + "1");
+        getDriver().findElement(RENAME_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(TITLE).getText(), uniqueOrganizationFolderName + "1");
     }
 
     @Test
