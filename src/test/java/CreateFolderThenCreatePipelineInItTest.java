@@ -39,8 +39,8 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         while (i <= numberOfJobs2Run) {
             getDriver().findElement(By.xpath("//div[@id='tasks']/div[4]/span/a")).click();
             Thread.sleep(5000);
-           // wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='buildHistory']/div[2]/table/tbody/tr/td/div[2]/a")));
-            wait.until(ExpectedConditions.attributeContains(By.xpath("//*[@id='buildHistory']/div[2]/table/tbody/tr/td/div/div/a"),"href", String.valueOf(i)));
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='buildHistory']/div[2]/table/tbody/tr/td/div/div/following-sibling::a[contains(text(),'"+i+"')]")));
+            //wait.until(ExpectedConditions.attributeContains(By.xpath("//*[@id='buildHistory']/div[2]/table/tbody/tr/td/div/div/a"),"href", String.valueOf(i)));
             i++;
         }
         List<WebElement> listWithTr = getDriver().findElements(By.xpath("//div[@id='buildHistory']/div[2]/table/tbody/tr/td/div/div/a"));
