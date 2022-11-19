@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -45,7 +46,7 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(INPUT_NAME).sendKeys(generatedString);
         getDriver().findElement(FOLDER).click();
         getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON);
+        getDriver().findElement(SAVE_BUTTON).click();
     }
 
     @Test
@@ -120,6 +121,28 @@ public class FolderTest extends BaseTest {
         String description = getDriver().findElement(By.xpath("//div[text()='Add description']")).getText();
 
         Assert.assertEquals(description, "Add description");
+    }
+
+    @Test
+    public void testMoveFolderInFolder () {
+        createFolder();
+        getDashboard().click();
+        String generatedStringFolder2 = UUID.randomUUID().toString().substring(0, 8);
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(generatedStringFolder2);
+        getDriver().findElement(FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getSaveButton().click();
+        getDashboard().click();
+        getDriver().findElement(By.xpath("//span[text()='" + generatedStringFolder2 + "']")).click();
+        getDriver().findElement(By.xpath("//span[text()='Move']/..")).click();
+        Select select = new Select(getDriver().findElement(By.xpath("//select[@name='destination']")));
+        select.selectByValue("/"+generatedString);
+        getDriver().findElement(By.xpath("//button[text()='Move']")).click();
+        getDashboard().click();
+        String job = getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).getText();
+
+        Assert.assertEquals(job, generatedString);
     }
 
     @Test

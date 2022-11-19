@@ -4,13 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class OrganizationFolderTest extends BaseTest {
-
-    private static final String uniqueOrganizationFolderName = "folder" + new SimpleDateFormat("yyyyMMddHHmmss")
-            .format(new Date());
 
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
     private static final By ORGANIZATION_FOLDER = By.xpath("//li[@class = 'jenkins_branch_OrganizationFolder']");
@@ -46,6 +40,7 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(SAVE_BUTTON).click();
     }
 
+    @Ignore
     @Test
     public void testCreateOrganizationFolder(){
         getDriver().findElement(By.linkText("New Item")).click();
@@ -59,6 +54,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .getText(), "First Organization Folder");
     }
 
+    @Ignore
     @Test
     public void testRenameOrganizationFolder(){
         getDriver().findElement(By.linkText("New Item")).click();
