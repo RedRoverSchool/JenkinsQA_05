@@ -2,10 +2,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -45,7 +45,7 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(INPUT_NAME).sendKeys(generatedString);
         getDriver().findElement(FOLDER).click();
         getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON);
+        getDriver().findElement(SAVE_BUTTON).click();
     }
 
     private String getRandomName() {
@@ -135,6 +135,49 @@ public class FolderTest extends BaseTest {
         String description = getDriver().findElement(By.xpath("//div[text()='Add description']")).getText();
 
         Assert.assertEquals(description, "Add description");
+    }
+
+    @Test
+    public void testMoveFolderInFolder () {
+        createFolder();
+        getDashboard().click();
+        String generatedStringFolder2 = UUID.randomUUID().toString().substring(0, 8);
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(generatedStringFolder2);
+        getDriver().findElement(FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getSaveButton().click();
+        getDashboard().click();
+        getDriver().findElement(By.xpath("//span[text()='" + generatedStringFolder2 + "']")).click();
+        getDriver().findElement(By.xpath("//span[text()='Move']/..")).click();
+        Select select = new Select(getDriver().findElement(By.xpath("//select[@name='destination']")));
+        select.selectByValue("/"+generatedString);
+        getDriver().findElement(By.xpath("//button[text()='Move']")).click();
+        getDashboard().click();
+        String job = getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).getText();
+
+        Assert.assertEquals(job, generatedString);
+    }
+
+    @Test
+    public void testNameAfterRenamingFolder() {
+        final String expectedResult = "Folder2";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys("Folder1");
+        getDriver().findElement(By.className("com_cloudbees_hudson_plugins_folder_Folder")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.id("yui-gen6-button")).click();
+
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+        getDriver().findElement(By.xpath("//a[@href='job/Folder1/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/job/Folder1/confirm-rename']")).click();
+        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).clear();
+        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).sendKeys(expectedResult);
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/Folder2/']")).getText(), expectedResult);
     }
 
     @Test
