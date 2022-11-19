@@ -5,6 +5,8 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.List;
+
 public class OrganizationFolderTest extends BaseTest {
 
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
@@ -59,5 +61,29 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/New%20Organization%20Folder/']"))
                 .getText(), "New Organization Folder");
+    }
+
+    @Test
+    public void testCreateOrganizationFolderWithCheckOnDashbord() {
+        final String organizationFolderName = "OrganizationFolder_" + (int) (Math.random() * 100);
+        boolean actualResult = false;
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.cssSelector(".jenkins_branch_OrganizationFolder")).click();
+        getInputName().sendKeys(organizationFolderName);
+        getOkButton().click();
+        getDriver().findElement(By.xpath("//li[@class='item']/a[@href='/']")).click();
+        List<WebElement> list = getDriver().findElements(By.cssSelector(".jenkins-table__link.model-link.inside span"));
+
+        Assert.assertTrue(list.size()>0);
+
+        for (WebElement a : list){
+           if(a.getText().equals(organizationFolderName)){
+                actualResult = true;
+                break;
+           }
+        }
+
+        Assert.assertTrue(actualResult);
     }
 }
