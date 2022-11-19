@@ -69,7 +69,3 @@ public class FolderMoveTest extends BaseTest {
         getDriver().findElement(By.cssSelector(".first-child")).click();
     }
 }
-
-
-
-
