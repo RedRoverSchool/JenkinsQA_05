@@ -1,17 +1,13 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.time.Duration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,11 +32,9 @@ public class NewItemCreatePipelineTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
     }
 
-    private JavascriptExecutor scrollPageDown() {
+    private void scrollPageDown() {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-
-        return js;
     }
 
     @Test
@@ -112,6 +106,35 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.className("jenkins-breadcrumbs"))
                 .getAttribute("textContent").contains(itemName));
+    }
+
+    @Test
+    public void testCreateNewPipeline() {
+        final String nameOfNewPipeline = "JustUnicName";
+
+        click(By.linkText("New Item"));
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(nameOfNewPipeline);
+        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+        click(By.id("ok-button"));
+
+        new Actions(getDriver()).moveToElement(getDriver().findElement(By.id("yui-gen6-button"))).click().perform();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']")).getText(),
+                String.format("Pipeline %s", nameOfNewPipeline));
+    }
+
+    @Test
+    public void testCreatePipelineWithName() {
+        final String name = "Pipeline2";
+
+        click(By.xpath("//a[@href='/view/all/newJob']"));
+        getDriver().findElement(By.id("name")).sendKeys(name);
+        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+        click(By.id("ok-button"));
+        click(By.id("yui-gen6-button"));
+        click(By.id("jenkins-name-icon"));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/Pipeline2/']")).getText(), name);
     }
 
     @Test
