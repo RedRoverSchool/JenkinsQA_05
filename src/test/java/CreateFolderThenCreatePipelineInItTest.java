@@ -25,8 +25,6 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.id("yui-gen6-button")).click();
-//        getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/../../']")).click();
-//        getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']")).click();
         getDriver().findElement(By.xpath("//a[@href='newJob']")).click();
         getDriver().findElement(By.id("name")).sendKeys(pipelineName);
         getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
@@ -40,13 +38,14 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         int i = 1;
         while (i <= numberOfJobs2Run) {
             getDriver().findElement(By.xpath("//div[@id='tasks']/div[4]/span/a")).click();
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/job/" + folderName + "/job/" + pipelineName + "/" + i + "/'][1]")));
+            Thread.sleep(5000);
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='buildHistory']/div[2]/table/tbody/tr/td/div[2]/a")));
             i++;
         }
-        List<WebElement> listWithTr = getDriver().findElements(By.xpath("//table[@class='pane jenkins-pane stripped']//tr"));
+        List<WebElement> listWithTr = getDriver().findElements(By.xpath("//div[@id='buildHistory']/div[2]/table/tbody/tr/td/div/div/a"));
         wait.until(ExpectedConditions.visibilityOfAllElements(listWithTr));
 
-        Assert.assertEquals(listWithTr.size(), numberOfJobs2Run + 1);
+        Assert.assertEquals(listWithTr.size(), numberOfJobs2Run);
 
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[6]")).click();
         Alert alert = getDriver().switchTo().alert();
@@ -54,7 +53,7 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[5]")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Welcome to Jenkins!']")));
-        List<String>lstWithHeaders = getDriver().findElements(By.xpath("//ul[@class='empty-state-section-list']/li/a")).stream().map(e->e.getText()).collect(Collectors.toList());
+        List<String> lstWithHeaders = getDriver().findElements(By.xpath("//ul[@class='empty-state-section-list']/li/a")).stream().map(e -> e.getText()).collect(Collectors.toList());
 
         Assert.assertTrue(lstWithHeaders.contains("Set up an agent"));
 
@@ -69,7 +68,7 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
     @DataProvider(name = "jobs2run")
     public Object[][] data() {
         return new Object[][]{
-                {getUUID(), getUUID(), 1}, {getUUID(), getUUID(), 8}, {getUUID(), getUUID(), 3}
+                {getUUID(), getUUID(), 8}, {getUUID(), getUUID(), 3}, {getUUID(), getUUID(), 1}
         };
     }
 
