@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -28,6 +29,7 @@ public class OrganizationFolderTest extends BaseTest {
         return getDriver().findElement(APPLY_BUTTON);
     }
 
+    @Ignore
     @Test
     public void testCreateOrganizationFolder(){
         getDriver().findElement(By.linkText("New Item")).click();
@@ -41,6 +43,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .getText(), "First Organization Folder");
     }
 
+    @Ignore
     @Test
     public void testRenameOrganizationFolder(){
         getDriver().findElement(By.linkText("New Item")).click();
