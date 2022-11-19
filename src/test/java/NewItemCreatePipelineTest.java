@@ -53,4 +53,36 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("div#itemname-invalid")).getAttribute("textContent"),
                 String.format("» ‘%s’ is an unsafe character", name.charAt(matcher.start())));
     }
+
+    @Test
+    public void testCreatePipelineWithoutName() {
+        click(By.linkText("New Item"));
+        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+
+        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
+                "» This field cannot be empty, please enter a valid name");
+    }
+
+    @Test
+    public void testCreateNewItemWithoutChooseAnyFolder(){
+        click(By.linkText("New Item"));
+        click(By.xpath("//span[@class = 'yui-button primary large-button']"));
+
+        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
+                "» This field cannot be empty, please enter a valid name");
+    }
+
+    @Test
+    public void testCreatePipelineOnBreadcrumbs () {
+        final String itemName = "AFJenkins05";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.cssSelector("input#name")).sendKeys(
+                itemName);
+        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+        getDriver().findElement(By.id("ok-button")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.className("jenkins-breadcrumbs"))
+                .getAttribute("textContent").contains(itemName));
+    }
 }
