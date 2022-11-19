@@ -10,11 +10,11 @@ import runner.BaseTest;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.Random;
+import java.util.UUID;
 
 public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
-    private String folderName = getRandomDigitAndLetterString();
-    private String pipelineName = getRandomDigitAndLetterString();
+    private String folderName = getUUID();
+    private String pipelineName = getUUID();
     private final int NUMBER_OF_JOBS_TO_RUN = 3;
 
     @Test
@@ -50,15 +50,10 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
 
     }
 
-    public static String getRandomDigitAndLetterString() {
-        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        StringBuilder salt = new StringBuilder();
-        Random rnd = new Random();
-        while (salt.length() < 10) {
-            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
-            salt.append(SALTCHARS.charAt(index));
-        }
-        String saltStr = salt.toString();
-        return saltStr;
+    public static String getUUID() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
     }
+
+
 }
