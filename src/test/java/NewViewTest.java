@@ -25,7 +25,7 @@ public class NewViewTest extends BaseTest {
 
     private void createPipelineProject() {
         getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement((PIPELINE)).click();
+        getDriver().findElement(PIPELINE).click();
         getDriver().findElement(ITEM_NAME).sendKeys(PIPELINE_NAME);
         getDriver().findElement(BUTTON_OK).click();
         getDriver().findElement(BUTTON_SAVE).click();
@@ -49,8 +49,8 @@ public class NewViewTest extends BaseTest {
     public void testCreateNewView() {
         createPipelineProject();
 
-        getDriver().findElement((MY_VIEWS)).click();
-        getDriver().findElement((ADD_TAB)).click();
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(ADD_TAB).click();
         getDriver().findElement(VIEW_NAME_FIELD).sendKeys(VIEW_NAME);
         getDriver().findElement(RADIO_BUTTON_MY_VIEW).click();
         getDriver().findElement(BUTTON_CREATE).click();
