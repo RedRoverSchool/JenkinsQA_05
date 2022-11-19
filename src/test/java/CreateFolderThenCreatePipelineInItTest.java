@@ -13,6 +13,7 @@ import runner.BaseTest;
 import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
 
@@ -24,8 +25,8 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.id("yui-gen6-button")).click();
-        getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/../../']")).click();
-        getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']")).click();
+//        getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/../../']")).click();
+//        getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']")).click();
         getDriver().findElement(By.xpath("//a[@href='newJob']")).click();
         getDriver().findElement(By.id("name")).sendKeys(pipelineName);
         getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
@@ -52,8 +53,10 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         alert.accept();
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[5]")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Welcome to Jenkins!']")));
+        List<String>lstWithHeaders = getDriver().findElements(By.xpath("//ul[@class='empty-state-section-list']/li/a")).stream().map(e->e.getText()).collect(Collectors.toList());
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//h1[text()='Welcome to Jenkins!']")).isDisplayed());
+        Assert.assertTrue(lstWithHeaders.contains("Set up an agent"));
 
 
     }
