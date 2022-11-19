@@ -3,6 +3,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MultibranchPipelineTest extends BaseTest {
     private final String NEW_ITEM_XPATH = "//div [@class='task '][1]";
     private final String ENTER_AN_ITEM_NAME_XPATH = "//input[@id='name']";
@@ -31,13 +34,17 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath(locator)).getText(), text);
     }
 
+    private void assertTextById(String id, String text) {
+        Assert.assertEquals(getDriver().findElement(By.id(id)).getText(), text);
+    }
+
     private void deleteItem(String nameOfItem) {
         getDriver().get("http://localhost:8080/job/" + nameOfItem + "/delete");
         getDriver().findElement(By.id("yui-gen1-button")).click();
     }
 
     @Test
-    public void Create_Multibranch_pipeline_Test() {
+    public void Create_Multibranch_pipeline() {
         String nameOfItem = "MultibranchPipeline";
         buttonClickXpath(NEW_ITEM_XPATH);
         inputTextByXPath(ENTER_AN_ITEM_NAME_XPATH, nameOfItem);
@@ -79,5 +86,19 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
                 "» This field cannot be empty, please enter a valid name");
         Assert.assertFalse(getDriver().findElement(By.xpath("//button[@type='submit']")).isEnabled());
+    }
+
+    @Test
+    public void testCreateWithUnsafeCharsInName() {
+        String itemName = "MultiBranch!Pipeline/000504";
+        Matcher matcher = Pattern.compile("[»!@#$%^&*|:?></.'\\]\\[;]").matcher(itemName);
+        matcher.find();
+        String warnMessage = String.format("» ‘%s’ is an unsafe character", itemName.charAt(matcher.start()));
+
+        buttonClickXpath(NEW_ITEM_XPATH);
+        buttonClickXpath(MULTIBRANCH_PIPELINE_XPATH);
+        inputTextByXPath(ENTER_AN_ITEM_NAME_XPATH, itemName);
+
+        assertTextById("itemname-invalid", warnMessage);
     }
 }
