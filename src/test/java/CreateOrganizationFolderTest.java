@@ -10,7 +10,7 @@ public class CreateOrganizationFolderTest extends BaseTest {
     private static final String NEW_ITEM = "New Item";
     private static final String DASHBOARD = "Dashboard";
     private static final By BY_INPUT_NAME = By.id("name");
-    private static final By ORGANIZATION_FOLDER = By.xpath("//li[@class = 'jenkins_branch_OrganizationFolder']");
+    private static final By ORGANIZATION_FOLDER = By.xpath("//span[contains(text(),'Organization Folder')]");
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By SAVE_BUTTON = By.id("yui-gen15-button");
 
