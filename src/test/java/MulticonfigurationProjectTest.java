@@ -123,19 +123,4 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         deleteNewMCProject();
     }
-
-    @Test (dependsOnMethods = "testMultiConfigurationProjectDisable")
-    public void testMultiConfigurationProjectEnable(){
-        createMulticonfigurationProject();
-
-        disableEnableProject();
-
-        getDriver ().findElement (DASHBOARD).click();
-        disableEnableProject();
-
-        Assert.assertTrue(getDriver()
-                .findElement(By.xpath("//button[contains(text(),'Disable Project')]")).isDisplayed());
-
-        deleteNewMCProject();
-    }
 }
