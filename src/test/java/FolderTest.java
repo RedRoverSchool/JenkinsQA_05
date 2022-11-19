@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +20,7 @@ public class FolderTest extends BaseTest {
     private static final By FOLDER = By.xpath("//span[text()='Folder']");
     private static final By DASHBOARD = By.xpath("//a[text()='Dashboard']");
     private static final By CREATE_NEW_ITEM = By.linkText("New Item");
-    private static final By SELECT_FREESTYLE_PROJECT = By.xpath("//span[text()='Freestyle project']");
+    private static final By FREESTYLE_PROJECT = By.xpath("//span[text()='Freestyle project']");
 
     public WebElement getSaveButton() {
         return getDriver().findElement(SAVE_BUTTON);
@@ -51,6 +52,14 @@ public class FolderTest extends BaseTest {
     private String getRandomName() {
 
         return RandomStringUtils.randomAlphanumeric(10);
+    }
+
+    private void createProjectFromDashboard(By type, String name) {
+        getDriver().findElement(CREATE_NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(name);
+        getDriver().findElement(type).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
     }
 
     private List<String> getProjectNameFromProjectTable() {
@@ -138,7 +147,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testMoveFolderInFolder () {
+    public void testMoveFolderInFolder() {
         createFolder();
         getDashboard().click();
         String generatedStringFolder2 = UUID.randomUUID().toString().substring(0, 8);
@@ -151,7 +160,7 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text()='" + generatedStringFolder2 + "']")).click();
         getDriver().findElement(By.xpath("//span[text()='Move']/..")).click();
         Select select = new Select(getDriver().findElement(By.xpath("//select[@name='destination']")));
-        select.selectByValue("/"+generatedString);
+        select.selectByValue("/" + generatedString);
         getDriver().findElement(By.xpath("//button[text()='Move']")).click();
         getDashboard().click();
         String job = getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).getText();
@@ -185,15 +194,11 @@ public class FolderTest extends BaseTest {
         final String folderName = getRandomName();
         final String freestyleProjectName = getRandomName();
 
-        getDriver().findElement(CREATE_NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(folderName);
-        getDriver().findElement(FOLDER).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-
+        createProjectFromDashboard(FOLDER, folderName);
         getDriver().findElement(By.xpath("//span[text() = 'Create a job']")).click();
+
         getDriver().findElement(INPUT_NAME).sendKeys(freestyleProjectName);
-        getDriver().findElement(SELECT_FREESTYLE_PROJECT).click();
+        getDriver().findElement(FREESTYLE_PROJECT).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(DASHBOARD).click();
