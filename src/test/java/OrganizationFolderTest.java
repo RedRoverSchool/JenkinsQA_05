@@ -11,6 +11,7 @@ public class OrganizationFolderTest extends BaseTest {
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By DASHBOARD = By.xpath("//a[text()='Dashboard']");
     private static final By APPLY_BUTTON = By.id("yui-gen13-button");
+    private static final By  ENTRY_FIELD = By.name("newName");
 
     public WebElement getInputName() {
         return getDriver().findElement(INPUT_NAME);
@@ -27,6 +28,7 @@ public class OrganizationFolderTest extends BaseTest {
     public WebElement getApplyButton() {
         return getDriver().findElement(APPLY_BUTTON);
     }
+    public WebElement getEntryField(){ return getDriver().findElement(ENTRY_FIELD);}
 
     @Test
     public void testCreateOrganizationFolder(){
@@ -49,8 +51,8 @@ public class OrganizationFolderTest extends BaseTest {
         getOkButton().click();
         getDriver().findElement(By.id("yui-gen15-button")).click();
         getDriver().findElement(By.xpath("(//a[@class='task-link '])[7]")).click();
-        getDriver().findElement(By.name("newName")).clear();
-        getDriver().findElement(By.name("newName")).sendKeys("New Organization Folder");
+        getEntryField().clear();
+        getEntryField().sendKeys("New Organization Folder");
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDashboard().click();
 
