@@ -1,4 +1,6 @@
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
@@ -13,6 +15,26 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     private void click(By by) {
         getDriver().findElement(by).click();
+    }
+
+    private static String getRandomStr() {
+        return RandomStringUtils.random(7, true,true);
+    }
+
+    private void createPipeline(String jobName) {
+        setJobPipeline(jobName);
+        getDriver().findElement(By.id("ok-button")).click();
+    }
+
+    private void setJobPipeline(String jobName) {
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(jobName);
+        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
+    }
+
+    private void scrollPageDown() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
     @Test
@@ -84,5 +106,48 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.className("jenkins-breadcrumbs"))
                 .getAttribute("textContent").contains(itemName));
+    }
+
+    @Test
+    public void testCreateNewPipeline() {
+        final String nameOfNewPipeline = "JustUnicName";
+
+        click(By.linkText("New Item"));
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(nameOfNewPipeline);
+        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+        click(By.id("ok-button"));
+
+        new Actions(getDriver()).moveToElement(getDriver().findElement(By.id("yui-gen6-button"))).click().perform();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']")).getText(),
+                String.format("Pipeline %s", nameOfNewPipeline));
+    }
+
+    @Test
+    public void testCreatePipelineWithName() {
+        final String name = "Pipeline2";
+
+        click(By.xpath("//a[@href='/view/all/newJob']"));
+        getDriver().findElement(By.id("name")).sendKeys(name);
+        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+        click(By.id("ok-button"));
+        click(By.id("yui-gen6-button"));
+        click(By.id("jenkins-name-icon"));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/Pipeline2/']")).getText(), name);
+    }
+
+    @Test
+    public void testCreateNewItemFromOtherNonExistingName() {
+        final String jobName = getRandomStr();
+
+        setJobPipeline(jobName);
+        scrollPageDown();
+        new Actions(getDriver()).pause(1500).moveToElement(getDriver().findElement(By.id("from"))).click()
+                .sendKeys(jobName).perform();
+        getDriver().findElement(By.id("ok-button")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
+                "No such job: " + jobName);
     }
 }
