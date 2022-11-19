@@ -3,7 +3,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class AddFolderDescriptionTest extends BaseTest {
+public class CreateFolderWithDescriptionTest extends BaseTest {
 
     private static final String FOLDERNAME = "SomeFolderName";
     private static final String DESCRIPTION = "Some random folder description";
@@ -16,7 +16,7 @@ public class AddFolderDescriptionTest extends BaseTest {
     }
 
     @Test
-    public void testAddFolderDescriptionDuringCreatingNewFolderProcess() {
+    public void testCreateFolderWithDescription() {
 
         createNewFolder();
 
