@@ -1,5 +1,6 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -201,7 +202,7 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(DASHBOARD).click();
 
-        getDriver().findElement(By.xpath("//span[text()='" + folderName + "']")).click();
+        getDriver().findElement(By.linkText(folderName)).click();
 
         Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
     }
@@ -211,8 +212,8 @@ public class FolderTest extends BaseTest {
         createFolder();
 
         getDashboard().click();
-        getDriver().findElement(By.xpath("//span[text() = '"+ generatedString +"']")).click();
-        getDriver().findElement(By.xpath("//a[@href = '/job/"+ generatedString +"/delete']")).click();
+        getDriver().findElement(By.xpath("//span[text() = '" + generatedString + "']")).click();
+        getDriver().findElement(By.xpath("//a[@href = '/job/" + generatedString + "/delete']")).click();
         getDriver().findElement(By.xpath("//button[@type= 'submit']")).click();
 
         List<String> foldersList = getDriver()
@@ -222,5 +223,32 @@ public class FolderTest extends BaseTest {
                 .collect(Collectors.toList());
 
         Assert.assertFalse(foldersList.contains(generatedString));
+    }
+
+    @Test
+    public void testMoveFreestyleProjectInFolderUsingDropDownMenu() {
+        final String folderName = getRandomName();
+        final String freestyleProjectName = getRandomName();
+
+        createProjectFromDashboard(FOLDER, folderName);
+        getDriver().findElement(DASHBOARD).click();
+        createProjectFromDashboard(FREESTYLE_PROJECT, freestyleProjectName);
+        getDriver().findElement(DASHBOARD).click();
+
+        Actions action = new Actions(getDriver());
+        action
+                .moveToElement(getDriver().findElement(By.linkText(freestyleProjectName)))
+                .moveToElement(getDriver().findElement(By.xpath("//tr[@id = 'job_" + freestyleProjectName + "']//td/a/button")))
+                .click()
+                .build().perform();
+        getDriver().findElement(By.xpath("//span[contains(text(),'Move')]")).click();
+
+        getDriver().findElement(By.xpath("//option[@value='/" + folderName + "']")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(DASHBOARD).click();
+
+        getDriver().findElement(By.linkText(folderName)).click();
+
+        Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
     }
 }
