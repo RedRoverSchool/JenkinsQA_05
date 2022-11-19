@@ -85,4 +85,20 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.className("jenkins-breadcrumbs"))
                 .getAttribute("textContent").contains(itemName));
     }
+
+    @Test
+    public void testCreatePipelineWithName() {
+
+        final String name = "Pipeline2";
+
+        click(By.xpath("//a[@href='/view/all/newJob']"));
+        getDriver().findElement(By.id("name")).sendKeys(name);
+        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+        click(By.id("ok-button"));
+        click(By.id("yui-gen6-button"));
+        click(By.id("jenkins-name-icon"));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/Pipeline2/']")).getText(),
+                (name));
+    }
 }
