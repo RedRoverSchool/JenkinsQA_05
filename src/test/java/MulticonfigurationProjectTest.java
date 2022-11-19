@@ -1,6 +1,8 @@
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -68,6 +70,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         deleteNewMCProject();
     }
 
+    @Ignore
     @Test
     public void testMultiConfigurationProjectRenameProjectViaDropDownMenu(){
         createMulticonfigurationProject ();
@@ -84,6 +87,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 By.xpath (String.format ("//h1[contains(text(),'Project %s')]", newName))).getText (),String.format ("Project %s",newName));
     }
 
+    @Ignore
     @Test
     public void testMultiConfigurationProjectRenameProjectViaSideMenu(){
         createMulticonfigurationProject ();
@@ -97,5 +101,16 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals (getDriver ().findElement (
                 By.xpath (String.format ("//h1[contains(text(),'Project %s')]", newName))).getText (),String.format ("Project %s",newName));
+    }
+
+    @Test
+    public void testMultiConfigurationProjectDelete(){
+        createMulticonfigurationProject ();
+
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+        getDriver().findElement(By.xpath("//tr[@id = 'job_FirstMultiProject']/descendant::td//button")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Delete Multi-configuration project')]")).click();
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
     }
 }
