@@ -103,7 +103,6 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithName() {
-
         final String name = "Pipeline2";
 
         click(By.xpath("//a[@href='/view/all/newJob']"));
@@ -113,7 +112,6 @@ public class NewItemCreatePipelineTest extends BaseTest {
         click(By.id("yui-gen6-button"));
         click(By.id("jenkins-name-icon"));
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/Pipeline2/']")).getText(),
-                (name));
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/Pipeline2/']")).getText(), name);
     }
 }
