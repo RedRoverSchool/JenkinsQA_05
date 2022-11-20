@@ -1,7 +1,4 @@
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -42,8 +39,9 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Delete Folder")));
         getDriver().findElement(By.linkText("Delete Folder")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
+        getDriver().findElement(By.id("search-box")).sendKeys(folderName + Keys.ENTER);
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//h2[text()='Start building your software project']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@id='page-body']/div/div")).isDisplayed());
 
 
     }
