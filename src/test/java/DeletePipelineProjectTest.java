@@ -20,10 +20,8 @@ public class DeletePipelineProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text() = 'Delete Pipeline']")).click();
         getDriver().switchTo().alert().accept();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'empty-state-block']/p"))
-                .getText(),
-                "This page is where your Jenkins jobs will be displayed. " +
-                        "To get started, you can set up distributed builds or start building a software project.");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'empty-state-block']/h1"))
+                .getText(), "Welcome to Jenkins!");
 
     }
 }
