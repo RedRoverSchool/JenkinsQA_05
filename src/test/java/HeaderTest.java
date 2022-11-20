@@ -27,5 +27,24 @@ public class HeaderTest extends BaseTest {
 
         Assert.assertEquals(usernameInUserPage, String.format("Jenkins User ID: %s", usernameInUserAccountLink));
     }
-}
 
+    @Test
+    public void testUserVerifyDescriptionIsCreated() {
+        final String inputText = "This is my Jenkins description";
+
+        getDriver().findElement(USER_ACCOUNT_LINK).click();
+
+        if (getDriver().findElement(By.id("description")).getText().length() != 0) {
+            getDriver().findElement(By.id("description-link")).click();
+            getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
+            getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        }
+
+        getDriver().findElement(By.id("description-link")).click();
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(inputText);
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[text()='" + inputText + "']")).getText(), inputText);
+
+    }
+}
