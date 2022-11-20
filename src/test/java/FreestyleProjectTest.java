@@ -32,8 +32,6 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By DESCRIPTION_SAVE_BUTTON = By.id("yui-gen2-button");
     private static final By DESCRIPTION_TEXT = By.xpath("//div[@id = 'description'] /div[1]");
 
-
-
     private WebDriverWait wait;
 
     private WebDriverWait getWait() {
@@ -42,8 +40,6 @@ public class FreestyleProjectTest extends BaseTest {
         }
         return wait;
     }
-    
-    
 
     private List<String> getListExistingFreestyleProjectsNames(By by) {
         return getDriver().findElements(by).stream().map(WebElement::getText).collect(Collectors.toList());
