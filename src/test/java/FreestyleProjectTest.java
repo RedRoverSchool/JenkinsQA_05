@@ -105,7 +105,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(name);
-        getDriver().findElement(By.xpath("//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']//label")).click();
+        getDriver().findElement(By.xpath("//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']/label")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Some Description Text");
 
