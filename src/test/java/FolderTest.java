@@ -9,6 +9,8 @@ import runner.BaseTest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class FolderTest extends BaseTest {
@@ -20,6 +22,10 @@ public class FolderTest extends BaseTest {
     private static final By DASHBOARD = By.xpath("//a[text()='Dashboard']");
     private static final By CREATE_NEW_ITEM = By.linkText("New Item");
     private static final By FREESTYLE_PROJECT = By.xpath("//span[text()='Freestyle project']");
+
+    public Actions getAction() {
+        return new Actions(getDriver());
+    }
 
     public WebElement getSaveButton() {
         return getDriver().findElement(SAVE_BUTTON);
@@ -250,5 +256,41 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(By.linkText(folderName)).click();
 
         Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
+    }
+
+    @Test
+    public void testConfigureFolderDisplayNameWithDropdownMenu() {
+
+        String folderName = getRandomName();
+        String displayName = getRandomName();
+        Pattern pattern = Pattern.compile("\\bFolder.*\\b");
+
+        getDriver().findElement(CREATE_NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(folderName);
+        getDriver().findElement(FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        getDriver().findElement(DASHBOARD).click();
+
+        getAction()
+                .moveToElement(getDriver().findElement(By.linkText(folderName)))
+                .moveToElement(getDriver().findElement(By.xpath("//tr[@id = 'job_" + folderName + "']//td/a/button")))
+                .click()
+                .build().perform();
+        getDriver().findElement(By.xpath("//span[contains(text(),'Configure')]")).click();
+
+        getDriver().findElement(By.xpath("//input[@name='_.displayNameOrNull']")).sendKeys(displayName);
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", folderName))).click();
+
+        Matcher matcher = pattern.matcher(getDriver().findElement(By.xpath("//div[@id='main-panel']")).getText());
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                displayName);
+        Assert.assertTrue(matcher.find());
+        Assert.assertEquals(matcher.group(), String.format("Folder name: %s", folderName));
     }
 }
