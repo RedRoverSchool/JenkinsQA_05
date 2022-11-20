@@ -9,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
 import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
@@ -39,12 +40,9 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).isDisplayed());
 
+        getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li/a")).click();
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
-        getDriver().findElement(By.xpath("//div[@id='tasks']/div[6]")).click();
-        wait.until(ExpectedConditions.alertIsPresent());
-        Alert alert = getDriver().switchTo().alert();
-        alert.accept();
-        getDriver().findElement(By.xpath("//div[@id='tasks']/div[5]")).click();
+        getDriver().findElement(By.xpath("//a[@title='Delete Folder']")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Welcome to Jenkins!']")));
         List<String> lstWithHeaders = getDriver().findElements(By.xpath("//ul[@class='empty-state-section-list']/li/a")).stream().map(e -> e.getText()).collect(Collectors.toList());
