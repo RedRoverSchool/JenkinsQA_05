@@ -17,12 +17,12 @@ public class PeoplePageTest extends BaseTest {
         for (WebElement eachSize : sizes) {
             eachSize.click();
 
-        List<WebElement> columns = getDriver().findElements(By.tagName("//th"));
-        for (WebElement columnName : columns) {
-            columnName.click();
+            List<WebElement> columns = getDriver().findElements(By.tagName("//th"));
+            for (WebElement columnName : columns) {
+                columnName.click();
 
-        getDriver().findElement(By.id("side-panel")).isDisplayed();
-        getDriver().findElement(By.id("footer")).isDisplayed();
+                getDriver().findElement(By.id("side-panel")).isDisplayed();
+                getDriver().findElement(By.id("footer")).isDisplayed();
 
                 Assert.assertTrue(getDriver().findElement(By.id("main-panel")).isDisplayed());
             }
