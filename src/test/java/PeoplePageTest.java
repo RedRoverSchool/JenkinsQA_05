@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
 
-
 public class PeoplePageTest extends BaseTest {
 
     @Test
