@@ -41,6 +41,7 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[6]")).click();
+        wait.until(ExpectedConditions.alertIsPresent());
         Alert alert = getDriver().switchTo().alert();
         alert.accept();
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[5]")).click();
