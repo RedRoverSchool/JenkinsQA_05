@@ -33,6 +33,7 @@ public class FreestyleProjectTest extends BaseTest {
         }
         return wait;
     }
+    
 
     private List<String> getListExistingFreestyleProjectsNames(By by) {
         return getDriver().findElements(by).stream().map(WebElement::getText).collect(Collectors.toList());
