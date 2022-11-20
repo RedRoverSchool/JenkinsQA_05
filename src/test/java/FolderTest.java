@@ -322,4 +322,23 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(matcher.find());
         Assert.assertEquals(matcher.group(), String.format("Folder name: %s", folderName));
     }
+
+    @Test
+    public void testDeleteFolderUsingDropDown(){
+
+        final String folderName = getRandomName();
+
+        createProjectFromDashboard(FOLDER, folderName);
+        getDashboard().click();
+        getAction().
+                moveToElement(getDriver().findElement(By.linkText(folderName)))
+                .moveToElement(getDriver().findElement(By.xpath("//tr[@id = 'job_" + folderName + "']//td/a/button")))
+                .click()
+                .build()
+                .perform();
+        getDriver().findElement(By.xpath("//a[@href = '/job/" + folderName + "/delete']")).click();
+        getDriver().findElement(By.cssSelector("#yui-gen1-button")).click();
+
+        Assert.assertFalse(getProjectNameFromProjectTable().contains(folderName));
+    }
 }
