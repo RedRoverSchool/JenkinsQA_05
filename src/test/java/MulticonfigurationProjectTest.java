@@ -62,7 +62,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(
                 By.xpath("//a[@class='jenkins-table__link model-link inside']//button[@class='jenkins-menu-dropdown-chevron']")).click();
         wait.until(ExpectedConditions
-                .elementToBeClickable(By.xpath(String.format("//a[@href='/job/%s/confirm-rename']", PROJECT_NAME)))).click();
+                .elementToBeClickable(By.xpath("//span[text() = 'Rename']"))).click();
         getDriver().findElement(By.xpath(String.format("//input[@value='%s']", PROJECT_NAME))).clear();
         getDriver().findElement(By.xpath(String.format("//input[@value='%s']", PROJECT_NAME))).sendKeys(NEW_PROJECT_NAME);
         getDriver().findElement(By.id("yui-gen1-button")).click();
