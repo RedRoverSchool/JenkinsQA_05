@@ -101,17 +101,18 @@ public class FreestyleProjectTest extends BaseTest {
     @Test
     public void testCreateFreestyleProjectWithDescription() {
         final String name = "JustName";
+        final String description = "Some Description Text";
 
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(name);
         getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Some Description Text");
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
 
         getDriver().findElement(By.id("yui-gen23-button")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(),
-                "Some Description Text");
+                description);
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
                 String.format("Project %s", name));
     }
