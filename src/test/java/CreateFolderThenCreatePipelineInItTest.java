@@ -41,9 +41,8 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
         getDriver().findElement(By.linkText("Delete Folder")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
-        List<String> lstWithHeaders = getDriver().findElements(By.xpath("//ul[@class='empty-state-section-list']/li/a")).stream().map(e -> e.getText()).collect(Collectors.toList());
 
-        Assert.assertTrue(lstWithHeaders.contains("Set up an agent"));
+        Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='newJob']")).isDisplayed());
 
 
     }
