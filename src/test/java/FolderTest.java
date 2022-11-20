@@ -21,9 +21,8 @@ public class FolderTest extends BaseTest {
     private static final By FOLDER = By.xpath("//span[text()='Folder']");
     private static final By DASHBOARD = By.xpath("//a[text()='Dashboard']");
     private static final By CREATE_NEW_ITEM = By.linkText("New Item");
-    private static final By SELECT_FREESTYLE_PROJECT = By.xpath("//span[text()='Freestyle project']");
+    private static final By FREESTYLE_PROJECT = By.xpath("//span[text()='Freestyle project']");
     private static final By CREATE_A_JOB = By.linkText("Create a job");
-
 
     public Actions getAction() {
         return new Actions(getDriver());
@@ -205,7 +204,7 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text() = 'Create a job']")).click();
 
         getDriver().findElement(INPUT_NAME).sendKeys(freestyleProjectName);
-        getDriver().findElement(SELECT_FREESTYLE_PROJECT).click();
+        getDriver().findElement(FREESTYLE_PROJECT).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(DASHBOARD).click();
