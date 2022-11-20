@@ -54,7 +54,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#description div")).getText(), description);
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testMulticonfigurationProjectAddDescription")
     public void testMultiConfigurationProjectRenameProjectViaDropDownMenu() {
         wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
@@ -70,7 +70,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(
                 By.xpath(String.format("//h1[contains(text(),'Project %s')]", NEW_PROJECT_NAME))).getText(), String.format("Project %s", NEW_PROJECT_NAME));
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testMultiConfigurationProjectRenameProjectViaDropDownMenu")
     public void testMultiConfigurationProjectRenameProjectViaSideMenu() {
 
@@ -96,7 +96,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         alert.accept();
     }
 
-    @Test(dependsOnMethods = "testMultiConfigurationProjectRenameProjectViaSideMenu")
+    @Test(dependsOnMethods = "testMulticonfigurationProjectAddDescription")
     public void testMultiConfigurationProjectDisable() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
         getDriver().findElement(CONFIGURE).click();
