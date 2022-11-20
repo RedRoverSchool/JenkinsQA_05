@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -107,31 +106,29 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertFalse(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(NEW_FREESTYLE_NAME));
     }
 
-    @Ignore
     @Test
     public void testCreateFreestyleProjectWithDescription() {
-        final String name = "JustName";
         final String description = "Some Description Text";
 
         getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(name);
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(FREESTYLE_NAME);
         getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
-
-        getDriver().findElement(By.id("yui-gen23-button")).click();
+        getDriver().findElement(BUTTON_SAVE).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(),
                 description);
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
-                String.format("Project %s", name));
+                String.format("Project %s", FREESTYLE_NAME));
     }
 
-    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
+    @Test(dependsOnMethods = "testCreateFreestyleProjectWithDescription")
     public void testEditFreestyleProjectWithDescription() {
         getDriver().findElement(By.xpath("//span[contains(text(),'" + FREESTYLE_NAME + "')]")).click();
 
         getDriver().findElement(EDIT_DESCRIPTION_BUTTON).click();
+        getDriver().findElement(DESCRIPTION_TEXT_FIELD).clear();
         getDriver().findElement(DESCRIPTION_TEXT_FIELD).sendKeys(FREESTYLE_DESCRIPTION);
         getDriver().findElement(DESCRIPTION_SAVE_BUTTON).click();
 
