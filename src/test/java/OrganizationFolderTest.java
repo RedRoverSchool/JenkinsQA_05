@@ -1,5 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -27,18 +29,23 @@ public class OrganizationFolderTest extends BaseTest {
     public WebElement getInputName() {
         return getDriver().findElement(INPUT_NAME);
     }
+
     public WebElement getOrganizationFolder() {
         return getDriver().findElement(ORGANIZATION_FOLDER);
     }
+
     public WebElement getOkButton() {
         return getDriver().findElement(OK_BUTTON);
     }
+
     public WebElement getDashboard() {
         return getDriver().findElement(DASHBOARD);
     }
+
     public WebElement getApplyButton() {
         return getDriver().findElement(APPLY_BUTTON);
     }
+
     public WebElement getInputLine() {
         return getDriver().findElement(INPUT_LINE);
     }
@@ -51,9 +58,43 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(SAVE_BUTTON).click();
     }
 
+    private String randomName() {
+        return RandomStringUtils.randomAlphabetic(8);
+    }
+
+    private boolean isElementExist(String name) {
+        try {
+            findFolder(name);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    private WebElement findFolder(String name) {
+        return getDriver().findElement(By.xpath("//span[text()='" + name + "']"));
+    }
+    private void createOrgFolder(String name) {
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(name);
+        WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(By.id("yui-gen15-button")).click();
+    }
+
+    public void createFolder(String name) {
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(name);
+        getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(By.id("yui-gen6-button")).click();
+    }
+
     @Ignore
     @Test
-    public void testCreateOrganizationFolder(){
+    public void testCreateOrganizationFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
         getInputName().sendKeys("First Organization Folder");
         getOrganizationFolder().click();
@@ -83,7 +124,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testRenameOrganizationFolder1()  {
+    public void testRenameOrganizationFolder1() {
         createNewOrganizationFolder();
 
         getDriver().findElement(By.linkText("Rename")).click();
@@ -106,13 +147,13 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//li[@class='item']/a[@href='/']")).click();
         List<WebElement> list = getDriver().findElements(By.cssSelector(".jenkins-table__link.model-link.inside span"));
 
-        Assert.assertTrue(list.size()>0);
+        Assert.assertTrue(list.size() > 0);
 
-        for (WebElement a : list){
-           if(a.getText().equals(organizationFolderName)){
+        for (WebElement a : list) {
+            if (a.getText().equals(organizationFolderName)) {
                 actualResult = true;
                 break;
-           }
+            }
         }
 
         Assert.assertTrue(actualResult);
@@ -131,7 +172,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrgFolderEmptyName(){
+    public void testCreateOrgFolderEmptyName() {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(ORGANIZATION_FOLDER).click();
 
@@ -139,5 +180,38 @@ public class OrganizationFolderTest extends BaseTest {
                         findElement(By.id("itemname-required")).getText(),
                 "» This field cannot be empty, please enter a valid name");
         Assert.assertFalse(getDriver().findElement(OK_BUTTON).isEnabled());
+    }
+
+    @Test
+    public void moveOrgFolderToFolder() {
+        String orgFolderName = randomName();
+        String folderName = randomName();
+
+        createOrgFolder(orgFolderName);
+        getDashboard().click();
+
+        createFolder(folderName);
+        getDashboard().click();
+
+        WebElement myOrdFolder = findFolder(orgFolderName);
+
+        Assert.assertTrue(myOrdFolder.isDisplayed());
+        Assert.assertTrue(findFolder(folderName).isDisplayed());
+
+        myOrdFolder.click();
+        getDriver().findElement(By.linkText("Move")).click();
+        getDriver().findElement(By.name("destination")).click();
+        getDriver().findElement(By.xpath("//option[contains(text(),'" + folderName + "')]")).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+        getDashboard().click();
+
+        WebElement myFolder = findFolder(folderName);
+
+        Assert.assertTrue(!isElementExist(orgFolderName));
+        Assert.assertTrue(myFolder.isDisplayed());
+
+        myFolder.click();
+
+        Assert.assertTrue(findFolder(orgFolderName).isDisplayed());
     }
 }
