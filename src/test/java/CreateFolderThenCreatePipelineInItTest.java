@@ -39,6 +39,7 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li/a")).click();
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Delete Folder")));
         getDriver().findElement(By.linkText("Delete Folder")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
@@ -55,7 +56,7 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
     @DataProvider(name = "jobs2run")
     public Object[][] data() {
         return new Object[][]{
-                {getUUID(), getUUID()}, {getUUID(), getUUID()}, {getUUID(), getUUID()}
+                {getUUID(), getUUID()}
         };
     }
 
