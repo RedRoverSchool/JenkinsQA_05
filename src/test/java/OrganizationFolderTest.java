@@ -13,7 +13,6 @@ import java.util.Date;
 
 public class OrganizationFolderTest extends BaseTest {
     private static final String uniqueOrganizationFolderName = "folder" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
     private static final By ORGANIZATION_FOLDER = By.xpath("//li[@class = 'jenkins_branch_OrganizationFolder']");
     private static final By OK_BUTTON = By.id("ok-button");
@@ -23,6 +22,7 @@ public class OrganizationFolderTest extends BaseTest {
     private static final By INPUT_LINE = By.name("newName");
     private static final By RENAME_BUTTON = By.id("yui-gen1-button");
     private static final By TITLE = By.xpath("//div[@id='main-panel']/h1");
+
 
     public WebElement getInputName() {
         return getDriver().findElement(INPUT_NAME);
@@ -42,6 +42,9 @@ public class OrganizationFolderTest extends BaseTest {
     public WebElement getInputLine() {
         return getDriver().findElement(INPUT_LINE);
     }
+    public WebElement getSaveButton() {
+        return getDriver().findElement(SAVE_BUTTON);
+    }
 
     private void createNewOrganizationFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -51,18 +54,15 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(SAVE_BUTTON).click();
     }
 
-    @Ignore
     @Test
-    public void testCreateOrganizationFolder(){
+    public void testCreateOrganizationFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
-        getInputName().sendKeys("First Organization Folder");
+        getInputName().sendKeys(uniqueOrganizationFolderName + "2");
         getOrganizationFolder().click();
         getOkButton().click();
-        getApplyButton().click();
-        getDashboard().click();
+        getSaveButton().click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href ='job/First%20Organization%20Folder/']"))
-                .getText(), "First Organization Folder");
+        Assert.assertEquals(getDriver().findElement(TITLE).getText(), uniqueOrganizationFolderName + "2");
     }
 
     @Test
