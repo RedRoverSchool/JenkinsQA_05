@@ -43,6 +43,12 @@ public class MultibranchPipelineTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen1-button")).click();
     }
 
+    private void inputNewMbName(String itemName) {
+        buttonClickXpath(NEW_ITEM_XPATH);
+        inputTextByXPath(ENTER_AN_ITEM_NAME_XPATH, itemName);
+        buttonClickXpath(MULTIBRANCH_PIPELINE_XPATH);
+    }
+
     @Test
     public void Create_Multibranch_pipeline() {
         String nameOfItem = "MultibranchPipeline";
@@ -100,5 +106,20 @@ public class MultibranchPipelineTest extends BaseTest {
         inputTextByXPath(ENTER_AN_ITEM_NAME_XPATH, itemName);
 
         assertTextById("itemname-invalid", warnMessage);
+    }
+
+    @Test
+    public void testCreateWithExistingName() {
+        String itemName = "MultiBranchPipeline 000503";
+        String warnMessage = String.format("» A job already exists with the name ‘%s’", itemName);
+
+        inputNewMbName(itemName);
+        buttonClickXpath(BUTTON_OK_XPATH);
+        buttonClickXpath(DASHBOARD_XPATH);
+        inputNewMbName(itemName);
+
+        assertTextByXPath("//*[@id='itemname-invalid' and not(contains(@class, 'disabled'))]", warnMessage);
+
+        deleteItem(itemName);
     }
 }

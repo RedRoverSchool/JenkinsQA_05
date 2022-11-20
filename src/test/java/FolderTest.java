@@ -23,6 +23,7 @@ public class FolderTest extends BaseTest {
     private static final By CREATE_NEW_ITEM = By.linkText("New Item");
     private static final By FREESTYLE_PROJECT = By.xpath("//span[text()='Freestyle project']");
     private static final By CREATE_A_JOB = By.linkText("Create a job");
+    private static final By ADD_DESCRIPTION = By.linkText("Add description");
 
     public Actions getAction() {
         return new Actions(getDriver());
@@ -215,6 +216,28 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
+    public void testCreateMultiConfigurationProjectInFolder() {
+
+        final String folderName = getRandomName ();
+        final String multiConfigurationProjectName = getRandomName ();
+
+        getDriver().findElement(CREATE_NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(folderName);
+        getDriver().findElement(By.className("com_cloudbees_hudson_plugins_folder_Folder")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        getDriver().findElement(By.xpath("//span[text() = 'Create a job']")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(multiConfigurationProjectName);
+        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(By.xpath("//a[text()='" + folderName + "']")).click();
+
+        Assert.assertTrue(getProjectNameFromProjectTable().contains(multiConfigurationProjectName));
+    }
+
+    @Test
     public void testCreateFolderInFolder() {
 
         final String folderName = getRandomName();
@@ -340,5 +363,24 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(By.cssSelector("#yui-gen1-button")).click();
 
         Assert.assertFalse(getProjectNameFromProjectTable().contains(folderName));
+    }
+
+    @Test
+    public void testAddFolderDescription(){
+        String folderName = getRandomName();
+        String folderDescription = getRandomName();
+
+        getDriver().findElement(CREATE_NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(folderName);
+        getDriver().findElement(FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.linkText(folderName)).click();
+        getDriver().findElement(ADD_DESCRIPTION).click();
+        getDriver().findElement(By.className("jenkins-input")).sendKeys(folderDescription);
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.id("description")).getText().contains(folderDescription));
     }
 }
