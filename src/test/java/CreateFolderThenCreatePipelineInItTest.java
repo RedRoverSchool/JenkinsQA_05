@@ -9,7 +9,6 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
 import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
 
     @Test(dataProvider = "jobs2run")
-    public void testToVerifyPipelineInFolderCreationAndBuildRunNtimes(String folderName, String pipelineName, int numberOfJobs2Run) throws InterruptedException {
+    public void testToVerifyPipelineInFolderCreationAndBuildRunNtimes(String folderName, String pipelineName) throws InterruptedException {
 
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.id("name")).sendKeys(folderName);
@@ -35,17 +34,12 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         select.selectByVisibleText("Hello World");
         getDriver().findElement(By.id("yui-gen6-button")).click();
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(9));
-        int i = 1;
-        while (i <= numberOfJobs2Run) {
-            getDriver().findElement(By.xpath("//a[@title='Build Now']")).click();
-            Thread.sleep(5000);
-            i++;
-        }
-        List<WebElement> listWithTr = getDriver().findElements(By.xpath("//div[@id='buildHistory']/div[2]/table/tbody/tr/td/div/div/a"));
-        wait.until(ExpectedConditions.visibilityOfAllElements(listWithTr));
+        getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li/a")).click();
+        getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
 
-        Assert.assertEquals(listWithTr.size(), numberOfJobs2Run);
+        Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='job/" + pipelineName + "/']")).isDisplayed());
 
+        getDriver().findElement(By.xpath("//a[@href='job/" + pipelineName + "/']")).click();
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[6]")).click();
         Alert alert = getDriver().switchTo().alert();
         alert.accept();
@@ -67,7 +61,7 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
     @DataProvider(name = "jobs2run")
     public Object[][] data() {
         return new Object[][]{
-                {getUUID(), getUUID(), 8}, {getUUID(), getUUID(), 3}, {getUUID(), getUUID(), 1}
+                {getUUID(), getUUID()}, {getUUID(), getUUID()}, {getUUID(), getUUID()}
         };
     }
 
