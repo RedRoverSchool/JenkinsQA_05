@@ -43,7 +43,7 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         getDriver().findElement(By.linkText("Delete Folder")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='newJob']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//h2[text()='Start building your software project']")).isDisplayed());
 
 
     }
