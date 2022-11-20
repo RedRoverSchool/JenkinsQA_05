@@ -88,6 +88,7 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(INPUT_LINE).clear();
         getDriver().findElement(INPUT_LINE).sendKeys(uniqueOrganizationFolderName + "1");
         getDriver().findElement(RENAME_BUTTON).click();
+
         Assert.assertEquals(getDriver().findElement(TITLE).getText(), uniqueOrganizationFolderName + "1");
     }
 
@@ -122,7 +123,19 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(ORGANIZATION_FOLDER).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
+
         Assert.assertEquals(getDriver().
                 findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), uniqueOrganizationFolderName + 5);
+    }
+
+    @Test
+    public void testCreateOrgFolderEmptyName(){
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(ORGANIZATION_FOLDER).click();
+
+        Assert.assertEquals(getDriver().
+                        findElement(By.id("itemname-required")).getText(),
+                "» This field cannot be empty, please enter a valid name");
+        Assert.assertFalse(getDriver().findElement(OK_BUTTON).isEnabled());
     }
 }
