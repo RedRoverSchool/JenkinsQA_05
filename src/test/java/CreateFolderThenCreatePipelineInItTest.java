@@ -37,7 +37,7 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li/a")).click();
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='job/" + pipelineName + "/']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).isDisplayed());
 
         getDriver().findElement(By.xpath("//a[@href='job/" + pipelineName + "/']")).click();
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[6]")).click();
