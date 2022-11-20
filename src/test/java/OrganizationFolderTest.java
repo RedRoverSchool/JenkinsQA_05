@@ -76,7 +76,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
     private void createOrgFolder(String name) {
         getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(name);
+        getDriver().findElement(INPUT_NAME).sendKeys(name);
         WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
@@ -86,7 +86,7 @@ public class OrganizationFolderTest extends BaseTest {
 
     public void createFolder(String name) {
         getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(name);
+        getDriver().findElement(INPUT_NAME).sendKeys(name);
         getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(By.id("yui-gen6-button")).click();
