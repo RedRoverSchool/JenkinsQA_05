@@ -15,7 +15,6 @@ import java.util.Date;
 
 public class OrganizationFolderTest extends BaseTest {
     private static final String uniqueOrganizationFolderName = "folder" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
     private static final By ORGANIZATION_FOLDER = By.xpath("//li[@class = 'jenkins_branch_OrganizationFolder']");
     private static final By OK_BUTTON = By.id("ok-button");
@@ -26,28 +25,27 @@ public class OrganizationFolderTest extends BaseTest {
     private static final By RENAME_BUTTON = By.id("yui-gen1-button");
     private static final By TITLE = By.xpath("//div[@id='main-panel']/h1");
 
+
     public WebElement getInputName() {
         return getDriver().findElement(INPUT_NAME);
     }
-
     public WebElement getOrganizationFolder() {
         return getDriver().findElement(ORGANIZATION_FOLDER);
     }
-
     public WebElement getOkButton() {
         return getDriver().findElement(OK_BUTTON);
     }
-
     public WebElement getDashboard() {
         return getDriver().findElement(DASHBOARD);
     }
-
     public WebElement getApplyButton() {
         return getDriver().findElement(APPLY_BUTTON);
     }
-
     public WebElement getInputLine() {
         return getDriver().findElement(INPUT_LINE);
+    }
+    public WebElement getSaveButton() {
+        return getDriver().findElement(SAVE_BUTTON);
     }
 
     private void createNewOrganizationFolder() {
@@ -96,14 +94,12 @@ public class OrganizationFolderTest extends BaseTest {
     @Test
     public void testCreateOrganizationFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
-        getInputName().sendKeys("First Organization Folder");
+        getInputName().sendKeys(uniqueOrganizationFolderName + "2");
         getOrganizationFolder().click();
         getOkButton().click();
-        getApplyButton().click();
-        getDashboard().click();
+        getSaveButton().click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href ='job/First%20Organization%20Folder/']"))
-                .getText(), "First Organization Folder");
+        Assert.assertEquals(getDriver().findElement(TITLE).getText(), uniqueOrganizationFolderName + "2");
     }
 
     @Test
@@ -124,7 +120,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testRenameOrganizationFolder1() {
+    public void testRenameOrganizationFolder1()  {
         createNewOrganizationFolder();
 
         getDriver().findElement(By.linkText("Rename")).click();
@@ -147,13 +143,13 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//li[@class='item']/a[@href='/']")).click();
         List<WebElement> list = getDriver().findElements(By.cssSelector(".jenkins-table__link.model-link.inside span"));
 
-        Assert.assertTrue(list.size() > 0);
+        Assert.assertTrue(list.size()>0);
 
-        for (WebElement a : list) {
-            if (a.getText().equals(organizationFolderName)) {
+        for (WebElement a : list){
+           if(a.getText().equals(organizationFolderName)){
                 actualResult = true;
                 break;
-            }
+           }
         }
 
         Assert.assertTrue(actualResult);
@@ -172,7 +168,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrgFolderEmptyName() {
+    public void testCreateOrgFolderEmptyName(){
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(ORGANIZATION_FOLDER).click();
 
