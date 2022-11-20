@@ -1,4 +1,6 @@
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
@@ -11,29 +13,46 @@ import java.util.regex.Pattern;
 
 public class NewItemCreatePipelineTest extends BaseTest {
 
-    private void click(By by) {
-        getDriver().findElement(by).click();
+    private static final By NEW_ITEM = By.linkText("New Item");
+    private static final By FIELD_NAME = By.id("name");
+    private static final By OK_BUTTON = By.id("ok-button");
+    private static final By SAVE_BUTTON = By.id("yui-gen6-button");
+    private static final By LINK_TO_DASHBOARD  = By.id("jenkins-name-icon");
+
+    private static String getRandomStr() {
+        return RandomStringUtils.random(7, true,true);
+    }
+
+    private void createPipeline(String jobName) {
+        setJobPipeline(jobName);
+        getDriver().findElement(OK_BUTTON).click();
+    }
+
+    private void setJobPipeline(String jobName) {
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(FIELD_NAME).sendKeys(jobName);
+        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
+    }
+
+    private void scrollPageDown() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
     @Test
     public void testCreatePipelineExistingNameError() {
+        final String jobName = getRandomStr();
 
-        final String jobname = "Job15";
+        createPipeline(jobName);
+        getDriver().findElement(LINK_TO_DASHBOARD).click();
+        getDriver().findElement(NEW_ITEM).click();
 
-        click(By.linkText("New Item"));
-        getDriver().findElement(By.id("name")).sendKeys(jobname);
-        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
-        click(By.id("ok-button"));
-        click(By.id("jenkins-home-link"));
-        click(By.linkText("New Item"));
+        new Actions(getDriver()).moveToElement(getDriver().findElement(FIELD_NAME)).click()
+                .sendKeys(jobName).build().perform();
 
-        new Actions(getDriver()).moveToElement(getDriver().findElement(By.id("name"))).click()
-                .sendKeys(jobname).build().perform();
+        final WebElement notificationError = getDriver().findElement(By.id("itemname-invalid"));
 
-        final WebElement notificationError = getDriver()
-                .findElement(By.xpath("//div[@class='input-validation-message' and not(contains(@class, 'disabled')) and  @id='itemname-invalid']"));
-
-        Assert.assertEquals(notificationError.getText(), String.format("» A job already exists with the name ‘%s’", jobname));
+        Assert.assertEquals(notificationError.getText(), String.format("» A job already exists with the name ‘%s’", jobName));
     }
 
     @DataProvider(name = "new-item-unsafe-names")
@@ -47,8 +66,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Matcher matcher = Pattern.compile("[!@#$%^&*|:?></.']").matcher(name);
         matcher.find();
 
-        getDriver().findElement(By.cssSelector("a.task-link")).click();
-        getDriver().findElement(By.cssSelector("input#name")).sendKeys(name);
+        setJobPipeline(name);
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("div#itemname-invalid")).getAttribute("textContent"),
                 String.format("» ‘%s’ is an unsafe character", name.charAt(matcher.start())));
@@ -56,8 +74,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithoutName() {
-        click(By.linkText("New Item"));
-        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
+        setJobPipeline("");
 
         Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
                 "» This field cannot be empty, please enter a valid name");
@@ -65,8 +82,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreateNewItemWithoutChooseAnyFolder(){
-        click(By.linkText("New Item"));
-        click(By.xpath("//span[@class = 'yui-button primary large-button']"));
+        setJobPipeline("");
 
         Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
                 "» This field cannot be empty, please enter a valid name");
@@ -74,15 +90,47 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineOnBreadcrumbs () {
-        final String itemName = "AFJenkins05";
+        final String itemName = getRandomStr();
 
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.cssSelector("input#name")).sendKeys(
-                itemName);
-        click(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob"));
-        getDriver().findElement(By.id("ok-button")).click();
+        createPipeline(itemName);
 
         Assert.assertTrue(getDriver().findElement(By.className("jenkins-breadcrumbs"))
                 .getAttribute("textContent").contains(itemName));
+    }
+
+    @Test
+    public void testCreateNewPipeline() {
+        final String nameOfNewPipeline = getRandomStr();
+
+        createPipeline(nameOfNewPipeline);
+        new Actions(getDriver()).moveToElement(getDriver().findElement(SAVE_BUTTON)).click().perform();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']")).getText(),
+                String.format("Pipeline %s", nameOfNewPipeline));
+    }
+
+    @Test
+    public void testCreatePipelineWithName() {
+        final String name = getRandomStr();
+
+        createPipeline(name);
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(LINK_TO_DASHBOARD).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", name))).getText(), name);
+    }
+
+    @Test
+    public void testCreateNewItemFromOtherNonExistingName() {
+        final String jobName = getRandomStr();
+
+        setJobPipeline(jobName);
+        scrollPageDown();
+        new Actions(getDriver()).pause(1500).moveToElement(getDriver().findElement(By.id("from"))).click()
+                .sendKeys(jobName).perform();
+        getDriver().findElement(OK_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
+                "No such job: " + jobName);
     }
 }
