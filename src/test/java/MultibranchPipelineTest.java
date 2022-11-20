@@ -118,7 +118,6 @@ public class MultibranchPipelineTest extends BaseTest {
         buttonClickXpath(DASHBOARD_XPATH);
         inputNewMbName(itemName);
 
-        //assertTextByXPath("//*[@id='itemname-invalid' and not(contains(@class, 'disabled'))]", warnMessage);
         assertTextByXPath("//*[@id='itemname-invalid' and not(contains(@class, 'disabled'))]", warnMessage);
 
         deleteItem(itemName);
