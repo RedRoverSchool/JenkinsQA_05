@@ -42,7 +42,7 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li/a")).click();
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
-        getDriver().findElement(By.xpath("//a[@title='Delete Folder']")).click();
+        getDriver().findElement(By.linkText("Delete Folder")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h1[text()='Welcome to Jenkins!']")));
         List<String> lstWithHeaders = getDriver().findElements(By.xpath("//ul[@class='empty-state-section-list']/li/a")).stream().map(e -> e.getText()).collect(Collectors.toList());
