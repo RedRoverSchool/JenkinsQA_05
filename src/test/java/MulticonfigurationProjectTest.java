@@ -31,6 +31,36 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Test
+    public void CreateMultiConfigurationProjectWithDescription() {
+        final String nameMCP = "MultiConfigProject000302";
+        final String descriptionMCP = "Description000302";
+
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        getDriver().findElement(By.xpath("//input[@class='jenkins-input']")).sendKeys(nameMCP);
+        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.name("description")).sendKeys(descriptionMCP);
+        getDriver().findElement(By.className("textarea-show-preview")).click();
+        String ActualPreviewText = getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).
+                getText();
+        getDriver().findElement(
+                By.xpath("//span[@class='yui-button yui-submit-button submit-button primary']")).click();
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+        getDriver().findElement(By.xpath("//span[text()='" + nameMCP + "']")).click();
+        String ActualNameMCP = getDriver().findElement(
+                By.xpath("//li[@class='item']//a[@href='/job/MultiConfigProject000302/']")).getText();
+        String ActualDecriptionMCP = getDriver().findElement(
+                By.xpath("//div[@id='description']/div[1]")).getText();
+
+        Assert.assertEquals(ActualNameMCP,nameMCP);
+        Assert.assertEquals(ActualDecriptionMCP,descriptionMCP);
+        Assert.assertEquals(descriptionMCP,ActualPreviewText);
+
+        getDriver().findElement(By.xpath("//span[text()='Delete Multi-configuration project']")).click();
+        getDriver().switchTo().alert().accept();
+    }
+
+    @Test
     public void testCreateMultiConfigurationProjectWithValidName_HappyPath() {
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
@@ -107,35 +137,5 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .getText().contains("This project is currently disabled"));
 
         deleteNewMCProject();
-    }
-
-    @Test
-    public void CreateMultiConfigurationProjectWithDescription() {
-        final String nameMCP = "MultiConfigProject000302";
-        final String descriptionMCP = "Description000302";
-
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.xpath("//input[@class='jenkins-input']")).sendKeys(nameMCP);
-        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.name("description")).sendKeys(descriptionMCP);
-        getDriver().findElement(By.className("textarea-show-preview")).click();
-        String ActualPreviewText = getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).
-                getText();
-        getDriver().findElement(
-                By.xpath("//span[@class='yui-button yui-submit-button submit-button primary']")).click();
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
-        getDriver().findElement(By.xpath("//span[text()='" + nameMCP + "']")).click();
-        String ActualNameMCP = getDriver().findElement(
-                By.xpath("//li[@class='item']//a[@href='/job/MultiConfigProject000302/']")).getText();
-        String ActualDecriptionMCP = getDriver().findElement(
-                By.xpath("//div[@id='description']/div[1]")).getText();
-
-        Assert.assertEquals(ActualNameMCP,nameMCP);
-        Assert.assertEquals(ActualDecriptionMCP,descriptionMCP);
-        Assert.assertEquals(descriptionMCP,ActualPreviewText);
-
-        getDriver().findElement(By.xpath("//span[text()='Delete Multi-configuration project']")).click();
-        getDriver().switchTo().alert().accept();
     }
 }
