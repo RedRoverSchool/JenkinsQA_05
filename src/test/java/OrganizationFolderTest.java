@@ -79,6 +79,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .getText(), "New Organization Folder");
     }
 
+    @Ignore
     @Test
     public void testRenameOrganizationFolder1() {
         createNewOrganizationFolder();
@@ -113,5 +114,16 @@ public class OrganizationFolderTest extends BaseTest {
         }
 
         Assert.assertTrue(actualResult);
+    }
+
+    @Test
+    public void createOrgFolder() {
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName);
+        getDriver().findElement(ORGANIZATION_FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        Assert.assertEquals(getDriver().
+                findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), uniqueOrganizationFolderName);
     }
 }
