@@ -215,6 +215,28 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
+    public void testCreateMultiConfigurationProjectInFolder() {
+
+        final String folderName = getRandomName ();
+        final String multiConfigurationProjectName = getRandomName ();
+
+        getDriver().findElement(CREATE_NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(folderName);
+        getDriver().findElement(By.className("com_cloudbees_hudson_plugins_folder_Folder")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        getDriver().findElement(By.xpath("//span[text() = 'Create a job']")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(multiConfigurationProjectName);
+        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(By.xpath("//a[text()='" + folderName + "']")).click();
+
+        Assert.assertTrue(getProjectNameFromProjectTable().contains(multiConfigurationProjectName));
+    }
+
+    @Test
     public void testCreateFolderInFolder() {
 
         final String folderName = getRandomName();
