@@ -1,5 +1,6 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -38,7 +39,9 @@ public class FolderMoveTest extends BaseTest {
         createFolder(folderName2);
 
         getDriver().findElement(FOLDER1).click();
-        getDriver().findElement(By.xpath("//li[@index='5']")).click();
+        WebElement element = getDriver().findElement(By.xpath("//span[text()='Move']"));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", element);
 
         Select dropdown = new Select(getDriver().findElement(By.cssSelector(".select.setting-input")));
         dropdown.selectByVisibleText("Jenkins » " + folderName2);
@@ -55,7 +58,6 @@ public class FolderMoveTest extends BaseTest {
         List<WebElement> foldersList = getDriver().findElements(By.cssSelector(".jenkins-table__link.model-link.inside"));
         Assert.assertTrue(foldersList.size() > 0);
         for (WebElement folder : foldersList) {
-            System.out.println(folder.getText());
             Assert.assertFalse(folder.getText().contains(folderName1));
         }
 
