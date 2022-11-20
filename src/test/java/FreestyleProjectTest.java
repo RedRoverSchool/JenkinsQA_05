@@ -2,6 +2,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -97,4 +98,24 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertFalse(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(NEW_FREESTYLE_NAME));
     }
+
+    @Test
+    public void testCreateFreestyleProjectWithDescription() {
+        final String name = "JustName";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(name);
+        getDriver().findElement(By.xpath("//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']//label")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Some Description Text");
+
+        new Actions(getDriver()).moveToElement(getDriver().findElement(By.id("yui-gen6-button"))).click().perform();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[normalize-space()='Some Description Text']")).getText(),
+                "Some Description Text");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']")).getText(),
+                String.format("Pipeline %s", name));
+    }
 }
+
+
