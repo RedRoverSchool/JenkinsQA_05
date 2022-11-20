@@ -37,9 +37,6 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(9));
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li/a")).click();
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
-
-        Assert.assertTrue(getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).isDisplayed());
-
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li/a")).click();
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
         getDriver().findElement(By.linkText("Delete Folder")).click();
