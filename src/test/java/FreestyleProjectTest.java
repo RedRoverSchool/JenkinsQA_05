@@ -83,6 +83,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualText, expectedText);
     }
+    
     @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears")
     public void testDeleteFreestyleProject() {
 
