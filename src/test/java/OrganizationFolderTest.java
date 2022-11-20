@@ -48,7 +48,7 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(SAVE_BUTTON).click();
     }
 
-    @Ignore
+
     @Test
     public void testCreateOrganizationFolder(){
         getDriver().findElement(By.linkText("New Item")).click();
