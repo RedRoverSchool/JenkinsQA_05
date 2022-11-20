@@ -17,6 +17,8 @@ public class FreestyleProjectTest extends BaseTest {
 
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String FREESTYLE_DESCRIPTION = RandomStringUtils.randomAlphanumeric(10);
+
     private static final By LINK_NEW_ITEM = By.linkText("New Item");
     private static final By FIELD_ENTER_AN_ITEM_NAME = By.id("name");
     private static final By LINK_FREESTYLE_PROJECT = By.cssSelector(".hudson_model_FreeStyleProject");
@@ -25,6 +27,12 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By BUTTON_SAVE = By.xpath("//span[@name = 'Submit']");
     private static final By LIST_FREESTYLE_JOBS = By
             .xpath("//a[@class='jenkins-table__link model-link inside']");
+    private static final By EDIT_DESCRIPTION_BUTTON = By.id("description-link");
+    private static final By DESCRIPTION_TEXT_FIELD = By.xpath("//textarea[@name = 'description']");
+    private static final By DESCRIPTION_SAVE_BUTTON = By.id("yui-gen2-button");
+    private static final By DESCRIPTION_TEXT = By.xpath("//div[@id = 'description'] /div[1]");
+
+
 
     private WebDriverWait wait;
 
@@ -117,6 +125,17 @@ public class FreestyleProjectTest extends BaseTest {
                 description);
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
                 String.format("Project %s", name));
+    }
+
+    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
+    public void testEditFreestyleProjectWithDescription() {
+        getDriver().findElement(By.xpath("//span[contains(text(),'" + FREESTYLE_NAME + "')]")).click();
+
+        getDriver().findElement(EDIT_DESCRIPTION_BUTTON).click();
+        getDriver().findElement(DESCRIPTION_TEXT_FIELD).sendKeys(FREESTYLE_DESCRIPTION);
+        getDriver().findElement(DESCRIPTION_SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), FREESTYLE_DESCRIPTION);
     }
 }
 
