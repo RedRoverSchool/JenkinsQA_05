@@ -168,7 +168,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualChangesText, "No builds.");
     }
-}
 
     @Test
     public void testFreestyleProjectPageIsOpenedFromDashboard() {
