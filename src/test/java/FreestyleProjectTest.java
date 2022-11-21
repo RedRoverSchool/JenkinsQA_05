@@ -2,10 +2,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -16,23 +16,39 @@ import java.util.stream.Collectors;
 public class FreestyleProjectTest extends BaseTest {
 
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String FREESTYLE_NAME_WITH_DESCRIPTION = RandomStringUtils.randomAlphanumeric(10);
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String FREESTYLE_DESCRIPTION = RandomStringUtils.randomAlphanumeric(10);
     private static final By LINK_NEW_ITEM = By.linkText("New Item");
     private static final By FIELD_ENTER_AN_ITEM_NAME = By.id("name");
     private static final By LINK_FREESTYLE_PROJECT = By.cssSelector(".hudson_model_FreeStyleProject");
     private static final By BUTTON_OK_IN_NEW_ITEM = By.cssSelector("#ok-button");
     private static final By LINK_CHANGES = By.linkText("Changes");
-    private static final By BUTTON_SAVE = By.xpath("//span[@name = 'Submit']");
+    private static final By BUTTON_SAVE = By.xpath("//button[@type = 'submit']");
     private static final By LIST_FREESTYLE_JOBS = By
             .xpath("//a[@class='jenkins-table__link model-link inside']");
+    private static final By EDIT_DESCRIPTION_BUTTON = By.id("description-link");
+    private static final By DESCRIPTION_TEXT_FIELD = By.xpath("//textarea[@name = 'description']");
+    private static final By DESCRIPTION_SAVE_BUTTON = By.id("yui-gen2-button");
+    private static final By DESCRIPTION_TEXT = By.xpath("//div[@id = 'description'] /div[1]");
+
+    private static final By ITEM_NAME_INVALID = By.cssSelector("#itemname-invalid");
 
     private WebDriverWait wait;
+    private Actions action;
 
     private WebDriverWait getWait() {
         if (wait == null) {
             wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
         }
         return wait;
+    }
+
+    private Actions getAction() {
+        if (action == null) {
+            action = new Actions(getDriver());
+        }
+        return action;
     }
 
     private List<String> getListExistingFreestyleProjectsNames(By by) {
@@ -47,7 +63,7 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(FREESTYLE_NAME);
         getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
         getWait().until(ExpectedConditions.elementToBeClickable(BUTTON_OK_IN_NEW_ITEM)).click();
-        getDriver().findElement(BUTTON_SAVE).click();
+        getWait().until(ExpectedConditions.elementToBeClickable(BUTTON_SAVE)).click();
 
         Assert.assertEquals(getDriver()
                 .findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
@@ -59,7 +75,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(FREESTYLE_NAME));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
     public void testRenameFreestyleProject() {
 
@@ -74,7 +89,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(NEW_FREESTYLE_NAME));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testRenameFreestyleProject")
     public void testViewChangesNoBuildsSignAppears() {
         String expectedText = "Changes\nNo builds.";
@@ -87,7 +101,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualText, expectedText);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears")
     public void testDeleteFreestyleProject() {
 
@@ -99,4 +112,51 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertFalse(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(NEW_FREESTYLE_NAME));
     }
+
+    @Test
+    public void testCreateFreestyleProjectWithDescription() {
+        final String description = "Some Description Text";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(FREESTYLE_NAME_WITH_DESCRIPTION);
+        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
+        getDriver().findElement(BUTTON_SAVE).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(),
+                description);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                String.format("Project %s", FREESTYLE_NAME_WITH_DESCRIPTION));
+    }
+
+    @Test(dependsOnMethods = "testCreateFreestyleProjectWithDescription")
+    public void testEditFreestyleProjectWithDescription() {
+        getDriver().findElement(By.xpath("//span[contains(text(),'" + FREESTYLE_NAME_WITH_DESCRIPTION + "')]")).click();
+
+        getDriver().findElement(EDIT_DESCRIPTION_BUTTON).click();
+        getDriver().findElement(DESCRIPTION_TEXT_FIELD).clear();
+        getDriver().findElement(DESCRIPTION_TEXT_FIELD).sendKeys(FREESTYLE_DESCRIPTION);
+        getDriver().findElement(DESCRIPTION_SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), FREESTYLE_DESCRIPTION);
+    }
+
+    @Test
+    public void testCreateFreestyleProjectWithIncorrectCharacters() {
+        final List<Character> incorrectNameCharacters = List.of(
+                '!', '@', '#', '$', '%', '^', '&', '*', '[', ']', '\\', '|', ';', ':', '/', '?', '<', '>');
+
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        for (Character character : incorrectNameCharacters) {
+            getAction().moveToElement(getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME)).click().build().perform();
+            getAction().moveToElement(getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME))
+                    .doubleClick().sendKeys(String.valueOf(character)).build().perform();
+
+            Assert.assertEquals(getDriver().findElement(ITEM_NAME_INVALID).getText(),
+                    "» ‘" + character + "’ is an unsafe character");
+        }
+    }
 }
+
+
