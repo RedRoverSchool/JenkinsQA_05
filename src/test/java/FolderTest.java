@@ -383,4 +383,20 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.id("description")).getText().contains(folderDescription));
     }
+
+    @Test
+    public void testCreateFreestyleProjectInFolderNewItem() {
+        final String folderName = getRandomName();
+        final String freestyleProjectName = getRandomName();
+
+        createProjectFromDashboard(FOLDER, folderName);
+        getDriver().findElement(CREATE_NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(freestyleProjectName);
+        getDriver().findElement(FREESTYLE_PROJECT).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(By.linkText(folderName)).click();
+
+        Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
+    }
 }
