@@ -9,11 +9,12 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
+import java.util.Random;
 import java.util.UUID;
 
 public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
 
-    @Ignore
+
     @Test(dataProvider = "jobs2run")
     public void testToVerifyPipelineInFolderCreationAndBuildRunNtimes(String folderName, String pipelineName) throws InterruptedException {
 
@@ -38,8 +39,8 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li/a")).click();
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Delete Folder")));
-        getDriver().findElement(By.linkText("Delete Folder")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id = 'tasks']//span[contains(text(),'Delete Folder')]")));
+        getDriver().findElement(By.xpath("//div[@id = 'tasks']//span[contains(text(),'Delete Folder')]")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDriver().findElement(By.id("search-box")).sendKeys(folderName + Keys.ENTER);
 
@@ -51,12 +52,18 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         return uuid.toString();
     }
 
+
+    public static String genRandomDigit() {
+        Random r = new Random();
+        int res = 10000 + r.nextInt(20000);
+        return String.valueOf(res);
+    }
+
     @DataProvider(name = "jobs2run")
     public Object[][] data() {
         return new Object[][]{
-                {getUUID(), getUUID()}
+                {getUUID(), getUUID()},
+                {"Shakil"+ genRandomDigit(), "O'Neal" + genRandomDigit()}
         };
     }
-
-
 }
