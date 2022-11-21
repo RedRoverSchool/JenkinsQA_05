@@ -34,15 +34,12 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         select.selectByVisibleText("Hello World");
         getDriver().findElement(By.id("yui-gen6-button")).click();
 
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(9));
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li/a")).click();
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
-        getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li/a")).click();
-        getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id = 'tasks']//span[contains(text(),'Delete Folder')]")));
-        getDriver().findElement(By.xpath("//div[@id = 'tasks']//span[contains(text(),'Delete Folder')]")).click();
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", getDriver().findElement(By.xpath("//div[@id='tasks']//div[5]//a")));
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDriver().findElement(By.id("search-box")).sendKeys(folderName + Keys.ENTER);
+        //menuSelector
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[@id='page-body']/div/div")).isDisplayed());
     }
