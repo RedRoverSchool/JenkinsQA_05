@@ -132,7 +132,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), FREESTYLE_DESCRIPTION);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testDeleteFreestyleProject")
     public void testCreateEmptyFreestyleProject() {
         final String actualProjectName = new HomePage(getDriver())
                 .createNewItem().asFreestyleProject(FREESTYLE_NAME).saveConfiguration().getHeadline();
