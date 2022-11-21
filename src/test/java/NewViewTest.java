@@ -17,11 +17,10 @@ public class NewViewTest extends BaseTest {
     private static final By ADD_TAB = By.className("addTab");
     private static final By VIEW_NAME_FIELD = By.id("name");
     private static final String VIEW_NAME = RandomStringUtils.randomAlphanumeric(5);
-    private static final By RADIO_BUTTON_MY_VIEW = By.xpath("//*[@id='createItemForm']/div[1]/div[2]/fieldset/div[3]/label");
+    private static final By RADIO_BUTTON_MY_VIEW =
+            By.xpath("//*[@id='createItemForm']/div[1]/div[2]/fieldset/div[3]/label");
     private static final By BUTTON_CREATE = By.id("ok");
     private static final By BUTTON_DELETE = By.cssSelector("svg.icon-edit-delete");
-    private static final By PROJECT =
-            By.xpath(String.format("//table[@id = 'projectstatus']//td/a/span[contains(text(),'%s')]", PIPELINE_NAME));
     private static final By VIEW =
             By.xpath(String.format("//div/a[contains(text(),'%s')]", VIEW_NAME));
 
@@ -37,7 +36,7 @@ public class NewViewTest extends BaseTest {
 
     private void deletePipelineProject() {
         getDriver().findElement(JENKINS_ICON).click();
-        getDriver().findElement(PROJECT).click();
+        getDriver().findElement(By.xpath(String.format("//a[@href = contains(., '%s')]/button", PIPELINE_NAME))).click();
         getDriver().findElement(BUTTON_DELETE).click();
         getDriver().switchTo().alert().accept();
     }
