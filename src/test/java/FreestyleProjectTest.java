@@ -157,6 +157,25 @@ public class FreestyleProjectTest extends BaseTest {
                     "» ‘" + character + "’ is an unsafe character");
         }
     }
+
+    @Test
+    public void testFreestyleProjectPageIsOpenedFromDashboard() {
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(FREESTYLE_NAME);
+        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+        getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
+        getDriver().findElement(BUTTON_SAVE).click();
+        getDriver().findElement(By.linkText("Dashboard")).click();
+
+        getAction().moveToElement(
+                getDriver().findElement(By.linkText(FREESTYLE_NAME))).click().build().perform();
+
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                "Project " + FREESTYLE_NAME);
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//div[@id='main-panel']/h2")).getText(),
+                "Permalinks");
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("#yui-gen1")).isDisplayed());
+    }
 }
-
-
