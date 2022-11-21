@@ -68,7 +68,7 @@ public class FreestyleProjectTest extends BaseTest {
         getWait().until(ExpectedConditions.elementToBeClickable(BUTTON_SAVE)).click();
 
         Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
+                .findElement(JOB_HEADLINE_LOCATOR).getText(), "Project " + FREESTYLE_NAME);
     }
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
