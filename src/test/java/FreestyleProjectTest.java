@@ -138,12 +138,12 @@ public class FreestyleProjectTest extends BaseTest {
         final List<Character> incorrectNameCharacters = List.of( '!', '@', '#', '$', '%', '^', '&', '*', '[', ']', '\\', '|', ';', ':', '/', '?', '<', '>');
 
         getWait().until(ExpectedConditions.elementToBeClickable(LINK_NEW_ITEM)).click();
-
         for (Character character : incorrectNameCharacters) {
             getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).click();
             getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).clear();
             getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(String.valueOf(character));
             getWait().until(ExpectedConditions.visibilityOf(getDriver().findElement(ITEM_NAME_INVALID)));
+
             Assert.assertEquals(getDriver().findElement(ITEM_NAME_INVALID).getText(), "» ‘" + character + "’ is an unsafe character");
         }
     }
