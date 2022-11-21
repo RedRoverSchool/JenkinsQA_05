@@ -163,5 +163,3 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(isProjectBuilt);
     }
 }
-
-
