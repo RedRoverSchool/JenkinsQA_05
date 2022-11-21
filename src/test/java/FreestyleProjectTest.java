@@ -101,7 +101,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualText, expectedText);
     }
 
-    @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears")
+    @Test(dependsOnMethods = {"testViewChangesNoBuildsSignAppears", "testAddDescriptionToFreestyleProject"})
     public void testDeleteFreestyleProject() {
 
         getDriver().findElement(By.cssSelector("tr#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
@@ -156,6 +156,22 @@ public class FreestyleProjectTest extends BaseTest {
             Assert.assertEquals(getDriver().findElement(ITEM_NAME_INVALID).getText(),
                     "» ‘" + character + "’ is an unsafe character");
         }
+    }
+
+    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
+    public void testAddDescriptionToFreestyleProject(){
+        final String descriptionText = "This is job #" + FREESTYLE_NAME;
+
+        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(EDIT_DESCRIPTION_BUTTON).click();
+        getDriver().findElement(DESCRIPTION_TEXT_FIELD).sendKeys("This is job #" + FREESTYLE_NAME);
+        getDriver().findElement(By.xpath("//div[@class = 'textarea-preview-container']/a[1]")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'textarea-preview']")).getText(), descriptionText);
+
+        getDriver().findElement(DESCRIPTION_SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), descriptionText);
     }
 }
 
