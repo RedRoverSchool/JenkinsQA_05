@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import page.HomePage;
 import runner.BaseTest;
 
 import java.time.Duration;
@@ -98,5 +99,36 @@ public class FreestyleProjectTest extends BaseTest {
         alert.accept();
 
         Assert.assertFalse(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(NEW_FREESTYLE_NAME));
+    }
+
+    @Test
+    public void testCreateEmptyFreestyleProject() {
+        final String actualProjectName = new HomePage(getDriver())
+                .createNewItem().asFreestyleProject(FREESTYLE_NAME).saveConfiguration().getHeadline();
+
+        Assert.assertEquals(actualProjectName, String.format("Project %s", FREESTYLE_NAME));
+    }
+
+    @Test(dependsOnMethods = "testCreateEmptyFreestyleProject")
+    public void testViewFreestyleProjectPage() {
+        final String actualProjectName = new HomePage(getDriver()).selectProjectFromList(FREESTYLE_NAME).getHeadline();
+
+        Assert.assertEquals(actualProjectName, String.format("Project %s", FREESTYLE_NAME));
+    }
+
+    @Test(dependsOnMethods = "testCreateEmptyFreestyleProject")
+    public void testNoBuildFreestyleProjectChanges() {
+        final String actualChangesText = new HomePage(getDriver())
+                .selectProjectFromList(FREESTYLE_NAME).viewChanges().getText();
+
+        Assert.assertEquals(actualChangesText, "No builds.");
+    }
+
+    @Test(dependsOnMethods = "testCreateEmptyFreestyleProject")
+    public void testFreestyleProjectBuild() {
+        final boolean isProjectBuilt = new HomePage(getDriver())
+                .selectProjectFromList(FREESTYLE_NAME).buildNow().hasBuildInHistory();
+
+        Assert.assertTrue(isProjectBuilt);
     }
 }
