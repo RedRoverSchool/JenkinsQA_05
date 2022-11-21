@@ -60,8 +60,7 @@ public class NewViewTest extends BaseTest {
         getDriver().findElement(RADIO_BUTTON_MY_VIEW).click();
         getDriver().findElement(BUTTON_CREATE).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//div/a[contains(text(),'%s')]", VIEW_NAME))).getText(),
-                VIEW_NAME);
+        Assert.assertTrue(getDriver().findElement(By.xpath(String.format("//div/a[contains(text(),'%s')]", VIEW_NAME))).isDisplayed());
 
         deleteNewView();
         deletePipelineProject();
