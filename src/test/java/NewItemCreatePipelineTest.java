@@ -1,4 +1,5 @@
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -134,5 +135,21 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
                 "No such job: " + jobName);
+    }
+
+    @Test
+    public void testDeletePipelineFromDashboard() {
+        final String jobName = getRandomStr();
+
+        createPipeline(jobName);
+        getDriver().findElement(LINK_TO_DASHBOARD).click();
+        WebElement createdJob = getDriver().findElement(By.xpath("//a[@href='job/" + jobName + "/']"));
+        createdJob.click();
+        getDriver().findElement(By.xpath("//a[@class='task-link  confirmation-link']")).click();
+
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+
+        Assert.assertFalse(getDriver().findElements(By.id("main-panel")).contains(createdJob));
     }
 }
