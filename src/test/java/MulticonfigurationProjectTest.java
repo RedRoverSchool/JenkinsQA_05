@@ -31,15 +31,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 By.xpath("//div[@id = 'tasks']//span[contains(text(), 'Delete Multi-configuration project')]")).click();
         getDriver().switchTo().alert().accept();
     }
-
-    private void createNewMCProject(){
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
-        getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-    }
-
     @Test
     public void testCreateMultiConfigurationProjectWithValidName_HappyPath() {
         getDriver().findElement(NEW_ITEM).click();
@@ -151,7 +142,11 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Test
     public void testMultiConfigurationProjectBuild(){
-        createNewMCProject();
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(DASHBOARD).click();
 
         getDriver().findElement(By.xpath("//a[@href='job/"+ PROJECT_NAME + "/']")).click();
