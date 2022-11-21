@@ -1,4 +1,5 @@
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -8,7 +9,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -134,5 +135,24 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
                 "No such job: " + jobName);
+    }
+
+    @Test
+    public void testDeletePipelineFromDashboard() {
+        final String jobName = getRandomStr();
+        final By createdJob = By.xpath("//a[@href='job/" + jobName + "/']");
+
+        createPipeline(jobName);
+        getDriver().findElement(LINK_TO_DASHBOARD).click();
+        new Actions(getDriver()).moveToElement(getDriver().findElement(createdJob)).click().perform();
+        new Actions(getDriver()).moveToElement(getDriver().findElement(
+                By.xpath("//span[contains(text(), 'Delete Pipeline')]"))).click().perform();
+
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+
+        List<WebElement> allJobsInDashboard = getDriver().findElements(
+                By.xpath("//a[@class='jenkins-table__link model-link inside']"));
+        Assert.assertFalse(allJobsInDashboard.contains(createdJob));
     }
 }
