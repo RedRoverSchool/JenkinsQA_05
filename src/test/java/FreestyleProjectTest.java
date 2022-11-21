@@ -34,6 +34,8 @@ public class FreestyleProjectTest extends BaseTest {
 
     private static final By ITEM_NAME_INVALID = By.cssSelector("#itemname-invalid");
 
+    private static final By JOB_HEADLINE_LOCATOR = By.xpath("//h1");
+
     private WebDriverWait wait;
     private Actions action;
 
@@ -156,6 +158,14 @@ public class FreestyleProjectTest extends BaseTest {
             Assert.assertEquals(getDriver().findElement(ITEM_NAME_INVALID).getText(),
                     "» ‘" + character + "’ is an unsafe character");
         }
+    }
+
+    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName", priority = 1)
+    public void testViewFreestyleProjectPage() {
+        getDriver().findElement(By.linkText(FREESTYLE_NAME)).click();
+
+        Assert.assertEquals(getDriver().findElement(JOB_HEADLINE_LOCATOR).getText()
+                , String.format("Project %s", FREESTYLE_NAME));
     }
 }
 
