@@ -53,7 +53,7 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(FREESTYLE_NAME);
         getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
         getWait().until(ExpectedConditions.elementToBeClickable(BUTTON_OK_IN_NEW_ITEM)).click();
-        getWait().until(ExpectedConditions.elementToBeClickable(BUTTON_SAVE)).click();
+        getDriver().findElement(BUTTON_SAVE).click();
 
         Assert.assertEquals(getDriver()
                 .findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
