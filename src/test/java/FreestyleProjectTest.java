@@ -1,11 +1,11 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -16,15 +16,21 @@ import java.util.stream.Collectors;
 public class FreestyleProjectTest extends BaseTest {
 
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String FREESTYLE_NAME_WITH_DESCRIPTION = RandomStringUtils.randomAlphanumeric(10);
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String FREESTYLE_DESCRIPTION = RandomStringUtils.randomAlphanumeric(10);
     private static final By LINK_NEW_ITEM = By.linkText("New Item");
     private static final By FIELD_ENTER_AN_ITEM_NAME = By.id("name");
     private static final By LINK_FREESTYLE_PROJECT = By.cssSelector(".hudson_model_FreeStyleProject");
     private static final By BUTTON_OK_IN_NEW_ITEM = By.cssSelector("#ok-button");
     private static final By LINK_CHANGES = By.linkText("Changes");
-    private static final By BUTTON_SAVE = By.xpath("//span[@name = 'Submit']");
+    private static final By BUTTON_SAVE = By.xpath("//button[@type = 'submit']");
     private static final By LIST_FREESTYLE_JOBS = By
             .xpath("//a[@class='jenkins-table__link model-link inside']");
+    private static final By EDIT_DESCRIPTION_BUTTON = By.id("description-link");
+    private static final By DESCRIPTION_TEXT_FIELD = By.xpath("//textarea[@name = 'description']");
+    private static final By DESCRIPTION_SAVE_BUTTON = By.id("yui-gen2-button");
+    private static final By DESCRIPTION_TEXT = By.xpath("//div[@id = 'description'] /div[1]");
 
     private WebDriverWait wait;
 
@@ -34,8 +40,6 @@ public class FreestyleProjectTest extends BaseTest {
         }
         return wait;
     }
-    
-    
 
     private List<String> getListExistingFreestyleProjectsNames(By by) {
         return getDriver().findElements(by).stream().map(WebElement::getText).collect(Collectors.toList());
@@ -49,7 +53,7 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(FREESTYLE_NAME);
         getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
         getWait().until(ExpectedConditions.elementToBeClickable(BUTTON_OK_IN_NEW_ITEM)).click();
-        getDriver().findElement(BUTTON_SAVE).click();
+        getWait().until(ExpectedConditions.elementToBeClickable(BUTTON_SAVE)).click();
 
         Assert.assertEquals(getDriver()
                 .findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
@@ -99,24 +103,33 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertFalse(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(NEW_FREESTYLE_NAME));
     }
 
-    @Ignore
     @Test
     public void testCreateFreestyleProjectWithDescription() {
-        final String name = "JustName";
         final String description = "Some Description Text";
 
         getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(name);
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(FREESTYLE_NAME_WITH_DESCRIPTION);
         getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
-
-        getDriver().findElement(By.id("yui-gen23-button")).click();
+        getDriver().findElement(BUTTON_SAVE).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(),
                 description);
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
-                String.format("Project %s", name));
+                String.format("Project %s", FREESTYLE_NAME_WITH_DESCRIPTION));
+    }
+
+    @Test(dependsOnMethods = "testCreateFreestyleProjectWithDescription")
+    public void testEditFreestyleProjectWithDescription() {
+        getDriver().findElement(By.xpath("//span[contains(text(),'" + FREESTYLE_NAME_WITH_DESCRIPTION + "')]")).click();
+
+        getDriver().findElement(EDIT_DESCRIPTION_BUTTON).click();
+        getDriver().findElement(DESCRIPTION_TEXT_FIELD).clear();
+        getDriver().findElement(DESCRIPTION_TEXT_FIELD).sendKeys(FREESTYLE_DESCRIPTION);
+        getDriver().findElement(DESCRIPTION_SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), FREESTYLE_DESCRIPTION);
     }
 }
 
