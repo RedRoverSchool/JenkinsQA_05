@@ -140,14 +140,14 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualProjectName, String.format("Project %s", FREESTYLE_NAME));
     }
 
-    @Test(dependsOnMethods = "testCreateEmptyFreestyleProject")
+    @Test(dependsOnMethods = "testCreateEmptyFreestyleProject", priority = 1)
     public void testViewFreestyleProjectPage() {
         final String actualProjectName = new HomePage(getDriver()).selectProjectFromList(FREESTYLE_NAME).getHeadline();
 
         Assert.assertEquals(actualProjectName, String.format("Project %s", FREESTYLE_NAME));
     }
 
-    @Test(dependsOnMethods = "testCreateEmptyFreestyleProject")
+    @Test(dependsOnMethods = "testCreateEmptyFreestyleProject", priority = 2)
     public void testNoBuildFreestyleProjectChanges() {
         final String actualChangesText = new HomePage(getDriver())
                 .selectProjectFromList(FREESTYLE_NAME).viewChanges().getText();
@@ -155,7 +155,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualChangesText, "No builds.");
     }
 
-    @Test(dependsOnMethods = "testCreateEmptyFreestyleProject")
+    @Test(dependsOnMethods = "testCreateEmptyFreestyleProject", priority = 3)
     public void testFreestyleProjectBuild() {
         final boolean isProjectBuilt = new HomePage(getDriver())
                 .selectProjectFromList(FREESTYLE_NAME).buildNow().hasBuildInHistory();
