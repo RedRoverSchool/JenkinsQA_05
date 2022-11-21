@@ -1,4 +1,5 @@
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -23,7 +24,8 @@ public class DeletePipelineProjectTest extends BaseTest {
         getDriver().findElement(By.id("jenkins-home-link")).click();
         getDriver().findElement(By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']")).click();
         getDriver().findElement(By.xpath("//span[text() = 'Delete Pipeline']")).click();
-        getDriver().switchTo().alert().accept();
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         wait.until(ExpectedConditions.visibilityOfElementLocated(TEXT_WELCOME));
