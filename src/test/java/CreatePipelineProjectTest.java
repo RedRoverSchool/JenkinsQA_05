@@ -17,7 +17,7 @@ public class CreatePipelineProjectTest extends BaseTest {
         getDriver().findElement(
                 By.xpath("//span[contains(@class, 'label') and text() = 'Pipeline']")).click();
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.id("yui-gen6-button")).click();
+        getDriver().findElement(By.xpath("//button[@type = 'submit']")).click();
 
         Assert.assertEquals(getDriver()
                 .findElement(By.xpath("//div[@id='main-panel']/h1")).getText()
