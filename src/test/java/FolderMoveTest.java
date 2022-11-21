@@ -24,13 +24,20 @@ public class FolderMoveTest extends BaseTest {
     private static final By FOLDER1 = By.xpath("//a[@href='job/" + folderName1 + "/']");
     private static final By FOLDER2 = By.xpath("//a[@href='job/" + folderName2 + "/']");
 
-    public void createFolder(String folderName) {
+    private void createFolder(String folderName) {
         getDriver().findElement(NEW_FOLDER).click();
         getDriver().findElement(INPUT_NAME).sendKeys(folderName);
         getDriver().findElement(FOLDER).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(DASHBOARD).click();
+    }
+
+    private void deleteFolder() {
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(FOLDER2).sendKeys(Keys.RETURN);
+        getDriver().findElement(By.xpath("//a[@href='/job/" + folderName2 + "/delete']")).click();
+        getDriver().findElement(By.cssSelector(".first-child")).click();
     }
 
     @Test
@@ -62,12 +69,5 @@ public class FolderMoveTest extends BaseTest {
         }
 
         deleteFolder();
-    }
-
-    private void deleteFolder() {
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(FOLDER2).sendKeys(Keys.RETURN);
-        getDriver().findElement(By.xpath("//a[@href='/job/" + folderName2 + "/delete']")).click();
-        getDriver().findElement(By.cssSelector(".first-child")).click();
     }
 }
