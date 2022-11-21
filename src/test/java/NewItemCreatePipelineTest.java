@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
@@ -41,17 +40,13 @@ public class NewItemCreatePipelineTest extends BaseTest {
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
-    @Ignore
     @Test
     public void testCreatePipelineExistingNameError() {
         final String jobName = getRandomStr();
 
         createPipeline(jobName);
         getDriver().findElement(LINK_TO_DASHBOARD).click();
-        getDriver().findElement(NEW_ITEM).click();
-
-        new Actions(getDriver()).moveToElement(getDriver().findElement(FIELD_NAME)).click()
-                .sendKeys(jobName).build().perform();
+        setJobPipeline(jobName);
 
         final WebElement notificationError = getDriver().findElement(By.id("itemname-invalid"));
 

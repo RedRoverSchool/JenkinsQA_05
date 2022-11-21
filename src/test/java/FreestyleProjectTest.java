@@ -31,8 +31,8 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By DESCRIPTION_TEXT_FIELD = By.xpath("//textarea[@name = 'description']");
     private static final By DESCRIPTION_SAVE_BUTTON = By.id("yui-gen2-button");
     private static final By DESCRIPTION_TEXT = By.xpath("//div[@id = 'description'] /div[1]");
-
     private static final By ITEM_NAME_INVALID = By.cssSelector("#itemname-invalid");
+    private static final By MAIN_PANEL_LOCATOR = By.id("main-panel");
 
     private WebDriverWait wait;
     private Actions action;
@@ -75,7 +75,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(FREESTYLE_NAME));
     }
 
-    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
+    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName", priority = 2)
     public void testRenameFreestyleProject() {
 
         getDriver().findElement(By.cssSelector("tr#job_" + FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
@@ -96,12 +96,12 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[contains(text(),'" + NEW_FREESTYLE_NAME + "')]")).click();
         getDriver().findElement(LINK_CHANGES).click();
 
-        String actualText = getDriver().findElement(By.xpath("//div[@id= 'main-panel']")).getText();
+        String actualText = getDriver().findElement(MAIN_PANEL_LOCATOR).getText();
 
         Assert.assertEquals(actualText, expectedText);
     }
 
-    @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears")
+    @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears", priority = 3)
     public void testDeleteFreestyleProject() {
 
         getDriver().findElement(By.cssSelector("tr#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
@@ -156,6 +156,17 @@ public class FreestyleProjectTest extends BaseTest {
             Assert.assertEquals(getDriver().findElement(ITEM_NAME_INVALID).getText(),
                     "» ‘" + character + "’ is an unsafe character");
         }
+    }
+
+    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName", priority = 1)
+    public void testNoBuildFreestyleProjectChanges() {
+        getDriver().findElement(By.linkText(FREESTYLE_NAME)).click();
+        getDriver().findElement(LINK_CHANGES).click();
+
+        final String actualChangesText = getDriver().findElement(MAIN_PANEL_LOCATOR)
+                .getText().replace("Changes\n", "");
+
+        Assert.assertEquals(actualChangesText, "No builds.");
     }
 }
 
