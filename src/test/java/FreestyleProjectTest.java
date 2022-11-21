@@ -31,7 +31,6 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By DESCRIPTION_TEXT_FIELD = By.xpath("//textarea[@name = 'description']");
     private static final By DESCRIPTION_SAVE_BUTTON = By.id("yui-gen2-button");
     private static final By DESCRIPTION_TEXT = By.xpath("//div[@id = 'description'] /div[1]");
-
     private static final By ITEM_NAME_INVALID = By.cssSelector("#itemname-invalid");
 
     private WebDriverWait wait;
@@ -53,6 +52,18 @@ public class FreestyleProjectTest extends BaseTest {
 
     private List<String> getListExistingFreestyleProjectsNames(By by) {
         return getDriver().findElements(by).stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    private String getRandomName() {
+        return RandomStringUtils.randomAlphanumeric(10);
+    }
+
+    private void createProjectFromDashboard(By type, String name) {
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(name);
+        getDriver().findElement(type).click();
+        getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
+        getDriver().findElement(BUTTON_SAVE).click();
     }
 
     @Test
@@ -156,6 +167,28 @@ public class FreestyleProjectTest extends BaseTest {
             Assert.assertEquals(getDriver().findElement(ITEM_NAME_INVALID).getText(),
                     "» ‘" + character + "’ is an unsafe character");
         }
+    }
+
+    @Test
+    public void testCreateBuildNowOnFreestyleProjectPage() {
+        final String freestyleProjectName = getRandomName();
+        int countBuildsBeforeCreatingNewBuild = 0;
+
+        createProjectFromDashboard(LINK_FREESTYLE_PROJECT, freestyleProjectName);
+        getDriver().findElement(By.linkText(freestyleProjectName)).click();
+
+        if (getDriver().findElement(By.id("no-builds")).isEnabled()) {
+            countBuildsBeforeCreatingNewBuild = getDriver().findElements(
+                    By.xpath("//a[@class = 'model-link inside build-link display-name']")).size();
+        }
+
+        getDriver().findElement(By.linkText("Build Now")).click();
+        getWait().until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//span[@class='build-status-icon__outer']/*[@tooltip = 'In progress &gt; Console Output']")));
+        int countBuildsAfterCreatingNewBuild = getDriver().findElements(
+                By.xpath("//a[@class = 'model-link inside build-link display-name']")).size();
+
+        Assert.assertEquals(countBuildsAfterCreatingNewBuild, countBuildsBeforeCreatingNewBuild + 1);
     }
 }
 
