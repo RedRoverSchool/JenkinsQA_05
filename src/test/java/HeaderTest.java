@@ -4,6 +4,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.List;
+
 public class HeaderTest extends BaseTest {
 
     private static final By USER_ACCOUNT_LINK = By.xpath("//a[@class='model-link']//span");
@@ -26,6 +28,24 @@ public class HeaderTest extends BaseTest {
                 By.xpath("//div[@id='main-panel']/div[contains(text(), 'ID')]")).getText();
 
         Assert.assertEquals(usernameInUserPage, String.format("Jenkins User ID: %s", usernameInUserAccountLink));
+    }
+
+    @Test
+    public void testCountAndNamesItemsInUserDropdownMenu() {
+        getDriver().findElement(
+                By.cssSelector("header#page-header .jenkins-menu-dropdown-chevron")).click();
+        List<WebElement> userDropdownItems = getDriver().findElements(
+                By.cssSelector(".first-of-type > .yuimenuitem"));
+        int actualItemsCount = 0;
+        StringBuilder actualNamesItems = new StringBuilder();
+        for (WebElement item : userDropdownItems) {
+            actualItemsCount++;
+            actualNamesItems.append(item.getText());
+        }
+
+        Assert.assertEquals(actualItemsCount, 4);
+        Assert.assertEquals(actualNamesItems.toString(),
+                "BuildsConfigureMy ViewsCredentials");
     }
 }
 
