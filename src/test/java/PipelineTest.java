@@ -5,6 +5,8 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.sql.SQLOutput;
+
 public class PipelineTest extends BaseTest {
 
     private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(10);
@@ -59,5 +61,25 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']")).isDisplayed());
+    }
+
+    @Test
+    public void testPipelineAddDescription() {
+
+        final String description = PIPELINE_NAME + " description";
+
+        createPipelineProject();
+
+        getDriver().findElement(By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']")).click();
+
+        getDriver().findElement(By.id("description-link")).click();
+
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(description);
+        getDriver().findElement(By.id("yui-gen2-button")).click();
+
+        getDriver().findElement(JENKINS_ICON).click();
+        getDriver().findElement(By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), description);
     }
 }
