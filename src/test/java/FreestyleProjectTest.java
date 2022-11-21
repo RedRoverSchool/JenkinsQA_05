@@ -1,7 +1,6 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -31,6 +30,8 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By DESCRIPTION_TEXT_FIELD = By.xpath("//textarea[@name = 'description']");
     private static final By DESCRIPTION_SAVE_BUTTON = By.id("yui-gen2-button");
     private static final By DESCRIPTION_TEXT = By.xpath("//div[@id = 'description'] /div[1]");
+
+    private static final By ITEM_NAME_INVALID = By.cssSelector("#itemname-invalid");
 
     private WebDriverWait wait;
 
@@ -130,6 +131,21 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(DESCRIPTION_SAVE_BUTTON).click();
 
         Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), FREESTYLE_DESCRIPTION);
+    }
+
+    @Test
+    public void testCreateFreestyleProjectWithIncorrectCharacters(){
+        final List<Character> incorrectNameCharacters = List.of( '!', '@', '#', '$', '%', '^', '&', '*', '[', ']', '\\', '|', ';', ':', '/', '?', '<', '>');
+
+        getWait().until(ExpectedConditions.elementToBeClickable(LINK_NEW_ITEM)).click();
+
+        for (Character character : incorrectNameCharacters) {
+            getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).click();
+            getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).clear();
+            getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(String.valueOf(character));
+            getWait().until(ExpectedConditions.visibilityOf(getDriver().findElement(ITEM_NAME_INVALID)));
+            Assert.assertEquals(getDriver().findElement(ITEM_NAME_INVALID).getText(), "» ‘" + character + "’ is an unsafe character");
+        }
     }
 }
 
