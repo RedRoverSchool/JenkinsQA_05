@@ -14,7 +14,6 @@ public class MultibranchPipelineTest extends BaseTest {
             "//div[@id='j-add-item-type-nested-projects']/ul [@class='j-item-options']/li[2]";
     private final String BUTTON_OK_XPATH = "//span [@class='yui-button primary large-button']";
     private final String DASHBOARD_XPATH = "//li[@class='item'][1]/a [@class='model-link']";
-    private final String JENKINS_HOME_LINK_CSS = "#jenkins-home-link";
 
     private WebElement findElementXpath(String xpath) {
         return getDriver().findElement(By.xpath(xpath));
@@ -32,9 +31,6 @@ public class MultibranchPipelineTest extends BaseTest {
         getDriver().findElement(By.xpath(locator)).sendKeys(text);
     }
 
-    private void urlCheck(String expectedUrl) {
-        Assert.assertEquals(getDriver().getCurrentUrl(), expectedUrl);
-    }
 
     private void assertTextByXPath(String locator, String text) {
         Assert.assertEquals(getDriver().findElement(By.xpath(locator)).getText(), text);

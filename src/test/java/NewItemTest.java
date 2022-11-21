@@ -41,6 +41,7 @@ public class NewItemTest extends BaseTest {
         getDriver().findElement(By.linkText("New Item")).click();
 
         Assert.assertEquals(getDriver().findElement(By.className("h3")).getText(), expectedResult);
+
     }
 
     @Test
