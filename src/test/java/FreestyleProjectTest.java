@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -142,6 +143,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), FREESTYLE_DESCRIPTION);
     }
 
+    @Ignore
     @Test
     public void testCreateFreestyleProjectWithIncorrectCharacters() {
         final List<Character> incorrectNameCharacters = List.of(
