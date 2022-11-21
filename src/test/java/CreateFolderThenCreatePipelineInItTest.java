@@ -37,6 +37,7 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li/a")).click();
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", getDriver().findElement(By.xpath("//div[@id='tasks']//div[5]//a")));
+        getDriver().switchTo().alert().accept();
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDriver().findElement(By.id("search-box")).sendKeys(folderName + Keys.ENTER);
         //menuSelector
