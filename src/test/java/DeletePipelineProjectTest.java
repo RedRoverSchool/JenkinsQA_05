@@ -8,7 +8,7 @@ public class DeletePipelineProjectTest extends BaseTest {
     private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(10);
 
     @Test
-    public void testDeletePipelineProject(){
+    public void testDeletePipelineProject() throws InterruptedException {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
         getDriver().findElement(
@@ -19,8 +19,9 @@ public class DeletePipelineProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']")).click();
         getDriver().findElement(By.xpath("//span[text() = 'Delete Pipeline']")).click();
         getDriver().switchTo().alert().accept();
+        String actualResult = getDriver().findElement(
+                By.cssSelector("div#main-panel .empty-state-block h1")).getText();
 
-        Assert.assertEquals(getDriver().findElement(
-                By.cssSelector("div#main-panel .empty-state-block h1")).getText(), "Welcome to Jenkins!");
+        Assert.assertEquals(actualResult, "Welcome to Jenkins!");
     }
 }
