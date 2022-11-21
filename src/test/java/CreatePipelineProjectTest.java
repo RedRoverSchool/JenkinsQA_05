@@ -11,14 +11,13 @@ public class CreatePipelineProjectTest extends BaseTest {
     private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(10);
 
     @Test
-    public void testCreatePipelineProject() throws InterruptedException {
+    public void testCreatePipelineProject(){
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
         getDriver().findElement(
                 By.xpath("//span[contains(@class, 'label') and text() = 'Pipeline']")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.id("yui-gen6-button")).click();
-        Thread.sleep((3000));
         Assert.assertEquals(getDriver()
                 .findElement(By.xpath("//div[@id='main-panel']/h1")).getText()
                 , "Pipeline " + PIPELINE_NAME);
