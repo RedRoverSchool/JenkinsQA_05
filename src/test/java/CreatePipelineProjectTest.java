@@ -18,9 +18,9 @@ public class CreatePipelineProjectTest extends BaseTest {
                 By.xpath("//span[contains(@class, 'label') and text() = 'Pipeline']")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.id("yui-gen6-button")).click();
+
         Assert.assertEquals(getDriver()
                 .findElement(By.xpath("//div[@id='main-panel']/h1")).getText()
                 , "Pipeline " + PIPELINE_NAME);
-
     }
 }
