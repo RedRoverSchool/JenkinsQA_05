@@ -24,6 +24,5 @@ public class CreateFreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(),
                 description);
     }
-
 }
 
