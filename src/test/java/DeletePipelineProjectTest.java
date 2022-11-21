@@ -8,13 +8,13 @@ public class DeletePipelineProjectTest extends BaseTest {
     private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(10);
 
     @Test
-    public void testDeletePipelineProject() {
+    public void testDeletePipelineProject(){
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
         getDriver().findElement(
                 By.xpath("//span[contains(@class, 'label') and text() = 'Pipeline']")).click();
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.id("yui-gen6-button")).click();
+        getDriver().findElement(By.xpath("//button[@type = 'submit']")).click();
         getDriver().findElement(By.id("jenkins-home-link")).click();
         getDriver().findElement(By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']")).click();
         getDriver().findElement(By.xpath("//span[text() = 'Delete Pipeline']")).click();
