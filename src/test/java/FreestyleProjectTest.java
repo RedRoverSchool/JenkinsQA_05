@@ -22,9 +22,9 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By LINK_NEW_ITEM = By.linkText("New Item");
     private static final By FIELD_ENTER_AN_ITEM_NAME = By.id("name");
     private static final By LINK_FREESTYLE_PROJECT = By.cssSelector(".hudson_model_FreeStyleProject");
-    private static final By BUTTON_OK_IN_NEW_ITEM = By.cssSelector("#ok-button");
+    private static final By BUTTON_OK_IN_NEW_ITEM = By.id("ok-button");
     private static final By LINK_CHANGES = By.linkText("Changes");
-    private static final By BUTTON_SAVE = By.xpath("//button[@type = 'submit']");
+    private static final By BUTTON_SAVE = By.name("Submit");
     private static final By LIST_FREESTYLE_JOBS = By
             .xpath("//a[@class='jenkins-table__link model-link inside']");
     private static final By EDIT_DESCRIPTION_BUTTON = By.id("description-link");
