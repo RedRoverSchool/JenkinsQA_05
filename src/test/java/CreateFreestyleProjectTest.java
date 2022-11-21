@@ -5,8 +5,8 @@ import runner.BaseTest;
 
 public class CreateFreestyleProjectTest extends BaseTest {
 
-    private final String validFreestyleProjectName = "First project";
-    private final String description = "Description Text";
+    private static final String validFreestyleProjectName = "First project";
+    private static final String description = "Description Text";
     private static final By BUTTON_OK = By.xpath("//button[@type = 'submit']");
     private static final By BUTTON_SAVE = By.xpath("//button[@type = 'submit']");
 
