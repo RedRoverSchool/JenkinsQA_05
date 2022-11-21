@@ -175,7 +175,9 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(FREESTYLE_NAME);
         getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
         getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
-        getDriver().findElement(BUTTON_SAVE).click();
+
+        getWait().until(ExpectedConditions.elementToBeClickable(BUTTON_SAVE)).click();
+
         getDriver().findElement(By.linkText("Dashboard")).click();
 
         getAction().moveToElement(
