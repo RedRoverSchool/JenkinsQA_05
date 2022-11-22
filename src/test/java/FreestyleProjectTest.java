@@ -56,6 +56,14 @@ public class FreestyleProjectTest extends BaseTest {
         return getDriver().findElements(by).stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
+    private void createFreestyleProject() {
+
+        getDriver().findElement(By.xpath("//span/a[@href='/view/all/newJob']")).click();
+        getDriver().findElement(By.xpath("//input[@class='jenkins-input']")).sendKeys(FREESTYLE_NAME);
+        getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+    }
+
     @Test
     public void testCreateNewFreestyleProjectWithCorrectName() {
         getWait().until(ExpectedConditions.elementToBeClickable(LINK_NEW_ITEM)).click();
@@ -176,6 +184,15 @@ public class FreestyleProjectTest extends BaseTest {
                 .getText().replace("Changes\n", "");
 
         Assert.assertEquals(actualChangesText, "No builds.");
+    }
+
+    @Test
+    public void testCreateFreestyleProject(){
+
+        createFreestyleProject();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//li/a[@href='/job/" + FREESTYLE_NAME + "/']"))
+                .getText(), FREESTYLE_NAME);
     }
 }
 
