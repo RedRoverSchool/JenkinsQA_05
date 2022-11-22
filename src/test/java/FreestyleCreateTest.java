@@ -33,4 +33,5 @@ public class FreestyleCreateTest extends BaseTest {
         getDriver().findElement(DELETE_PROJECT).click();
         getDriver().switchTo().alert().accept();
     }
+
 }
