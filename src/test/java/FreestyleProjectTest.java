@@ -205,12 +205,12 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testFreestyleProjectPageIsOpenedFromDashboard() {
-        getDriver().findElement(LINK_NEW_ITEM).click();
-        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(FREESTYLE_NAME);
-        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
-        getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
-        getWait().until(ExpectedConditions.elementToBeClickable(
-                getDriver().findElement(By.xpath("//span/button[@type='submit']")))).click();
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.cssSelector("#name")).sendKeys(FREESTYLE_NAME);
+        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.cssSelector("#ok-button")).click();
+        getDriver().findElement(
+                By.xpath("//div[@id='bottom-sticker']//span/button[@type='submit']")).click();
         getDriver().findElement(By.linkText("Dashboard")).click();
         getDriver().findElement(By.linkText(FREESTYLE_NAME)).click();
 
@@ -221,9 +221,5 @@ public class FreestyleProjectTest extends BaseTest {
                 getDriver().findElement(By.xpath("//div[@id='main-panel']/h2")).getText(),
                 "Permalinks");
         Assert.assertTrue(getDriver().findElement(By.cssSelector("#yui-gen1")).isEnabled());
-
-        getDriver().findElement(By.linkText("Delete Project")).click();
-        Alert alert = getDriver().switchTo().alert();
-        alert.accept();
     }
 }
