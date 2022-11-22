@@ -80,6 +80,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(FREESTYLE_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName", priority = 3)
     public void testRenameFreestyleProject() {
 
