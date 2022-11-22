@@ -219,8 +219,8 @@ public class FreestyleProjectTest extends BaseTest {
     public void testCreateBuildNowOnFreestyleProjectPage() {
         final String freestyleProjectName = getRandomName();
         final By countBuilds = By.xpath("//a[@class = 'model-link inside build-link display-name']");
-
         int countBuildsBeforeCreatingNewBuild = 0;
+        WebDriverWait wait = new WebDriverWait(getDriver(),Duration.ofSeconds(20));
 
         createProjectFromDashboard(LINK_FREESTYLE_PROJECT, freestyleProjectName);
         getDriver().findElement(By.linkText(freestyleProjectName)).click();
@@ -230,7 +230,7 @@ public class FreestyleProjectTest extends BaseTest {
         }
 
         getDriver().findElement(By.linkText("Build Now")).click();
-        getWait().until(ExpectedConditions.invisibilityOfElementLocated(
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
                 By.xpath("//span[@class='build-status-icon__outer']/*[@tooltip = 'In progress &gt; Console Output']")));
         int countBuildsAfterCreatingNewBuild = getDriver().findElements(countBuilds).size();
 
