@@ -65,7 +65,6 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testPipelineAddDescription() {
-
         final String description = PIPELINE_NAME + " description";
 
         createPipelineProject();
