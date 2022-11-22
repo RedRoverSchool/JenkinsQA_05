@@ -8,6 +8,8 @@ import runner.BaseTest;
 public class FreestyleProjectSecondTest extends BaseTest {
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String DESCRIPTION_TEXT = RandomStringUtils.randomAlphanumeric(20);
+
     public void createFreestyleProject() {
 
         getDriver().findElement(By.xpath("//span/a[@href='/view/all/newJob']")).click();
@@ -39,5 +41,19 @@ public class FreestyleProjectSecondTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//li/a[@href='/job/" + NEW_FREESTYLE_NAME + "/']"))
                 .getText(), NEW_FREESTYLE_NAME);
+    }
+
+    @Test
+    public void testCreateWithDescriptionFreestyleProject(){
+
+        createFreestyleProject();
+
+        getDriver().findElement(By.xpath("//li/a[@href='/job/" + FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.id("description-link")).click();
+        getDriver().findElement(By.xpath("//div/textarea[@name='description']")).sendKeys(DESCRIPTION_TEXT);
+        getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(),
+                DESCRIPTION_TEXT);
     }
 }
