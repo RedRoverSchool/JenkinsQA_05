@@ -176,19 +176,20 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
         getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
 
-        getWait().until(ExpectedConditions.elementToBeClickable(BUTTON_SAVE)).click();
+        getWait().until(ExpectedConditions.elementToBeClickable(
+                getDriver().findElement(BUTTON_SAVE))).click();
 
         getDriver().findElement(By.linkText("Dashboard")).click();
 
         getAction().moveToElement(
                 getDriver().findElement(By.linkText(FREESTYLE_NAME))).click().build().perform();
 
-        Assert.assertEquals(
-                getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
-                "Project " + FREESTYLE_NAME);
-        Assert.assertEquals(
-                getDriver().findElement(By.xpath("//div[@id='main-panel']/h2")).getText(),
-                "Permalinks");
+        String actualH1 = getWait().until(ExpectedConditions.visibilityOf(
+                getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")))).getText();
+        String actualH2 = getDriver().findElement(By.xpath("//div[@id='main-panel']/h2")).getText();
+
+        Assert.assertEquals(actualH1, "Project " + FREESTYLE_NAME);
+        Assert.assertEquals(actualH2, "Permalinks");
         Assert.assertTrue(getDriver().findElement(By.cssSelector("#yui-gen1")).isDisplayed());
     }
 }
