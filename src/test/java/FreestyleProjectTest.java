@@ -205,18 +205,18 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testFreestyleProjectPageIsOpenedFromDashboard() {
+        final String nameProject = "New freestyle project";
+
         getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.cssSelector("#name")).sendKeys(FREESTYLE_NAME);
+        getDriver().findElement(By.cssSelector("#name")).sendKeys(nameProject);
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.cssSelector("#ok-button")).click();
-        getDriver().findElement(
-                By.xpath("//div[@id='bottom-sticker']//span/button[@type='submit']")).click();
         getDriver().findElement(By.linkText("Dashboard")).click();
-        getDriver().findElement(By.linkText(FREESTYLE_NAME)).click();
+        getDriver().findElement(By.linkText(nameProject)).click();
 
         Assert.assertEquals(
                 getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
-                "Project " + FREESTYLE_NAME);
+                "Project " + nameProject);
         Assert.assertEquals(
                 getDriver().findElement(By.xpath("//div[@id='main-panel']/h2")).getText(),
                 "Permalinks");
