@@ -139,7 +139,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text()='Delete Multi-configuration project']")).click();
         getDriver().switchTo().alert().accept();
     }
-
     @Test
     public void testMultiConfigurationProjectBuild(){
         getDriver().findElement(NEW_ITEM).click();
