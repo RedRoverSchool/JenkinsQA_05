@@ -4,6 +4,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -14,9 +15,14 @@ import java.util.stream.Collectors;
 
 public class CreateUserVerifyCreateTest extends BaseTest {
 
-    private String randUserName = getRandomDigitAndLetterString();
+    private static final By BUTTON_MANAGE_JENKINS = By.xpath("//a[@href='/manage']");
+    private static final By BUTTON_MANAGE_USERS = By.xpath("//a[@href='securityRealm/']");
+    private static final By BUTTON_CREATE_USERS = By.xpath("//a[@href='addUser']");
+    private static final By BUTTON_FINAL_CREATE_USER = By.id("yui-gen1-button");
+    private final String randUserName = getRandomDigitAndLetterString();
 
 
+    @Ignore
     public static String getRandomDigitAndLetterString() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
@@ -29,6 +35,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
         return saltStr;
     }
 
+    @Ignore
     @Test
     public void testCreateUser() throws InterruptedException {
 
@@ -84,4 +91,27 @@ public class CreateUserVerifyCreateTest extends BaseTest {
         Assert.assertFalse(listStringovFinal.contains(randUserName));
     }
 
+    @Test
+    public void testCreateUserOfJenkins() {
+
+        String randomUsername = getRandomDigitAndLetterString();
+        String randomPasswordAndConfirmPassword = getRandomDigitAndLetterString();
+        String randomFullName = getRandomDigitAndLetterString();
+        String randomEmail = getRandomDigitAndLetterString();
+
+        getDriver().findElement(BUTTON_MANAGE_JENKINS).click();
+        getDriver().findElement(BUTTON_MANAGE_USERS).click();
+        getDriver().findElement(BUTTON_CREATE_USERS).click();
+        getDriver().findElement(By.id("username")).sendKeys(randomUsername);
+        getDriver().findElement(By.xpath("//input[@name='password1']")).sendKeys(randomPasswordAndConfirmPassword);
+        getDriver().findElement(By.xpath("//input[@name='password2']")).sendKeys(randomPasswordAndConfirmPassword);
+        getDriver().findElement(By.xpath("//input[@name='fullname']")).sendKeys(randomFullName);
+        getDriver().findElement(By.xpath("//input[@name='email']")).sendKeys(randomEmail + "@gmail.com");
+        getDriver().findElement(BUTTON_FINAL_CREATE_USER).click();
+
+        List<WebElement> tableListOfUsers = getDriver().findElements(By.xpath("//table[@id='people']//tbody//tr//td"));
+        List<String> userNameFromListTable = tableListOfUsers.stream().map(WebElement::getText).collect(Collectors.toList());
+
+        Assert.assertTrue(userNameFromListTable.contains(randomUsername));
+    }
 }
