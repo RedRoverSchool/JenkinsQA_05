@@ -32,6 +32,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By DESCRIPTION_SAVE_BUTTON = By.id("yui-gen2-button");
     private static final By DESCRIPTION_TEXT = By.xpath("//div[@id = 'description'] /div[1]");
     private static final By ITEM_NAME_INVALID = By.cssSelector("#itemname-invalid");
+    private static final By JOB_HEADLINE_LOCATOR = By.xpath("//h1");
     private static final By MAIN_PANEL_LOCATOR = By.id("main-panel");
 
     private WebDriverWait wait;
@@ -66,7 +67,7 @@ public class FreestyleProjectTest extends BaseTest {
         getWait().until(ExpectedConditions.elementToBeClickable(BUTTON_SAVE)).click();
 
         Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
+                .findElement(JOB_HEADLINE_LOCATOR).getText(), "Project " + FREESTYLE_NAME);
     }
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
@@ -75,7 +76,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(FREESTYLE_NAME));
     }
 
-    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName", priority = 2)
+    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName", priority = 3)
     public void testRenameFreestyleProject() {
 
         getDriver().findElement(By.cssSelector("tr#job_" + FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
@@ -101,7 +102,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualText, expectedText);
     }
 
-    @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears", priority = 3)
+    @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears", priority = 4)
     public void testDeleteFreestyleProject() {
 
         getDriver().findElement(By.cssSelector("tr#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
@@ -159,6 +160,14 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName", priority = 1)
+    public void testViewFreestyleProjectPage() {
+        getDriver().findElement(By.linkText(FREESTYLE_NAME)).click();
+
+        Assert.assertEquals(getDriver().findElement(JOB_HEADLINE_LOCATOR).getText()
+                , String.format("Project %s", FREESTYLE_NAME));
+     }
+
+    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName", priority = 2)
     public void testNoBuildFreestyleProjectChanges() {
         getDriver().findElement(By.linkText(FREESTYLE_NAME)).click();
         getDriver().findElement(LINK_CHANGES).click();
