@@ -1,5 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -23,6 +25,15 @@ public class NewViewTest extends BaseTest {
     private static final By BUTTON_DELETE = By.cssSelector("svg.icon-edit-delete");
     private static final By VIEW =
             By.xpath(String.format("//div/a[contains(text(),'%s')]", VIEW_NAME));
+
+    private static final By BUTTON_S = By.xpath("//div/ol/li/a[@href='/iconSize?16x16']");
+
+    private static final By BUTTON_M = By.xpath("//div/ol/li/a[@href='/iconSize?24x24']");
+
+    private static final By BUTTON_L = By.xpath("//div/ol/li/a[@href='/iconSize?32x32']");
+
+    private static final By MY_VIEWS_TABLE = By.xpath("//table[@id='projectstatus']");
+
 
     private void createPipelineProject() {
         getDriver().findElement(JENKINS_ICON).click();
@@ -63,5 +74,19 @@ public class NewViewTest extends BaseTest {
 
         deleteNewView();
         deletePipelineProject();
+    }
+
+    @Test
+    public void testLeterMClickableMyViews() {
+        String expectedClassTable = "jenkins-table jenkins-table--medium sortable";
+
+        createPipelineProject();
+
+        getDriver().findElement(MY_VIEWS).click();
+        WebElement ButtonM = getDriver().findElement(BUTTON_M);
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", ButtonM);
+
+        Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
     }
 }

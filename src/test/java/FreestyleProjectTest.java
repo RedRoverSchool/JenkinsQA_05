@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -45,6 +46,18 @@ public class FreestyleProjectTest extends BaseTest {
 
     private List<String> getListExistingFreestyleProjectsNames(By by) {
         return getDriver().findElements(by).stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    private String getRandomName() {
+        return RandomStringUtils.randomAlphanumeric(10);
+    }
+
+    private void createProjectFromDashboard(By type, String name) {
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(name);
+        getDriver().findElement(type).click();
+        getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
+        getDriver().findElement(BUTTON_SAVE).click();
     }
 
     @Test
@@ -134,6 +147,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), FREESTYLE_DESCRIPTION);
     }
 
+    @Ignore
     @Test
     public void testCreateFreestyleProjectWithIncorrectCharacters() {
         final List<Character> incorrectNameCharacters = List.of(
@@ -156,7 +170,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(JOB_HEADLINE_LOCATOR).getText()
                 , String.format("Project %s", FREESTYLE_NAME));
-     }
+    }
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName", priority = 2)
     public void testNoBuildFreestyleProjectChanges() {
@@ -170,7 +184,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
-    public void testAddDescriptionToFreestyleProject(){
+    public void testAddDescriptionToFreestyleProject() {
         final String descriptionText = "This is job #" + FREESTYLE_NAME;
 
         getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
@@ -198,10 +212,50 @@ public class FreestyleProjectTest extends BaseTest {
         WebElement registeredProject = getDriver().findElement(By.xpath("//h1[@class='job-index-" +
                 "headline page-headline']"));
 
-        final String actualResult = registeredProject.getText().substring(registeredProject.getText().length()-8);
+        final String actualResult = registeredProject.getText().substring(registeredProject.getText().length() - 8);
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testCreateBuildNowOnFreestyleProjectPage() {
+        final String freestyleProjectName = getRandomName();
+        final By countBuilds = By.xpath("//a[@class = 'model-link inside build-link display-name']");
+        int countBuildsBeforeCreatingNewBuild = 0;
+        WebDriverWait wait = new WebDriverWait(getDriver(),Duration.ofSeconds(20));
+
+        createProjectFromDashboard(LINK_FREESTYLE_PROJECT, freestyleProjectName);
+        getDriver().findElement(By.linkText(freestyleProjectName)).click();
+
+        if (getDriver().findElement(By.id("no-builds")).isEnabled()) {
+            countBuildsBeforeCreatingNewBuild = getDriver().findElements(countBuilds).size();
+        }
+
+        getDriver().findElement(By.linkText("Build Now")).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//span[@class='build-status-icon__outer']/*[@tooltip = 'In progress &gt; Console Output']")));
+        int countBuildsAfterCreatingNewBuild = getDriver().findElements(countBuilds).size();
+
+        Assert.assertEquals(countBuildsAfterCreatingNewBuild, countBuildsBeforeCreatingNewBuild + 1);
+    }
+
+    @Test
+    public void testFreestyleProjectPageIsOpenedFromDashboard() {
+        final String nameProject = "New freestyle project";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.cssSelector("#name")).sendKeys(nameProject);
+        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.cssSelector("#ok-button")).click();
+        getDriver().findElement(By.linkText("Dashboard")).click();
+        getDriver().findElement(By.linkText(nameProject)).click();
+
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                String.format("Project %s", nameProject));
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//div[@id='main-panel']/h2")).getText(),
+                "Permalinks");
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("#yui-gen1")).isEnabled());
+    }
 }
-
-

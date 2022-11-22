@@ -44,12 +44,12 @@ public class HeaderTest extends BaseTest {
         StringBuilder actualNamesItems = new StringBuilder();
         for (WebElement item : userDropdownItems) {
             actualItemsCount++;
-            actualNamesItems.append(item.getText());
+            actualNamesItems.append(item.getText()).append(" ");
         }
 
         Assert.assertEquals(actualItemsCount, 4);
-        Assert.assertEquals(actualNamesItems.toString(),
-                "BuildsConfigureMy ViewsCredentials");
+        Assert.assertEquals(actualNamesItems.toString().trim(),
+                "Builds Configure My Views Credentials");
     }
 
     @Test
@@ -71,6 +71,39 @@ public class HeaderTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(
                 By.id("jenkins-head-icon")).isDisplayed());
+    }
+
+    @Test
+    public void testUserDropdownMenuToOpenPageAdminConfigure() {
+        openUserDropdownMenu();
+        getDriver().findElement(
+                By.cssSelector("ul > li:nth-of-type(2) span")).click();
+
+        Assert.assertEquals(getDriver().findElement(
+                By.cssSelector("div:nth-of-type(3) > .jenkins-section__title")).getText(),
+                "API Token");
+    }
+
+    @Test
+    public void testUserDropdownMenuToOpenPageAdminMyViews() {
+        openUserDropdownMenu();
+        getDriver().findElement(
+                By.cssSelector("ul > li:nth-of-type(3) span")).click();
+
+        Assert.assertEquals(getDriver().findElement(
+                        By.xpath("//ul[@id='breadcrumbs']//a[@href='/user/admin/my-views/']")).getText(),
+                "My Views");
+    }
+
+    @Test
+    public void testUserDropdownMenuToOpenPageAdminCredentials() {
+        openUserDropdownMenu();
+        getDriver().findElement(
+                By.cssSelector("li:nth-of-type(4) span")).click();
+
+        Assert.assertEquals(
+                getDriver().findElement(By.tagName("h1")).getText(),
+                "Credentials");
     }
 
     @Test
