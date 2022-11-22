@@ -64,6 +64,16 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
+    public void test_Logo_Head_icon_is_Seen(){
+
+        Assert.assertTrue(getDriver().findElement(
+                By.id("jenkins-head-icon")).isEnabled());
+
+        Assert.assertTrue(getDriver().findElement(
+                By.id("jenkins-head-icon")).isDisplayed());
+    }
+
+    @Test
     public void testUserDropdownMenuToOpenPageAdminConfigure() {
         openUserDropdownMenu();
         getDriver().findElement(
