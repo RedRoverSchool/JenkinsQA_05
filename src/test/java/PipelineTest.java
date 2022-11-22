@@ -70,7 +70,7 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(ITEM_NAME).sendKeys(PIPELINE_NAME);
         getDriver().findElement(PIPELINE).click();
-        getDriver().findElement(BUTTON_OK).click();
+        getDriver().findElement(By.xpath("//*[@id='ok-button']")).click();
         getDriver().findElement(BUTTON_SAVE).click();
 
         getDriver().findElement(By.id("description-link")).click();
