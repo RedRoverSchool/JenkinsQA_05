@@ -83,5 +83,16 @@ public class HeaderTest extends BaseTest {
                         .findElement(By.cssSelector("div:nth-of-type(3) > .jenkins-section__title")).getText(),
                 "API Token");
     }
+
+    @Test
+    public void testUserDropdownMenuToOpenPageAdminMyViews() {
+        openUserDropdownMenu();
+        getDriver().findElement(
+                By.cssSelector("ul > li:nth-of-type(3) span")).click();
+
+        Assert.assertEquals(getDriver().findElement(
+                        By.xpath("//ul[@id='breadcrumbs']//a[@href='/user/admin/my-views/']")).getText(),
+                "My Views");
+    }
 }
 
