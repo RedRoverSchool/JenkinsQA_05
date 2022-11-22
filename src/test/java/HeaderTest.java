@@ -47,5 +47,13 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(actualNamesItems.toString(),
                 "BuildsConfigureMy ViewsCredentials");
     }
+
+    @Test
+    public void test_Logo_Head_icon_is_Seen(){
+        Assert.assertTrue(getDriver().findElement(
+                By.id("jenkins-head-icon")).isEnabled());
+        Assert.assertTrue(getDriver().findElement(
+                By.id("jenkins-head-icon")).isDisplayed());
+    }
 }
 
