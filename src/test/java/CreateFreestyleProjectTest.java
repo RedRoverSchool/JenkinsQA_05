@@ -35,8 +35,8 @@ public class CreateFreestyleProjectTest extends BaseTest {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys(INVALID_FREESTYLE_PROJECT_NAME);
         getDriver().findElement(By.xpath("//form/div[2]/div[1]/ul/li[1]")).click();
-
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("itemname-invalid")));
+
         Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid")).getText(),
                 "» ‘" + INVALID_CHAR + "’ is an unsafe character");
     }
