@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
@@ -132,7 +131,6 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 "No such job: " + jobName);
     }
 
-    @Ignore
     @Test
     public void testDeletePipelineFromDashboard() {
         final String jobName = getRandomStr();
