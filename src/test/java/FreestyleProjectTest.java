@@ -69,7 +69,6 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(By.id("ok-button")).click();
     }
 
-    @Ignore
     @Test
     public void testCreateNewFreestyleProjectWithCorrectName() {
         getWait().until(ExpectedConditions.elementToBeClickable(LINK_NEW_ITEM)).click();
