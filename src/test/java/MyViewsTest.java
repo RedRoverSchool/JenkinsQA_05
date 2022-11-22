@@ -6,6 +6,8 @@ import runner.BaseTest;
 public class MyViewsTest extends BaseTest {
     final private static String TEST_DESCRIPTION_NAME = "Test";
 
+    final private static String DESCRIPTION_NAME_EDIT = "Test1";
+
     public void createDescription() {
         getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
         getDriver().findElement(By.id("description-link")).click();
@@ -24,6 +26,20 @@ public class MyViewsTest extends BaseTest {
         createDescription();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), TEST_DESCRIPTION_NAME);
+
+        deleteDescription();
+    }
+
+    @Test
+    public void testEditDescription() {
+        createDescription();
+
+        getDriver().findElement(By.id("description-link")).click();
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).clear();
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(DESCRIPTION_NAME_EDIT);
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), DESCRIPTION_NAME_EDIT);
 
         deleteDescription();
     }
