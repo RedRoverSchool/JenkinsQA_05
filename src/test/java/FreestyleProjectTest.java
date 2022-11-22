@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -134,6 +135,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), FREESTYLE_DESCRIPTION);
     }
 
+    @Ignore
     @Test
     public void testCreateFreestyleProjectWithIncorrectCharacters() {
         final List<Character> incorrectNameCharacters = List.of(
@@ -183,6 +185,24 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(DESCRIPTION_SAVE_BUTTON).click();
 
         Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), descriptionText);
+    }
+
+    @Test
+    public void testCreateFreestyleProjectWithEngineerName() {
+
+        final String expectedResult = "Engineer";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(expectedResult);
+        getDriver().findElement(By.className("label")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        WebElement registeredProject = getDriver().findElement(By.xpath("//h1[@class='job-index-" +
+                "headline page-headline']"));
+
+        final String actualResult = registeredProject.getText().substring(registeredProject.getText().length()-8);
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
 

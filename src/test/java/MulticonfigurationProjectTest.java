@@ -1,6 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -9,6 +10,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
+import java.util.List;
 
 public class MulticonfigurationProjectTest extends BaseTest {
     private static final String PROJECT_NAME = RandomStringUtils.randomAlphanumeric(8);
@@ -29,7 +31,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 By.xpath("//div[@id = 'tasks']//span[contains(text(), 'Delete Multi-configuration project')]")).click();
         getDriver().switchTo().alert().accept();
     }
-
     @Test
     public void testCreateMultiConfigurationProjectWithValidName_HappyPath() {
         getDriver().findElement(NEW_ITEM).click();
@@ -148,5 +149,25 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//span[text()='Delete Multi-configuration project']")).click();
         getDriver().switchTo().alert().accept();
+    }
+    @Test
+    public void testMultiConfigurationProjectBuild(){
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(NEW_PROJECT_NAME);
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(DASHBOARD).click();
+
+        getDriver().findElement(By.xpath("//a[@href='job/"+ NEW_PROJECT_NAME + "/']")).click();
+        List<WebElement> build_row_before_build = getDriver().findElements(By.xpath("//tr[@page-entry-id]"));
+        int amountOfBuildsBeforeBuildNow = build_row_before_build.size();
+
+        getDriver().findElement(By.linkText("Build Now")).click();
+
+        List<WebElement> build_row_after_build = getDriver().findElements(By.xpath("//tr[@page-entry-id]"));
+        int amountOfBuildsAfterBuildNow = build_row_after_build.size();
+
+        Assert.assertNotEquals(amountOfBuildsAfterBuildNow, amountOfBuildsBeforeBuildNow);
     }
 }
