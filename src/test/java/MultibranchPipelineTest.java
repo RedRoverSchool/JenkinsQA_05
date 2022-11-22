@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -10,9 +11,13 @@ public class MultibranchPipelineTest extends BaseTest {
     private final String NEW_ITEM_XPATH = "//div [@class='task '][1]";
     private final String ENTER_AN_ITEM_NAME_XPATH = "//input[@id='name']";
     private final String MULTIBRANCH_PIPELINE_XPATH =
-            "//li[@class='org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject']";
+            "//div[@id='j-add-item-type-nested-projects']/ul [@class='j-item-options']/li[2]";
     private final String BUTTON_OK_XPATH = "//span [@class='yui-button primary large-button']";
     private final String DASHBOARD_XPATH = "//li[@class='item'][1]/a [@class='model-link']";
+
+    private WebElement findElementXpath(String xpath) {
+        return getDriver().findElement(By.xpath(xpath));
+    }
 
     private void buttonClickXpath(String locator) {
         getDriver().findElement(By.xpath(locator)).click();
@@ -26,9 +31,6 @@ public class MultibranchPipelineTest extends BaseTest {
         getDriver().findElement(By.xpath(locator)).sendKeys(text);
     }
 
-    private void urlCheck(String expectedUrl) {
-        Assert.assertEquals(getDriver().getCurrentUrl(), expectedUrl);
-    }
 
     private void assertTextByXPath(String locator, String text) {
         Assert.assertEquals(getDriver().findElement(By.xpath(locator)).getText(), text);
@@ -50,7 +52,7 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void Create_Multibranch_pipeline() {
+    public void Create_Multibranch_Pipeline_Test() {
         String nameOfItem = "MultibranchPipeline";
         buttonClickXpath(NEW_ITEM_XPATH);
         inputTextByXPath(ENTER_AN_ITEM_NAME_XPATH, nameOfItem);
@@ -86,15 +88,6 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreateMbPipelineEmptyName() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
-        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
-                "» This field cannot be empty, please enter a valid name");
-        Assert.assertFalse(getDriver().findElement(By.xpath("//button[@type='submit']")).isEnabled());
-    }
-
-    @Test
     public void testCreateWithUnsafeCharsInName() {
         String itemName = "MultiBranch!Pipeline/000504";
         Matcher matcher = Pattern.compile("[»!@#$%^&*|:?></.'\\]\\[;]").matcher(itemName);
@@ -122,4 +115,30 @@ public class MultibranchPipelineTest extends BaseTest {
 
         deleteItem(itemName);
     }
+
+    @Test
+    public void Rename_Multibranch_Pipeline_Test() {
+        String nameOfItem = "NewMultibranchPipeline";
+        buttonClickXpath(NEW_ITEM_XPATH);
+        inputTextByXPath(ENTER_AN_ITEM_NAME_XPATH, "MultibranchPipeline");
+        buttonClickXpath(MULTIBRANCH_PIPELINE_XPATH);
+        buttonClickXpath(BUTTON_OK_XPATH);
+        buttonClickXpath("//button [@id='yui-gen8-button']");
+        buttonClickXpath(DASHBOARD_XPATH);
+        getDriver().findElement
+                (By.xpath("//a [@class='jenkins-table__link model-link inside']")).click();
+        getDriver().findElement(By.xpath("//div [@class='task '][8]")).click();   //NewMultibranchPipeline
+        findElementXpath("//input [@class='jenkins-input validated  ']").clear();
+        findElementXpath("//input [@class='jenkins-input validated  ']").sendKeys(nameOfItem);
+        buttonClickXpath("//button [@id='yui-gen1-button']");
+
+        assertTextByXPath("//ul [@id='breadcrumbs']/li[3]/a[@class='model-link']", nameOfItem);
+        buttonClickXpath(DASHBOARD_XPATH);
+
+        assertTextByXPath("//span[text()='" + nameOfItem + "']", nameOfItem);
+
+        deleteItem(nameOfItem);
+    }
+
+
 }
