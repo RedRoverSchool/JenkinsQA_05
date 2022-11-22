@@ -2,7 +2,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -36,20 +35,12 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By MAIN_PANEL_LOCATOR = By.id("main-panel");
 
     private WebDriverWait wait;
-    private Actions action;
 
     private WebDriverWait getWait() {
         if (wait == null) {
             wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
         }
         return wait;
-    }
-
-    private Actions getAction() {
-        if (action == null) {
-            action = new Actions(getDriver());
-        }
-        return action;
     }
 
     private List<String> getListExistingFreestyleProjectsNames(By by) {
@@ -102,7 +93,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualText, expectedText);
     }
 
-    @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears", priority = 4)
+    @Test(dependsOnMethods = {"testViewChangesNoBuildsSignAppears", "testAddDescriptionToFreestyleProject"}, priority = 4)
     public void testDeleteFreestyleProject() {
 
         getDriver().findElement(By.cssSelector("tr#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
@@ -150,9 +141,9 @@ public class FreestyleProjectTest extends BaseTest {
 
         getDriver().findElement(LINK_NEW_ITEM).click();
         for (Character character : incorrectNameCharacters) {
-            getAction().moveToElement(getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME)).click().build().perform();
-            getAction().moveToElement(getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME))
-                    .doubleClick().sendKeys(String.valueOf(character)).build().perform();
+            getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).click();
+            getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).clear();
+            getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(String.valueOf(character));
 
             Assert.assertEquals(getDriver().findElement(ITEM_NAME_INVALID).getText(),
                     "» ‘" + character + "’ is an unsafe character");
@@ -178,6 +169,22 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualChangesText, "No builds.");
     }
 
+    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
+    public void testAddDescriptionToFreestyleProject(){
+        final String descriptionText = "This is job #" + FREESTYLE_NAME;
+
+        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(EDIT_DESCRIPTION_BUTTON).click();
+        getDriver().findElement(DESCRIPTION_TEXT_FIELD).sendKeys("This is job #" + FREESTYLE_NAME);
+        getDriver().findElement(By.xpath("//div[@class = 'textarea-preview-container']/a[1]")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'textarea-preview']")).getText(), descriptionText);
+
+        getDriver().findElement(DESCRIPTION_SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), descriptionText);
+    }
+    
     @Test
     public void createFreestyleProjectWithEngineerName() {
 
