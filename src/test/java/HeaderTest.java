@@ -79,8 +79,8 @@ public class HeaderTest extends BaseTest {
         getDriver().findElement(
                 By.cssSelector("ul > li:nth-of-type(2) span")).click();
 
-        Assert.assertEquals(getDriver()
-                        .findElement(By.cssSelector("div:nth-of-type(3) > .jenkins-section__title")).getText(),
+        Assert.assertEquals(getDriver().findElement(
+                By.cssSelector("div:nth-of-type(3) > .jenkins-section__title")).getText(),
                 "API Token");
     }
 
@@ -93,6 +93,17 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(
                         By.xpath("//ul[@id='breadcrumbs']//a[@href='/user/admin/my-views/']")).getText(),
                 "My Views");
+    }
+
+    @Test
+    public void testUserDropdownMenuToOpenPageAdminCredentials() {
+        openUserDropdownMenu();
+        getDriver().findElement(
+                By.cssSelector("li:nth-of-type(4) span")).click();
+
+        Assert.assertEquals(
+                getDriver().findElement(By.tagName("h1")).getText(),
+                "Credentials");
     }
 }
 
