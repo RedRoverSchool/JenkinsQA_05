@@ -54,4 +54,22 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='job/" + pipelinePojectName + "/']"))
                 .isDisplayed());
     }
+
+    @Test
+    public void testPipelineAddDescription() {
+
+        String pipelinePojectName = generatePipelineProjectName();
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(PIPELINE).click();
+        getDriver().findElement(ITEM_NAME).sendKeys(pipelinePojectName);
+        getDriver().findElement(BUTTON_OK).click();
+        getDriver().findElement(BUTTON_SAVE).click();
+
+        getDriver().findElement(By.id("description-link")).click();
+
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(pipelinePojectName + "description");
+        getDriver().findElement(By.id("yui-gen2-button")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), pipelinePojectName + "description");
+    }
 }
