@@ -26,11 +26,11 @@ public class NewViewTest extends BaseTest {
     private static final By VIEW =
             By.xpath(String.format("//div/a[contains(text(),'%s')]", VIEW_NAME));
 
-    private static final By BUTTON_S = By.xpath("//div/ol/li/a[@href='/iconSize?16x16']");
+    private static final By BUTTON_S = By.xpath("//div/ol/li/a[@href='/iconSize?16x16'][@class='yui-button link-button']");
 
-    private static final By BUTTON_M = By.xpath("//div/ol/li/a[@href='/iconSize?24x24']");
+    private static final By BUTTON_M = By.xpath("//div/ol/li/a[@href='/iconSize?24x24'][@class='yui-button link-button']");
 
-    private static final By BUTTON_L = By.xpath("//div/ol/li/a[@href='/iconSize?32x32']");
+    private static final By BUTTON_L = By.xpath("//div/ol/li/a[@href='/iconSize?32x32'][@class='yui-button link-button']");
 
     private static final By MY_VIEWS_TABLE = By.xpath("//table[@id='projectstatus']");
 
@@ -102,6 +102,5 @@ public class NewViewTest extends BaseTest {
         executor.executeScript("arguments[0].click();", ButtonM);
         WebElement ButtonL = getDriver().findElement(BUTTON_L);
         executor.executeScript("arguments[0].click();", ButtonL);
-
     }
 }
