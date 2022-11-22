@@ -222,5 +222,3 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.cssSelector("#yui-gen1")).isEnabled());
     }
 }
-
-
