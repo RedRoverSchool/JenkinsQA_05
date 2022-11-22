@@ -34,7 +34,6 @@ public class CreateUserVerifyCreateTest extends BaseTest {
         return saltStr;
     }
 
-    @Ignore
     private static String randomString() {
         int randomLength = (int)(Math.random()*(7-4+1)+4);
         return RandomStringUtils.randomAlphanumeric(randomLength);
