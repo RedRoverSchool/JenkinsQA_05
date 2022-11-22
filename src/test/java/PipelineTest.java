@@ -80,6 +80,7 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(JENKINS_ICON).click();
         getDriver().findElement(By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), description);
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), description);
     }
 }
