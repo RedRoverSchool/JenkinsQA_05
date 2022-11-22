@@ -1,5 +1,6 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -65,12 +66,17 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testPipelineAddDescription() {
+
         final String description = PIPELINE_NAME + " description";
 
         getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(ITEM_NAME).sendKeys(PIPELINE_NAME);
         getDriver().findElement(PIPELINE).click();
-        getDriver().findElement(By.xpath("//*[@id='ok-button']")).click();
+        getDriver().findElement(ITEM_NAME).sendKeys(PIPELINE_NAME);
+        getDriver().findElement(BUTTON_OK).click();
+
+        Actions action = new Actions(getDriver());
+        action.moveToElement(getDriver().findElement(BUTTON_SAVE)).perform();
+
         getDriver().findElement(BUTTON_SAVE).click();
 
         getDriver().findElement(By.id("description-link")).click();
