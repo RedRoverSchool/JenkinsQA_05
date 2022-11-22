@@ -89,4 +89,19 @@ public class NewViewTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
     }
+
+    @Test
+    public void testLeterLClickableMyViews() {
+        String expectedClassTable = "jenkins-table  sortable";
+
+        createPipelineProject();
+
+        getDriver().findElement(MY_VIEWS).click();
+        WebElement ButtonM = getDriver().findElement(BUTTON_M);
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", ButtonM);
+        WebElement ButtonL = getDriver().findElement(BUTTON_L);
+        executor.executeScript("arguments[0].click();", ButtonL);
+
+    }
 }
