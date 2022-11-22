@@ -52,7 +52,7 @@ public class NewItemTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/' and  @class= 'model-link']")).click();
 
         Assert.assertEquals(getDriver().findElement
-                (By.xpath("//table[@id='projectstatus']//a[@href='job/" + PROJECT_NAME + "/']")).getText(), PROJECT_NAME);
+                (By.xpath("//table[@id='projectstatus']//a[@href='job/"+ PROJECT_NAME + "/']")).getText(), PROJECT_NAME);
     }
 
     @Test
@@ -63,6 +63,7 @@ public class NewItemTest extends BaseTest {
         getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.name("Submit")));
         getDriver().findElement(By.name("Submit")).click();
         getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("job_" + PROJECT_NAME)));
