@@ -64,7 +64,7 @@ public class NewItemTest extends BaseTest {
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.name("Submit")));
-        getDriver().findElement(By.name("Submit")).click();
+        getDriver().findElement(By.id("yui-gen25-button")).click();
         getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("job_" + PROJECT_NAME)));
 
