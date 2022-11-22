@@ -72,5 +72,20 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(
                 By.id("jenkins-head-icon")).isDisplayed());
     }
+
+    @Test
+    public void test_Manage_Jenkins_Click_name_icon_to_return_to_the_main_page(){
+        getDriver().findElement(
+                        By.xpath("//div[@id=\"tasks\"]//a[@href='/manage']")).
+                click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(),
+                "http://localhost:8080/manage/");
+
+        getDriver().findElement(By.id("jenkins-name-icon")).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(),
+                "http://localhost:8080/");
+    }
 }
 
