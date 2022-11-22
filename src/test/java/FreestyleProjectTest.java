@@ -252,7 +252,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(
                 getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
-                "Project " + nameProject);
+                String.format("Project %s", nameProject));
         Assert.assertEquals(
                 getDriver().findElement(By.xpath("//div[@id='main-panel']/h2")).getText(),
                 "Permalinks");
