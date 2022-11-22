@@ -76,7 +76,7 @@ public class HeaderTest extends BaseTest {
     @Test
     public void test_Manage_Jenkins_Click_name_icon_to_return_to_the_main_page(){
         getDriver().findElement(
-                        By.xpath("//div[@id=\"tasks\"]//a[@href='/manage']")).
+                        By.xpath("//div[@id='tasks']//a[@href='/manage']")).
                 click();
 
         Assert.assertEquals(getDriver().getCurrentUrl(),
