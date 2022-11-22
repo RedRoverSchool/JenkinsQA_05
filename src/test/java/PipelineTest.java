@@ -67,9 +67,11 @@ public class PipelineTest extends BaseTest {
     public void testPipelineAddDescription() {
         final String description = PIPELINE_NAME + " description";
 
-        createPipelineProject();
-
-        getDriver().findElement(By.xpath("//a[@href='job/" + PIPELINE_NAME + "/']")).click();
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(ITEM_NAME).sendKeys(PIPELINE_NAME);
+        getDriver().findElement(PIPELINE).click();
+        getDriver().findElement(BUTTON_OK).click();
+        getDriver().findElement(BUTTON_SAVE).click();
 
         getDriver().findElement(By.id("description-link")).click();
 
