@@ -142,13 +142,13 @@ public class MulticonfigurationProjectTest extends BaseTest {
     @Test
     public void testMultiConfigurationProjectBuild(){
         getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
+        getDriver().findElement(INPUT_NAME).sendKeys(NEW_PROJECT_NAME);
         getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(DASHBOARD).click();
 
-        getDriver().findElement(By.xpath("//a[@href='job/"+ PROJECT_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='job/"+ NEW_PROJECT_NAME + "/']")).click();
         List<WebElement> build_row_before_build = getDriver().findElements(By.xpath("//tr[@page-entry-id]"));
         int amountOfBuildsBeforeBuildNow = build_row_before_build.size();
 
