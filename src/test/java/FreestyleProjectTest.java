@@ -99,4 +99,52 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertFalse(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(NEW_FREESTYLE_NAME));
     }
+
+    public void createFreestyleProject() {
+
+        getDriver().findElement(By.xpath("//span/a[@href='/view/all/newJob']")).click();
+        getDriver().findElement(By.xpath("//input[@class='jenkins-input']")).sendKeys(FREESTYLE_NAME);
+        getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+    }
+
+    @Test
+    public void testCreateFreestyleProject(){
+
+        createFreestyleProject();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//li/a[@href='/job/" + FREESTYLE_NAME + "/']"))
+                .getText(), FREESTYLE_NAME);
+    }
+
+    @Test
+    public void testCreateAndRenameFreestyleProject(){
+
+        createFreestyleProject();
+
+        getDriver().findElement(By.xpath("//li/a[@href='/job/" + FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//span/a[@href='/job/" + FREESTYLE_NAME + "/confirm-rename']")).click();
+        WebElement newName = getDriver().findElement(By.xpath("//div/input[@checkdependson='newName']"));
+        newName.clear();
+        newName.sendKeys(NEW_FREESTYLE_NAME);
+        getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//li/a[@href='/job/" + NEW_FREESTYLE_NAME + "/']"))
+                .getText(), NEW_FREESTYLE_NAME);
+    }
+
+    @Test
+    public void testCreateWithDescriptionFreestyleProject(){
+
+        String description = "Any description text...";
+
+        createFreestyleProject();
+
+        getDriver().findElement(By.xpath("//li/a[@href='/job/" + FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.id("description-link")).click();
+        getDriver().findElement(By.xpath("//div/textarea[@name='description']")).sendKeys(description);
+        getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), description);
+    }
 }
