@@ -48,6 +48,18 @@ public class FreestyleProjectTest extends BaseTest {
         return getDriver().findElements(by).stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
+    private String getRandomName() {
+        return RandomStringUtils.randomAlphanumeric(10);
+    }
+
+    private void createProjectFromDashboard(By type, String name) {
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(name);
+        getDriver().findElement(type).click();
+        getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
+        getDriver().findElement(BUTTON_SAVE).click();
+    }
+
     @Test
     public void testCreateNewFreestyleProjectWithCorrectName() {
         getWait().until(ExpectedConditions.elementToBeClickable(LINK_NEW_ITEM)).click();
@@ -204,6 +216,26 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testCreateBuildNowOnFreestyleProjectPage() {
+        final String freestyleProjectName = getRandomName();
+        final By countBuilds = By.xpath("//a[@class = 'model-link inside build-link display-name']");
+        int countBuildsBeforeCreatingNewBuild = 0;
+        WebDriverWait wait = new WebDriverWait(getDriver(),Duration.ofSeconds(20));
+
+        createProjectFromDashboard(LINK_FREESTYLE_PROJECT, freestyleProjectName);
+        getDriver().findElement(By.linkText(freestyleProjectName)).click();
+
+        if (getDriver().findElement(By.id("no-builds")).isEnabled()) {
+            countBuildsBeforeCreatingNewBuild = getDriver().findElements(countBuilds).size();
+        }
+
+        getDriver().findElement(By.linkText("Build Now")).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//span[@class='build-status-icon__outer']/*[@tooltip = 'In progress &gt; Console Output']")));
+        int countBuildsAfterCreatingNewBuild = getDriver().findElements(countBuilds).size();
+
+        Assert.assertEquals(countBuildsAfterCreatingNewBuild, countBuildsBeforeCreatingNewBuild + 1);
+    }
 }
-
-
