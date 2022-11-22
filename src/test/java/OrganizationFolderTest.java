@@ -69,15 +69,11 @@ public class OrganizationFolderTest extends BaseTest {
 
     private boolean isElementExist(String name) {
         try {
-            findFolder(name);
+            getDriver().findElement(By.xpath("//span[text()='" + name + "']"));
             return true;
         } catch (NoSuchElementException e) {
             return false;
         }
-    }
-
-    private WebElement findFolder(String name) {
-        return getDriver().findElement(By.xpath("//span[text()='" + name + "']"));
     }
 
     private void createOrgFolder(String name) {
@@ -88,14 +84,6 @@ public class OrganizationFolderTest extends BaseTest {
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(By.id("yui-gen15-button")).click();
-    }
-
-    private void createFolder(String name) {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(name);
-        getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(By.id("yui-gen6-button")).click();
     }
 
     @Test
@@ -186,39 +174,6 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testMoveOrgFolderToFolder() {
-        String orgFolderName = randomName();
-        String folderName = randomName();
-
-        createOrgFolder(orgFolderName);
-        getDashboard().click();
-
-        createFolder(folderName);
-        getDashboard().click();
-
-        WebElement myOrdFolder = findFolder(orgFolderName);
-
-        Assert.assertTrue(myOrdFolder.isDisplayed());
-        Assert.assertTrue(findFolder(folderName).isDisplayed());
-
-        myOrdFolder.click();
-        getDriver().findElement(By.linkText("Move")).click();
-        getDriver().findElement(By.name("destination")).click();
-        getDriver().findElement(By.xpath("//option[contains(text(),'" + folderName + "')]")).click();
-        getDriver().findElement(By.id("yui-gen1-button")).click();
-        getDashboard().click();
-
-        WebElement myFolder = findFolder(folderName);
-
-        Assert.assertTrue(!isElementExist(orgFolderName));
-        Assert.assertTrue(myFolder.isDisplayed());
-
-        myFolder.click();
-
-        Assert.assertTrue(findFolder(orgFolderName).isDisplayed());
-    }
-
-    @Test
     public void testDeleteOrganizationFolder() {
 
         String nameFolder = randomName();
@@ -251,7 +206,9 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen15-button")).click();
         getDashboard().click();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='" + nameOrgFolder + "']")).isDisplayed());
+        WebElement orgFolder = getDriver().findElement(By.xpath("//span[text()='" + nameOrgFolder + "']"));
+
+        Assert.assertTrue(orgFolder.isDisplayed());
     }
 
     @Test
@@ -268,8 +225,8 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='" + nameFolder + "']")).isDisplayed());
     }
 
-    @Test(dependsOnMethods = {"testFolderCreation","testOrgFolderCreation"})
-    public void testMoveOrgFolderToFolder1(){
+    @Test(dependsOnMethods = {"testFolderCreation", "testOrgFolderCreation"})
+    public void testMoveOrgFolderToFolder() {
         getDriver().findElement(By.xpath("//span[text()='" + nameOrgFolder + "']")).click();
         getDriver().findElement(By.linkText("Move")).click();
         getDriver().findElement(By.name("destination")).click();
