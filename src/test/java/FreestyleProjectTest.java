@@ -177,7 +177,7 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
 
         getWait().until(ExpectedConditions.elementToBeClickable(
-                getDriver().findElement(BUTTON_SAVE))).click();
+                getDriver().findElement(By.xpath("//span[@name='Submit']")))).click();
 
         getDriver().findElement(By.linkText("Dashboard")).click();
 
