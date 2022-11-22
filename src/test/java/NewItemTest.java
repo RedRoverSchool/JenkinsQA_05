@@ -56,6 +56,7 @@ public class NewItemTest extends BaseTest {
 
     @Test
     public void testCreateNewItemFreestyleProject() {
+
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
 
         getDriver().findElement(By.linkText("New Item")).click();
