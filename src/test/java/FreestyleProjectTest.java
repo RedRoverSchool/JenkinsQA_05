@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 public class FreestyleProjectTest extends BaseTest {
 
+    private void click(By by) {getDriver().findElement(by).click();}
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final String FREESTYLE_NAME_WITH_DESCRIPTION = RandomStringUtils.randomAlphanumeric(10);
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
@@ -176,6 +177,25 @@ public class FreestyleProjectTest extends BaseTest {
                 .getText().replace("Changes\n", "");
 
         Assert.assertEquals(actualChangesText, "No builds.");
+    }
+
+
+    @Test
+    public void createFreestyleProjectWithEngineerName() {
+
+        final String expectedResult = "Engineer";
+
+        click(By.linkText("New Item"));
+        getDriver().findElement(By.id("name")).sendKeys(expectedResult);
+        click(By.className("label"));
+        click(By.id("ok-button"));
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        WebElement registeredProject = getDriver().findElement(By.xpath("//h1[@class='job-index-" +
+                "headline page-headline']"));
+
+        String actualResult = registeredProject.getText().substring(registeredProject.getText().length()-8);
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
 
