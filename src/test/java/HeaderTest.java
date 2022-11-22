@@ -10,6 +10,11 @@ public class HeaderTest extends BaseTest {
 
     private static final By USER_ACCOUNT_LINK = By.xpath("//a[@class='model-link']//span");
 
+    private void openUserDropdownMenu() {
+        getDriver().findElement(
+                By.cssSelector("header#page-header .jenkins-menu-dropdown-chevron")).click();
+    }
+
     @Test
     public void testSeeNameIcon() {
 
@@ -32,8 +37,7 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testCountAndNamesItemsInUserDropdownMenu() {
-        getDriver().findElement(
-                By.cssSelector("header#page-header .jenkins-menu-dropdown-chevron")).click();
+        openUserDropdownMenu();
         List<WebElement> userDropdownItems = getDriver().findElements(
                 By.cssSelector(".first-of-type > .yuimenuitem"));
         int actualItemsCount = 0;
@@ -46,6 +50,17 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(actualItemsCount, 4);
         Assert.assertEquals(actualNamesItems.toString(),
                 "BuildsConfigureMy ViewsCredentials");
+    }
+
+    @Test
+    public void testUserDropdownMenuToOpenPageAdminBuilds() {
+        openUserDropdownMenu();
+        getDriver().findElement(
+                By.cssSelector("ul > li:nth-of-type(1) span")).click();
+
+        Assert.assertEquals(getDriver().findElement(
+                        By.cssSelector("div#main-panel > h1")).getText(),
+                "Builds for admin");
     }
 }
 

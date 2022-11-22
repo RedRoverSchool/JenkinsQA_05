@@ -2,6 +2,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -33,12 +34,14 @@ public class NewItemTest extends BaseTest {
     }
 
     @Test
+    @Ignore
     public void testGoToNewItemPage() {
         final String expectedResult = "Enter an item name";
 
         getDriver().findElement(By.linkText("New Item")).click();
 
         Assert.assertEquals(getDriver().findElement(By.className("h3")).getText(), expectedResult);
+
     }
 
     @Test
