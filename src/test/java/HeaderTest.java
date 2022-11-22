@@ -74,11 +74,9 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-<<<<<<< HEAD
-=======
     public void test_Manage_Jenkins_Click_name_icon_to_return_to_the_main_page(){
         getDriver().findElement(
-                        By.xpath("//div[@id=\"tasks\"]//a[@href='/manage']")).
+                        By.xpath("//div[@id='tasks']//a[@href='/manage']")).
                 click();
 
         Assert.assertEquals(getDriver().getCurrentUrl(),
@@ -91,7 +89,6 @@ public class HeaderTest extends BaseTest {
     }
   
     @Test
->>>>>>> 5e55854597f3878b76965ec6743a8067aaeeed01
     public void testUserDropdownMenuToOpenPageAdminConfigure() {
         openUserDropdownMenu();
         getDriver().findElement(
@@ -122,25 +119,6 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(
                 getDriver().findElement(By.tagName("h1")).getText(),
                 "Credentials");
-<<<<<<< HEAD
-    }
-
-    @Test
-    public void test_Manage_Jenkins_Click_name_icon_to_return_to_the_main_page(){
-        getDriver().findElement(
-                        By.xpath("//div[@id='tasks']//a[@href='/manage']")).
-                click();
-
-        Assert.assertEquals(getDriver().getCurrentUrl(),
-                "http://localhost:8080/manage/");
-
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
-
-        Assert.assertEquals(getDriver().getCurrentUrl(),
-                "http://localhost:8080/");
-=======
-
->>>>>>> 5e55854597f3878b76965ec6743a8067aaeeed01
     }
 }
 
