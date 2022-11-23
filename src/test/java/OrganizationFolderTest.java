@@ -217,7 +217,6 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(findFolder(orgFolderName).isDisplayed());
     }
 
-    @Ignore
     @Test
     public void testDeleteOrganizationFolder() {
 
@@ -236,5 +235,18 @@ public class OrganizationFolderTest extends BaseTest {
                 .collect(Collectors.toList());
 
         Assert.assertFalse(foldersList.contains(nameFolder));
+    }
+
+    @Test
+    public void createtestOrgFolderExistName() {
+        createNewOrganizationFolder();
+
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName);
+        getDriver().findElement(ORGANIZATION_FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//h1['Error']")).isDisplayed());
     }
 }
