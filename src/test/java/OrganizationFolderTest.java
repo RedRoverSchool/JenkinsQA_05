@@ -4,6 +4,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -228,6 +229,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testFolderCreation", "testOrgFolderCreation"})
+    @Ignore
     public void testMoveOrgFolderToFolder() {
         getDriver().findElement(By.xpath("//span[text()='" + nameOrgFolder + "']")).click();
         getDriver().findElement(By.linkText("Move")).click();
