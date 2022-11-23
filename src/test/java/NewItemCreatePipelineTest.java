@@ -8,7 +8,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,17 +40,13 @@ public class NewItemCreatePipelineTest extends BaseTest {
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
-    @Ignore
     @Test
     public void testCreatePipelineExistingNameError() {
         final String jobName = getRandomStr();
 
         createPipeline(jobName);
         getDriver().findElement(LINK_TO_DASHBOARD).click();
-        getDriver().findElement(NEW_ITEM).click();
-
-        new Actions(getDriver()).moveToElement(getDriver().findElement(FIELD_NAME)).click()
-                .sendKeys(jobName).build().perform();
+        setJobPipeline(jobName);
 
         final WebElement notificationError = getDriver().findElement(By.id("itemname-invalid"));
 
@@ -134,5 +130,32 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
                 "No such job: " + jobName);
+    }
+
+    @Ignore
+    @Test
+    public void testDeletePipelineFromDashboard() {
+        final String jobName = getRandomStr();
+
+        createPipeline(jobName);
+        getDriver().findElement(LINK_TO_DASHBOARD).click();
+        ((JavascriptExecutor)getDriver()).executeScript("arguments[0].scrollIntoView(true);",
+                getDriver().findElement(By.xpath("//a[@href='job/" + jobName + "/']")));
+        new Actions(getDriver()).pause(2000).moveToElement(getDriver().findElement(By.xpath(
+                "//a[@href='job/" + jobName + "/']"))).pause(1500).click().perform();
+        new Actions(getDriver()).moveToElement(getDriver().findElement(By.xpath(
+                "//span[text()='Delete Pipeline']"))).pause(1500).click().perform();
+        getDriver().switchTo().alert().accept();
+
+        List<WebElement> allJobsInDashboard = getDriver().findElements(By.xpath(
+                "//a[@class='jenkins-table__link model-link inside']"));
+        for (WebElement element : allJobsInDashboard) {
+            if (element.getText().contains(jobName)) {
+                Assert.fail();
+                break;
+            } else {
+                Assert.assertTrue(true);
+            }
+        }
     }
 }
