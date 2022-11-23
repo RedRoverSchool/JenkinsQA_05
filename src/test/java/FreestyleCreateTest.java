@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
 import java.util.UUID;
 
 public class FreestyleCreateTest extends BaseTest {
@@ -14,9 +15,6 @@ public class FreestyleCreateTest extends BaseTest {
     private static final By OK_BUTTON = By.cssSelector(".yui-button.primary.large-button");
     private static final By SAVE_BUTTON = By.xpath("//*[@id='yui-gen23']");
     private static final By DASHBOARD = By.xpath("//a[normalize-space()='Dashboard']");
-    private static final By JOB_IN = By.xpath("//a[@class='jenkins-table__link model-link inside']");
-    private static final By DELETE_PROJECT = By.xpath("//span[contains(text(),'Delete Project')]");
-    private static final By ACTUAL_RESULT = By.cssSelector(".jenkins-table__link.model-link.inside");
 
     @Test
     public void testCreateFreestyleProject() {
@@ -28,10 +26,7 @@ public class FreestyleCreateTest extends BaseTest {
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(DASHBOARD).click();
 
-        Assert.assertEquals(getDriver().findElement(ACTUAL_RESULT).getText(), name);
-
-        getDriver().findElement(JOB_IN).click();
-        getDriver().findElement(DELETE_PROJECT).click();
-        getDriver().switchTo().alert().accept();
+        Assert.assertEquals(getDriver().findElement(
+                By.cssSelector(".jenkins-table__link.model-link.inside")).getText(), name);
     }
 }
