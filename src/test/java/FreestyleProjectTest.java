@@ -80,6 +80,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(FREESTYLE_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName", priority = 3)
     public void testRenameFreestyleProject() {
 
@@ -94,6 +95,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(NEW_FREESTYLE_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testRenameFreestyleProject")
     public void testViewChangesNoBuildsSignAppears() {
         String expectedText = "Changes\nNo builds.";
@@ -106,6 +108,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualText, expectedText);
     }
 
+    @Ignore
     @Test(dependsOnMethods = {"testViewChangesNoBuildsSignAppears", "testAddDescriptionToFreestyleProject"}, priority = 4)
     public void testDeleteFreestyleProject() {
 
