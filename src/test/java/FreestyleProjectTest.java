@@ -272,4 +272,16 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getTitle(), FREESTYLE_NAME + " Config [Jenkins]");
     }
+
+    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
+    public void testCreateNewFreestyleProjectWithDupicateName(){
+        getDriver().findElement(LINK_NEW_ITEM).click();
+
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).click();
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(FREESTYLE_NAME);
+        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+
+        Assert.assertEquals(getDriver().findElement(ITEM_NAME_INVALID).getText(),
+                String.format("» A job already exists with the name ‘%s’", FREESTYLE_NAME));
+    }
 }
