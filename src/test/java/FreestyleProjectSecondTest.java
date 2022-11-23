@@ -10,29 +10,22 @@ public class FreestyleProjectSecondTest extends BaseTest {
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final String DESCRIPTION_TEXT = RandomStringUtils.randomAlphanumeric(20);
 
-    public void createFreestyleProject() {
+    @Test
+    public void testCreateFreestyleProject(){
 
         getDriver().findElement(By.xpath("//span/a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.xpath("//input[@class='jenkins-input']")).sendKeys(FREESTYLE_NAME);
         getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
         getDriver().findElement(By.id("ok-button")).click();
-    }
-
-    @Test
-    public void testCreateFreestyleProject(){
-
-        createFreestyleProject();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//li/a[@href='/job/" + FREESTYLE_NAME + "/']"))
                 .getText(), FREESTYLE_NAME);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testCreateAndRenameFreestyleProject(){
 
-        createFreestyleProject();
-
-        getDriver().findElement(By.xpath("//li/a[@href='/job/" + FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//td/a[@href='job/" + FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + FREESTYLE_NAME + "/confirm-rename']")).click();
         WebElement newName = getDriver().findElement(By.xpath("//div/input[@checkdependson='newName']"));
         newName.clear();
@@ -43,12 +36,11 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .getText(), NEW_FREESTYLE_NAME);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateAndRenameFreestyleProject")
     public void testCreateWithDescriptionFreestyleProject(){
 
-        createFreestyleProject();
 
-        getDriver().findElement(By.xpath("//li/a[@href='/job/" + FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(By.id("description-link")).click();
         getDriver().findElement(By.xpath("//div/textarea[@name='description']")).sendKeys(DESCRIPTION_TEXT);
         getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
