@@ -125,15 +125,15 @@ public class HeaderTest extends BaseTest {
     public void testVerifyRedirectToManePage()  {
 
         getDriver().findElement(
-                        By.linkText("Build History")).click();
+                By.linkText("Build History")).click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),
-                "http://localhost:8080/view/all/builds");
+        Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(),
+                "Build History of Jenkins");
 
         getDriver().findElement(By.id("jenkins-name-icon")).click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),
-                "http://localhost:8080/");
+        Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(),
+                "Welcome to Jenkins!");
 
     }
     }
