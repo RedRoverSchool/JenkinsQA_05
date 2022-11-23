@@ -1,5 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.AcceptedW3CCapabilityKeys;
 import org.openqa.selenium.By;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -71,5 +73,23 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen2-button")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), pipelinePojectName + "description");
+    }
+
+    @Test
+    public void testPipelinePreviewdescription() {
+
+        String pipelinePojectName = generatePipelineProjectName();
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(PIPELINE).click();
+        getDriver().findElement(ITEM_NAME).sendKeys(pipelinePojectName);
+        getDriver().findElement(BUTTON_OK).click();
+
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(pipelinePojectName + "description");
+        getDriver().findElement(By.className("textarea-show-preview")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.className("textarea-preview")).getText(), pipelinePojectName + "description");
+
+        getDriver().findElement(BUTTON_SAVE).click();
+
     }
 }
