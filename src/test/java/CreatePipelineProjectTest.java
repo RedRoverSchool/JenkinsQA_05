@@ -1,6 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -9,7 +10,7 @@ import static old.GroupBughuntersTest.getRandomDigitAndLetterString;
 public class CreatePipelineProjectTest extends BaseTest {
 
     private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(10);
-
+    @Ignore
     @Test
     public void testCreatePipelineProject(){
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
