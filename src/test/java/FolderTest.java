@@ -121,6 +121,7 @@ public class FolderTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testConfigureFolderDisplayNameSaveFirstName() {
         String secondJobName = "Second name";
