@@ -24,6 +24,8 @@ public class OrganizationFolderTest extends BaseTest {
     private static final By RENAME_BUTTON = By.id("yui-gen1-button");
     private static final By TITLE = By.xpath("//div[@id='main-panel']/h1");
 
+    private static final By NEW_ITEM = By.linkText("New Item");
+
     private String nameOrgFolder, nameFolder;
 
     public WebElement getInputName() {
@@ -77,7 +79,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     private void createOrgFolder(String name) {
-        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(INPUT_NAME).sendKeys(name);
         WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
@@ -197,7 +199,7 @@ public class OrganizationFolderTest extends BaseTest {
     public void testOrgFolderCreation() {
         nameOrgFolder = randomName();
 
-        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(INPUT_NAME).sendKeys(nameOrgFolder);
         WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
@@ -215,7 +217,7 @@ public class OrganizationFolderTest extends BaseTest {
     public void testFolderCreation() {
         nameFolder = randomName();
 
-        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(INPUT_NAME).sendKeys(nameFolder);
         getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
         getDriver().findElement(OK_BUTTON).click();
