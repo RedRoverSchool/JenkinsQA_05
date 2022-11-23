@@ -3,10 +3,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -48,7 +46,12 @@ public class FolderTest extends BaseTest {
                 .collect(Collectors.toList());
         for (String href : hrefs) {
             getDriver().get(href + "/delete");
-            getDriver().findElement(By.id("yui-gen1-button")).click();
+            try {
+                getDriver().findElement(By.id("yui-gen1-button")).click();
+            } catch (NoSuchElementException ex) {
+                String title = getDriver().getTitle();
+                System.out.println("Job not found (" + title + "): " + href);
+            }
         }
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(INPUT_NAME).sendKeys(generatedString);
@@ -89,7 +92,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(job, generatedString);
     }
 
-    @Ignore
+
     @Test
     public void testConfigureFolderDisplayName() {
         String secondJobName = "Second job";
