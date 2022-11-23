@@ -8,7 +8,7 @@ public class FolderWithDescription extends BaseTest {
     @Test
     public void createFolderDescriptionTest() {
 
-        getDriver().findElement(By.xpath("//span[normalize-space()='Create a job']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.cssSelector("#name")).sendKeys("Docs");
         getDriver().findElement(By.cssSelector(".icon-folder.icon-xlg")).click();
         getDriver().findElement(By.cssSelector("#ok-button")).click();
