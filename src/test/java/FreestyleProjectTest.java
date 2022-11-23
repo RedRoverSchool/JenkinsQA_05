@@ -1,6 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -265,7 +266,9 @@ public class FreestyleProjectTest extends BaseTest {
     @Test (dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
     public void testFreestyleProjectConfigureByDropdown() {
         getDriver().findElement(By.cssSelector("#job_" + FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
-        getDriver().findElement(By.xpath("//a[@href='/job/" + FREESTYLE_NAME + "/configure']")).click();
+        WebElement element = getDriver().findElement(By.xpath("//a[@href='/job/" + FREESTYLE_NAME + "/configure']"));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", element);
 
         Assert.assertEquals(getDriver().getTitle(), FREESTYLE_NAME + " Config [Jenkins]");
     }
