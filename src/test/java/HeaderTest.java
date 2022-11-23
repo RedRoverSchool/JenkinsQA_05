@@ -120,5 +120,21 @@ public class HeaderTest extends BaseTest {
                 getDriver().findElement(By.tagName("h1")).getText(),
                 "Credentials");
     }
-}
+
+    @Test
+    public void testVerifyRedirectToManePage()  {
+
+        getDriver().findElement(
+                        By.linkText("Build History")).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(),
+                "http://localhost:8080/view/all/builds");
+
+        getDriver().findElement(By.id("jenkins-name-icon")).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(),
+                "http://localhost:8080/");
+
+    }
+    }
 
