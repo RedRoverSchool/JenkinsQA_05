@@ -261,4 +261,12 @@ public class FreestyleProjectTest extends BaseTest {
                 "Permalinks");
         Assert.assertTrue(getDriver().findElement(By.cssSelector("#yui-gen1")).isEnabled());
     }
+
+    @Test (dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
+    public void testFreestyleProjectConfigureByDropdown() {
+        getDriver().findElement(By.cssSelector("#job_" + FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
+        getDriver().findElement(By.xpath("//a[@href='/job/" + FREESTYLE_NAME + "/configure']")).click();
+
+        Assert.assertEquals(getDriver().getTitle(), FREESTYLE_NAME + " Config [Jenkins]");
+    }
 }
