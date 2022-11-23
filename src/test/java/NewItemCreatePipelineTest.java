@@ -3,15 +3,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -181,10 +178,11 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
         Assert.assertTrue(allProjectNames.contains(newJobName));
 
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(
-                getDriver().findElement(By.xpath("//a[@href='job/" + newJobName + "/']/button"))));
-        getDriver().findElement(By.xpath("//a[@href='job/" + newJobName + "/']/button")).click();
+        Actions actions = new Actions(getDriver());
+        WebElement newlyCreatedJobName = getDriver().findElement(By.xpath("//a[@href='job/" + newJobName+"/']"));
+        actions.moveToElement(newlyCreatedJobName).moveToElement(
+        getDriver().findElement(By.xpath("//a[@href='job/" + newJobName + "/']/button")))
+                .click().build().perform();
         getDriver().findElement(By.xpath("//ul[@class='first-of-type']//li[@index=3]/a")).click();
         getDriver().switchTo().alert().accept();
         List<WebElement> listOfProjectsAfterDelete = getDriver().findElements
