@@ -118,6 +118,7 @@ public class NewViewTest extends BaseTest {
         WebElement ButtonS = getDriver().findElement(BUTTON_S);
         executor.executeScript("arguments[0].click();", ButtonS);
 
+
         Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
     }
 }
