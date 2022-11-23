@@ -23,10 +23,10 @@ public class MulticonfigurationProjectTest extends BaseTest {
     private static final By CONFIGURE = By.xpath(String.format("//a[@href='/job/%s/configure']", PROJECT_NAME));
     private WebDriverWait wait;
 
-    private void deleteNewMCProject() {
+    private void deleteNewMCProject(String project) {
         getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
-        getDriver().findElement(By.xpath(String.format("//a[@href = contains(., '%s')]/button", PROJECT_NAME))).click();
+        getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", project))).click();
+        getDriver().findElement(By.xpath(String.format("//a[@href = contains(., '%s')]/button", project))).click();
         getDriver().findElement(
                 By.xpath("//div[@id = 'tasks']//span[contains(text(), 'Delete Multi-configuration project')]")).click();
         getDriver().switchTo().alert().accept();
@@ -55,6 +55,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#description div")).getText(), description);
     }
+
     @Ignore
     @Test(dependsOnMethods = "testMulticonfigurationProjectAddDescription")
     public void testMultiConfigurationProjectRenameProjectViaDropDownMenu() {
@@ -71,6 +72,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(
                 By.xpath(String.format("//h1[contains(text(),'Project %s')]", NEW_PROJECT_NAME))).getText(), String.format("Project %s", NEW_PROJECT_NAME));
     }
+
     @Ignore
     @Test(dependsOnMethods = "testMultiConfigurationProjectRenameProjectViaDropDownMenu")
     public void testMultiConfigurationProjectRenameProjectViaSideMenu() {
@@ -118,7 +120,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(getDriver()
                 .findElement(By.xpath("//button[contains(text(),'Disable Project')]")).isDisplayed());
 
-        deleteNewMCProject();
+        deleteNewMCProject(PROJECT_NAME);
     }
 
     @Test
@@ -169,5 +171,20 @@ public class MulticonfigurationProjectTest extends BaseTest {
         int amountOfBuildsAfterBuildNow = build_row_after_build.size();
 
         Assert.assertNotEquals(amountOfBuildsAfterBuildNow, amountOfBuildsBeforeBuildNow);
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
+    public void testCreateNewMCProjectAsCopyFromExistingProject() {
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(NEW_PROJECT_NAME);
+        getDriver().findElement(By.id("from")).sendKeys(PROJECT_NAME);
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(DASHBOARD).click();
+
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath(String.format("//span[contains(text(),'%s')]", NEW_PROJECT_NAME))).getText(), NEW_PROJECT_NAME);
+
+        deleteNewMCProject(NEW_PROJECT_NAME);
     }
 }
