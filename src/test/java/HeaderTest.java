@@ -132,8 +132,8 @@ public class HeaderTest extends BaseTest {
 
         getDriver().findElement(By.id("jenkins-name-icon")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(),
-                "Welcome to Jenkins!");
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description-link")).getText(),
+                "Add description");
 
     }
     }
