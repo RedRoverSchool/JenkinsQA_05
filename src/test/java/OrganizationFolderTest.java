@@ -4,6 +4,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -174,7 +175,7 @@ public class OrganizationFolderTest extends BaseTest {
                 "» This field cannot be empty, please enter a valid name");
         Assert.assertFalse(getDriver().findElement(OK_BUTTON).isEnabled());
     }
-
+    @Ignore
     @Test
     public void testDeleteOrganizationFolder() {
 
