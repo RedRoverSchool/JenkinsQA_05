@@ -107,7 +107,6 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testLetterSClickableMyViews() {
-
         final String expectedClassTable = "jenkins-table jenkins-table--small sortable";
 
         createPipelineProject(generateRandomName());
