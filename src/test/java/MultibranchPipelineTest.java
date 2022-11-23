@@ -117,7 +117,7 @@ public class MultibranchPipelineTest extends BaseTest {
         deleteItem(itemName);
     }
 
-    @Ignore
+
     @Test
     public void Rename_Multibranch_Pipeline_Test() {
         String nameOfItem = "NewMultibranchPipeline";
@@ -129,9 +129,9 @@ public class MultibranchPipelineTest extends BaseTest {
         buttonClickXpath(DASHBOARD_XPATH);
         getDriver().findElement
                 (By.xpath("//a [@class='jenkins-table__link model-link inside']")).click();
-        getDriver().findElement(By.xpath("//div [@class='task '][8]")).click();   //NewMultibranchPipeline
-        findElementXpath("//input [@class='jenkins-input validated  ']").clear();
-        findElementXpath("//input [@class='jenkins-input validated  ']").sendKeys(nameOfItem);
+        getDriver().findElement(By.xpath("//div [@class='task '][8]")).click();
+        findElementXpath("//div [@class='setting-main']/input").clear();
+        findElementXpath("//div [@class='setting-main']/input").sendKeys(nameOfItem);
         buttonClickXpath("//button [@id='yui-gen1-button']");
 
         assertTextByXPath("//ul [@id='breadcrumbs']/li[3]/a[@class='model-link']", nameOfItem);
