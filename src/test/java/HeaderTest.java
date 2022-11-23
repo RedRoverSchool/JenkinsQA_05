@@ -120,5 +120,13 @@ public class HeaderTest extends BaseTest {
                 getDriver().findElement(By.tagName("h1")).getText(),
                 "Credentials");
     }
+
+    @Test
+    public void testReturnFromNewItemPageToHomePageByClickingOnHeadIcon() {
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        getDriver().findElement(By.id("jenkins-name-icon")).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), "http://localhost:8080/");
+    }
 }
 
