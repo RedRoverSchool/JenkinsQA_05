@@ -19,4 +19,5 @@ public class FolderWithDescription extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector("#view-message")).getText().contains(DESCRIPTION));
     }
+
 }
