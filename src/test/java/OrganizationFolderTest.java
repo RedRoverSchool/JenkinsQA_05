@@ -242,7 +242,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void createtestOrgFolderExistName() {
+    public void testCreateOrgFolderExistName() {
         createNewOrganizationFolder();
 
         getDriver().findElement(DASHBOARD).click();
@@ -304,5 +304,4 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='" + nameOrgFolder + "']")).isDisplayed());
     }
-
 }
