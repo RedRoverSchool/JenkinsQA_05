@@ -4,7 +4,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -24,6 +23,10 @@ public class OrganizationFolderTest extends BaseTest {
     private static final By INPUT_LINE = By.name("newName");
     private static final By RENAME_BUTTON = By.id("yui-gen1-button");
     private static final By TITLE = By.xpath("//div[@id='main-panel']/h1");
+
+    private static final By NEW_ITEM = By.linkText("New Item");
+
+    private String nameOrgFolder, nameFolder;
 
     public WebElement getInputName() {
         return getDriver().findElement(INPUT_NAME);
@@ -68,33 +71,21 @@ public class OrganizationFolderTest extends BaseTest {
 
     private boolean isElementExist(String name) {
         try {
-            findFolder(name);
+            getDriver().findElement(By.xpath("//span[text()='" + name + "']"));
             return true;
         } catch (NoSuchElementException e) {
             return false;
         }
     }
 
-    private WebElement findFolder(String name) {
-        return getDriver().findElement(By.xpath("//span[text()='" + name + "']"));
-    }
-
     private void createOrgFolder(String name) {
-        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(INPUT_NAME).sendKeys(name);
         WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(By.id("yui-gen15-button")).click();
-    }
-
-    private void createFolder(String name) {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(name);
-        getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(By.id("yui-gen6-button")).click();
     }
 
     @Test
@@ -185,40 +176,6 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void moveOrgFolderToFolder() {
-        String orgFolderName = randomName();
-        String folderName = randomName();
-
-        createOrgFolder(orgFolderName);
-        getDashboard().click();
-
-        createFolder(folderName);
-        getDashboard().click();
-
-        WebElement myOrdFolder = findFolder(orgFolderName);
-
-        Assert.assertTrue(myOrdFolder.isDisplayed());
-        Assert.assertTrue(findFolder(folderName).isDisplayed());
-
-        myOrdFolder.click();
-        getDriver().findElement(By.linkText("Move")).click();
-        getDriver().findElement(By.name("destination")).click();
-        getDriver().findElement(By.xpath("//option[contains(text(),'" + folderName + "')]")).click();
-        getDriver().findElement(By.id("yui-gen1-button")).click();
-        getDashboard().click();
-
-        WebElement myFolder = findFolder(folderName);
-
-        Assert.assertTrue(!isElementExist(orgFolderName));
-        Assert.assertTrue(myFolder.isDisplayed());
-
-        myFolder.click();
-
-        Assert.assertTrue(findFolder(orgFolderName).isDisplayed());
-    }
-
-    @Ignore
-    @Test
     public void testDeleteOrganizationFolder() {
 
         String nameFolder = randomName();
@@ -237,4 +194,56 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertFalse(foldersList.contains(nameFolder));
     }
+
+    @Test
+    public void testOrgFolderCreation() {
+        nameOrgFolder = randomName();
+
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(nameOrgFolder);
+        WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(By.id("yui-gen15-button")).click();
+        getDashboard().click();
+
+        WebElement orgFolder = getDriver().findElement(By.xpath("//span[text()='" + nameOrgFolder + "']"));
+
+        Assert.assertTrue(orgFolder.isDisplayed());
+    }
+
+    @Test
+    public void testFolderCreation() {
+        nameFolder = randomName();
+
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(nameFolder);
+        getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(By.id("yui-gen6-button")).click();
+        getDashboard().click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='" + nameFolder + "']")).isDisplayed());
+    }
+
+    @Test(dependsOnMethods = {"testFolderCreation", "testOrgFolderCreation"})
+    public void testMoveOrgFolderToFolder() {
+        getDriver().findElement(By.xpath("//span[text()='" + nameOrgFolder + "']")).click();
+        getDriver().findElement(By.linkText("Move")).click();
+        getDriver().findElement(By.name("destination")).click();
+        getDriver().findElement(By.xpath("//option[contains(text(),'" + nameFolder + "')]")).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+        getDashboard().click();
+
+        WebElement myFolder = getDriver().findElement(By.xpath("//span[text()='" + nameFolder + "']"));
+
+        Assert.assertFalse(isElementExist(nameOrgFolder));
+        Assert.assertTrue(myFolder.isDisplayed());
+
+        myFolder.click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='" + nameOrgFolder + "']")).isDisplayed());
+    }
+
 }
