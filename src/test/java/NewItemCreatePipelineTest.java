@@ -8,6 +8,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -157,5 +159,36 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 Assert.assertTrue(true);
             }
         }
+    }
+
+    @Test
+    public void testDeletePipelineUsingDropdownOption_FromDashboard() {
+        final String newJobName = getRandomStr();
+        String pathToNewJob = "//table[@id='projectstatus']/tbody/tr/td[3]/a";
+
+        createPipeline(newJobName);
+        getDriver().findElement(LINK_TO_DASHBOARD).click();
+
+        List<WebElement> listOfProjects = getDriver().findElements
+                (By.xpath(pathToNewJob));
+        List<String> allProjectNames = new ArrayList<>();
+        for (WebElement projectName : listOfProjects) {
+            allProjectNames.add(projectName.getText());
+        }
+
+        Assert.assertTrue(allProjectNames.contains(newJobName));
+
+        getDriver().findElement(By.xpath("//a[@href='job/" + newJobName + "/']/button")).click();
+        getDriver().findElement(By.xpath("//ul[@class='first-of-type']//li[@index=3]/a")).click();
+        getDriver().switchTo().alert().accept();
+        List<WebElement> listOfProjectsAfterDelete = getDriver().findElements
+                (By.xpath(pathToNewJob));
+        List<String> allProjectNamesAfterDelete = new ArrayList<>();
+        for (WebElement projectName : listOfProjectsAfterDelete) {
+            allProjectNamesAfterDelete.add(projectName.getText());
+        }
+
+        Assert.assertFalse(allProjectNamesAfterDelete.contains(newJobName));
+
     }
 }
