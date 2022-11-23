@@ -4,9 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import static old.GroupBughuntersTest.getRandomDigitAndLetterString;
-
-public class CreatePipelineProjectTest extends BaseTest {
+public class PipelineProjectTest extends BaseTest {
 
     private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(10);
 
