@@ -3,6 +3,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -88,6 +89,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(job, generatedString);
     }
 
+    @Ignore
     @Test
     public void testConfigureFolderDisplayName() {
         String secondJobName = "Second job";
@@ -216,8 +218,8 @@ public class FolderTest extends BaseTest {
     @Test
     public void testCreateMultiConfigurationProjectInFolder() {
 
-        final String folderName = getRandomName ();
-        final String multiConfigurationProjectName = getRandomName ();
+        final String folderName = getRandomName();
+        final String multiConfigurationProjectName = getRandomName();
 
         getDriver().findElement(CREATE_NEW_ITEM).click();
         getDriver().findElement(INPUT_NAME).sendKeys(folderName);
@@ -345,7 +347,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteFolderUsingDropDown(){
+    public void testDeleteFolderUsingDropDown() {
 
         final String folderName = getRandomName();
 
@@ -364,7 +366,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testAddFolderDescription(){
+    public void testAddFolderDescription() {
         String folderName = getRandomName();
         String folderDescription = getRandomName();
 

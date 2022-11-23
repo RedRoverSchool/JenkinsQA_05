@@ -15,6 +15,10 @@ import java.util.stream.Collectors;
 
 public class CreateUserVerifyCreateTest extends BaseTest {
 
+    private static final By BUTTON_MANAGE_JENKINS = By.xpath("//a[@href='/manage']");
+    private static final By BUTTON_MANAGE_USERS = By.xpath("//a[@href='securityRealm/']");
+    private static final By BUTTON_CREATE_USERS = By.xpath("//a[@href='addUser']");
+    private static final By BUTTON_FINAL_CREATE_USER = By.id("yui-gen1-button");
     private String randUserName = getRandomDigitAndLetterString();
 
 
@@ -114,5 +118,29 @@ public class CreateUserVerifyCreateTest extends BaseTest {
 
         Assert.assertTrue(allUserNames.contains(userName));
         Assert.assertTrue(allNamesText.contains(fullName));
+    }
+
+    @Test
+    public void testCreateUserOfJenkins() {
+
+        final String randomUsername = getRandomDigitAndLetterString();
+        final String randomPasswordAndConfirmPassword = getRandomDigitAndLetterString();
+        final String randomFullName = getRandomDigitAndLetterString();
+        final String randomEmail = getRandomDigitAndLetterString();
+
+        getDriver().findElement(BUTTON_MANAGE_JENKINS).click();
+        getDriver().findElement(BUTTON_MANAGE_USERS).click();
+        getDriver().findElement(BUTTON_CREATE_USERS).click();
+        getDriver().findElement(By.id("username")).sendKeys(randomUsername);
+        getDriver().findElement(By.xpath("//input[@name='password1']")).sendKeys(randomPasswordAndConfirmPassword);
+        getDriver().findElement(By.xpath("//input[@name='password2']")).sendKeys(randomPasswordAndConfirmPassword);
+        getDriver().findElement(By.xpath("//input[@name='fullname']")).sendKeys(randomFullName);
+        getDriver().findElement(By.xpath("//input[@name='email']")).sendKeys(randomEmail + "@gmail.com");
+        getDriver().findElement(BUTTON_FINAL_CREATE_USER).click();
+
+        List<WebElement> tableListOfUsers = getDriver().findElements(By.xpath("//table[@id='people']//tbody//tr//td"));
+        List<String> userNameFromListTable = tableListOfUsers.stream().map(WebElement::getText).collect(Collectors.toList());
+
+        Assert.assertTrue(userNameFromListTable.contains(randomUsername));
     }
 }
