@@ -77,7 +77,7 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testLetterMClickableMyViews() {
-        String expectedClassTable = "jenkins-table jenkins-table--medium sortable";
+        final String expectedClassTable = "jenkins-table jenkins-table--medium sortable";
 
         createPipelineProject(generateRandomName());
 
@@ -90,8 +90,8 @@ public class NewViewTest extends BaseTest {
     }
 
     @Test
-    public void testLeterLClickableMyViews() {
-        String expectedClassTable = "jenkins-table  sortable";
+    public void testLetterLClickableMyViews() {
+        final String expectedClassTable = "jenkins-table  sortable";
 
         createPipelineProject(generateRandomName());
 
@@ -101,6 +101,22 @@ public class NewViewTest extends BaseTest {
         executor.executeScript("arguments[0].click();", ButtonM);
         WebElement ButtonL = getDriver().findElement(BUTTON_L);
         executor.executeScript("arguments[0].click();", ButtonL);
+
+        Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
+    }
+
+    @Test
+    public void testLetterSClickableMyViews() {
+        final String expectedClassTable = "jenkins-table jenkins-table--small sortable";
+
+        createPipelineProject(generateRandomName());
+
+        getDriver().findElement(MY_VIEWS).click();
+        WebElement ButtonM = getDriver().findElement(BUTTON_M);
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", ButtonM);
+        WebElement ButtonS = getDriver().findElement(BUTTON_S);
+        executor.executeScript("arguments[0].click();", ButtonS);
 
         Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
     }
