@@ -242,19 +242,6 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrgFolderExistName() {
-        createNewOrganizationFolder();
-
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName);
-        getDriver().findElement(ORGANIZATION_FOLDER).click();
-        getDriver().findElement(OK_BUTTON).click();
-
-        Assert.assertTrue(getDriver().findElement(By.xpath("//h1['Error']")).isDisplayed());
-    }
-
-    @Test
     public void testOrgFolderCreation() {
         nameOrgFolder = randomName();
 
@@ -303,5 +290,18 @@ public class OrganizationFolderTest extends BaseTest {
         myFolder.click();
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='" + nameOrgFolder + "']")).isDisplayed());
+    }
+
+    @Test
+    public void testCreateOrgFolderExistName() {
+        createNewOrganizationFolder();
+
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName);
+        getDriver().findElement(ORGANIZATION_FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//h1['Error']")).isDisplayed());
     }
 }
