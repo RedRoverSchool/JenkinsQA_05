@@ -50,11 +50,11 @@ jobs:
 
       - name: Maven test
         run: mvn test
-          - uses: actions/upload-artifact@v2
-          if: success() || failure()
-          with:
-            name: test-results
-            path: jest-junit.xml
+        uses: actions/upload-artifact@v2
+        if: success() || failure()
+        with:
+          name: test-results
+          path: jest-junit.xml
         env:
           CHROME_OPTIONS: --disable-gpu;--no-sandbox;--disable-dev-shm-usage;--headless;--window-size=1920,1080
           APP_OPTIONS: port=8080;admin.username=${{ secrets.ADMIN_USERNAME }};admin.password=${{ secrets.ADMIN_PASSWORD }}
