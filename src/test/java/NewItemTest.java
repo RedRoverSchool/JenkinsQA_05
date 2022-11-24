@@ -60,15 +60,12 @@ public class NewItemTest extends BaseTest {
 
     @Test
     public void testCreateNewItemFreestyleProject() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
-
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@type='submit']")));
         getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(getRandomName(15));
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(By.xpath("(//button[normalize-space()='Save'])[1]")).click();
         getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
 
         Assert.assertTrue(getDriver().findElement(By.id("job_" + PROJECT_NAME)).isDisplayed());
