@@ -34,6 +34,8 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By ITEM_NAME_INVALID = By.cssSelector("#itemname-invalid");
     private static final By JOB_HEADLINE_LOCATOR = By.xpath("//h1");
     private static final By MAIN_PANEL_LOCATOR = By.id("main-panel");
+    private static final By DISABLE_PROJECT_BUTTON = By.id("yui-gen1-button");
+    private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
 
     private WebDriverWait wait;
 
@@ -75,8 +77,21 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
+    public void testDisableProject(){
+
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(DISABLE_PROJECT_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'warning']")).getText().trim().substring(0, 34),
+                "This project is currently disabled");
+    }
+
+    @Test(dependsOnMethods = "testDisableProject")
     public void testFreestyleProjectPageIsOpenedFromDashboard() {
 
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
         getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
         Assert.assertEquals(
                 getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
@@ -128,7 +143,7 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(By.cssSelector("input[name='newName']")).clear();
         getDriver().findElement(By.cssSelector("input[name='newName']")).sendKeys(NEW_FREESTYLE_NAME);
         getDriver().findElement(By.cssSelector("#yui-gen1-button")).click();
-        getDriver().findElement(By.linkText("Dashboard")).click();
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
 
         Assert.assertFalse(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(FREESTYLE_NAME));
         Assert.assertTrue(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(NEW_FREESTYLE_NAME));
@@ -167,7 +182,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testFreestyleProjectConfigureByDropdown")
     public void testCreateNewFreestyleProjectWithDupicateName(){
-        getDriver().findElement(By.linkText("Dashboard")).click();
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
 
         getDriver().findElement(LINK_NEW_ITEM).click();
 
