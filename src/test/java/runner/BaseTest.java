@@ -34,8 +34,8 @@ public abstract class BaseTest {
         BaseUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
         try {
             if (method.getAnnotation(Test.class).dependsOnMethods().length == 0) {
-                startDriver();
                 clearData();
+                startDriver();
                 getWeb();
                 loginWeb();
             } else {
