@@ -8,7 +8,6 @@ public class BuildHistoryTest extends BaseTest {
 
     @Test
     public void testVerifyRedirectToMainPage() {
-
         getDriver().findElement(
                 By.linkText("Build History")).click();
 
@@ -16,6 +15,5 @@ public class BuildHistoryTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#description-link")).getText(),
                 "Add description");
-
     }
 }
