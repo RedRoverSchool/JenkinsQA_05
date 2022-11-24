@@ -182,7 +182,7 @@ public class FreestyleProjectTest extends BaseTest {
                 String.format("» A job already exists with the name ‘%s’", NEW_FREESTYLE_NAME));
     }
 
-    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithDupicateName")
+    @Test(dependsOnMethods = "testCreateBuildNowOnFreestyleProjectPage")
     public void testDeleteFreestyleProject() {
 
         getDriver().findElement(By.cssSelector("tr#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
@@ -258,19 +258,20 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears")
+    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithDupicateName")
     public void testCreateBuildNowOnFreestyleProjectPage() {
         final By countBuilds = By.xpath("//a[@class = 'model-link inside build-link display-name']");
         int countBuildsBeforeCreatingNewBuild = 0;
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
         getDriver().findElement(By.linkText(NEW_FREESTYLE_NAME)).click();
+        getDriver().findElement(By.id("yui-gen1")).click();
 
         if (getDriver().findElement(By.id("no-builds")).isEnabled()) {
             countBuildsBeforeCreatingNewBuild = getDriver().findElements(countBuilds).size();
         }
 
-        getDriver().findElement(By.linkText("Build Now")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.linkText("Build Now")))).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(
                 By.xpath("//span[@class='build-status-icon__outer']/*[@tooltip = 'In progress &gt; Console Output']")));
         int countBuildsAfterCreatingNewBuild = getDriver().findElements(countBuilds).size();
