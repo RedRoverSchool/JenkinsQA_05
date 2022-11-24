@@ -61,3 +61,7 @@ jobs:
         with:
           name: Screenshots
           path: ScreenshotsFailure
+
+      - name: Check on failures
+        if: steps.test.outcome != 'success'
+        run: exit 1
