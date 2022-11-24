@@ -30,6 +30,14 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(DASHBOARD).click();
     }
 
+    private void createPipelineProjectCuttedVersion(String projectName) {
+
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(PIPELINE).click();
+        getDriver().findElement(ITEM_NAME).sendKeys(projectName);
+        getDriver().findElement(BUTTON_OK).click();
+    }
+
     @Test
     public void testDisablePipelineProjectMessage() {
 
@@ -61,10 +69,7 @@ public class PipelineTest extends BaseTest {
     public void testPipelineAddDescription() {
 
         String pipelinePojectName = generatePipelineProjectName();
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(PIPELINE).click();
-        getDriver().findElement(ITEM_NAME).sendKeys(pipelinePojectName);
-        getDriver().findElement(BUTTON_OK).click();
+        createPipelineProjectCuttedVersion(pipelinePojectName);
         getDriver().findElement(BUTTON_SAVE).click();
 
         getDriver().findElement(By.id("description-link")).click();
@@ -76,13 +81,10 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testPipelinePreviewdescription() {
+    public void testPipelinePreviewDescription() {
 
         String pipelinePojectName = generatePipelineProjectName();
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(PIPELINE).click();
-        getDriver().findElement(ITEM_NAME).sendKeys(pipelinePojectName);
-        getDriver().findElement(BUTTON_OK).click();
+        createPipelineProjectCuttedVersion(pipelinePojectName);
 
         getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(pipelinePojectName + "description");
         getDriver().findElement(By.className("textarea-show-preview")).click();
@@ -90,6 +92,20 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.className("textarea-preview")).getText(), pipelinePojectName + "description");
 
         getDriver().findElement(BUTTON_SAVE).click();
+    }
 
+    @Test
+    public void testPipelineHidePreviewDescription() {
+
+        String pipelinePojectName = generatePipelineProjectName();
+        createPipelineProjectCuttedVersion(pipelinePojectName);
+
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(pipelinePojectName + "description");
+        getDriver().findElement(By.className("textarea-show-preview")).click();
+        getDriver().findElement(By.className("textarea-hide-preview")).click();
+
+        Assert.assertFalse(getDriver().findElement(By.className("textarea-preview")).isDisplayed());
+
+        getDriver().findElement(BUTTON_SAVE).click();
     }
 }
