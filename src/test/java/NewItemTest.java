@@ -5,10 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
-import javax.lang.model.element.Name;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class NewItemTest extends BaseTest {
@@ -55,5 +52,17 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement
                 (By.xpath("//table[@id='projectstatus']//a[@href='job/"+ PROJECT_NAME + "/']")).getText(), PROJECT_NAME);
+    }
+
+    @Test
+    public void testCreateNewItemFreestyleProject() {
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
+        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.id("job_" + PROJECT_NAME)).isDisplayed());
     }
 }
