@@ -82,9 +82,9 @@ public class NewViewTest extends BaseTest {
         createPipelineProject(generateRandomName());
 
         getDriver().findElement(MY_VIEWS).click();
-        WebElement ButtonM = getDriver().findElement(BUTTON_M);
+        WebElement buttonM = getDriver().findElement(BUTTON_M);
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", ButtonM);
+        executor.executeScript("arguments[0].click();", buttonM);
 
         Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
     }
@@ -96,11 +96,11 @@ public class NewViewTest extends BaseTest {
         createPipelineProject(generateRandomName());
 
         getDriver().findElement(MY_VIEWS).click();
-        WebElement ButtonM = getDriver().findElement(BUTTON_M);
+        WebElement buttonM = getDriver().findElement(BUTTON_M);
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", ButtonM);
-        WebElement ButtonL = getDriver().findElement(BUTTON_L);
-        executor.executeScript("arguments[0].click();", ButtonL);
+        executor.executeScript("arguments[0].click();", buttonM);
+        WebElement buttonL = getDriver().findElement(BUTTON_L);
+        executor.executeScript("arguments[0].click();", buttonL);
 
         Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
     }
@@ -112,11 +112,11 @@ public class NewViewTest extends BaseTest {
         createPipelineProject(generateRandomName());
 
         getDriver().findElement(MY_VIEWS).click();
-        WebElement ButtonM = getDriver().findElement(BUTTON_M);
+        WebElement buttonM = getDriver().findElement(BUTTON_M);
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", ButtonM);
-        WebElement ButtonS = getDriver().findElement(BUTTON_S);
-        executor.executeScript("arguments[0].click();", ButtonS);
+        executor.executeScript("arguments[0].click();", buttonM);
+        WebElement buttonS = getDriver().findElement(BUTTON_S);
+        executor.executeScript("arguments[0].click();", buttonS);
 
         Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
     }
