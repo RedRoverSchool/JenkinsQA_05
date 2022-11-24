@@ -9,6 +9,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final String DESCRIPTION_TEXT = RandomStringUtils.randomAlphanumeric(20);
+    private static final String VALID_NAME = "New project(1.1)";
 
     @Test
     public void testCreateFreestyleProject() {
@@ -49,15 +50,15 @@ public class FreestyleProjectSecondTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFreestyleProjectWithValidName() {
+    public void testCreateFreestyleProjectWithValidName(){
 
         getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys("New project(1.1)");
+        getDriver().findElement(By.id("name")).sendKeys(VALID_NAME);
         getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.xpath("//button[@type = 'submit']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
-                "Project " + "New project(1.1)");
+                "Project " + VALID_NAME);
     }
 }
