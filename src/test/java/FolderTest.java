@@ -123,7 +123,7 @@ public class FolderTest extends BaseTest {
         } catch (NoSuchElementException ignored) {
         }
     }
-
+    
     @Test
     public void testConfigureFolderDisplayNameSaveFirstName() {
         String secondJobName = "Second name";
