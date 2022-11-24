@@ -22,6 +22,10 @@ public abstract class BaseTest {
 
     @AfterMethod
     protected void afterMethod(Method method, ITestResult testResult) {
+        if (!testResult.isSuccess() && BaseUtils.isServerRun()) {
+            BaseUtils.captureScreenFile(driver, method.getName(), this.getClass().getName());
+        }
+
         ProjectUtils.logout(driver);
         driver.quit();
 
