@@ -16,6 +16,7 @@ public class FooterLinksVisibilityTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(REST_API_LINK).isDisplayed());
     }
+    @Ignore
     @Test
     public void testFooterLinkRestRedirectToPage() {
 
