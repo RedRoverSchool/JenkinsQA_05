@@ -48,18 +48,6 @@ public class FreestyleProjectTest extends BaseTest {
         return getDriver().findElements(by).stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    private String getRandomName() {
-        return RandomStringUtils.randomAlphanumeric(10);
-    }
-
-    private void createProjectFromDashboard(By type, String name) {
-        getDriver().findElement(LINK_NEW_ITEM).click();
-        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(name);
-        getDriver().findElement(type).click();
-        getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
-        getDriver().findElement(BUTTON_SAVE).click();
-    }
-
     @Test
     public void testCreateNewFreestyleProjectWithCorrectName() {
         getWait().until(ExpectedConditions.elementToBeClickable(LINK_NEW_ITEM)).click();
@@ -155,7 +143,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualText, expectedText);
     }
 
-    @Test (dependsOnMethods = "testViewChangesNoBuildsSignAppears")
+    @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears")
     public void testFreestyleProjectConfigureByDropdown() {
         getDriver().findElement(By.cssSelector("#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
         WebElement element = getDriver().findElement(By.xpath("//a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"));
@@ -166,7 +154,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectConfigureByDropdown")
-    public void testCreateNewFreestyleProjectWithDupicateName(){
+    public void testCreateNewFreestyleProjectWithDupicateName() {
         getDriver().findElement(By.linkText("Dashboard")).click();
 
         getDriver().findElement(LINK_NEW_ITEM).click();
@@ -255,15 +243,13 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears")
     public void testCreateBuildNowOnFreestyleProjectPage() {
-        final String freestyleProjectName = getRandomName();
         final By countBuilds = By.xpath("//a[@class = 'model-link inside build-link display-name']");
         int countBuildsBeforeCreatingNewBuild = 0;
-        WebDriverWait wait = new WebDriverWait(getDriver(),Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
-        createProjectFromDashboard(LINK_FREESTYLE_PROJECT, freestyleProjectName);
-        getDriver().findElement(By.linkText(freestyleProjectName)).click();
+        getDriver().findElement(By.linkText(NEW_FREESTYLE_NAME)).click();
 
         if (getDriver().findElement(By.id("no-builds")).isEnabled()) {
             countBuildsBeforeCreatingNewBuild = getDriver().findElements(countBuilds).size();
