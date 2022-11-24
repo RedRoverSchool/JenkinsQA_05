@@ -12,7 +12,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
     private static final String VALID_NAME = "New project(1.1)";
 
     @Test
-    public void testCreateFreestyleProject() {
+    public void testCreateFreestyleProject(){
 
         getDriver().findElement(By.xpath("//span/a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.xpath("//input[@class='jenkins-input']")).sendKeys(FREESTYLE_NAME);
@@ -24,7 +24,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateFreestyleProject")
-    public void testCreateAndRenameFreestyleProject() {
+    public void testCreateAndRenameFreestyleProject(){
 
         getDriver().findElement(By.xpath("//td/a[@href='job/" + FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + FREESTYLE_NAME + "/confirm-rename']")).click();
@@ -38,7 +38,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateAndRenameFreestyleProject")
-    public void testCreateWithDescriptionFreestyleProject() {
+    public void testCreateWithDescriptionFreestyleProject(){
 
         getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(By.id("description-link")).click();
