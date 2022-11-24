@@ -57,11 +57,11 @@ jobs:
 
       - name: Attach screenshots
         uses: actions/upload-artifact@v2
-        if: steps.test.outcome != 'success'
+        if: failure()
         with:
           name: Screenshots
           path: ScreenshotsFailure
 
       - name: Check on failures
-        if: steps.test.outcome != 'success'
+        if: failure()
         run: exit 1
