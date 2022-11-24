@@ -4,6 +4,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -227,6 +228,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='" + nameFolder + "']")).isDisplayed());
     }
 
+    @Ignore
     @Test(dependsOnMethods = {"testFolderCreation", "testOrgFolderCreation"})
     public void testMoveOrgFolderToFolder() {
         getDriver().findElement(By.xpath("//span[text()='" + nameOrgFolder + "']")).click();
