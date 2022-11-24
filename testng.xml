@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="C:/Project/JavaProject/Jenkins_temp/JenkinsQA_05">
+        <classes>
+            <class name="old.GroupATeamSauceDemoInventoryTest">
+                <methods>
+                    <include name="testSidebarMenuForItems"/>
+                    <include name="testAllItemsLinkFromSidebarMenu"/>
+                    <include name="testAboutUsLinkFromSideBarMenu"/>
+                    <include name="testLogOutFromSideBarMenu"/>
+                    <include name="testCloseSidebarMenu"/>
+                    <include name="testShoppingCartBadge"/>
+                    <include name="testFooterTwitterLink"/>
+                    <include name="testFooterFacebookLink"/>
+                    <include name="testFooterLinkedInLink"/>
+                    <include name="testSortContainerByNameA2Z"/>
+                    <include name="testSortContainerByNameZ2A"/>
+                    <include name="testSortContainerByPriceLow2High"/>
+                    <include name="testSortContainerByPriceHigh2Low"/>
+                    <include name="testAddToCartBtn"/>
+                    <include name="testRemoveFromCartBtn"/>
+                    <include name="testContinueShoppingBtn"/>
+                    <include name="testCheckout"/>
+                </methods>
+            </class>
+            <class name="old.GroupATeamSauceDemoLoginTest">
+                <methods>
+                    <include name="testStandardUserLoginIn"/>
+                    <include name="testLockedOutUserLoginIn"/>
+                    <include name="testNonExistentUserLoginIn"/>
+                    <include name="testLoginInWithWrongPassword"/>
+                </methods>
+            </class>
+            <class name="old.GroupBugBustersTest">
+                <methods>
+                    <include name="testArailymSuccessLogIn"/>
+                    <include name="testNadiaSuccessDoctorAppointment"/>
+                    <include name="testRadasSuccessLogIn"/>
+                    <include name="testArailymCheckAddress"/>
+                    <include name="testArailymScrollDownByPixel"/>
+                    <include name="testArailymScrollDownToBottom"/>
+                    <include name="testArailymGetUrlDataAndMoveToNewUrl"/>
+                </methods>
+            </class>
+            <class name="old.GroupBughuntersTest">
+                <methods>
+                    <include name="testTicketonSearch_NL"/>
+                    <include name="testBbcHeading_NL"/>
+                    <include name="testBbcSearch_NL"/>
+                    <include name="testGreatSchoolSearchByPostcode_NL"/>
+                    <include name="testW3Resource"/>
+                    <include name="testPythonOrg"/>
+                    <include name="testLoginSuccess"/>
+                    <include name="testChooseCurrency"/>
+                    <include name="testChoosingClothes"/>
+                    <include name="testFillingInContactInformation"/>
+                    <include name="testBbcLoginNegative_NL"/>
+                    <include name="testBbcChangeLanguagePersian_NL"/>
+                    <include name="testInsuranceCompanyQuote"/>
+                    <include name="testCheckErrorMessage"/>
+                </methods>
+            </class>
+            <class name="old.GroupCleanCodeTest">
+                <methods>
+                    <include name="testFolkInstruments"/>
+                    <include name="testFolkInstrumentsPolishEnglish"/>
+                    <include name="testBox24Menu"/>
+                    <include name="testPageSales"/>
+                    <include name="testFormyProject"/>
+                    <include name="testTextContactsIsPresent"/>
+                    <include name="testWeb"/>
+                    <include name="testAstraCom"/>
+                    <include name="testBox24BaseLanguage"/>
+                    <include name="testBox24SearchForm"/>
+                    <include name="testFlower"/>
+                    <include name="testSauceLabsEvgeniya"/>
+                    <include name="testVitebskbiz"/>
+                    <include name="testFolkInstrumentsBow"/>
+                    <include name="testWebElements"/>
+                </methods>
+            </class>
+            <class name="old.GroupCodeRedTest">
+                <methods>
+                    <include name="testAutocomplete"/>
+                    <include name="testAutocompleteAddress"/>
+                    <include name="testCompleteWebForm"/>
+                    <include name="testGetPage"/>
+                    <include name="testverifyAPI"/>
+                    <include name="testFormyButton"/>
+                    <include name="testFormyDatepicker"/>
+                    <include name="testFormyDropdown"/>
+                    <include name="testToggleMenuGuide"/>
+                    <include name="testToggleMenuAPI"/>
+                    <include name="testToggleMenuDashboard"/>
+                    <include name="testWhenYouWereBornPage"/>
+                    <include name="testYourAdress"/>
+                    <include name="testEmail"/>
+                    <include name="testTermsOfCondition"/>
+                    <include name="test_FindRome"/>
+                    <include name="testOpenWeatherMapGuidePageTitle"/>
+                    <include name="testAutoCompleteFieldsWebForm"/>
+                    <include name="testModalWindow"/>
+                    <include name="testCorrectTitlePresence"/>
+                    <include name="testCheckbox"/>
+                    <include name="test_scrollPageDownAndFillingFields"/>
+                    <include name="test_dragAndDropElement"/>
+                    <include name="positiveLoginTest"/>
+                    <include name="negativeLoginTest"/>
+                    <include name="testButtonHerokuApp"/>
+                    <include name="testH2PopUpText_WhenClickingCookiesButton"/>
+                    <include name="testFooterPanel_ZK"/>
+                </methods>
+            </class>
+            <class name="old.GroupCubsTest">
+                <methods>
+                    <include name="testFelix_IX"/>
+                    <include name="testRp5SearchLocation"/>
+                    <include name="testAnastasiiaApp"/>
+                    <include name="testSmetankina"/>
+                    <include name="testJudmi"/>
+                    <include name="testAsh"/>
+                    <include name="testLiza"/>
+                    <include name="testPochekirya"/>
+                    <include name="testCompanySearch_KirillShumakov"/>
+                    <include name="testSearchItemName_MariaOrlova"/>
+                    <include name="testLoginAndPassword"/>
+                    <include name="testNegativeLoginAsh"/>
+                    <include name="testFooterHeadersPropertiesAsh"/>
+                </methods>
+            </class>
+            <class name="old.GroupDonSimonTutankhamonTest">
+                <methods>
+                    <include name="testFormSubm_AutomationinTestingOnline_IKrlkv"/>
+                    <include name="testDropDown_SelectorsHubCom_IKrlkv"/>
+                    <include name="testFilterTable_SelectorsHubCom_IKrlkv"/>
+                    <include name="testFirstNameInputField_SelectorsHubCom_IKrlkv"/>
+                    <include name="testIfPageSourceContainsHtmlTag_SelectorsHubCom_IKrlkv"/>
+                    <include name="testSessionId_SelectorsHubCom_IKrlkv"/>
+                    <include name="testFooterEmailAddress_SelectorsHubCom_IKrlkv"/>
+                    <include name="testTextByLink_SelectorsHubCom_IKrlkv"/>
+                    <include name="testCheckBoxes_WebdDiverUniversityCom_iKrlkv"/>
+                    <include name="testRadioButtons_WebdDiverUniversityCom_iKrlkv"/>
+                    <include name="testRelativeLocator_WebdDiverUniversityCom_iKrlkv"/>
+                    <include name="testHiddenElements_WebdDiverUniversityCom_iKrlkv"/>
+                    <include name="testDatePicker_WebdDiverUniversityCom_iKrlkv"/>
+                    <include name="testFileUpload_WebdDiverUniversityCom_iKrlkv"/>
+                    <include name="testSlider_DemoqaCom_iKrlkv"/>
+                    <include name="testButtonsClicks_DemoqaCom_iKrlkv"/>
+                    <include name="testDragAndDrop_WebdDiverUniversityCom_iKrlkv"/>
+                    <include name="testCopyPaste_WebdDiverUniversityCom_iKrlkv"/>
+                    <include name="testButtonsLinkText_HerokuApp_iKrlkv"/>
+                    <include name="testButtonsPageURL_HerokuApp_iKrlkv"/>
+                    <include name="testDoingSmthDontKnowWhatExactly_Tchernomor"/>
+                    <include name="testSuccessfulLoginAndLogout"/>
+                    <include name="testEnteringNameInAlertAndConfirmation_Snegafal"/>
+                    <include name="test_CheckItemsPriceSortedFromLowToHigh_Snegafal"/>
+                </methods>
+            </class>
+            <class name="old.GroupDreamTeamTest">
+                <methods>
+                    <include name="testSignInDarina"/>
+                    <include name="testFormSubmittedIna"/>
+                    <include name="testDropdownMenuElena"/>
+                    <include name="testSliderMouseFoxtiptop"/>
+                    <include name="testSliderKeyboardFoxtiptop"/>
+                    <include name="testMintHouseDateSelectionNoPastDateSimonGertz"/>
+                    <include name="testSignInAppointmentDarina"/>
+                    <include name="testAppointmentDarina"/>
+                    <include name="testMintHouseSource2Natalia"/>
+                    <include name="testChangeColorIna"/>
+                    <include name="testMakeAppointmentElena"/>
+                    <include name="testBookingDarina"/>
+                    <include name="testInvalidBookingDarina"/>
+                    <include name="testCheckButtonElena"/>
+                    <include name="testRadioButtonCheckBoxIna"/>
+                    <include name="testMintHouseSlideOutImageSimon"/>
+                </methods>
+            </class>
+            <class name="old.GroupFremenTest">
+                <methods>
+                    <include name="testMenuComponentsContainsListOfAllTheComponents"/>
+                    <include name="testMainPageContainsListOfAllTheComponents"/>
+                    <include name="testVera_completeWebForm"/>
+                    <include name="testMainPageAutocompleteLink"/>
+                    <include name="testKristina_SwitchWindow"/>
+                    <include name="testDZAmountElementsOfLinksInTabComponents"/>
+                    <include name="testDZSubmitAnEmptyForm"/>
+                    <include name="testCloseModalIO"/>
+                    <include name="testHerokuappButtonsContainWarningIO"/>
+                    <include name="testDZSwitchToNewWindowCheckLogoName"/>
+                    <include name="testHerokuAppButtonsName"/>
+                    <include name="testMICheckModalTitleMessage"/>
+                </methods>
+            </class>
+            <class name="old.GroupJavaStartTest">
+                <methods>
+                    <include name="tes_tHerokuApp"/>
+                    <include name="test_HerokuAppSearchCheckboxMenu"/>
+                    <include name="test_HerokuAppComponentsList"/>
+                    <include name="test_HerokuApp_QuantityOfDropDownMenuLinks"/>
+                    <include name="test_GoToPopUpWindow"/>
+                    <include name="test_EnableUnavailableButton"/>
+                    <include name="testCheckCheckboxStatus"/>
+                    <include name="testProjectHerokuApp"/>
+                </methods>
+            </class>
+            <class name="old.GroupJavanistyTest">
+                <methods>
+                    <include name="test_CheckMessage"/>
+                    <include name="test_Registration_IriSamo"/>
+                    <include name="testBdoWarrior2"/>
+                    <include name="testZipCodeInputField"/>
+                    <include name="testIlyaFirstTest"/>
+                    <include name="testTextHlebnica"/>
+                    <include name="testAboutHlebnica"/>
+                    <include name="testIlyaSecondTest"/>
+                    <include name="test_Aratinve_MainMenuTitle"/>
+                    <include name="test_Aratinve_MainMenuNavigation"/>
+                    <include name="testWeightPoundsHeight2"/>
+                    <include name="testPageSearchLanguagesUrlAndTitle"/>
+                    <include name="testCalculateThePercentageOfFat"/>
+                    <include name="testAlexFirstTest"/>
+                </methods>
+            </class>
+            <class name="old.GroupLoxyTest">
+                <methods>
+                    <include name="test_customerServiceResponseText_WhenContactFormSubmitted"/>
+                    <include name="testTopPanelLogoSize_OnHomePage_YM"/>
+                    <include name="testScheduleVisitFormJK"/>
+                </methods>
+            </class>
+            <class name="old.GroupNikkiTest">
+                <methods>
+                    <include name="julieTest1"/>
+                    <include name="makeUpAppointmentTest"/>
+                    <include name="test_Kate_SuccessOpenUpMenu"/>
+                    <include name="testMouseover_WebdDiverUniversityCom"/>
+                    <include name="testArailymIsElementsDisplayed"/>
+                    <include name="testSergeDotMintHouseForm"/>
+                    <include name="testSergeDotMintHouseDateSelection"/>
+                    <include name="testBackgroundColor"/>
+                    <include name="testArailymNavigateInBrowser"/>
+                    <include name="testIncorrectCredentials"/>
+                    <include name="testPicSize"/>
+                </methods>
+            </class>
+            <class name="old.GroupObukhovTest">
+                <methods>
+                    <include name="testCountMainMenuButtons"/>
+                    <include name="testNamesMainMenuButtons"/>
+                    <include name="testHelpPageLink"/>
+                    <include name="testHelpMenuHeaders"/>
+                    <include name="testCountHelpsMenuPointsInHeaders"/>
+                    <include name="testHelpsMenuContentFAQ"/>
+                    <include name="testHelpsMenuContentAnotherQuestions"/>
+                    <include name="testUrentPageButton"/>
+                    <include name="testFooterMenu"/>
+                    <include name="testLinkToBrandBookPage"/>
+                    <include name="testLinkPrivacyPolicy"/>
+                    <include name="testLinkContractJoin"/>
+                    <include name="testBrandBookBasicColorsHEX"/>
+                    <include name="testBrandBookAdditionalColorsHEX"/>
+                    <include name="testDownloadAppButtonTextColor"/>
+                    <include name="testDownloadAppButtonBackGroundColor"/>
+                    <include name="testHeroButtonColors"/>
+                    <include name="testCheckHeroButtonColorsAfterNavigateMouse"/>
+                    <include name="testHowUseServiceStepFirst"/>
+                    <include name="testHowUseServiceStepTwo"/>
+                    <include name="testHowToUseService"/>
+                    <include name="testLinkVacancy"/>
+                    <include name="testLinkVKontakte"/>
+                    <include name="testCheckCountMenuFranchiseButtons"/>
+                    <include name="testCheckNamesMenuFranchiseButtons"/>
+                    <include name="testAboutServiceLink"/>
+                    <include name="testFunctionLink"/>
+                    <include name="testOurPartnerLink"/>
+                    <include name="testStartLink"/>
+                    <include name="testCheckPaletteBasicColorsLinks"/>
+                    <include name="testCheckMatchColorAnnotationAndLinkColor"/>
+                    <include name="testFillFieldsStartPage"/>
+                    <include name="testCheckRoundButtonHelpMenu"/>
+                    <include name="testCheckRoundButtonHelpMenuLinkToTelegram"/>
+                    <include name="testRoundButtonHelpMenuLinkToLiveChat"/>
+                    <include name="testChangeActivedElementOfMainMenu"/>
+                    <include name="testPhone"/>
+                </methods>
+            </class>
+            <class name="old.GroupOfTwoTest">
+                <methods>
+                    <include name="newSomethingTest"/>
+                </methods>
+            </class>
+            <class name="old.GroupPLTest">
+                <methods>
+                    <include name="testH2HeaderSeleniumInteractionsWindows"/>
+                    <include name="testNavTest_Main"/>
+                    <include name="testParagraph"/>
+                </methods>
+            </class>
+            <class name="old.GroupQAGangTest">
+                <methods>
+                    <include name="testText"/>
+                    <include name="testLinkOfApiPage"/>
+                    <include name="testPricingWeather"/>
+                    <include name="testDashboardLinkFromMainPage_WhenClick"/>
+                    <include name="testLinkFromMainPageToDashboardAndBackToMainPage_WhenClick"/>
+                </methods>
+            </class>
+            <class name="old.GroupSpiritMastersTest">
+                <methods>
+                    <include name="test_SwitchToSecondWindow_OlPolezhaeva"/>
+                    <include name="test_RedirectToElementsTab_PK"/>
+                    <include name="test_RedirectToFormsTab_PK"/>
+                    <include name="test_RedirectToAlertsTab_PK"/>
+                    <include name="test_RedirectToWidgetsTab_PK"/>
+                    <include name="test_RedirectToInteractionsTab_PK"/>
+                    <include name="test_RedirectToBooksTab_PK"/>
+                    <include name="test_Herokuapp_gdiksanov"/>
+                    <include name="test_CheckButtonLink_AFedorova"/>
+                    <include name="test_FillRegistrationForm_OlPolezhaeva"/>
+                    <include name="test_OpenQABible_DS"/>
+                    <include name="test_RedirectToSeleniumTrainingTab_PK"/>
+                    <include name="test_BankRegisterLogin_MW"/>
+                    <include name="test_SwitchFrames_OlPolezhaeva"/>
+                    <include name="test_StyleFrame_OlPolezhaeva"/>
+                    <include name="testFindTitle_DS"/>
+                    <include name="test_CheckButtonTutorials_LPlucci"/>
+                    <include name="test_ModalDialogs_OlPolezhaeva"/>
+                    <include name="test_ToolTips_OlPolezhaeva"/>
+                    <include name="test_TextBoxFields_AFedorova"/>
+                    <include name="test_CheckBoxes_AFedorova"/>
+                    <include name="test_Slider_KI"/>
+                    <include name="test_FillingWebTables_KI"/>
+                    <include name="test_CheckValueCart_AKaz"/>
+                    <include name="test_CountOrangeAPIButtons_gdiksanov"/>
+                    <include name="test_SearchRome_gdiksanov"/>
+                    <include name="test_CaptchaError_gdiksanov"/>
+                    <include name="test_CheckboxesPage_MRakhmanava"/>
+                    <include name="test_RadioButtonText_MAnna503"/>
+                    <include name="test_OpenPageCooker_MAnna503"/>
+                </methods>
+            </class>
+            <class name="old.GroupSqaeTest">
+                <methods>
+                    <include name="testNameFormInsurance"/>
+                    <include name="testBirthdayFormInsurance"/>
+                    <include name="testPageTitleOfMagazine"/>
+                    <include name="testCancelLabelOnSubscribePageOfMagazine"/>
+                    <include name="testHeaderLinksOnTitlePageOfMagazine"/>
+                    <include name="testPageTitleOfPracticeForm"/>
+                    <include name="testUrlOfPagePracticeForm"/>
+                    <include name="testUrlTitleHeadingOfPageAbout"/>
+                    <include name="testCheckoutItem"/>
+                    <include name="testCheckoutWithUniqueEmailErrorMsg"/>
+                    <include name="testDeleteItemFromCart"/>
+                    <include name="testMultipleItemsPresentInCart"/>
+                    <include name="testSearchField"/>
+                </methods>
+            </class>
+            <class name="old.GroupTeamRocketTest">
+                <methods>
+                    <include name="testAddElementHerokuapp"/>
+                    <include name="testSwagLabs_LogIn"/>
+                    <include name="testFindTitleGuide_NataliiaOliver"/>
+                    <include name="testCart"/>
+                    <include name="testAboutLinkRedirect"/>
+                    <include name="testAtt_RS"/>
+                    <include name="testAboutUs"/>
+                    <include name="testLoginForm_EZ"/>
+                    <include name="testInformationDelivery"/>
+                    <include name="testGoToTermsAndConditionsPage_AnastasiaYakimova"/>
+                    <include name="testCheckOut"/>
+                    <include name="testAddToCartButton"/>
+                    <include name="testContactUs"/>
+                    <include name="testFindBook_VZ"/>
+                    <include name="testSaucedemo_EZ"/>
+                    <include name="testBrowseLanguages_NO"/>
+                    <include name="testFilterIconSortingPriceFromLowToHigh_AnastasiaYakimova"/>
+                    <include name="testSaleSticker_ET"/>
+                    <include name="testCheckForBrokenIMGs"/>
+                    <include name="testPriceNokia_ZoiaBut"/>
+                    <include name="testSignGuestbookTest_NO"/>
+                    <include name="testTenLanguageStartNumbers_NO"/>
+                    <include name="testBrowseLanguagesAlternativeVersions_NO"/>
+                    <include name="testGoToStepTwoForGetQuote_VadimTref"/>
+                    <include name="testSamsungGalaxyS7Price_ZB"/>
+                    <include name="testSwitchToPageCompareInsuranceQuote_VadimTref"/>
+                    <include name="testCheckTheMostRelevantBook_AnastasiaKuz"/>
+                    <include name="testRemoveElementHerokuapp"/>
+                    <include name="testAddElementsHerokuapp"/>
+                    <include name="testContactUs_ThankYouMessagePopsUp_AnastasiaY"/>
+                    <include name="testContextMenu_ET"/>
+                    <include name="testDoingSmthDontKnowWhatExactly_Tchernomor"/>
+                    <include name="testLumaTabPanel"/>
+                    <include name="testCategoriesPanel_ZB"/>
+                    <include name="testSergeDotMenuStartTitle"/>
+                    <include name="testBROWSE_LANGUAGES_M_NO"/>
+                    <include name="testSergeDotMintHouseDateSelectionYesterdayIsNotClickable"/>
+                    <include name="testCountAndNamesOfRadioButtons_VadimTref"/>
+                    <include name="testHeaderIsDisplayedInEach"/>
+                    <include name="testSearchDuckDuckGo_AnastasiaY"/>
+                    <include name="testFindMercedesVinOnJunkYardAndDecodeIt"/>
+                    <include name="testStaticDropDown_VZ"/>
+                    <include name="test_WixWebSiteAnnaPav"/>
+                    <include name="test_WixGetStartedAnnaPav"/>
+                    <include name="test_WixCreationAnnaPav"/>
+                    <include name="test_WixLoginAnnaPav"/>
+                    <include name="testJenkinsUnstartedDemoWatchMode_EZ"/>
+                    <include name="testJenkinsPlayingDemoWatchMode_EZ"/>
+                    <include name="testJenkinsPausedDemoWatchMode_EZ"/>
+                    <include name="test_UiTestingPlaygroundScrollbars_ArtCh"/>
+                    <include name="testMintHouseSlideOutImageCountsNegative_SergeDot"/>
+                </methods>
+            </class>
+            <class name="old.GroupWonderingMindsTest">
+                <methods>
+                    <include name="testGetGorodTula_HappyStrawberry"/>
+                    <include name="testCheckNamePaeoniaBoutique_TaniaKuno"/>
+                    <include name="testDemodaBookGuide_HappyStrawberry"/>
+                    <include name="testFindWebTables_YuliyaShershen"/>
+                    <include name="testStartMenu_EkaterinaLizina"/>
+                    <include name="testFindSubMenuTeam_TsetskL"/>
+                    <include name="testSendForm_HappyStrawberry"/>
+                    <include name="testFindEnglishLanguageInBrowseLanguages_YuliyaShershen"/>
+                    <include name="testTextIsDisplayedOnMainPage_EkaterinaLizina"/>
+                    <include name="testCheckForm_HappyStrawberry"/>
+                    <include name="testFindLanguageCobra_HappyStrawberry"/>
+                </methods>
+            </class>
+            <class name="old.NoGroupTest">
+                <methods>
+                    <include name="testVerifyTextBoxOutputResult"/>
+                    <include name="testSearchResults"/>
+                    <include name="testModaldialogs_MariaSh"/>
+                    <include name="testGoFormHerokuApp"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
