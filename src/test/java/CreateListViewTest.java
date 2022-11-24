@@ -42,6 +42,7 @@ public class CreateListViewTest extends BaseTest {
 
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].click();", elementJob);
+
         getDriver().findElement(By.cssSelector("#yui-gen6-button")).click();
 
         int quantityProjectsInListView = getDriver().findElements(
