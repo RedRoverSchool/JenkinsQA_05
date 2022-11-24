@@ -66,8 +66,8 @@ public class NewItemTest extends BaseTest {
         getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(getRandomName(15));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@type='submit']")));
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(getRandomName(15));
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
         getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
 
