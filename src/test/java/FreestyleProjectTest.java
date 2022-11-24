@@ -166,6 +166,20 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectConfigureByDropdown")
+    public void testCreateNewFreestyleProjectWithDupicateName(){
+        getDriver().findElement(By.linkText("Dashboard")).click();
+
+        getDriver().findElement(LINK_NEW_ITEM).click();
+
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).click();
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(NEW_FREESTYLE_NAME);
+        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+
+        Assert.assertEquals(getDriver().findElement(ITEM_NAME_INVALID).getText(),
+                String.format("» A job already exists with the name ‘%s’", NEW_FREESTYLE_NAME));
+    }
+
+    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithDupicateName")
     public void testDeleteFreestyleProject() {
 
         getDriver().findElement(By.cssSelector("tr#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
@@ -216,6 +230,7 @@ public class FreestyleProjectTest extends BaseTest {
             getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).click();
             getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).clear();
             getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(String.valueOf(character));
+            getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
 
             Assert.assertEquals(getDriver().findElement(ITEM_NAME_INVALID).getText(),
                     "» ‘" + character + "’ is an unsafe character");
