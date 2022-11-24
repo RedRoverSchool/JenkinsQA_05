@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class NewViewTest extends BaseTest {
-
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By ITEM_NAME = By.id("name");
     private static final By PIPELINE = By.xpath("//*[text() = 'Pipeline']");
@@ -24,9 +23,9 @@ public class NewViewTest extends BaseTest {
             By.xpath("//*[@id='createItemForm']/div[1]/div[2]/fieldset/div[3]/label");
     private static final By BUTTON_CREATE = By.id("ok");
     private static final By BUTTON_DELETE = By.cssSelector("svg.icon-edit-delete");
-    private static final By BUTTON_S = By.xpath("//div/ol/li/a[@href='/iconSize?16x16']");
-    private static final By BUTTON_M = By.xpath("//div/ol/li/a[@href='/iconSize?24x24']");
-    private static final By BUTTON_L = By.xpath("//div/ol/li/a[@href='/iconSize?32x32']");
+    private static final By BUTTON_S = By.xpath("//div/ol/li/a[@href='/iconSize?16x16'][@class='yui-button link-button']");
+    private static final By BUTTON_M = By.xpath("//div/ol/li/a[@href='/iconSize?24x24'][@class='yui-button link-button']");
+    private static final By BUTTON_L = By.xpath("//div/ol/li/a[@href='/iconSize?32x32'][@class='yui-button link-button']");
     private static final By MY_VIEWS_TABLE = By.xpath("//table[@id='projectstatus']");
 
     private String generateRandomName() {
@@ -86,6 +85,38 @@ public class NewViewTest extends BaseTest {
         WebElement ButtonM = getDriver().findElement(BUTTON_M);
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].click();", ButtonM);
+
+        Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
+    }
+
+    @Test
+    public void testLeterLClickableMyViews() {
+        String expectedClassTable = "jenkins-table  sortable";
+
+        createPipelineProject(generateRandomName());
+
+        getDriver().findElement(MY_VIEWS).click();
+        WebElement ButtonM = getDriver().findElement(BUTTON_M);
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", ButtonM);
+        WebElement ButtonL = getDriver().findElement(BUTTON_L);
+        executor.executeScript("arguments[0].click();", ButtonL);
+
+        Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
+    }
+
+    @Test
+    public void testLetterSClickableMyViews() {
+        String expectedClassTable = "jenkins-table jenkins-table--small sortable";
+
+        createPipelineProject(generateRandomName());
+
+        getDriver().findElement(MY_VIEWS).click();
+        WebElement buttonM = getDriver().findElement(BUTTON_M);
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", buttonM);
+        WebElement buttonS = getDriver().findElement(BUTTON_S);
+        executor.executeScript("arguments[0].click();", buttonS);
 
         Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
     }
