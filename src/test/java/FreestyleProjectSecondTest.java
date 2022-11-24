@@ -11,7 +11,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
     private static final String DESCRIPTION_TEXT = RandomStringUtils.randomAlphanumeric(20);
 
     @Test
-    public void testCreateFreestyleProject(){
+    public void testCreateFreestyleProject() {
 
         getDriver().findElement(By.xpath("//span/a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.xpath("//input[@class='jenkins-input']")).sendKeys(FREESTYLE_NAME);
@@ -23,7 +23,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateFreestyleProject")
-    public void testCreateAndRenameFreestyleProject(){
+    public void testCreateAndRenameFreestyleProject() {
 
         getDriver().findElement(By.xpath("//td/a[@href='job/" + FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + FREESTYLE_NAME + "/confirm-rename']")).click();
@@ -37,7 +37,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateAndRenameFreestyleProject")
-    public void testCreateWithDescriptionFreestyleProject(){
+    public void testCreateWithDescriptionFreestyleProject() {
 
         getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(By.id("description-link")).click();
@@ -46,5 +46,18 @@ public class FreestyleProjectSecondTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(),
                 DESCRIPTION_TEXT);
+    }
+
+    @Test
+    public void testCreateFreestyleProjectWithValidName() {
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys("New project(1.1)");
+        getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@type = 'submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                "Project " + "New project(1.1)");
     }
 }
