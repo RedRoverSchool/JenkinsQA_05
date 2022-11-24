@@ -61,7 +61,3 @@ jobs:
         with:
           name: Screenshots
           path: ScreenshotsFailure
-
-      - name: Check on failures
-        if: failure()
-        run: exit 1
