@@ -21,11 +21,4 @@ public class TestUtils {
     public static String createRandomName(int stringLength){
         return RandomStringUtils.randomAlphanumeric(stringLength);
     }
-
-    public static void takeScreenshot(WebDriver driver) throws IOException {
-        File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        // Now you can do whatever you need to do with it, for example copy somewhere
-        FileUtils.copyFile(scrFile, new File("c:\\tmp\\screenshot.png"));
-    }
 }
-
