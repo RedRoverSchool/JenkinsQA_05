@@ -7,6 +7,7 @@ import org.testng.annotations.AfterMethod;
 
 import java.lang.reflect.Method;
 
+@Listeners({FilterForTests.class})
 public abstract class BaseTest {
 
     private WebDriver driver;
