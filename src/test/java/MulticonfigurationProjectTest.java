@@ -200,7 +200,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 ("//div[@class='label-event-blue  event-blue  timeline-event-label']"));
 
         for (WebElement buildName : buildsInTable) {
-            System.out.println(buildName.getText());
             Assert.assertTrue(buildName.getText().contains(NEW_PROJECT_NAME));
         }
 
