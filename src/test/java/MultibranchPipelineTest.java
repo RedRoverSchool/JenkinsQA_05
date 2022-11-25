@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -116,6 +117,7 @@ public class MultibranchPipelineTest extends BaseTest {
         deleteItem(itemName);
     }
 
+    @Ignore
     @Test
     public void Rename_Multibranch_Pipeline_Test() {
         String nameOfItem = "NewMultibranchPipeline";
