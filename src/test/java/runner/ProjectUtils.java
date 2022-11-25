@@ -20,8 +20,6 @@ public final class ProjectUtils {
     }
 
     static void login(WebDriver driver) {
-        get(driver);
-
         driver.findElement(By.name("j_username")).sendKeys(BaseUtils.getProperties().getProperty(PROP_ADMIN_USERNAME));
         driver.findElement(By.name("j_password")).sendKeys(BaseUtils.getProperties().getProperty(PROP_ADMIN_PAS));
         driver.findElement(By.name("Submit")).click();
