@@ -1,9 +1,12 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.time.Duration;
 import java.util.List;
 
 public class HeaderTest extends BaseTest {
@@ -131,14 +134,14 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testClickOnTheIconNameTheUserIsReturnedToTheMainPage() {
-        final String expectedStartPaige = "Welcome to Jenkins!";
 
         getDriver().findElement(By.xpath("//span[text()='New Item']"));
         getDriver().findElement(By.xpath("//img[@id='jenkins-name-icon']"));
 
-        String actualResultPaige = getDriver().findElement(By.xpath("//h1")).getText();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        boolean actualResultPaige = wait.until(ExpectedConditions.urlContains("http://localhost:8080/"));
 
-        Assert.assertEquals(actualResultPaige, expectedStartPaige);
+        Assert.assertTrue(actualResultPaige);
     }
 }
 
