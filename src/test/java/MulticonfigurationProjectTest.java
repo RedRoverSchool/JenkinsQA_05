@@ -207,7 +207,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
         getDriver().findElement(By.xpath("//a[@href='/user/admin/my-views/view/all/builds']")).click();
-
         List<WebElement> buildsInTable = getDriver().findElements(By.xpath
                 ("//div[contains(@id,'label-tl')]"));
 
