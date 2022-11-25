@@ -205,6 +205,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         String actualStatus = getDriver().findElement(By.xpath("//*[@id='enable-project']")).getText();
 
         Assert.assertEquals(actualStatus, "This project is currently disabled\nEnable");
+    }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
     public void testFindMultiConfigurationProject(){
