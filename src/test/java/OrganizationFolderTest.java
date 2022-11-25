@@ -301,7 +301,6 @@ public class OrganizationFolderTest extends BaseTest {
     @Test
     public void testCreateOrgFolderExistName() {
         createNewOrganizationFolder();
-
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName);
