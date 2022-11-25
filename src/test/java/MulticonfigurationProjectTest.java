@@ -2,6 +2,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -186,5 +187,34 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 By.xpath(String.format("//span[contains(text(),'%s')]", NEW_PROJECT_NAME))).getText(), NEW_PROJECT_NAME);
 
         deleteNewMCProject(NEW_PROJECT_NAME);
+    }
+
+    @Test(dependsOnMethods = "testMultiConfigurationProjectBuild")
+    public void testMultiConfigurationProjectsRunJobInBuildHistory(){
+
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/user/admin/my-views/view/all/builds']")).click();
+
+        List<WebElement> buildsInTable = getDriver().findElements(By.xpath
+                ("//div[@class='label-event-blue  event-blue  timeline-event-label']"));
+
+        for (WebElement buildName : buildsInTable) {
+            System.out.println(buildName.getText());
+            Assert.assertTrue(buildName.getText().contains(NEW_PROJECT_NAME));
+        }
+
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/default/']")).getText(),
+                NEW_PROJECT_NAME + " » default");
+        Assert.assertEquals(getDriver().findElement(
+                        By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/']")).getText(),
+                NEW_PROJECT_NAME);
+
+        String color = getDriver().findElement(
+                By.xpath("//span[@class='build-status-icon__outer']")).getCssValue("color");
+        String hex = Color.fromString(color).asHex();
+
+        Assert.assertEquals(hex, "#1ea64b");
     }
 }
