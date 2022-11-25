@@ -198,7 +198,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/user/admin/my-views/view/all/builds']")).click();
 
         List<WebElement> buildsInTable = getDriver().findElements(By.xpath
-                ("//div[@class='label-event-blue  event-blue  timeline-event-label']"));
+                ("//div[contains(@id,'label-tl')]"));
 
         for (WebElement buildName : buildsInTable) {
             Assert.assertTrue(buildName.getText().contains(NEW_PROJECT_NAME));
