@@ -139,9 +139,9 @@ public class HeaderTest extends BaseTest {
         getDriver().findElement(By.xpath("//img[@id='jenkins-name-icon']"));
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        boolean actualResultPaige = wait.until(ExpectedConditions.urlContains("http://localhost:8080/"));
+        boolean actualResultPage = wait.until(ExpectedConditions.urlContains("http://localhost:8080/"));
 
-        Assert.assertTrue(actualResultPaige);
+        Assert.assertTrue(actualResultPage);
     }
 }
 
