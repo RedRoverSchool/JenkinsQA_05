@@ -290,7 +290,6 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(BUTTON_SAVE).click();
         getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
 
-
         List<WebElement> lstWithElements = getDriver().findElements(By.xpath("//table[@id='projectstatus']//tbody//tr//td//a"));
         List<String> lstWithStrings = lstWithElements.stream().map(WebElement::getText).collect(Collectors.toList());
 
