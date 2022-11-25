@@ -189,7 +189,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void createMultiConfigurationProjectDisabled() {
+    public void testCreateMultiConfigurationProjectDisabled() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.xpath("//input[@class='jenkins-input']"))
                 .sendKeys(MulticonfigurationProjectTest.PROJECT_NAME);
