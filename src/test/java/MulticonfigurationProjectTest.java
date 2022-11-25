@@ -190,6 +190,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         deleteNewMCProject(NEW_PROJECT_NAME);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
     public void testFindMultiConfigurationProject(){
         getDriver().findElement(By.cssSelector("#search-box")).sendKeys(PROJECT_NAME);
