@@ -175,7 +175,7 @@ public class OrganizationFolderTest extends BaseTest {
                 "» This field cannot be empty, please enter a valid name");
         Assert.assertFalse(getDriver().findElement(OK_BUTTON).isEnabled());
     }
-    @Ignore
+
     @Test
     public void testDeleteOrganizationFolder() {
 
