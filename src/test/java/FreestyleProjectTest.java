@@ -94,7 +94,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(findJobParam(FREESTYLE_NAME).get(0).getAttribute("class").contains(" job-status-nobuilt"));
     }
 
-
     @Test(dependsOnMethods = "testEnableProject")
     public void testFreestyleProjectPageIsOpenedFromDashboard() {
 
@@ -289,7 +288,7 @@ public class FreestyleProjectTest extends BaseTest {
             countBuildsBeforeCreatingNewBuild = getDriver().findElements(countBuilds).size();
         }
 
-        wait.until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.linkText("Build Now")))).click();
+        getDriver().findElement(By.linkText("Build Now")).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(
                 By.xpath("//span[@class='build-status-icon__outer']/*[@tooltip = 'In progress &gt; Console Output']")));
         int countBuildsAfterCreatingNewBuild = getDriver().findElements(countBuilds).size();
