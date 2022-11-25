@@ -64,7 +64,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void test_Logo_Head_icon_is_Seen(){
+    public void test_Logo_Head_icon_is_Seen() {
 
         Assert.assertTrue(getDriver().findElement(
                 By.id("jenkins-head-icon")).isEnabled());
@@ -74,7 +74,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void test_Manage_Jenkins_Click_name_icon_to_return_to_the_main_page(){
+    public void test_Manage_Jenkins_Click_name_icon_to_return_to_the_main_page() {
         getDriver().findElement(
                         By.xpath("//div[@id='tasks']//a[@href='/manage']")).
                 click();
@@ -87,7 +87,7 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(),
                 "http://localhost:8080/");
     }
-  
+
     @Test
     public void testUserDropdownMenuToOpenPageAdminConfigure() {
         openUserDropdownMenu();
@@ -95,7 +95,7 @@ public class HeaderTest extends BaseTest {
                 By.cssSelector("ul > li:nth-of-type(2) span")).click();
 
         Assert.assertEquals(getDriver().findElement(
-                By.cssSelector("div:nth-of-type(3) > .jenkins-section__title")).getText(),
+                        By.cssSelector("div:nth-of-type(3) > .jenkins-section__title")).getText(),
                 "API Token");
     }
 
@@ -127,6 +127,18 @@ public class HeaderTest extends BaseTest {
         getDriver().findElement(By.id("jenkins-name-icon")).click();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "http://localhost:8080/");
+    }
+
+    @Test
+    public void testClickOnTheIconNameTheUserIsReturnedToTheMainPage() {
+        final String expectedStartPaige = "Welcome to Jenkins!";
+
+        getDriver().findElement(By.xpath("//span[text()='New Item']"));
+        getDriver().findElement(By.xpath("//img[@id='jenkins-name-icon']"));
+
+        String actualResultPaige = getDriver().findElement(By.xpath("//h1")).getText();
+
+        Assert.assertEquals(actualResultPaige, expectedStartPaige);
     }
 }
 
