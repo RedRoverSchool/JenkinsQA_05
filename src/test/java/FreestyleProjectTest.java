@@ -68,7 +68,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
-    public void testDisableProject(){
+    public void testDisableProject() {
 
         getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
         getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
@@ -288,7 +288,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         final int initialBuildCount = getDriver().findElements(BUILDS_LOCATOR).size();
         getDriver().findElement(BUILD_NOW_LOCATOR).click();
-        final int actualBuildCount = new WebDriverWait(getDriver(), Duration.ofSeconds(5))
+        final int actualBuildCount = getWait()
                 .until(ExpectedConditions.numberOfElementsToBeMoreThan(BUILDS_LOCATOR, initialBuildCount)).size();
 
         Assert.assertEquals(actualBuildCount, initialBuildCount + 1);
