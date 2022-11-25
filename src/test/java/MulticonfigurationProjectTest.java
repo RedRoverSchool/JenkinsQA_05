@@ -207,7 +207,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(actualStatus, "This project is currently disabled\nEnable");
     }
-
+    
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
     public void testFindMultiConfigurationProject(){
         getDriver().findElement(By.cssSelector("#search-box")).sendKeys(PROJECT_NAME);
