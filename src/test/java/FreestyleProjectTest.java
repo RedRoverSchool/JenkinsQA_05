@@ -35,6 +35,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By JOB_HEADLINE_LOCATOR = By.xpath("//h1");
     private static final By MAIN_PANEL_LOCATOR = By.id("main-panel");
     private static final By DISABLE_PROJECT_BUTTON = By.id("yui-gen1-button");
+    private static final By ENABLE_PROJECT_BUTTON = By.xpath("//button[@type = 'submit']");
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
 
     private WebDriverWait wait;
@@ -48,6 +49,10 @@ public class FreestyleProjectTest extends BaseTest {
 
     private List<String> getListExistingFreestyleProjectsNames(By by) {
         return getDriver().findElements(by).stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    private List<WebElement> findJobParam(String nameJob){
+        return getDriver().findElements(By.xpath("//tr[@id = 'job_" + nameJob + "']"));
     }
 
     @Test
@@ -67,16 +72,30 @@ public class FreestyleProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
     public void testDisableProject(){
 
-        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
         getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(DISABLE_PROJECT_BUTTON).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'warning']")).getText().trim().substring(0, 34),
                 "This project is currently disabled");
+
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+
+        Assert.assertTrue(findJobParam(FREESTYLE_NAME).get(0).getAttribute("class").contains("job-status-disabled"));
     }
 
     @Test(dependsOnMethods = "testDisableProject")
+    public void testEnableProject(){
+
+        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(ENABLE_PROJECT_BUTTON).click();
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+
+        Assert.assertTrue(findJobParam(FREESTYLE_NAME).get(0).getAttribute("class").contains(" job-status-nobuilt"));
+    }
+
+
+    @Test(dependsOnMethods = "testEnableProject")
     public void testFreestyleProjectPageIsOpenedFromDashboard() {
 
         getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
@@ -265,7 +284,6 @@ public class FreestyleProjectTest extends BaseTest {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
         getDriver().findElement(By.linkText(NEW_FREESTYLE_NAME)).click();
-        getDriver().findElement(By.id("yui-gen1")).click();
 
         if (getDriver().findElement(By.id("no-builds")).isEnabled()) {
             countBuildsBeforeCreatingNewBuild = getDriver().findElements(countBuilds).size();
