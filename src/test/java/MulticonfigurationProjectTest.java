@@ -1,6 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -186,5 +187,16 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 By.xpath(String.format("//span[contains(text(),'%s')]", NEW_PROJECT_NAME))).getText(), NEW_PROJECT_NAME);
 
         deleteNewMCProject(NEW_PROJECT_NAME);
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
+    public void testFindMultiConfigurationProject(){
+        getDriver().findElement(By.cssSelector("#search-box")).sendKeys(PROJECT_NAME);
+        getDriver().findElement(By.cssSelector("#search-box")).sendKeys(Keys.ENTER);
+        getDriver().findElement(By.xpath("//div/ul/li/a[text()='" + PROJECT_NAME + "']"));
+
+       Assert.assertEquals(
+               getDriver().findElement(By.xpath("//div/ul/li/a[text()='" + PROJECT_NAME + "']")).getText(),
+               PROJECT_NAME);
     }
 }
