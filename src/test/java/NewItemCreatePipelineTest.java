@@ -118,6 +118,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", name))).getText(), name);
     }
 
+    @Ignore
     @Test
     public void testCreateNewItemFromOtherNonExistingName() {
         final String jobName = getRandomStr();
