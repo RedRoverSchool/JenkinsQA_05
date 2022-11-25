@@ -11,6 +11,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 public class OrganizationFolderTest extends BaseTest {
     private static final String uniqueOrganizationFolderName = "folder" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+    private static final String ORG_FOLDER_NAME = TestUtils.getRandomStr();
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
     private static final By ORGANIZATION_FOLDER = By.xpath("//li[@class = 'jenkins_branch_OrganizationFolder']");
     private static final By OK_BUTTON = By.id("ok-button");
@@ -32,6 +34,14 @@ public class OrganizationFolderTest extends BaseTest {
     private static final By BUTTON_DELETE_ORGANIZATION_FOLDER = By.xpath("//div[@id='tasks']//a[contains(@href, 'delete')]");
     private static final By BUTTON_SUBMIT = By.xpath("//button[@type= 'submit']");
     private String nameOrgFolder, nameFolder;
+
+    private WebElement notificationSaved() {
+         return getDriver().findElement(By.cssSelector("#notification-bar"));
+    }
+
+    private WebDriverWait getWait() {
+        return new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+    }
 
     public WebElement getInputName() {
         return getDriver().findElement(INPUT_NAME);
@@ -64,7 +74,6 @@ public class OrganizationFolderTest extends BaseTest {
     private void createNewOrganizationFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName);
-        System.out.println(uniqueOrganizationFolderName);
         getDriver().findElement(ORGANIZATION_FOLDER).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
@@ -273,5 +282,19 @@ public class OrganizationFolderTest extends BaseTest {
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", myFolder);
 
         Assert.assertTrue(getDriver().findElement(itemOrgFolderOnDashboard).isDisplayed());
+    }
+
+    @Test
+    public void testCheckNotificationAfterApply() {
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(ORG_FOLDER_NAME);
+        getDriver().findElement(ORGANIZATION_FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(APPLY_BUTTON).click();
+
+        Assert.assertEquals(getWait().until(ExpectedConditions.visibilityOf(notificationSaved()))
+                .getText(), "Saved");
+        Assert.assertEquals(notificationSaved().getAttribute("class")
+                , "notif-alert-success notif-alert-show");
     }
 }
