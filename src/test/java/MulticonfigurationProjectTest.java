@@ -174,6 +174,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertNotEquals(amountOfBuildsAfterBuildNow, amountOfBuildsBeforeBuildNow);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
     public void testCreateNewMCProjectAsCopyFromExistingProject() {
         getDriver().findElement(NEW_ITEM).click();
@@ -209,11 +210,5 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(
                         By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/']")).getText(),
                 NEW_PROJECT_NAME);
-
-        String color = getDriver().findElement(
-                By.xpath("//span[@class='build-status-icon__outer']")).getCssValue("color");
-        String hex = Color.fromString(color).asHex();
-
-        Assert.assertEquals(hex, "#1ea64b");
     }
 }
