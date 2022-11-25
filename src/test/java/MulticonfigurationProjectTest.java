@@ -173,7 +173,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertNotEquals(amountOfBuildsAfterBuildNow, amountOfBuildsBeforeBuildNow);
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
     public void testCreateNewMCProjectAsCopyFromExistingProject() {
         getDriver().findElement(NEW_ITEM).click();
