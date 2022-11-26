@@ -4,7 +4,8 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class FolderWithoutConfigTest extends BaseTest {
-    final String NAME_FOLDER = "test folder 1";
+    private static final String NAME_FOLDER = "test folder 1";
+    private static final String VALID_NAME = "New project(1.1)";
 
     @Test
     public void testCreateFolderWithoutConfig() {
@@ -16,5 +17,19 @@ public class FolderWithoutConfigTest extends BaseTest {
         getDriver().findElement(By.className("item")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//span[text()='" + NAME_FOLDER + "']")).getText(), NAME_FOLDER);
+    }
+
+    @Test(dependsOnMethods = "testCreateFolderWithoutConfig")
+    public void testCreateFreestyleProjectInFolderByCreateJob(){
+
+        getDriver().findElement(By.linkText(NAME_FOLDER)).click();
+        getDriver().findElement(By.linkText("Create a job")).click();
+        getDriver().findElement(By.id("name")).sendKeys(VALID_NAME);
+        getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@type = 'submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                "Project " + VALID_NAME);
     }
 }
