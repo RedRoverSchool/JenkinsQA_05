@@ -224,7 +224,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 PROJECT_NAME);
     }
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
-    public void testDisableMultiMultiConfigurationProjectCheckIcon() {
+    public void testDisableMultiMultiConfigurationProjectCheckIconDashboardPage() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
         getDriver().findElement(DISABLE_PROJECT).click();
         getDriver().findElement(DASHBOARD).click();
