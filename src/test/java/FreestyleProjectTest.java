@@ -35,6 +35,9 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By ITEM_NAME_INVALID = By.cssSelector("#itemname-invalid");
     private static final By JOB_HEADLINE_LOCATOR = By.xpath("//h1");
     private static final By MAIN_PANEL_LOCATOR = By.id("main-panel");
+    private static final By BUILD_NOW_LOCATOR = By.linkText("Build Now");
+    private static final By BUILDS_LOCATOR =
+            By.xpath("//table[@class='pane jenkins-pane stripped']//tr[@page-entry-id]");
     private static final By DISABLE_PROJECT_BUTTON = By.id("yui-gen1-button");
     private static final By ENABLE_PROJECT_BUTTON = By.xpath("//button[@type = 'submit']");
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
@@ -71,7 +74,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
-    public void testDisableProject(){
+    public void testDisableProject() {
 
         getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(DISABLE_PROJECT_BUTTON).click();
@@ -201,8 +204,7 @@ public class FreestyleProjectTest extends BaseTest {
                 String.format("» A job already exists with the name ‘%s’", NEW_FREESTYLE_NAME));
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateBuildNowOnFreestyleProjectPage")
+    @Test(dependsOnMethods = "testFreestyleProjectBuild")
     public void testDeleteFreestyleProject() {
 
         getDriver().findElement(By.cssSelector("tr#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
@@ -290,11 +292,23 @@ public class FreestyleProjectTest extends BaseTest {
             countBuildsBeforeCreatingNewBuild = getDriver().findElements(countBuilds).size();
         }
 
-        getDriver().findElement(By.linkText("Build Now")).click();
+        getDriver().findElement(BUILD_NOW_LOCATOR).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(
                 By.xpath("//span[@class='build-status-icon__outer']/*[@tooltip = 'In progress &gt; Console Output']")));
         int countBuildsAfterCreatingNewBuild = getDriver().findElements(countBuilds).size();
 
         Assert.assertEquals(countBuildsAfterCreatingNewBuild, countBuildsBeforeCreatingNewBuild + 1);
+    }
+
+    @Test(dependsOnMethods = "testCreateBuildNowOnFreestyleProjectPage")
+    public void testFreestyleProjectBuild() {
+        getDriver().findElement(By.linkText(NEW_FREESTYLE_NAME)).click();
+
+        final int initialBuildCount = getDriver().findElements(BUILDS_LOCATOR).size();
+        getDriver().findElement(BUILD_NOW_LOCATOR).click();
+        final int actualBuildCount = getWait()
+                .until(ExpectedConditions.numberOfElementsToBeMoreThan(BUILDS_LOCATOR, initialBuildCount)).size();
+
+        Assert.assertEquals(actualBuildCount, initialBuildCount + 1);
     }
 }

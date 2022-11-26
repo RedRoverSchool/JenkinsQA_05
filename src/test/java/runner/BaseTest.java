@@ -9,7 +9,6 @@ import runner.order.OrderUtils;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Listeners({FilterForTests.class, OrderForTests.class})
@@ -17,11 +16,11 @@ public abstract class BaseTest {
 
     private WebDriver driver;
 
-    private List<List<Method>> methodList;
+    private OrderUtils.MethodsOrder<Method> methodsOrder;
 
     @BeforeClass
     protected void beforeClass() {
-        methodList = OrderUtils.orderMethods(
+        methodsOrder = OrderUtils.createMethodsOrder(
                 Arrays.stream(this.getClass().getMethods())
                         .filter(m -> m.getAnnotation(Test.class) != null && m.getAnnotation(Ignore.class) == null)
                         .collect(Collectors.toList()),
@@ -33,7 +32,7 @@ public abstract class BaseTest {
     protected void beforeMethod(Method method) {
         BaseUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
         try {
-            if (method.getAnnotation(Test.class).dependsOnMethods().length == 0) {
+            if (!methodsOrder.isGroupStarted(method) || methodsOrder.isGroupFinished(method)) {
                 clearData();
                 startDriver();
                 getWeb();
@@ -43,7 +42,9 @@ public abstract class BaseTest {
             }
         } catch (Exception e) {
             stopDriver();
-            throw e;
+            throw new RuntimeException(e);
+        } finally {
+            methodsOrder.markAsInvoked(method);
         }
     }
 
@@ -68,7 +69,10 @@ public abstract class BaseTest {
     }
 
     protected void stopDriver() {
-        ProjectUtils.logout(driver);
+        try {
+            ProjectUtils.logout(driver);
+        } catch (Exception ignore) {}
+
         driver.quit();
         BaseUtils.log("Browser closed");
     }
@@ -79,8 +83,7 @@ public abstract class BaseTest {
             BaseUtils.captureScreenFile(driver, method.getName(), this.getClass().getName());
         }
 
-        List<Method> list = OrderUtils.find(methodList, method).orElse(null);
-        if (!testResult.isSuccess() || list == null || (list.remove(method) && list.isEmpty())) {
+        if (!testResult.isSuccess() || methodsOrder.isGroupFinished(method)) {
             stopDriver();
         }
 
