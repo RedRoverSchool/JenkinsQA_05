@@ -12,10 +12,6 @@ import java.util.Set;
 
 public class JenkinsUtils {
 
-    public static void main(String[] args) {
-        deleteViews();
-    }
-
     private static final HttpClient client = HttpClient.newBuilder().build();
 
     private static String sessionId;
@@ -120,12 +116,13 @@ public class JenkinsUtils {
 
     public static void deleteViews() {
         String mainPage = getPage("");
-        String crumb = getCrumbFromPage(mainPage);
-
         deleteByLink("view/%s/doDelete",
                 getSubstringsFromPage(mainPage, "href=\"/view/", "/\""),
-                crumb);
+                getCrumbFromPage(mainPage));
 
-        //String viewPage = getPage();
+        String viewPage = getPage("me/my-views/view/all/");
+        deleteByLink("user/admin/my-views/view/%s/doDelete",
+                getSubstringsFromPage(viewPage, "href=\"/user/admin/my-views/view/", "/\""),
+                getCrumbFromPage(viewPage));
     }
 }
