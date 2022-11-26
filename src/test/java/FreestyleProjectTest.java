@@ -1,8 +1,5 @@
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -55,7 +52,7 @@ public class FreestyleProjectTest extends BaseTest {
         return getDriver().findElements(by).stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    private List<WebElement> findJobParam(String nameJob){
+    private List<WebElement> findJobParam(String nameJob) {
         return getDriver().findElements(By.xpath("//tr[@id = 'job_" + nameJob + "']"));
     }
 
@@ -89,7 +86,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDisableProject")
-    public void testEnableProject(){
+    public void testEnableProject() {
 
         getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(ENABLE_PROJECT_BUTTON).click();
@@ -191,6 +188,25 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectConfigureByDropdown")
+    public void testFreestyleProjectConfigureMenu() {
+        getDriver().findElement(By.xpath("//a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='general']"))
+                .getText(), "General");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='source-code-management']"))
+                .getText(), "Source Code Management");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']"))
+                .getText(), "Build Triggers");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='build-environment']"))
+                .getText(), "Build Environment");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='build-steps']"))
+                .getText(), "Build Steps");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='post-build-actions']"))
+                .getText(), "Post-build Actions");
+    }
+
+    @Test(dependsOnMethods = "testFreestyleProjectConfigureMenu")
     public void testCreateNewFreestyleProjectWithDupicateName() {
         getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
 
