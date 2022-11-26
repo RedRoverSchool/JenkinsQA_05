@@ -11,7 +11,10 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class FreestyleProjectTest extends BaseTest {
@@ -321,5 +324,22 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']")).getText(),
                 "Error\n‘!’ is an unsafe character");
+    }
+
+    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
+    public void testFreestyleProjectSideMenu() {
+
+        final Set<String> expectedFreestyleProjectSideMenu = new TreeSet<>(List.of("General", "Source Code Management", "Build Triggers", "Build Environment", "Build Steps", "Post-build Actions"));
+
+        getDriver().findElements(By.xpath("//tr/td/a")).get(0).click();
+        getDriver().findElement(By.linkText("Configure")).click();
+
+        List<WebElement> freestyleProjectSideMenu = getDriver().findElements(By.cssSelector("button.task-link"));
+        Set<String> actualFreestyleProjectSideMenu = new TreeSet<>();
+        for(WebElement menu : freestyleProjectSideMenu) {
+            actualFreestyleProjectSideMenu.add(menu.getText());
+        }
+
+        Assert.assertEquals(actualFreestyleProjectSideMenu, expectedFreestyleProjectSideMenu);
     }
 }
