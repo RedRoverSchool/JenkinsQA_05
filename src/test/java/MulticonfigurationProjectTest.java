@@ -9,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 import java.time.Duration;
 import java.util.List;
@@ -23,6 +24,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     private static final By INPUT_NAME = By.id("name");
     private static final By CONFIGURE = By.xpath(String.format("//a[@href='/job/%s/configure']", PROJECT_NAME));
     private WebDriverWait wait;
+    private static final By MULTI_CONFIGURATION_PROJECT = By.cssSelector(".hudson_matrix_MatrixProject");
 
     private void deleteNewMCProject(String project) {
         getDriver().findElement(DASHBOARD).click();
@@ -218,5 +220,23 @@ public class MulticonfigurationProjectTest extends BaseTest {
        Assert.assertEquals(
                getDriver().findElement(By.xpath("//div/ul/li/a[text()='" + PROJECT_NAME + "']")).getText(),
                PROJECT_NAME);
+    }
+    @Test
+    public void testMultiConfigurationProjectConfigureParams() {
+        String multiConfProjectName = TestUtils.getRandomStr(5);
+        String multiConfProjectDescriptionText = TestUtils.getRandomStr(10);
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(multiConfProjectName);
+        getDriver().findElement(MULTI_CONFIGURATION_PROJECT).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.xpath("//tr[@id='job_"+multiConfProjectName+"']//td[3]//a")).click();
+        getDriver().findElement(By.linkText("Configure")).click();
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(multiConfProjectDescriptionText);
+        getDriver().findElement(SAVE_BUTTON).click();
+        String actualDescText = getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText();
+
+        Assert.assertEquals(actualDescText,multiConfProjectDescriptionText);
     }
 }
