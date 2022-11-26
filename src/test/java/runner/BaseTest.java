@@ -32,7 +32,7 @@ public abstract class BaseTest {
     protected void beforeMethod(Method method) {
         BaseUtils.logf("Run %s.%s", this.getClass().getName(), method.getName());
         try {
-            if (!methodsOrder.isGroupStarted(method)) {
+            if (!methodsOrder.isGroupStarted(method) || methodsOrder.isGroupFinished(method)) {
                 clearData();
                 startDriver();
                 getWeb();
