@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -38,6 +39,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By BUILDS_LOCATOR =
             By.xpath("//table[@class='pane jenkins-pane stripped']//tr[@page-entry-id]");
     private static final By DISABLE_PROJECT_BUTTON = By.id("yui-gen1-button");
+    private static final By ENABLE_PROJECT_BUTTON = By.xpath("//button[@type = 'submit']");
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
 
     private WebDriverWait wait;
@@ -51,6 +53,10 @@ public class FreestyleProjectTest extends BaseTest {
 
     private List<String> getListExistingFreestyleProjectsNames(By by) {
         return getDriver().findElements(by).stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    private List<WebElement> findJobParam(String nameJob){
+        return getDriver().findElements(By.xpath("//tr[@id = 'job_" + nameJob + "']"));
     }
 
     @Test
@@ -70,16 +76,29 @@ public class FreestyleProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithCorrectName")
     public void testDisableProject() {
 
-        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
         getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(DISABLE_PROJECT_BUTTON).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'warning']")).getText().trim().substring(0, 34),
                 "This project is currently disabled");
+
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+
+        Assert.assertTrue(findJobParam(FREESTYLE_NAME).get(0).getAttribute("class").contains("job-status-disabled"));
     }
 
     @Test(dependsOnMethods = "testDisableProject")
+    public void testEnableProject(){
+
+        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(ENABLE_PROJECT_BUTTON).click();
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+
+        Assert.assertTrue(findJobParam(FREESTYLE_NAME).get(0).getAttribute("class").contains(" job-status-nobuilt"));
+    }
+
+    @Test(dependsOnMethods = "testEnableProject")
     public void testFreestyleProjectPageIsOpenedFromDashboard() {
 
         getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
@@ -268,13 +287,12 @@ public class FreestyleProjectTest extends BaseTest {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
 
         getDriver().findElement(By.linkText(NEW_FREESTYLE_NAME)).click();
-        getDriver().findElement(By.id("yui-gen1")).click();
 
         if (getDriver().findElement(By.id("no-builds")).isEnabled()) {
             countBuildsBeforeCreatingNewBuild = getDriver().findElements(countBuilds).size();
         }
 
-        wait.until(ExpectedConditions.elementToBeClickable(getDriver().findElement(BUILD_NOW_LOCATOR))).click();
+        getDriver().findElement(BUILD_NOW_LOCATOR).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(
                 By.xpath("//span[@class='build-status-icon__outer']/*[@tooltip = 'In progress &gt; Console Output']")));
         int countBuildsAfterCreatingNewBuild = getDriver().findElements(countBuilds).size();
