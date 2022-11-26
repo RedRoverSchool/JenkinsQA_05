@@ -46,6 +46,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .getText(), PROJECT_NAME);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
     public void testMulticonfigurationProjectAddDescription() {
         final String description = "Description";
