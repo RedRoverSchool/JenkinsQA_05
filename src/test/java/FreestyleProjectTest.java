@@ -55,7 +55,7 @@ public class FreestyleProjectTest extends BaseTest {
         return getDriver().findElements(by).stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    private List<WebElement> findJobParam(String nameJob){
+    private List<WebElement> findJobParam(String nameJob) {
         return getDriver().findElements(By.xpath("//tr[@id = 'job_" + nameJob + "']"));
     }
 
@@ -89,7 +89,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDisableProject")
-    public void testEnableProject(){
+    public void testEnableProject() {
 
         getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(ENABLE_PROJECT_BUTTON).click();
@@ -310,5 +310,16 @@ public class FreestyleProjectTest extends BaseTest {
                 .until(ExpectedConditions.numberOfElementsToBeMoreThan(BUILDS_LOCATOR, initialBuildCount)).size();
 
         Assert.assertEquals(actualBuildCount, initialBuildCount + 1);
+    }
+
+    @Test(dependsOnMethods = "testCreateFreestyleProjectWithEngineerName")
+    public void testRenameFreestyleProjectWithIncorrectName() {
+        getDriver().findElement(By.xpath("//span[text()='Engineer']")).click();
+        getDriver().findElement(By.linkText("Rename")).click();
+        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).sendKeys("!");
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']")).getText(),
+                "Error\n‘!’ is an unsafe character");
     }
 }
