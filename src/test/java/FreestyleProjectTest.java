@@ -294,6 +294,5 @@ public class FreestyleProjectTest extends BaseTest {
         List<String> lstWithStrings = lstWithElements.stream().map(WebElement::getText).collect(Collectors.toList());
 
         Assert.assertTrue(lstWithStrings.contains(name));
-
     }
 }
