@@ -12,6 +12,7 @@ import runner.BaseTest;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MulticonfigurationProjectTest extends BaseTest {
     private static final String PROJECT_NAME = RandomStringUtils.randomAlphanumeric(8);
@@ -89,7 +90,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 String.format("Project %s", PROJECT_NAME));
     }
 
-  //  @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
     public void testMultiConfigurationProjectDelete() {
 
