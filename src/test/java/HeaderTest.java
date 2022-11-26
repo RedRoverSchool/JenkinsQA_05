@@ -1,9 +1,12 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.time.Duration;
 import java.util.List;
 
 public class HeaderTest extends BaseTest {
@@ -64,7 +67,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void test_Logo_Head_icon_is_Seen(){
+    public void test_Logo_Head_icon_is_Seen() {
 
         Assert.assertTrue(getDriver().findElement(
                 By.id("jenkins-head-icon")).isEnabled());
@@ -74,7 +77,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void test_Manage_Jenkins_Click_name_icon_to_return_to_the_main_page(){
+    public void test_Manage_Jenkins_Click_name_icon_to_return_to_the_main_page() {
         getDriver().findElement(
                         By.xpath("//div[@id='tasks']//a[@href='/manage']")).
                 click();
@@ -87,7 +90,7 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(),
                 "http://localhost:8080/");
     }
-  
+
     @Test
     public void testUserDropdownMenuToOpenPageAdminConfigure() {
         openUserDropdownMenu();
@@ -95,7 +98,7 @@ public class HeaderTest extends BaseTest {
                 By.cssSelector("ul > li:nth-of-type(2) span")).click();
 
         Assert.assertEquals(getDriver().findElement(
-                By.cssSelector("div:nth-of-type(3) > .jenkins-section__title")).getText(),
+                        By.cssSelector("div:nth-of-type(3) > .jenkins-section__title")).getText(),
                 "API Token");
     }
 
@@ -127,6 +130,18 @@ public class HeaderTest extends BaseTest {
         getDriver().findElement(By.id("jenkins-name-icon")).click();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "http://localhost:8080/");
+    }
+
+    @Test
+    public void testClickOnTheIconNameTheUserIsReturnedToTheMainPage() {
+
+        getDriver().findElement(By.xpath("//span[text()='New Item']"));
+        getDriver().findElement(By.xpath("//img[@id='jenkins-name-icon']"));
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        boolean actualResultPage = wait.until(ExpectedConditions.urlContains("http://localhost:8080/"));
+
+        Assert.assertTrue(actualResultPage);
     }
 }
 
