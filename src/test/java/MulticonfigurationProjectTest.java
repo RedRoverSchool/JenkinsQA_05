@@ -229,6 +229,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(DISABLE_PROJECT).click();
         getDriver().findElement(DASHBOARD).click();
         Assert.assertTrue(getDriver().findElement((By.xpath(
-                String.format("//tr[@id='job_%s']//span[@class='build-status-icon__wrapper icon-disabled icon-md']", PROJECT_NAME)))).isDisplayed());
+                String.format("//tr[@id='job_%s']//span[@class='build-status-icon__wrapper icon-disabled icon-md']", PROJECT_NAME))))
+                .isDisplayed());
     }
 }
