@@ -103,6 +103,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         alert.accept();
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testMulticonfigurationProjectAddDescription")
     public void testMultiConfigurationProjectDisable() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
@@ -223,13 +224,14 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 getDriver().findElement(By.xpath("//div/ul/li/a[text()='" + PROJECT_NAME + "']")).getText(),
                 PROJECT_NAME);
     }
+
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
     public void testDisableMultiMultiConfigurationProjectCheckIconDashboardPage() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
         getDriver().findElement(DISABLE_PROJECT).click();
         getDriver().findElement(DASHBOARD).click();
         Assert.assertTrue(getDriver().findElement((By.xpath(
-                String.format("//tr[@id='job_%s']//span[@class='build-status-icon__wrapper icon-disabled icon-md']", PROJECT_NAME))))
+                        String.format("//tr[@id='job_%s']//span[@class='build-status-icon__wrapper icon-disabled icon-md']", PROJECT_NAME))))
                 .isDisplayed());
     }
 }
