@@ -1,14 +1,29 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.List;
+import java.util.Locale;
 
 public class HeaderTest extends BaseTest {
 
     private static final By USER_ACCOUNT_LINK = By.xpath("//a[@class='model-link']//span");
+
+    private void createOrganizationFolder() {
+        for(int i = 1; i <= 4; i++) {
+            String organizationFolderName = "OrganizationFolder_" + (int) (Math.random() * 1000);
+
+            getDriver().findElement(By.linkText("New Item")).click();
+            getDriver().findElement(By.cssSelector(".jenkins_branch_OrganizationFolder")).click();
+            getDriver().findElement(By.xpath("//input [@name = 'name']")).sendKeys(organizationFolderName);
+            getDriver().findElement(By.id("ok-button")).click();
+            getDriver().findElement(By.id("yui-gen15-button")).click();
+            getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+        }
+    }
 
     @Test
     public void testSeeNameIcon() {
@@ -46,6 +61,21 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(actualItemsCount, 4);
         Assert.assertEquals(actualNamesItems.toString(),
                 "BuildsConfigureMy ViewsCredentials");
+    }
+
+    @Test
+    public void testCheckTheAppropriateSearchResult(){
+        createOrganizationFolder();
+
+        getDriver().findElement(By.id("search-box")).sendKeys("organiza");
+        getDriver().findElement(By.id("search-box")).sendKeys(Keys.ENTER);
+        List<WebElement> listSearchResult = getDriver().findElements(By.xpath("//div[@id='main-panel']/ol/li"));
+
+        Assert.assertTrue(listSearchResult.size() > 0);
+
+        for (WebElement a : listSearchResult) {
+            Assert.assertTrue(a.getText().toLowerCase().contains("organiza"));
+        }
     }
 }
 
