@@ -1,10 +1,18 @@
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.lang.reflect.Array;
 import java.time.Duration;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class CreateFreestyleProjectTest extends BaseTest {
 
@@ -39,6 +47,24 @@ public class CreateFreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid")).getText(),
                 "» ‘" + INVALID_CHAR + "’ is an unsafe character");
+    }
+
+    @Test
+    public void testFreestyleProjectSideMenu() {
+
+        final Set<String> expectedFreestyleProjectSideMenu = new TreeSet<>(List.of("General", "Source Code Management", "Build Triggers", "Build Environment", "Build Steps", "Post-build Actions"));
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(RandomStringUtils.randomAlphanumeric(3));
+        getDriver().findElement(By.xpath("//span[text()='Freestyle project']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+
+        List<WebElement> freestyleProjectSideMenu = getDriver().findElements(By.cssSelector("button.task-link"));
+        Set<String> actualFreestyleProjectSideMenu = new TreeSet<>();
+        for(WebElement menu : freestyleProjectSideMenu) {
+            actualFreestyleProjectSideMenu.add(menu.getText());
+        }
+        Assert.assertEquals(actualFreestyleProjectSideMenu, expectedFreestyleProjectSideMenu);
     }
 }
 
