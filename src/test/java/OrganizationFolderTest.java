@@ -253,7 +253,6 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='" + nameFolder + "']")).isDisplayed());
     }
 
-    @Ignore
     @Test(dependsOnMethods = {"testFolderCreation", "testOrgFolderCreation"})
     public void testMoveOrgFolderToFolder() {
         final By itemOrgFolderOnDashboard = By.xpath("//span[text()='" + nameOrgFolder + "']");
