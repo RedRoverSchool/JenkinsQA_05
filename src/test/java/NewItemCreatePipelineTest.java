@@ -163,40 +163,4 @@ public class NewItemCreatePipelineTest extends BaseTest {
             }
         }
     }
-
-    @Test
-    public void testConfigurePipelineScriptFromSCM() {
-        final String projectGitLink = "https://github.com/olpolezhaeva/MyAppium";
-        final String jenkinsFilePath = "jenkins/first.jenkins";
-        final String jenkinsFileFirstStepEcho = "This is MyPipelineJob!";
-
-        createPipeline(getRandomStr());
-
-        List<WebElement> selectDropDownList = getDriver().findElements(By.className("dropdownList"));
-        new Select(selectDropDownList.get(1)).selectByVisibleText("Pipeline script from SCM");
-
-        new Select(getDriver().findElement(By.cssSelector(".dropdownList-container.tr .dropdownList"))).selectByValue("1");
-        getDriver().findElement(By.xpath("//input[@checkdependson='credentialsId']")).sendKeys(projectGitLink);
-
-        WebElement branchField = getDriver().findElement(By.xpath("//div[@name='branches']//input[@default='*/master']"));
-        branchField.clear();
-        branchField.sendKeys("*/main");
-
-
-        WebElement jenkinsFilePathField = getDriver().findElement(By.xpath("//input[@default='Jenkinsfile']"));
-        jenkinsFilePathField.clear();
-        jenkinsFilePathField.sendKeys(jenkinsFilePath);
-
-        getDriver().findElement(By.cssSelector("[type='submit']")).click();
-
-        getDriver().findElement(By.linkText("Build Now")).click();
-        new WebDriverWait(getDriver(), Duration.ofSeconds(20)).until(ExpectedConditions.presenceOfElementLocated(By.className("build-icon"))).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//pre[@class='console-output']//a[2]")).getText(), projectGitLink);
-        Assert.assertEquals(getDriver().findElement(By.className("pipeline-node-17")).getText(), jenkinsFileFirstStepEcho);
-        Assert.assertEquals(getDriver().findElement(By.xpath("//pre[@class='console-output']")).getText(), "Finished: SUCCESS");
-
-
-
-    }
 }
