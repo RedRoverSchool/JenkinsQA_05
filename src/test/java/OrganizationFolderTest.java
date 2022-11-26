@@ -297,4 +297,16 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(notificationSaved().getAttribute("class")
                 , "notif-alert-success notif-alert-show");
     }
+
+    @Test
+    public void testCreateOrgFolderExistName() {
+        createNewOrganizationFolder();
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.linkText("New Item")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName);
+        getDriver().findElement(ORGANIZATION_FOLDER).click();
+        getDriver().findElement(OK_BUTTON).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//h1['Error']")).isDisplayed());
+    }
 }

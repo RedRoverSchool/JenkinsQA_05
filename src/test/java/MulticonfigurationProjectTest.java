@@ -190,6 +190,25 @@ public class MulticonfigurationProjectTest extends BaseTest {
         deleteNewMCProject(NEW_PROJECT_NAME);
     }
 
+    @Test
+    public void testCreateMultiConfigurationProjectDisabled() {
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        getDriver().findElement(By.xpath("//input[@class='jenkins-input']"))
+                .sendKeys(MulticonfigurationProjectTest.PROJECT_NAME);
+        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//*[@id='toggle-switch-enable-disable-project']/label/span[2]")).click();
+        getDriver().findElement(
+                By.xpath("//span[@class='yui-button yui-submit-button submit-button primary']")).click();
+
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+        getDriver().findElement(By.xpath("//span[text()='" + PROJECT_NAME + "']")).click();
+        String actualStatus = getDriver().findElement(By.xpath("//*[@id='enable-project']")).getText();
+
+        Assert.assertEquals(actualStatus, "This project is currently disabled\nEnable");
+    }
+    
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
     public void testFindMultiConfigurationProject(){
         getDriver().findElement(By.cssSelector("#search-box")).sendKeys(PROJECT_NAME);
