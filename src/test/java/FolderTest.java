@@ -402,4 +402,21 @@ public class FolderTest extends BaseTest {
 
         Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
     }
+
+    @Test
+    public void testCreateFreestyleProjectInFolderByNewItemDropDownInCrambMenu(){
+        final String folderName = getRandomName();
+        final String freestyleProjectName = getRandomName();
+
+        createProjectFromDashboard(FOLDER, folderName);
+
+        getDriver().findElement(By.xpath("//a[text()='" + folderName + "']//following-sibling::button")).click();
+        getDriver().findElement(By.xpath("//li/a/span[text()='New Item']")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(freestyleProjectName);
+        getDriver().findElement(FREESTYLE_PROJECT).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(By.xpath("//a[text()='" + folderName + "']")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("#job_"+ freestyleProjectName)).isEnabled());
+    }
 }
