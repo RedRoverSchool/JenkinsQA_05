@@ -239,4 +239,24 @@ public class MulticonfigurationProjectTest extends BaseTest {
                         String.format("//tr[@id='job_%s']//span[@class='build-status-icon__wrapper icon-disabled icon-md']", PROJECT_NAME))))
                 .isDisplayed());
     }
+
+    @Test
+    public void testMultiConfigurationProjectRenameToInvalidNameViaSideMenu() {
+
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys("MC Project");
+        getDriver().findElement
+                (By.xpath("//span[text()='Multi-configuration project']")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(By.xpath("//a[contains(@href,'confirm-rename')]")).click();
+        getDriver().findElement(By.xpath("//input[@name='newName']")).sendKeys("&");
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.id
+                ("main-panel")).getText(),"Error\n‘&amp;’ is an unsafe character");
+
+        deleteNewMCProject("MC Project");
+    }
 }
+
