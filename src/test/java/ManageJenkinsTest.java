@@ -8,7 +8,7 @@ import runner.BaseTest;
 public class ManageJenkinsTest extends BaseTest {
 
     @Test
-    public void testChangeFullUserName() {
+    public void testRenameFullUserName() {
         final String newFullName = RandomStringUtils.randomAlphanumeric(8);
         String UserIDName = "";
 
