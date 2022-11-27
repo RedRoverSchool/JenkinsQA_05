@@ -13,13 +13,12 @@ public class FolderOneTest extends BaseTest {
     private static final By PIPELINE_OPTION = By.xpath("//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']");
     private static final By JENKINS_ICON = By.id("jenkins-name-icon");
     private static final By CREATE_JOB = By.linkText("Create a job");
-
     private static final By TEXT_ADDRESS = By.xpath("//div[@id='main-panel']");
     private static final By SELECTION_SCRIPT = By.xpath("//div[@class='samples']/select/option[4]");
     private static final String RANDOM_FOLDER_NAME = RandomStringUtils.randomAlphanumeric(8);
     private static final String RANDOM_PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(8);
 
-    public void createFolder(){
+    private void createFolder(){
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(NAME).sendKeys(RANDOM_FOLDER_NAME);
         getDriver().findElement(FOLDER_OPTION).click();
