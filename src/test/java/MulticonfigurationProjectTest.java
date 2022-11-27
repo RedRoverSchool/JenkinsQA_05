@@ -103,7 +103,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
         alert.accept();
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testMulticonfigurationProjectAddDescription")
     public void testMultiConfigurationProjectDisable() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
@@ -225,8 +224,14 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 PROJECT_NAME);
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
+    @Test
     public void testDisableMultiMultiConfigurationProjectCheckIconDashboardPage() {
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
         getDriver().findElement(DISABLE_PROJECT).click();
         getDriver().findElement(DASHBOARD).click();
