@@ -9,7 +9,6 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -21,21 +20,25 @@ public class EditViewTest extends BaseTest {
     private static final String RANDOM_ALPHANUMERIC = UUID.randomUUID().toString().substring(0, 8);
     private static final String VIEW_PATH = String.format("//a[contains(@href, '/my-views/view/%s/')]", RANDOM_ALPHANUMERIC);
     private static final String EDIT_VIEW_PATH = String.format("//a[contains(@href, '/my-views/view/%s/configure')]", RANDOM_ALPHANUMERIC);
-
-    private static final By CSS_DASHBOARD = By.cssSelector("#jenkins-name-icon");
-    private static final By CSS_SUBMIT_BUTTON = By.cssSelector("[type='submit']");
-    private static final By CSS_ITEM_PATH = By.cssSelector(".jenkins-table__link");
-    private static final By CSS_ITEM_OPTION = By.cssSelector("input[json='true']+label");
-    private static final By CSS_FILTER_QUEUE = By.cssSelector("input[name=filterQueue]+label");
-    private static final By CSS_FILTER_EXECUTORS = By.cssSelector("input[name=filterExecutors]+label");
-    private static final By CSS_NEW_ITEM = By.cssSelector("a[href='/view/all/newJob']");
-    private static final By XP_MY_VIEWS = By.xpath("//a[@href='/me/my-views']");
-    private static final By CSS_REGEX = By.cssSelector("input[name='useincluderegex']+label");
-    private static final By ID_INPUT_NAME = By.id("name");
-    private static final By CSS_JOB = By.cssSelector(".jenkins-table__link");
-    private static final By XP_STATUS_DRAG_HANDLE = By.xpath("//div[@descriptorid='hudson.views.StatusColumn']//div[@class='dd-handle']");
-    private static final By XP_WEATHER_DRAG_HANDLE = By.xpath("//div[@descriptorid='hudson.views.WeatherColumn']//div[@class='dd-handle']");
-    private static final By CSS_DELETE_VIEW = By.cssSelector("a[href='delete']");
+    private static final By DASHBOARD_CSS = By.cssSelector("#jenkins-name-icon");
+    private static final By SUBMIT_BUTTON_CSS = By.cssSelector("[type='submit']");
+    private static final By ITEM_PATH_CSS = By.cssSelector(".jenkins-table__link");
+    private static final By ITEM_OPTION_CSS = By.cssSelector("input[json='true']+label");
+    private static final By FILTER_QUEUE_CSS = By.cssSelector("input[name=filterQueue]+label");
+    private static final By FILTER_EXECUTORS_CSS = By.cssSelector("input[name=filterExecutors]+label");
+    private static final By NEW_ITEM_CSS = By.cssSelector("a[href='/view/all/newJob']");
+    private static final By MY_VIEWS_XP = By.xpath("//a[@href='/me/my-views']");
+    private static final By REGEX_CSS = By.cssSelector("input[name='useincluderegex']+label");
+    private static final By INPUT_NAME_ID = By.id("name");
+    private static final By JOB_CSS = By.cssSelector(".jenkins-table__link");
+    private static final By STATUS_DRAG_HANDLE_XP = By.xpath("//div[@descriptorid='hudson.views.StatusColumn']//div[@class='dd-handle']");
+    private static final By WEATHER_DRAG_HANDLE_XP = By.xpath("//div[@descriptorid='hudson.views.WeatherColumn']//div[@class='dd-handle']");
+    private static final By DELETE_VIEW_CSS = By.cssSelector("a[href='delete']");
+    private static final By USER_NAME_PATH_XP = By.xpath("//a[@class='model-link' and contains(@href,'/user/')]");
+    private static final By ERROR_MSG_CSS = By.xpath("//div[@class='input-validation-message']");
+    private static final By CONFIGURE_XP = By.xpath(String.format("//a[@href='/job/%s/configure']", RANDOM_ALPHANUMERIC));
+    private static final By VIEWFINDER_CSS = By.cssSelector(String.format("a[href='/user/sergedot/my-views/view/%s'])", RANDOM_ALPHANUMERIC));
+    private static final By DATA_MODEL_TYPE_CSS = By.cssSelector("[data-model-type='hudson.model.ProxyView']");
 
     private void createItem(int i){
         final By CSS_FREESTYLE_0 = By.cssSelector(".j-item-options .hudson_model_FreeStyleProject");
@@ -46,7 +49,7 @@ public class EditViewTest extends BaseTest {
         final By CSS_ORGFOLDER_5 = By.cssSelector(".j-item-options .jenkins_branch_OrganizationFolder");
         final By[] menuOptions = {CSS_FREESTYLE_0,CSS_PIPELINE_1, CSS_MULTICONFIG_2, CSS_FOLDER_3, CSS_MULTIBRANCH_4, CSS_ORGFOLDER_5};
 
-        getDriver().findElement(CSS_NEW_ITEM).click();
+        getDriver().findElement(NEW_ITEM_CSS).click();
         getDriver().findElement(By.cssSelector("#name.jenkins-input")).sendKeys(UUID.randomUUID().toString().substring(0, 8));
         getDriver().findElement(menuOptions[i]).click();
         List<WebElement> errors = getDriver().findElements(By.cssSelector(".input-validation-message"));
@@ -55,8 +58,8 @@ public class EditViewTest extends BaseTest {
             System.out.println(errors.size());
             System.out.println(errors.stream().map(WebElement::getText).collect(Collectors.toList()));
         }
-        getDriver().findElement(CSS_SUBMIT_BUTTON).submit();
-        getDriver().findElement(CSS_DASHBOARD).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).submit();
+        getDriver().findElement(DASHBOARD_CSS).click();
     }
 
     public void createManyItems(int i){
@@ -71,9 +74,9 @@ public class EditViewTest extends BaseTest {
     }
 
     public void deleteAllItems(){
-        int jobList = getDriver().findElements(CSS_JOB).size();
+        int jobList = getDriver().findElements(JOB_CSS).size();
         for(int i = 0; i  < jobList; i++) {
-            getDriver().findElement(CSS_JOB).findElement(By.cssSelector(".jenkins-menu-dropdown-chevron")).click();
+            getDriver().findElement(JOB_CSS).findElement(By.cssSelector(".jenkins-menu-dropdown-chevron")).click();
             WebElement menuItemDelete = getDriver().findElement(By.partialLinkText("Delete"));
             if(menuItemDelete.getText().equals("Delete Project")||
                     menuItemDelete.getText().equals("Delete Pipeline")||
@@ -87,40 +90,40 @@ public class EditViewTest extends BaseTest {
         }
     }
 
-
-    public String getUserName(String url) {
+    public String getUserName() {
+        String url = getDriver().findElement(USER_NAME_PATH_XP).getAttribute("href");
         return url.substring(6,url.length()-1);
     }
 
     public void createGlobalView() {
-        getDriver().findElement(XP_MY_VIEWS).click();
+        getDriver().findElement(MY_VIEWS_XP).click();
         getDriver().findElement(By.cssSelector(".addTab")).click();
-        getDriver().findElement(ID_INPUT_NAME).sendKeys(RANDOM_ALPHANUMERIC);
+        getDriver().findElement(INPUT_NAME_ID).sendKeys(RANDOM_ALPHANUMERIC);
         getDriver().findElement(By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.ProxyView']")).click();
-        getDriver().findElement(CSS_SUBMIT_BUTTON).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
     }
 
     public void createListView() {
-        getDriver().findElement(XP_MY_VIEWS).click();
+        getDriver().findElement(MY_VIEWS_XP).click();
         getDriver().findElement(By.cssSelector(".addTab")).click();
-        getDriver().findElement(ID_INPUT_NAME).sendKeys(RANDOM_ALPHANUMERIC);
+        getDriver().findElement(INPUT_NAME_ID).sendKeys(RANDOM_ALPHANUMERIC);
         getDriver().findElement(By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.ListView']")).click();
-        getDriver().findElement(CSS_SUBMIT_BUTTON).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
     }
 
     public void goToEditView() {
-        getDriver().findElement(CSS_DASHBOARD).click();
-        getDriver().findElement(XP_MY_VIEWS).click();
+        getDriver().findElement(DASHBOARD_CSS).click();
+        getDriver().findElement(MY_VIEWS_XP).click();
         getDriver().findElement(By.xpath(VIEW_PATH)).click();
         getDriver().findElement(By.xpath(EDIT_VIEW_PATH)).click();
     }
 
     public void deleteCreatedView() {
-        getDriver().findElement(CSS_DASHBOARD).click();
-        getDriver().findElement(XP_MY_VIEWS).click();
+        getDriver().findElement(DASHBOARD_CSS).click();
+        getDriver().findElement(MY_VIEWS_XP).click();
         getDriver().findElement(By.xpath(VIEW_PATH)).click();
-        getDriver().findElement(CSS_DELETE_VIEW).click();
-        getDriver().findElement(CSS_SUBMIT_BUTTON).click();
+        getDriver().findElement(DELETE_VIEW_CSS).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
     }
 
     public void globalViewSeriesPreConditions() {
@@ -133,16 +136,24 @@ public class EditViewTest extends BaseTest {
         createListView();
     }
 
+    public void deleteAllViews(){
+        getDriver().findElement(MY_VIEWS_XP).click();
+        List<WebElement> allViews = getDriver().findElements(By.xpath(String.format("//a[contains(@href, '/user/%s/my-views/view')]", getUserName())));
+        for (WebElement element : allViews) {
+            element.click();
+            getDriver().findElement(DELETE_VIEW_CSS).click();
+            getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        }
+    }
+
     @Test
     public void testGlobalViewAddFilterBuildQueue() {
         globalViewSeriesPreConditions();
-
-        getDriver().findElement(CSS_FILTER_QUEUE).click();
-        getDriver().findElement(CSS_SUBMIT_BUTTON).click();
+        getDriver().findElement(FILTER_QUEUE_CSS).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
         boolean newPaneIsDisplayed = getDriver().findElements(By.cssSelector(".pane-header-title"))
                 .stream().map(element -> element.getText()).collect(Collectors.toList())
                 .contains("Filtered Build Queue");
-
         Assert.assertTrue(newPaneIsDisplayed);
         deleteCreatedView();
     }
