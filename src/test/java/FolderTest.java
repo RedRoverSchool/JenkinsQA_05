@@ -218,24 +218,18 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreate")
     public void testCreateMultiConfigurationProjectInFolder() {
 
-        final String folderName = getRandomName();
         final String multiConfigurationProjectName = getRandomName();
 
-        getDriver().findElement(CREATE_NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(folderName);
-        getDriver().findElement(By.className("com_cloudbees_hudson_plugins_folder_Folder")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-
-        getDriver().findElement(By.xpath("//span[text() = 'Create a job']")).click();
+        getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).click();
+        getDriver().findElement(CREATE_A_JOB).click();
         getDriver().findElement(INPUT_NAME).sendKeys(multiConfigurationProjectName);
         getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(By.xpath("//a[text()='" + folderName + "']")).click();
+        getDriver().findElement(By.xpath("//a[text()='" + generatedString + "']")).click();
 
         Assert.assertTrue(getProjectNameFromProjectTable().contains(multiConfigurationProjectName));
     }
