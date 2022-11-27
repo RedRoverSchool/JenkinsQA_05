@@ -1,4 +1,5 @@
 import java.time.Duration;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -32,10 +33,11 @@ public class OrganizationFolderTest extends BaseTest {
     private static final By NEW_ITEM = By.linkText("New Item");
     private static final By BUTTON_DELETE_ORGANIZATION_FOLDER = By.xpath("//div[@id='tasks']//a[contains(@href, 'delete')]");
     private static final By BUTTON_SUBMIT = By.xpath("//button[@type= 'submit']");
-    private String nameOrgFolder, nameFolder;
+    private static final String NAME_ORG_FOLDER = randomName();
+    private static final String NAME_FOLDER = randomName();
 
     private WebElement notificationSaved() {
-         return getDriver().findElement(By.cssSelector("#notification-bar"));
+        return getDriver().findElement(By.cssSelector("#notification-bar"));
     }
 
     private WebDriverWait getWait() {
@@ -58,10 +60,6 @@ public class OrganizationFolderTest extends BaseTest {
         return getDriver().findElement(DASHBOARD);
     }
 
-    public WebElement getApplyButton() {
-        return getDriver().findElement(APPLY_BUTTON);
-    }
-
     public WebElement getInputLine() {
         return getDriver().findElement(INPUT_LINE);
     }
@@ -78,7 +76,7 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(SAVE_BUTTON).click();
     }
 
-    private String randomName() {
+    private static String randomName() {
         return RandomStringUtils.randomAlphabetic(8);
     }
 
@@ -183,6 +181,7 @@ public class OrganizationFolderTest extends BaseTest {
         final By itemInDashboard = By.xpath("//span[text()='" + uniqueOrganizationFolderName + 5 + "']");
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+
         wait.until(ExpectedConditions.elementToBeClickable(itemInDashboard));
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
                 getDriver().findElement(itemInDashboard));
@@ -204,10 +203,8 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testOrgFolderCreation() {
-        nameOrgFolder = randomName();
-
         getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(nameOrgFolder);
+        getDriver().findElement(INPUT_NAME).sendKeys(NAME_ORG_FOLDER);
         WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
@@ -215,28 +212,26 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen15-button")).click();
         getDashboard().click();
 
-        WebElement orgFolder = getDriver().findElement(By.xpath("//span[text()='" + nameOrgFolder + "']"));
+        WebElement orgFolder = getDriver().findElement(By.xpath("//span[text()='" + NAME_ORG_FOLDER + "']"));
 
         Assert.assertTrue(orgFolder.isDisplayed());
     }
 
     @Test
     public void testFolderCreation() {
-        nameFolder = randomName();
-
         getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(nameFolder);
+        getDriver().findElement(INPUT_NAME).sendKeys(NAME_FOLDER);
         getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(By.id("yui-gen6-button")).click();
         getDashboard().click();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='" + nameFolder + "']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='" + NAME_FOLDER + "']")).isDisplayed());
     }
 
     @Test(dependsOnMethods = {"testFolderCreation", "testOrgFolderCreation"})
     public void testMoveOrgFolderToFolder() {
-        final By itemOrgFolderOnDashboard = By.xpath("//span[text()='" + nameOrgFolder + "']");
+        final By itemOrgFolderOnDashboard = By.xpath("//span[text()='" + NAME_ORG_FOLDER + "']");
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
 
@@ -247,14 +242,14 @@ public class OrganizationFolderTest extends BaseTest {
                 getDriver().findElement(itemOrgFolderOnDashboard));
         getDriver().findElement(By.linkText("Move")).click();
         getDriver().findElement(By.name("destination")).click();
-        getDriver().findElement(By.xpath("//option[contains(text(),'" + nameFolder + "')]")).click();
+        getDriver().findElement(By.xpath("//option[contains(text(),'" + NAME_FOLDER + "')]")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDashboard().click();
 
         wait.until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("dashboard"))));
-        WebElement myFolder = getDriver().findElement(By.xpath("//span[text()='" + nameFolder + "']"));
+        WebElement myFolder = getDriver().findElement(By.xpath("//span[text()='" + NAME_FOLDER + "']"));
 
-        Assert.assertFalse(isElementExist(nameOrgFolder));
+        Assert.assertFalse(isElementExist(NAME_ORG_FOLDER));
         Assert.assertTrue(myFolder.isDisplayed());
 
         wait.until(ExpectedConditions.elementToBeClickable(myFolder));
