@@ -1,17 +1,17 @@
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class FreestyleProjectTest extends BaseTest {
@@ -191,6 +191,25 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectConfigureByDropdown")
+    public void testFreestyleProjectConfigureMenu() {
+        getDriver().findElement(By.xpath("//a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='general']"))
+                .getText(), "General");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='source-code-management']"))
+                .getText(), "Source Code Management");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']"))
+                .getText(), "Build Triggers");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='build-environment']"))
+                .getText(), "Build Environment");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='build-steps']"))
+                .getText(), "Build Steps");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='post-build-actions']"))
+                .getText(), "Post-build Actions");
+    }
+
+    @Test(dependsOnMethods = "testFreestyleProjectConfigureMenu")
     public void testCreateNewFreestyleProjectWithDupicateName() {
         getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
 
@@ -300,6 +319,22 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(countBuildsAfterCreatingNewBuild, countBuildsBeforeCreatingNewBuild + 1);
     }
 
+    @Test
+    public void testCreateFreestyleProject() {
+        String name = TestUtils.getRandomStr(5);
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(name);
+        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+        getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
+        getDriver().findElement(BUTTON_SAVE).click();
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+
+        List<WebElement> lstWithElements = getDriver().findElements(By.xpath("//table[@id='projectstatus']//tbody//tr//td//a"));
+        List<String> lstWithStrings = lstWithElements.stream().map(WebElement::getText).collect(Collectors.toList());
+
+        Assert.assertTrue(lstWithStrings.contains(name));
+    }
+
     @Test(dependsOnMethods = "testCreateBuildNowOnFreestyleProjectPage")
     public void testFreestyleProjectBuild() {
         getDriver().findElement(By.linkText(NEW_FREESTYLE_NAME)).click();
@@ -310,6 +345,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .until(ExpectedConditions.numberOfElementsToBeMoreThan(BUILDS_LOCATOR, initialBuildCount)).size();
 
         Assert.assertEquals(actualBuildCount, initialBuildCount + 1);
+
     }
 
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithEngineerName")
@@ -321,5 +357,22 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']")).getText(),
                 "Error\n‘!’ is an unsafe character");
+    }
+
+    @Test(dependsOnMethods = "testEditFreestyleProjectWithDescription")
+    public void testFreestyleProjectSideMenu() {
+
+        final Set<String> expectedFreestyleProjectSideMenu = new TreeSet<>(List.of("General", "Source Code Management", "Build Triggers", "Build Environment", "Build Steps", "Post-build Actions"));
+
+        getDriver().findElements(By.xpath("//tr/td/a")).get(0).click();
+        getDriver().findElement(By.linkText("Configure")).click();
+
+        List<WebElement> freestyleProjectSideMenu = getDriver().findElements(By.cssSelector("button.task-link"));
+        Set<String> actualFreestyleProjectSideMenu = new TreeSet<>();
+        for(WebElement menu : freestyleProjectSideMenu) {
+            actualFreestyleProjectSideMenu.add(menu.getText());
+        }
+
+        Assert.assertEquals(actualFreestyleProjectSideMenu, expectedFreestyleProjectSideMenu);
     }
 }
