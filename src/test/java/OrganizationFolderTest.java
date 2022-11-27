@@ -8,7 +8,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -90,21 +89,6 @@ public class OrganizationFolderTest extends BaseTest {
         } catch (NoSuchElementException e) {
             return false;
         }
-    }
-
-    private void createOrgFolder(String name) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(name);
-        getDriver().findElement(ORGANIZATION_FOLDER).click();
-        new Actions(getDriver())
-                .pause(2000)
-                .moveToElement(getDriver().findElement(OK_BUTTON))
-                .build().perform();
-        wait.until(ExpectedConditions.elementToBeClickable(OK_BUTTON));
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(By.id("yui-gen15-button")).click();
-        getDashboard().click();
     }
 
     @Test
@@ -194,14 +178,11 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertFalse(getDriver().findElement(OK_BUTTON).isEnabled());
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateOrgFolder")
     public void testDeleteOrganizationFolder() {
-        final String nameFolder = randomName();
-        final By itemInDashboard = By.xpath("//span[text()='" + nameFolder + "']");
+        final By itemInDashboard = By.xpath("//span[text()='" + uniqueOrganizationFolderName + 5 + "']");
+
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-
-        createOrgFolder(nameFolder);
-
         wait.until(ExpectedConditions.elementToBeClickable(itemInDashboard));
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
                 getDriver().findElement(itemInDashboard));
@@ -218,7 +199,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .map(element -> element.getText())
                 .collect(Collectors.toList());
 
-        Assert.assertFalse(foldersList.contains(nameFolder));
+        Assert.assertFalse(foldersList.contains(uniqueOrganizationFolderName + 5));
     }
 
     @Test
