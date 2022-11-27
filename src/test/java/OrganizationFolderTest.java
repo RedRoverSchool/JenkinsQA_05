@@ -34,8 +34,8 @@ public class OrganizationFolderTest extends BaseTest {
     private static final By BUTTON_DELETE_ORGANIZATION_FOLDER = By.xpath("//div[@id='tasks']//a[contains(@href, 'delete')]");
     private static final By BUTTON_SUBMIT = By.xpath("//button[@type= 'submit']");
 
-    private static final String NAME_ORG_FOLDER = randomName();
-    private static final String NAME_FOLDER = randomName();
+    private static final String NAME_ORG_FOLDER = TestUtils.getRandomStr();
+    private static final String NAME_FOLDER = TestUtils.getRandomStr();
 
     private static final By ITEM_FOLDER = By.xpath("//span[text()='" + NAME_FOLDER + "']");
 
@@ -80,10 +80,6 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(ORGANIZATION_FOLDER).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
-    }
-
-    private static String randomName() {
-        return RandomStringUtils.randomAlphabetic(8);
     }
 
     private boolean isElementExist(String name) {
