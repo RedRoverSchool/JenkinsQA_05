@@ -9,7 +9,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -96,7 +95,6 @@ public class OrganizationFolderTest extends BaseTest {
         }
     }
 
-    @Ignore
     @Test
     public void testCreateOrganizationFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -108,7 +106,6 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(TITLE).getText(), uniqueOrganizationFolderName + "2");
     }
 
-    @Ignore
     @Test
     public void testRenameOrganizationFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -126,7 +123,6 @@ public class OrganizationFolderTest extends BaseTest {
                 .getText(), "New Organization Folder");
     }
 
-    @Ignore
     @Test
     public void testRenameOrganizationFolder1() {
         createNewOrganizationFolder();
@@ -139,7 +135,6 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(TITLE).getText(), uniqueOrganizationFolderName + "1");
     }
 
-    @Ignore
     @Test
     public void testCreateOrganizationFolderWithCheckOnDashbord() {
         final String organizationFolderName = "OrganizationFolder_" + (int) (Math.random() * 100);
@@ -164,7 +159,6 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(actualResult);
     }
 
-    @Ignore
     @Test
     public void testCreateOrgFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -177,7 +171,6 @@ public class OrganizationFolderTest extends BaseTest {
                 findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), uniqueOrganizationFolderName + 5);
     }
 
-    @Ignore
     @Test
     public void testCreateOrgFolderEmptyName() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -189,7 +182,6 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertFalse(getDriver().findElement(OK_BUTTON).isEnabled());
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateOrgFolder")
     public void testDeleteOrganizationFolder() {
         final By itemInDashboard = By.xpath("//span[text()='" + uniqueOrganizationFolderName + 5 + "']");
@@ -226,9 +218,6 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen15-button")).click();
         getDashboard().click();
 
-//        WebElement orgFolder = getDriver().findElement(By.xpath("//span[text()='" + NAME_ORG_FOLDER + "']"));
-        //WebElement orgFolder = getDriver().findElement(ITEM_ORG_FOLDER);
-
         Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
     }
 
@@ -241,14 +230,11 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen6-button")).click();
         getDashboard().click();
 
-        //Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='" + NAME_FOLDER + "']")).isDisplayed());
         Assert.assertTrue(getDriver().findElement(ITEM_FOLDER).isDisplayed());
     }
 
     @Test(dependsOnMethods = {"testFolderCreation", "testOrgFolderCreation"})
     public void testMoveOrgFolderToFolder() {
-        //final By itemOrgFolderOnDashboard = By.xpath("//span[text()='" + NAME_ORG_FOLDER + "']");
-
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
 
         wait.until(ExpectedConditions.elementToBeClickable(ITEM_ORG_FOLDER));
@@ -258,13 +244,12 @@ public class OrganizationFolderTest extends BaseTest {
                 getDriver().findElement(ITEM_ORG_FOLDER));
         getDriver().findElement(By.linkText("Move")).click();
         getDriver().findElement(By.name("destination")).click();
-        //getDriver().findElement(By.xpath("//option[contains(text(),'" + NAME_FOLDER + "')]")).click();
-        getDriver().findElement(ITEM_FOLDER).click();
+        getDriver().findElement(By.xpath("//option[contains(text(),'" + NAME_FOLDER + "')]")).click();
+
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDashboard().click();
 
         wait.until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("dashboard"))));
-        //WebElement myFolder = getDriver().findElement(By.xpath("//span[text()='" + NAME_FOLDER + "']"));
         WebElement myFolder = getDriver().findElement(ITEM_FOLDER);
 
         Assert.assertFalse(isElementExist(NAME_ORG_FOLDER));
@@ -277,7 +262,6 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
     }
 
-    @Ignore
     @Test
     public void testCheckNotificationAfterApply() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -292,7 +276,6 @@ public class OrganizationFolderTest extends BaseTest {
                 , "notif-alert-success notif-alert-show");
     }
 
-    @Ignore
     @Test
     public void testCreateOrgFolderExistName() {
         createNewOrganizationFolder();
@@ -307,9 +290,6 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testMoveOrgFolderToFolder")
     public void testMoveOrgFolderToDashboard() {
-//        final By itemFolder = By.xpath("//span[text()='" + NAME_FOLDER + "']");
-//        final By itemOrgFolder = By.xpath("//span[text()= '" + NAME_ORG_FOLDER + "']");
-
         getDashboard().click();
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
@@ -333,7 +313,6 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
 
         WebElement myFolder = getDriver().findElement(ITEM_FOLDER);
-
         wait.until(ExpectedConditions.elementToBeClickable(myFolder));
         ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", myFolder);
         myFolder.click();
