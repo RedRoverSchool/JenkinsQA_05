@@ -61,4 +61,43 @@ public class FreestyleProjectSecondTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
                 "Project " + VALID_NAME);
     }
+
+    @Test(dependsOnMethods = "testCreateWithDescriptionFreestyleProject")
+    public void testConfigurationProvideDiscardOldBuildsWithDaysToKeepBuilds() {
+        String expectedDaysToKeepBuilds = Integer.toString((int)(Math.random()*10));
+        String actualDaysToKeepBuilds;
+
+        getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
+                .click();
+        getDriver().findElement(By.xpath("//span/label[text()='Discard old builds']")).click();
+        getDriver().findElement(By.xpath("//input[@name='_.daysToKeepStr']"))
+                .sendKeys(expectedDaysToKeepBuilds);
+        getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
+        getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
+                .click();
+        actualDaysToKeepBuilds = getDriver().findElement(By.xpath("//input[@name='_.daysToKeepStr']"))
+                .getAttribute("value");
+
+        Assert.assertEquals(actualDaysToKeepBuilds,expectedDaysToKeepBuilds);
+    }
+
+    @Test(dependsOnMethods = "testConfigurationProvideDiscardOldBuildsWithDaysToKeepBuilds")
+    public void testConfigurationProvideKeepMaxNumberOfOldBuilds() {
+        String expectedMaxNumberToKeepBuilds = Integer.toString((int)(Math.random()*20 + 1));
+        String actualMaxNumberToKeepBuilds;
+
+        getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
+                .click();
+        getDriver().findElement(By.xpath("//input[@name='_.numToKeepStr']"))
+                .sendKeys(expectedMaxNumberToKeepBuilds);
+        getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
+        getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
+                .click();
+        actualMaxNumberToKeepBuilds = getDriver().findElement(By.xpath("//input[@name='_.numToKeepStr']"))
+                .getAttribute("value");
+
+        Assert.assertEquals(actualMaxNumberToKeepBuilds,expectedMaxNumberToKeepBuilds);
+    }
 }
