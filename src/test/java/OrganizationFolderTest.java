@@ -41,7 +41,6 @@ public class OrganizationFolderTest extends BaseTest {
 
     private static final By ITEM_ORG_FOLDER = By.xpath("//span[text()= '" + NAME_ORG_FOLDER + "']");
 
-
     private WebElement notificationSaved() {
         return getDriver().findElement(By.cssSelector("#notification-bar"));
     }
