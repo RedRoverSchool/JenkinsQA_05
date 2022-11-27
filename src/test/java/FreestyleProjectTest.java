@@ -375,4 +375,14 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(actualFreestyleProjectSideMenu, expectedFreestyleProjectSideMenu);
     }
+
+    @Test
+    public void testCreateFreestyleProjectWithEmptyName() {
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+
+        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
+                "» This field cannot be empty, please enter a valid name");
+        Assert.assertFalse(getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).isEnabled());
+    }
 }
