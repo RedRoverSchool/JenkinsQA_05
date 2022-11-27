@@ -241,7 +241,6 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(By.linkText("Move")).click();
         getDriver().findElement(By.name("destination")).click();
         getDriver().findElement(By.xpath("//option[contains(text(),'" + NAME_FOLDER + "')]")).click();
-
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDashboard().click();
 
