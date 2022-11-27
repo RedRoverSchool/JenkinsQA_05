@@ -2,13 +2,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class ManageJenkinsTest extends BaseTest {
 
-    @Ignore
     @Test
     public void testRenameFullUserName() {
         final String newFullName = RandomStringUtils.randomAlphanumeric(8);
@@ -19,7 +17,7 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(By.className("jenkins-table__button")).click();
         getDriver().findElement(By.name("_.fullName")).clear();
         getDriver().findElement(By.name("_.fullName")).sendKeys(newFullName);
-        getDriver().findElement(By.id("yui-gen3-button")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
         getDriver().navigate().refresh();
 
         String actualFullNameOnBreadCrumbs = getDriver().findElement(
