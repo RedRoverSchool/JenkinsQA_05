@@ -10,11 +10,10 @@ public class ManageJenkinsTest extends BaseTest {
     @Test
     public void testRenameFullUserName() {
         final String newFullName = RandomStringUtils.randomAlphanumeric(8);
-        String UserIDName = "";
 
         getDriver().findElement(By.linkText("Manage Jenkins")).click();
         getDriver().findElement(By.xpath("//a[@href='securityRealm/']")).click();
-        UserIDName = getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']")).getText();
+        String UserIDName = getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']")).getText();
         getDriver().findElement(By.className("jenkins-table__button")).click();
         getDriver().findElement(By.name("_.fullName")).clear();
         getDriver().findElement(By.name("_.fullName")).sendKeys(newFullName);
