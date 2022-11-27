@@ -2,11 +2,13 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class ManageJenkinsTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testRenameFullUserName() {
         final String newFullName = RandomStringUtils.randomAlphanumeric(8);
