@@ -285,8 +285,42 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1['Error']")).isDisplayed());
     }
 
-    @Test
+    @Test(dependsOnMethods = "testMoveOrgFolderToFolder")
     public void testMoveOrgFolderToDashboard(){
+
+        getDashboard().click();
+
+        final By itemFolder = By.xpath("//span[text()='" + NAME_FOLDER + "']");
+        final By itemOrgFolder = By.xpath("//span[text()= '"+NAME_ORG_FOLDER+"']");
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+
+        wait.until(ExpectedConditions.elementToBeClickable(itemFolder));
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
+                getDriver().findElement(itemFolder));
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();",
+                getDriver().findElement(itemFolder));
+        wait.until(ExpectedConditions.elementToBeClickable(itemOrgFolder));
+
+        getDriver().findElement(itemOrgFolder).click();
+        getDriver().findElement(By.linkText("Move")).click();
+        getDriver().findElement(By.name("destination")).click();
+        getDriver().findElement(By.xpath("//option[text()='Jenkins']")).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+        getDashboard().click();
+
+        wait.until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("dashboard"))));
+        WebElement myOrgFolder = getDriver().findElement(By.xpath("//span[text()='" + NAME_ORG_FOLDER + "']"));
+        WebElement myFolder = getDriver().findElement(By.xpath("//span[text()='" + NAME_FOLDER + "']"));
+
+        //Assert.assertFalse(isElementExist(nameOrgFolder));
+        Assert.assertTrue(myOrgFolder.isDisplayed());
+
+        wait.until(ExpectedConditions.elementToBeClickable(myFolder));
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", myFolder);
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", myFolder);
+
+        Assert.assertFalse(isElementExist(NAME_ORG_FOLDER));
 
     }
 
