@@ -284,4 +284,11 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1['Error']")).isDisplayed());
     }
+
+    @Test
+    public void testMoveOrgFolderToDashboard(){
+
+    }
+
+
 }
