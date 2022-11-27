@@ -191,6 +191,25 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectConfigureByDropdown")
+    public void testFreestyleProjectConfigureMenu() {
+        getDriver().findElement(By.xpath("//a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='general']"))
+                .getText(), "General");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='source-code-management']"))
+                .getText(), "Source Code Management");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']"))
+                .getText(), "Build Triggers");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='build-environment']"))
+                .getText(), "Build Environment");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='build-steps']"))
+                .getText(), "Build Steps");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='post-build-actions']"))
+                .getText(), "Post-build Actions");
+    }
+
+    @Test(dependsOnMethods = "testFreestyleProjectConfigureMenu")
     public void testCreateNewFreestyleProjectWithDupicateName() {
         getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
 

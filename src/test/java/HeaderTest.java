@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,6 +17,19 @@ public class HeaderTest extends BaseTest {
     private void openUserDropdownMenu() {
         getDriver().findElement(
                 By.cssSelector("header#page-header .jenkins-menu-dropdown-chevron")).click();
+    }
+
+    private void createOrganizationFolder() {
+        for(int i = 1; i <= 4; i++) {
+            String organizationFolderName = "OrganizationFolder_" + (int) (Math.random() * 1000);
+
+            getDriver().findElement(By.linkText("New Item")).click();
+            getDriver().findElement(By.cssSelector(".jenkins_branch_OrganizationFolder")).click();
+            getDriver().findElement(By.xpath("//input [@name = 'name']")).sendKeys(organizationFolderName);
+            getDriver().findElement(By.id("ok-button")).click();
+            getDriver().findElement(By.id("yui-gen15-button")).click();
+            getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+        }
     }
 
     @Test
@@ -40,19 +54,20 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testCountAndNamesItemsInUserDropdownMenu() {
-        openUserDropdownMenu();
+        getDriver().findElement(
+                By.cssSelector("header#page-header .jenkins-menu-dropdown-chevron")).click();
         List<WebElement> userDropdownItems = getDriver().findElements(
                 By.cssSelector(".first-of-type > .yuimenuitem"));
         int actualItemsCount = 0;
         StringBuilder actualNamesItems = new StringBuilder();
         for (WebElement item : userDropdownItems) {
             actualItemsCount++;
-            actualNamesItems.append(item.getText()).append(" ");
+            actualNamesItems.append(item.getText());
         }
 
         Assert.assertEquals(actualItemsCount, 4);
-        Assert.assertEquals(actualNamesItems.toString().trim(),
-                "Builds Configure My Views Credentials");
+        Assert.assertEquals(actualNamesItems.toString(),
+                "BuildsConfigureMy ViewsCredentials");
     }
 
     @Test
@@ -142,6 +157,21 @@ public class HeaderTest extends BaseTest {
         boolean actualResultPage = wait.until(ExpectedConditions.urlContains("http://localhost:8080/"));
 
         Assert.assertTrue(actualResultPage);
+    }
+
+    @Test
+    public void testCheckTheAppropriateSearchResult(){
+        createOrganizationFolder();
+
+        getDriver().findElement(By.id("search-box")).sendKeys("organiza");
+        getDriver().findElement(By.id("search-box")).sendKeys(Keys.ENTER);
+        List<WebElement> listSearchResult = getDriver().findElements(By.xpath("//div[@id='main-panel']/ol/li"));
+
+        Assert.assertTrue(listSearchResult.size() > 0);
+
+        for (WebElement a : listSearchResult) {
+            Assert.assertTrue(a.getText().toLowerCase().contains("organiza"));
+        }
     }
 }
 
