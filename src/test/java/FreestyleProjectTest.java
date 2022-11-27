@@ -20,6 +20,8 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String FREESTYLE_NAME_WITH_DESCRIPTION = RandomStringUtils.randomAlphanumeric(10);
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final String FREESTYLE_DESCRIPTION = RandomStringUtils.randomAlphanumeric(10);
+    private static final String VALID_FREESTYLE_PROJECT_NAME = "First project";
+    private static final String DESCRIPTION_INPUT = "Description Text";
     private static final By LINK_NEW_ITEM = By.linkText("New Item");
     private static final By FIELD_ENTER_AN_ITEM_NAME = By.id("name");
     private static final By LINK_FREESTYLE_PROJECT = By.cssSelector(".hudson_model_FreeStyleProject");
@@ -384,5 +386,21 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
                 "» This field cannot be empty, please enter a valid name");
         Assert.assertFalse(getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).isEnabled());
+    }
+
+    @Test
+    public void testCreateFreestyleProjectWithValidNameAndDescription() {
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(VALID_FREESTYLE_PROJECT_NAME);
+        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+        getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
+        getDriver().findElement(DESCRIPTION_TEXT_FIELD).sendKeys(DESCRIPTION_INPUT);
+        getDriver().findElement(BUTTON_SAVE).click();
+
+        Assert.assertEquals(getDriver().findElement(JOB_HEADLINE_LOCATOR).getText(),
+                "Project " + VALID_FREESTYLE_PROJECT_NAME);
+        Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(),
+                DESCRIPTION_INPUT);
+
     }
 }
