@@ -3,9 +3,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import java.time.Duration;
 
 public class ManageJenkinsTest extends BaseTest {
 
@@ -52,5 +55,40 @@ public class ManageJenkinsTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElements(By.xpath("//div[@id='main-panel']//tbody//tr")).isEmpty());
         Assert.assertEquals(actualText[actualText.length - 1], expectedText);
+    }
+
+    @Test
+    public void testPluginManager() {
+
+        final String pluginName = "TestNG Results";
+        final By pluginManager = By.xpath("//a[@href='pluginManager']");
+        final By availablePluginsTab = By.xpath("//a[@href='./available']");
+        final By searchField = By.id("filter-box");
+        final By pluginsTableRows = By.xpath("//div[@id='main-panel']//tbody//tr");
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        getDriver().findElement(MANAGE_JENKINS).click();
+        getDriver().findElement(pluginManager).click();
+        getDriver().findElement(availablePluginsTab).click();
+        getDriver().findElement(searchField).sendKeys(pluginName);
+        getDriver().findElement(By.xpath("//tr[@data-plugin-id='testng-plugin']//label")).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+
+        wait.until(ExpectedConditions.textToBe(By.id("status26"), "Success"));
+        wait.until(ExpectedConditions.textToBe(By.id("status28"), "Success"));
+
+        getDriver().findElement(By.linkText("Go back to the top page")).click();
+        getDriver().findElement(MANAGE_JENKINS).click();
+        getDriver().findElement(pluginManager).click();
+        getDriver().findElement(availablePluginsTab).click();
+        getDriver().findElement(searchField).sendKeys(pluginName);
+
+        wait.until(ExpectedConditions.numberOfElementsToBe(pluginsTableRows, 0));
+
+        getDriver().findElement(By.xpath("//a[@href='./installed']")).click();
+        getDriver().findElement(searchField).sendKeys(pluginName);
+
+        Assert.assertFalse(getDriver().findElements(pluginsTableRows).isEmpty());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//tr[@data-plugin-id='testng-plugin']")).isDisplayed());
     }
 }
