@@ -125,4 +125,11 @@ public class JenkinsUtils {
                 getSubstringsFromPage(viewPage, "href=\"/user/admin/my-views/view/", "/\""),
                 getCrumbFromPage(viewPage));
     }
+
+    public static void deleteUsers() {
+        String userPage = getPage("manage/securityRealm/");
+        deleteByLink("manage/securityRealm/user/%s/doDelete",
+                getSubstringsFromPage(userPage, "href=\"user/", "/delete\""),
+                getCrumbFromPage(userPage));
+    }
 }
