@@ -1,7 +1,5 @@
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -38,6 +36,10 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     private void scrollPageDown() {
         ((JavascriptExecutor) getDriver()).executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+
+    public void scrollToElement(WebElement element) {
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView();", element);
     }
 
     @Test
@@ -157,6 +159,25 @@ public class NewItemCreatePipelineTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAddingGitRepository")
+    public void testCheckingDisappearanceOfWarningMessage() {
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+        scrollToElement(getDriver().findElement(By.xpath("//h2[text()='System Configuration']")));
+        new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.xpath(
+                "//a[@href='configureTools']"))).click().perform();
+
+        scrollPageDown();
+        new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.id("yui-gen12"))).click().perform();
+        new Actions(getDriver()).moveToElement(getDriver().findElement(By.cssSelector(
+                "input[checkurl$='MavenInstallation/checkName']"))).click().sendKeys("Maven").perform();
+        scrollPageDown();
+        getDriver().findElement(By.id("yui-gen8-button")).click();
+
+        Assert.assertFalse(getDriver().findElement(
+                By.xpath("//input[contains(@checkurl,'MavenInstallation/checkName')]/parent::div/following-sibling::div"))
+                    .getText().contains("Required"));
+    }
+
+    @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
     public void testCreateNewItemFromOtherNonExistingName() {
         final String jobName = getRandomStr();
 
