@@ -3,12 +3,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -168,5 +172,42 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
                 "No such job: " + jobName);
+    }
+
+    @Test(dependsOnMethods = "testCreatePipelineWithName")
+    public void testConfigurePipelineScriptFromSCM() {
+        final String projectGitLink = "https://github.com/olpolezhaeva/MyAppium";
+        final String jenkinsFilePath = "jenkins/first.jenkins";
+        final String jenkinsFileFirstStepEcho = "This is MyPipelineJob!";
+
+        getDriver().findElements(By.xpath("//tr/td/a")).get(0).click();
+        getDriver().findElement(By.linkText("Configure")).click();
+
+        List<WebElement> selectDropDownList = getDriver().findElements(By.className("dropdownList"));
+        new Select(selectDropDownList.get(1)).selectByVisibleText("Pipeline script from SCM");
+
+        new Select(getDriver().findElement(By.cssSelector(".dropdownList-container.tr .dropdownList"))).selectByValue("1");
+        getDriver().findElement(By.xpath("//input[@checkdependson='credentialsId']")).sendKeys(projectGitLink);
+
+        WebElement branchField = getDriver().findElement(By.xpath("//div[@name='branches']//input[@default='*/master']"));
+        branchField.clear();
+        branchField.sendKeys("*/main");
+
+
+        WebElement jenkinsFilePathField = getDriver().findElement(By.xpath("//input[@default='Jenkinsfile']"));
+        jenkinsFilePathField.clear();
+        jenkinsFilePathField.sendKeys(jenkinsFilePath);
+
+        getDriver().findElement(By.cssSelector("[type='submit']")).click();
+
+        getDriver().findElement(By.linkText("Build Now")).click();
+        new WebDriverWait(getDriver(), Duration.ofSeconds(20)).until(ExpectedConditions.presenceOfElementLocated(By.className("build-icon"))).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//pre[@class='console-output']//a[2]")).getText(), projectGitLink);
+
+        String totalText = getDriver().findElement(By.xpath("//span[@class='pipeline-node-17']")).getText();
+        String childFirst = getDriver().findElement(By.xpath("//span[@class='timestamp']")).getText();
+        Assert.assertEquals(totalText.replace(childFirst, "").trim(), jenkinsFileFirstStepEcho);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//pre[@class='console-output']")).getText(), "Finished: SUCCESS");
     }
 }
