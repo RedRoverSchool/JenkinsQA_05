@@ -277,5 +277,15 @@ public class MulticonfigurationProjectTest extends BaseTest {
                         By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/']")).getText(),
                 NEW_PROJECT_NAME);
     }
+
+    @Test (dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
+    public void testDisableMultiConfigurationProject(){
+        getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']")).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+        getDriver().findElement(DASHBOARD).click();
+
+        Assert.assertTrue(getDriver().findElement
+                (By.xpath("(//*[local-name()='svg' and @tooltip='Disabled'])[2]")).isDisplayed());
+    }
 }
 
