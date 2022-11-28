@@ -167,8 +167,8 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
         scrollPageDown();
         new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.xpath(
-                "//button[@id='yui-gen16-button']"))).click().perform();
-        new Actions(getDriver()).moveToElement(getDriver().findElement(By.cssSelector(
+                "//button[text()='Add Maven']"))).click().perform();
+        new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.cssSelector(
                 "input[checkurl$='MavenInstallation/checkName']"))).click().sendKeys("Maven").perform();
         scrollPageDown();
         getDriver().findElement(By.id("yui-gen8-button")).click();
