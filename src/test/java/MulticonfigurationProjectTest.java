@@ -1,5 +1,4 @@
 import org.apache.commons.lang3.RandomStringUtils;
-import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -257,6 +256,26 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 ("main-panel")).getText(),"Error\n‘&amp;’ is an unsafe character");
 
         deleteNewMCProject("MC Project");
+    }
+
+    @Test(dependsOnMethods = "testMultiConfigurationProjectBuild")
+    public void testMultiConfigurationProjectsRunJobInBuildHistory(){
+
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
+        getDriver().findElement(By.xpath("//a[@href='/user/admin/my-views/view/all/builds']")).click();
+        List<WebElement> buildsInTable = getDriver().findElements(By.xpath
+                ("//div[contains(@id,'label-tl')]"));
+        for (WebElement buildName : buildsInTable) {
+            Assert.assertTrue(buildName.getText().contains(NEW_PROJECT_NAME));
+        }
+
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/default/']")).getText(),
+                NEW_PROJECT_NAME + " » default");
+        Assert.assertEquals(getDriver().findElement(
+                        By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/']")).getText(),
+                NEW_PROJECT_NAME);
     }
 }
 

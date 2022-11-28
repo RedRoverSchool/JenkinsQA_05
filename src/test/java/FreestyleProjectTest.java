@@ -23,6 +23,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String DESCRIPTION_INPUT = "Description Text";
     private static final Character INVALID_CHAR = '!';
     private static final String INVALID_FREESTYLE_PROJECT_NAME = INVALID_CHAR + VALID_FREESTYLE_PROJECT_NAME;
+    private static final String SPACE_INSTEAD_OF_NAME = " ";
     private static final By LINK_NEW_ITEM = By.linkText("New Item");
     private static final By FIELD_ENTER_AN_ITEM_NAME = By.id("name");
     private static final By LINK_FREESTYLE_PROJECT = By.cssSelector(".hudson_model_FreeStyleProject");
@@ -56,10 +57,6 @@ public class FreestyleProjectTest extends BaseTest {
 
     private List<String> getListExistingFreestyleProjectsNames(By by) {
         return getDriver().findElements(by).stream().map(WebElement::getText).collect(Collectors.toList());
-    }
-
-    private List<WebElement> getJobSpecifications(String nameJob) {
-        return getDriver().findElements(By.xpath("//tr[@id = 'job_" + nameJob + "']/td"));
     }
 
     private String getBuildStatus(){
@@ -152,7 +149,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualChangesText, "No builds.");
     }
 
-    @Test(dependsOnMethods = "testConfigureSourceCodeGIT")
+    @Test(dependsOnMethods = "testNoBuildFreestyleProjectChanges")
     public void testRenameFreestyleProject() {
 
         getDriver().findElement(By.cssSelector("tr#job_" + FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
@@ -176,7 +173,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testViewFreestyleProjectPage")
     public void testViewChangesNoBuildsSignAppears() {
-        String expectedText = "Changes\nNo changes in any of the builds.";
+        String expectedText = "Changes\nNo builds.";
 
         getDriver().findElement(By.xpath("//span[contains(text(),'" + NEW_FREESTYLE_NAME + "')]")).click();
         getDriver().findElement(LINK_CHANGES).click();
@@ -418,28 +415,14 @@ public class FreestyleProjectTest extends BaseTest {
                 "» ‘" + INVALID_CHAR + "’ is an unsafe character");
     }
 
-    @Test(dependsOnMethods = "testNoBuildFreestyleProjectChanges")
-    public void testConfigureSourceCodeGIT() {
-        final String repositoryURL = "https://github.com/AlekseiChapaev/TestingJenkinsRepo.git";
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+    @Test
+    public void testCreateFreestyleProjectWithSpacesInsteadOfName() {
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(SPACE_INSTEAD_OF_NAME);
+        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+        getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
 
-        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(CONFIGURE_BUTTON).click();
-        getDriver().findElement(By.xpath("//button[@data-section-id= 'source-code-management']")).click();
-        getDriver().findElement(By.xpath("//label[text() = 'Git']")).click();
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@name= 'userRemoteConfigs']/div[@style]/div[1][@class = 'jenkins-form-item tr  has-help']/div[2]"))).click();
-        getDriver().findElement(By.xpath("//div[@name= 'userRemoteConfigs']/div[@style]/div[1][@class = 'jenkins-form-item tr  has-help']/div[2]/input")).sendKeys(repositoryURL);
-        getDriver().findElement(BUTTON_SAVE).click();
-
-        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
-        getJobSpecifications(FREESTYLE_NAME).get(6).click();
-
-        while(getJobSpecifications(FREESTYLE_NAME).get(5).getText().equals("N/A")){
-            getDriver().navigate().refresh();
-        }
-
-        Assert.assertEquals(getBuildStatus(), "Success");
-        Assert.assertTrue(getJobSpecifications(FREESTYLE_NAME).get(3).getText().contains("#1"));
+        Assert.assertEquals(getDriver().findElement(JOB_HEADLINE_LOCATOR).getText(),"Error");
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel > p")).getText(),"No name is specified");
     }
 }
