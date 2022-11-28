@@ -21,7 +21,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
     private static final By SAVE_BUTTON = By.xpath("//*[contains(@id, 'yui-gen') and contains(@type,'submit')]");
     private static final By DASHBOARD = By.xpath("//a[normalize-space()='Dashboard']");
     private static final By CREATED_FOLDER = By.xpath("//a[@class='jenkins-table__link model-link inside']");
-    private static final By NEW_ITEM_DROPDOWN = By.xpath("//a[@class='yuimenuitemlabel']//span[contains(text(),'New Item')]");
+    private static final By NEW_ITEM_DROPDOWN = By.xpath("//*[contains(@class,'icon-new-package icon-md')]");
     private static final By DOCS_SELECT = By.cssSelector(".jenkins-table__link.model-link.inside");
     private static final By CONSOLE_OUTPUT = By.xpath("//span[normalize-space()='Console Output']");
     private static final By BUILD_DROPDOWN = By.cssSelector("a[class='model-link inside build-link display-name'] button[class='jenkins-menu-dropdown-chevron']");
@@ -71,7 +71,6 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         getDriver().findElement(JOB_DROPDOWN).click();
         Thread.sleep(3000);
         getDriver().findElement(BUILD).click();
-
         getDriver().findElement(JOB_IN).click();
         getDriver().findElement(BUILD_DROPDOWN).click();
         getDriver().findElement(CONSOLE_OUTPUT).click();
