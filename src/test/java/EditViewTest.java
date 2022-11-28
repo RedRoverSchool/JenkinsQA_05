@@ -3,7 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import java.util.List;
+
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -29,11 +29,6 @@ public class EditViewTest extends BaseTest {
         getDriver().findElement(By.cssSelector("a[href='/view/all/newJob']")).click();
         getDriver().findElement(By.cssSelector("#name.jenkins-input")).sendKeys(UUID.randomUUID().toString().substring(0, 8));
         getDriver().findElement(menuOptions[i]).click();
-        List<WebElement> errors = getDriver().findElements(By.cssSelector(".input-validation-message"));
-        if(errors.stream().anyMatch(WebElement::isDisplayed)) {
-            System.out.println(errors.size());
-            System.out.println(errors.stream().map(WebElement::getText).collect(Collectors.toList()));
-        }
         getDriver().findElement(SUBMIT_BUTTON_CSS).submit();
         getDriver().findElement(DASHBOARD_CSS).click();
     }
