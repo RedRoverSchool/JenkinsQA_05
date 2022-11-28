@@ -152,7 +152,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 .sendKeys(gitHubRepo).perform();
         getDriver().findElement(SAVE_BUTTON).click();
 
-        final WebElement sideMenuGitHub = getDriver().findElement(By.xpath("(//a[contains(@class,'task-link')])[7]"));
+        final WebElement sideMenuGitHub = getDriver().findElement(By.xpath("(//a[contains(@class,'task-link')])[8]"));
 
         Assert.assertTrue(sideMenuGitHub.isDisplayed());
         Assert.assertTrue(sideMenuGitHub.getAttribute("href").contains(gitHubRepo));
@@ -166,7 +166,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 "//a[@href='configureTools']"))).click().perform();
 
         scrollPageDown();
-        new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.id("yui-gen12-button"))).click().perform();
+        new Actions(getDriver()).pause(1500).moveToElement(getDriver().findElement(By.id("yui-gen12-button"))).click().perform();
         new Actions(getDriver()).moveToElement(getDriver().findElement(By.cssSelector(
                 "input[checkurl$='MavenInstallation/checkName']"))).click().sendKeys("Maven").perform();
         scrollPageDown();
