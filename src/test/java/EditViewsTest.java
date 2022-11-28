@@ -7,7 +7,7 @@ import org.testng.annotations.*;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class EditViewTest extends BaseTest {
+public class EditViewsTest extends BaseTest {
     private static final String RANDOM_ALPHANUMERIC = UUID.randomUUID().toString().substring(0, 8);
     private static final String VIEW_PATH = String.format("//a[contains(@href, '/my-views/view/%s/')]", RANDOM_ALPHANUMERIC);
     private static final By DASHBOARD_CSS = By.cssSelector("#jenkins-name-icon");
