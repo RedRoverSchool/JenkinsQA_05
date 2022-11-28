@@ -1,13 +1,7 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
-import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,7 +13,14 @@ public class EditViewTest extends BaseTest{
     private static final By FILTER_QUEUE_CSS = By.cssSelector("input[name=filterQueue]+label");
     private static final By MY_VIEWS_XP = By.xpath("//a[@href='/me/my-views']");
     private static final By INPUT_NAME_ID = By.id("name");
+    private static final By DELETE_VIEW_CSS = By.cssSelector("a[href='delete']");
 
+    public String getUserName() {
+        String url = getDriver().findElement(By
+                        .xpath("//a[@class='model-link' and contains(@href,'/user/')]"))
+                .getAttribute("href");
+        return url.substring(6,url.length()-1);
+    }
     private void createItem(int i){
         final By CSS_FREESTYLE_0 = By.cssSelector(".j-item-options .hudson_model_FreeStyleProject");//
         final By CSS_PIPELINE_1 = By.cssSelector(".j-item-options .org_jenkinsci_plugins_workflow_job_WorkflowJob");//
@@ -62,6 +63,15 @@ public class EditViewTest extends BaseTest{
         createManyItems(1);
         createGlobalView();
     }
+    public void deleteAllViews(){
+        getDriver().findElement(MY_VIEWS_XP).click();
+        List<WebElement> allViews = getDriver().findElements(By.xpath(String.format("//a[contains(@href, '/user/%s/my-views/view')]", getUserName())));
+        for (WebElement element : allViews) {
+            element.click();
+            getDriver().findElement(DELETE_VIEW_CSS).click();
+            getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        }
+    }
 
     @Test
     public void testGlobalViewAddFilterBuildQueue() {
@@ -77,12 +87,9 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testGlobalViewAddBothFilters() {
+        deleteAllViews();
         globalViewSeriesPreConditions();
-        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
-        goToEditView();
-        TakesScreenshot scrShot =(TakesScreenshot)getDriver();
-        File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
-        String screenshotBase64 = ((TakesScreenshot)getDriver()).getScreenshotAs(OutputType.BASE64);
+
         getDriver().findElement(FILTER_QUEUE_CSS).click();
         getDriver().findElement(By.cssSelector("input[name=filterExecutors]+label")).click();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
