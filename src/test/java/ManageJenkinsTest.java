@@ -1,11 +1,22 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 public class ManageJenkinsTest extends BaseTest {
+    private static final String NEW_USERS_FULL_NAME = TestUtils.getRandomStr();
+    private static final By MANAGE_JENKINS = By.linkText("Manage Jenkins");
+    private static final By SECURITY_MANAGE_USERS = By.xpath("//a[@href='securityRealm/']");
+    private static final By JENKINS_MENU_DROPDOWN = By.cssSelector("a[href='user/admin/'] > .jenkins-menu-dropdown-chevron");
+    private static final By USER_ADMIN_CONFIGURE = By.cssSelector("a[href='/user/admin/configure']");
+    private static final By USER_FULL_NAME = By.xpath("//input[@name='_.fullName']");
+    private static final By SAVE_BUTTON = By.id("yui-gen3-button");
+    private static final By H1_TITLE = By.xpath("//h1");
+    private static final By PAGE_HEADER_USER = By.cssSelector(".model-link > .hidden-xs.hidden-sm");
 
     @Test
     public void testRenameFullUserName() {
@@ -27,5 +38,21 @@ public class ManageJenkinsTest extends BaseTest {
 
         Assert.assertEquals(actualFullNameOnBreadCrumbs, newFullName);
         Assert.assertEquals(actualFullNameOnPageHeader, newFullName);
+    }
+
+    @Test
+    public void testRenameUsersFullName() {
+        getDriver().findElement(MANAGE_JENKINS).click();
+        getDriver().findElement(SECURITY_MANAGE_USERS).click();
+        getDriver().findElement(JENKINS_MENU_DROPDOWN).click();
+        getDriver().findElement(USER_ADMIN_CONFIGURE).click();
+        getDriver().findElement(USER_FULL_NAME).clear();
+        getDriver().findElement(USER_FULL_NAME).sendKeys(NEW_USERS_FULL_NAME);
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        getDriver().navigate().refresh();
+
+        Assert.assertEquals(getDriver().findElement(H1_TITLE).getText(), NEW_USERS_FULL_NAME);
+        Assert.assertEquals(getDriver().findElement(PAGE_HEADER_USER).getText(), NEW_USERS_FULL_NAME);
     }
 }
