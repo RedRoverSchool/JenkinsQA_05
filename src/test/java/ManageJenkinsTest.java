@@ -17,7 +17,7 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(By.className("jenkins-table__button")).click();
         getDriver().findElement(By.name("_.fullName")).clear();
         getDriver().findElement(By.name("_.fullName")).sendKeys(newFullName);
-        getDriver().findElement(By.id("yui-gen3-button")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
         getDriver().navigate().refresh();
 
         String actualFullNameOnBreadCrumbs = getDriver().findElement(

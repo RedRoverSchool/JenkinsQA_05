@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -117,19 +116,14 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", name))).getText(), name);
     }
 
-    @Ignore
     @Test
     public void testDeletePipelineFromDashboard() {
         final String jobName = getRandomStr();
 
         createPipeline(jobName);
         getDriver().findElement(LINK_TO_DASHBOARD).click();
-        ((JavascriptExecutor)getDriver()).executeScript("arguments[0].scrollIntoView(true);",
-                getDriver().findElement(By.xpath("//a[@href='job/" + jobName + "/']")));
-        new Actions(getDriver()).pause(2000).moveToElement(getDriver().findElement(By.xpath(
-                "//a[@href='job/" + jobName + "/']"))).pause(1500).click().perform();
-        new Actions(getDriver()).moveToElement(getDriver().findElement(By.xpath(
-                "//span[text()='Delete Pipeline']"))).pause(1500).click().perform();
+        getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", jobName))).click();
+        getDriver().findElement(By.xpath("//span[text()='Delete Pipeline']")).click();
         getDriver().switchTo().alert().accept();
 
         List<WebElement> allJobsInDashboard = getDriver().findElements(By.xpath(
