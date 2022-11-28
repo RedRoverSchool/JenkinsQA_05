@@ -70,18 +70,18 @@ public class EditViewTest extends BaseTest{
         Assert.assertTrue(newPaneIsDisplayed);
     }
 
-//    @Test
-//    public void testGlobalViewAddBothFilters() {
-//        globalViewSeriesPreConditions();
-//        getDriver().findElement(FILTER_QUEUE_CSS).click();
-//        getDriver().findElement(By.xpath("//input[@name='filterExecutors']//following::label")).click();
-//        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
-//        goToEditView();
-//        String filterBuildQueueStatus = getDriver().findElement(
-//                By.cssSelector("input[name=filterQueue]")).getAttribute("checked");
-//        String filterBuildExecutorsStatus = getDriver().findElement(
-//                By.cssSelector("input[name=filterExecutors]")).getAttribute("checked");
-//
-//        Assert.assertTrue(filterBuildQueueStatus.equals("true") && filterBuildExecutorsStatus.equals("true"));
-//    }
+    @Test
+    public void testGlobalViewAddBothFilters() {
+        globalViewSeriesPreConditions();
+        getDriver().findElement(FILTER_QUEUE_CSS).click();
+        getDriver().findElement(By.cssSelector("input[name=filterExecutors]+label")).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        goToEditView();
+        String filterBuildQueueStatus = getDriver().findElement(
+                By.cssSelector("input[name=filterQueue]")).getAttribute("checked");
+        String filterBuildExecutorsStatus = getDriver().findElement(
+                By.cssSelector("input[name=filterExecutors]")).getAttribute("checked");
+
+        Assert.assertTrue(filterBuildQueueStatus.equals("true") && filterBuildExecutorsStatus.equals("true"));
+    }
 }
