@@ -1,8 +1,10 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class EditViewTest extends BaseTest{
     private static final String RANDOM_ALPHANUMERIC = UUID.randomUUID().toString().substring(0, 8);
@@ -54,6 +56,17 @@ public class EditViewTest extends BaseTest{
     public void globalViewSeriesPreConditions() {
         createManyItems(1);
         createGlobalView();
+    }
+
+    @Test
+    public void testGlobalViewAddFilterBuildQueue() {
+        globalViewSeriesPreConditions();
+        getDriver().findElement(FILTER_QUEUE_CSS).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        boolean newPaneIsDisplayed = getDriver().findElements(By.cssSelector(".pane-header-title"))
+                .stream().map(WebElement::getText).collect(Collectors.toList())
+                .contains("Filtered Build Queue");
+        Assert.assertTrue(newPaneIsDisplayed);
     }
 
     @Test
