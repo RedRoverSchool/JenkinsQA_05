@@ -1,9 +1,13 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -76,6 +80,9 @@ public class EditViewTest extends BaseTest{
         globalViewSeriesPreConditions();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
         goToEditView();
+        TakesScreenshot scrShot =(TakesScreenshot)getDriver();
+        File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
+        String screenshotBase64 = ((TakesScreenshot)getDriver()).getScreenshotAs(OutputType.BASE64);
         getDriver().findElement(FILTER_QUEUE_CSS).click();
         getDriver().findElement(By.cssSelector("input[name=filterExecutors]+label")).click();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
