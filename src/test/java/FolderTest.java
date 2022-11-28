@@ -23,6 +23,7 @@ public class FolderTest extends BaseTest {
     private static final By FREESTYLE_PROJECT = By.xpath("//span[text()='Freestyle project']");
     private static final By CREATE_A_JOB = By.linkText("Create a job");
     private static final By ADD_DESCRIPTION = By.linkText("Add description");
+    private static final By SUBMIT_DELETE_BUTTON = By.xpath("//button[@type= 'submit']");
 
     public Actions getAction() {
         return new Actions(getDriver());
@@ -262,14 +263,11 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(breadcrumbs.get(breadcrumbs.size() - 1).getAttribute("href"), expectedResult);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreate")
     public void testDeleteFolder2() {
-        createFolder();
-
-        getDashboard().click();
         getDriver().findElement(By.xpath("//span[text() = '" + generatedString + "']")).click();
         getDriver().findElement(By.xpath("//a[@href = '/job/" + generatedString + "/delete']")).click();
-        getDriver().findElement(By.xpath("//button[@type= 'submit']")).click();
+        getDriver().findElement(SUBMIT_DELETE_BUTTON).click();
 
         List<String> foldersList = getDriver()
                 .findElements(By.xpath("//tr/td[3]/a/span"))
