@@ -12,7 +12,7 @@ public class EditViewTest extends BaseTest{
     private static final By DASHBOARD_CSS = By.cssSelector("#jenkins-name-icon");
     private static final By SUBMIT_BUTTON_CSS = By.cssSelector("[type='submit']");
 //    private static final By FILTER_QUEUE_CSS = By.cssSelector("input[name=filterQueue]+label");
-    private static final By FILTER_QUEUE_CSS = By.xpath("//input[@name='filterQueue']//following::label");
+    private static final By FILTER_QUEUE_CSS = By.xpath("//input[@name='filterQueue']//following-sibling::label");
     private static final By MY_VIEWS_XP = By.xpath("//a[@href='/me/my-views']");
     private static final By INPUT_NAME_ID = By.id("name");
 
@@ -75,7 +75,7 @@ public class EditViewTest extends BaseTest{
     public void testGlobalViewAddBothFilters() {
         globalViewSeriesPreConditions();
         getDriver().findElement(FILTER_QUEUE_CSS).click();
-        getDriver().findElement(By.xpath("//input[@name='filterExecutors']//following::label")).click();
+        getDriver().findElement(By.xpath("//input[@name='filterExecutors']//following-sibling::label")).click();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
         goToEditView();
         String filterBuildQueueStatus = getDriver().findElement(
