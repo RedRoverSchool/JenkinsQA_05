@@ -12,11 +12,21 @@ import java.time.Duration;
 
 public class ManageJenkinsTest extends BaseTest {
 
+    private static final String PLUGIN_NAME = "TestNG Results";
     private static final By MANAGE_JENKINS = By.linkText("Manage Jenkins");
+    private static final By PLUGIN_MANAGER = By.xpath("//a[@href='pluginManager']");
+    private static final By AVAILABLE_PLUGINS_TAB = By.xpath("//a[@href='./available']");
+    private static final By INSTALLED_PLUGINS_TAB = By.xpath("//a[@href='./installed']");
+    private static final By SEARCH_PLUGIN_FIELD = By.id("filter-box");
+    private static final By PLUGIN_TABLE_ROWS = By.xpath("//div[@id='main-panel']//tbody//tr");
 
     public static void jsClick(WebDriver driver, WebElement element) {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript("arguments[0].click();", element);
+    }
+
+    public static WebDriverWait getWait(WebDriver driver, int seconds) {
+        return new WebDriverWait(driver, Duration.ofSeconds(seconds));
     }
 
     @Test
@@ -58,37 +68,64 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testPluginManager() {
-
-        final String pluginName = "TestNG Results";
-        final By pluginManager = By.xpath("//a[@href='pluginManager']");
-        final By availablePluginsTab = By.xpath("//a[@href='./available']");
-        final By searchField = By.id("filter-box");
-        final By pluginsTableRows = By.xpath("//div[@id='main-panel']//tbody//tr");
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(15));
+    public void testPluginManagerInstallPlugin() {
 
         getDriver().findElement(MANAGE_JENKINS).click();
-        getDriver().findElement(pluginManager).click();
-        getDriver().findElement(availablePluginsTab).click();
-        getDriver().findElement(searchField).sendKeys(pluginName);
+        getDriver().findElement(PLUGIN_MANAGER).click();
+        getDriver().findElement(AVAILABLE_PLUGINS_TAB).click();
+        getDriver().findElement(SEARCH_PLUGIN_FIELD).sendKeys(ManageJenkinsTest.PLUGIN_NAME);
         getDriver().findElement(By.xpath("//tr[@data-plugin-id='testng-plugin']//label")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
-        wait.until(ExpectedConditions.textToBe(By.id("status26"), "Success"));
-        wait.until(ExpectedConditions.textToBe(By.id("status28"), "Success"));
+        getWait(getDriver(), 10).until(ExpectedConditions.textToBe(By.id("status26"), "Success"));
+        getWait(getDriver(), 10).until(ExpectedConditions.textToBe(By.id("status28"), "Success"));
 
         getDriver().findElement(By.linkText("Go back to the top page")).click();
         getDriver().findElement(MANAGE_JENKINS).click();
-        getDriver().findElement(pluginManager).click();
-        getDriver().findElement(availablePluginsTab).click();
-        getDriver().findElement(searchField).sendKeys(pluginName);
+        getDriver().findElement(PLUGIN_MANAGER).click();
+        getDriver().findElement(AVAILABLE_PLUGINS_TAB).click();
+        getDriver().findElement(SEARCH_PLUGIN_FIELD).sendKeys(ManageJenkinsTest.PLUGIN_NAME);
 
-        wait.until(ExpectedConditions.numberOfElementsToBe(pluginsTableRows, 0));
+        getWait(getDriver(), 10).until(ExpectedConditions.numberOfElementsToBe(PLUGIN_TABLE_ROWS, 0));
 
-        getDriver().findElement(By.xpath("//a[@href='./installed']")).click();
-        getDriver().findElement(searchField).sendKeys(pluginName);
+        getDriver().findElement(INSTALLED_PLUGINS_TAB).click();
+        getDriver().findElement(SEARCH_PLUGIN_FIELD).sendKeys(ManageJenkinsTest.PLUGIN_NAME);
 
-        Assert.assertFalse(getDriver().findElements(pluginsTableRows).isEmpty());
+        Assert.assertFalse(getDriver().findElements(PLUGIN_TABLE_ROWS).isEmpty());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//tr[@data-plugin-id='testng-plugin']")).isDisplayed());
+    }
+
+    @Test(dependsOnMethods={"testPluginManagerInstallPlugin"})
+    public void testPluginManagerDeletePlugin() {
+
+        getDriver().findElement(MANAGE_JENKINS).click();
+        getDriver().findElement(PLUGIN_MANAGER).click();
+        getDriver().findElement(INSTALLED_PLUGINS_TAB).click();
+        getDriver().findElement(SEARCH_PLUGIN_FIELD).sendKeys(ManageJenkinsTest.PLUGIN_NAME);
+
+        getDriver().findElement(By.xpath("//button[@tooltip='Uninstall TestNG Results Plugin']")).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+        getDriver().findElement(AVAILABLE_PLUGINS_TAB).click();
+        getDriver().findElement(By.id("yui-gen2-button")).click();
+        getDriver().findElement(By.xpath("//label[@for='scheduleRestartCheckbox']")).click();
+
+        getDriver().navigate().refresh();
+
+        getWait(getDriver(), 30).until(ExpectedConditions.visibilityOfElementLocated(By.name("j_username")));
+
+        loginWeb();
+
+        getDriver().findElement(MANAGE_JENKINS).click();
+        getDriver().findElement(PLUGIN_MANAGER).click();
+        getDriver().findElement(INSTALLED_PLUGINS_TAB).click();
+        getDriver().findElement(SEARCH_PLUGIN_FIELD).sendKeys(ManageJenkinsTest.PLUGIN_NAME);
+
+        getWait(getDriver(), 10).until(ExpectedConditions.invisibilityOfElementLocated(PLUGIN_TABLE_ROWS));
+
+        getDriver().findElement(AVAILABLE_PLUGINS_TAB).click();
+        getDriver().findElement(SEARCH_PLUGIN_FIELD).sendKeys(ManageJenkinsTest.PLUGIN_NAME);
+
+        Assert.assertFalse(getDriver().findElements(PLUGIN_TABLE_ROWS).isEmpty());
         Assert.assertTrue(getDriver().findElement(By.xpath("//tr[@data-plugin-id='testng-plugin']")).isDisplayed());
     }
 }
