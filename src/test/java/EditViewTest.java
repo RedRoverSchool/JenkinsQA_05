@@ -1,9 +1,8 @@
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
-import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,9 +31,7 @@ public class EditViewTest extends BaseTest{
         final By CSS_ORGFOLDER_5 = By.cssSelector(".j-item-options .jenkins_branch_OrganizationFolder");
         final By[] menuOptions = {CSS_FREESTYLE_0,CSS_PIPELINE_1, CSS_MULTICONFIG_2, CSS_FOLDER_3, CSS_MULTIBRANCH_4, CSS_ORGFOLDER_5};
 
-        TakesScreenshot scrShot = (TakesScreenshot)getDriver();
-        File file = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
-        String screenshotBase64 = ((TakesScreenshot)getDriver()).getScreenshotAs(OutputType.BASE64);
+        new Actions(getDriver()).pause(5000).perform();
         getDriver().findElement(By.cssSelector("a[href='/view/all/newJob']")).click();
         getDriver().findElement(By.cssSelector("#name.jenkins-input")).sendKeys(UUID.randomUUID().toString().substring(0, 8));
         getDriver().findElement(menuOptions[i]).click();
@@ -72,10 +69,10 @@ public class EditViewTest extends BaseTest{
     public void deleteAllViews(){
         getDriver().findElement(MY_VIEWS_XP).click();
         List<WebElement> allViews = getDriver().findElements(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]"));
-        System.out.println(getUserName());
-//        if (allViews.size() > 0) {
-//            getDriver().findElement(By.xpath("//div[@class='tab']/a[contains(@href,'my-views/view')]')]")).click();
-//        }
+        if (allViews.size() > 0) {
+            getDriver().findElement(By.xpath("/div[@class='tab']/a[contains(@href, 'my-views/view')]")).click();
+        }
+
         for (WebElement element : allViews) {
             element.click();
             getDriver().findElement(DELETE_VIEW_CSS).click();
@@ -83,17 +80,17 @@ public class EditViewTest extends BaseTest{
         }
     }
 
-//    @Test
-//    public void testGlobalViewAddFilterBuildQueue() {
-//        globalViewSeriesPreConditions();
-//        getDriver().findElement(FILTER_QUEUE_CSS).click();
-//        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
-//        boolean newPaneIsDisplayed = getDriver().findElements(By.cssSelector(".pane-header-title"))
-//                .stream().map(WebElement::getText).collect(Collectors.toList())
-//                .contains("Filtered Build Queue");
-//
-//        Assert.assertTrue(newPaneIsDisplayed);
-//    }
+    @Test
+    public void testGlobalViewAddFilterBuildQueue() {
+        globalViewSeriesPreConditions();
+        getDriver().findElement(FILTER_QUEUE_CSS).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        boolean newPaneIsDisplayed = getDriver().findElements(By.cssSelector(".pane-header-title"))
+                .stream().map(WebElement::getText).collect(Collectors.toList())
+                .contains("Filtered Build Queue");
+
+        Assert.assertTrue(newPaneIsDisplayed);
+    }
 
     @Test
     public void testGlobalViewAddBothFilters() {
