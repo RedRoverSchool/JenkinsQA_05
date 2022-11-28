@@ -166,7 +166,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 "//a[@href='configureTools']"))).click().perform();
 
         scrollPageDown();
-        new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.id("yui-gen12"))).click().perform();
+        new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.id("yui-gen12-button"))).click().perform();
         new Actions(getDriver()).moveToElement(getDriver().findElement(By.cssSelector(
                 "input[checkurl$='MavenInstallation/checkName']"))).click().sendKeys("Maven").perform();
         scrollPageDown();
