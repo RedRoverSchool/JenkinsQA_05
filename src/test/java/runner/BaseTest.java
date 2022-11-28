@@ -71,12 +71,14 @@ public abstract class BaseTest {
     }
 
     protected void stopDriver() {
-        try {
-            ProjectUtils.logout(driver);
-        } catch (Exception ignore) {}
+        if (driver != null) {
+            try {
+                ProjectUtils.logout(driver);
+            } catch (Exception ignore) {}
 
-        driver.quit();
-        BaseUtils.log("Browser closed");
+            driver.quit();
+            BaseUtils.log("Browser closed");
+        }
     }
 
     @AfterMethod
