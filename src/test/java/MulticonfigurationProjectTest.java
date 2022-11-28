@@ -253,13 +253,13 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
         Assert.assertEquals(getDriver().findElement(By.id
-                ("main-panel")).getText(),"Error\n‘&amp;’ is an unsafe character");
+                ("main-panel")).getText(), "Error\n‘&amp;’ is an unsafe character");
 
         deleteNewMCProject("MC Project");
     }
 
     @Test(dependsOnMethods = "testMultiConfigurationProjectBuild")
-    public void testMultiConfigurationProjectsRunJobInBuildHistory(){
+    public void testMultiConfigurationProjectsRunJobInBuildHistory() {
 
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
@@ -271,11 +271,20 @@ public class MulticonfigurationProjectTest extends BaseTest {
         }
 
         Assert.assertEquals(getDriver().findElement(
-                By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/default/']")).getText(),
+                        By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/default/']")).getText(),
                 NEW_PROJECT_NAME + " » default");
         Assert.assertEquals(getDriver().findElement(
                         By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/']")).getText(),
                 NEW_PROJECT_NAME);
+    }
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
+    public void testDisableMultiMultiConfigurationProjectCheckIconProjectName() {
+        getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
+        getDriver().findElement(DISABLE_PROJECT).click();
+
+        Assert.assertTrue(getDriver().findElement(
+                        By.xpath("//span[@class='build-status-icon__wrapper icon-disabled icon-md']"))
+                .isDisplayed());
     }
 }
 
