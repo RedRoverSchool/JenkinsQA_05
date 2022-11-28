@@ -66,15 +66,15 @@ public class EditViewTest extends BaseTest{
         boolean newPaneIsDisplayed = getDriver().findElements(By.cssSelector(".pane-header-title"))
                 .stream().map(WebElement::getText).collect(Collectors.toList())
                 .contains("Filtered Build Queue");
+
         Assert.assertTrue(newPaneIsDisplayed);
     }
 
     @Test
     public void testGlobalViewAddBothFilters() {
         globalViewSeriesPreConditions();
-
         getDriver().findElement(FILTER_QUEUE_CSS).click();
-        getDriver().findElement(By.cssSelector("input[name=filterExecutors]+label")).click();
+        getDriver().findElement(By.xpath("//input[@name='filterExecutors']//following::label")).click();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
         goToEditView();
         String filterBuildQueueStatus = getDriver().findElement(
