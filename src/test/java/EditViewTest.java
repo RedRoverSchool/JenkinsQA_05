@@ -65,7 +65,7 @@ public class EditViewTest extends BaseTest{
     }
     public void deleteAllViews(){
         getDriver().findElement(MY_VIEWS_XP).click();
-        List<WebElement> allViews = getDriver().findElements(By.xpath("//div[@class='tab']/a[contains(@href,'my-views/view')]')]"));
+        List<WebElement> allViews = getDriver().findElements(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]"));
         System.out.println(getUserName());
 //        if (allViews.size() > 0) {
 //            getDriver().findElement(By.xpath("//div[@class='tab']/a[contains(@href,'my-views/view')]')]")).click();
