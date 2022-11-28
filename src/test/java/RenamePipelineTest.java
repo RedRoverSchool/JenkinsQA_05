@@ -34,7 +34,7 @@ public class RenamePipelineTest extends BaseTest {
     private void renamePipelineProject() {
         Actions actions = new Actions(getDriver());
         actions.moveToElement(getDriver().findElement(JOB_PIP1));
-        actions.moveToElement(getDriver().findElement(JOB_PIP1_MENU_DROPDOWN_CHEVRON)).click().perform();
+        actions.moveToElement(getDriver().findElement(JOB_PIP1_MENU_DROPDOWN_CHEVRON)).click().build().perform();
         getDriver().findElement(JOB_MENU_RENAME).click();
         getDriver().findElement(TEXTFIELD_NEW_NAME).clear();
         getDriver().findElement(TEXTFIELD_NEW_NAME).sendKeys("renamed_pip1");
@@ -98,7 +98,7 @@ public class RenamePipelineTest extends BaseTest {
         createPipelineProject();
         Actions actions = new Actions(getDriver());
         actions.moveToElement(getDriver().findElement(JOB_PIP1));
-        actions.moveToElement(getDriver().findElement(JOB_PIP1_MENU_DROPDOWN_CHEVRON)).click().perform();
+        actions.moveToElement(getDriver().findElement(JOB_PIP1_MENU_DROPDOWN_CHEVRON)).click().build().perform();
         getDriver().findElement(JOB_MENU_RENAME).click();
         getDriver().findElement(BUTTON_RENAME).click();
 
@@ -118,8 +118,8 @@ public class RenamePipelineTest extends BaseTest {
         for (int i = 0; i < specialCharactersString.length(); i++) {
             createPipelineProject();
             Actions actions = new Actions(getDriver());
-            actions.moveToElement(getDriver().findElement(JOB_PIP1));
-            actions.moveToElement(getDriver().findElement(JOB_PIP1_MENU_DROPDOWN_CHEVRON)).click().perform();
+            actions.moveToElement(getDriver().findElement(JOB_PIP1)).pause(100);
+            actions.moveToElement(getDriver().findElement(JOB_PIP1_MENU_DROPDOWN_CHEVRON)).click().build().perform();
             getDriver().findElement(JOB_MENU_RENAME).click();
             getDriver().findElement(TEXTFIELD_NEW_NAME).clear();
             getDriver().findElement(TEXTFIELD_NEW_NAME).sendKeys("renamed_pip1" + specialCharactersString.charAt(i));
