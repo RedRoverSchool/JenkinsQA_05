@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -73,6 +74,8 @@ public class EditViewTest extends BaseTest{
     @Test
     public void testGlobalViewAddBothFilters() {
         globalViewSeriesPreConditions();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        goToEditView();
         getDriver().findElement(FILTER_QUEUE_CSS).click();
         getDriver().findElement(By.cssSelector("input[name=filterExecutors]+label")).click();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
