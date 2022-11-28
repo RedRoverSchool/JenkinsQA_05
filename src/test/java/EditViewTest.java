@@ -74,7 +74,7 @@ public class EditViewTest extends BaseTest{
         globalViewSeriesPreConditions();
 
         getDriver().findElement(FILTER_QUEUE_CSS).click();
-        getDriver().findElement(By.cssSelector("input[name=filterExecutors]+label")).click();
+        getDriver().findElement(By.cssSelector("input[name='filterExecutors']+label")).click();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
         goToEditView();
         String filterBuildQueueStatus = getDriver().findElement(
