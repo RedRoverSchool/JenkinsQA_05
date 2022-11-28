@@ -279,7 +279,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Test (dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
-    public void testDisableMultiConfigurationProject(){
+    public void testDisableMultiConfigurationProject() {
         getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDriver().findElement(DASHBOARD).click();
