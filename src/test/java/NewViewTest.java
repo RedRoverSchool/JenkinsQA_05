@@ -65,7 +65,7 @@ public class NewViewTest extends BaseTest {
                 .isDisplayed());
     }
 
-    @Test(dependsOnMethods = "testCreateNewView")
+    @Test(dependsOnMethods = "testLetterLClickableMyViews")
     public void testDeleteNewView() {
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(By.xpath(String.format("//div/a[contains(text(),'%s')]", VIEW_NAME))).click();
@@ -75,46 +75,33 @@ public class NewViewTest extends BaseTest {
         Assert.assertFalse(isElementPresent(getDriver(), By.xpath(String.format("//div/a[contains(text(),'%s')]", VIEW_NAME))));
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateNewView")
     public void testLetterMClickableMyViews() {
         String expectedClassTable = "jenkins-table jenkins-table--medium sortable";
 
-        createPipelineProject(generateRandomName());
-
-        getDriver().findElement(MY_VIEWS).click();
-        WebElement ButtonM = getDriver().findElement(BUTTON_M);
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", ButtonM);
-
-        Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
-    }
-
-    @Test
-    public void testLeterLClickableMyViews() {
-        String expectedClassTable = "jenkins-table  sortable";
-
-        createPipelineProject(generateRandomName());
-
-        getDriver().findElement(MY_VIEWS).click();
-        WebElement ButtonM = getDriver().findElement(BUTTON_M);
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", ButtonM);
-        WebElement ButtonL = getDriver().findElement(BUTTON_L);
-        executor.executeScript("arguments[0].click();", ButtonL);
-
-        Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
-    }
-
-    @Test
-    public void testLetterSClickableMyViews() {
-        String expectedClassTable = "jenkins-table jenkins-table--small sortable";
-
-        createPipelineProject(generateRandomName());
-
-        getDriver().findElement(MY_VIEWS).click();
         WebElement buttonM = getDriver().findElement(BUTTON_M);
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].click();", buttonM);
+
+        Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
+    }
+
+    @Test(dependsOnMethods = "testLetterMClickableMyViews")
+    public void testLetterLClickableMyViews() {
+        String expectedClassTable = "jenkins-table  sortable";
+
+        WebElement buttonL = getDriver().findElement(BUTTON_L);
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", buttonL);
+
+        Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
+    }
+
+    @Test(dependsOnMethods = "testLetterLClickableMyViews")
+    public void testLetterSClickableMyViews() {
+        String expectedClassTable = "jenkins-table jenkins-table--small sortable";
+
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         WebElement buttonS = getDriver().findElement(BUTTON_S);
         executor.executeScript("arguments[0].click();", buttonS);
 
