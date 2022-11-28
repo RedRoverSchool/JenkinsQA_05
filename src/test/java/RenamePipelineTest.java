@@ -7,7 +7,8 @@ import runner.BaseTest;
 
 public class RenamePipelineTest extends BaseTest {
 
-    private static final By JENKINS_ICON = By.id("jenkins-name-icon");
+    private static final By JENKINS_DASHBOARD =
+            By.xpath("//button[@class='jenkins-menu-dropdown-chevron']/../../a[contains(text(),'Dashboard')]");
     private static final By MY_VIEWS = By.xpath("//a[@href='/me/my-views']");
     private static final String VIEW_NAME = RandomStringUtils.randomAlphanumeric(5);
     private static final By BUTTON_DELETE = By.cssSelector("svg.icon-edit-delete");
@@ -22,13 +23,13 @@ public class RenamePipelineTest extends BaseTest {
     private static final By BUTTON_RENAME = By.id("yui-gen1-button");
 
     private void createPipelineProject() {
-        getDriver().findElement(JENKINS_ICON).click();
+        getDriver().findElement(JENKINS_DASHBOARD).click();
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.xpath("//*[text() = 'Pipeline']")).click();
         getDriver().findElement(By.id("name")).sendKeys("pip1");
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.id("yui-gen6-button")).click();
-        getDriver().findElement(JENKINS_ICON).click();
+        getDriver().findElement(JENKINS_DASHBOARD).click();
     }
 
     private void renamePipelineProject() {
@@ -42,7 +43,7 @@ public class RenamePipelineTest extends BaseTest {
     }
 
     private void deletePipelineProject() {
-        getDriver().findElement(JENKINS_ICON).click();
+        getDriver().findElement(JENKINS_DASHBOARD).click();
         getDriver().findElement(By.xpath("//a[@href = contains(., 'pip1')]/button")).click();
         getDriver().findElement(BUTTON_DELETE).click();
         getDriver().switchTo().alert().accept();
@@ -57,7 +58,7 @@ public class RenamePipelineTest extends BaseTest {
     }
 
     private void deleteNewView() {
-        getDriver().findElement(JENKINS_ICON).click();
+        getDriver().findElement(JENKINS_DASHBOARD).click();
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(VIEW).click();
         getDriver().findElement(BUTTON_DELETE).click();
@@ -81,7 +82,7 @@ public class RenamePipelineTest extends BaseTest {
         createPipelineProject();
         createNewView();
         renamePipelineProject();
-        getDriver().findElement(JENKINS_ICON).click();
+        getDriver().findElement(JENKINS_DASHBOARD).click();
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(VIEW).click();
 
