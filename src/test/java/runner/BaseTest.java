@@ -41,7 +41,7 @@ public abstract class BaseTest {
                 getWeb();
             }
         } catch (Exception e) {
-            stopDriver();
+            closeDriver();
             throw new RuntimeException(e);
         } finally {
             methodsOrder.markAsInvoked(method);
@@ -51,6 +51,7 @@ public abstract class BaseTest {
     protected void clearData() {
         BaseUtils.log("Clear data");
         JenkinsUtils.deleteJobs();
+        JenkinsUtils.deleteViews();
     }
 
     protected void loginWeb() {
@@ -73,8 +74,14 @@ public abstract class BaseTest {
             ProjectUtils.logout(driver);
         } catch (Exception ignore) {}
 
-        driver.quit();
-        BaseUtils.log("Browser closed");
+        closeDriver();
+    }
+
+    protected void closeDriver() {
+        if (driver != null) {
+            driver.quit();
+            BaseUtils.log("Browser closed");
+        }
     }
 
     @AfterMethod
