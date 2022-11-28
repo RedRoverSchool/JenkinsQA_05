@@ -426,13 +426,8 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(CREATE_NEW_ITEM).click();
         getDriver().findElement(INPUT_NAME).sendKeys("Magic Folder");
         scrollByVisibleElement(FOLDER);
-        getAction()
-                .pause(java.time.Duration.ofSeconds(2))
-                .moveToElement(getDriver().findElement(FOLDER))
-                .click()
-                .build()
+        new Actions(getDriver()).pause(1500).moveToElement(getDriver().findElement(FOLDER)).click()
                 .perform();
-        getDriver().findElement(FOLDER).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(DESCRIPTION).sendKeys("Wand,mustache,top hat");
         getDriver().findElement(SAVE_BUTTON).click();
