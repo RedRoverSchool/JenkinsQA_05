@@ -57,6 +57,22 @@ public class RenamePipelineTest extends BaseTest {
         getDriver().switchTo().alert().accept();
     }
 
+    private void createNewView() {
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(ADD_TAB).click();
+        getDriver().findElement(VIEW_NAME_FIELD).sendKeys(VIEW_NAME);
+        getDriver().findElement(RADIO_BUTTON_MY_VIEW).click();
+        getDriver().findElement(BUTTON_CREATE).click();
+    }
+
+    private void deleteNewView() {
+        getDriver().findElement(JENKINS_ICON).click();
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(VIEW).click();
+        getDriver().findElement(BUTTON_DELETE).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+    }
+
     @Test
     public void testRenamePipelineWithValidName() {
         createPipelineProject();
@@ -68,4 +84,22 @@ public class RenamePipelineTest extends BaseTest {
 
         deletePipelineProject();
     }
+
+    @Test
+    public void testRenamedPipelineIsDisplayedInMyViews() {
+        createPipelineProject();
+        createNewView();
+        renamePipelineProject();
+        getDriver().findElement(JENKINS_ICON).click();
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(VIEW).click();
+
+        Assert.assertEquals(getDriver()
+                        .findElement(By.xpath("//tbody//a[@href = contains(., 'renamed_pip1')]")).getText()
+                , "renamed_pip1");
+
+        deleteNewView();
+        deletePipelineProject();
+    }
+
 }
