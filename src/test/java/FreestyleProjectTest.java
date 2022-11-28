@@ -23,6 +23,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String DESCRIPTION_INPUT = "Description Text";
     private static final Character INVALID_CHAR = '!';
     private static final String INVALID_FREESTYLE_PROJECT_NAME = INVALID_CHAR + VALID_FREESTYLE_PROJECT_NAME;
+    private static final String SPACE_INSTEAD_OF_NAME = " ";
     private static final By LINK_NEW_ITEM = By.linkText("New Item");
     private static final By FIELD_ENTER_AN_ITEM_NAME = By.id("name");
     private static final By LINK_FREESTYLE_PROJECT = By.cssSelector(".hudson_model_FreeStyleProject");
@@ -441,5 +442,16 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getBuildStatus(), "Success");
         Assert.assertTrue(getJobSpecifications(FREESTYLE_NAME).get(3).getText().contains("#1"));
+    }
+
+    @Test
+    public void testCreateFreestyleProjectWithSpacesInsteadOfName() {
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(SPACE_INSTEAD_OF_NAME);
+        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+        getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
+
+        Assert.assertEquals(getDriver().findElement(JOB_HEADLINE_LOCATOR).getText(),"Error");
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel > p")).getText(),"No name is specified");
     }
 }
