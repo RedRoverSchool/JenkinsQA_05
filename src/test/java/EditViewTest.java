@@ -91,6 +91,7 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testGlobalViewAddBothFilters() {
+        createManyItems(1);
         deleteAllViews();
         globalViewSeriesPreConditions();
 
