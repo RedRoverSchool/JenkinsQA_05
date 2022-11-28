@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
 import java.util.UUID;
 
 public class FreestyleBuildInFolderTest extends BaseTest {
@@ -44,6 +45,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(
                 By.cssSelector("#view-message")).getText().contains(DESCRIPTION));
     }
+
     @Test(dependsOnMethods = {"createFolderTest"})
     public void testCreateFreestyleProject() throws InterruptedException {
 
@@ -60,7 +62,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         Thread.sleep(3000);
 
         Assert.assertEquals(getDriver().findElement(
-                By.cssSelector("a[class='jenkins-table__link model-link inside'] span")).getText(), name);
+                By.cssSelector(".jenkins-table__link.model-link.inside")).getText(), name);
     }
 
     @Test(dependsOnMethods = {"testCreateFreestyleProject"})
