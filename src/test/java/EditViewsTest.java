@@ -3,19 +3,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.*;
-
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class EditViewsTest extends BaseTest {
     private static final String RANDOM_ALPHANUMERIC = UUID.randomUUID().toString().substring(0, 8);
-    private static final String VIEW_PATH = String.format("//a[contains(@href, '/my-views/view/%s/')]", RANDOM_ALPHANUMERIC);
     private static final By DASHBOARD_CSS = By.cssSelector("#jenkins-name-icon");
     private static final By SUBMIT_BUTTON_CSS = By.cssSelector("[type='submit']");
     private static final By FILTER_QUEUE_CSS = By.cssSelector("input[name=filterQueue]+label");
     private static final By MY_VIEWS_XP = By.xpath("//a[@href='/me/my-views']");
     private static final By INPUT_NAME_ID = By.id("name");
-    private static final By DELETE_VIEW_CSS = By.cssSelector("a[href='delete']");
 
     private void createItem(int i){
         final By CSS_FREESTYLE_0 = By.cssSelector(".j-item-options .hudson_model_FreeStyleProject");
@@ -48,14 +45,6 @@ public class EditViewsTest extends BaseTest {
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
     }
 
-    public void deleteCreatedView() {
-        getDriver().findElement(DASHBOARD_CSS).click();
-        getDriver().findElement(MY_VIEWS_XP).click();
-        getDriver().findElement(By.xpath(VIEW_PATH)).click();
-        getDriver().findElement(DELETE_VIEW_CSS).click();
-        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
-    }
-
     public void globalViewSeriesPreConditions() {
         createManyItems(1);
         createGlobalView();
@@ -70,6 +59,5 @@ public class EditViewsTest extends BaseTest {
                 .stream().map(WebElement::getText).collect(Collectors.toList())
                 .contains("Filtered Build Queue");
         Assert.assertTrue(newPaneIsDisplayed);
-        deleteCreatedView();
     }
 }
