@@ -59,10 +59,6 @@ public class FreestyleProjectTest extends BaseTest {
         return getDriver().findElements(by).stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    private List<WebElement> getJobSpecifications(String nameJob) {
-        return getDriver().findElements(By.xpath("//tr[@id = 'job_" + nameJob + "']/td"));
-    }
-
     private String getBuildStatus(){
         return getDriver().findElement(By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']")).getAttribute("tooltip");
     }
@@ -153,7 +149,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualChangesText, "No builds.");
     }
 
-    @Test(dependsOnMethods = "testConfigureSourceCodeGIT")
+    @Test(dependsOnMethods = "testNoBuildFreestyleProjectChanges")
     public void testRenameFreestyleProject() {
 
         getDriver().findElement(By.cssSelector("tr#job_" + FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
@@ -177,7 +173,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testViewFreestyleProjectPage")
     public void testViewChangesNoBuildsSignAppears() {
-        String expectedText = "Changes\nNo changes in any of the builds.";
+        String expectedText = "Changes\nNo builds.";
 
         getDriver().findElement(By.xpath("//span[contains(text(),'" + NEW_FREESTYLE_NAME + "')]")).click();
         getDriver().findElement(LINK_CHANGES).click();
@@ -417,31 +413,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(wait.until(ExpectedConditions.presenceOfElementLocated(ITEM_NAME_INVALID)).getText(),
                 "» ‘" + INVALID_CHAR + "’ is an unsafe character");
-    }
-
-    @Test(dependsOnMethods = "testNoBuildFreestyleProjectChanges")
-    public void testConfigureSourceCodeGIT() {
-        final String repositoryURL = "https://github.com/AlekseiChapaev/TestingJenkinsRepo.git";
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
-
-        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(CONFIGURE_BUTTON).click();
-        getDriver().findElement(By.xpath("//button[@data-section-id= 'source-code-management']")).click();
-        getDriver().findElement(By.xpath("//label[text() = 'Git']")).click();
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@name= 'userRemoteConfigs']/div[@style]/div[1][@class = 'jenkins-form-item tr  has-help']/div[2]"))).click();
-        getDriver().findElement(By.xpath("//div[@name= 'userRemoteConfigs']/div[@style]/div[1][@class = 'jenkins-form-item tr  has-help']/div[2]/input")).sendKeys(repositoryURL);
-        getDriver().findElement(BUTTON_SAVE).click();
-
-        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
-        getJobSpecifications(FREESTYLE_NAME).get(6).click();
-
-        while(getJobSpecifications(FREESTYLE_NAME).get(5).getText().equals("N/A")){
-            getDriver().navigate().refresh();
-        }
-
-        Assert.assertEquals(getBuildStatus(), "Success");
-        Assert.assertTrue(getJobSpecifications(FREESTYLE_NAME).get(3).getText().contains("#1"));
     }
 
     @Test
