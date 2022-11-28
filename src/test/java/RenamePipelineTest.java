@@ -102,4 +102,22 @@ public class RenamePipelineTest extends BaseTest {
         deletePipelineProject();
     }
 
+    @Test
+    public void testRenamePipelineWithoutChangingName() {
+        createPipelineProject();
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(getDriver().findElement(JOB_PIP1));
+        actions.moveToElement(getDriver().findElement(JOB_PIP1_MENU_DROPDOWN_CHEVRON)).click().perform();
+        getDriver().findElement(JOB_MENU_RENAME).click();
+        getDriver().findElement(BUTTON_RENAME).click();
+
+        Assert.assertEquals(getDriver()
+                        .findElement(By.xpath("//div[@id='main-panel']//h1[contains(text(),'Error')]")).getText()
+                , "Error");
+        Assert.assertEquals(getDriver()
+                        .findElement(By.xpath("//div[@id='main-panel']//p")).getText()
+                , "The new name is the same as the current name.");
+
+        deletePipelineProject();
+    }
 }
