@@ -120,4 +120,27 @@ public class RenamePipelineTest extends BaseTest {
 
         deletePipelineProject();
     }
+
+    @Test
+    public void testRenamePipelineUsingSpecialCharacter() {
+        String specialCharactersString = "!@#$%*/:;?[]^|";
+        for (int i = 0; i < specialCharactersString.length(); i++) {
+            createPipelineProject();
+            Actions actions = new Actions(getDriver());
+            actions.moveToElement(getDriver().findElement(JOB_PIP1));
+            actions.moveToElement(getDriver().findElement(JOB_PIP1_MENU_DROPDOWN_CHEVRON)).click().perform();
+            getDriver().findElement(JOB_MENU_RENAME).click();
+            getDriver().findElement(TEXTFIELD_NEW_NAME).clear();
+            getDriver().findElement(TEXTFIELD_NEW_NAME).sendKeys("renamed_pip1" + specialCharactersString.charAt(i));
+            getDriver().findElement(BUTTON_RENAME).click();
+
+            Assert.assertEquals(getDriver()
+                            .findElement(By.xpath("//div[@id='main-panel']//h1[contains(text(),'Error')]")).getText()
+                    , "Error");
+            Assert.assertEquals(getDriver()
+                            .findElement(By.xpath("//div[@id='main-panel']//p")).getText()
+                    , String.format("‘%s’ is an unsafe character", specialCharactersString.charAt(i)));
+            deletePipelineProject();
+        }
+    }
 }
