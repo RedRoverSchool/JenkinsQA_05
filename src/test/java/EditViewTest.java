@@ -98,7 +98,7 @@ public class EditViewTest extends BaseTest{
     @Test
     public void testGlobalViewAddBothFilters() {
         createManyItems(1);
-//        deleteAllViews();
+        deleteAllViews();
         globalViewSeriesPreConditions();
 
         getDriver().findElement(FILTER_QUEUE_CSS).click();
