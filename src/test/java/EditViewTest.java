@@ -2,6 +2,8 @@ import org.openqa.selenium.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,6 +32,9 @@ public class EditViewTest extends BaseTest{
         final By CSS_ORGFOLDER_5 = By.cssSelector(".j-item-options .jenkins_branch_OrganizationFolder");
         final By[] menuOptions = {CSS_FREESTYLE_0,CSS_PIPELINE_1, CSS_MULTICONFIG_2, CSS_FOLDER_3, CSS_MULTIBRANCH_4, CSS_ORGFOLDER_5};
 
+        TakesScreenshot scrShot = (TakesScreenshot)getDriver();
+        File file = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+        String screenshotBase64 = ((TakesScreenshot)getDriver()).getScreenshotAs(OutputType.BASE64);
         getDriver().findElement(By.cssSelector("a[href='/view/all/newJob']")).click();
         getDriver().findElement(By.cssSelector("#name.jenkins-input")).sendKeys(UUID.randomUUID().toString().substring(0, 8));
         getDriver().findElement(menuOptions[i]).click();
@@ -39,8 +44,11 @@ public class EditViewTest extends BaseTest{
 
     public void createManyItems(int i){
         for(int j = 0; j < i; j++){
-            for(int k = 0; k < 6; k++)
+            System.out.println("1 " + j);
+            for(int k = 0; k < 6; k++) {
+                System.out.println("2 " + k);
                 createItem(k);
+            }
         }
     }
 
