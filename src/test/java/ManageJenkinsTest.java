@@ -65,7 +65,7 @@ public class ManageJenkinsTest extends BaseTest {
         final By availablePluginsTab = By.xpath("//a[@href='./available']");
         final By searchField = By.id("filter-box");
         final By pluginsTableRows = By.xpath("//div[@id='main-panel']//tbody//tr");
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(15));
 
         getDriver().findElement(MANAGE_JENKINS).click();
         getDriver().findElement(pluginManager).click();
