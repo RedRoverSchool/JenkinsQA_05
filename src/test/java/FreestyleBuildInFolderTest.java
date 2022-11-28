@@ -23,7 +23,8 @@ public class FreestyleBuildInFolderTest extends BaseTest {
     private static final By DASHBOARD = By.xpath("//a[normalize-space()='Dashboard']");
     private static final By CREATED_FOLDER = By.xpath("//a[@class='jenkins-table__link model-link inside']");
     private static final By NEW_ITEM_DROPDOWN = By.xpath("//*[contains(@class,'icon-new-package icon-md')]");
-    private static final By DOCS_SELECT = By.cssSelector(".jenkins-table__link.model-link.inside");
+   // private static final By DOCS_SELECT = By.cssSelector(".jenkins-table__link.model-link.inside");
+    private static final By DOCS_SELECT = By.xpath("//*[contains(@class,'jenkins-table')and contains(@href,'job/Docs/')]");
     private static final By CONSOLE_OUTPUT = By.xpath("//span[normalize-space()='Console Output']");
     private static final By BUILD_DROPDOWN = By.cssSelector("a[class='model-link inside build-link display-name'] button[class='jenkins-menu-dropdown-chevron']");
     private static final By JOB_IN = By.cssSelector("a[class='jenkins-table__link model-link inside']");
@@ -45,7 +46,6 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(
                 By.cssSelector("#view-message")).getText().contains(DESCRIPTION));
     }
-
     @Test(dependsOnMethods = {"createFolderTest"})
     public void testCreateFreestyleProject() throws InterruptedException {
 
