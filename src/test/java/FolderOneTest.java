@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class FolderOneTest extends BaseTest {
-
     private static final By NEW_ITEM = By.linkText("New Item");
     private static final By NAME = By.id("name");
     private static final By SUBMIT_BUTTON = By.xpath("//button[@type = 'submit']");
