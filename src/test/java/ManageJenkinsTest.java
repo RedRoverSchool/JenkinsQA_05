@@ -1,7 +1,9 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -17,6 +19,11 @@ public class ManageJenkinsTest extends BaseTest {
     private static final By SAVE_BUTTON = By.id("yui-gen3-button");
     private static final By H1_TITLE = By.xpath("//h1");
     private static final By PAGE_HEADER_USER = By.cssSelector(".model-link > .hidden-xs.hidden-sm");
+
+    public static void jsClick(WebDriver driver, WebElement element) {
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        executor.executeScript("arguments[0].click();", element);
+    }
 
     @Test
     public void testRenameFullUserName() {
@@ -38,6 +45,22 @@ public class ManageJenkinsTest extends BaseTest {
 
         Assert.assertEquals(actualFullNameOnBreadCrumbs, newFullName);
         Assert.assertEquals(actualFullNameOnPageHeader, newFullName);
+    }
+
+    @Test
+    public void testManageOldData() {
+
+        final String expectedText = "No old data was found.";
+
+        getDriver().findElement(MANAGE_JENKINS).click();
+
+        jsClick(getDriver(), getDriver().findElement(By.xpath("//a[@href='administrativeMonitor/OldData/']")));
+
+        String allTextFromMainPanel = getDriver().findElement(By.id("main-panel")).getText();
+        String[] actualText = allTextFromMainPanel.split("\n");
+
+        Assert.assertTrue(getDriver().findElements(By.xpath("//div[@id='main-panel']//tbody//tr")).isEmpty());
+        Assert.assertEquals(actualText[actualText.length - 1], expectedText);
     }
 
     @Test
