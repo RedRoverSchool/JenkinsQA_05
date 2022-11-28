@@ -22,6 +22,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     private static final By SAVE_BUTTON = By.xpath("//button[@type='submit']");
     private static final By INPUT_NAME = By.id("name");
     private static final By CONFIGURE = By.xpath(String.format("//a[@href='/job/%s/configure']", PROJECT_NAME));
+    private static final By DISABLE_PROJECT = By.id("yui-gen1-button");
     private WebDriverWait wait;
 
     private void deleteNewMCProject(String project) {
@@ -32,6 +33,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 By.xpath("//div[@id = 'tasks']//span[contains(text(), 'Delete Multi-configuration project')]")).click();
         getDriver().switchTo().alert().accept();
     }
+
     @Test
     public void testCreateMultiConfigurationProjectWithValidName_HappyPath() {
         getDriver().findElement(NEW_ITEM).click();
@@ -85,7 +87,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[contains(text(),'Rename')]")).click();
 
         Assert.assertEquals(getDriver().findElement(
-                By.xpath(String.format("//h1[contains(text(),'Project %s')]", PROJECT_NAME))).getText(),
+                        By.xpath(String.format("//h1[contains(text(),'Project %s')]", PROJECT_NAME))).getText(),
                 String.format("Project %s", PROJECT_NAME));
     }
 
@@ -146,15 +148,16 @@ public class MulticonfigurationProjectTest extends BaseTest {
         String ActualDecriptionMCP = getDriver().findElement(
                 By.xpath("//div[@id='description']/div[1]")).getText();
 
-        Assert.assertEquals(ActualNameMCP,nameMCP);
-        Assert.assertEquals(ActualDecriptionMCP,descriptionMCP);
-        Assert.assertEquals(descriptionMCP,ActualPreviewText);
+        Assert.assertEquals(ActualNameMCP, nameMCP);
+        Assert.assertEquals(ActualDecriptionMCP, descriptionMCP);
+        Assert.assertEquals(descriptionMCP, ActualPreviewText);
 
         getDriver().findElement(By.xpath("//span[text()='Delete Multi-configuration project']")).click();
         getDriver().switchTo().alert().accept();
     }
+
     @Test
-    public void testMultiConfigurationProjectBuild(){
+    public void testMultiConfigurationProjectBuild() {
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(INPUT_NAME).sendKeys(NEW_PROJECT_NAME);
         getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
@@ -162,7 +165,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(DASHBOARD).click();
 
-        getDriver().findElement(By.xpath("//a[@href='job/"+ NEW_PROJECT_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='job/" + NEW_PROJECT_NAME + "/']")).click();
         List<WebElement> build_row_before_build = getDriver().findElements(By.xpath("//tr[@page-entry-id]"));
         int amountOfBuildsBeforeBuildNow = build_row_before_build.size();
 
@@ -190,16 +193,69 @@ public class MulticonfigurationProjectTest extends BaseTest {
         deleteNewMCProject(NEW_PROJECT_NAME);
     }
 
+    @Test
+    public void testCreateMultiConfigurationProjectDisabled() {
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        getDriver().findElement(By.xpath("//input[@class='jenkins-input']"))
+                .sendKeys(MulticonfigurationProjectTest.PROJECT_NAME);
+        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//*[@id='toggle-switch-enable-disable-project']/label/span[2]")).click();
+        getDriver().findElement(
+                By.xpath("//span[@class='yui-button yui-submit-button submit-button primary']")).click();
+
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+        getDriver().findElement(By.xpath("//span[text()='" + PROJECT_NAME + "']")).click();
+        String actualStatus = getDriver().findElement(By.xpath("//*[@id='enable-project']")).getText();
+
+        Assert.assertEquals(actualStatus, "This project is currently disabled\nEnable");
+    }
+
     @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
-    public void testFindMultiConfigurationProject(){
+    public void testFindMultiConfigurationProject() {
         getDriver().findElement(By.cssSelector("#search-box")).sendKeys(PROJECT_NAME);
         getDriver().findElement(By.cssSelector("#search-box")).sendKeys(Keys.ENTER);
         getDriver().findElement(By.xpath("//div/ul/li/a[text()='" + PROJECT_NAME + "']"));
 
-       Assert.assertEquals(
-               getDriver().findElement(By.xpath("//div/ul/li/a[text()='" + PROJECT_NAME + "']")).getText(),
-               PROJECT_NAME);
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//div/ul/li/a[text()='" + PROJECT_NAME + "']")).getText(),
+                PROJECT_NAME);
+    }
+
+    @Test
+    public void testDisableMultiMultiConfigurationProjectCheckIconDashboardPage() {
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
+        getDriver().findElement(DISABLE_PROJECT).click();
+        getDriver().findElement(DASHBOARD).click();
+        Assert.assertTrue(getDriver().findElement((By.xpath(
+                        String.format("//tr[@id='job_%s']//span[@class='build-status-icon__wrapper icon-disabled icon-md']", PROJECT_NAME))))
+                .isDisplayed());
+    }
+
+    @Test
+    public void testMultiConfigurationProjectRenameToInvalidNameViaSideMenu() {
+
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys("MC Project");
+        getDriver().findElement
+                (By.xpath("//span[text()='Multi-configuration project']")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(By.xpath("//a[contains(@href,'confirm-rename')]")).click();
+        getDriver().findElement(By.xpath("//input[@name='newName']")).sendKeys("&");
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.id
+                ("main-panel")).getText(),"Error\n‘&amp;’ is an unsafe character");
+
+        deleteNewMCProject("MC Project");
     }
 
     @Test(dependsOnMethods = "testMultiConfigurationProjectBuild")
@@ -223,3 +279,4 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 NEW_PROJECT_NAME);
     }
 }
+

@@ -5,7 +5,7 @@ import runner.BaseTest;
 
 import java.util.ArrayList;
 
-public class FooterLinksVisibilityTest extends BaseTest {
+public class FooterTest extends BaseTest {
 
     private static final By REST_API_LINK = By.xpath("//*[@id='jenkins']/footer/div/div/div[2]/a");
     private static final By JENKINS_LINK = By.xpath("//*[@id='jenkins']/footer/div/div/div[3]/a");

@@ -3,6 +3,7 @@ package runner.order;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class OrderUtils {
 
@@ -37,7 +38,7 @@ public final class OrderUtils {
         });
     }
 
-    public static <T> List<List<T>> orderMethods(
+    static <T> List<List<T>> orderMethods(
             List<T> sourceList, Function<T, String> getNameFunction, Function<T, String[]> getDependencyFunction)
     {
 
@@ -64,14 +65,71 @@ public final class OrderUtils {
         return resultList;
     }
 
-    public static <T> Optional<List<T>> find(List<List<T>> list, T method) {
-        for (List<T> item : list) {
-            if (item.contains(method)) {
-                return Optional.of(item);
+    public abstract static class MethodsOrder<T> {
+
+        private final Map<T, Boolean> methodInvokedMap;
+        private final Map<T, List<T>> methodListMap;
+        private final List<List<T>> methodList;
+
+        public MethodsOrder(List<List<T>> methodList) {
+            this.methodList = methodList;
+            this.methodInvokedMap = new HashMap<>();
+            this.methodListMap = new HashMap<>();
+
+            for (List<T> list : methodList) {
+                for (T method : list) {
+                    methodInvokedMap.put(method, false);
+                    methodListMap.put(method, list);
+                }
             }
         }
 
-        return Optional.empty();
+        public boolean markAsInvoked(T method) {
+            return Boolean.TRUE.equals(this.methodInvokedMap.put(method, true));
+        }
+
+        public boolean isInvoked(T method) {
+            return this.methodInvokedMap.get(method);
+        }
+
+        public List<T> getGroupList(T method) {
+            return new ArrayList<>(this.methodListMap.get(method));
+        }
+
+        public boolean isGroupFinished(T method) {
+            for (T _method : getGroupList(method)) {
+                if (!isInvoked(_method)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public boolean isGroupStarted(T method) {
+            for (T _method : getGroupList(method)) {
+                if (isInvoked(_method)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public List<T> getFlatList() {
+            return methodList.stream().flatMap(List::stream).collect(Collectors.toList());
+        }
     }
 
+    private static class _MethodsOrder<T> extends MethodsOrder<T> {
+
+        public _MethodsOrder(List<List<T>> methodList) {
+            super(methodList);
+        }
+    }
+
+    public static <T> MethodsOrder<T> createMethodsOrder(
+            List<T> sourceList, Function<T, String> getNameFunction, Function<T, String[]> getDependencyFunction) {
+        return new _MethodsOrder<>(orderMethods(sourceList, getNameFunction, getDependencyFunction));
+    }
 }

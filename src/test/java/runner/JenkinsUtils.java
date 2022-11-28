@@ -12,10 +12,6 @@ import java.util.Set;
 
 public class JenkinsUtils {
 
-    public static void main(String[] args) {
-        deleteJobs();
-    }
-
     private static final HttpClient client = HttpClient.newBuilder().build();
 
     private static String sessionId;
@@ -29,15 +25,20 @@ public class JenkinsUtils {
         return page.substring(crumbTagBeginIndex, crumbTagEndIndex);
     }
 
-    private static Set<String> getJobsFromPage(String page) {
-        final String JOB_TAG = "href=\"job/";
+    private static Set<String> getSubstringsFromPage(String page, String from, String to) {
         Set<String> result = new HashSet<>();
 
-        int beginIndex = page.indexOf(JOB_TAG);
-        while (beginIndex != -1) {
-            int endIndex = page.indexOf('/', beginIndex + JOB_TAG.length());
-            result.add(page.substring(beginIndex + JOB_TAG.length(), endIndex));
-            beginIndex = page.indexOf(JOB_TAG, endIndex);
+        int index = page.indexOf(from);
+        while (index != -1) {
+            int endIndex = page.indexOf(to, index + from.length());
+
+            if (endIndex - index < 100) {
+                result.add(page.substring(index + from.length(), endIndex));
+            } else {
+                endIndex = index + from.length();
+            }
+
+            index = page.indexOf(from, endIndex);
         }
 
         return result;
@@ -81,31 +82,47 @@ public class JenkinsUtils {
         }
     }
 
-    private static String getMainPage(String user, String password) {
-        HttpResponse<String> mainPage = getHttp(ProjectUtils.getUrl());
-        if (mainPage.statusCode() != 200) {
+    private static String getPage(String uri) {
+        HttpResponse<String> page = getHttp(ProjectUtils.getUrl() + uri);
+        if (page.statusCode() != 200) {
             final String HEAD_COOKIE = "set-cookie";
 
             HttpResponse<String> loginPage = getHttp(ProjectUtils.getUrl() + "login?from=%2F");
             sessionId = loginPage.headers().firstValue(HEAD_COOKIE).orElse(null);
 
             HttpResponse<String> indexPage = postHttp(ProjectUtils.getUrl() + "j_spring_security_check",
-                    String.format("j_username=%s&j_password=%s&from=%%2F&Submit=", user, password));
+                    String.format("j_username=%s&j_password=%s&from=%%2F&Submit=", ProjectUtils.getUserName(), ProjectUtils.getPassword()));
             sessionId = indexPage.headers().firstValue(HEAD_COOKIE).orElse("");
 
-            mainPage = getHttp(ProjectUtils.getUrl());
+            page = getHttp(ProjectUtils.getUrl() + uri);
         }
 
-        return mainPage.body();
+        return page.body();
+    }
+
+    private static void deleteByLink(String link, Set<String> names, String crumb) {
+        String fullCrumb =  String.format("Jenkins-Crumb=%s", crumb);
+        for (String name : names) {
+            postHttp(String.format(ProjectUtils.getUrl() + link, name), fullCrumb);
+        }
     }
 
     public static void deleteJobs() {
-        String mainPage = getMainPage(ProjectUtils.getUserName(), ProjectUtils.getPassword());
-        String crumb = getCrumbFromPage(mainPage);
+        String mainPage = getPage("");
+        deleteByLink("job/%s/doDelete",
+                getSubstringsFromPage(mainPage, "href=\"job/", "/\""),
+                getCrumbFromPage(mainPage));
+    }
 
-        for (String jobName : getJobsFromPage(mainPage)) {
-            postHttp(String.format(ProjectUtils.getUrl() + "job/%s/doDelete", jobName),
-                    String.format("Jenkins-Crumb=%s", crumb));
-        }
+    public static void deleteViews() {
+        String mainPage = getPage("");
+        deleteByLink("view/%s/doDelete",
+                getSubstringsFromPage(mainPage, "href=\"/view/", "/\""),
+                getCrumbFromPage(mainPage));
+
+        String viewPage = getPage("me/my-views/view/all/");
+        deleteByLink("user/admin/my-views/view/%s/doDelete",
+                getSubstringsFromPage(viewPage, "href=\"/user/admin/my-views/view/", "/\""),
+                getCrumbFromPage(viewPage));
     }
 }
