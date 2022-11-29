@@ -247,4 +247,40 @@ public class EditViewTest extends BaseTest{
 
         Assert.assertTrue(newPaneIsDisplayed);
     }
+
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
+    public void testListViewCheckEveryAddColumnItem() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        final String[] tableValues = {"S", "W", "Name", "Last Success", "Last Failure", "Last Stable", "Last Duration", "","Git Branches", "Name", "Description"};
+        goToEditView();
+
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN_CSS));
+        new Actions(getDriver()).pause(700).moveToElement(getDriver().findElement(ADD_COLUMN_CSS)).click().perform();
+        final List<WebElement> addColumnMenuItems = getDriver().findElements(By.cssSelector("a.yuimenuitemlabel"));
+        Map<String, String> tableMenuMap = new HashMap<>();
+        for (int i = 0; i < addColumnMenuItems.size(); i++) {
+            tableMenuMap.put(addColumnMenuItems.get(i).getText(), tableValues[i]);
+        }
+        List<Boolean> allMatches = new ArrayList<>(addColumnMenuItems.size());
+        for (int j = 1; j <= addColumnMenuItems.size(); j++) {
+            WebElement element = getDriver().findElement(By.cssSelector(String.format(".bd li[id^='yui']:nth-child(%d)", j)));
+            String selectedColumnName = element.getText();
+            element.click();
+            getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+            String lastColumnName = getDriver().findElement(By.cssSelector("table#projectstatus th:last-child")).getText().replace("↓"," ").trim();
+            allMatches.add(tableMenuMap.get(selectedColumnName).equals(lastColumnName));
+            getDriver().findElement(By.xpath("//a[contains(@href, 'configure')]")).click();
+            js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN_CSS));
+            new Actions(getDriver()).pause(700).moveToElement(getDriver().findElement(ADD_COLUMN_CSS)).perform();
+
+            int existingColumns = getDriver().findElements(By.cssSelector(".hetero-list-container>div.repeated-chunk")).size();
+            WebElement lastRow = getDriver().findElement(By.cssSelector(String.format(".hetero-list-container>div:nth-child(%d)", existingColumns)));
+            lastRow.findElement(By.cssSelector("button.repeatable-delete")).click();
+            js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN_CSS));
+            new Actions(getDriver()).pause(700).moveToElement(getDriver().findElement(ADD_COLUMN_CSS)).click().perform();
+        }
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+
+        Assert.assertTrue(allMatches.stream().allMatch(element-> element == true));
+    }
 }
