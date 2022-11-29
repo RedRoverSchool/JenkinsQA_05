@@ -2,10 +2,10 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 public class BuildHistoryTest extends BaseTest {
 
-    private static final String PROJECT_NAME = "Project Name";
     private static final By BUILD_NOW_BTN = By.xpath("//body[1]/div[3]/div[1]/div[1]/div[5]/span[1]");
     private static final By ICON_SIZE = By.xpath("//a[@class='jenkins-table__button']//*[name()='svg']");
 
@@ -24,7 +24,7 @@ public class BuildHistoryTest extends BaseTest {
     @Test
     public void testVerifyDefaultIconSize() {
         getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
+        getDriver().findElement(By.id("name")).sendKeys(TestUtils.getRandomStr(8));
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
