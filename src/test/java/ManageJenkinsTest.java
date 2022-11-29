@@ -131,7 +131,7 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@tooltip='Uninstall TestNG Results Plugin']")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
-        getDriver().get(getDriver().getCurrentUrl().replace("pluginManager/available", "restart"));
+        getDriver().get(getDriver().getCurrentUrl().replace("pluginManager/installed", "restart"));
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
         getWait(getDriver(), 60).until(ExpectedConditions.visibilityOfElementLocated(By.name("j_username")));
