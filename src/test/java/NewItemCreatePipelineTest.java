@@ -38,10 +38,6 @@ public class NewItemCreatePipelineTest extends BaseTest {
         ((JavascriptExecutor) getDriver()).executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
-    public void scrollToElement(WebElement element) {
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView();", element);
-    }
-
     @Test
     public void testCreatePipelineExistingNameError() {
         final String jobName = getRandomStr();
@@ -161,17 +157,15 @@ public class NewItemCreatePipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testAddingGitRepository")
     public void testCheckingDisappearanceOfWarningMessage() {
         getDriver().findElement(By.linkText("Manage Jenkins")).click();
-        scrollToElement(getDriver().findElement(By.xpath("//h2[text()='System Configuration']")));
-        new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.xpath(
-                "//a[@href='configureTools']"))).click().perform();
+        getDriver().findElement(By.xpath("//a[@href='configureTools']")).click();
+        scrollPageDown();
 
+        new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.id("yui-gen9-button"))).click().perform();
         scrollPageDown();
-        new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.xpath(
-                "//button[text()='Add Maven']"))).click().perform();
-        new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.cssSelector(
-                "input[checkurl$='MavenInstallation/checkName']"))).click().sendKeys("Maven").perform();
-        scrollPageDown();
-        getDriver().findElement(By.id("yui-gen8-button")).click();
+        WebElement fieldName = getDriver().findElement(By.cssSelector("input[checkurl$='MavenInstallation/checkName']"));
+        fieldName.click();
+        fieldName.sendKeys("Maven");
+        getDriver().findElement(By.id("yui-gen5-button")).click();
 
         Assert.assertFalse(getDriver().findElement(
                 By.xpath("//input[contains(@checkurl,'MavenInstallation/checkName')]/parent::div/following-sibling::div"))
