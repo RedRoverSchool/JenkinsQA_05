@@ -277,7 +277,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                         By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/']")).getText(),
                 NEW_PROJECT_NAME);
     }
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
+    @Test
     public void testDisableMultiMultiConfigurationProjectCheckIconProjectName() {
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
