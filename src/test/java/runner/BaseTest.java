@@ -41,7 +41,7 @@ public abstract class BaseTest {
                 getWeb();
             }
         } catch (Exception e) {
-            stopDriver();
+            closeDriver();
             throw new RuntimeException(e);
         } finally {
             methodsOrder.markAsInvoked(method);
@@ -71,11 +71,15 @@ public abstract class BaseTest {
     }
 
     protected void stopDriver() {
-        if (driver != null) {
-            try {
-                ProjectUtils.logout(driver);
-            } catch (Exception ignore) {}
+        try {
+            ProjectUtils.logout(driver);
+        } catch (Exception ignore) {}
 
+        closeDriver();
+    }
+
+    protected void closeDriver() {
+        if (driver != null) {
             driver.quit();
             BaseUtils.log("Browser closed");
         }
