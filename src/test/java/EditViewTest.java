@@ -20,6 +20,7 @@ public class EditViewTest extends BaseTest{
     private static final By STATUS_DRAG_HANDLE_XP = By.xpath("//div[@descriptorid='hudson.views.StatusColumn']//div[@class='dd-handle']");
     private static final By WEATHER_DRAG_HANDLE_XP = By.xpath("//div[@descriptorid='hudson.views.WeatherColumn']//div[@class='dd-handle']");
     private static final By DELETE_VIEW_CSS = By.cssSelector("a[href='delete']");
+    private static final By ADD_COLUMN_CSS = By.cssSelector(".hetero-list-add[suffix='columns']");
 
 
     private void createItem(int i){
@@ -109,7 +110,6 @@ public class EditViewTest extends BaseTest{
     }
 
     @Test
-
     public void testListViewAddFiveItems() {
         listViewSeriesPreConditions();
 
@@ -137,6 +137,57 @@ public class EditViewTest extends BaseTest{
                 By.cssSelector("input[name=filterExecutors]")).getAttribute("checked");
 
         Assert.assertTrue(filterBuildQueueStatus.equals("true") && filterBuildExecutorsStatus.equals("true"));
+    }
+
+    @Test
+    public void testListViewAddNewColumn() {
+        listViewSeriesPreConditions();
+        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION_CSS);
+        for (int i = 0; i < 5; i++) {
+            itemsToSelect.get(i).click();
+        }
+
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN_CSS));
+        new Actions(getDriver()).pause(700).moveToElement(getDriver().findElement(ADD_COLUMN_CSS)).click().perform();
+        getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel' and text()='Git Branches']")).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+
+        String expectedResult = "Git Branches";
+        String actualResult = getDriver().findElement(By.cssSelector("#projectstatus th:last-child a")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testListViewAddAllItems() {
+        listViewSeriesPreConditions();
+
+        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION_CSS);
+        int expectedResult = itemsToSelect.size();
+        itemsToSelect.forEach(WebElement::click);
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        int actualResult = getDriver().findElements(ITEM_PATH_CSS).size();
+
+        Assert.assertEquals(actualResult,expectedResult);
+    }
+
+    @Test
+    public void testListViewAddRegexFilter() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        createManyItems(3);
+        List<WebElement> itemsToSelect = getDriver().findElements(By.cssSelector(".jenkins-table__link"));
+        long expectedResult = itemsToSelect.stream().filter(element -> element.getText().contains("9")).count();
+        deleteAllViews();
+        createListView();
+
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(REGEX_CSS));
+        new Actions(getDriver()).pause(500).moveToElement(getDriver().findElement(REGEX_CSS)).click().perform();
+        getDriver().findElement(By.cssSelector("input[name='includeRegex']")).sendKeys(".*9.*");
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        long actualResult = getDriver().findElements(By.cssSelector(".jenkins-table__link")).size();
+
+        Assert.assertEquals(actualResult,expectedResult);
     }
 
     @Test
