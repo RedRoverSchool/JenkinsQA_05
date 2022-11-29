@@ -1,4 +1,5 @@
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -14,9 +15,12 @@ public class EditViewTest extends BaseTest{
     private static final By ITEM_OPTION_CSS = By.cssSelector("input[json='true']+label");
     private static final By FILTER_QUEUE_CSS = By.cssSelector("input[name=filterQueue]+label");
     private static final By MY_VIEWS_XP = By.xpath("//a[@href='/me/my-views']");
+    private static final By REGEX_CSS = By.cssSelector("input[name='useincluderegex']+label");
     private static final By INPUT_NAME_ID = By.id("name");
+    private static final By STATUS_DRAG_HANDLE_XP = By.xpath("//div[@descriptorid='hudson.views.StatusColumn']//div[@class='dd-handle']");
+    private static final By WEATHER_DRAG_HANDLE_XP = By.xpath("//div[@descriptorid='hudson.views.WeatherColumn']//div[@class='dd-handle']");
     private static final By DELETE_VIEW_CSS = By.cssSelector("a[href='delete']");
-
+    private static final By ADD_COLUMN_CSS = By.cssSelector(".hetero-list-add[suffix='columns']");
 
     private void createItem(int i){
         final By CSS_FREESTYLE_0 = By.cssSelector(".j-item-options .hudson_model_FreeStyleProject");
@@ -60,6 +64,15 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
     }
 
+    public void createMyView() {
+        getDriver().findElement(DASHBOARD_CSS).click();
+        getDriver().findElement(MY_VIEWS_XP).click();
+        getDriver().findElement(By.cssSelector(".addTab")).click();
+        getDriver().findElement(INPUT_NAME_ID).sendKeys(RANDOM_ALPHANUMERIC);
+        getDriver().findElement(By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.MyView']")).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+    }
+
     public void goToEditView() {
         getDriver().findElement(DASHBOARD_CSS).click();
         getDriver().findElement(MY_VIEWS_XP).click();
@@ -72,6 +85,19 @@ public class EditViewTest extends BaseTest{
         deleteAllViews();
         createGlobalView();
     }
+
+    public void listViewSeriesPreConditions() {
+        createManyItems(1);
+        deleteAllViews();
+        createListView();
+    }
+
+    public void myViewSeriesPreConditions() {
+        createManyItems(1);
+        deleteAllViews();
+        createMyView();
+    }
+
     public void deleteAllViews(){
         getDriver().findElement(MY_VIEWS_XP).click();
         List<WebElement> allViews = getDriver().findElements(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]"));
@@ -81,12 +107,6 @@ public class EditViewTest extends BaseTest{
             getDriver().findElement(SUBMIT_BUTTON_CSS).click();
             allViews = getDriver().findElements(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]"));
         }
-    }
-
-    public void listViewSeriesPreConditions() {
-        createManyItems(1);
-        deleteAllViews();
-        createListView();
     }
 
     @Test
@@ -103,7 +123,6 @@ public class EditViewTest extends BaseTest{
     }
 
     @Test
-
     public void testListViewAddFiveItems() {
         listViewSeriesPreConditions();
 
@@ -117,6 +136,7 @@ public class EditViewTest extends BaseTest{
         Assert.assertEquals(actualResult,5);
     }
 
+    @Test
     public void testGlobalViewAddBothFilters() {
         globalViewSeriesPreConditions();
 
@@ -130,5 +150,101 @@ public class EditViewTest extends BaseTest{
                 By.cssSelector("input[name=filterExecutors]")).getAttribute("checked");
 
         Assert.assertTrue(filterBuildQueueStatus.equals("true") && filterBuildExecutorsStatus.equals("true"));
+    }
+
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
+    public void testListViewAddNewColumn() {
+        goToEditView();
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN_CSS));
+        new Actions(getDriver()).pause(700).moveToElement(getDriver().findElement(ADD_COLUMN_CSS)).click().perform();
+        getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel' and text()='Git Branches']")).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+
+        String expectedResult = "Git Branches";
+        String actualResult = getDriver().findElement(By.cssSelector("#projectstatus th:last-child a")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testListViewAddAllItems() {
+        listViewSeriesPreConditions();
+
+        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION_CSS);
+        int expectedResult = itemsToSelect.size();
+        itemsToSelect.forEach(WebElement::click);
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        int actualResult = getDriver().findElements(ITEM_PATH_CSS).size();
+
+        Assert.assertEquals(actualResult,expectedResult);
+    }
+
+    @Test
+    public void testListViewAddRegexFilter() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        createManyItems(3);
+        List<WebElement> itemsToSelect = getDriver().findElements(By.cssSelector(".jenkins-table__link"));
+        long expectedResult = itemsToSelect.stream().filter(element -> element.getText().contains("9")).count();
+        deleteAllViews();
+        createListView();
+
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(REGEX_CSS));
+        new Actions(getDriver()).pause(500).moveToElement(getDriver().findElement(REGEX_CSS)).click().perform();
+        getDriver().findElement(By.cssSelector("input[name='includeRegex']")).sendKeys(".*9.*");
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        long actualResult = getDriver().findElements(By.cssSelector(".jenkins-table__link")).size();
+
+        Assert.assertEquals(actualResult,expectedResult);
+    }
+
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
+    public void testListViewChangeColumnOrder() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        goToEditView();
+
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(WEATHER_DRAG_HANDLE_XP));
+        new Actions(getDriver()).pause(500).moveToElement(getDriver().findElement(WEATHER_DRAG_HANDLE_XP)).perform();
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(getDriver().findElement(STATUS_DRAG_HANDLE_XP))
+                .clickAndHold(getDriver().findElement(STATUS_DRAG_HANDLE_XP))
+                .moveByOffset(0,50)
+                .moveByOffset(0,50)
+                .release().perform();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        String[] expectedResult = {"W", "S"};
+        String[] actualResult = {getDriver().findElement(By
+                .cssSelector("#projectstatus th:nth-child(1) a")).getText(),getDriver().findElement(By
+                .cssSelector("#projectstatus th:nth-child(2) a")).getText()};
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testListViewAddFilterBuildQueue() {
+        listViewSeriesPreConditions();
+
+        getDriver().findElement(FILTER_QUEUE_CSS).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        boolean newPaneIsDisplayed = getDriver().findElements(By.cssSelector(".pane-header-title"))
+                .stream().map(element -> element.getText()).collect(Collectors.toList())
+                .contains("Filtered Build Queue");
+
+        Assert.assertTrue(newPaneIsDisplayed);
+    }
+
+    @Test
+    public void testMyViewAddFilterBuildQueue() {
+        myViewSeriesPreConditions();
+        goToEditView();
+
+        getDriver().findElement(FILTER_QUEUE_CSS).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        boolean newPaneIsDisplayed = getDriver().findElements(By.cssSelector(".pane-header-title"))
+                .stream().map(element -> element.getText()).collect(Collectors.toList())
+                .contains("Filtered Build Queue");
+
+        Assert.assertTrue(newPaneIsDisplayed);
     }
 }

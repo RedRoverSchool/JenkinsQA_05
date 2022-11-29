@@ -65,7 +65,7 @@ public class NewViewTest extends BaseTest {
                 .isDisplayed());
     }
 
-    @Test(dependsOnMethods = "testLetterLClickableMyViews")
+    @Test(dependsOnMethods = "testClickOnIconLegend")
     public void testDeleteNewView() {
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(By.xpath(String.format("//div/a[contains(text(),'%s')]", VIEW_NAME))).click();
@@ -106,5 +106,17 @@ public class NewViewTest extends BaseTest {
         executor.executeScript("arguments[0].click();", buttonS);
 
         Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
+    }
+
+    @Test(dependsOnMethods = "testLetterSClickableMyViews")
+    public void testClickOnIconLegend() {
+
+        WebElement iconLegendButton = getDriver().findElement(By.xpath("//a[@href='/legend']"));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", iconLegendButton);
+
+        int legendIconAmount = getDriver().findElements(By.xpath("//table[@id='legend-table']//tr")).size();
+
+        Assert.assertEquals(legendIconAmount, 17);
     }
 }

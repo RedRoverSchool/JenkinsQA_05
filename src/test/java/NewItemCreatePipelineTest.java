@@ -1,7 +1,5 @@
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -157,6 +155,24 @@ public class NewItemCreatePipelineTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAddingGitRepository")
+    public void testCheckingDisappearanceOfWarningMessage() {
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+        getDriver().findElement(By.xpath("//a[@href='configureTools']")).click();
+        scrollPageDown();
+
+        new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.id("yui-gen9-button"))).click().perform();
+        scrollPageDown();
+        WebElement fieldName = getDriver().findElement(By.cssSelector("input[checkurl$='MavenInstallation/checkName']"));
+        fieldName.click();
+        fieldName.sendKeys("Maven");
+        getDriver().findElement(By.id("yui-gen5-button")).click();
+
+        Assert.assertFalse(getDriver().findElement(
+                By.xpath("//input[contains(@checkurl,'MavenInstallation/checkName')]/parent::div/following-sibling::div"))
+                    .getText().contains("Required"));
+    }
+
+    @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
     public void testCreateNewItemFromOtherNonExistingName() {
         final String jobName = getRandomStr();
 
