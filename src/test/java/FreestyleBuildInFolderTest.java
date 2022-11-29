@@ -1,8 +1,8 @@
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
 import java.util.UUID;
 
 public class FreestyleBuildInFolderTest extends BaseTest {
@@ -58,7 +58,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(DOCS_SELECT).click();
         getDriver().findElement(DOCS_IN).click();
-        Thread.sleep(5000);
+        Thread.sleep(10000);
 
         Assert.assertEquals(getDriver().findElement(
                 By.xpath("//a[@class='jenkins-table__link model-link inside']")).getText(), name);
