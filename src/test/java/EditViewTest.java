@@ -217,4 +217,17 @@ public class EditViewTest extends BaseTest{
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testListViewAddFilterBuildQueue() {
+        listViewSeriesPreConditions();
+
+        getDriver().findElement(FILTER_QUEUE_CSS).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        boolean newPaneIsDisplayed = getDriver().findElements(By.cssSelector(".pane-header-title"))
+                .stream().map(element -> element.getText()).collect(Collectors.toList())
+                .contains("Filtered Build Queue");
+
+        Assert.assertTrue(newPaneIsDisplayed);
+    }
 }
