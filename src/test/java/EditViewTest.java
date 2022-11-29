@@ -216,5 +216,6 @@ public class EditViewTest extends BaseTest{
                 .cssSelector("#projectstatus th:nth-child(2) a")).getText()};
 
         Assert.assertEquals(actualResult, expectedResult);
+
     }
 }
