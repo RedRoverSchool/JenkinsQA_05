@@ -65,7 +65,6 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
     }
 
-
     public void goToEditView() {
         getDriver().findElement(DASHBOARD_CSS).click();
         getDriver().findElement(MY_VIEWS_XP).click();
@@ -107,6 +106,37 @@ public class EditViewTest extends BaseTest{
                 .contains("Filtered Build Queue");
 
         Assert.assertTrue(newPaneIsDisplayed);
+    }
+
+    @Test
+
+    public void testListViewAddFiveItems() {
+        listViewSeriesPreConditions();
+
+        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION_CSS);
+        for (int i = 0; i < 5; i++) {
+            itemsToSelect.get(i).click();
+        }
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        int actualResult = getDriver().findElements(ITEM_PATH_CSS).size();
+
+        Assert.assertEquals(actualResult,5);
+    }
+
+    @Test
+    public void testGlobalViewAddBothFilters() {
+        globalViewSeriesPreConditions();
+
+        getDriver().findElement(FILTER_QUEUE_CSS).click();
+        getDriver().findElement(By.cssSelector("input[name=filterExecutors]+label")).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        goToEditView();
+        String filterBuildQueueStatus = getDriver().findElement(
+                By.cssSelector("input[name=filterQueue]")).getAttribute("checked");
+        String filterBuildExecutorsStatus = getDriver().findElement(
+                By.cssSelector("input[name=filterExecutors]")).getAttribute("checked");
+
+        Assert.assertTrue(filterBuildQueueStatus.equals("true") && filterBuildExecutorsStatus.equals("true"));
     }
 
     @Test
