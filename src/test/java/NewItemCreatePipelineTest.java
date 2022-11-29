@@ -197,7 +197,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         getDriver().findElement(By.cssSelector(".jenkins-input")).sendKeys(ITEM_DESCRIPTION);
         getDriver().findElement(SAVE_BUTTON).click();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector(
-                "#description >*:first-child")).getAttribute("textContent"),ITEM_DESCRIPTION);
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child"))
+                .getAttribute("textContent"),ITEM_DESCRIPTION);
     }
 }
