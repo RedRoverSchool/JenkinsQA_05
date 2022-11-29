@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -13,23 +14,24 @@ import java.time.Duration;
 @Ignore
 public class GroupCleanCodeTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testFolkInstruments() {
         getDriver().get("http://ludowe.instrumenty.edu.pl/en/instruments/show/instrument/4653");
 
-        WebElement link = getDriver().findElement(By.xpath("//div//h2[@class='hidden-xs'][text()='ritual scepter']"));
+        WebElement link = getDriver().findElement(By.xpath("/html/body/div[2]/div[4]/div/div/div/div/div[5]/h2"));
 
         Assert.assertEquals(link.getText(), "ritual scepter");
     }
-
+    @Ignore
     @Test
     public void testFolkInstrumentsPolishEnglish() {
         getDriver().get("http://ludowe.instrumenty.edu.pl/pl/o-projekcie");
 
-        WebElement polishEnglish = getDriver().findElement(By.xpath("//a[text()='en']"));
+        WebElement polishEnglish = getDriver().findElement(By.xpath("//a[@href='/en/about']"));
         polishEnglish.click();
 
-        WebElement languageChange = getDriver().findElement(By.xpath("//h2[text()='About']"));
+        WebElement languageChange = getDriver().findElement(By.xpath("//*[@id='main']/div[4]/div/div/div/div/div[1]/h2"));
 
         Assert.assertEquals(languageChange.getText(), "About");
     }
@@ -155,29 +157,35 @@ public class GroupCleanCodeTest extends BaseTest {
         Assert.assertEquals(link.getText(), "Запостить");
     }
 
+    @Ignore
     @Test
-    public void testWebElements() {
+    public void testFolkInstrumentsBow() {
+        getDriver().get("http://ludowe.instrumenty.edu.pl/en");
+
+        WebElement instrumentSearch = getDriver().findElement(By.xpath("/html/body/div[2]/div[2]/div/div/div/ul/li[2]/a"));
+        instrumentSearch.click();
+
+        WebElement instrumentSearch1 = getDriver().findElement(By.xpath("/html/body/div[2]/div[4]/div/div/div/div/div[2]/div/div[2]/div[1]/div/div[3]/a/h4"));
+        instrumentSearch1.click();
+
+        WebElement instrumentSearch2 = getDriver().findElement(By.xpath("/html/body/div[2]/div[4]/div/div/div/div/div[2]/div[3]/a[2]/div/img"));
+        instrumentSearch2.click();
+
+        WebElement bow = getDriver().findElement(By.xpath("/html/body/div[2]/div[4]/div/div/div/div/div[5]/h2"));
+
+        Assert.assertEquals(bow.getText(), "bow for mazanki");
+    }
+    @Test
+    public void testWebElements(){
         getDriver().get("http://json.parser.online.fr/");
 
         WebElement text = getDriver().findElement(By.xpath("//div[2][@class='n b']/span[@class='l']"));
 
-        Assert.assertEquals(text.getText(), "Options");
+        Assert.assertEquals(text.getText(),"Options");
         text.click();
         WebElement text2 = getDriver().findElement(By.xpath("//div[@class='e d']"));
         text2.click();
 
-        Assert.assertEquals(text2.getText(), "Top-bottom");
-    }
-
-    @Test
-    public void testFolkInstrumentsOpsGroup() {
-        getDriver().get("http://ludowe.instrumenty.edu.pl/pl");
-
-        getDriver().findElement(By.xpath("//li/a[text()='Instrumenty']")).click();
-
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//h2[text()='Opis grup']")).getText(), "Opis grup");
-
-
+        Assert.assertEquals(text2.getText(),"Top-bottom");
     }
 }

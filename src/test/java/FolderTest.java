@@ -23,6 +23,8 @@ public class FolderTest extends BaseTest {
     private static final By FREESTYLE_PROJECT = By.xpath("//span[text()='Freestyle project']");
     private static final By CREATE_A_JOB = By.linkText("Create a job");
     private static final By ADD_DESCRIPTION = By.linkText("Add description");
+    private static final By SUBMIT_DELETE_BUTTON = By.xpath("//button[@type= 'submit']");
+    private static final By DESCRIPTION = By.name("_.description");
 
     public Actions getAction() {
         return new Actions(getDriver());
@@ -81,6 +83,11 @@ public class FolderTest extends BaseTest {
         }
 
         return projectTableNames;
+    }
+
+    public void scrollByVisibleElement(By by) {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", getDriver().findElement(by));
     }
 
     @Test
@@ -412,5 +419,20 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[text()='" + folderName + "']")).click();
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector("#job_"+ freestyleProjectName)).isEnabled());
+    }
+    @Test
+    public void testCreateNewMagicFolder() {
+
+        getDriver().findElement(CREATE_NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys("Magic Folder");
+        scrollByVisibleElement(FOLDER);
+        new Actions(getDriver()).pause(1500).moveToElement(getDriver().findElement(FOLDER)).click()
+                .perform();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(DESCRIPTION).sendKeys("Wand,mustache,top hat");
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(DASHBOARD).click();
+
+        Assert.assertTrue(getProjectNameFromProjectTable().contains("Magic Folder"));
     }
 }

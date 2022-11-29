@@ -1,11 +1,8 @@
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -117,19 +114,14 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", name))).getText(), name);
     }
 
-    @Ignore
     @Test
     public void testDeletePipelineFromDashboard() {
         final String jobName = getRandomStr();
 
         createPipeline(jobName);
         getDriver().findElement(LINK_TO_DASHBOARD).click();
-        ((JavascriptExecutor)getDriver()).executeScript("arguments[0].scrollIntoView(true);",
-                getDriver().findElement(By.xpath("//a[@href='job/" + jobName + "/']")));
-        new Actions(getDriver()).pause(2000).moveToElement(getDriver().findElement(By.xpath(
-                "//a[@href='job/" + jobName + "/']"))).pause(1500).click().perform();
-        new Actions(getDriver()).moveToElement(getDriver().findElement(By.xpath(
-                "//span[text()='Delete Pipeline']"))).pause(1500).click().perform();
+        getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", jobName))).click();
+        getDriver().findElement(By.xpath("//span[text()='Delete Pipeline']")).click();
         getDriver().switchTo().alert().accept();
 
         List<WebElement> allJobsInDashboard = getDriver().findElements(By.xpath(
@@ -163,6 +155,24 @@ public class NewItemCreatePipelineTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAddingGitRepository")
+    public void testCheckingDisappearanceOfWarningMessage() {
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+        getDriver().findElement(By.xpath("//a[@href='configureTools']")).click();
+        scrollPageDown();
+
+        new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.id("yui-gen9-button"))).click().perform();
+        scrollPageDown();
+        WebElement fieldName = getDriver().findElement(By.cssSelector("input[checkurl$='MavenInstallation/checkName']"));
+        fieldName.click();
+        fieldName.sendKeys("Maven");
+        getDriver().findElement(By.id("yui-gen5-button")).click();
+
+        Assert.assertFalse(getDriver().findElement(
+                By.xpath("//input[contains(@checkurl,'MavenInstallation/checkName')]/parent::div/following-sibling::div"))
+                    .getText().contains("Required"));
+    }
+
+    @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
     public void testCreateNewItemFromOtherNonExistingName() {
         final String jobName = getRandomStr();
 
