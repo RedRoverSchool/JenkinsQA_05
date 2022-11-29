@@ -235,6 +235,7 @@ public class EditViewTest extends BaseTest{
     @Test
     public void testMyViewAddFilterBuildQueue() {
         myViewSeriesPreConditions();
+        goToEditView();
 
         getDriver().findElement(FILTER_QUEUE_CSS).click();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
