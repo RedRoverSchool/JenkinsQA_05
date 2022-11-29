@@ -22,7 +22,6 @@ public class EditViewTest extends BaseTest{
     private static final By DELETE_VIEW_CSS = By.cssSelector("a[href='delete']");
     private static final By ADD_COLUMN_CSS = By.cssSelector(".hetero-list-add[suffix='columns']");
 
-
     private void createItem(int i){
         final By CSS_FREESTYLE_0 = By.cssSelector(".j-item-options .hudson_model_FreeStyleProject");
         final By CSS_PIPELINE_1 = By.cssSelector(".j-item-options .org_jenkinsci_plugins_workflow_job_WorkflowJob");
@@ -65,6 +64,14 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
     }
 
+    public void createMyView() {
+        getDriver().findElement(DASHBOARD_CSS).click();
+        getDriver().findElement(MY_VIEWS_XP).click();
+        getDriver().findElement(By.cssSelector(".addTab")).click();
+        getDriver().findElement(INPUT_NAME_ID).sendKeys(RANDOM_ALPHANUMERIC);
+        getDriver().findElement(By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.MyView']")).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+    }
 
     public void goToEditView() {
         getDriver().findElement(DASHBOARD_CSS).click();
@@ -83,6 +90,12 @@ public class EditViewTest extends BaseTest{
         createManyItems(1);
         deleteAllViews();
         createListView();
+    }
+
+    public void myViewSeriesPreConditions() {
+        createManyItems(1);
+        deleteAllViews();
+        createMyView();
     }
 
     public void deleteAllViews(){
@@ -139,15 +152,11 @@ public class EditViewTest extends BaseTest{
         Assert.assertTrue(filterBuildQueueStatus.equals("true") && filterBuildExecutorsStatus.equals("true"));
     }
 
-    @Test
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
     public void testListViewAddNewColumn() {
-        listViewSeriesPreConditions();
-        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION_CSS);
-        for (int i = 0; i < 5; i++) {
-            itemsToSelect.get(i).click();
-        }
-
+        goToEditView();
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
+
         js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN_CSS));
         new Actions(getDriver()).pause(700).moveToElement(getDriver().findElement(ADD_COLUMN_CSS)).click().perform();
         getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel' and text()='Git Branches']")).click();
@@ -157,9 +166,9 @@ public class EditViewTest extends BaseTest{
         String actualResult = getDriver().findElement(By.cssSelector("#projectstatus th:last-child a")).getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-        }
+    }
 
-@Test
+    @Test
     public void testListViewAddAllItems() {
         listViewSeriesPreConditions();
 
@@ -171,7 +180,6 @@ public class EditViewTest extends BaseTest{
 
         Assert.assertEquals(actualResult,expectedResult);
     }
-
 
     @Test
     public void testListViewAddRegexFilter() {
@@ -190,14 +198,9 @@ public class EditViewTest extends BaseTest{
 
         Assert.assertEquals(actualResult,expectedResult);
     }
-@Test
+
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
     public void testListViewChangeColumnOrder() {
-        listViewSeriesPreConditions();
-        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION_CSS);
-        for (int i = 0; i < 5; i++) {
-            itemsToSelect.get(i).click();
-        }
-        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         goToEditView();
 
@@ -216,5 +219,32 @@ public class EditViewTest extends BaseTest{
                 .cssSelector("#projectstatus th:nth-child(2) a")).getText()};
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testListViewAddFilterBuildQueue() {
+        listViewSeriesPreConditions();
+
+        getDriver().findElement(FILTER_QUEUE_CSS).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        boolean newPaneIsDisplayed = getDriver().findElements(By.cssSelector(".pane-header-title"))
+                .stream().map(element -> element.getText()).collect(Collectors.toList())
+                .contains("Filtered Build Queue");
+
+        Assert.assertTrue(newPaneIsDisplayed);
+    }
+
+    @Test
+    public void testMyViewAddFilterBuildQueue() {
+        myViewSeriesPreConditions();
+        goToEditView();
+
+        getDriver().findElement(FILTER_QUEUE_CSS).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        boolean newPaneIsDisplayed = getDriver().findElements(By.cssSelector(".pane-header-title"))
+                .stream().map(element -> element.getText()).collect(Collectors.toList())
+                .contains("Filtered Build Queue");
+
+        Assert.assertTrue(newPaneIsDisplayed);
     }
 }
