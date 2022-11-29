@@ -135,7 +135,7 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().get(getDriver().getCurrentUrl().replace("pluginManager/available", "restart"));
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
-        getWait(getDriver(), 30).until(ExpectedConditions.visibilityOfElementLocated(By.name("j_username")));
+        getWait(getDriver(), 60).until(ExpectedConditions.visibilityOfElementLocated(By.name("j_username")));
 
         loginWeb();
 
