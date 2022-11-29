@@ -117,7 +117,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-steps']")).click();
-        getDriver().findElement(By.xpath("//button[text()='Add build step']/../..")).click();
+        getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
         List<WebElement> listOfOptions = getDriver()
                 .findElements(By.xpath("//button[text()='Add build step']/../../..//a[@href='#']"));
 
