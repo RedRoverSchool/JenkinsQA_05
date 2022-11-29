@@ -1,20 +1,31 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class PipelineTest extends BaseTest {
-
+    private static final String RENAME_SUFFIX = "renamed";
+    private static final String PIPELINE_NAME = generatePipelineProjectName();
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By ITEM_NAME = By.id("name");
-    private static final By PIPELINE = By.xpath("//*[text() = 'Pipeline']");
+    private static final By PIPELINE = By.xpath("//span[text() = 'Pipeline']");
     private static final By BUTTON_OK = By.id("ok-button");
     private static final By BUTTON_SAVE = By.id("yui-gen6-button");
     private static final By BUTTON_DISABLE_PROJECT = By.id("yui-gen1-button");
+    private static final By BUTTON_DELETE = By.cssSelector("svg.icon-edit-delete");
     private static final By DASHBOARD = By.xpath("//a[text()='Dashboard']");
+    private static final By JOB_PIPELINE =
+            By.xpath(String.format("//span[text()[contains(.,'%s')]]", PIPELINE_NAME));
+    private static final By JOB_PIPELINE_MENU_DROPDOWN_CHEVRON =
+            By.xpath(String.format("//span[text()[contains(.,'%s')]]/../button", PIPELINE_NAME));
+    private static final By JOB_MENU_RENAME =
+            By.xpath("//div[@id='breadcrumb-menu']//span[contains(text(),'Rename')]");
+    private static final By TEXTFIELD_NEW_NAME = By.name("newName");
+    private static final By BUTTON_RENAME = By.id("yui-gen1-button");
 
-    private String generatePipelineProjectName() {
+    private static String generatePipelineProjectName() {
         return RandomStringUtils.randomAlphanumeric(10);
     }
 
@@ -27,7 +38,21 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(BUTTON_SAVE).click();
         getDriver().findElement(DASHBOARD).click();
     }
-
+    private void deletePipelineProject(String name) {
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.xpath(String.format("//a[@href = contains(., '%s')]/button", name))).click();
+        getDriver().findElement(BUTTON_DELETE).click();
+        getDriver().switchTo().alert().accept();
+    }
+    private void renamePipelineProject(String name, String rename) {
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(getDriver().findElement(JOB_PIPELINE))
+                .moveToElement(getDriver().findElement(JOB_PIPELINE_MENU_DROPDOWN_CHEVRON)).click().build().perform();
+        getDriver().findElement(JOB_MENU_RENAME).click();
+        getDriver().findElement(TEXTFIELD_NEW_NAME).clear();
+        getDriver().findElement(TEXTFIELD_NEW_NAME).sendKeys(name + rename);
+        getDriver().findElement(BUTTON_RENAME).click();
+    }
     @Test
     public void testDisablePipelineProjectMessage() {
 
@@ -71,5 +96,16 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen2-button")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), pipelinePojectName + "description");
+    }
+    @Test
+    public void testRenamePipelineWithValidName() {
+        createPipelineProject(PIPELINE_NAME);
+        renamePipelineProject(PIPELINE_NAME, RENAME_SUFFIX);
+
+        Assert.assertEquals(getDriver()
+                        .findElement(By.xpath("//h1[@class='job-index-headline page-headline']")).getText()
+                , "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
+
+        deletePipelineProject(PIPELINE_NAME);
     }
 }
