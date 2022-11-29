@@ -121,7 +121,7 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test(dependsOnMethods={"testPluginManagerInstallPlugin"})
-    public void testPluginManagerDeletePlugin() {
+    public void testPluginManagerDeletePlugin() throws InterruptedException {
 
         getDriver().findElement(MANAGE_JENKINS).click();
         getDriver().findElement(PLUGIN_MANAGER).click();
@@ -134,6 +134,7 @@ public class ManageJenkinsTest extends BaseTest {
 
         getDriver().get(getDriver().getCurrentUrl().replace("pluginManager/available", "restart"));
         getDriver().findElement(By.id("yui-gen1-button")).click();
+        Thread.sleep(10);
         getDriver().navigate().refresh();
 
         getWait(getDriver(), 30).until(ExpectedConditions.visibilityOfElementLocated(By.name("j_username")));
