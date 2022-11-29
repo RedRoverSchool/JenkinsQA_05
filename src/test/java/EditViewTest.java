@@ -17,6 +17,8 @@ public class EditViewTest extends BaseTest{
     private static final By MY_VIEWS_XP = By.xpath("//a[@href='/me/my-views']");
     private static final By REGEX_CSS = By.cssSelector("input[name='useincluderegex']+label");
     private static final By INPUT_NAME_ID = By.id("name");
+    private static final By STATUS_DRAG_HANDLE_XP = By.xpath("//div[@descriptorid='hudson.views.StatusColumn']//div[@class='dd-handle']");
+    private static final By WEATHER_DRAG_HANDLE_XP = By.xpath("//div[@descriptorid='hudson.views.WeatherColumn']//div[@class='dd-handle']");
     private static final By DELETE_VIEW_CSS = By.cssSelector("a[href='delete']");
 
 
@@ -107,20 +109,30 @@ public class EditViewTest extends BaseTest{
     }
 
     @Test
-    public void testListViewAddRegexFilter() {
+    public void testListViewChangeColumnOrder() {
+        listViewSeriesPreConditions();
+
+        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION_CSS);
+        for (int i = 0; i < 5; i++) {
+            itemsToSelect.get(i).click();
+        }
+
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        createManyItems(3);
-        List<WebElement> itemsToSelect = getDriver().findElements(By.cssSelector(".jenkins-table__link"));
-        long expectedResult = itemsToSelect.stream().filter(element -> element.getText().contains("9")).count();
-        deleteAllViews();
-        createListView();
-
-        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(REGEX_CSS));
-        new Actions(getDriver()).pause(500).moveToElement(getDriver().findElement(REGEX_CSS)).click().perform();
-        getDriver().findElement(By.cssSelector("input[name='includeRegex']")).sendKeys(".*9.*");
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(WEATHER_DRAG_HANDLE_XP));
+        new Actions(getDriver()).pause(500).moveToElement(getDriver().findElement(WEATHER_DRAG_HANDLE_XP)).perform();
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(getDriver().findElement(STATUS_DRAG_HANDLE_XP))
+                .clickAndHold(getDriver().findElement(STATUS_DRAG_HANDLE_XP))
+                .moveByOffset(0,50) //change the x, y values to be applicable for your cases
+                .moveByOffset(0,50)
+                .release().perform();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
-        long actualResult = getDriver().findElements(By.cssSelector(".jenkins-table__link")).size();
 
-        Assert.assertEquals(actualResult,expectedResult);
+        String[] expectedResult = {"W", "S"};
+        String[] actualResult = {getDriver().findElement(By
+                .cssSelector("#projectstatus th:nth-child(1) a")).getText(),getDriver().findElement(By
+                .cssSelector("#projectstatus th:nth-child(2) a")).getText()};
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
