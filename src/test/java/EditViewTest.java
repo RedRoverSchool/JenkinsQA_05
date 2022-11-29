@@ -154,7 +154,7 @@ public class EditViewTest extends BaseTest{
         Actions actions = new Actions(getDriver());
         actions.moveToElement(getDriver().findElement(STATUS_DRAG_HANDLE_XP))
                 .clickAndHold(getDriver().findElement(STATUS_DRAG_HANDLE_XP))
-                .moveByOffset(0,50) //change the x, y values to be applicable for your cases
+                .moveByOffset(0,50)
                 .moveByOffset(0,50)
                 .release().perform();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
