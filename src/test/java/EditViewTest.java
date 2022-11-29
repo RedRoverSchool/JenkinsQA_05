@@ -105,17 +105,16 @@ public class EditViewTest extends BaseTest{
     }
 
     @Test
-    public void testListViewAddFiveItems() {
+    public void testListViewAddAllItems() {
         listViewSeriesPreConditions();
 
         List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION_CSS);
-        for (int i = 0; i < 5; i++) {
-            itemsToSelect.get(i).click();
-        }
+        int expectedResult = itemsToSelect.size();
+        itemsToSelect.forEach(WebElement::click);
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
         int actualResult = getDriver().findElements(ITEM_PATH_CSS).size();
 
-        Assert.assertEquals(actualResult,5);
+        Assert.assertEquals(actualResult,expectedResult);
     }
 
 }
