@@ -89,17 +89,6 @@ public class EditViewTest extends BaseTest{
         createListView();
     }
 
-    public void deleteAllViews(){
-        getDriver().findElement(MY_VIEWS_XP).click();
-        List<WebElement> allViews = getDriver().findElements(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]"));
-        while (allViews.size() > 0) {
-            getDriver().findElement(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]")).click();
-            getDriver().findElement(DELETE_VIEW_CSS).click();
-            getDriver().findElement(SUBMIT_BUTTON_CSS).click();
-            allViews = getDriver().findElements(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]"));
-        }
-    }
-
     @Test
     public void testGlobalViewAddFilterBuildQueue() {
         globalViewSeriesPreConditions();
