@@ -12,8 +12,6 @@ public class FolderOneTest extends BaseTest {
     private static final By PIPELINE_OPTION = By.xpath("//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']");
     private static final By JENKINS_ICON = By.id("jenkins-name-icon");
     private static final By CREATE_JOB = By.linkText("Create a job");
-    private static final By DELETE_FOLDER = By.linkText("Delete Folder");
-    private static final By YES_BUTTON_DELETE_PR = By.id("yui-gen1-button");
     private static final By TEXT_ADDRESS = By.xpath("//div[@id='main-panel']");
     private static final By SELECTION_SCRIPT = By.xpath("//div[@class='samples']/select/option[4]");
     private static final String RANDOM_FOLDER_NAME = RandomStringUtils.randomAlphanumeric(8);
@@ -27,31 +25,18 @@ public class FolderOneTest extends BaseTest {
         getDriver().findElement(SUBMIT_BUTTON).click();
     }
 
-    public void deleteCreatedFolder()  {
-        getDriver().findElement(JENKINS_ICON).click();
-        getDriver().findElement(By.linkText(RANDOM_FOLDER_NAME)).click();
-        getDriver().findElement((DELETE_FOLDER)).click();
-        getDriver().findElement((YES_BUTTON_DELETE_PR)).click();
-    }
-
-
-
-
-
-        @Test
-    public void testCreateFolder(){
+    @Test
+    public void testCreateNewFolder(){
         createFolder();
         getDriver().findElement(JENKINS_ICON).click();
 
         String actualFolderName = getDriver().findElement(By.linkText(RANDOM_FOLDER_NAME)).getText();
 
         Assert.assertEquals(RANDOM_FOLDER_NAME,actualFolderName);
-
-            deleteCreatedFolder();
     }
 
     @Test
-    public void testCreateFolderWithPipeline() {
+    public void testCreateNewFolderWithPipeline() {
         createFolder();
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(NAME).sendKeys(RANDOM_PIPELINE_NAME);
@@ -66,12 +51,10 @@ public class FolderOneTest extends BaseTest {
         Assert.assertEquals(RANDOM_PIPELINE_NAME,actualPipelineName);
         Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
                 .contains(RANDOM_FOLDER_NAME + "/" + RANDOM_PIPELINE_NAME));
-
-        deleteCreatedFolder();
     }
 
     @Test
-    public void testCreateFolderPipelineOptionJob() {
+    public void testCreateNewFolderPipelineOptionJob() {
         createFolder();
         getDriver().findElement(CREATE_JOB).click();
         getDriver().findElement(NAME).sendKeys(RANDOM_PIPELINE_NAME);
@@ -87,9 +70,6 @@ public class FolderOneTest extends BaseTest {
         Assert.assertEquals(RANDOM_PIPELINE_NAME,actualPipelineName);
         Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
                 .contains(RANDOM_FOLDER_NAME + "/" + RANDOM_PIPELINE_NAME));
-
-        deleteCreatedFolder();
     }
 }
-
 
