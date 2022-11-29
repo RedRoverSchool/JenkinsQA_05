@@ -3,14 +3,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
-
 import java.time.Duration;
 
 public class ManageJenkinsTest extends BaseTest {
@@ -116,6 +114,40 @@ public class ManageJenkinsTest extends BaseTest {
         getWait(getDriver(), 10).until(ExpectedConditions.numberOfElementsToBe(PLUGIN_TABLE_ROWS, 0));
 
         getDriver().findElement(INSTALLED_PLUGINS_TAB).click();
+        getDriver().findElement(SEARCH_PLUGIN_FIELD).sendKeys(ManageJenkinsTest.PLUGIN_NAME);
+
+        Assert.assertFalse(getDriver().findElements(PLUGIN_TABLE_ROWS).isEmpty());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//tr[@data-plugin-id='testng-plugin']")).isDisplayed());
+    }
+
+    @Test(dependsOnMethods={"testPluginManagerInstallPlugin"})
+    public void testPluginManagerDeletePlugin() {
+
+        getDriver().findElement(MANAGE_JENKINS).click();
+        getDriver().findElement(PLUGIN_MANAGER).click();
+        getDriver().findElement(INSTALLED_PLUGINS_TAB).click();
+        getDriver().findElement(SEARCH_PLUGIN_FIELD).sendKeys(ManageJenkinsTest.PLUGIN_NAME);
+
+        getDriver().findElement(By.xpath("//button[@tooltip='Uninstall TestNG Results Plugin']")).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+        getDriver().findElement(AVAILABLE_PLUGINS_TAB).click();
+        getDriver().findElement(By.id("yui-gen2-button")).click();
+        getDriver().findElement(By.xpath("//label[@for='scheduleRestartCheckbox']")).click();
+
+        getDriver().navigate().refresh();
+
+        getWait(getDriver(), 30).until(ExpectedConditions.visibilityOfElementLocated(By.name("j_username")));
+
+        loginWeb();
+
+        getDriver().findElement(MANAGE_JENKINS).click();
+        getDriver().findElement(PLUGIN_MANAGER).click();
+        getDriver().findElement(INSTALLED_PLUGINS_TAB).click();
+        getDriver().findElement(SEARCH_PLUGIN_FIELD).sendKeys(ManageJenkinsTest.PLUGIN_NAME);
+
+        getWait(getDriver(), 10).until(ExpectedConditions.invisibilityOfElementLocated(PLUGIN_TABLE_ROWS));
+
+        getDriver().findElement(AVAILABLE_PLUGINS_TAB).click();
         getDriver().findElement(SEARCH_PLUGIN_FIELD).sendKeys(ManageJenkinsTest.PLUGIN_NAME);
 
         Assert.assertFalse(getDriver().findElements(PLUGIN_TABLE_ROWS).isEmpty());
