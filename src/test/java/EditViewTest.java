@@ -60,7 +60,6 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
     }
 
-
     public void goToEditView() {
         getDriver().findElement(DASHBOARD_CSS).click();
         getDriver().findElement(MY_VIEWS_XP).click();
@@ -72,6 +71,16 @@ public class EditViewTest extends BaseTest{
         createManyItems(1);
         deleteAllViews();
         createGlobalView();
+    }
+    public void deleteAllViews(){
+        getDriver().findElement(MY_VIEWS_XP).click();
+        List<WebElement> allViews = getDriver().findElements(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]"));
+        while (allViews.size() > 0) {
+            getDriver().findElement(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]")).click();
+            getDriver().findElement(DELETE_VIEW_CSS).click();
+            getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+            allViews = getDriver().findElements(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]"));
+        }
     }
 
     public void listViewSeriesPreConditions() {
@@ -105,6 +114,7 @@ public class EditViewTest extends BaseTest{
     }
 
     @Test
+
     public void testListViewAddFiveItems() {
         listViewSeriesPreConditions();
 
@@ -118,4 +128,18 @@ public class EditViewTest extends BaseTest{
         Assert.assertEquals(actualResult,5);
     }
 
+    public void testGlobalViewAddBothFilters() {
+        globalViewSeriesPreConditions();
+
+        getDriver().findElement(FILTER_QUEUE_CSS).click();
+        getDriver().findElement(By.cssSelector("input[name=filterExecutors]+label")).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        goToEditView();
+        String filterBuildQueueStatus = getDriver().findElement(
+                By.cssSelector("input[name=filterQueue]")).getAttribute("checked");
+        String filterBuildExecutorsStatus = getDriver().findElement(
+                By.cssSelector("input[name=filterExecutors]")).getAttribute("checked");
+
+        Assert.assertTrue(filterBuildQueueStatus.equals("true") && filterBuildExecutorsStatus.equals("true"));
+    }
 }
