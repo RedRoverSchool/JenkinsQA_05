@@ -190,4 +190,27 @@ public class EditViewTest extends BaseTest{
 
         Assert.assertEquals(actualResult,expectedResult);
     }
+@Test
+    public void testListViewChangeColumnOrder() {
+        listViewSeriesPreConditions();
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        goToEditView();
+
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(WEATHER_DRAG_HANDLE_XP));
+        new Actions(getDriver()).pause(500).moveToElement(getDriver().findElement(WEATHER_DRAG_HANDLE_XP)).perform();
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(getDriver().findElement(STATUS_DRAG_HANDLE_XP))
+                .clickAndHold(getDriver().findElement(STATUS_DRAG_HANDLE_XP))
+                .moveByOffset(0,50)
+                .moveByOffset(0,50)
+                .release().perform();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+
+        String[] expectedResult = {"W", "S"};
+        String[] actualResult = {getDriver().findElement(By
+                .cssSelector("#projectstatus th:nth-child(1) a")).getText(),getDriver().findElement(By
+                .cssSelector("#projectstatus th:nth-child(2) a")).getText()};
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
