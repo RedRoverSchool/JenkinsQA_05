@@ -9,7 +9,7 @@ public class NewFullNameTest extends BaseTest {
     private static final By MANAGE_USER_BUTTON = By.partialLinkText("Manage Users");
     private static final By PINION_BUTTON = By.xpath("//td[4]/div/a");
     private static final By FULL_NAME_FIELD = By.name("_.fullName");
-    private static final By HEADER = By.cssSelector("a[class='model-link'] span[class='hidden-xs hidden-sm']");
+    private static final By HEADER = By.xpath(" //header/div[3]/a[contains(@href,'/user')]");
     private static final String NEW_FULL_NAME = String.format("%s %s", RandomStringUtils.randomAlphanumeric(5), RandomStringUtils.randomAlphanumeric(7));
     private String actualResult = "";
 
