@@ -150,7 +150,6 @@ public class EditViewTest extends BaseTest{
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN_CSS));
         new Actions(getDriver()).pause(700).moveToElement(getDriver().findElement(ADD_COLUMN_CSS)).click().perform();
-//        getDriver().findElement(ADD_COLUMN_CSS).click();
         getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel' and text()='Git Branches']")).click();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
 
