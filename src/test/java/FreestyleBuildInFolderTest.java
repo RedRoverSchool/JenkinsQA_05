@@ -61,9 +61,8 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         Thread.sleep(3000);
 
         Assert.assertEquals(getDriver().findElement(
-                By.xpath("//a[@class='jenkins-table__link model-link inside']")).getText(), name);
+                By.xpath("//*[contains(@class,'jenkins-table__link model-link inside')and contains(@href,'job/project')]")).getText(), name);
     }
-
     @Test(dependsOnMethods = {"testCreateFreestyleProject"})
     public void testBuildFreestyleProject() throws InterruptedException {
 
