@@ -193,6 +193,11 @@ public class EditViewTest extends BaseTest{
 @Test
     public void testListViewChangeColumnOrder() {
         listViewSeriesPreConditions();
+        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION_CSS);
+        for (int i = 0; i < 5; i++) {
+            itemsToSelect.get(i).click();
+        }
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         goToEditView();
 
@@ -205,7 +210,6 @@ public class EditViewTest extends BaseTest{
                 .moveByOffset(0,50)
                 .release().perform();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
-
         String[] expectedResult = {"W", "S"};
         String[] actualResult = {getDriver().findElement(By
                 .cssSelector("#projectstatus th:nth-child(1) a")).getText(),getDriver().findElement(By
