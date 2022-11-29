@@ -106,7 +106,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testConfigurationProvideKeepMaxNumberOfOldBuilds")
-    public void testVerifyOptionsInBuildStepsSection() {
+    public void testVerifyOptionsInBuildStepsSection() throws InterruptedException {
 
         final Set<String> expectedOptions = new HashSet<>(List.of("Execute Windows batch command", "Execute shell",
                 "Invoke Ant", "Invoke Gradle script", "Invoke top-level Maven targets", "Run with timeout",
@@ -117,6 +117,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-steps']")).click();
+        Thread.sleep (3000);
         getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
         List<WebElement> listOfOptions = getDriver()
                 .findElements(By.xpath("//button[text()='Add build step']/../../..//a[@href='#']"));
