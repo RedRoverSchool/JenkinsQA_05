@@ -82,7 +82,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void test_Logo_Head_icon_is_Seen() {
+    public void test_Logo_HeadIconIsSeen() {
 
         Assert.assertTrue(getDriver().findElement(
                 By.id("jenkins-head-icon")).isEnabled());
@@ -92,7 +92,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void test_Manage_Jenkins_Click_name_icon_to_return_to_the_main_page() {
+    public void test_Manage_Jenkins_ClickNameIconToReturnToTheMainPage() {
         getDriver().findElement(
                         By.xpath("//div[@id='tasks']//a[@href='/manage']")).
                 click();
@@ -172,6 +172,20 @@ public class HeaderTest extends BaseTest {
         for (WebElement a : listSearchResult) {
             Assert.assertTrue(a.getText().toLowerCase().contains("organiza"));
         }
+    }
+
+    @Test
+    public void test_Logo_HeadIcon_ReloadMainPage(){
+        getDriver().findElement(By.id("description-link")).click();
+
+        Assert.assertTrue(getDriver().findElement(
+                        By.xpath("//div[@id='description']//textarea")).
+                isDisplayed());
+
+        getDriver().findElement(By.id("jenkins-head-icon")).click();
+
+        Assert.assertTrue(getDriver().findElement(
+                By.id("description-link")).isDisplayed());
     }
 }
 
