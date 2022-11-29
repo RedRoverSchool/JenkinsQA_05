@@ -58,7 +58,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(DOCS_SELECT).click();
         getDriver().findElement(DOCS_IN).click();
-        Thread.sleep(3000);
+        Thread.sleep(5000);
 
         Assert.assertEquals(getDriver().findElement(
                 By.cssSelector("a[class='jenkins-table__link model-link inside'] span")).getText(), name);
@@ -69,12 +69,12 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         getDriver().findElement(DOCS_IN).click();
         getDriver().findElement(JOB_IN).click();
         getDriver().findElement(JOB_DROPDOWN).click();
-        Thread.sleep(3000);
+        Thread.sleep(4000);
         getDriver().findElement(BUILD).click();
         getDriver().findElement(JOB_IN).click();
         getDriver().findElement(BUILD_DROPDOWN).click();
         getDriver().findElement(CONSOLE_OUTPUT).click();
-        Thread.sleep(3000);
+        Thread.sleep(4000);
 
         Assert.assertTrue(getDriver().findElement(
                 By.cssSelector(".console-output")).getText().toUpperCase().contains("SUCCESS"));
