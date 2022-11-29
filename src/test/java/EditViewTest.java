@@ -31,7 +31,6 @@ public class EditViewTest extends BaseTest{
         final By CSS_ORGFOLDER_5 = By.cssSelector(".j-item-options .jenkins_branch_OrganizationFolder");
         final By[] menuOptions = {CSS_FREESTYLE_0,CSS_PIPELINE_1, CSS_MULTICONFIG_2, CSS_FOLDER_3, CSS_MULTIBRANCH_4, CSS_ORGFOLDER_5};
 
-        new Actions(getDriver()).pause(5000).perform();
         getDriver().findElement(By.cssSelector("a[href='/view/all/newJob']")).click();
         getDriver().findElement(By.cssSelector("#name.jenkins-input")).sendKeys(UUID.randomUUID().toString().substring(0, 8));
         getDriver().findElement(menuOptions[i]).click();
@@ -70,18 +69,21 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(MY_VIEWS_XP).click();
         List<WebElement> allViews = getDriver().findElements(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]"));
         if (allViews.size() > 0) {
-            getDriver().findElement(By.xpath("/div[@class='tab']/a[contains(@href, 'my-views/view')]")).click();
+            getDriver().findElement(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]")).click();
         }
 
         for (WebElement element : allViews) {
             element.click();
             getDriver().findElement(DELETE_VIEW_CSS).click();
             getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+            getDriver().findElement(DASHBOARD_CSS).click();
         }
     }
 
     @Test
     public void testGlobalViewAddFilterBuildQueue() {
+        createManyItems(1);
+        deleteAllViews();
         globalViewSeriesPreConditions();
         getDriver().findElement(FILTER_QUEUE_CSS).click();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
@@ -96,7 +98,6 @@ public class EditViewTest extends BaseTest{
     public void testGlobalViewAddBothFilters() {
         createManyItems(1);
         deleteAllViews();
-        getDriver().findElement(DASHBOARD_CSS).click();
         globalViewSeriesPreConditions();
 
         getDriver().findElement(FILTER_QUEUE_CSS).click();
