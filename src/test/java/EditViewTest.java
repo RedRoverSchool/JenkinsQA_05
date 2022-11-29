@@ -65,6 +65,7 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
     }
 
+
     public void goToEditView() {
         getDriver().findElement(DASHBOARD_CSS).click();
         getDriver().findElement(MY_VIEWS_XP).click();
@@ -109,7 +110,6 @@ public class EditViewTest extends BaseTest{
     }
 
     @Test
-
     public void testListViewAddFiveItems() {
         listViewSeriesPreConditions();
 
@@ -157,5 +157,37 @@ public class EditViewTest extends BaseTest{
         String actualResult = getDriver().findElement(By.cssSelector("#projectstatus th:last-child a")).getText();
 
         Assert.assertEquals(actualResult, expectedResult);
+        }
+
+@Test
+    public void testListViewAddAllItems() {
+        listViewSeriesPreConditions();
+
+        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION_CSS);
+        int expectedResult = itemsToSelect.size();
+        itemsToSelect.forEach(WebElement::click);
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        int actualResult = getDriver().findElements(ITEM_PATH_CSS).size();
+
+        Assert.assertEquals(actualResult,expectedResult);
+    }
+
+
+    @Test
+    public void testListViewAddRegexFilter() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        createManyItems(3);
+        List<WebElement> itemsToSelect = getDriver().findElements(By.cssSelector(".jenkins-table__link"));
+        long expectedResult = itemsToSelect.stream().filter(element -> element.getText().contains("9")).count();
+        deleteAllViews();
+        createListView();
+
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(REGEX_CSS));
+        new Actions(getDriver()).pause(500).moveToElement(getDriver().findElement(REGEX_CSS)).click().perform();
+        getDriver().findElement(By.cssSelector("input[name='includeRegex']")).sendKeys(".*9.*");
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        long actualResult = getDriver().findElements(By.cssSelector(".jenkins-table__link")).size();
+
+        Assert.assertEquals(actualResult,expectedResult);
     }
 }
