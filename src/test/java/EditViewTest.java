@@ -112,6 +112,7 @@ public class EditViewTest extends BaseTest{
         createManyItems(3);
         List<WebElement> itemsToSelect = getDriver().findElements(By.cssSelector(".jenkins-table__link"));
         long expectedResult = itemsToSelect.stream().filter(element -> element.getText().contains("9")).count();
+        deleteAllViews();
         createListView();
 
         js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(REGEX_CSS));
