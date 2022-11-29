@@ -157,9 +157,9 @@ public class EditViewTest extends BaseTest{
         String actualResult = getDriver().findElement(By.cssSelector("#projectstatus th:last-child a")).getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-    }
+        }
 
-    @Test
+@Test
     public void testListViewAddAllItems() {
         listViewSeriesPreConditions();
 
@@ -171,6 +171,7 @@ public class EditViewTest extends BaseTest{
 
         Assert.assertEquals(actualResult,expectedResult);
     }
+
 
     @Test
     public void testListViewAddRegexFilter() {
@@ -188,34 +189,5 @@ public class EditViewTest extends BaseTest{
         long actualResult = getDriver().findElements(By.cssSelector(".jenkins-table__link")).size();
 
         Assert.assertEquals(actualResult,expectedResult);
-    }
-
-    @Test
-    public void testListViewChangeColumnOrder() {
-        listViewSeriesPreConditions();
-
-        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION_CSS);
-        for (int i = 0; i < 5; i++) {
-            itemsToSelect.get(i).click();
-        }
-
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(WEATHER_DRAG_HANDLE_XP));
-        new Actions(getDriver()).pause(500).moveToElement(getDriver().findElement(WEATHER_DRAG_HANDLE_XP)).perform();
-        Actions actions = new Actions(getDriver());
-        actions.moveToElement(getDriver().findElement(STATUS_DRAG_HANDLE_XP))
-                .clickAndHold(getDriver().findElement(STATUS_DRAG_HANDLE_XP))
-                .moveByOffset(0,50) //change the x, y values to be applicable for your cases
-                .moveByOffset(0,50)
-                .release().perform();
-        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
-
-        String[] expectedResult = {"W", "S"};
-        String[] actualResult = {getDriver().findElement(By
-                .cssSelector("#projectstatus th:nth-child(1) a")).getText(),getDriver().findElement(By
-                .cssSelector("#projectstatus th:nth-child(2) a")).getText()};
-
-        Assert.assertEquals(actualResult, expectedResult);
-
     }
 }
