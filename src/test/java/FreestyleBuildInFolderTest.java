@@ -23,7 +23,6 @@ public class FreestyleBuildInFolderTest extends BaseTest {
     private static final By DASHBOARD = By.xpath("//a[normalize-space()='Dashboard']");
     private static final By CREATED_FOLDER = By.xpath("//a[@class='jenkins-table__link model-link inside']");
     private static final By NEW_ITEM_DROPDOWN = By.xpath("//*[contains(@class,'icon-new-package icon-md')]");
-   // private static final By DOCS_SELECT = By.cssSelector(".jenkins-table__link.model-link.inside");
     private static final By DOCS_SELECT = By.xpath("//*[contains(@class,'jenkins-table')and contains(@href,'job/Docs/')]");
     private static final By CONSOLE_OUTPUT = By.xpath("//span[normalize-space()='Console Output']");
     private static final By BUILD_DROPDOWN = By.cssSelector("a[class='model-link inside build-link display-name'] button[class='jenkins-menu-dropdown-chevron']");
@@ -62,7 +61,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         Thread.sleep(3000);
 
         Assert.assertEquals(getDriver().findElement(
-                By.cssSelector(".jenkins-table__link.model-link.inside")).getText(), name);
+                By.xpath("//a[@class='jenkins-table__link model-link inside']")).getText(), name);
     }
 
     @Test(dependsOnMethods = {"testCreateFreestyleProject"})
