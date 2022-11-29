@@ -148,7 +148,7 @@ public class EditViewTest extends BaseTest{
 
         Assert.assertEquals(actualResult,expectedResult);
     }
-}
+
 
     @Test
     public void testListViewAddRegexFilter() {
