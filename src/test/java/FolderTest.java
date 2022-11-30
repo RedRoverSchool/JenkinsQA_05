@@ -24,6 +24,7 @@ public class FolderTest extends BaseTest {
     private static final By CREATE_A_JOB = By.linkText("Create a job");
     private static final By ADD_DESCRIPTION = By.linkText("Add description");
     private static final By SUBMIT_DELETE_BUTTON = By.xpath("//button[@type= 'submit']");
+    private static final By DESCRIPTION = By.name("_.description");
 
     public Actions getAction() {
         return new Actions(getDriver());
@@ -82,6 +83,11 @@ public class FolderTest extends BaseTest {
         }
 
         return projectTableNames;
+    }
+
+    public void scrollByVisibleElement(By by) {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", getDriver().findElement(by));
     }
 
     @Test
@@ -263,11 +269,14 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(breadcrumbs.get(breadcrumbs.size() - 1).getAttribute("href"), expectedResult);
     }
 
-    @Test(dependsOnMethods = "testCreate")
+    @Test
     public void testDeleteFolder2() {
+        createFolder();
+
+        getDashboard().click();
         getDriver().findElement(By.xpath("//span[text() = '" + generatedString + "']")).click();
         getDriver().findElement(By.xpath("//a[@href = '/job/" + generatedString + "/delete']")).click();
-        getDriver().findElement(SUBMIT_DELETE_BUTTON).click();
+        getDriver().findElement(By.xpath("//button[@type= 'submit']")).click();
 
         List<String> foldersList = getDriver()
                 .findElements(By.xpath("//tr/td[3]/a/span"))
@@ -410,5 +419,20 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[text()='" + folderName + "']")).click();
 
         Assert.assertTrue(getDriver().findElement(By.cssSelector("#job_"+ freestyleProjectName)).isEnabled());
+    }
+    @Test
+    public void testCreateNewMagicFolder() {
+
+        getDriver().findElement(CREATE_NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys("Magic Folder");
+        scrollByVisibleElement(FOLDER);
+        new Actions(getDriver()).pause(1500).moveToElement(getDriver().findElement(FOLDER)).click()
+                .perform();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(DESCRIPTION).sendKeys("Wand,mustache,top hat");
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(DASHBOARD).click();
+
+        Assert.assertTrue(getProjectNameFromProjectTable().contains("Magic Folder"));
     }
 }

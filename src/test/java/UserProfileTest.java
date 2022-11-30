@@ -15,6 +15,11 @@ public class UserProfileTest extends BaseTest {
     private static final By INPUT_FIELD = By.tagName("textarea");
     private static final By SAVE_BUTTON = By.id("yui-gen1-button");
     private static final String  TEXT = RandomStringUtils.randomAlphanumeric(50);
+    private static final By USER = By.xpath("//div/a[@class='model-link']");
+    private static final By STATUS_INPUT_FIELD = By.xpath("//div/textarea[@class='jenkins-input   ']");
+    private static final By PREVIEW_LINK = By.xpath("//a[@class='textarea-show-preview']");
+    private static final By HIDE_PREVIEW_LINK = By.xpath("//a[@class='textarea-hide-preview']");
+    private static final By PREVIEW_FIELD = By.xpath("//div[@class='textarea-preview']");
 
     private WebDriverWait wait;
 
@@ -39,4 +44,17 @@ public class UserProfileTest extends BaseTest {
             getDriver().findElement(INPUT_FIELD).clear();
             getDriver().findElement(SAVE_BUTTON).click();
         }
+
+      @Test
+    public void testUserProfileHidePreviewDescription () {
+        final String STATUS_TEXT = "Feeling Good!";
+        getDriver().findElement(USER).click();
+        getDriver().findElement(ADD_DES).click();
+        getDriver().findElement(STATUS_INPUT_FIELD).clear();
+        getDriver().findElement(STATUS_INPUT_FIELD).sendKeys(STATUS_TEXT);
+        getDriver().findElement(PREVIEW_LINK).click();
+        getDriver().findElement(HIDE_PREVIEW_LINK).click();
+
+        Assert.assertFalse(getDriver().findElement(PREVIEW_FIELD).isDisplayed());
+      }
     }

@@ -1,14 +1,12 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.time.Duration;
 import java.util.UUID;
 
 public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
@@ -33,12 +31,11 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
         select.selectByVisibleText("Hello World");
         getDriver().findElement(By.id("yui-gen6-button")).click();
 
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(9));
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li/a")).click();
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li/a")).click();
         getDriver().findElement(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a")).click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Delete Folder")));
+        getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.linkText("Delete Folder")));
         getDriver().findElement(By.linkText("Delete Folder")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDriver().findElement(By.id("search-box")).sendKeys(folderName + Keys.ENTER);

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class JenkinsUtils {
 
@@ -26,13 +27,17 @@ public class JenkinsUtils {
     }
 
     private static Set<String> getSubstringsFromPage(String page, String from, String to) {
+        return getSubstringsFromPage(page, from, to, 100);
+    }
+
+    private static Set<String> getSubstringsFromPage(String page, String from, String to, int maxSubstringLength) {
         Set<String> result = new HashSet<>();
 
         int index = page.indexOf(from);
         while (index != -1) {
             int endIndex = page.indexOf(to, index + from.length());
 
-            if (endIndex - index < 100) {
+            if (endIndex != -1 && endIndex - index < maxSubstringLength) {
                 result.add(page.substring(index + from.length(), endIndex));
             } else {
                 endIndex = index + from.length();
@@ -124,5 +129,13 @@ public class JenkinsUtils {
         deleteByLink("user/admin/my-views/view/%s/doDelete",
                 getSubstringsFromPage(viewPage, "href=\"/user/admin/my-views/view/", "/\""),
                 getCrumbFromPage(viewPage));
+    }
+
+    public static void deleteUsers() {
+        String userPage = getPage("manage/securityRealm/");
+        deleteByLink("manage/securityRealm/user/%s/doDelete",
+                getSubstringsFromPage(userPage, "href=\"user/", "/delete\"").stream()
+                        .filter(user -> !user.equals(ProjectUtils.getUserName())).collect(Collectors.toSet()),
+                getCrumbFromPage(userPage));
     }
 }

@@ -1,6 +1,7 @@
 package runner;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.annotations.AfterMethod;
@@ -8,13 +9,17 @@ import runner.order.OrderForTests;
 import runner.order.OrderUtils;
 
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Listeners({FilterForTests.class, OrderForTests.class})
 public abstract class BaseTest {
 
     private WebDriver driver;
+    private Map<Integer, WebDriverWait> waitMap = new HashMap<>();
 
     private OrderUtils.MethodsOrder<Method> methodsOrder;
 
@@ -41,7 +46,7 @@ public abstract class BaseTest {
                 getWeb();
             }
         } catch (Exception e) {
-            stopDriver();
+            closeDriver();
             throw new RuntimeException(e);
         } finally {
             methodsOrder.markAsInvoked(method);
@@ -52,6 +57,7 @@ public abstract class BaseTest {
         BaseUtils.log("Clear data");
         JenkinsUtils.deleteJobs();
         JenkinsUtils.deleteViews();
+        JenkinsUtils.deleteUsers();
     }
 
     protected void loginWeb() {
@@ -74,8 +80,15 @@ public abstract class BaseTest {
             ProjectUtils.logout(driver);
         } catch (Exception ignore) {}
 
-        driver.quit();
-        BaseUtils.log("Browser closed");
+        closeDriver();
+    }
+
+    protected void closeDriver() {
+        if (driver != null) {
+            driver.quit();
+            waitMap = new HashMap<>();
+            BaseUtils.log("Browser closed");
+        }
     }
 
     @AfterMethod
@@ -89,6 +102,10 @@ public abstract class BaseTest {
         }
 
         BaseUtils.logf("Execution time is %o sec\n\n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000);
+    }
+
+    protected WebDriverWait getWait(int seconds) {
+        return waitMap.computeIfAbsent(seconds, duration -> new WebDriverWait(driver, Duration.ofSeconds(duration)));
     }
 
     protected WebDriver getDriver() {
