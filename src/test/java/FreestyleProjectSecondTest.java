@@ -119,7 +119,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-steps']")).click();
         getWait(4).until(ExpectedConditions
-                .elementToBeClickable(By.xpath("//button[text()='Add build step']"))).click();
+                .visibilityOfElementLocated(By.xpath("//button[text()='Add build step']"))).click();
         List<WebElement> listOfOptions = getDriver()
                 .findElements(By.xpath("//button[text()='Add build step']/../../..//a[@href='#']"));
 
