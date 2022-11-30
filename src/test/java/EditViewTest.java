@@ -18,7 +18,7 @@ public class EditViewTest extends BaseTest{
     private static final By FILTER_QUEUE_CSS = By.cssSelector("input[name=filterQueue]+label");
     private static final By MY_VIEWS_XP = By.xpath("//a[@href='/me/my-views']");
     private static final By REGEX_CSS = By.cssSelector("input[name='useincluderegex']+label");
-    private static final By INPUT_NAME_ID = By.id("name");
+    private static final By INPUT_NAME_CSS = By.cssSelector("[name='name']");
     private static final By STATUS_DRAG_HANDLE_XP = By.xpath("//div[@descriptorid='hudson.views.StatusColumn']//div[@class='dd-handle']");
     private static final By WEATHER_DRAG_HANDLE_XP = By.xpath("//div[@descriptorid='hudson.views.WeatherColumn']//div[@class='dd-handle']");
     private static final By DELETE_VIEW_CSS = By.cssSelector("a[href='delete']");
@@ -52,7 +52,7 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(DASHBOARD_CSS).click();
         getDriver().findElement(MY_VIEWS_XP).click();
         getDriver().findElement(By.cssSelector(".addTab")).click();
-        getDriver().findElement(INPUT_NAME_ID).sendKeys(RANDOM_ALPHANUMERIC);
+        getDriver().findElement(INPUT_NAME_CSS).sendKeys(RANDOM_ALPHANUMERIC);
         getDriver().findElement(By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.ProxyView']")).click();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
     }
@@ -61,7 +61,7 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(DASHBOARD_CSS).click();
         getDriver().findElement(MY_VIEWS_XP).click();
         getDriver().findElement(By.cssSelector(".addTab")).click();
-        getDriver().findElement(INPUT_NAME_ID).sendKeys(RANDOM_ALPHANUMERIC);
+        getDriver().findElement(INPUT_NAME_CSS).sendKeys(RANDOM_ALPHANUMERIC);
         getDriver().findElement(By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.ListView']")).click();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
     }
@@ -70,7 +70,7 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(DASHBOARD_CSS).click();
         getDriver().findElement(MY_VIEWS_XP).click();
         getDriver().findElement(By.cssSelector(".addTab")).click();
-        getDriver().findElement(INPUT_NAME_ID).sendKeys(RANDOM_ALPHANUMERIC);
+        getDriver().findElement(INPUT_NAME_CSS).sendKeys(RANDOM_ALPHANUMERIC);
         getDriver().findElement(By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.MyView']")).click();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
     }
@@ -286,6 +286,7 @@ public class EditViewTest extends BaseTest{
         Assert.assertTrue(allMatches.stream().allMatch(element-> element == true));
     }
 
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
     public void testDeleteColumn() {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         goToEditView();
@@ -299,5 +300,21 @@ public class EditViewTest extends BaseTest{
         System.out.println(columnList.stream().map(element -> element.getText()).collect(Collectors.toList()));
 
         Assert.assertTrue(columnList.stream().noneMatch(element -> element.getText().equals("S")));
+    }
+
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
+    public void testMultipleSpacesRenameView() {
+        goToEditView();
+        final String nonSpaces = getRandomStr((3 +(int)(Math.random() * (10 - 3) + 1)));
+        final String spaces = nonSpaces.replaceAll("[a-zA-Z0-9]", " ");
+        final String NEW_NAME = nonSpaces + spaces + nonSpaces;
+
+        getDriver().findElement(INPUT_NAME_CSS).clear();
+        getDriver().findElement(INPUT_NAME_CSS).sendKeys(NEW_NAME);
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
+
+        Assert.assertNotEquals(actualResult, RANDOM_ALPHANUMERIC);
+        Assert.assertEquals(actualResult, (nonSpaces + " " + nonSpaces));
     }
 }
