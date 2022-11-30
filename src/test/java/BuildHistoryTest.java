@@ -12,7 +12,6 @@ public class BuildHistoryTest extends BaseTest {
     private static final By ICON_SIZE = By.xpath("//a[@class='jenkins-table__button']//*[name()='svg']");
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By INPUT_NAME = By.name("name");
-    private static final String BASE_URL = "http://localhost:8080/";
     private static final By FREESTYLE_PROJECT = By.xpath("//li[@class='hudson_model_FreeStyleProject']");
     private static final By OK_BUTTON = By.xpath("//span[@class='yui-button primary large-button']");
     private static final By DESCRIPTION_FIELD = By.name("description");
@@ -22,6 +21,10 @@ public class BuildHistoryTest extends BaseTest {
     private static final By H1_HEADER_BULD_HISTORY = By.xpath("//div[@class='jenkins-app-bar__content']/h1");
     private static final By BUILD_NOW = By.linkText("Build Now");
     private static final By TREND_BUILD = By.xpath("//div[@class='jenkins-pane__header--build-history']/a");
+    private static final By BUTTON_S = By.xpath("//a[@href='/iconSize?16x16']");
+    private static final By BUTTON_M = By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li/following-sibling::li[2]");
+    private static final By BUTTON_L = By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li[last()]");
+
 
     private void inputName(By by) {
         getDriver().findElement(by).sendKeys(TestUtils.getRandomStr(8));
@@ -107,4 +110,13 @@ public class BuildHistoryTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.id("map")).isDisplayed());
     }
+    @Test
+    public void testIfSMLIconsExist() {
+        getDriver().findElement(BUILD_HISTORY).click();
+        Assert.assertTrue(getDriver().findElement(BUTTON_S).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(BUTTON_M).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(BUTTON_L).isDisplayed());
+
+    }
+
 }
