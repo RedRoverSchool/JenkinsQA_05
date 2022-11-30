@@ -285,4 +285,19 @@ public class EditViewTest extends BaseTest{
 
         Assert.assertTrue(allMatches.stream().allMatch(element-> element == true));
     }
+
+    public void testDeleteColumn() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        goToEditView();
+
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN_CSS));
+        new Actions(getDriver()).pause(500).perform();
+        getDriver().findElement(By.xpath("//div[contains(text(), 'Status')]/button")).click();
+        new Actions(getDriver()).pause(300).perform();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        List<WebElement> columnList = getDriver().findElements(By.cssSelector("table#projectstatus th"));
+        System.out.println(columnList.stream().map(element -> element.getText()).collect(Collectors.toList()));
+
+        Assert.assertTrue(columnList.stream().noneMatch(element -> element.getText().equals("S")));
+    }
 }
