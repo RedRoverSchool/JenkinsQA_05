@@ -199,7 +199,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         final String jobName = TestUtils.getRandomStr(7);
 
         setJobPipeline(jobName);
-        scrollPageDown();
+        TestUtils.scrollPageDown(getDriver());
         new Actions(getDriver()).pause(300).moveToElement(getDriver().findElement(By.cssSelector("#from")))
                 .click().sendKeys(RANDOM_STRING.substring(0,2)).pause(400)
                 .sendKeys(Keys.ARROW_DOWN)
