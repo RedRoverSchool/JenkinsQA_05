@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -143,4 +144,43 @@ public class CreateUserVerifyCreateTest extends BaseTest {
 
         Assert.assertTrue(userNameFromListTable.contains(randomUsername));
     }
+    @Test
+    public void testCreateNewUserJenkins(){
+
+        final String username = getRandomDigitAndLetterString();
+        final String password = getRandomDigitAndLetterString();
+        final String fullName = getRandomDigitAndLetterString();
+        final String email = getRandomDigitAndLetterString() + ".@com";
+
+        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
+        getDriver().findElement(By.xpath("//div/a[@href='securityRealm/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='addUser']")).click();
+        getDriver().findElement(By.id("username")).sendKeys(username);
+        getDriver().findElement(By.xpath("//div/input[@name='password1']")).sendKeys(password);
+        getDriver().findElement(By.xpath("//div/input[@name='password2']")).sendKeys(password);
+        getDriver().findElement(By.xpath("//div/input[@name='fullname']")).sendKeys(fullName);
+        getDriver().findElement(By.xpath("//div/input[@name='email']")).sendKeys(email);
+        getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
+
+        List<WebElement> usersList = getDriver().findElements(By.xpath("//table[@id='people']//tbody//tr//td"));
+        List<String> listOfUsers = new ArrayList<>();
+        for (int i = 0; i < usersList.size(); i++) {
+            listOfUsers.add(i, usersList.get(i).getText());
+        }
+
+        Assert.assertTrue(listOfUsers.contains(username));
+        Assert.assertTrue(listOfUsers.contains(fullName));
+
+        getDriver().findElement(By.xpath("//li/a[@href='/']")).click();
+        getDriver().findElement(By.xpath("//span/a[@href='/asynchPeople/']")).click();
+        List<WebElement> usersListInPeople = getDriver().findElements(By.xpath("//tbody/tr/td"));
+        List<String> listOfUsersInPeople = new ArrayList<>();
+        for (int i = 0; i < usersListInPeople.size(); i++) {
+            listOfUsersInPeople.add(i, usersListInPeople.get(i).getText());
+        }
+
+        Assert.assertTrue(listOfUsersInPeople.contains(username));
+        Assert.assertTrue(listOfUsersInPeople.contains(fullName));
+    }
 }
+
