@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class JenkinsUtils {
 
@@ -128,5 +129,13 @@ public class JenkinsUtils {
         deleteByLink("user/admin/my-views/view/%s/doDelete",
                 getSubstringsFromPage(viewPage, "href=\"/user/admin/my-views/view/", "/\""),
                 getCrumbFromPage(viewPage));
+    }
+
+    public static void deleteUsers() {
+        String userPage = getPage("manage/securityRealm/");
+        deleteByLink("manage/securityRealm/user/%s/doDelete",
+                getSubstringsFromPage(userPage, "href=\"user/", "/delete\"").stream()
+                        .filter(user -> !user.equals(ProjectUtils.getUserName())).collect(Collectors.toSet()),
+                getCrumbFromPage(userPage));
     }
 }

@@ -18,6 +18,8 @@ public class NewItemCreatePipelineTest extends BaseTest {
     private static final By LINK_TO_DASHBOARD  = By.id("jenkins-name-icon");
 
     private static final String RANDOM_STRING  = TestUtils.getRandomStr(7);
+    private static final String ITEM_DESCRIPTION = "This is a sample " +
+            "description for item";
 
     private static String getRandomStr() {
         return RandomStringUtils.random(7, true,true);
@@ -184,5 +186,18 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
                 "No such job: " + jobName);
+    }
+
+    @Test
+    public void testCreateNewPipelineWithDescription () {
+        final  String jobName = RANDOM_STRING;
+
+        setJobPipeline(jobName);
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(By.cssSelector(".jenkins-input")).sendKeys(ITEM_DESCRIPTION);
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child"))
+                .getAttribute("textContent"),ITEM_DESCRIPTION);
     }
 }
