@@ -22,6 +22,8 @@ public class OrganizationFolderTest extends BaseTest {
     private static final String uniqueOrganizationFolderName = "folder" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
     private static final String ORG_FOLDER_NAME = TestUtils.getRandomStr();
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
+    private static final By INPUT_DISPLAY_NAME = By.xpath("//input [@name = '_.displayNameOrNull']");
+    private static final By DESCRIPTION = By.xpath("//textarea [@name = '_.description']");
     private static final By ORGANIZATION_FOLDER = By.xpath("//li[@class = 'jenkins_branch_OrganizationFolder']");
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By DASHBOARD = By.xpath("//a[text()='Dashboard']");
@@ -314,5 +316,30 @@ public class OrganizationFolderTest extends BaseTest {
                 .collect(Collectors.toList());
 
         Assert.assertFalse(foldersList.contains(uniqueOrganizationFolderName + 5));
+    }
+
+    @Test
+    public void testConfigureOrganizationFolder() {
+        String displayName = "Test Configuration Display Name";
+        String description = "Test Description";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getInputName().sendKeys("New Organization Name");
+        getOrganizationFolder().click();
+        getOkButton().click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(By.linkText("Configure")).click();
+
+        getDriver().findElement(INPUT_DISPLAY_NAME).sendKeys(displayName);
+        getDriver().findElement(DESCRIPTION).sendKeys(description);
+        getSaveButton().click();
+        getDashboard().click();
+
+        List<String> foldersList = getDriver()
+                .findElements(By.xpath("//tr/td[3]/a/span"))
+                .stream()
+                .map(element -> element.getText())
+                .collect(Collectors.toList());
+        Assert.assertTrue(foldersList.contains(displayName), description);
     }
 }
