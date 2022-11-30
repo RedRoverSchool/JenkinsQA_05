@@ -321,4 +321,35 @@ public class EditViewTest extends BaseTest{
         deleteAllViews();
         testListViewAddFiveItems();
     }
+
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
+    public void testIllegalCharacterRenameView() {
+        goToEditView();
+        final char[] illegalCharacters = "#!@$%^&*:;<>?/[]|\\".toCharArray();
+
+        List<Boolean> checks = new ArrayList<>();
+        for (int i = 0; i < illegalCharacters.length; i++) {
+            getDriver().findElement(INPUT_NAME_CSS).clear();
+            getDriver().findElement(INPUT_NAME_CSS).sendKeys(illegalCharacters[i] + RANDOM_ALPHANUMERIC);
+            getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+            if(getDriver().findElements(By.cssSelector("#main-panel h1")).size() > 0) {
+                checks.add(String.format("‘%c’ is an unsafe character", illegalCharacters[i])
+                        .equals(getDriver().findElement(By.cssSelector("#main-panel p")).getText()));
+                getDriver().findElement(DASHBOARD_CSS).click();
+                getDriver().findElement(MY_VIEWS_XP).click();
+                int finalI = i;
+                checks.add(getDriver().findElements(By.xpath(VIEW_PATH_XP)).stream()
+                        .noneMatch(element -> element.getText()
+                                .equals(String.format("‘%c’ is an unsafe character", illegalCharacters[finalI]))));
+                goToEditView();
+            } else {
+                checks.add(false);
+            }
+        }
+
+        Assert.assertTrue(checks.stream().allMatch(element->element == true));
+        deleteAllViews();
+        testListViewAddFiveItems();
+    }
+
 }
