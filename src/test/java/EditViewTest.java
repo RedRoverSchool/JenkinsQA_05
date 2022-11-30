@@ -329,4 +329,5 @@ public class EditViewTest extends BaseTest{
 
         Assert.assertTrue(checks.stream().allMatch(element->element == true));
     }
+
 }
