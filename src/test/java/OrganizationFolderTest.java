@@ -336,6 +336,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .stream()
                 .map(element -> element.getText())
                 .collect(Collectors.toList());
+
         Assert.assertTrue(foldersList.contains(displayName));
     }
 }
