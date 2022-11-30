@@ -227,7 +227,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test (dependsOnMethods = "testCreateNewPipelineWithDescription")
     public void testCreateNewPipelineFromExisting() {
-        final String jobName = getRandomStr();
+        final String jobName = TestUtils.getRandomStr(7);
 
         setJobPipeline(jobName);
         scrollPageDown();
