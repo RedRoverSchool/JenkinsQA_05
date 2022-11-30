@@ -351,5 +351,4 @@ public class EditViewTest extends BaseTest{
         deleteAllViews();
         testListViewAddFiveItems();
     }
-
 }
