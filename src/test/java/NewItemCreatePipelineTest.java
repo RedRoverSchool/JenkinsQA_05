@@ -1,6 +1,5 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -21,32 +20,6 @@ public class NewItemCreatePipelineTest extends BaseTest {
     private static final String RANDOM_STRING  = TestUtils.getRandomStr(7);
     private static final String ITEM_DESCRIPTION = "This is a sample " +
             "description for item";
-    
-    public static ExpectedCondition<WebElement> steadinessOfElementLocated(final By locator) {
-        return new ExpectedCondition<>() {
-            private WebElement element = null;
-            private Point location = null;
-
-            @Override
-            public WebElement apply(WebDriver driver) {
-                try {
-                    element = driver.findElement(locator);
-                } catch (NoSuchElementException e) {
-                    return null;
-                }
-
-                if (element.isDisplayed()) {
-                    Point location = element.getLocation();
-                    if (location.equals(this.location)) {
-                        return element;
-                    }
-                    this.location = location;
-                }
-
-                return null;
-            }
-        };
-    }
 
     private void createPipeline(String jobName) {
         setJobPipeline(jobName);
@@ -57,10 +30,6 @@ public class NewItemCreatePipelineTest extends BaseTest {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys(jobName);
         getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
-    }
-
-    private void scrollPageDown() {
-        ((JavascriptExecutor) getDriver()).executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
     @Test
@@ -183,12 +152,12 @@ public class NewItemCreatePipelineTest extends BaseTest {
     public void testCheckingDisappearanceOfWarningMessage() {
         getDriver().findElement(By.linkText("Manage Jenkins")).click();
         getDriver().findElement(By.xpath("//a[@href='configureTools']")).click();
-        scrollPageDown();
+        TestUtils.scrollPageDown(getDriver());
 
-        getWait(5).until(steadinessOfElementLocated(ADD_MAVEN_BUTTON));
+        getWait(5).until(TestUtils.waitElementStabilization(ADD_MAVEN_BUTTON));
         getDriver().findElement(ADD_MAVEN_BUTTON).click();
-        scrollPageDown();
-        getWait(5).until(steadinessOfElementLocated(ADD_MAVEN_BUTTON));
+        TestUtils.scrollPageDown(getDriver());
+        getWait(5).until(TestUtils.waitElementStabilization(ADD_MAVEN_BUTTON));
         WebElement fieldName = getDriver().findElement(By.cssSelector("input[checkurl$='MavenInstallation/checkName']"));
         fieldName.click();
         fieldName.sendKeys("Maven");
