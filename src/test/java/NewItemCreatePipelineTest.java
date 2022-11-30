@@ -154,10 +154,10 @@ public class NewItemCreatePipelineTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='configureTools']")).click();
         TestUtils.scrollToEnd(getDriver());
 
-        getWait(5).until(TestUtils.elementIsNotMoving(ADD_MAVEN_BUTTON));
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_MAVEN_BUTTON));
         getDriver().findElement(ADD_MAVEN_BUTTON).click();
         TestUtils.scrollToEnd(getDriver());
-        getWait(5).until(TestUtils.elementIsNotMoving(ADD_MAVEN_BUTTON));
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_MAVEN_BUTTON));
         WebElement fieldName = getDriver().findElement(By.cssSelector("input[checkurl$='MavenInstallation/checkName']"));
         fieldName.click();
         fieldName.sendKeys("Maven");

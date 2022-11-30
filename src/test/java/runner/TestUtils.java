@@ -24,29 +24,31 @@ public class TestUtils {
 
     }
 
-    public static ExpectedCondition<WebElement> elementIsNotMoving(final By locator) {
-        return new ExpectedCondition<>() {
-            private Point location = null;
+    public static class ExpectedConditions {
+        public static ExpectedCondition<WebElement> elementIsNotMoving(final By locator) {
+            return new ExpectedCondition<>() {
+                private Point location = null;
 
-            @Override
-            public WebElement apply(WebDriver driver) {
-                WebElement element;
-                try {
-                    element = driver.findElement(locator);
-                } catch (NoSuchElementException e) {
+                @Override
+                public WebElement apply(WebDriver driver) {
+                    WebElement element;
+                    try {
+                        element = driver.findElement(locator);
+                    } catch (NoSuchElementException e) {
+                        return null;
+                    }
+
+                    if (element.isDisplayed()) {
+                        Point location = element.getLocation();
+                        if (location.equals(this.location)) {
+                            return element;
+                        }
+                        this.location = location;
+                    }
+
                     return null;
                 }
-
-                if (element.isDisplayed()) {
-                    Point location = element.getLocation();
-                    if (location.equals(this.location)) {
-                        return element;
-                    }
-                    this.location = location;
-                }
-
-                return null;
-            }
-        };
+            };
+        }
     }
 }
