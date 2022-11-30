@@ -189,7 +189,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreateNewPipelineWithDescription () {
+    public void testCreateNewPipelineWithDescription() {
         final  String jobName = RANDOM_STRING;
 
         setJobPipeline(jobName);
@@ -197,6 +197,25 @@ public class NewItemCreatePipelineTest extends BaseTest {
         getDriver().findElement(By.cssSelector(".jenkins-input")).sendKeys(ITEM_DESCRIPTION);
         getDriver().findElement(SAVE_BUTTON).click();
 
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child"))
+                .getAttribute("textContent"),ITEM_DESCRIPTION);
+    }
+
+    @Test (dependsOnMethods = "testCreateNewPipelineWithDescription")
+    public void testCreateNewPipelineFromExisting() {
+        final String jobName = getRandomStr();
+
+        setJobPipeline(jobName);
+        scrollPageDown();
+        new Actions(getDriver()).pause(300).moveToElement(getDriver().findElement(By.cssSelector("#from")))
+                .click().sendKeys(RANDOM_STRING.substring(0,2)).pause(400)
+                .sendKeys(Keys.ARROW_DOWN)
+                .sendKeys(Keys.ENTER).perform();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector(".job-index-headline.page-headline"))
+                .getAttribute("textContent").substring(9),jobName);
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child"))
                 .getAttribute("textContent"),ITEM_DESCRIPTION);
     }
