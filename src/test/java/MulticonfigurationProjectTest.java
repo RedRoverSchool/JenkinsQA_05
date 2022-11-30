@@ -312,5 +312,13 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(actualDescText,multiConfProjectDescriptionText);
     }
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectDisabled")
+    public void testEnableDisabledMultiConfigurationProject(){
+        getDriver().findElement(By.xpath("//span[text()='" + PROJECT_NAME + "']")).click();
+        getDriver().findElement(By.xpath("//*[@id='yui-gen1-button']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='yui-gen1-button']")).getText(),
+                "Disable Project");
+    }
 }
 
