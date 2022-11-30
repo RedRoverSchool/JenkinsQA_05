@@ -4,6 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -41,6 +42,7 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(actualResult);
     }
 
+    @Ignore
     @Test
     public void testUserIdInUserAccountLinkAndInUserPage() {
         String usernameInUserAccountLink = getDriver().findElement(USER_ACCOUNT_LINK).getText();

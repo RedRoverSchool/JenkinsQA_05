@@ -188,7 +188,8 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(By.cssSelector("#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
         WebElement element = getDriver().findElement(CONFIGURE_BUTTON);
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", element);
+        executor.executeScript("arguments[0].scrollIntoView();", element);
+        element.click();
 
         Assert.assertEquals(getDriver().getTitle(), NEW_FREESTYLE_NAME + " Config [Jenkins]");
     }
