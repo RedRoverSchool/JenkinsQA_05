@@ -1,7 +1,5 @@
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -20,6 +18,8 @@ public class NewItemCreatePipelineTest extends BaseTest {
     private static final By LINK_TO_DASHBOARD  = By.id("jenkins-name-icon");
 
     private static final String RANDOM_STRING  = TestUtils.getRandomStr(7);
+    private static final String ITEM_DESCRIPTION = "This is a sample " +
+            "description for item";
 
     private static String getRandomStr() {
         return RandomStringUtils.random(7, true,true);
@@ -157,6 +157,24 @@ public class NewItemCreatePipelineTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testAddingGitRepository")
+    public void testCheckingDisappearanceOfWarningMessage() {
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+        getDriver().findElement(By.xpath("//a[@href='configureTools']")).click();
+        scrollPageDown();
+
+        new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.id("yui-gen9-button"))).click().perform();
+        scrollPageDown();
+        WebElement fieldName = getDriver().findElement(By.cssSelector("input[checkurl$='MavenInstallation/checkName']"));
+        fieldName.click();
+        fieldName.sendKeys("Maven");
+        getDriver().findElement(By.id("yui-gen5-button")).click();
+
+        Assert.assertFalse(getDriver().findElement(
+                By.xpath("//input[contains(@checkurl,'MavenInstallation/checkName')]/parent::div/following-sibling::div"))
+                    .getText().contains("Required"));
+    }
+
+    @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
     public void testCreateNewItemFromOtherNonExistingName() {
         final String jobName = getRandomStr();
 
@@ -168,5 +186,18 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
                 "No such job: " + jobName);
+    }
+
+    @Test
+    public void testCreateNewPipelineWithDescription () {
+        final  String jobName = RANDOM_STRING;
+
+        setJobPipeline(jobName);
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(By.cssSelector(".jenkins-input")).sendKeys(ITEM_DESCRIPTION);
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child"))
+                .getAttribute("textContent"),ITEM_DESCRIPTION);
     }
 }
