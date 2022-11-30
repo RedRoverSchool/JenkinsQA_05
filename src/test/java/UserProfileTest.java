@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
 import java.time.Duration;
 
 public class UserProfileTest extends BaseTest {
@@ -14,7 +15,7 @@ public class UserProfileTest extends BaseTest {
     private static final By ADD_DES = By.id("description-link");
     private static final By INPUT_FIELD = By.tagName("textarea");
     private static final By SAVE_BUTTON = By.id("yui-gen1-button");
-    private static final String  TEXT = RandomStringUtils.randomAlphanumeric(50);
+    private static final String TEXT = RandomStringUtils.randomAlphanumeric(50);
     private static final By USER = By.xpath("//div/a[@class='model-link']");
     private static final By STATUS_INPUT_FIELD = By.xpath("//div/textarea[@class='jenkins-input   ']");
     private static final By PREVIEW_LINK = By.xpath("//a[@class='textarea-show-preview']");
@@ -29,24 +30,25 @@ public class UserProfileTest extends BaseTest {
         }
         return wait;
     }
-        @Test
-        public void testUserProfileAddDescription () {
-            getWait().until(ExpectedConditions.elementToBeClickable(USER_ICON)).click();
-            getWait().until(ExpectedConditions.elementToBeClickable(ADD_DES)).click();
-            getDriver().findElement(INPUT_FIELD).clear();
-            getDriver().findElement(INPUT_FIELD).sendKeys(TEXT);
-            getDriver().findElement(SAVE_BUTTON).click();
 
-            Assert.assertTrue(getDriver().
-                    findElement(By.xpath("//div[contains(text(),'"+TEXT+"')]")).isDisplayed());
+    @Test
+    public void testUserProfileAddDescription() {
+        getWait().until(ExpectedConditions.elementToBeClickable(USER_ICON)).click();
+        getWait().until(ExpectedConditions.elementToBeClickable(ADD_DES)).click();
+        getDriver().findElement(INPUT_FIELD).clear();
+        getDriver().findElement(INPUT_FIELD).sendKeys(TEXT);
+        getDriver().findElement(SAVE_BUTTON).click();
 
-            getWait().until(ExpectedConditions.elementToBeClickable(ADD_DES)).click();
-            getDriver().findElement(INPUT_FIELD).clear();
-            getDriver().findElement(SAVE_BUTTON).click();
-        }
+        Assert.assertTrue(getDriver().
+                findElement(By.xpath("//div[contains(text(),'" + TEXT + "')]")).isDisplayed());
 
-      @Test
-    public void testUserProfileHidePreviewDescription () {
+        getWait().until(ExpectedConditions.elementToBeClickable(ADD_DES)).click();
+        getDriver().findElement(INPUT_FIELD).clear();
+        getDriver().findElement(SAVE_BUTTON).click();
+    }
+
+    @Test
+    public void testUserProfileHidePreviewDescription() {
         final String STATUS_TEXT = "Feeling Good!";
         getDriver().findElement(USER).click();
         getDriver().findElement(ADD_DES).click();
@@ -56,5 +58,17 @@ public class UserProfileTest extends BaseTest {
         getDriver().findElement(HIDE_PREVIEW_LINK).click();
 
         Assert.assertFalse(getDriver().findElement(PREVIEW_FIELD).isDisplayed());
-      }
     }
+
+    @Test
+    public void testUserProfilePreviewDescription() {
+
+        getDriver().findElement(USER).click();
+        getDriver().findElement(ADD_DES).click();
+        getDriver().findElement(STATUS_INPUT_FIELD).clear();
+        getDriver().findElement(STATUS_INPUT_FIELD).sendKeys(TEXT);
+        getDriver().findElement(PREVIEW_LINK).click();
+
+        Assert.assertEquals(getDriver().findElement(PREVIEW_FIELD).getText(), TEXT);
+    }
+}
