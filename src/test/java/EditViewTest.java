@@ -6,8 +6,10 @@ import runner.BaseTest;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static runner.TestUtils.getRandomStr;
+
 public class EditViewTest extends BaseTest{
-    private static final String RANDOM_ALPHANUMERIC = UUID.randomUUID().toString().substring(0, 8);
+    private static final String RANDOM_ALPHANUMERIC = getRandomStr();
     private static final String VIEW_PATH = String.format("//a[contains(@href, '/my-views/view/%s/')]", RANDOM_ALPHANUMERIC);
     private static final By DASHBOARD_CSS = By.cssSelector("#jenkins-name-icon");
     private static final By SUBMIT_BUTTON_CSS = By.cssSelector("[type='submit']");
