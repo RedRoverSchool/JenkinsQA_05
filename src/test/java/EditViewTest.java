@@ -1,6 +1,7 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.*;
@@ -101,13 +102,13 @@ public class EditViewTest extends BaseTest{
     }
 
     public void deleteAllViews(){
+        getDriver().findElement(DASHBOARD_CSS).click();
         getDriver().findElement(MY_VIEWS_XP).click();
         List<WebElement> allViews = getDriver().findElements(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]"));
-        while (allViews.size() > 0) {
+        for (int i = 0; i < allViews.size(); i++) {
             getDriver().findElement(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]")).click();
             getDriver().findElement(DELETE_VIEW_CSS).click();
             getDriver().findElement(SUBMIT_BUTTON_CSS).click();
-            allViews = getDriver().findElements(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]"));
         }
     }
 
@@ -221,6 +222,8 @@ public class EditViewTest extends BaseTest{
                 .cssSelector("#projectstatus th:nth-child(2) a")).getText()};
 
         Assert.assertEquals(actualResult, expectedResult);
+        deleteAllViews();
+        testListViewAddFiveItems();
     }
 
     @Test
@@ -297,9 +300,10 @@ public class EditViewTest extends BaseTest{
         new Actions(getDriver()).pause(300).perform();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
         List<WebElement> columnList = getDriver().findElements(By.cssSelector("table#projectstatus th"));
-        System.out.println(columnList.stream().map(element -> element.getText()).collect(Collectors.toList()));
 
         Assert.assertTrue(columnList.stream().noneMatch(element -> element.getText().equals("S")));
+        deleteAllViews();
+        testListViewAddFiveItems();
     }
 
     @Test(dependsOnMethods = "testListViewAddFiveItems")
@@ -314,5 +318,7 @@ public class EditViewTest extends BaseTest{
 
         Assert.assertFalse(actualResult.equals(RANDOM_ALPHANUMERIC));
         Assert.assertEquals(actualResult, NEW_NAME);
+        deleteAllViews();
+        testListViewAddFiveItems();
     }
 }
