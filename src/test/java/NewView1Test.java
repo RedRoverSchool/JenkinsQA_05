@@ -13,14 +13,23 @@ public class NewView1Test extends BaseTest {
     private static final By DASHBOARD_LINK = By.xpath("//ul[@id='breadcrumbs']//a[@href='/']");
     private static final By MY_VIEWS = By.cssSelector("a[href='/me/my-views']");
     private static final By ADD_VIEW = By.cssSelector("a[title='New View']");
-    private static final String VIEW_NAME_FREESTYLE = "Freestyle projects";
-    private static final String VIEW_NAME_PIPLINES = "Piplines";
-    private static final String VIEW_NAME_MULTI_CONFIGURATION = "Multi-configuration projects";
+    private static final String GLOBAL_VIEW_NAME_FREESTYLE = "Freestyle projects";
+    private static final String LIST_VIEW_NAME_PIPLINES = "Piplines";
+    private static final String MY_VIEW_NAME_MULTI_CONFIGURATION = "Multi-configuration projects";
 
     public List<WebElement> getListViews() {
 
         return getDriver().findElements(
                 By.cssSelector(".tabBar .tab a[href]"));
+    }
+
+    public String getStringListViewsNames() {
+        StringBuilder listViewsNames = new StringBuilder();
+        for (WebElement view : getListViews()) {
+            listViewsNames.append(view.getText()).append(" ");
+        }
+
+        return listViewsNames.toString().trim();
     }
 
     public List<WebElement> getListButtonsForJobsDropdownMenu() {
@@ -83,9 +92,12 @@ public class NewView1Test extends BaseTest {
                 By.xpath("//span[text() = 'Freestyle project']"));
         createAnyJob("Multi-configuration project-1",
                 By.xpath("//span[text() = 'Multi-configuration project']"));
-        createAnyView(VIEW_NAME_FREESTYLE, By.cssSelector("label[for='hudson.model.ProxyView']"));
-        createAnyView(VIEW_NAME_PIPLINES, By.cssSelector("label[for='hudson.model.ListView']"));
-        createAnyView(VIEW_NAME_MULTI_CONFIGURATION, By.cssSelector("label[for='hudson.model.MyView']"));
+        createAnyView(GLOBAL_VIEW_NAME_FREESTYLE,
+                By.cssSelector("label[for='hudson.model.ProxyView']"));
+        createAnyView(LIST_VIEW_NAME_PIPLINES,
+                By.cssSelector("label[for='hudson.model.ListView']"));
+        createAnyView(MY_VIEW_NAME_MULTI_CONFIGURATION,
+                By.cssSelector("label[for='hudson.model.MyView']"));
 
         getDriver().findElement(MY_VIEWS).click();
         List<String> viewsList = getListViews()
@@ -93,9 +105,23 @@ public class NewView1Test extends BaseTest {
                 .map((WebElement::getText))
                 .collect(Collectors.toList());
 
-        Assert.assertTrue(viewsList.contains(VIEW_NAME_FREESTYLE));
-        Assert.assertTrue(viewsList.contains(VIEW_NAME_PIPLINES));
-        Assert.assertTrue(viewsList.contains(VIEW_NAME_MULTI_CONFIGURATION));
+        Assert.assertTrue(viewsList.contains(GLOBAL_VIEW_NAME_FREESTYLE));
+        Assert.assertTrue(viewsList.contains(LIST_VIEW_NAME_PIPLINES));
+        Assert.assertTrue(viewsList.contains(MY_VIEW_NAME_MULTI_CONFIGURATION));
+    }
+
+    @Test(dependsOnMethods = "testCreateMyViews")
+    public void testDeleteMyView() {
+        final By ButtonYesDeleteView = By.id("yui-gen1-button");
+
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(
+                By.cssSelector(".tabBar .tab a[href='/user/admin/my-views/view/"
+                        + LIST_VIEW_NAME_PIPLINES + "/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='delete']")).click();
+        getDriver().findElement(ButtonYesDeleteView).click();
+
+        Assert.assertFalse(getStringListViewsNames().contains(LIST_VIEW_NAME_PIPLINES));
 
         deleteAllViews();
         deleteAllJobsByDropdownMenus();
