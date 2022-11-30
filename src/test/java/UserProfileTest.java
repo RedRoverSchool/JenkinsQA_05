@@ -20,6 +20,7 @@ public class UserProfileTest extends BaseTest {
     private static final By PREVIEW_LINK = By.xpath("//a[@class='textarea-show-preview']");
     private static final By HIDE_PREVIEW_LINK = By.xpath("//a[@class='textarea-hide-preview']");
     private static final By PREVIEW_FIELD = By.xpath("//div[@class='textarea-preview']");
+    private static final String  TEXT_EDIT = RandomStringUtils.randomAlphanumeric(10);
 
     private WebDriverWait wait;
 
@@ -28,6 +29,11 @@ public class UserProfileTest extends BaseTest {
             wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
         }
         return wait;
+    }
+    public void deleteDescription (){
+        getWait().until(ExpectedConditions.elementToBeClickable(ADD_DES)).click();
+        getDriver().findElement(INPUT_FIELD).clear();
+        getDriver().findElement(SAVE_BUTTON).click();
     }
         @Test
         public void testUserProfileAddDescription () {
@@ -57,4 +63,19 @@ public class UserProfileTest extends BaseTest {
 
         Assert.assertFalse(getDriver().findElement(PREVIEW_FIELD).isDisplayed());
       }
+
+    @Test (dependsOnMethods = "testUserProfileAddDescription")
+    public void testUserProfileEditDescription (){
+
+        getDriver().findElement(USER_ICON).click();
+        getDriver().findElement(ADD_DES).click();
+        getDriver().findElement(INPUT_FIELD).clear();
+        getDriver().findElement(INPUT_FIELD).sendKeys(TEXT_EDIT);
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        Assert.assertTrue(getDriver().
+                findElement(By.xpath("//div[contains(text(),'"+TEXT_EDIT+"')]")).isDisplayed());
+
+        deleteDescription();
     }
+}
