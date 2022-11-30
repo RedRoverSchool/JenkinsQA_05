@@ -1,16 +1,12 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
-
-import java.sql.SQLOutput;
 import java.time.Duration;
 
 public class BuildHistoryTest extends BaseTest {
-
 
     private static final By DASHBOARD = By.xpath("//a[contains(text(), 'Dashboard')]");
     private static final By BUILD_NOW_BTN = By.xpath("//body[1]/div[3]/div[1]/div[1]/div[5]/span[1]");
@@ -21,7 +17,6 @@ public class BuildHistoryTest extends BaseTest {
     private static final By OK_BUTTON = By.xpath("//span[@class='yui-button primary large-button']");
     private static final By DESCRIPTION_FIELD = By.name("description");
     private static final By SAVE_BUTTON = By.xpath("//button[@type = 'submit']");
-    private static final By A_UL_BREADCRUMBS = By.xpath("//ul[@id='breadcrumbs']//a");
     private static final By BUILD_HISTORY = By.linkText("Build History");
     private static final By H1_HEADER_BULD_HISTORY = By.xpath("//div[@class='jenkins-app-bar__content']/h1");
     private static final By BUILD_NOW = By.linkText("Build Now");
@@ -29,12 +24,10 @@ public class BuildHistoryTest extends BaseTest {
     private static final By BUTTON_S = By.xpath("//a[@href='/iconSize?16x16']");
     private static final By BUTTON_M = By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li/following-sibling::li[2]");
     private static final By BUTTON_L = By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li[last()]");
-
     private static final By ATOM_FEED_ALL = By.xpath("//a/span[contains(text(), 'Atom feed for all')]");
-
     private static final By ATOM_FEED_FAILURE = By.xpath("//a/span[contains(text(), 'Atom feed for failures')]");
-
     private static final By ATOM_FEED_LATEST = By.xpath("//a/span[contains(text(), 'Atom feed for just latest builds')]");
+    private static final By ICON_LEGEND = By.xpath("//a[@href='/legend']");
 
     private static String jobName = "";
 
@@ -116,7 +109,7 @@ public class BuildHistoryTest extends BaseTest {
     @Test
     public void testH1Header_BuildHistory() {
         createProject();
-        clickElement(A_UL_BREADCRUMBS);
+        clickElement(DASHBOARD);
         clickElement(BUILD_HISTORY);
 
         Assert.assertEquals(getText(H1_HEADER_BULD_HISTORY), "Build History of Jenkins");
@@ -147,5 +140,12 @@ public class BuildHistoryTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(ATOM_FEED_ALL).isDisplayed());
         Assert.assertTrue(getDriver().findElement(ATOM_FEED_FAILURE).isDisplayed());
         Assert.assertTrue(getDriver().findElement(ATOM_FEED_LATEST).isDisplayed());
+    }
+
+    @Test
+    public void testIfTheIconLegendExist() {
+        clickElement(BUILD_HISTORY);
+
+        Assert.assertTrue(getDriver().findElement(ICON_LEGEND).isDisplayed());
     }
 }

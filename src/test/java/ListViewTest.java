@@ -10,6 +10,9 @@ public class ListViewTest extends BaseTest {
 
     private static final By DASHBOARD = By.id("jenkins-name-icon");
     private static final By OK_BUTTON = By.cssSelector("#yui-gen6-button");
+    private static final By DESCRIPTION_AREA = By.xpath("//textarea[@name='description']");
+    private static final By DESCRIPTION = By.xpath(
+            "//div[@class='jenkins-buttons-row jenkins-buttons-row--invert']/preceding-sibling::div");
     private static final String RANDOM_LIST_VIEW_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + RANDOM_LIST_VIEW_NAME + "/']");
 
@@ -67,14 +70,23 @@ public class ListViewTest extends BaseTest {
 
         getDriver().findElement(CREATED_LIST_VIEW).click();
         getDriver().findElement(By.linkText("Edit View")).click();
-        getDriver().findElement(
-                By.xpath("//textarea[@name='description']")).sendKeys(descriptionRandom);
+        getDriver().findElement(DESCRIPTION_AREA).sendKeys(descriptionRandom);
         getDriver().findElement(OK_BUTTON).click();
 
-        WebElement actualDescription = getDriver().findElement(By.xpath(
-                        "//div[@class='jenkins-buttons-row jenkins-buttons-row--invert']/preceding-sibling::div"));
+        WebElement actualDescription = getDriver().findElement(DESCRIPTION);
 
         Assert.assertTrue(actualDescription.isDisplayed());
         Assert.assertEquals(actualDescription.getText(), descriptionRandom);
+    }
+
+    @Test(dependsOnMethods = "testEditViewAddDescription")
+    public void testEditViewDeleteDescription() {
+
+        getDriver().findElement(CREATED_LIST_VIEW).click();
+        getDriver().findElement(By.cssSelector("#description-link")).click();
+        getDriver().findElement(DESCRIPTION_AREA).clear();
+        getDriver().findElement(By.cssSelector("#yui-gen1-button")).click();
+
+        Assert.assertEquals(getDriver().findElement(DESCRIPTION).getText(), "");
     }
 }
