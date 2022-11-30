@@ -10,7 +10,7 @@ import static runner.TestUtils.getRandomStr;
 
 public class EditViewTest extends BaseTest{
     private static final String RANDOM_ALPHANUMERIC = getRandomStr();
-    private static final String VIEW_PATH = String.format("//a[contains(@href, '/my-views/view/%s/')]", RANDOM_ALPHANUMERIC);
+    private static final String VIEW_PATH_XP = String.format("//a[contains(@href, '/my-views/view/%s/')]", RANDOM_ALPHANUMERIC);
     private static final By DASHBOARD_CSS = By.cssSelector("#jenkins-name-icon");
     private static final By SUBMIT_BUTTON_CSS = By.cssSelector("[type='submit']");
     private static final By ITEM_PATH_CSS = By.cssSelector(".jenkins-table__link");
@@ -78,7 +78,7 @@ public class EditViewTest extends BaseTest{
     public void goToEditView() {
         getDriver().findElement(DASHBOARD_CSS).click();
         getDriver().findElement(MY_VIEWS_XP).click();
-        getDriver().findElement(By.xpath(VIEW_PATH)).click();
+        getDriver().findElement(By.xpath(VIEW_PATH_XP)).click();
         getDriver().findElement(By.xpath(String.format("//a[contains(@href, '/my-views/view/%s/configure')]", RANDOM_ALPHANUMERIC))).click();
     }
 
