@@ -25,7 +25,6 @@ public class MultibranchPipelineTest extends BaseTest {
     private static final By MULTIBRANCH_PIPELINE_NAME_INPUT_FIELD = (By.xpath("//input[@type='text']"));
     private static final By MULTIBRANCH_PIPELINE_NAME = By.xpath("//a [@class='jenkins-table__link model-link inside']");
 
-
     private WebElement findElementXpath(String xpath) {
         return getDriver().findElement(By.xpath(xpath));
     }
@@ -41,8 +40,6 @@ public class MultibranchPipelineTest extends BaseTest {
     private void redirectToDashboardPage() {
         clickElement(By.xpath("//a[text()='Dashboard']"));
     }
-
-
 
     private void buttonClickXpath(String locator) {
         getDriver().findElement(By.xpath(locator)).click();
