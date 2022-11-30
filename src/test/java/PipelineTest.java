@@ -24,6 +24,15 @@ public class PipelineTest extends BaseTest {
             By.xpath("//div[@id='breadcrumb-menu']//span[contains(text(),'Rename')]");
     private static final By TEXTFIELD_NEW_NAME = By.name("newName");
     private static final By BUTTON_RENAME = By.id("yui-gen1-button");
+    private static final By MY_VIEWS = By.xpath("//a[@href='/me/my-views']");
+    private static final By ADD_TAB = By.className("addTab");
+    private static final By VIEW_NAME_FIELD = By.id("name");
+    private static final String VIEW_NAME = RandomStringUtils.randomAlphanumeric(5);
+    private static final By RADIO_BUTTON_MY_VIEW =
+            By.xpath("//input[@id='hudson.model.MyView']/..//label[@class='jenkins-radio__label']");
+    private static final By BUTTON_CREATE = By.id("ok");
+    private static final By VIEW =
+            By.xpath(String.format("//div/a[contains(text(),'%s')]", VIEW_NAME));
 
     private static String generatePipelineProjectName() {
         return RandomStringUtils.randomAlphanumeric(10);
@@ -52,6 +61,22 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(TEXTFIELD_NEW_NAME).clear();
         getDriver().findElement(TEXTFIELD_NEW_NAME).sendKeys(name + rename);
         getDriver().findElement(BUTTON_RENAME).click();
+    }
+    private void createNewViewOfTypeMyView() {
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(ADD_TAB).click();
+        getDriver().findElement(VIEW_NAME_FIELD).sendKeys(VIEW_NAME);
+        getDriver().findElement(RADIO_BUTTON_MY_VIEW).click();
+        getDriver().findElement(BUTTON_CREATE).click();
+    }
+
+    private void deleteNewView() {
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(VIEW).click();
+        getDriver().findElement(BUTTON_DELETE).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
     }
     @Test
     public void testDisablePipelineProjectMessage() {
@@ -106,6 +131,22 @@ public class PipelineTest extends BaseTest {
                         .findElement(By.xpath("//h1[@class='job-index-headline page-headline']")).getText()
                 , "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
 
+        deletePipelineProject(PIPELINE_NAME);
+    }
+    @Test
+    public void testRenamedPipelineIsDisplayedInMyViews() {
+        createPipelineProject(PIPELINE_NAME);
+        createNewViewOfTypeMyView();
+        renamePipelineProject(PIPELINE_NAME, RENAME_SUFFIX);
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(VIEW).click();
+
+        Assert.assertEquals(getDriver()
+                        .findElement(By.xpath(String.format("//tbody//a[@href = contains(., '%s%s')]",PIPELINE_NAME, RENAME_SUFFIX))).getText()
+                , PIPELINE_NAME + RENAME_SUFFIX);
+
+        deleteNewView();
         deletePipelineProject(PIPELINE_NAME);
     }
 }

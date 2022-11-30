@@ -1,6 +1,6 @@
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -16,13 +16,36 @@ public class NewItemCreatePipelineTest extends BaseTest {
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By SAVE_BUTTON = By.id("yui-gen6-button");
     private static final By LINK_TO_DASHBOARD  = By.id("jenkins-name-icon");
+    private static final By ADD_MAVEN_BUTTON  = By.id("yui-gen9-button");
 
     private static final String RANDOM_STRING  = TestUtils.getRandomStr(7);
     private static final String ITEM_DESCRIPTION = "This is a sample " +
             "description for item";
+    
+    public static ExpectedCondition<WebElement> steadinessOfElementLocated(final By locator) {
+        return new ExpectedCondition<>() {
+            private WebElement element = null;
+            private Point location = null;
 
-    private static String getRandomStr() {
-        return RandomStringUtils.random(7, true,true);
+            @Override
+            public WebElement apply(WebDriver driver) {
+                try {
+                    element = driver.findElement(locator);
+                } catch (NoSuchElementException e) {
+                    return null;
+                }
+
+                if (element.isDisplayed()) {
+                    Point location = element.getLocation();
+                    if (location.equals(this.location)) {
+                        return element;
+                    }
+                    this.location = location;
+                }
+
+                return null;
+            }
+        };
     }
 
     private void createPipeline(String jobName) {
@@ -42,7 +65,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineExistingNameError() {
-        final String jobName = getRandomStr();
+        final String jobName = TestUtils.getRandomStr(7);
 
         createPipeline(jobName);
         getDriver().findElement(LINK_TO_DASHBOARD).click();
@@ -88,7 +111,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineOnBreadcrumbs () {
-        final String itemName = getRandomStr();
+        final String itemName = TestUtils.getRandomStr(7);
 
         createPipeline(itemName);
 
@@ -107,7 +130,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithName() {
-        final String name = getRandomStr();
+        final String name = TestUtils.getRandomStr(7);
 
         createPipeline(name);
         getDriver().findElement(SAVE_BUTTON).click();
@@ -118,7 +141,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testDeletePipelineFromDashboard() {
-        final String jobName = getRandomStr();
+        final String jobName = TestUtils.getRandomStr(7);
 
         createPipeline(jobName);
         getDriver().findElement(LINK_TO_DASHBOARD).click();
@@ -162,8 +185,10 @@ public class NewItemCreatePipelineTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='configureTools']")).click();
         scrollPageDown();
 
-        new Actions(getDriver()).pause(1000).moveToElement(getDriver().findElement(By.id("yui-gen9-button"))).click().perform();
+        getWait(5).until(steadinessOfElementLocated(ADD_MAVEN_BUTTON));
+        getDriver().findElement(ADD_MAVEN_BUTTON).click();
         scrollPageDown();
+        getWait(5).until(steadinessOfElementLocated(ADD_MAVEN_BUTTON));
         WebElement fieldName = getDriver().findElement(By.cssSelector("input[checkurl$='MavenInstallation/checkName']"));
         fieldName.click();
         fieldName.sendKeys("Maven");
@@ -176,11 +201,10 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
     public void testCreateNewItemFromOtherNonExistingName() {
-        final String jobName = getRandomStr();
+        final String jobName = TestUtils.getRandomStr(7);
 
         setJobPipeline(jobName);
-        scrollPageDown();
-        new Actions(getDriver()).pause(1500).moveToElement(getDriver().findElement(By.id("from"))).click()
+        new Actions(getDriver()).moveToElement(getDriver().findElement(By.id("from"))).click()
                 .sendKeys(jobName).perform();
         getDriver().findElement(OK_BUTTON).click();
 
