@@ -152,7 +152,6 @@ public class CreateUserVerifyCreateTest extends BaseTest {
         final String fullName = getRandomDigitAndLetterString();
         final String email = getRandomDigitAndLetterString() + ".@com";
 
-        getDriver().get("http://localhost:8080/");
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         getDriver().findElement(By.xpath("//div/a[@href='securityRealm/']")).click();
         getDriver().findElement(By.xpath("//a[@href='addUser']")).click();
