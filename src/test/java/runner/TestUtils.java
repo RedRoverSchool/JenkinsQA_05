@@ -15,7 +15,7 @@ public class TestUtils {
         return getRandomStr(15);
     }
 
-    public static void scrollPageDown(WebDriver driver) {
+    public static void scrollToEnd(WebDriver driver) {
         ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
@@ -24,13 +24,13 @@ public class TestUtils {
 
     }
 
-    public static ExpectedCondition<WebElement> waitElementStabilization(final By locator) {
+    public static ExpectedCondition<WebElement> elementIsNotMoving(final By locator) {
         return new ExpectedCondition<>() {
-            private WebElement element = null;
             private Point location = null;
 
             @Override
             public WebElement apply(WebDriver driver) {
+                WebElement element;
                 try {
                     element = driver.findElement(locator);
                 } catch (NoSuchElementException e) {

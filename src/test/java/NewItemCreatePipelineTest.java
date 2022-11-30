@@ -152,12 +152,12 @@ public class NewItemCreatePipelineTest extends BaseTest {
     public void testCheckingDisappearanceOfWarningMessage() {
         getDriver().findElement(By.linkText("Manage Jenkins")).click();
         getDriver().findElement(By.xpath("//a[@href='configureTools']")).click();
-        TestUtils.scrollPageDown(getDriver());
+        TestUtils.scrollToEnd(getDriver());
 
-        getWait(5).until(TestUtils.waitElementStabilization(ADD_MAVEN_BUTTON));
+        getWait(5).until(TestUtils.elementIsNotMoving(ADD_MAVEN_BUTTON));
         getDriver().findElement(ADD_MAVEN_BUTTON).click();
-        TestUtils.scrollPageDown(getDriver());
-        getWait(5).until(TestUtils.waitElementStabilization(ADD_MAVEN_BUTTON));
+        TestUtils.scrollToEnd(getDriver());
+        getWait(5).until(TestUtils.elementIsNotMoving(ADD_MAVEN_BUTTON));
         WebElement fieldName = getDriver().findElement(By.cssSelector("input[checkurl$='MavenInstallation/checkName']"));
         fieldName.click();
         fieldName.sendKeys("Maven");
@@ -199,7 +199,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         final String jobName = TestUtils.getRandomStr(7);
 
         setJobPipeline(jobName);
-        TestUtils.scrollPageDown(getDriver());
+        TestUtils.scrollToEnd(getDriver());
         new Actions(getDriver()).pause(300).moveToElement(getDriver().findElement(By.cssSelector("#from")))
                 .click().sendKeys(RANDOM_STRING.substring(0,2)).pause(400)
                 .sendKeys(Keys.ARROW_DOWN)
