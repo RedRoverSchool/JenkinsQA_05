@@ -17,7 +17,7 @@ import java.util.Random;
 @Ignore
 public class NoGroupTest extends BaseTest {
 
-    @Ignore
+//    @Ignore
     @Test
     public void testVerifyTextBoxOutputResult() {
         getDriver().get("https://demoqa.com/");
