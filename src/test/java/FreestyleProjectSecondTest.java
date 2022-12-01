@@ -135,21 +135,19 @@ public class FreestyleProjectSecondTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testVerifyOptionsInBuildStepsSection")
-    public void testSelectBuildPeriodicallyCheckbox() {
+    public void testSelectBuildPeriodicallyCheckbox() throws InterruptedException {
         boolean selectedCheckbox;
 
         getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']")).click();
-        getWait(10).until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath("//label[text()='Build periodically']")));
+        Thread.sleep(2000);
         getDriver ().findElement (By.xpath ("//label[text()='Build periodically']")).click ();
 
         selectedCheckbox = getDriver().findElement(By.name("hudson-triggers-TimerTrigger")).isSelected();
 
-        getWait(10).until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath("//label[text()='Build periodically']")));
+        Thread.sleep(2000);
         getDriver ().findElement (By.xpath ("//label[text()='Build periodically']")).click ();
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
