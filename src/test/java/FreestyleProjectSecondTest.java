@@ -130,4 +130,18 @@ public class FreestyleProjectSecondTest extends BaseTest {
 
         Assert.assertEquals(actualOptions, expectedOptions);
     }
+
+    @Test(dependsOnMethods = "testVerifyOptionsInBuildStepsSection")
+    public void testSelectBuildPeriodicallyCheckbox() {
+        getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
+                .click();
+        getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']")).click();
+        getDriver().findElement(By.xpath ("//label[text()='Build periodically']")).click();
+        WebElement checkbox = getDriver().findElement(By.name("hudson-triggers-TimerTrigger"));
+        System.out.println(checkbox.isSelected());
+        getDriver().findElement(By.xpath ("//label[text()='Build periodically']")).click();
+        checkbox = getDriver().findElement(By.name("hudson-triggers-TimerTrigger"));
+        System.out.println(checkbox.isSelected());
+    }
 }
