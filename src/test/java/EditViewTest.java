@@ -366,5 +366,7 @@ public class EditViewTest extends BaseTest{
 
         Assert.assertFalse(actualResult.equals(RANDOM_ALPHANUMERIC));
         Assert.assertEquals(actualResult, NEW_NAME);
+                deleteAllViews();
+        testListViewAddFiveItems();
     }
 }
