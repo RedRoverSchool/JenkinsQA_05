@@ -227,7 +227,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testDisableMultiMultiConfigurationProjectCheckIconDashboardPage() {
+    public void testDisableMultiConfigurationProjectCheckIconDashboardPage() {
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
         getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
