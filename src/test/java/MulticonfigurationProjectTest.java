@@ -293,7 +293,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testDisableMultiMultiConfigurationProjectCheckIconProjectName() {
+    public void testDisableMultiConfigurationProjectCheckIconProjectName() {
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
         getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
@@ -336,8 +336,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 "Disable Project");
     }
 
-    @Test(dependsOnMethods = "testDisableMultiMultiConfigurationProjectCheckIconProjectName")
-    public void testEnableMultiMultiConfigurationProjectCheckIconProjectName() {
+    @Test(dependsOnMethods = "testDisableMultiConfigurationProjectCheckIconProjectName")
+    public void testEnableMultiConfigurationProjectCheckIconProjectName() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
         getDriver().findElement(ENABLE_PROJECT_BUTTON).click();
 
