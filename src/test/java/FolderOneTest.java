@@ -18,6 +18,7 @@ public class FolderOneTest extends BaseTest {
     private static final By TEXT_ADDRESS = By.xpath("//div[@id='main-panel']");
     private static final By TEXT_H1 = By.xpath("//h1");
     private static final By TEXTAREA = By.xpath("//textarea[@name='_.description']");
+    private static final By DELETE_FOLDER = By.linkText("Delete Folder");
     private static final By SELECTION_SCRIPT = By.xpath("//div[@class='samples']/select/option[4]");
     private static final String RANDOM_FOLDER_NAME = RandomStringUtils.randomAlphanumeric(8);
     private static final String RANDOM_PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(8);
@@ -60,7 +61,7 @@ public class FolderOneTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testCreateFolderInFolder", "testCreateNewFolder"})
-    public void configureFolderDisplayName() {
+    public void testConfigureFolderDisplayName() {
         getDriver().findElement(JENKINS_ICON).click();
         getDriver().findElement(DROP_DOWN_MENU).click();
         getDriver().findElement(DROP_DOWN_CONFIGURE).click();
@@ -70,8 +71,8 @@ public class FolderOneTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(TEXT_H1).getText(), (RANDOM_PIPELINE_NAME + "NEW"));
     }
 
-    @Test(dependsOnMethods = {"configureFolderDisplayName", "testCreateFolderInFolder", "testCreateNewFolder"})
-    public void addFolderDescription(){
+    @Test(dependsOnMethods = {"testConfigureFolderDisplayName", "testCreateFolderInFolder", "testCreateNewFolder"})
+    public void testAddFolderDescription(){
         getDriver().findElement(JENKINS_ICON).click();
         getDriver().findElement(DROP_DOWN_MENU).click();
         getDriver().findElement(DROP_DOWN_CONFIGURE).click();
@@ -80,6 +81,15 @@ public class FolderOneTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
                 .contains("NEW TEXT"));
+    }
+
+    @Test(dependsOnMethods = {"testAddFolderDescription", "testConfigureFolderDisplayName", "testCreateFolderInFolder", "testCreateNewFolder"})
+    public void testDeleteFolder(){
+        getDriver().findElement(By.linkText(RANDOM_PIPELINE_NAME + "NEW")).click();
+        getDriver().findElement(DELETE_FOLDER).click();
+        getDriver().findElement(SUBMIT_BUTTON).click();
+
+        Assert.assertNotNull(getDriver().findElement(By.className("empty-state-block")));
     }
 
     @Test
