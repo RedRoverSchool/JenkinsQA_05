@@ -39,6 +39,6 @@ public class FolderWithoutConfigTest extends BaseTest {
         getDriver().findElement(By.xpath("//*[@id='tasks']/div[7]/span/a/span[1]")).click();
         getDriver().switchTo().alert().accept();
 
-        Assert.assertEquals(getDriver().findElements(By.linkText(VALID_NAME)).size(), 0);
+        Assert.assertNotNull(getDriver().findElement(By.className("empty-state-block")));
     }
 }
