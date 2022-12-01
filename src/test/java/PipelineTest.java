@@ -1,6 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -40,6 +41,8 @@ public class PipelineTest extends BaseTest {
     }
 
     private void createPipelineProject(String projectName) {
+        Actions actions = new Actions(getDriver());
+        actions.sendKeys(Keys.F5);
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(PIPELINE).click();
