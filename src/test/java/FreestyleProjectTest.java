@@ -45,6 +45,10 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By ENABLE_DISABLE_PROJECT_BUTTON = By.id("yui-gen1-button");
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
     private static final By CONFIGURE_BUTTON = By.linkText("Configure");
+    private static final By JENKINS_CURRENT_VERSION = By.xpath("//a [@rel = 'noopener noreferrer']");
+    private static final By CONFIGURATION_PAGE_HEAD =
+            By.xpath("//div[@class = 'jenkins-app-bar__content']/h1");
+    private static final By DELETE_PROJECT_OPTION = By.xpath("//span[contains(text(),'Delete Project')]");
 
     private WebDriverWait wait;
 
@@ -61,6 +65,17 @@ public class FreestyleProjectTest extends BaseTest {
 
     private String getBuildStatus(){
         return getDriver().findElement(By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']")).getAttribute("tooltip");
+    }
+
+    private void alertAccept(){
+        getDriver().switchTo().alert().accept();
+    }
+
+    private void deleteFreestyleProject(String projectName) {
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+        getDriver().findElement(By.xpath("//a[@href = 'job/" + projectName + "/']")).click();
+        getDriver().findElement(DELETE_PROJECT_OPTION).click();
+        alertAccept();
     }
 
     @Test
@@ -425,5 +440,29 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(JOB_HEADLINE_LOCATOR).getText(),"Error");
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel > p")).getText(),"No name is specified");
+    }
+
+    @Test (dependsOnMethods = "testFreestyleProjectConfigureMenu")
+    public void testAccessProjectConfigurationFromTheProjectPage () {
+        final String NAME_FREESTYLE_PROJECT_TC010401 = NEW_FREESTYLE_NAME;
+        final By FIND_NAME_FREESTYLE_PROJECT_TC010401 =
+                By.xpath("//a[@href = 'job/" + NAME_FREESTYLE_PROJECT_TC010401 + "/']");
+        final By CONFIG_NAME_FREESTYLE_PROJECT_TC010401 =
+                By.xpath("//a[@href='/job/" + NAME_FREESTYLE_PROJECT_TC010401 + "/configure']");
+
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(NAME_FREESTYLE_PROJECT_TC010401);
+        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+        getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
+        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
+        getDriver().findElement(FIND_NAME_FREESTYLE_PROJECT_TC010401).click();
+        getDriver().findElement(CONFIG_NAME_FREESTYLE_PROJECT_TC010401).click();
+
+        Assert.assertTrue(getDriver().findElement(CONFIGURATION_PAGE_HEAD).getText().
+                contains("Configuration"));
+        Assert.assertTrue(getDriver().findElement(JENKINS_CURRENT_VERSION).getText().
+                contains("Jenkins 2.361.4"));
+
+        deleteFreestyleProject(NAME_FREESTYLE_PROJECT_TC010401);
     }
 }
