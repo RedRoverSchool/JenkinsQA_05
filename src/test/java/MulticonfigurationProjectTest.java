@@ -280,6 +280,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                         By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/']")).getText(),
                 NEW_PROJECT_NAME);
     }
+
     @Test
     public void testDisableMultiMultiConfigurationProjectCheckIconProjectName() {
         getDriver().findElement(NEW_ITEM).click();
@@ -295,6 +296,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                         By.xpath("//span[@class='build-status-icon__wrapper icon-disabled icon-md']"))
                 .isDisplayed());
     }
+
     @Test
     public void testMultiConfigurationProjectConfigureParams() {
         String multiConfProjectName = TestUtils.getRandomStr(5);
@@ -305,30 +307,30 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(By.xpath("//tr[@id='job_"+multiConfProjectName+"']//td[3]//a")).click();
+        getDriver().findElement(By.xpath("//tr[@id='job_" + multiConfProjectName + "']//td[3]//a")).click();
         getDriver().findElement(By.linkText("Configure")).click();
         getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(multiConfProjectDescriptionText);
         getDriver().findElement(SAVE_BUTTON).click();
         String actualDescText = getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText();
 
-        Assert.assertEquals(actualDescText,multiConfProjectDescriptionText);
+        Assert.assertEquals(actualDescText, multiConfProjectDescriptionText);
     }
-    
- 
+
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectDisabled")
-    public void testEnableDisabledMultiConfigurationProject(){
+    public void testEnableDisabledMultiConfigurationProject() {
         getDriver().findElement(By.xpath("//span[text()='" + PROJECT_NAME + "']")).click();
         getDriver().findElement(By.xpath("//*[@id='yui-gen1-button']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='yui-gen1-button']")).getText(),
                 "Disable Project");
     }
-    
+
     @Test(dependsOnMethods = "testDisableMultiMultiConfigurationProjectCheckIconProjectName")
-    public void testEnableMultiMultiConfigurationProjectCheckIconProjectName(){
+    public void testEnableMultiMultiConfigurationProjectCheckIconProjectName() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
         getDriver().findElement(ENABLE_PROJECT_BUTTON).click();
+
         Assert.assertTrue(getDriver().findElement(By.xpath("//span/span/*[name()='svg' and @tooltip='Not built']"))
                 .isDisplayed());
+    }
 }
-
