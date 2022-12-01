@@ -22,8 +22,23 @@ public class MultibranchPipelineTest extends BaseTest {
     private static final By SUBMIT_BUTTON = By.xpath("//button[@type = 'submit']");
     private static final By MULTIBRANCH_PIPELINE_OPTION = By.xpath("//li[@class='org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject']");
     private static final String RANDOM_MULTIBRANCHPIPELINE_NAME = TestUtils.getRandomStr();
+    private static final By MULTIBRANCH_PIPELINE_NAME_INPUT_FIELD = (By.xpath("//input[@type='text']"));
+    private static final By MULTIBRANCH_PIPELINE_NAME = By.xpath("//a [@class='jenkins-table__link model-link inside']");
+
     private WebElement findElementXpath(String xpath) {
         return getDriver().findElement(By.xpath(xpath));
+    }
+
+    private void clickElement(By by) {
+        getDriver().findElement(by).click();
+    }
+
+    private void clearElement(By by) {
+        getDriver().findElement(by).clear();
+    }
+
+    private void redirectToDashboardPage() {
+        clickElement(By.xpath("//a[text()='Dashboard']"));
     }
 
     private void buttonClickXpath(String locator) {
@@ -169,4 +184,23 @@ public class MultibranchPipelineTest extends BaseTest {
 
         Assert.assertEquals(actualMultibranchPipeline,expectedMultibranchPipeline);
     }
+
+    @Test
+    public void testRenameMultiBranchPipelineFromLeftSideMenu () {
+        String Renamed = "Renamed_Multibranch_Pipeline";
+
+        createMultibranchPipeline();
+        redirectToDashboardPage();
+        clickElement(MULTIBRANCH_PIPELINE_NAME);
+        clickElement(By.linkText("Rename"));
+        clearElement(MULTIBRANCH_PIPELINE_NAME_INPUT_FIELD);
+        getDriver().findElement(MULTIBRANCH_PIPELINE_NAME_INPUT_FIELD).sendKeys(Renamed);
+        clickElement(SUBMIT_BUTTON);
+
+        Assert.assertEquals((getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText()),Renamed);
+
+        redirectToDashboardPage();
+
+        Assert.assertEquals(getDriver().findElement(MULTIBRANCH_PIPELINE_NAME).getText(),Renamed);
+     }
 }

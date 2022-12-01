@@ -1,4 +1,5 @@
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
@@ -122,6 +123,17 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), pipelinePojectName + "description");
     }
+
+    @Test
+    public void testNewPipelineItemAppearedInTheList() {
+
+        String pipelineProjectName = generatePipelineProjectName();
+        createPipelineProject(pipelineProjectName);
+
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//a[@href='job/" + pipelineProjectName + "/']")).getText(), pipelineProjectName);
+    }
+
     @Test
     public void testRenamePipelineWithValidName() {
         createPipelineProject(PIPELINE_NAME);
