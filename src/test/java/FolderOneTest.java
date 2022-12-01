@@ -20,6 +20,7 @@ public class FolderOneTest extends BaseTest {
     private static final By TEXT_H1 = By.xpath("//h1");
     private static final By TEXTAREA = By.xpath("//textarea[@name='_.description']");
     private static final By DELETE_FOLDER = By.linkText("Delete Folder");
+    private static final By MOVE_FOLDER = By.linkText("Move");
     private static final By SELECTION_SCRIPT = By.xpath("//div[@class='samples']/select/option[4]");
     private static final String RANDOM_FOLDER_NAME = RandomStringUtils.randomAlphanumeric(8);
     private static final String RANDOM_PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(8);
@@ -123,6 +124,20 @@ public class FolderOneTest extends BaseTest {
         Assert.assertEquals((RANDOM_PIPELINE_NAME + "NEW"),actualFolderName);
         Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
                 .contains(RANDOM_PIPELINE_NAME + "NEW"));
+    }
+    @Test(dependsOnMethods = {"testCreateFolderInFolderJob","testRenameFolder"})
+    public void testMoveFolderInFolder(){
+        getDriver().findElement(JENKINS_ICON).click();
+        createFolder();
+        getDriver().findElement(MOVE_FOLDER).click();
+        getDriver().findElement(By.xpath("//select/option[@value='/"+ RANDOM_PIPELINE_NAME + "NEW" + "']")).click();
+        submitButtonClick();
+
+        String actualFolderName = getDriver().findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_FOLDER_NAME)).getText();
+        String actualPipelineName = getDriver().findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_PIPELINE_NAME + "NEW")).getText();
+
+        Assert.assertEquals(RANDOM_FOLDER_NAME,actualFolderName);
+        Assert.assertEquals((RANDOM_PIPELINE_NAME + "NEW"),actualPipelineName);
     }
 
     @Test
