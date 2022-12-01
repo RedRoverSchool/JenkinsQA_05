@@ -14,6 +14,7 @@ public class FolderOneTest extends BaseTest {
     private static final By DROP_DOWN_MENU = By.xpath("//td/a/button[@class='jenkins-menu-dropdown-chevron']");
     private static final By DROP_DOWN_CONFIGURE = By.xpath("//span[contains(text(),'Configure')]");
     private static final By DROP_DOWN_RENAME = By.xpath("//span[contains(text(),'Rename')]");
+    private static final By DROP_DOWN_DELETE = By.xpath("//span[contains(text(),'Delete Folder')]");
     private static final By JENKINS_ICON = By.id("jenkins-name-icon");
     private static final By CREATE_JOB = By.linkText("Create a job");
     private static final By TEXT_ADDRESS = By.xpath("//div[@id='main-panel']");
@@ -138,6 +139,16 @@ public class FolderOneTest extends BaseTest {
 
         Assert.assertEquals(RANDOM_FOLDER_NAME,actualFolderName);
         Assert.assertEquals((RANDOM_PIPELINE_NAME + "NEW"),actualPipelineName);
+    }
+
+    @Test(dependsOnMethods = {"testCreateFolderInFolderJob","testRenameFolder","testMoveFolderInFolder"})
+    public void testDeleteFolderDropDown(){
+        getDriver().findElement(JENKINS_ICON).click();
+        getDriver().findElement(By.linkText(RANDOM_PIPELINE_NAME + "NEW")).findElement(DROP_DOWN_MENU).click();
+        getDriver().findElement(DROP_DOWN_DELETE).click();
+        submitButtonClick();
+
+        Assert.assertNotNull(getDriver().findElement(By.className("empty-state-block")));
     }
 
     @Test
