@@ -84,7 +84,6 @@ public class PipelineTest extends BaseTest {
 
         String pipelinePojectName = generatePipelineProjectName();
         createPipelineProject(pipelinePojectName);
-
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(By.xpath(String.format("//td/a/span[contains(text(),'%s')]", pipelinePojectName))).click();
         getDriver().findElement(BUTTON_DISABLE_PROJECT).click();
@@ -98,7 +97,6 @@ public class PipelineTest extends BaseTest {
 
         String pipelinePojectName = generatePipelineProjectName();
         createPipelineProject(pipelinePojectName);
-
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
 
@@ -115,9 +113,7 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(ITEM_NAME).sendKeys(pipelinePojectName);
         getDriver().findElement(BUTTON_OK).click();
         getDriver().findElement(BUTTON_SAVE).click();
-
         getDriver().findElement(By.id("description-link")).click();
-
         getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(pipelinePojectName + "description");
         getDriver().findElement(By.id("yui-gen2-button")).click();
 
@@ -140,8 +136,8 @@ public class PipelineTest extends BaseTest {
         renamePipelineProject(PIPELINE_NAME, RENAME_SUFFIX);
 
         Assert.assertEquals(getDriver()
-                        .findElement(By.xpath("//h1[@class='job-index-headline page-headline']")).getText()
-                , "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
+                        .findElement(By.xpath("//h1[@class='job-index-headline page-headline']"))
+                        .getText(), "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
 
         deletePipelineProject(PIPELINE_NAME);
     }
@@ -155,10 +151,29 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(VIEW).click();
 
         Assert.assertEquals(getDriver()
-                        .findElement(By.xpath(String.format("//tbody//a[@href = contains(., '%s%s')]",PIPELINE_NAME, RENAME_SUFFIX))).getText()
-                , PIPELINE_NAME + RENAME_SUFFIX);
+                        .findElement(By.xpath(String.format("//tbody//a[@href = contains(., '%s%s')]", PIPELINE_NAME, RENAME_SUFFIX)))
+                        .getText(), PIPELINE_NAME + RENAME_SUFFIX);
 
         deleteNewView();
+        deletePipelineProject(PIPELINE_NAME);
+    }
+
+    @Test
+    public void testRenamePipelineWithoutChangingName() {
+        createPipelineProject(PIPELINE_NAME);
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(getDriver().findElement(JOB_PIPELINE))
+                .moveToElement(getDriver().findElement(JOB_PIPELINE_MENU_DROPDOWN_CHEVRON)).click().build().perform();
+        getDriver().findElement(JOB_MENU_RENAME).click();
+        getDriver().findElement(BUTTON_RENAME).click();
+
+        Assert.assertEquals(getDriver()
+                        .findElement(By.xpath("//div[@id='main-panel']//h1[contains(text(),'Error')]"))
+                        .getText(), "Error");
+        Assert.assertEquals(getDriver()
+                        .findElement(By.xpath("//div[@id='main-panel']//p"))
+                        .getText(), "The new name is the same as the current name.");
+
         deletePipelineProject(PIPELINE_NAME);
     }
 }
