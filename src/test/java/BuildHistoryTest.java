@@ -1,13 +1,17 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
-import java.sql.SQLOutput;
+import java.time.Duration;
+import java.util.List;
 
 public class BuildHistoryTest extends BaseTest {
 
+    private static final By DASHBOARD = By.xpath("//a[contains(text(), 'Dashboard')]");
     private static final By BUILD_NOW_BTN = By.xpath("//body[1]/div[3]/div[1]/div[1]/div[5]/span[1]");
     private static final By ICON_SIZE = By.xpath("//a[@class='jenkins-table__button']//*[name()='svg']");
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
@@ -16,18 +20,34 @@ public class BuildHistoryTest extends BaseTest {
     private static final By OK_BUTTON = By.xpath("//span[@class='yui-button primary large-button']");
     private static final By DESCRIPTION_FIELD = By.name("description");
     private static final By SAVE_BUTTON = By.xpath("//button[@type = 'submit']");
-    private static final By A_UL_BREADCRUMBS = By.xpath("//ul[@id='breadcrumbs']//a");
     private static final By BUILD_HISTORY = By.linkText("Build History");
-    private static final By H1_HEADER_BULD_HISTORY = By.xpath("//div[@class='jenkins-app-bar__content']/h1");
+    private static final By H1_HEADER_BUILD_HISTORY = By.xpath("//div[@class='jenkins-app-bar__content']/h1");
     private static final By BUILD_NOW = By.linkText("Build Now");
     private static final By TREND_BUILD = By.xpath("//div[@class='jenkins-pane__header--build-history']/a");
     private static final By BUTTON_S = By.xpath("//a[@href='/iconSize?16x16']");
     private static final By BUTTON_M = By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li/following-sibling::li[2]");
     private static final By BUTTON_L = By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li[last()]");
+    private static final By ATOM_FEED_ALL = By.xpath("//a/span[contains(text(), 'Atom feed for all')]");
+    private static final By ATOM_FEED_FAILURE = By.xpath("//a/span[contains(text(), 'Atom feed for failures')]");
+    private static final By ATOM_FEED_LATEST = By.xpath("//a/span[contains(text(), 'Atom feed for just latest builds')]");
+    private static final By ICON_LEGEND = By.xpath("//a[@href='/legend']");
+    private static final By PROJECT_STATUS_TABLE = By.xpath("//table[@id='projectStatus']/thead/tr/th");
 
+    private static String jobName = "";
+
+    private WebDriverWait wait;
+
+    private WebDriverWait getWait() {
+        if (wait == null) {
+            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        }
+        return wait;
+    }
 
     private void inputName(By by) {
-        getDriver().findElement(by).sendKeys(TestUtils.getRandomStr(8));
+        jobName = TestUtils.getRandomStr(8);
+        getDriver().findElement(by).sendKeys(jobName);
+
     }
 
     private void clickElement(By by) {
@@ -46,6 +66,16 @@ public class BuildHistoryTest extends BaseTest {
         clickElement(OK_BUTTON);
         inputName(DESCRIPTION_FIELD);
         clickElement(SAVE_BUTTON);
+    }
+
+    public List<WebElement> getListOfElements(By by) {
+
+        return getDriver().findElements(by);
+    }
+
+    public int getListSize(By by) {
+
+        return getListOfElements(by).size();
     }
 
     @Test
@@ -93,10 +123,10 @@ public class BuildHistoryTest extends BaseTest {
     @Test
     public void testH1Header_BuildHistory() {
         createProject();
-        clickElement(A_UL_BREADCRUMBS);
+        clickElement(DASHBOARD);
         clickElement(BUILD_HISTORY);
 
-        Assert.assertEquals(getText(H1_HEADER_BULD_HISTORY), "Build History of Jenkins");
+        Assert.assertEquals(getText(H1_HEADER_BUILD_HISTORY), "Build History of Jenkins");
     }
 
     @Test
@@ -115,5 +145,28 @@ public class BuildHistoryTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(BUTTON_S).isDisplayed());
         Assert.assertTrue(getDriver().findElement(BUTTON_M).isDisplayed());
         Assert.assertTrue(getDriver().findElement(BUTTON_L).isDisplayed());
+    }
+
+    @Test
+    public void testRssItemsExist() {
+        clickElement(BUILD_HISTORY);
+
+        Assert.assertTrue(getDriver().findElement(ATOM_FEED_ALL).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(ATOM_FEED_FAILURE).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(ATOM_FEED_LATEST).isDisplayed());
+    }
+
+    @Test
+    public void testIfTheIconLegendExist() {
+        clickElement(BUILD_HISTORY);
+
+        Assert.assertTrue(getDriver().findElement(ICON_LEGEND).isDisplayed());
+    }
+
+    @Test
+    public void testNumberOfColumns_ProjectStatusTable() {
+        clickElement(BUILD_HISTORY);
+
+        Assert.assertEquals(getListSize(PROJECT_STATUS_TABLE), 5);
     }
 }
