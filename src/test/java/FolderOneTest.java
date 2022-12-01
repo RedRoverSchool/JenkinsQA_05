@@ -58,6 +58,18 @@ public class FolderOneTest extends BaseTest {
         Assert.assertEquals(RANDOM_PIPELINE_NAME,actualPipelineName);
     }
 
+    @Test(dependsOnMethods = {"testCreateFolderInFolder", "testCreateNewFolder"})
+    public void configureFolderDisplayName() {
+        getDriver().findElement(JENKINS_ICON).click();
+        getDriver().findElement(JENKINS_ICON).click();
+        getDriver().findElement(DROP_DOWN_MENU).click();
+        getDriver().findElement(DROP_DOWN_CONFIGURE).click();
+        getDriver().findElement(NAME_CONFIGURE).sendKeys(RANDOM_PIPELINE_NAME + "NEW");
+        getDriver().findElement(SUBMIT_BUTTON).click();
+
+        Assert.assertEquals(getDriver().findElement(TEXT_H1).getText(), (RANDOM_PIPELINE_NAME + "NEW"));
+    }
+
     @Test
     public void testCreateNewFolderWithPipeline() {
         createFolder();
