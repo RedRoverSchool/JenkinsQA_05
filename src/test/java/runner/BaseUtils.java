@@ -78,7 +78,7 @@ public final class BaseUtils {
 
     static WebDriver createDriver() {
         WebDriver driver = new ChromeDriver(chromeOptions);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(8, TimeUnit.SECONDS);
         return driver;
     }
 
