@@ -24,6 +24,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
     private static final By INPUT_NAME = By.id("name");
     private static final By CONFIGURE = By.xpath(String.format("//a[@href='/job/%s/configure']", PROJECT_NAME));
     private static final By DISABLE_PROJECT = By.id("yui-gen1-button");
+    private static final By ENABLE_PROJECT_BUTTON = By.xpath("//*[@id=\"yui-gen1-button\"]");
+            //By.id("yui-gen1-button");
     private WebDriverWait wait;
     private static final By MULTI_CONFIGURATION_PROJECT = By.cssSelector(".hudson_matrix_MatrixProject");
 
@@ -312,5 +314,15 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(actualDescText,multiConfProjectDescriptionText);
     }
+    @Test(dependsOnMethods = "testDisableMultiMultiConfigurationProjectCheckIconProjectName")
+    public void testEnableMultiMultiConfigurationProjectCheckIconProjectName(){
+        
+        getDriver().findElement(ENABLE_PROJECT_BUTTON).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//*[@tooltip='Not built']")).isDisplayed());
+    }
+
+
+
 }
 
