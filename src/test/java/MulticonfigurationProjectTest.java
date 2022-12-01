@@ -244,7 +244,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDisableMultiMultiConfigurationProjectCheckIconDashboardPage")
-    public void testEnableMultiMultiConfigurationProjectCheckIconDashboardPage() {
+    public void testEnableMultiConfigurationProjectCheckIconDashboardPage() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
         getDriver().findElement(ENABLE_PROJECT_BUTTON).click();
         getDriver().findElement(DASHBOARD).click();
