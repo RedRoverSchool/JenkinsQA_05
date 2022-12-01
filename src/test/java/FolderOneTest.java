@@ -93,6 +93,21 @@ public class FolderOneTest extends BaseTest {
     }
 
     @Test
+    public void testCreateFolderInFolderJob(){
+        createFolder();
+        getDriver().findElement(CREATE_JOB).click();
+        getDriver().findElement(NAME).sendKeys(RANDOM_PIPELINE_NAME);
+        getDriver().findElement(FOLDER_OPTION).click();
+        submitButton();
+
+        String actualFolderName = getDriver().findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_FOLDER_NAME)).getText();
+        String actualPipelineName = getDriver().findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_PIPELINE_NAME)).getText();
+
+        Assert.assertEquals(RANDOM_FOLDER_NAME,actualFolderName);
+        Assert.assertEquals(RANDOM_PIPELINE_NAME,actualPipelineName);
+    }
+
+    @Test
     public void testCreateNewFolderWithPipeline() {
         createFolder();
         getDriver().findElement(NEW_ITEM).click();
