@@ -1,4 +1,6 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -23,12 +25,12 @@ public class FreestyleBuildInFolderTest extends BaseTest {
     private static final By DASHBOARD = By.xpath("//a[normalize-space()='Dashboard']");
     private static final By CREATED_FOLDER = By.xpath("//a[@class='jenkins-table__link model-link inside']");
     private static final By NEW_ITEM_DROPDOWN = By.xpath("//*[contains(@class,'icon-new-package icon-md')]");
-    private static final By DOCS_SELECT = By.xpath("//*[contains(@class,'jenkins-table')and contains(@href,'job/Docs/')]");
     private static final By CONSOLE_OUTPUT = By.xpath("//span[normalize-space()='Console Output']");
     private static final By BUILD_DROPDOWN = By.cssSelector("a[class='model-link inside build-link display-name'] button[class='jenkins-menu-dropdown-chevron']");
     private static final By JOB_IN = By.cssSelector("a[class='jenkins-table__link model-link inside']");
     private static final By BUILD = By.cssSelector("#yui-gen3");
     private static final By JOB_DROPDOWN = By.cssSelector("a[class='jenkins-table__link model-link inside'] button[class='jenkins-menu-dropdown-chevron']");
+    private static final By DOCS_SELECT = By.xpath("//*[contains(@class,'jenkins-table')and contains(@href,'job/Docs/')]");
     private static final By DOCS_IN = By.xpath("//a[@class='jenkins-table__link model-link inside']");
 
     @Test
@@ -58,7 +60,6 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(DOCS_SELECT).click();
         getDriver().findElement(DOCS_IN).click();
-        Thread.sleep(10000);
 
         Assert.assertEquals(getDriver().findElement(
                 By.xpath("//a[@class='jenkins-table__link model-link inside']")).getText(), name);
@@ -69,12 +70,11 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         getDriver().findElement(DOCS_IN).click();
         getDriver().findElement(JOB_IN).click();
         getDriver().findElement(JOB_DROPDOWN).click();
-        Thread.sleep(4000);
         getDriver().findElement(BUILD).click();
         getDriver().findElement(JOB_IN).click();
         getDriver().findElement(BUILD_DROPDOWN).click();
         getDriver().findElement(CONSOLE_OUTPUT).click();
-        Thread.sleep(4000);
+       Thread.sleep(2000);
 
         Assert.assertTrue(getDriver().findElement(
                 By.cssSelector(".console-output")).getText().toUpperCase().contains("SUCCESS"));
