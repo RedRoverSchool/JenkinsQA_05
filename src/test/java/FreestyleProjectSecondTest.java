@@ -142,15 +142,15 @@ public class FreestyleProjectSecondTest extends BaseTest {
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']")).click();
-        WebElement checkboxLabel = getWait(10).until(ExpectedConditions
+        getWait(10).until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//label[text()='Build periodically']")));
-        checkboxLabel.click();
+        getDriver ().findElement (By.xpath ("//label[text()='Build periodically']")).click ();
 
         selectedCheckbox = getDriver().findElement(By.name("hudson-triggers-TimerTrigger")).isSelected();
 
-        checkboxLabel = getWait(10).until(ExpectedConditions
+        getWait(10).until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//label[text()='Build periodically']")));
-        checkboxLabel.click();
+        getDriver ().findElement (By.xpath ("//label[text()='Build periodically']")).click ();
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
         Assert.assertTrue(selectedCheckbox);
