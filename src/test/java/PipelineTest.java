@@ -141,6 +141,7 @@ public class PipelineTest extends BaseTest {
 
         deletePipelineProject(PIPELINE_NAME);
     }
+
     @Test
     public void testRenamedPipelineIsDisplayedInMyViews() {
         createPipelineProject(PIPELINE_NAME);
@@ -175,5 +176,29 @@ public class PipelineTest extends BaseTest {
                         .getText(), "The new name is the same as the current name.");
 
         deletePipelineProject(PIPELINE_NAME);
+    }
+
+    @Test
+    public void testRenamePipelineUsingSpecialCharacter() {
+        String specialCharactersString = "!@#$%*/:;?[]^|";
+        for (int i = 0; i < specialCharactersString.length(); i++) {
+            createPipelineProject(PIPELINE_NAME);
+            Actions actions = new Actions(getDriver());
+            actions.moveToElement(getDriver().findElement(JOB_PIPELINE))
+                    .moveToElement(getDriver().findElement(JOB_PIPELINE_MENU_DROPDOWN_CHEVRON)).click().build().perform();
+            getDriver().findElement(JOB_MENU_RENAME).click();
+            getDriver().findElement(TEXTFIELD_NEW_NAME).clear();
+            getDriver().findElement(TEXTFIELD_NEW_NAME).sendKeys(PIPELINE_NAME + specialCharactersString.charAt(i));
+            getDriver().findElement(BUTTON_RENAME).click();
+
+            Assert.assertEquals(getDriver()
+                            .findElement(By.xpath("//div[@id='main-panel']//h1[contains(text(),'Error')]"))
+                            .getText(), "Error");
+            Assert.assertEquals(getDriver()
+                            .findElement(By.xpath("//div[@id='main-panel']//p"))
+                            .getText(), String.format("‘%s’ is an unsafe character", specialCharactersString.charAt(i)));
+
+            deletePipelineProject(PIPELINE_NAME);
+        }
     }
 }
