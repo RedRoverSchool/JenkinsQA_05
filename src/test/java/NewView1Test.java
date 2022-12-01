@@ -13,6 +13,7 @@ public class NewView1Test extends BaseTest {
     private static final By DASHBOARD_LINK = By.xpath("//ul[@id='breadcrumbs']//a[@href='/']");
     private static final By MY_VIEWS = By.cssSelector("a[href='/me/my-views']");
     private static final By ADD_VIEW = By.cssSelector("a[title='New View']");
+    private static final By DELETE_VIEW = By.xpath("//a[@href='delete']");
     private static final String GLOBAL_VIEW_NAME_FREESTYLE = "Freestyle projects";
     private static final String LIST_VIEW_NAME_PIPLINES = "Piplines";
     private static final String MY_VIEW_NAME_MULTI_CONFIGURATION = "Multi-configuration projects";
@@ -60,20 +61,6 @@ public class NewView1Test extends BaseTest {
         getDriver().findElement(DASHBOARD_LINK).click();
     }
 
-    public void deleteAllViews() {
-        getDriver().findElement(DASHBOARD_LINK).click();
-        getDriver().findElement(MY_VIEWS).click();
-        for (int i = getListViews().size() - 1; i >= 0; i--) {
-            if (!getListViews().get(i).getText().equals("All")
-                    && !getListViews().get(i).equals(getDriver().findElement(ADD_VIEW))) {
-                getListViews().get(i).click();
-                getDriver().findElement(
-                        By.xpath("//a[contains(.,'Delete View')]")).click();
-                getDriver().findElement(By.id("yui-gen1-button")).click();
-            }
-        }
-    }
-
     public void deleteAllJobsByDropdownMenus() {
         getDriver().findElement(DASHBOARD_LINK).click();
         for (int i = getListButtonsForJobsDropdownMenu().size() - 1; i >= 0; i--) {
@@ -118,12 +105,27 @@ public class NewView1Test extends BaseTest {
         getDriver().findElement(
                 By.cssSelector(".tabBar .tab a[href='/user/admin/my-views/view/"
                         + LIST_VIEW_NAME_PIPLINES + "/']")).click();
-        getDriver().findElement(By.xpath("//a[@href='delete']")).click();
+        getDriver().findElement(DELETE_VIEW).click();
         getDriver().findElement(ButtonYesDeleteView).click();
 
         Assert.assertFalse(getStringListViewsNames().contains(LIST_VIEW_NAME_PIPLINES));
+    }
 
-        deleteAllViews();
+    @Test(dependsOnMethods = "testDeleteMyView")
+    public void testDeleteAllMyViews() {
+        getDriver().findElement(DASHBOARD_LINK).click();
+        getDriver().findElement(MY_VIEWS).click();
+        for (int i = getListViews().size() - 1; i >= 0; i--) {
+            if (!getListViews().get(i).getText().equals("All")
+                    && !getListViews().get(i).equals(getDriver().findElement(ADD_VIEW))) {
+                getListViews().get(i).click();
+                getDriver().findElement(DELETE_VIEW).click();
+                getDriver().findElement(By.id("yui-gen1-button")).click();
+            }
+        }
+
+        Assert.assertEquals(getStringListViewsNames(), "All");
+
         deleteAllJobsByDropdownMenus();
     }
 }
