@@ -6,12 +6,18 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class CreateListViewTest extends BaseTest {
+public class ListViewTest extends BaseTest {
 
     private static final By DASHBOARD = By.id("jenkins-name-icon");
+    private static final By OK_BUTTON = By.cssSelector("#yui-gen6-button");
+    private static final By DESCRIPTION_AREA = By.xpath("//textarea[@name='description']");
+    private static final By DESCRIPTION = By.xpath(
+            "//div[@class='jenkins-buttons-row jenkins-buttons-row--invert']/preceding-sibling::div");
     private static final String RANDOM_LIST_VIEW_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + RANDOM_LIST_VIEW_NAME + "/']");
 
-    private String getRandomName() {
+
+    private String getRandomString() {
 
         return RandomStringUtils.randomAlphanumeric(10);
     }
@@ -27,8 +33,8 @@ public class CreateListViewTest extends BaseTest {
 
     @Test
     public void testCreateNewListViewWithExistingJob() {
-        final String projectOne = getRandomName();
-        final String projectTwo = getRandomName();
+        final String projectOne = getRandomString();
+        final String projectTwo = getRandomString();
 
         createFreestyleProject(projectOne);
         createFreestyleProject(projectTwo);
@@ -43,7 +49,7 @@ public class CreateListViewTest extends BaseTest {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].click();", elementJob);
 
-        getDriver().findElement(By.cssSelector("#yui-gen6-button")).click();
+        getDriver().findElement(OK_BUTTON).click();
 
         int quantityProjectsInListView = getDriver().findElements(
                 By.xpath("//table[@id='projectstatus']/tbody/tr")).size();
@@ -53,11 +59,34 @@ public class CreateListViewTest extends BaseTest {
         int quantityProjectsAll = getDriver().findElements(
                 By.xpath("//table[@id='projectstatus']/tbody/tr")).size();
 
-        WebElement newListView = getDriver().findElement(
-                By.xpath("//a[@href='/view/" + RANDOM_LIST_VIEW_NAME + "/']"));
-
         Assert.assertEquals(quantityProjectsInListView, 1);
         Assert.assertTrue(quantityProjectsAll > 1);
-        Assert.assertTrue(newListView.isDisplayed());
+        Assert.assertTrue(getDriver().findElement(CREATED_LIST_VIEW).isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "testCreateNewListViewWithExistingJob")
+    public void testEditViewAddDescription() {
+        final String descriptionRandom = getRandomString();
+
+        getDriver().findElement(CREATED_LIST_VIEW).click();
+        getDriver().findElement(By.linkText("Edit View")).click();
+        getDriver().findElement(DESCRIPTION_AREA).sendKeys(descriptionRandom);
+        getDriver().findElement(OK_BUTTON).click();
+
+        WebElement actualDescription = getDriver().findElement(DESCRIPTION);
+
+        Assert.assertTrue(actualDescription.isDisplayed());
+        Assert.assertEquals(actualDescription.getText(), descriptionRandom);
+    }
+
+    @Test(dependsOnMethods = "testEditViewAddDescription")
+    public void testEditViewDeleteDescription() {
+
+        getDriver().findElement(CREATED_LIST_VIEW).click();
+        getDriver().findElement(By.cssSelector("#description-link")).click();
+        getDriver().findElement(DESCRIPTION_AREA).clear();
+        getDriver().findElement(By.cssSelector("#yui-gen1-button")).click();
+
+        Assert.assertEquals(getDriver().findElement(DESCRIPTION).getText(), "");
     }
 }

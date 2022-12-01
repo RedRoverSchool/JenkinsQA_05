@@ -57,6 +57,7 @@ public abstract class BaseTest {
         BaseUtils.log("Clear data");
         JenkinsUtils.deleteJobs();
         JenkinsUtils.deleteViews();
+        JenkinsUtils.deleteUsers();
     }
 
     protected void loginWeb() {

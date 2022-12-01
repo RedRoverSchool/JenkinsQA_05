@@ -1,9 +1,14 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class FreestyleProjectSecondTest extends BaseTest {
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
@@ -99,5 +104,30 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .getAttribute("value");
 
         Assert.assertEquals(actualMaxNumberToKeepBuilds,expectedMaxNumberToKeepBuilds);
+    }
+
+    @Test(dependsOnMethods = "testConfigurationProvideKeepMaxNumberOfOldBuilds")
+    public void testVerifyOptionsInBuildStepsSection() throws InterruptedException {
+
+        final Set<String> expectedOptions = new HashSet<>(List.of("Execute Windows batch command", "Execute shell",
+                "Invoke Ant", "Invoke Gradle script", "Invoke top-level Maven targets", "Run with timeout",
+                "Set build status to \"pending\" on GitHub commit"));
+        Set<String> actualOptions = new HashSet<>();
+
+        getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
+                .click();
+        getDriver().findElement(By.xpath("//button[@data-section-id='build-steps']")).click();
+        Thread.sleep(2000);
+        getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
+        List<WebElement> listOfOptions = getDriver()
+                .findElements(By.xpath("//button[text()='Add build step']/../../..//a[@href='#']"));
+
+        for (WebElement element : listOfOptions) {
+            actualOptions.add(element.getText());
+            System.out.println(element.getText());
+        }
+
+        Assert.assertEquals(actualOptions, expectedOptions);
     }
 }
