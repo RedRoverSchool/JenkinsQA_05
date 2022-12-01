@@ -69,7 +69,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateWithDescriptionFreestyleProject")
     public void testConfigurationProvideDiscardOldBuildsWithDaysToKeepBuilds() {
-        String expectedDaysToKeepBuilds = Integer.toString((int)(Math.random()*10));
+        final String expectedDaysToKeepBuilds = Integer.toString((int)(Math.random() * 20 + 1));
         String actualDaysToKeepBuilds;
 
         getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
@@ -89,7 +89,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
 
     @Test(dependsOnMethods = "testConfigurationProvideDiscardOldBuildsWithDaysToKeepBuilds")
     public void testConfigurationProvideKeepMaxNumberOfOldBuilds() {
-        String expectedMaxNumberToKeepBuilds = Integer.toString((int)(Math.random()*20 + 1));
+        final String expectedMaxNumberToKeepBuilds = Integer.toString((int)(Math.random() * 20 + 1));
         String actualMaxNumberToKeepBuilds;
 
         getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
@@ -127,6 +127,9 @@ public class FreestyleProjectSecondTest extends BaseTest {
             actualOptions.add(element.getText());
             System.out.println(element.getText());
         }
+
+        getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
         Assert.assertEquals(actualOptions, expectedOptions);
     }
