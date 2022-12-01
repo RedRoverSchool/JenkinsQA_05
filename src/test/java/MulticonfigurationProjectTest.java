@@ -241,7 +241,14 @@ public class MulticonfigurationProjectTest extends BaseTest {
                         String.format("//tr[@id='job_%s']//span[@class='build-status-icon__wrapper icon-disabled icon-md']", PROJECT_NAME))))
                 .isDisplayed());
     }
-
+    @Test(dependsOnMethods = "testDisableMultiMultiConfigurationProjectCheckIconDashboardPage")
+    public void testEnableMultiMultiConfigurationProjectCheckIconDashboardPage(){
+        getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
+        getDriver().findElement(ENABLE_PROJECT_BUTTON).click();
+        getDriver().findElement(DASHBOARD).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//span/span/*[name()='svg' and @tooltip='Not built']"))
+                .isDisplayed());
+    }
     @Test
     public void testMultiConfigurationProjectRenameToInvalidNameViaSideMenu() {
 
