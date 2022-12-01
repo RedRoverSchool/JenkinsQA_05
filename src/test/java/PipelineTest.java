@@ -40,7 +40,7 @@ public class PipelineTest extends BaseTest {
     }
 
     private void createPipelineProject(String projectName) {
-
+        getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(PIPELINE).click();
         getDriver().findElement(ITEM_NAME).sendKeys(projectName);
