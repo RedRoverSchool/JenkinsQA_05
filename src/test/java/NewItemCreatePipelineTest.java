@@ -241,8 +241,9 @@ public class NewItemCreatePipelineTest extends BaseTest {
         getWait(20).until(ExpectedConditions.presenceOfElementLocated(By.className("build-icon"))).click();
 
         String stepEchoTotalText = getDriver().findElement(By.xpath("//span[@class='pipeline-node-17']")).getText();
-        String timestampText = getDriver().findElement(By.xpath("//span[@class='timestamp']")).getText();
 
-        Assert.assertEquals(stepEchoTotalText.replace(timestampText, "").trim(), "This is MyPipelineJob!");
+        Assert.assertEquals(
+                stepEchoTotalText.replace(getDriver().findElement(By.xpath("//span[@class='timestamp']")).getText(), "").trim(),
+                "This is MyPipelineJob!");
     }
 }
