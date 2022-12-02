@@ -444,7 +444,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test (dependsOnMethods = "testFreestyleProjectConfigureMenu")
     public void testAccessProjectConfigurationFromTheProjectPage () {
-        final String NAME_FREESTYLE_PROJECT_TC010401 = NEW_FREESTYLE_NAME;
+        final String NAME_FREESTYLE_PROJECT_TC010401 = NEW_FREESTYLE_NAME + "TC010401";
         final By FIND_NAME_FREESTYLE_PROJECT_TC010401 =
                 By.xpath("//a[@href = 'job/" + NAME_FREESTYLE_PROJECT_TC010401 + "/']");
         final By CONFIG_NAME_FREESTYLE_PROJECT_TC010401 =
