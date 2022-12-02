@@ -23,8 +23,8 @@ public class FolderOneTest extends BaseTest {
     private static final By DELETE_FOLDER = By.linkText("Delete Folder");
     private static final By MOVE_FOLDER = By.linkText("Move");
     private static final By SELECTION_SCRIPT = By.xpath("//div[@class='samples']/select/option[4]");
-    private static final String RANDOM_FOLDER_NAME = RandomStringUtils.randomAlphanumeric(8);
-    private static final String RANDOM_PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(8);
+    private static final String RANDOM_FOLDER_NAME = RandomStringUtils.randomAlphanumeric(6);
+    private static final String RANDOM_PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(6);
 
     private void submitButtonClick(){
         getDriver().findElement(By.xpath("//button[@type = 'submit']")).click();
@@ -56,17 +56,16 @@ public class FolderOneTest extends BaseTest {
         getDriver().findElement(FOLDER_OPTION).click();
         submitButtonClick();
 
-        String actualFolderName = getDriver().findElement(By.linkText(RANDOM_FOLDER_NAME)).getText();
-        String actualPipelineName = getDriver().findElement(By.linkText(RANDOM_PIPELINE_NAME)).getText();
+        String actualFolderName = getDriver().findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_FOLDER_NAME)).getText();
+        String actualPipelineName = getDriver().findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_PIPELINE_NAME)).getText();
 
         Assert.assertEquals(RANDOM_FOLDER_NAME,actualFolderName);
         Assert.assertEquals(RANDOM_PIPELINE_NAME,actualPipelineName);
     }
 
-    @Test(dependsOnMethods = {"testCreateFolderInFolder", "testCreateNewFolder"})
+    @Test(dependsOnMethods = {"testCreateFolderInFolder"})
     public void testConfigureFolderDisplayName() {
-        getDriver().findElement(JENKINS_ICON).click();
-        getDriver().findElement(DROP_DOWN_MENU).click();
+        getDriver().findElement(By.linkText(RANDOM_FOLDER_NAME)).findElement(DROP_DOWN_MENU).click();
         getDriver().findElement(DROP_DOWN_CONFIGURE).click();
         getDriver().findElement(NAME_CONFIGURE).sendKeys(RANDOM_PIPELINE_NAME + "NEW");
         submitButtonClick();
@@ -74,19 +73,29 @@ public class FolderOneTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(TEXT_H1).getText(), (RANDOM_PIPELINE_NAME + "NEW"));
     }
 
-    @Test(dependsOnMethods = {"testConfigureFolderDisplayName", "testCreateFolderInFolder", "testCreateNewFolder"})
+    @Test(dependsOnMethods = {"testConfigureFolderDisplayName"})
     public void testAddFolderDescription(){
-        getDriver().findElement(JENKINS_ICON).click();
-        getDriver().findElement(DROP_DOWN_MENU).click();
+        getDriver().findElement(By.linkText(RANDOM_PIPELINE_NAME + "NEW")).findElement(DROP_DOWN_MENU).click();
         getDriver().findElement(DROP_DOWN_CONFIGURE).click();
         getDriver().findElement(TEXTAREA).sendKeys("NEW TEXT");
         submitButtonClick();
 
-        Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
-                .contains("NEW TEXT"));
+        Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText().contains("NEW TEXT"));
     }
 
-    @Test(dependsOnMethods = {"testAddFolderDescription", "testConfigureFolderDisplayName", "testCreateFolderInFolder", "testCreateNewFolder"})
+    @Test(dependsOnMethods = { "testAddFolderDescription"})
+    public void testRenameFolderDescription(){
+        getDriver().findElement(By.linkText(RANDOM_PIPELINE_NAME + "NEW")).findElement(DROP_DOWN_MENU).click();
+        getDriver().findElement(DROP_DOWN_RENAME).click();
+        getDriver().findElement(NEW_NAME_RENAME).clear();
+        getDriver().findElement(NEW_NAME_RENAME).sendKeys(RANDOM_PIPELINE_NAME + "NEW_NEW_FOLDER");
+        submitButtonClick();
+
+        Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
+                .contains(RANDOM_PIPELINE_NAME + "NEW_NEW_FOLDER"));
+    }
+
+    @Test(dependsOnMethods = { "testRenameFolderDescription"})
     public void testDeleteFolder(){
         getDriver().findElement(By.linkText(RANDOM_PIPELINE_NAME + "NEW")).click();
         getDriver().findElement(DELETE_FOLDER).click();
@@ -113,37 +122,39 @@ public class FolderOneTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateFolderInFolderJob")
     public void testRenameFolder()  {
-        getDriver().findElement(JENKINS_ICON).click();
         getDriver().findElement(By.linkText(RANDOM_FOLDER_NAME)).findElement(DROP_DOWN_MENU).click();
         getDriver().findElement(DROP_DOWN_RENAME).click();
         getDriver().findElement(NEW_NAME_RENAME).clear();
         getDriver().findElement(NEW_NAME_RENAME).sendKeys(RANDOM_PIPELINE_NAME + "NEW");
         submitButtonClick();
 
-        String actualFolderName = getDriver().findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_PIPELINE_NAME + "NEW")).getText();
+        String actualFolderName = getDriver()
+                .findElement(By.id("breadcrumbs"))
+                .findElement(By.linkText(RANDOM_PIPELINE_NAME + "NEW"))
+                .getText();
 
         Assert.assertEquals((RANDOM_PIPELINE_NAME + "NEW"),actualFolderName);
-        Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
-                .contains(RANDOM_PIPELINE_NAME + "NEW"));
+        Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText().contains(RANDOM_PIPELINE_NAME + "NEW"));
     }
-    @Test(dependsOnMethods = {"testCreateFolderInFolderJob","testRenameFolder"})
+
+    @Test(dependsOnMethods = {"testRenameFolder"})
     public void testMoveFolderInFolder(){
-        getDriver().findElement(JENKINS_ICON).click();
         createFolder();
         getDriver().findElement(MOVE_FOLDER).click();
         getDriver().findElement(By.xpath("//select/option[@value='/"+ RANDOM_PIPELINE_NAME + "NEW" + "']")).click();
         submitButtonClick();
 
-        String actualFolderName = getDriver().findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_FOLDER_NAME)).getText();
-        String actualPipelineName = getDriver().findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_PIPELINE_NAME + "NEW")).getText();
+        String actualFolderName = getDriver()
+                .findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_FOLDER_NAME)).getText();
+        String actualPipelineName = getDriver()
+                .findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_PIPELINE_NAME + "NEW")).getText();
 
         Assert.assertEquals(RANDOM_FOLDER_NAME,actualFolderName);
         Assert.assertEquals((RANDOM_PIPELINE_NAME + "NEW"),actualPipelineName);
     }
 
-    @Test(dependsOnMethods = {"testCreateFolderInFolderJob","testRenameFolder","testMoveFolderInFolder"})
+    @Test(dependsOnMethods = {"testMoveFolderInFolder"})
     public void testDeleteFolderDropDown(){
-        getDriver().findElement(JENKINS_ICON).click();
         getDriver().findElement(By.linkText(RANDOM_PIPELINE_NAME + "NEW")).findElement(DROP_DOWN_MENU).click();
         getDriver().findElement(DROP_DOWN_DELETE).click();
         submitButtonClick();
