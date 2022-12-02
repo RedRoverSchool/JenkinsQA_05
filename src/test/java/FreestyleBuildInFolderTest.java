@@ -12,7 +12,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
     private static final String DESCRIPTION_FREESTYLE = "Freestyle job";
     private static String x = UUID.randomUUID().toString().substring(0, 2);
     private static String name = "project-" + x;
-    private static final By FOLDER = By.cssSelector("li[class='com_cloudbees_hudson_plugins_folder_Folder'] div[class='desc']");
+    private static final By FOLDER = By.xpath("//span[text()='Folder']");
     private static final By ITEM_NAME = By.cssSelector("#name");
     private static final By DESCRIPTION_IN = By.cssSelector("textarea[name='_.description']");
     private static final By DESCRIPTION_JOB = By.cssSelector("textarea[name='description']");
@@ -20,13 +20,13 @@ public class FreestyleBuildInFolderTest extends BaseTest {
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By DISPLAY_NAME = By.cssSelector("input[name='_.displayNameOrNull']");
     private static final By PROJECT_TYPE = By.xpath("//span[normalize-space()='Freestyle project']");
-    private static final By OK_BUTTON = By.cssSelector(".yui-button.primary.large-button");
+    private static final By OK_BUTTON = By.id("ok-button");
     private static final By SAVE_BUTTON = By.xpath("//*[contains(@id, 'yui-gen') and contains(@type,'submit')]");
     private static final By DASHBOARD = By.xpath("//a[normalize-space()='Dashboard']");
     private static final By CREATED_FOLDER = By.xpath("//a[@class='jenkins-table__link model-link inside']");
     private static final By NEW_ITEM_DROPDOWN = By.xpath("//*[contains(@class,'icon-new-package icon-md')]");
-    private static final By CONSOLE_OUTPUT = By.xpath("//span[normalize-space()='Console Output']");
-    private static final By BUILD_DROPDOWN = By.cssSelector("a[class='model-link inside build-link display-name'] button[class='jenkins-menu-dropdown-chevron']");
+    private static final By CONSOLE_OUTPUT = By.linkText("Console Output");
+    private static final By BUILD_DROPDOWN = By.xpath("//a[normalize-space()='#1']");
     private static final By JOB_IN = By.cssSelector("a[class='jenkins-table__link model-link inside']");
     private static final By BUILD = By.cssSelector("#yui-gen3");
     private static final By JOB_DROPDOWN = By.cssSelector("a[class='jenkins-table__link model-link inside'] button[class='jenkins-menu-dropdown-chevron']");
@@ -48,7 +48,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
                 By.cssSelector("#view-message")).getText().contains(DESCRIPTION));
     }
     @Test(dependsOnMethods = {"createFolderTest"})
-    public void testCreateFreestyleProject() throws InterruptedException {
+    public void testCreateFreestyleProject(){
 
         getDriver().findElement(CREATED_FOLDER).click();
         getDriver().findElement(NEW_ITEM_DROPDOWN).click();
@@ -60,7 +60,6 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(DOCS_SELECT).click();
         getDriver().findElement(DOCS_IN).click();
-        Thread.sleep(4000);
 
         Assert.assertEquals(getDriver().findElement(By.linkText(name)).getText(), name);
     }
@@ -74,7 +73,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         getDriver().findElement(JOB_IN).click();
         getDriver().findElement(BUILD_DROPDOWN).click();
         getDriver().findElement(CONSOLE_OUTPUT).click();
-       Thread.sleep(4000);
+        Thread.sleep(4000);
 
         Assert.assertTrue(getDriver().findElement(
                 By.cssSelector(".console-output")).getText().toUpperCase().contains("SUCCESS"));
