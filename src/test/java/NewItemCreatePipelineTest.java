@@ -137,7 +137,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 .sendKeys(gitHubRepo).perform();
         getDriver().findElement(SAVE_BUTTON).click();
 
-        final WebElement sideMenuGitHub = getDriver().findElement(By.xpath("(//a[contains(@class,'task-link')])[7]"));
+        WebElement sideMenuGitHub = getDriver().findElement(By.xpath("(//a[contains(@class,'task-link')])[7]"));
 
         Assert.assertTrue(sideMenuGitHub.isDisplayed());
         Assert.assertTrue(sideMenuGitHub.getAttribute("href").contains(gitHubRepo));
