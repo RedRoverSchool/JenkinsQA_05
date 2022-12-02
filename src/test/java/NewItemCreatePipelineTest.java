@@ -216,7 +216,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreatePipelineWithName")
-    public void testConfigurePipelineScriptFromSCM() {
+    public void testPipelineStepFromSCMConfiguration() {
 
         getDriver().findElements(By.xpath("//tr/td/a")).get(0).click();
         getDriver().findElement(By.linkText("Configure")).click();
@@ -240,12 +240,9 @@ public class NewItemCreatePipelineTest extends BaseTest {
         getDriver().findElement(By.linkText("Build Now")).click();
         getWait(20).until(ExpectedConditions.presenceOfElementLocated(By.className("build-icon"))).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//pre[@class='console-output']//a[2]")).getText(), "https://github.com/olpolezhaeva/MyAppium");
+        String stepEchoTotalText = getDriver().findElement(By.xpath("//span[@class='pipeline-node-17']")).getText();
+        String timestampText = getDriver().findElement(By.xpath("//span[@class='timestamp']")).getText();
 
-        String totalText = getDriver().findElement(By.xpath("//span[@class='pipeline-node-17']")).getText();
-        String childFirst = getDriver().findElement(By.xpath("//span[@class='timestamp']")).getText();
-
-        Assert.assertEquals(totalText.replace(childFirst, "").trim(), "This is MyPipelineJob!");
-        Assert.assertTrue(getDriver().findElement(By.tagName("pre")).getText().contains( "Finished: SUCCESS"));
+        Assert.assertEquals(stepEchoTotalText.replace(timestampText, "").trim(), "This is MyPipelineJob!");
     }
 }
