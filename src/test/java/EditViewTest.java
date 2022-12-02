@@ -1,14 +1,17 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static runner.TestUtils.getRandomStr;
+
 public class EditViewTest extends BaseTest{
-    private static final String RANDOM_ALPHANUMERIC = UUID.randomUUID().toString().substring(0, 8);
-    private static final String VIEW_PATH = String.format("//a[contains(@href, '/my-views/view/%s/')]", RANDOM_ALPHANUMERIC);
+    private static final String RANDOM_ALPHANUMERIC = getRandomStr();
+    private static final String VIEW_PATH_XP = String.format("//a[contains(@href, '/my-views/view/%s/')]", RANDOM_ALPHANUMERIC);
     private static final By DASHBOARD_CSS = By.cssSelector("#jenkins-name-icon");
     private static final By SUBMIT_BUTTON_CSS = By.cssSelector("[type='submit']");
     private static final By ITEM_PATH_CSS = By.cssSelector(".jenkins-table__link");
@@ -16,12 +19,11 @@ public class EditViewTest extends BaseTest{
     private static final By FILTER_QUEUE_CSS = By.cssSelector("input[name=filterQueue]+label");
     private static final By MY_VIEWS_XP = By.xpath("//a[@href='/me/my-views']");
     private static final By REGEX_CSS = By.cssSelector("input[name='useincluderegex']+label");
-    private static final By INPUT_NAME_ID = By.id("name");
+    private static final By INPUT_NAME_CSS = By.cssSelector("[name='name']");
     private static final By STATUS_DRAG_HANDLE_XP = By.xpath("//div[@descriptorid='hudson.views.StatusColumn']//div[@class='dd-handle']");
     private static final By WEATHER_DRAG_HANDLE_XP = By.xpath("//div[@descriptorid='hudson.views.WeatherColumn']//div[@class='dd-handle']");
     private static final By DELETE_VIEW_CSS = By.cssSelector("a[href='delete']");
     private static final By ADD_COLUMN_CSS = By.cssSelector(".hetero-list-add[suffix='columns']");
-
 
     private void createItem(int i){
         final By CSS_FREESTYLE_0 = By.cssSelector(".j-item-options .hudson_model_FreeStyleProject");
@@ -51,7 +53,7 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(DASHBOARD_CSS).click();
         getDriver().findElement(MY_VIEWS_XP).click();
         getDriver().findElement(By.cssSelector(".addTab")).click();
-        getDriver().findElement(INPUT_NAME_ID).sendKeys(RANDOM_ALPHANUMERIC);
+        getDriver().findElement(INPUT_NAME_CSS).sendKeys(RANDOM_ALPHANUMERIC);
         getDriver().findElement(By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.ProxyView']")).click();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
     }
@@ -60,16 +62,24 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(DASHBOARD_CSS).click();
         getDriver().findElement(MY_VIEWS_XP).click();
         getDriver().findElement(By.cssSelector(".addTab")).click();
-        getDriver().findElement(INPUT_NAME_ID).sendKeys(RANDOM_ALPHANUMERIC);
+        getDriver().findElement(INPUT_NAME_CSS).sendKeys(RANDOM_ALPHANUMERIC);
         getDriver().findElement(By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.ListView']")).click();
         getDriver().findElement(SUBMIT_BUTTON_CSS).click();
     }
 
+    public void createMyView() {
+        getDriver().findElement(DASHBOARD_CSS).click();
+        getDriver().findElement(MY_VIEWS_XP).click();
+        getDriver().findElement(By.cssSelector(".addTab")).click();
+        getDriver().findElement(INPUT_NAME_CSS).sendKeys(RANDOM_ALPHANUMERIC);
+        getDriver().findElement(By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.MyView']")).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+    }
 
     public void goToEditView() {
         getDriver().findElement(DASHBOARD_CSS).click();
         getDriver().findElement(MY_VIEWS_XP).click();
-        getDriver().findElement(By.xpath(VIEW_PATH)).click();
+        getDriver().findElement(By.xpath(VIEW_PATH_XP)).click();
         getDriver().findElement(By.xpath(String.format("//a[contains(@href, '/my-views/view/%s/configure')]", RANDOM_ALPHANUMERIC))).click();
     }
 
@@ -85,14 +95,20 @@ public class EditViewTest extends BaseTest{
         createListView();
     }
 
+    public void myViewSeriesPreConditions() {
+        createManyItems(1);
+        deleteAllViews();
+        createMyView();
+    }
+
     public void deleteAllViews(){
+        getDriver().findElement(DASHBOARD_CSS).click();
         getDriver().findElement(MY_VIEWS_XP).click();
         List<WebElement> allViews = getDriver().findElements(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]"));
-        while (allViews.size() > 0) {
+        for (int i = 0; i < allViews.size(); i++) {
             getDriver().findElement(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]")).click();
             getDriver().findElement(DELETE_VIEW_CSS).click();
             getDriver().findElement(SUBMIT_BUTTON_CSS).click();
-            allViews = getDriver().findElements(By.xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]"));
         }
     }
 
@@ -139,15 +155,11 @@ public class EditViewTest extends BaseTest{
         Assert.assertTrue(filterBuildQueueStatus.equals("true") && filterBuildExecutorsStatus.equals("true"));
     }
 
-    @Test
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
     public void testListViewAddNewColumn() {
-        listViewSeriesPreConditions();
-        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION_CSS);
-        for (int i = 0; i < 5; i++) {
-            itemsToSelect.get(i).click();
-        }
-
+        goToEditView();
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
+
         js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN_CSS));
         new Actions(getDriver()).pause(700).moveToElement(getDriver().findElement(ADD_COLUMN_CSS)).click().perform();
         getDriver().findElement(By.xpath("//a[@class='yuimenuitemlabel' and text()='Git Branches']")).click();
@@ -157,9 +169,9 @@ public class EditViewTest extends BaseTest{
         String actualResult = getDriver().findElement(By.cssSelector("#projectstatus th:last-child a")).getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-        }
+    }
 
-@Test
+    @Test
     public void testListViewAddAllItems() {
         listViewSeriesPreConditions();
 
@@ -171,7 +183,6 @@ public class EditViewTest extends BaseTest{
 
         Assert.assertEquals(actualResult,expectedResult);
     }
-
 
     @Test
     public void testListViewAddRegexFilter() {
@@ -190,14 +201,9 @@ public class EditViewTest extends BaseTest{
 
         Assert.assertEquals(actualResult,expectedResult);
     }
-@Test
+
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
     public void testListViewChangeColumnOrder() {
-        listViewSeriesPreConditions();
-        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION_CSS);
-        for (int i = 0; i < 5; i++) {
-            itemsToSelect.get(i).click();
-        }
-        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         goToEditView();
 
@@ -216,5 +222,151 @@ public class EditViewTest extends BaseTest{
                 .cssSelector("#projectstatus th:nth-child(2) a")).getText()};
 
         Assert.assertEquals(actualResult, expectedResult);
+        deleteAllViews();
+        testListViewAddFiveItems();
+    }
+
+    @Test
+    public void testListViewAddFilterBuildQueue() {
+        listViewSeriesPreConditions();
+
+        getDriver().findElement(FILTER_QUEUE_CSS).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        boolean newPaneIsDisplayed = getDriver().findElements(By.cssSelector(".pane-header-title"))
+                .stream().map(element -> element.getText()).collect(Collectors.toList())
+                .contains("Filtered Build Queue");
+
+        Assert.assertTrue(newPaneIsDisplayed);
+    }
+
+    @Test
+    public void testMyViewAddFilterBuildQueue() {
+        myViewSeriesPreConditions();
+        goToEditView();
+
+        getDriver().findElement(FILTER_QUEUE_CSS).click();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        boolean newPaneIsDisplayed = getDriver().findElements(By.cssSelector(".pane-header-title"))
+                .stream().map(element -> element.getText()).collect(Collectors.toList())
+                .contains("Filtered Build Queue");
+
+        Assert.assertTrue(newPaneIsDisplayed);
+    }
+
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
+    public void testListViewCheckEveryAddColumnItem() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        final String[] tableValues = {"S", "W", "Name", "Last Success", "Last Failure", "Last Stable", "Last Duration", "","Git Branches", "Name", "Description"};
+        goToEditView();
+
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN_CSS));
+        new Actions(getDriver()).pause(700).moveToElement(getDriver().findElement(ADD_COLUMN_CSS)).click().perform();
+        final List<WebElement> addColumnMenuItems = getDriver().findElements(By.cssSelector("a.yuimenuitemlabel"));
+        Map<String, String> tableMenuMap = new HashMap<>();
+        for (int i = 0; i < addColumnMenuItems.size(); i++) {
+            tableMenuMap.put(addColumnMenuItems.get(i).getText(), tableValues[i]);
+        }
+        List<Boolean> allMatches = new ArrayList<>(addColumnMenuItems.size());
+        for (int j = 1; j <= addColumnMenuItems.size(); j++) {
+            WebElement element = getDriver().findElement(By.cssSelector(String.format(".bd li[id^='yui']:nth-child(%d)", j)));
+            String selectedColumnName = element.getText();
+            element.click();
+            getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+            String lastColumnName = getDriver().findElement(By.cssSelector("table#projectstatus th:last-child")).getText().replace("↓"," ").trim();
+            allMatches.add(tableMenuMap.get(selectedColumnName).equals(lastColumnName));
+            getDriver().findElement(By.xpath("//a[contains(@href, 'configure')]")).click();
+            js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN_CSS));
+            new Actions(getDriver()).pause(700).moveToElement(getDriver().findElement(ADD_COLUMN_CSS)).perform();
+
+            int existingColumns = getDriver().findElements(By.cssSelector(".hetero-list-container>div.repeated-chunk")).size();
+            WebElement lastRow = getDriver().findElement(By.cssSelector(String.format(".hetero-list-container>div:nth-child(%d)", existingColumns)));
+            lastRow.findElement(By.cssSelector("button.repeatable-delete")).click();
+            js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN_CSS));
+            new Actions(getDriver()).pause(700).moveToElement(getDriver().findElement(ADD_COLUMN_CSS)).click().perform();
+        }
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+
+        Assert.assertTrue(allMatches.stream().allMatch(element-> element == true));
+    }
+
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
+    public void testDeleteColumn() {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        goToEditView();
+
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN_CSS));
+        new Actions(getDriver()).pause(500).perform();
+        getDriver().findElement(By.xpath("//div[contains(text(), 'Status')]/button")).click();
+        new Actions(getDriver()).pause(300).perform();
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        List<WebElement> columnList = getDriver().findElements(By.cssSelector("table#projectstatus th"));
+
+        Assert.assertTrue(columnList.stream().noneMatch(element -> element.getText().equals("S")));
+        deleteAllViews();
+        testListViewAddFiveItems();
+    }
+
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
+    public void testMultipleSpacesRenameView() {
+        goToEditView();
+        final String nonSpaces = getRandomStr((3 +(int)(Math.random() * (10 - 3) + 1)));
+        final String spaces = nonSpaces.replaceAll("[a-zA-Z0-9]", " ");
+        final String NEW_NAME = nonSpaces + spaces + nonSpaces;
+
+        getDriver().findElement(INPUT_NAME_CSS).clear();
+        getDriver().findElement(INPUT_NAME_CSS).sendKeys(NEW_NAME);
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
+
+        Assert.assertNotEquals(actualResult, RANDOM_ALPHANUMERIC);
+        Assert.assertEquals(actualResult, (nonSpaces + " " + nonSpaces));
+        deleteAllViews();
+        testListViewAddFiveItems();
+    }
+
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
+    public void testIllegalCharacterRenameView() {
+        goToEditView();
+        final char[] illegalCharacters = "#!@$%^&*:;<>?/[]|\\".toCharArray();
+
+        List<Boolean> checks = new ArrayList<>();
+        for (int i = 0; i < illegalCharacters.length; i++) {
+            getDriver().findElement(INPUT_NAME_CSS).clear();
+            getDriver().findElement(INPUT_NAME_CSS).sendKeys(illegalCharacters[i] + RANDOM_ALPHANUMERIC);
+            getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+            if(getDriver().findElements(By.cssSelector("#main-panel h1")).size() > 0) {
+                checks.add(String.format("‘%c’ is an unsafe character", illegalCharacters[i])
+                        .equals(getDriver().findElement(By.cssSelector("#main-panel p")).getText()));
+                getDriver().findElement(DASHBOARD_CSS).click();
+                getDriver().findElement(MY_VIEWS_XP).click();
+                int finalI = i;
+                checks.add(getDriver().findElements(By.xpath(VIEW_PATH_XP)).stream()
+                        .noneMatch(element -> element.getText()
+                                .equals(String.format("‘%c’ is an unsafe character", illegalCharacters[finalI]))));
+                goToEditView();
+            } else {
+                checks.add(false);
+            }
+        }
+
+        Assert.assertTrue(checks.stream().allMatch(element->element == true));
+        deleteAllViews();
+        testListViewAddFiveItems();
+    }
+    
+        @Test(dependsOnMethods = "testListViewAddFiveItems")
+    public void testRenameView() {//03/14
+        goToEditView();
+        final String NEW_NAME = getRandomStr();
+
+        getDriver().findElement(INPUT_NAME_CSS).clear();
+        getDriver().findElement(INPUT_NAME_CSS).sendKeys(NEW_NAME);
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
+
+        Assert.assertFalse(actualResult.equals(RANDOM_ALPHANUMERIC));
+        Assert.assertEquals(actualResult, NEW_NAME);
+                deleteAllViews();
+        testListViewAddFiveItems();
     }
 }
