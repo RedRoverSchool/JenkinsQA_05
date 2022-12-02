@@ -36,15 +36,13 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineExistingNameError() {
-        final String jobName = TestUtils.getRandomStr(7);
-
-        createPipeline(jobName);
+        createPipeline(RANDOM_STRING);
         getDriver().findElement(LINK_TO_DASHBOARD).click();
-        setJobPipeline(jobName);
+        setJobPipeline(RANDOM_STRING);
 
-        final WebElement notificationError = getDriver().findElement(By.id("itemname-invalid"));
+        WebElement notificationError = getDriver().findElement(By.id("itemname-invalid"));
 
-        Assert.assertEquals(notificationError.getText(), String.format("» A job already exists with the name ‘%s’", jobName));
+        Assert.assertEquals(notificationError.getText(), String.format("» A job already exists with the name ‘%s’", RANDOM_STRING));
     }
 
     @DataProvider(name = "new-item-unsafe-names")
@@ -82,12 +80,10 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineOnBreadcrumbs () {
-        final String itemName = TestUtils.getRandomStr(7);
-
-        createPipeline(itemName);
+        createPipeline(RANDOM_STRING);
 
         Assert.assertTrue(getDriver().findElement(By.className("jenkins-breadcrumbs"))
-                .getAttribute("textContent").contains(itemName));
+                .getAttribute("textContent").contains(RANDOM_STRING));
     }
 
     @Test
@@ -101,29 +97,26 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithName() {
-        final String name = TestUtils.getRandomStr(7);
-
-        createPipeline(name);
+        createPipeline(RANDOM_STRING);
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(LINK_TO_DASHBOARD).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", name))).getText(), name);
+        Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", RANDOM_STRING))).getText(),
+                RANDOM_STRING);
     }
 
     @Test
     public void testDeletePipelineFromDashboard() {
-        final String jobName = TestUtils.getRandomStr(7);
-
-        createPipeline(jobName);
+        createPipeline(RANDOM_STRING);
         getDriver().findElement(LINK_TO_DASHBOARD).click();
-        getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", jobName))).click();
+        getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", RANDOM_STRING))).click();
         getDriver().findElement(By.xpath("//span[text()='Delete Pipeline']")).click();
         getDriver().switchTo().alert().accept();
 
         List<WebElement> allJobsInDashboard = getDriver().findElements(By.xpath(
                 "//a[@class='jenkins-table__link model-link inside']"));
         for (WebElement element : allJobsInDashboard) {
-            if (element.getText().contains(jobName)) {
+            if (element.getText().contains(RANDOM_STRING)) {
                 Assert.fail();
                 break;
             } else {
@@ -144,7 +137,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 .sendKeys(gitHubRepo).perform();
         getDriver().findElement(SAVE_BUTTON).click();
 
-        final WebElement sideMenuGitHub = getDriver().findElement(By.xpath("(//a[contains(@class,'task-link')])[7]"));
+        WebElement sideMenuGitHub = getDriver().findElement(By.xpath("(//a[contains(@class,'task-link')])[7]"));
 
         Assert.assertTrue(sideMenuGitHub.isDisplayed());
         Assert.assertTrue(sideMenuGitHub.getAttribute("href").contains(gitHubRepo));
@@ -185,15 +178,13 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreateNewPipelineWithDescription() {
-        final  String jobName = RANDOM_STRING;
-
-        setJobPipeline(jobName);
+        setJobPipeline(RANDOM_STRING);
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(By.cssSelector(".jenkins-input")).sendKeys(ITEM_DESCRIPTION);
         getDriver().findElement(SAVE_BUTTON).click();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child"))
-                .getAttribute("textContent"),ITEM_DESCRIPTION);
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child")).getAttribute("textContent"),
+                ITEM_DESCRIPTION);
     }
 
     @Test (dependsOnMethods = "testCreateNewPipelineWithDescription")
