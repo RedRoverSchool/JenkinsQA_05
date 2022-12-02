@@ -60,9 +60,9 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(DOCS_SELECT).click();
         getDriver().findElement(DOCS_IN).click();
+        Thread.sleep(4000);
 
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//a[@class='jenkins-table__link model-link inside']")).getText(), name);
+        Assert.assertEquals(getDriver().findElement(By.linkText(name)).getText(), name);
     }
     @Test(dependsOnMethods = {"testCreateFreestyleProject"})
     public void testBuildFreestyleProject() throws InterruptedException {
@@ -74,7 +74,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         getDriver().findElement(JOB_IN).click();
         getDriver().findElement(BUILD_DROPDOWN).click();
         getDriver().findElement(CONSOLE_OUTPUT).click();
-       Thread.sleep(2000);
+       Thread.sleep(4000);
 
         Assert.assertTrue(getDriver().findElement(
                 By.cssSelector(".console-output")).getText().toUpperCase().contains("SUCCESS"));
