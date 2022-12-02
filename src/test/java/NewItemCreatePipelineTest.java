@@ -1,6 +1,7 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -21,32 +22,6 @@ public class NewItemCreatePipelineTest extends BaseTest {
     private static final String RANDOM_STRING  = TestUtils.getRandomStr(7);
     private static final String ITEM_DESCRIPTION = "This is a sample " +
             "description for item";
-    
-    public static ExpectedCondition<WebElement> steadinessOfElementLocated(final By locator) {
-        return new ExpectedCondition<>() {
-            private WebElement element = null;
-            private Point location = null;
-
-            @Override
-            public WebElement apply(WebDriver driver) {
-                try {
-                    element = driver.findElement(locator);
-                } catch (NoSuchElementException e) {
-                    return null;
-                }
-
-                if (element.isDisplayed()) {
-                    Point location = element.getLocation();
-                    if (location.equals(this.location)) {
-                        return element;
-                    }
-                    this.location = location;
-                }
-
-                return null;
-            }
-        };
-    }
 
     private void createPipeline(String jobName) {
         setJobPipeline(jobName);
@@ -57,10 +32,6 @@ public class NewItemCreatePipelineTest extends BaseTest {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys(jobName);
         getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
-    }
-
-    private void scrollPageDown() {
-        ((JavascriptExecutor) getDriver()).executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
     @Test
@@ -183,12 +154,12 @@ public class NewItemCreatePipelineTest extends BaseTest {
     public void testCheckingDisappearanceOfWarningMessage() {
         getDriver().findElement(By.linkText("Manage Jenkins")).click();
         getDriver().findElement(By.xpath("//a[@href='configureTools']")).click();
-        scrollPageDown();
+        TestUtils.scrollToEnd(getDriver());
 
-        getWait(5).until(steadinessOfElementLocated(ADD_MAVEN_BUTTON));
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_MAVEN_BUTTON));
         getDriver().findElement(ADD_MAVEN_BUTTON).click();
-        scrollPageDown();
-        getWait(5).until(steadinessOfElementLocated(ADD_MAVEN_BUTTON));
+        TestUtils.scrollToEnd(getDriver());
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_MAVEN_BUTTON));
         WebElement fieldName = getDriver().findElement(By.cssSelector("input[checkurl$='MavenInstallation/checkName']"));
         fieldName.click();
         fieldName.sendKeys("Maven");
@@ -230,7 +201,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         final String jobName = TestUtils.getRandomStr(7);
 
         setJobPipeline(jobName);
-        scrollPageDown();
+        TestUtils.scrollToEnd(getDriver());
         new Actions(getDriver()).pause(300).moveToElement(getDriver().findElement(By.cssSelector("#from")))
                 .click().sendKeys(RANDOM_STRING.substring(0,2)).pause(400)
                 .sendKeys(Keys.ARROW_DOWN)
@@ -242,5 +213,37 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 .getAttribute("textContent").substring(9),jobName);
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child"))
                 .getAttribute("textContent"),ITEM_DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testCreatePipelineWithName")
+    public void testPipelineStepFromSCMConfiguration() {
+
+        getDriver().findElements(By.xpath("//tr/td/a")).get(0).click();
+        getDriver().findElement(By.linkText("Configure")).click();
+
+        List<WebElement> selectDropDownList = getDriver().findElements(By.className("dropdownList"));
+        new Select(selectDropDownList.get(1)).selectByVisibleText("Pipeline script from SCM");
+
+        new Select(getDriver().findElement(By.cssSelector(".dropdownList-container.tr .dropdownList"))).selectByValue("1");
+        getDriver().findElement(By.xpath("//input[@checkdependson='credentialsId']")).sendKeys("https://github.com/olpolezhaeva/MyAppium");
+
+        WebElement branchField = getDriver().findElement(By.xpath("//div[@name='branches']//input[@default='*/master']"));
+        branchField.clear();
+        branchField.sendKeys("*/main");
+
+        WebElement jenkinsFilePathField = getDriver().findElement(By.xpath("//input[@default='Jenkinsfile']"));
+        jenkinsFilePathField.clear();
+        jenkinsFilePathField.sendKeys("jenkins/first.jenkins");
+
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        getDriver().findElement(By.linkText("Build Now")).click();
+        getWait(20).until(ExpectedConditions.presenceOfElementLocated(By.className("build-icon"))).click();
+
+        String stepEchoTotalText = getDriver().findElement(By.xpath("//span[@class='pipeline-node-17']")).getText();
+
+        Assert.assertEquals(
+                stepEchoTotalText.replace(getDriver().findElement(By.xpath("//span[@class='timestamp']")).getText(), "").trim(),
+                "This is MyPipelineJob!");
     }
 }
