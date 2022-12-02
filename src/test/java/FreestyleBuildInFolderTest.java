@@ -31,7 +31,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
     private static final By BUILD = By.cssSelector("#yui-gen3");
     private static final By JOB_DROPDOWN = By.cssSelector("a[class='jenkins-table__link model-link inside'] button[class='jenkins-menu-dropdown-chevron']");
     private static final By DOCS_SELECT = By.xpath("//*[contains(@class,'jenkins-table')and contains(@href,'job/Docs/')]");
-    private static final By DOCS_IN = By.xpath("//a[@class='jenkins-table__link model-link inside']");
+    private static final By DOCS_IN = By.linkText("Docs");
 
     @Test
     public void createFolderTest() {
