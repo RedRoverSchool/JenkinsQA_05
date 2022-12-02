@@ -307,6 +307,24 @@ public class EditViewTest extends BaseTest{
     }
 
     @Test(dependsOnMethods = "testListViewAddFiveItems")
+    public void testMultipleSpacesRenameView() {
+        goToEditView();
+        final String nonSpaces = getRandomStr((3 +(int)(Math.random() * (10 - 3) + 1)));
+        final String spaces = nonSpaces.replaceAll("[a-zA-Z0-9]", " ");
+        final String NEW_NAME = nonSpaces + spaces + nonSpaces;
+
+        getDriver().findElement(INPUT_NAME_CSS).clear();
+        getDriver().findElement(INPUT_NAME_CSS).sendKeys(NEW_NAME);
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
+
+        Assert.assertNotEquals(actualResult, RANDOM_ALPHANUMERIC);
+        Assert.assertEquals(actualResult, (nonSpaces + " " + nonSpaces));
+        deleteAllViews();
+        testListViewAddFiveItems();
+    }
+
+    @Test(dependsOnMethods = "testListViewAddFiveItems")
     public void testIllegalCharacterRenameView() {
         goToEditView();
         final char[] illegalCharacters = "#!@$%^&*:;<>?/[]|\\".toCharArray();
@@ -335,5 +353,20 @@ public class EditViewTest extends BaseTest{
         deleteAllViews();
         testListViewAddFiveItems();
     }
+    
+        @Test(dependsOnMethods = "testListViewAddFiveItems")
+    public void testRenameView() {//03/14
+        goToEditView();
+        final String NEW_NAME = getRandomStr();
 
+        getDriver().findElement(INPUT_NAME_CSS).clear();
+        getDriver().findElement(INPUT_NAME_CSS).sendKeys(NEW_NAME);
+        getDriver().findElement(SUBMIT_BUTTON_CSS).click();
+        String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
+
+        Assert.assertFalse(actualResult.equals(RANDOM_ALPHANUMERIC));
+        Assert.assertEquals(actualResult, NEW_NAME);
+                deleteAllViews();
+        testListViewAddFiveItems();
+    }
 }

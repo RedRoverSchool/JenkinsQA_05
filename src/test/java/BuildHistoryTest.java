@@ -1,10 +1,13 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
+
 import java.time.Duration;
+import java.util.List;
 
 public class BuildHistoryTest extends BaseTest {
 
@@ -18,7 +21,7 @@ public class BuildHistoryTest extends BaseTest {
     private static final By DESCRIPTION_FIELD = By.name("description");
     private static final By SAVE_BUTTON = By.xpath("//button[@type = 'submit']");
     private static final By BUILD_HISTORY = By.linkText("Build History");
-    private static final By H1_HEADER_BULD_HISTORY = By.xpath("//div[@class='jenkins-app-bar__content']/h1");
+    private static final By H1_HEADER_BUILD_HISTORY = By.xpath("//div[@class='jenkins-app-bar__content']/h1");
     private static final By BUILD_NOW = By.linkText("Build Now");
     private static final By TREND_BUILD = By.xpath("//div[@class='jenkins-pane__header--build-history']/a");
     private static final By BUTTON_S = By.xpath("//a[@href='/iconSize?16x16']");
@@ -28,6 +31,7 @@ public class BuildHistoryTest extends BaseTest {
     private static final By ATOM_FEED_FAILURE = By.xpath("//a/span[contains(text(), 'Atom feed for failures')]");
     private static final By ATOM_FEED_LATEST = By.xpath("//a/span[contains(text(), 'Atom feed for just latest builds')]");
     private static final By ICON_LEGEND = By.xpath("//a[@href='/legend']");
+    private static final By PROJECT_STATUS_TABLE = By.xpath("//table[@id='projectStatus']/thead/tr/th");
 
     private static String jobName = "";
 
@@ -62,6 +66,16 @@ public class BuildHistoryTest extends BaseTest {
         clickElement(OK_BUTTON);
         inputName(DESCRIPTION_FIELD);
         clickElement(SAVE_BUTTON);
+    }
+
+    public List<WebElement> getListOfElements(By by) {
+
+        return getDriver().findElements(by);
+    }
+
+    public int getListSize(By by) {
+
+        return getListOfElements(by).size();
     }
 
     @Test
@@ -112,7 +126,7 @@ public class BuildHistoryTest extends BaseTest {
         clickElement(DASHBOARD);
         clickElement(BUILD_HISTORY);
 
-        Assert.assertEquals(getText(H1_HEADER_BULD_HISTORY), "Build History of Jenkins");
+        Assert.assertEquals(getText(H1_HEADER_BUILD_HISTORY), "Build History of Jenkins");
     }
 
     @Test
@@ -147,5 +161,12 @@ public class BuildHistoryTest extends BaseTest {
         clickElement(BUILD_HISTORY);
 
         Assert.assertTrue(getDriver().findElement(ICON_LEGEND).isDisplayed());
+    }
+
+    @Test
+    public void testNumberOfColumns_ProjectStatusTable() {
+        clickElement(BUILD_HISTORY);
+
+        Assert.assertEquals(getListSize(PROJECT_STATUS_TABLE), 5);
     }
 }
