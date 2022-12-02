@@ -217,9 +217,6 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreatePipelineWithName")
     public void testConfigurePipelineScriptFromSCM() {
-        final String projectGitLink = "https://github.com/olpolezhaeva/MyAppium";
-        final String jenkinsFilePath = "jenkins/first.jenkins";
-        final String jenkinsFileFirstStepEcho = "This is MyPipelineJob!";
 
         getDriver().findElements(By.xpath("//tr/td/a")).get(0).click();
         getDriver().findElement(By.linkText("Configure")).click();
@@ -228,28 +225,27 @@ public class NewItemCreatePipelineTest extends BaseTest {
         new Select(selectDropDownList.get(1)).selectByVisibleText("Pipeline script from SCM");
 
         new Select(getDriver().findElement(By.cssSelector(".dropdownList-container.tr .dropdownList"))).selectByValue("1");
-        getDriver().findElement(By.xpath("//input[@checkdependson='credentialsId']")).sendKeys(projectGitLink);
+        getDriver().findElement(By.xpath("//input[@checkdependson='credentialsId']")).sendKeys("https://github.com/olpolezhaeva/MyAppium");
 
         WebElement branchField = getDriver().findElement(By.xpath("//div[@name='branches']//input[@default='*/master']"));
         branchField.clear();
         branchField.sendKeys("*/main");
 
-
         WebElement jenkinsFilePathField = getDriver().findElement(By.xpath("//input[@default='Jenkinsfile']"));
         jenkinsFilePathField.clear();
-        jenkinsFilePathField.sendKeys(jenkinsFilePath);
+        jenkinsFilePathField.sendKeys("jenkins/first.jenkins");
 
-        getDriver().findElement(By.cssSelector("[type='submit']")).click();
+        getDriver().findElement(SAVE_BUTTON).click();
 
         getDriver().findElement(By.linkText("Build Now")).click();
-        getWait(5).until(ExpectedConditions.presenceOfElementLocated(By.className("build-icon"))).click();
+        getWait(20).until(ExpectedConditions.presenceOfElementLocated(By.className("build-icon"))).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//pre[@class='console-output']//a[2]")).getText(), projectGitLink);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//pre[@class='console-output']//a[2]")).getText(), "https://github.com/olpolezhaeva/MyAppium");
 
         String totalText = getDriver().findElement(By.xpath("//span[@class='pipeline-node-17']")).getText();
         String childFirst = getDriver().findElement(By.xpath("//span[@class='timestamp']")).getText();
 
-        Assert.assertEquals(totalText.replace(childFirst, "").trim(), jenkinsFileFirstStepEcho);
-        Assert.assertTrue(getDriver().findElement(By.xpath("//pre[@class='console-output']")).getText().contains( "Finished: SUCCESS"));
+        Assert.assertEquals(totalText.replace(childFirst, "").trim(), "This is MyPipelineJob!");
+        Assert.assertTrue(getDriver().findElement(By.tagName("pre")).getText().contains( "Finished: SUCCESS"));
     }
 }
