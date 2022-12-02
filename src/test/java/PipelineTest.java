@@ -53,14 +53,12 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(BUTTON_SAVE).click();
         getDriver().findElement(DASHBOARD).click();
     }
-
     private void deletePipelineProject(String name) {
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(By.xpath(String.format("//a[@href = contains(., '%s')]/button", name))).click();
         getDriver().findElement(BUTTON_DELETE).click();
         getDriver().switchTo().alert().accept();
     }
-
     private void renamePipelineProject(String name, String rename) {
         Actions actions = new Actions(getDriver());
         actions.moveToElement(getDriver().findElement(JOB_PIPELINE))
@@ -70,7 +68,6 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(TEXTFIELD_NEW_NAME).sendKeys(name + rename);
         getDriver().findElement(BUTTON_RENAME).click();
     }
-
     private void createNewViewOfTypeMyView() {
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(MY_VIEWS).click();
@@ -152,8 +149,8 @@ public class PipelineTest extends BaseTest {
         renamePipelineProject(PIPELINE_NAME, RENAME_SUFFIX);
 
         Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//h1[@class='job-index-headline page-headline']"))
-                .getText(), "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
+                        .findElement(By.xpath("//h1[@class='job-index-headline page-headline']"))
+                        .getText(), "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
 
         deletePipelineProject(PIPELINE_NAME);
     }
@@ -168,8 +165,8 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(VIEW).click();
 
         Assert.assertEquals(getDriver()
-                .findElement(By.xpath(String.format("//tbody//a[@href = contains(., '%s%s')]", PIPELINE_NAME, RENAME_SUFFIX)))
-                .getText(), PIPELINE_NAME + RENAME_SUFFIX);
+                        .findElement(By.xpath(String.format("//tbody//a[@href = contains(., '%s%s')]", PIPELINE_NAME, RENAME_SUFFIX)))
+                        .getText(), PIPELINE_NAME + RENAME_SUFFIX);
 
         deleteNewView();
         deletePipelineProject(PIPELINE_NAME);
@@ -185,11 +182,11 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(BUTTON_RENAME).click();
 
         Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//div[@id='main-panel']//h1[contains(text(),'Error')]"))
-                .getText(), "Error");
+                        .findElement(By.xpath("//div[@id='main-panel']//h1[contains(text(),'Error')]"))
+                        .getText(), "Error");
         Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//div[@id='main-panel']//p"))
-                .getText(), "The new name is the same as the current name.");
+                        .findElement(By.xpath("//div[@id='main-panel']//p"))
+                        .getText(), "The new name is the same as the current name.");
 
         deletePipelineProject(PIPELINE_NAME);
     }
@@ -208,11 +205,11 @@ public class PipelineTest extends BaseTest {
             getDriver().findElement(BUTTON_RENAME).click();
 
             Assert.assertEquals(getDriver()
-                    .findElement(By.xpath("//div[@id='main-panel']//h1[contains(text(),'Error')]"))
-                    .getText(), "Error");
+                            .findElement(By.xpath("//div[@id='main-panel']//h1[contains(text(),'Error')]"))
+                            .getText(), "Error");
             Assert.assertEquals(getDriver()
-                    .findElement(By.xpath("//div[@id='main-panel']//p"))
-                    .getText(), String.format("‘%s’ is an unsafe character", specialCharactersString.charAt(i)));
+                            .findElement(By.xpath("//div[@id='main-panel']//p"))
+                            .getText(), String.format("‘%s’ is an unsafe character", specialCharactersString.charAt(i)));
 
             deletePipelineProject(PIPELINE_NAME);
         }
