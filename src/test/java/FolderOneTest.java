@@ -21,6 +21,7 @@ public class FolderOneTest extends BaseTest {
     private static final By TEXT_H1 = By.xpath("//h1");
     private static final By TEXTAREA = By.xpath("//textarea[@name='_.description']");
     private static final By DELETE_FOLDER = By.linkText("Delete Folder");
+    private static final By CONFIGURE_FOLDER = By.linkText("Configure");
     private static final By MOVE_FOLDER = By.linkText("Move");
     private static final By SELECTION_SCRIPT = By.xpath("//div[@class='samples']/select/option[4]");
     private static final String RANDOM_FOLDER_NAME = RandomStringUtils.randomAlphanumeric(6);
@@ -90,9 +91,13 @@ public class FolderOneTest extends BaseTest {
         getDriver().findElement(NEW_NAME_RENAME).clear();
         getDriver().findElement(NEW_NAME_RENAME).sendKeys(RANDOM_PIPELINE_NAME + "NEW_NEW_FOLDER");
         submitButtonClick();
+        getDriver().findElement(CONFIGURE_FOLDER).click();
+        getDriver().findElement(TEXTAREA).sendKeys(" VERSION 2");
+        submitButtonClick();
 
         Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
                 .contains(RANDOM_PIPELINE_NAME + "NEW_NEW_FOLDER"));
+        Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText().contains("NEW TEXT VERSION 2"));
     }
 
     @Test(dependsOnMethods = { "testRenameFolderDescription"})
