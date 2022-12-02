@@ -3,6 +3,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -441,7 +442,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(JOB_HEADLINE_LOCATOR).getText(),"Error");
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel > p")).getText(),"No name is specified");
     }
-
+    @Ignore
     @Test (dependsOnMethods = "testFreestyleProjectConfigureMenu")
     public void testAccessProjectConfigurationFromTheProjectPage () {
         final String NAME_FREESTYLE_PROJECT_TC010401 = NEW_FREESTYLE_NAME;

@@ -77,7 +77,7 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertTrue(getDriver().findElements(By.xpath("//div[@id='main-panel']//tbody//tr")).isEmpty());
         Assert.assertEquals(actualText[actualText.length - 1], expectedText);
     }
-
+    @Ignore
     @Test
     public void testRenameUsersFullName() {
         getDriver().findElement(MANAGE_JENKINS).click();
@@ -93,7 +93,7 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(H1_TITLE).getText(), NEW_USERS_FULL_NAME);
         Assert.assertEquals(getDriver().findElement(PAGE_HEADER_USER).getText(), NEW_USERS_FULL_NAME);
     }
-
+    @Ignore
     @Test
     public void testPluginManagerInstallPlugin() {
 
