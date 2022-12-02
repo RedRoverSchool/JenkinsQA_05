@@ -201,13 +201,14 @@ public class NewItemCreatePipelineTest extends BaseTest {
         getDriver().findElement(By.cssSelector("[type='submit']")).click();
 
         getDriver().findElement(By.linkText("Build Now")).click();
-        new WebDriverWait(getDriver(), Duration.ofSeconds(20)).until(ExpectedConditions.presenceOfElementLocated(By.className("build-icon"))).click();
+        getWait(5).until(ExpectedConditions.presenceOfElementLocated(By.className("build-icon"))).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//pre[@class='console-output']//a[2]")).getText(), projectGitLink);
 
         String totalText = getDriver().findElement(By.xpath("//span[@class='pipeline-node-17']")).getText();
         String childFirst = getDriver().findElement(By.xpath("//span[@class='timestamp']")).getText();
+
         Assert.assertEquals(totalText.replace(childFirst, "").trim(), jenkinsFileFirstStepEcho);
-        Assert.assertEquals(getDriver().findElement(By.xpath("//pre[@class='console-output']")).getText(), "Finished: SUCCESS");
+        Assert.assertTrue(getDriver().findElement(By.xpath("//pre[@class='console-output']")).getText().contains( "Finished: SUCCESS"));
     }
 }
