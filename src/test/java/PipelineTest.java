@@ -7,6 +7,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import static runner.TestUtils.getRandomStr;
+
 public class PipelineTest extends BaseTest {
     private static final String RENAME_SUFFIX = "renamed";
     private static final String PIPELINE_NAME = generatePipelineProjectName();
@@ -82,6 +84,14 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(BUTTON_DELETE).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
     }
+
+    private void createPipelineProjectCuttedVersion(String projectName) {
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(PIPELINE).click();
+        getDriver().findElement(ITEM_NAME).sendKeys(projectName);
+        getDriver().findElement(BUTTON_OK).click();
+    }
+
     @Test
     public void testDisablePipelineProjectMessage() {
 
@@ -203,5 +213,20 @@ public class PipelineTest extends BaseTest {
 
             deletePipelineProject(PIPELINE_NAME);
         }
+    }
+
+    @Test
+    public void testPipelinePreviewDescription() {
+
+        String pipelinePojectName = getRandomStr();
+        createPipelineProjectCuttedVersion(pipelinePojectName);
+
+        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(pipelinePojectName + "description");
+
+        getDriver().findElement(By.className("textarea-show-preview")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.className("textarea-preview")).getText(), pipelinePojectName + "description");
+
+        getDriver().findElement(BUTTON_SAVE).click();
     }
 }
