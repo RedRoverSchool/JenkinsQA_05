@@ -1,7 +1,6 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -101,6 +100,10 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
         getWeb();
+
+        getDriver().navigate().refresh();
+        getDriver().navigate().refresh();
+        getDriver().navigate().refresh();
 
         getWait(60).until(ExpectedConditions.visibilityOfElementLocated(By.name("j_username")));
 
