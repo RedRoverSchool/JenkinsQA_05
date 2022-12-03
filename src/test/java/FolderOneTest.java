@@ -203,5 +203,33 @@ public class FolderOneTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
                 .contains(RANDOM_FOLDER_NAME + "/" + RANDOM_PIPELINE_NAME));
     }
+
+    @Test(dependsOnMethods = {"testCreateNewFolderPipelineOptionJob"})
+    public void testCreateFolderWithDisplayNameInFolder() {
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(NAME).sendKeys(RANDOM_FOLDER_NAME + "_Folder2");
+        getDriver().findElement(FOLDER_OPTION).click();
+        submitButtonClick();
+        getDriver().findElement(NAME_CONFIGURE).sendKeys(RANDOM_FOLDER_NAME + "_Display2");
+        getDriver().findElement(TEXTAREA).sendKeys("TEXT VERSION 1");
+        submitButtonClick();
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(NAME).sendKeys(RANDOM_PIPELINE_NAME+ "_SubFolder2");
+        getDriver().findElement(FOLDER_OPTION).click();
+        submitButtonClick();
+        getDriver().findElement(NAME_CONFIGURE).sendKeys(RANDOM_PIPELINE_NAME+ "_SubDisplay2");
+        getDriver().findElement(TEXTAREA).sendKeys("TEXT VERSION 2");
+        submitButtonClick();
+
+        String actualFolderName = getDriver()
+                .findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_FOLDER_NAME + "_Display2")).getText();
+        String actualPipelineName = getDriver()
+                .findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_PIPELINE_NAME+ "_SubDisplay2")).getText();
+
+        Assert.assertEquals((RANDOM_FOLDER_NAME + "_Display2"),actualFolderName);
+        Assert.assertEquals((RANDOM_PIPELINE_NAME+ "_SubDisplay2"),actualPipelineName);
+        Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
+                .contains((RANDOM_FOLDER_NAME + "_Folder2") + "/" + (RANDOM_PIPELINE_NAME + "_SubFolder2")));
+    }
 }
 
