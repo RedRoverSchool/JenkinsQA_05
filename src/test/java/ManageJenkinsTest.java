@@ -61,7 +61,7 @@ public class ManageJenkinsTest extends BaseTest {
         js.executeScript("arguments[0].scrollIntoView();", getDriver().findElement(oldDataItem));
 
         getWait(10).until(ExpectedConditions.elementToBeClickable(getDriver().findElement(oldDataItem)));
-        Thread.sleep(100);
+        Thread.sleep(500);
         getDriver().findElement(oldDataItem).click();
 
         String allTextFromMainPanel = getDriver().findElement(By.id("main-panel")).getText();
