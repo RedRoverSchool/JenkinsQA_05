@@ -1,6 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -99,21 +100,11 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().get(getDriver().getCurrentUrl().replace("manage/updateCenter/", "restart"));
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
-        getWeb();
+        for (WebElement element : getDriver().findElements(By.xpath("//td[contains(@id, 'status')]"))) {
+            getWait(20).until(ExpectedConditions.textToBePresentInElement(element, "Success"));
+        }
 
-        getDriver().navigate().refresh();
-        getDriver().navigate().refresh();
-        getDriver().navigate().refresh();
-
-        getWait(60).until(ExpectedConditions.visibilityOfElementLocated(By.name("j_username")));
-
-        loginWeb();
-
-//        for (WebElement element : getDriver().findElements(By.xpath("//td[contains(@id, 'status')]"))) {
-//            getWait(20).until(ExpectedConditions.textToBePresentInElement(element, "Success"));
-//        }
-
-//        getDriver().findElement(By.linkText("Go back to the top page")).click();
+        getDriver().findElement(By.linkText("Go back to the top page")).click();
         getDriver().findElement(MANAGE_JENKINS).click();
         getDriver().findElement(PLUGIN_MANAGER).click();
         getDriver().findElement(AVAILABLE_PLUGINS_TAB).click();
