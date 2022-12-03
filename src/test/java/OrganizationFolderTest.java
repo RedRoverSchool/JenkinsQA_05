@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class OrganizationFolderTest extends BaseTest {
@@ -72,6 +73,7 @@ public class OrganizationFolderTest extends BaseTest {
         return getDriver().findElement(SAVE_BUTTON);
     }
 
+    String generatedString = UUID.randomUUID().toString().substring(0, 8);
     private void createNewOrganizationFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName);
@@ -290,53 +292,17 @@ public class OrganizationFolderTest extends BaseTest {
                 "This folder is empty");
     }
 
-    @Test(dependsOnMethods = "testCreateOrgFolder")
-    public void testDeleteOrganizationFolder() {
-        final By itemInDashboard = By.xpath("//span[text()='" + uniqueOrganizationFolderName + 5 + "']");
-
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-
-        wait.until(ExpectedConditions.elementToBeClickable(itemInDashboard));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
-                getDriver().findElement(itemInDashboard));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();",
-                getDriver().findElement(itemInDashboard));
-        wait.until(ExpectedConditions.elementToBeClickable(BUTTON_DELETE_ORGANIZATION_FOLDER));
-        getDriver().findElement(BUTTON_DELETE_ORGANIZATION_FOLDER).click();
-        wait.until(ExpectedConditions.elementToBeClickable(BUTTON_SUBMIT));
-        getDriver().findElement(BUTTON_SUBMIT).click();
-
-        List<String> foldersList = getDriver()
-                .findElements(By.xpath("//tr/td[3]/a/span"))
-                .stream()
-                .map(element -> element.getText())
-                .collect(Collectors.toList());
-
-        Assert.assertFalse(foldersList.contains(uniqueOrganizationFolderName + 5));
-    }
-
     @Test
-    public void testConfigureOrganizationFolder() {
-        String displayName = "Test Configuration Display Name";
-        String descriptionText = "Test Description";
-
-        getDriver().findElement(By.linkText("New Item")).click();
-        getInputName().sendKeys(NAME_ORG_FOLDER);
-        getOrganizationFolder().click();
+    public void testCreateOrganizationFolderForDependsMethods(){
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(NAME_ORG_FOLDER);
+        WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
         getOkButton().click();
-        getDriver().findElement(BUTTON_SUBMIT).click();
-        getDriver().findElement(By.linkText("Configure")).click();
-        getDriver().findElement(INPUT_DISPLAY_NAME).sendKeys(displayName);
-        getDriver().findElement(DESCRIPTION).sendKeys(descriptionText);
         getSaveButton().click();
         getDashboard().click();
 
-        List<String> foldersList = getDriver()
-                .findElements(By.xpath("//tr/td[3]/a/span"))
-                .stream()
-                .map(element -> element.getText())
-                .collect(Collectors.toList());
-
-        Assert.assertTrue(foldersList.contains(displayName));
+        Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
     }
 }
