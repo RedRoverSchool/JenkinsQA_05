@@ -2,6 +2,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -142,12 +143,15 @@ public class FreestyleProjectSecondTest extends BaseTest {
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']")).click();
-        Thread.sleep(1000);
-        getDriver().findElement (By.xpath("//label[text()='Build periodically']")).click();
+        WebElement element = getWait(2).until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//label[text()='Build periodically']")));
+        element.click();
 
         selectedCheckbox = getDriver().findElement(By.name("hudson-triggers-TimerTrigger")).isSelected();
 
-        Thread.sleep(1000);
+        element = getWait(2).until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//label[text()='Build periodically']")));
+        element.click();
         getDriver().findElement(By.xpath ("//label[text()='Build periodically']")).click();
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
