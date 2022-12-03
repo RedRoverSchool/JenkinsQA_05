@@ -109,7 +109,7 @@ public class FolderOneTest extends BaseTest {
         Assert.assertNotNull(getDriver().findElement(By.className("empty-state-block")));
     }
 
-    @Test
+    @Test(dependsOnMethods = { "testDeleteFolder"})
     public void testCreateFolderInFolderJob(){
         createFolder();
         getDriver().findElement(CREATE_JOB).click();
@@ -167,7 +167,7 @@ public class FolderOneTest extends BaseTest {
         Assert.assertNotNull(getDriver().findElement(By.className("empty-state-block")));
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testDeleteFolderDropDown"})
     public void testCreateNewFolderWithPipeline() {
         createFolder();
         getDriver().findElement(NEW_ITEM).click();
