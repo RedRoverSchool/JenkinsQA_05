@@ -69,6 +69,7 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(actualText[actualText.length - 1], expectedText);
     }
 
+    @Ignore
     @Test
     public void testRenameUsersFullName() {
         getDriver().findElement(MANAGE_JENKINS).click();
@@ -96,7 +97,7 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
         for (WebElement element : getDriver().findElements(By.xpath("//td[contains(@id, 'status')]"))) {
-            getWait(10).until(ExpectedConditions.textToBePresentInElement(element, "Success"));
+            getWait(20).until(ExpectedConditions.textToBePresentInElement(element, "Success"));
         }
 
         getDriver().findElement(By.linkText("Go back to the top page")).click();
