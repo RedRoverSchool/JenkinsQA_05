@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -16,6 +17,8 @@ public class NewView1Test extends BaseTest {
     private static final By DELETE_VIEW = By.xpath("//a[@href='delete']");
     private static final String GLOBAL_VIEW_NAME_FREESTYLE = "Freestyle projects";
     private static final String LIST_VIEW_NAME_PIPLINES = "Piplines";
+
+    private static final String LIST_VIEW_RENAME_PIPLINES = "NewPiplines";
     private static final String MY_VIEW_NAME_MULTI_CONFIGURATION = "Multi-configuration projects";
 
     public List<WebElement> getListViews() {
@@ -98,13 +101,31 @@ public class NewView1Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateMyViews")
+    public void testRenameMyView() {
+        final By ButtonOkEditView = By.id("yui-gen6-button");
+
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(
+                By.cssSelector(".tabBar .tab a[href='/user/admin/my-views/view/"
+                        + LIST_VIEW_NAME_PIPLINES + "/']")).click();
+        getDriver().findElement(By.xpath("//span[text()='Edit View']/..")).click();
+        getDriver().findElement(By.name("name")).clear();
+        getDriver().findElement(By.name("name")).sendKeys(LIST_VIEW_RENAME_PIPLINES);
+        getDriver().findElement(ButtonOkEditView).click();
+
+        Assert.assertEquals(getDriver()
+                .findElement(By.xpath("//a[@href='/user/admin/my-views/view/" + LIST_VIEW_RENAME_PIPLINES + "/']")).getText(),
+                LIST_VIEW_RENAME_PIPLINES);
+    }
+
+    @Test(dependsOnMethods = "testRenameMyView")
     public void testDeleteMyView() {
         final By ButtonYesDeleteView = By.id("yui-gen1-button");
 
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(
                 By.cssSelector(".tabBar .tab a[href='/user/admin/my-views/view/"
-                        + LIST_VIEW_NAME_PIPLINES + "/']")).click();
+                        + LIST_VIEW_RENAME_PIPLINES + "/']")).click();
         getDriver().findElement(DELETE_VIEW).click();
         getDriver().findElement(ButtonYesDeleteView).click();
 
