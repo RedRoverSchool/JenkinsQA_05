@@ -8,6 +8,7 @@ import runner.BaseTest;
 import runner.TestUtils;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -214,18 +215,21 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(CONFIGURE_BUTTON).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='general']"))
-                .getText(), "General");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='source-code-management']"))
-                .getText(), "Source Code Management");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']"))
-                .getText(), "Build Triggers");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='build-environment']"))
-                .getText(), "Build Environment");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='build-steps']"))
-                .getText(), "Build Steps");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//button[@data-section-id='post-build-actions']"))
-                .getText(), "Post-build Actions");
+        List<String> textConfigMenu = new ArrayList<>();
+        List<WebElement> configMenu = getDriver().findElements(By.cssSelector("button.task-link"));
+        for (WebElement element : configMenu) {
+            textConfigMenu.add(element.getText());
+        }
+
+        List<String> actualConfigMenu = new ArrayList<>();
+        actualConfigMenu.add("General");
+        actualConfigMenu.add("Source Code Management");
+        actualConfigMenu.add("Build Triggers");
+        actualConfigMenu.add("Build Environment");
+        actualConfigMenu.add("Build Steps");
+        actualConfigMenu.add("Post-build Actions");
+
+        Assert.assertEqualsNoOrder(textConfigMenu, actualConfigMenu);
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectConfigureMenu")
