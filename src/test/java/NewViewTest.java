@@ -79,48 +79,30 @@ public class NewViewTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateNewView")
-    public void testLetterMClickableMyViews() {
-        String expectedClassTable = "jenkins-table jenkins-table--medium sortable";
+    public void testLettersSMLClickableMyViews() {
+        String expectedClassTableM = "jenkins-table jenkins-table--medium sortable";
+        String expectedClassTableL = "jenkins-table  sortable";
+        String expectedClassTableS = "jenkins-table jenkins-table--small sortable";
 
-        WebElement buttonM = getDriver().findElement(BUTTON_M);
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", buttonM);
+        getWait(1).until(ExpectedConditions.elementToBeClickable(BUTTON_M)).click();
 
-        Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
+        Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTableM);
+
+        getWait(1).until(ExpectedConditions.elementToBeClickable(BUTTON_L)).click();
+
+        Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTableL);
+
+        getWait(1).until(ExpectedConditions.elementToBeClickable(BUTTON_S)).click();
+
+        Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTableS);
     }
 
-    @Test(dependsOnMethods = "testLetterMClickableMyViews")
-    public void testLetterLClickableMyViews() {
-        String expectedClassTable = "jenkins-table  sortable";
-
-        WebElement buttonL = getDriver().findElement(BUTTON_L);
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", buttonL);
-
-        Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
-    }
-
-    @Test(dependsOnMethods = "testLetterLClickableMyViews")
-    public void testLetterSClickableMyViews() {
-        String expectedClassTable = "jenkins-table jenkins-table--small sortable";
-
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        WebElement buttonS = getDriver().findElement(BUTTON_S);
-        executor.executeScript("arguments[0].click();", buttonS);
-
-        Assert.assertEquals(getDriver().findElement(MY_VIEWS_TABLE).getAttribute("class"), expectedClassTable);
-    }
-
-    @Test(dependsOnMethods = "testLetterSClickableMyViews")
+    @Test(dependsOnMethods = "testLettersSMLClickableMyViews")
     public void testClickOnIconLegend() {
 
-        WebElement iconLegendButton = getDriver().findElement(By.xpath("//a[@href='/legend']"));
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", iconLegendButton);
+        getWait(1).until(ExpectedConditions.elementToBeClickable((By.xpath("//a[@href='/legend']")))).click();
 
-        int legendIconAmount = getDriver().findElements(By.xpath("//table[@id='legend-table']//tr")).size();
-
-        Assert.assertEquals(legendIconAmount, 17);
+        Assert.assertEquals(getDriver().findElements(By.xpath("//table[@id='legend-table']//tr")).size(), 17);
     }
 
     @Test()
