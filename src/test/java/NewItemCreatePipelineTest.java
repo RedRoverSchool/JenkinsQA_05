@@ -18,6 +18,8 @@ public class NewItemCreatePipelineTest extends BaseTest {
     private static final By SAVE_BUTTON = By.id("yui-gen6-button");
     private static final By LINK_TO_DASHBOARD  = By.id("jenkins-name-icon");
     private static final By ADD_MAVEN_BUTTON  = By.id("yui-gen9-button");
+    private static final By GITHUB_CHECKBOX  = By.xpath("//label[text()='GitHub project']");
+    private static final By CONFIGURE_BUTTON  = By.linkText("Configure");
 
     private static final String RANDOM_STRING  = TestUtils.getRandomStr(7);
     private static final String ITEM_DESCRIPTION = "This is a sample " +
@@ -105,24 +107,14 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 RANDOM_STRING);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testPipelineStepFromSCMConfiguration")
     public void testDeletePipelineFromDashboard() {
-        createPipeline(RANDOM_STRING);
         getDriver().findElement(LINK_TO_DASHBOARD).click();
         getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", RANDOM_STRING))).click();
         getDriver().findElement(By.xpath("//span[text()='Delete Pipeline']")).click();
         getDriver().switchTo().alert().accept();
 
-        List<WebElement> allJobsInDashboard = getDriver().findElements(By.xpath(
-                "//a[@class='jenkins-table__link model-link inside']"));
-        for (WebElement element : allJobsInDashboard) {
-            if (element.getText().contains(RANDOM_STRING)) {
-                Assert.fail();
-                break;
-            } else {
-                Assert.assertTrue(true);
-            }
-        }
+        Assert.assertNotNull(getDriver().findElement(By.className("empty-state-block")));
     }
 
     @Test(dependsOnMethods = "testCreateNewPipeline")
@@ -131,8 +123,8 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
         getDriver().findElement((By.xpath(String.format(
                 "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", RANDOM_STRING)))).click();
-        getDriver().findElement(By.linkText("Configure")).click();
-        getDriver().findElement(By.xpath("//label[text()='GitHub project']")).click();
+        getDriver().findElement(CONFIGURE_BUTTON).click();
+        getDriver().findElement(GITHUB_CHECKBOX).click();
         new Actions(getDriver()).moveToElement(getDriver().findElement(By.name("_.projectUrlStr"))).click()
                 .sendKeys(gitHubRepo).perform();
         getDriver().findElement(SAVE_BUTTON).click();
@@ -161,6 +153,45 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertFalse(getDriver().findElement(
                 By.xpath("//input[contains(@checkurl,'MavenInstallation/checkName')]/parent::div/following-sibling::div"))
                     .getText().contains("Required"));
+    }
+
+    @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
+    public void testBuildParametrizedProject() {
+        getDriver().findElement((By.xpath(String.format(
+                "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", RANDOM_STRING)))).click();
+        getDriver().findElement(CONFIGURE_BUTTON).click();
+
+        getDriver().findElement(By.xpath("//label[text()='This project is parameterized']")).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+        getDriver().findElement(By.id("yui-gen9")).click();
+        TestUtils.scrollToElement(getDriver(), getDriver().findElement(GITHUB_CHECKBOX));
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(GITHUB_CHECKBOX));
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(By.name("parameter.name")))
+                .click()
+                .sendKeys("Select User")
+                .moveToElement(getDriver().findElement(By.name("parameter.choices")))
+                .click()
+                .sendKeys("Admin" + Keys.ENTER, "Guest" + Keys.ENTER, "User" + Keys.ENTER)
+                .perform();
+
+        TestUtils.scrollToEnd(getDriver());
+        new Select(getDriver().findElement(By.xpath("(//select[contains(@class,'jenkins-select__input dropdownList')])[2]")))
+                .selectByVisibleText("Pipeline script from SCM");
+        new Select(getDriver().findElement(By.xpath("(//select[contains(@class,'jenkins-select__input dropdownList')])[3]")))
+                .selectByVisibleText("Git");
+        getDriver().findElement(By.name("_.url")).sendKeys("https://github.com/patriotby07/simple-maven-project-with-tests");
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        getDriver().findElement(By.linkText("Build with Parameters")).click();
+        new Select(getDriver().findElement(By.xpath("//select[@name='value']"))).selectByVisibleText("Guest");
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+        getWait(60).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@class='job SUCCESS']")));
+        getDriver().findElement(By.xpath("//a[@href='lastBuild/']")).click();
+        getDriver().findElement(By.linkText("Console Output")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.className("console-output")).getText().contains("BUILD SUCCESS"));
+        Assert.assertTrue(getDriver().findElement(By.className("console-output")).getText().contains("Finished: SUCCESS"));
     }
 
     @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
@@ -210,7 +241,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
     public void testPipelineStepFromSCMConfiguration() {
 
         getDriver().findElements(By.xpath("//tr/td/a")).get(0).click();
-        getDriver().findElement(By.linkText("Configure")).click();
+        getDriver().findElement(CONFIGURE_BUTTON).click();
 
         List<WebElement> selectDropDownList = getDriver().findElements(By.className("dropdownList"));
         new Select(selectDropDownList.get(1)).selectByVisibleText("Pipeline script from SCM");
