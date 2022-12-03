@@ -107,6 +107,19 @@ public class NewView1Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testViewHasSelectedTypeGlobalView")
+    public void testViewHasSelectedTypeListView() {
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(By.linkText(LIST_VIEW_NAME)).click();
+        getDriver().findElement(
+                By.cssSelector("a[href='/user/admin/my-views/view/"
+                        + LIST_VIEW_NAME + "/configure']")).click();
+
+        Assert.assertEquals(getDriver().findElement(
+                        By.cssSelector("div:nth-of-type(5) > .jenkins-section__title")).getText(),
+                "Job Filters");
+    }
+
+    @Test(dependsOnMethods = "testViewHasSelectedTypeListView")
     public void testDeleteView() {
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(
