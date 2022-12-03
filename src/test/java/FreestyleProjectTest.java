@@ -423,11 +423,13 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel > p")).getText(), "No name is specified");
     }
 
-    @Test(dependsOnMethods = "testFreestyleProjectConfigureMenu")
-    public void testAccessProjectConfigurationFromTheProjectPage() {
-        final String NAME_FREESTYLE_PROJECT_TC010401 = NEW_FREESTYLE_NAME;
-        final By FIND_NAME_FREESTYLE_PROJECT_TC010401 = By.xpath("//a[@href = 'job/" + NAME_FREESTYLE_PROJECT_TC010401 + "/']");
-        final By CONFIG_NAME_FREESTYLE_PROJECT_TC010401 = By.xpath("//a[@href='/job/" + NAME_FREESTYLE_PROJECT_TC010401 + "/configure']");
+    @Test (dependsOnMethods = "testFreestyleProjectConfigureMenu")
+    public void testAccessProjectConfigurationFromTheProjectPage () {
+        final String NAME_FREESTYLE_PROJECT_TC010401 = NEW_FREESTYLE_NAME + "TC010401";
+        final By FIND_NAME_FREESTYLE_PROJECT_TC010401 =
+                By.xpath("//a[@href = 'job/" + NAME_FREESTYLE_PROJECT_TC010401 + "/']");
+        final By CONFIG_NAME_FREESTYLE_PROJECT_TC010401 =
+                By.xpath("//a[@href='/job/" + NAME_FREESTYLE_PROJECT_TC010401 + "/configure']");
 
         getDriver().findElement(LINK_NEW_ITEM).click();
         getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(NAME_FREESTYLE_PROJECT_TC010401);
