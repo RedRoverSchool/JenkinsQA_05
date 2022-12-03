@@ -3,6 +3,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -70,6 +71,7 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(actualText[actualText.length - 1], expectedText);
     }
 
+    @Ignore
     @Test
     public void testRenameUsersFullName() {
         getDriver().findElement(MANAGE_JENKINS).click();
@@ -86,6 +88,7 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(PAGE_HEADER_USER).getText(), NEW_USERS_FULL_NAME);
     }
 
+    @Ignore
     @Test
     public void testPluginManagerInstallPlugin() {
 
