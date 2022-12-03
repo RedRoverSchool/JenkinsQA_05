@@ -102,6 +102,12 @@ public class JenkinsUtils {
             page = getHttp(ProjectUtils.getUrl() + uri);
         }
 
+        if (page.statusCode() == 403) {
+            throw new RuntimeException(String.format("Authorization does not work with user: \"%s\" and password: \"%s\"", ProjectUtils.getUserName(), ProjectUtils.getPassword()));
+        } else if (page.statusCode() != 200) {
+            throw new RuntimeException("Something went wrong while clearing data");
+        }
+
         return page.body();
     }
 
