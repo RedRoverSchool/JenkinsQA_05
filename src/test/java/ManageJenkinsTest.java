@@ -1,16 +1,13 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
-import java.time.Duration;
 
 public class ManageJenkinsTest extends BaseTest {
     private static final String NEW_USERS_FULL_NAME = TestUtils.getRandomStr();
@@ -29,14 +26,6 @@ public class ManageJenkinsTest extends BaseTest {
     private static final By SEARCH_PLUGIN_FIELD = By.id("filter-box");
     private static final By PLUGIN_TABLE_ROWS = By.xpath("//div[@id='main-panel']//tbody//tr");
 
-    public static void jsClick(WebDriver driver, WebElement element) {
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        executor.executeScript("arguments[0].click();", element);
-    }
-
-    public static WebDriverWait getWait(WebDriver driver, int seconds) {
-        return new WebDriverWait(driver, Duration.ofSeconds(seconds));
-    }
     @Ignore
     @Test
     public void testRenameFullUserName() {
@@ -61,18 +50,22 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testManageOldData() {
+    public void testManageOldData() throws InterruptedException {
 
         final String expectedText = "No old data was found.";
+        final By oldDataItem = By.xpath("//a[@href='administrativeMonitor/OldData/']");
 
         getDriver().findElement(MANAGE_JENKINS).click();
 
-        jsClick(getDriver(), getDriver().findElement(By.xpath("//a[@href='administrativeMonitor/OldData/']")));
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", getDriver().findElement(oldDataItem));
+
+        getWait(10).until(ExpectedConditions.elementToBeClickable(getDriver().findElement(oldDataItem)));
+        Thread.sleep(100);
+        getDriver().findElement(oldDataItem).click();
 
         String allTextFromMainPanel = getDriver().findElement(By.id("main-panel")).getText();
         String[] actualText = allTextFromMainPanel.split("\n");
-
-        Assert.assertTrue(getDriver().findElements(By.xpath("//div[@id='main-panel']//tbody//tr")).isEmpty());
         Assert.assertEquals(actualText[actualText.length - 1], expectedText);
     }
 
@@ -103,7 +96,7 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
         for (WebElement element : getDriver().findElements(By.xpath("//td[contains(@id, 'status')]"))) {
-            getWait(getDriver(), 10).until(ExpectedConditions.textToBePresentInElement(element, "Success"));
+            getWait(10).until(ExpectedConditions.textToBePresentInElement(element, "Success"));
         }
 
         getDriver().findElement(By.linkText("Go back to the top page")).click();
@@ -112,7 +105,7 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(AVAILABLE_PLUGINS_TAB).click();
         getDriver().findElement(SEARCH_PLUGIN_FIELD).sendKeys(ManageJenkinsTest.PLUGIN_NAME);
 
-        getWait(getDriver(), 10).until(ExpectedConditions.numberOfElementsToBe(PLUGIN_TABLE_ROWS, 0));
+        getWait(1).until(ExpectedConditions.numberOfElementsToBe(PLUGIN_TABLE_ROWS, 0));
 
         getDriver().findElement(INSTALLED_PLUGINS_TAB).click();
         getDriver().findElement(SEARCH_PLUGIN_FIELD).sendKeys(ManageJenkinsTest.PLUGIN_NAME);
@@ -135,7 +128,9 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().get(getDriver().getCurrentUrl().replace("pluginManager/installed", "restart"));
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
-        getWait(getDriver(), 60).until(ExpectedConditions.visibilityOfElementLocated(By.name("j_username")));
+        getWeb();
+
+        getWait(60).until(ExpectedConditions.visibilityOfElementLocated(By.name("j_username")));
 
         loginWeb();
 
@@ -144,7 +139,7 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(INSTALLED_PLUGINS_TAB).click();
         getDriver().findElement(SEARCH_PLUGIN_FIELD).sendKeys(ManageJenkinsTest.PLUGIN_NAME);
 
-        getWait(getDriver(), 10).until(ExpectedConditions.invisibilityOfElementLocated(PLUGIN_TABLE_ROWS));
+        getWait(1).until(ExpectedConditions.invisibilityOfElementLocated(PLUGIN_TABLE_ROWS));
 
         getDriver().findElement(AVAILABLE_PLUGINS_TAB).click();
         getDriver().findElement(SEARCH_PLUGIN_FIELD).sendKeys(ManageJenkinsTest.PLUGIN_NAME);
