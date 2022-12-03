@@ -12,6 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static runner.TestUtils.scrollToEnd;
+
 public class FolderTest extends BaseTest {
 
     private static final By OK_BUTTON = By.id("ok-button");
@@ -434,5 +436,19 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(DASHBOARD).click();
 
         Assert.assertTrue(getProjectNameFromProjectTable().contains("Magic Folder"));
+    }
+
+    @Test(dependsOnMethods = "testCreateNewMagicFolder")
+    public void testCreateFolderWithDescriptionAndJobPipeline() {
+
+        getDriver().findElement(By.xpath("//span[text()='Magic Folder']")).click();
+        getDriver().findElement(By.xpath("//span[text()='Create a job']")).click();
+        getDriver().findElement(By.xpath(" //input[@class='jenkins-input']")).sendKeys("New items");
+        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.id("yui-gen6-button")).click();
+        getDriver().findElement(By.xpath("//a[@href='/'][@class='model-link']")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.id("projectstatus")).getText().contains("Magic Folder"));
     }
 }
