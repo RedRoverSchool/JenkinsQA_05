@@ -1,11 +1,11 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class NewView1Test extends BaseTest {
 
@@ -14,9 +14,9 @@ public class NewView1Test extends BaseTest {
     private static final By MY_VIEWS = By.cssSelector("a[href='/me/my-views']");
     private static final By ADD_VIEW = By.cssSelector("a[title='New View']");
     private static final By DELETE_VIEW = By.xpath("//a[@href='delete']");
-    private static final String GLOBAL_VIEW_NAME_FREESTYLE = "Freestyle projects";
-    private static final String LIST_VIEW_NAME_PIPLINES = "Piplines";
-    private static final String MY_VIEW_NAME_MULTI_CONFIGURATION = "Multi-configuration projects";
+    private static final String GLOBAL_VIEW_NAME = "Global_View";
+    private static final String LIST_VIEW_NAME = "List_View";
+    private static final String MY_VIEW_NAME = "My_View";
 
     public List<WebElement> getListViews() {
 
@@ -24,7 +24,7 @@ public class NewView1Test extends BaseTest {
                 By.cssSelector(".tabBar .tab a[href]"));
     }
 
-    public String getStringListViewsNames() {
+    public String getListViewsNames() {
         StringBuilder listViewsNames = new StringBuilder();
         for (WebElement view : getListViews()) {
             listViewsNames.append(view.getText()).append(" ");
@@ -35,8 +35,9 @@ public class NewView1Test extends BaseTest {
 
     public List<WebElement> getListButtonsForJobsDropdownMenu() {
 
-        return getDriver().findElements(
-                By.cssSelector(".job-status-nobuilt button"));
+        return getWait(10)
+                .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
+                        By.cssSelector(".job-status-nobuilt button")));
     }
 
     private void createAnyJob(String name, By projectType) {
@@ -73,46 +74,52 @@ public class NewView1Test extends BaseTest {
 
     @Test
     public void testCreateMyViews() {
-        createAnyJob("Freestyle project-1",
+        createAnyJob("Freestyle project",
                 By.xpath("//span[text() = 'Freestyle project']"));
-        createAnyJob("Pipeline-1",
+        createAnyJob("Pipeline",
                 By.xpath("//span[text() = 'Freestyle project']"));
-        createAnyJob("Multi-configuration project-1",
+        createAnyJob("Multi-configuration project",
                 By.xpath("//span[text() = 'Multi-configuration project']"));
-        createAnyView(GLOBAL_VIEW_NAME_FREESTYLE,
+        createAnyView(GLOBAL_VIEW_NAME,
                 By.cssSelector("label[for='hudson.model.ProxyView']"));
-        createAnyView(LIST_VIEW_NAME_PIPLINES,
+        createAnyView(LIST_VIEW_NAME,
                 By.cssSelector("label[for='hudson.model.ListView']"));
-        createAnyView(MY_VIEW_NAME_MULTI_CONFIGURATION,
+        createAnyView(MY_VIEW_NAME,
                 By.cssSelector("label[for='hudson.model.MyView']"));
-
         getDriver().findElement(MY_VIEWS).click();
-        List<String> viewsList = getListViews()
-                .stream()
-                .map((WebElement::getText))
-                .collect(Collectors.toList());
 
-        Assert.assertTrue(viewsList.contains(GLOBAL_VIEW_NAME_FREESTYLE));
-        Assert.assertTrue(viewsList.contains(LIST_VIEW_NAME_PIPLINES));
-        Assert.assertTrue(viewsList.contains(MY_VIEW_NAME_MULTI_CONFIGURATION));
+        Assert.assertTrue(getListViewsNames().contains(GLOBAL_VIEW_NAME));
+        Assert.assertTrue(getListViewsNames().contains(LIST_VIEW_NAME));
+        Assert.assertTrue(getListViewsNames().contains(MY_VIEW_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateMyViews")
-    public void testDeleteMyView() {
-        final By ButtonYesDeleteView = By.id("yui-gen1-button");
+    public void testViewHasSelectedTypeGlobalView() {
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(By.linkText(GLOBAL_VIEW_NAME)).click();
+        getDriver().findElement(
+                By.cssSelector("a[href='/user/admin/my-views/view/"
+                        + GLOBAL_VIEW_NAME + "/configure']")).click();
 
+        Assert.assertEquals(getDriver()
+                        .findElement(By.cssSelector(".jenkins-form-description")).getText(),
+                "The name of a global view that will be shown.");
+    }
+
+    @Test(dependsOnMethods = "testViewHasSelectedTypeGlobalView")
+    public void testDeleteView() {
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(
                 By.cssSelector(".tabBar .tab a[href='/user/admin/my-views/view/"
-                        + LIST_VIEW_NAME_PIPLINES + "/']")).click();
+                        + LIST_VIEW_NAME + "/']")).click();
         getDriver().findElement(DELETE_VIEW).click();
-        getDriver().findElement(ButtonYesDeleteView).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
 
-        Assert.assertFalse(getStringListViewsNames().contains(LIST_VIEW_NAME_PIPLINES));
+        Assert.assertFalse(getListViewsNames().contains(LIST_VIEW_NAME));
     }
 
-    @Test(dependsOnMethods = "testDeleteMyView")
-    public void testDeleteAllMyViews() {
+    @Test(dependsOnMethods = "testDeleteView")
+    public void testDeleteAllViews() {
         getDriver().findElement(DASHBOARD_LINK).click();
         getDriver().findElement(MY_VIEWS).click();
         for (int i = getListViews().size() - 1; i >= 0; i--) {
@@ -124,7 +131,7 @@ public class NewView1Test extends BaseTest {
             }
         }
 
-        Assert.assertEquals(getStringListViewsNames(), "All");
+        Assert.assertEquals(getListViewsNames(), "All");
 
         deleteAllJobsByDropdownMenus();
     }
