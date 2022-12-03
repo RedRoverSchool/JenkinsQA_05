@@ -38,8 +38,8 @@ public class NewView1Test extends BaseTest {
     public List<WebElement> getListButtonsForJobsDropdownMenu() {
 
         return getWait(10)
-                .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
-                        By.cssSelector(".job-status-nobuilt button")));
+                .until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfAllElementsLocatedBy(
+                        By.cssSelector(".job-status-nobuilt button"))));
     }
 
     private void createAnyJob(String name, By projectType) {
