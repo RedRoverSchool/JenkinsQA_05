@@ -96,11 +96,21 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//tr[@data-plugin-id='testng-plugin']//label")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
-        for (WebElement element : getDriver().findElements(By.xpath("//td[contains(@id, 'status')]"))) {
-            getWait(20).until(ExpectedConditions.textToBePresentInElement(element, "Success"));
-        }
 
-        getDriver().findElement(By.linkText("Go back to the top page")).click();
+        getDriver().get(getDriver().getCurrentUrl().replace("manage/updateCenter/", "restart"));
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+
+        getWeb();
+
+        getWait(60).until(ExpectedConditions.visibilityOfElementLocated(By.name("j_username")));
+
+        loginWeb();
+
+//        for (WebElement element : getDriver().findElements(By.xpath("//td[contains(@id, 'status')]"))) {
+//            getWait(20).until(ExpectedConditions.textToBePresentInElement(element, "Success"));
+//        }
+
+//        getDriver().findElement(By.linkText("Go back to the top page")).click();
         getDriver().findElement(MANAGE_JENKINS).click();
         getDriver().findElement(PLUGIN_MANAGER).click();
         getDriver().findElement(AVAILABLE_PLUGINS_TAB).click();
