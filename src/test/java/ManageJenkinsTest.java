@@ -1,7 +1,4 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -41,9 +38,10 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testRenameFullUserName() {
+    public void testRenameFullUserName() throws InterruptedException {
         getDriver().findElement(MANAGE_JENKINS).click();
-        TestUtils.scrollToElement(getDriver(), getDriver().findElement(SECURITY_MANAGE_USERS));
+        TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.xpath("//h2[text()='Security']")));
+        Thread.sleep(400);
         getDriver().findElement(SECURITY_MANAGE_USERS).click();
         getDriver().findElement(CONFIGURE_BUTTON).click();
         getDriver().findElement(USER_FULL_NAME).clear();
