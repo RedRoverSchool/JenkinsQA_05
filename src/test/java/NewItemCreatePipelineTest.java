@@ -105,24 +105,14 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 RANDOM_STRING);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testPipelineStepFromSCMConfiguration")
     public void testDeletePipelineFromDashboard() {
-        createPipeline(RANDOM_STRING);
         getDriver().findElement(LINK_TO_DASHBOARD).click();
         getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", RANDOM_STRING))).click();
         getDriver().findElement(By.xpath("//span[text()='Delete Pipeline']")).click();
         getDriver().switchTo().alert().accept();
 
-        List<WebElement> allJobsInDashboard = getDriver().findElements(By.xpath(
-                "//a[@class='jenkins-table__link model-link inside']"));
-        for (WebElement element : allJobsInDashboard) {
-            if (element.getText().contains(RANDOM_STRING)) {
-                Assert.fail();
-                break;
-            } else {
-                Assert.assertTrue(true);
-            }
-        }
+        Assert.assertNotNull(getDriver().findElement(By.className("empty-state-block")));
     }
 
     @Test(dependsOnMethods = "testCreateNewPipeline")
