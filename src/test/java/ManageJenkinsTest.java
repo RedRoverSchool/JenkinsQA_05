@@ -96,10 +96,6 @@ public class ManageJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//tr[@data-plugin-id='testng-plugin']//label")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
-
-        getDriver().get(getDriver().getCurrentUrl().replace("manage/updateCenter/", "restart"));
-        getDriver().findElement(By.id("yui-gen1-button")).click();
-
         for (WebElement element : getDriver().findElements(By.xpath("//td[contains(@id, 'status')]"))) {
             getWait(20).until(ExpectedConditions.textToBePresentInElement(element, "Success"));
         }
