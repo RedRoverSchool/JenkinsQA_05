@@ -37,6 +37,7 @@ public class PipelineTest extends BaseTest {
     private static final By BUTTON_CREATE = By.id("ok");
     private static final By VIEW =
             By.xpath(String.format("//div/a[contains(text(),'%s')]", VIEW_NAME));
+    private static final By TEXTAREA_DESCRIPTION = By.xpath("//textarea[@name='description']");
 
     private static String generatePipelineProjectName() {
         return RandomStringUtils.randomAlphanumeric(10);
@@ -130,7 +131,7 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(BUTTON_OK).click();
         getDriver().findElement(BUTTON_SAVE).click();
         getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(pipelinePojectName + "description");
+        getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(pipelinePojectName + "description");
         getDriver().findElement(By.id("yui-gen2-button")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), pipelinePojectName + "description");
@@ -224,11 +225,27 @@ public class PipelineTest extends BaseTest {
         String pipelinePojectName = getRandomStr();
         createPipelineProjectCuttedVersion(pipelinePojectName);
 
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys(pipelinePojectName + "description");
+        getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(pipelinePojectName + "description");
 
         getDriver().findElement(By.className("textarea-show-preview")).click();
 
         Assert.assertEquals(getDriver().findElement(By.className("textarea-preview")).getText(), pipelinePojectName + "description");
+
+        getDriver().findElement(BUTTON_SAVE).click();
+    }
+
+    @Test
+    public void testPipelineHidePreviewDescription() {
+
+        String pipelinePojectName = getRandomStr();
+        createPipelineProjectCuttedVersion(pipelinePojectName);
+
+        getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(pipelinePojectName + "description");
+        getDriver().findElement(By.className("textarea-show-preview")).click();
+
+        getDriver().findElement(By.className("textarea-hide-preview")).click();
+
+        Assert.assertFalse(getDriver().findElement(By.className("textarea-preview")).isDisplayed());
 
         getDriver().findElement(BUTTON_SAVE).click();
     }
