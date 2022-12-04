@@ -1,8 +1,14 @@
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FolderOneTest extends BaseTest {
     private static final By NEW_ITEM = By.linkText("New Item");
@@ -11,6 +17,8 @@ public class FolderOneTest extends BaseTest {
     private static final By NEW_NAME_RENAME = By.xpath("//input[@name='newName']");
     private static final By FOLDER_OPTION = By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']");
     private static final By PIPELINE_OPTION = By.xpath("//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']");
+    private static final By MULTIBRANCH_PIPELINE_OPTION = By.xpath(
+            "//li[@class='org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject']");
     private static final By DROP_DOWN_MENU = By.xpath("//td/a/button[@class='jenkins-menu-dropdown-chevron']");
     private static final By DROP_DOWN_CONFIGURE = By.xpath("//span[contains(text(),'Configure')]");
     private static final By DROP_DOWN_RENAME = By.xpath("//span[contains(text(),'Rename')]");
@@ -26,6 +34,7 @@ public class FolderOneTest extends BaseTest {
     private static final By SELECTION_SCRIPT = By.xpath("//div[@class='samples']/select/option[4]");
     private static final String RANDOM_FOLDER_NAME = RandomStringUtils.randomAlphanumeric(6);
     private static final String RANDOM_PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(6);
+    private static final String RANDOM_MULTIBRANCH_PIPELINE_NAME = TestUtils.getRandomStr(6);
 
     private void submitButtonClick(){
         getDriver().findElement(By.xpath("//button[@type = 'submit']")).click();
@@ -37,6 +46,15 @@ public class FolderOneTest extends BaseTest {
         getDriver().findElement(FOLDER_OPTION).click();
         submitButtonClick();
         submitButtonClick();
+    }
+    private List<String> getJobNameList() {
+        List<WebElement> jobNames = getDriver().findElements(By.xpath("//tr/td/a"));
+        List<String> jobNamesList = new ArrayList<>();
+        for (WebElement element : jobNames) {
+            jobNamesList.add(element.getText());
+        }
+
+        return jobNamesList;
     }
 
     @Test
@@ -202,6 +220,22 @@ public class FolderOneTest extends BaseTest {
         Assert.assertEquals(RANDOM_PIPELINE_NAME,actualPipelineName);
         Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
                 .contains(RANDOM_FOLDER_NAME + "/" + RANDOM_PIPELINE_NAME));
+    }
+
+    @Test
+    public void testCreateMultibranchPipelineInFolder() {
+        createFolder();
+        getDriver().findElement(CREATE_JOB).click();
+        getDriver().findElement(NAME).sendKeys(RANDOM_MULTIBRANCH_PIPELINE_NAME);
+        getDriver().findElement(MULTIBRANCH_PIPELINE_OPTION).click();
+        submitButtonClick();
+        submitButtonClick();
+        getDriver().findElement(By.xpath(
+                "//ul[@id='breadcrumbs']/li[3]/a[@href='/job/" + RANDOM_FOLDER_NAME + "/']")).click();
+
+        Assert.assertEquals(getDriver().findElement(TEXT_H1).getText(), RANDOM_FOLDER_NAME);
+        Assert.assertTrue(getJobNameList().size() != 0);
+        Assert.assertTrue(getJobNameList().contains(RANDOM_MULTIBRANCH_PIPELINE_NAME));
     }
 }
 
