@@ -462,7 +462,6 @@ public class FreestyleProjectTest extends BaseTest {
         final String expectedURL = getDriver().getCurrentUrl()+"view/all/createItem";
         final String errorPictureName = "rage.svg";
         final String expectedTextOfError = "A problem occurred while processing the request.";
-
         final String longNameWith256Characters = TestUtils.getRandomStr(256);
 
         getDriver().findElement(LINK_NEW_ITEM).click();
