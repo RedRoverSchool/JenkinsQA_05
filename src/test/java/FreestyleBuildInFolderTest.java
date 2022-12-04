@@ -1,4 +1,6 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -28,7 +30,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
     private static final By BUILD_DROPDOWN = By.xpath("//a[normalize-space()='#1']");
     private static final By JOB_IN = By.cssSelector("a[class='jenkins-table__link model-link inside']");
     private static final By BUILD = By.cssSelector("#yui-gen3");
-    private static final By JOB_DROPDOWN = By.xpath("//a[@class='jenkins-table__link model-link inside']//button[@class='jenkins-menu-dropdown-chevron']");
+    private static final By JOB_DROPDOWN = By.xpath("(//button[@class='jenkins-menu-dropdown-chevron'])[4]");
     private static final By DOCS_SELECT = By.xpath("//*[contains(@class,'jenkins-table')and contains(@href,'job/Docs/')]");
     private static final By DOCS_IN = By.linkText("Docs");
 
@@ -63,7 +65,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.linkText(name)).getText(), name);
     }
     @Test(dependsOnMethods = {"testCreateFreestyleProject"})
-    public void testBuildFreestyleProject(){
+    public void testBuildFreestyleProject() {
 
         getDriver().findElement(DOCS_IN).click();
         getDriver().findElement(JOB_IN).click();
