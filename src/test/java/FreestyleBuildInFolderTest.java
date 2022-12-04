@@ -30,8 +30,8 @@ public class FreestyleBuildInFolderTest extends BaseTest {
     private static final By BUILD_DROPDOWN = By.xpath("//a[normalize-space()='#1']");
     private static final By JOB_IN = By.cssSelector("a[class='jenkins-table__link model-link inside']");
     private static final By BUILD = By.cssSelector("#yui-gen3");
-    private static final By JOB_DROPDOWN = By.xpath("(//button[@class='jenkins-menu-dropdown-chevron'])[4]");
-    private static final By DOCS_SELECT = By.xpath("//*[contains(@class,'jenkins-table')and contains(@href,'job/Docs/')]");
+    private static final By JOB_DROPDOWN = By.xpath("//a[@class='jenkins-table__link model-link inside']//button[@class='jenkins-menu-dropdown-chevron']");
+    private static final By DOCS_SELECT = By.xpath("//a[@href='job/Docs/']");
     private static final By DOCS_IN = By.linkText("Docs");
 
     @Test
@@ -49,7 +49,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
                 By.cssSelector("#view-message")).getText().contains(DESCRIPTION));
     }
     @Test(dependsOnMethods = {"createFolderTest"})
-    public void testCreateFreestyleProject(){
+    public void testCreateFreestyleProject() {
 
         getDriver().findElement(CREATED_FOLDER).click();
         getDriver().findElement(NEW_ITEM_DROPDOWN).click();
@@ -77,6 +77,5 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(3000));
 
         Assert.assertTrue(getDriver().findElement(
-                By.cssSelector(".console-output")).getText().toUpperCase().contains("SUCCESS"));
-    }
+                By.cssSelector(".console-output")).getText().toUpperCase().contains("SUCCESS"));    }
 }
