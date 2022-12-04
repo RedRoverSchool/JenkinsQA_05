@@ -1,12 +1,12 @@
 import java.time.Duration;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 public class CopyItemTest extends BaseTest {
 
@@ -50,9 +50,21 @@ public class CopyItemTest extends BaseTest {
         Assert.assertFalse(checkItemAtTheDashboard(nameItem), "Item " + nameItem + " at the Dashboard");
     }
 
+    @Test
+    public void testFieldCopyFromDoNotDisplayIfDoNotHaveAnyItems() {
+        getDriver().findElement(BY_LINK_NEW_ITEM).click();
+        TestUtils.scrollToEnd(getDriver());
+        getWait(5).until(ExpectedConditions.visibilityOfElementLocated(BY_FIELD_NAME));
+        Assert.assertFalse(checkElementExistInDOM("id=\"from\""));
+    }
+
     private boolean checkItemAtTheDashboard(String nameItem) {
         getDriver().findElement(BY_JENKINS_HOME_LINK).click();
         return getDriver().getPageSource().contains("id=\"job_" + nameItem + "\"");
+    }
+
+    private boolean checkElementExistInDOM(String htmlElement) {
+        return getDriver().getPageSource().contains(htmlElement);
     }
 
     private void createItem(By radioButtonTypeItemInTheCreatePage, String nameItem) {
