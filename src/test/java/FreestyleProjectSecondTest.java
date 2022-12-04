@@ -146,14 +146,12 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .visibilityOfElementLocated(By.xpath("//label[text()='Build periodically']")));
         WebElement buildPeriodicallyLabel = getDriver()
                 .findElement(By.xpath("//label[text()='Build periodically']"));
-        getWait(1);
+        getWait(1).until(ExpectedConditions.elementToBeClickable(buildPeriodicallyLabel));
         buildPeriodicallyLabel.click();
+
         selectedCheckbox = getDriver().findElement(By.name("hudson-triggers-TimerTrigger")).isSelected();
-        getWait(1).until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//label[text()='Build periodically']")));
-        buildPeriodicallyLabel = getDriver()
-                .findElement(By.xpath("//label[text()='Build periodically']"));
-        getWait(1);
+
+        getWait(1).until(ExpectedConditions.elementToBeClickable(buildPeriodicallyLabel));
         buildPeriodicallyLabel.click();
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
