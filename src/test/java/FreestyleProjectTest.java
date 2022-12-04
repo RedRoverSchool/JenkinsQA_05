@@ -456,4 +456,29 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), "SSS");
     }
+
+    @Test
+    public void testCreateNewFreestyleProjectWithLongNameFrom256Characters() {
+        final String expectedURL = getDriver().getCurrentUrl()+"view/all/createItem";
+        final String errorPictureName = "rage.svg";
+        final String expectedTextOfError = "A problem occurred while processing the request.";
+
+        final String longNameWith256Characters = TestUtils.getRandomStr(256);
+
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(FIELD_ENTER_AN_ITEM_NAME))
+                .sendKeys(longNameWith256Characters);
+        getWait(5).until(ExpectedConditions.attributeContains(FIELD_ENTER_AN_ITEM_NAME,
+                "value", longNameWith256Characters));
+        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+        TestUtils.scrollToElement(getDriver(), getDriver().findElement(BUTTON_OK_IN_NEW_ITEM));
+        getWait(5).until(ExpectedConditions.elementToBeClickable(BUTTON_OK_IN_NEW_ITEM)).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), expectedURL);
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//img[contains(@src,'"+errorPictureName+"')]")).isDisplayed());
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//div[@id='error-description']//h2")).getText(),
+                expectedTextOfError);
+    }
 }
