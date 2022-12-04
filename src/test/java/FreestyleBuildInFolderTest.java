@@ -1,11 +1,10 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
 
 public class FreestyleBuildInFolderTest extends BaseTest {
     private static final String DESCRIPTION = "This folder contains job's documentation";
@@ -21,7 +20,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
     private static final By DISPLAY_NAME = By.cssSelector("input[name='_.displayNameOrNull']");
     private static final By PROJECT_TYPE = By.xpath("//span[normalize-space()='Freestyle project']");
     private static final By OK_BUTTON = By.id("ok-button");
-    private static final By SAVE_BUTTON = By.xpath("//*[contains(@id, 'yui-gen') and contains(@type,'submit')]");
+    private static final By SAVE_BUTTON = By.xpath("//button[@type = 'submit']");
     private static final By DASHBOARD = By.xpath("//a[normalize-space()='Dashboard']");
     private static final By CREATED_FOLDER = By.xpath("//a[@class='jenkins-table__link model-link inside']");
     private static final By NEW_ITEM_DROPDOWN = By.xpath("//*[contains(@class,'icon-new-package icon-md')]");
@@ -29,7 +28,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
     private static final By BUILD_DROPDOWN = By.xpath("//a[normalize-space()='#1']");
     private static final By JOB_IN = By.cssSelector("a[class='jenkins-table__link model-link inside']");
     private static final By BUILD = By.cssSelector("#yui-gen3");
-    private static final By JOB_DROPDOWN = By.cssSelector("a[class='jenkins-table__link model-link inside'] button[class='jenkins-menu-dropdown-chevron']");
+    private static final By JOB_DROPDOWN = By.xpath("//a[@class='jenkins-table__link model-link inside']//button[@class='jenkins-menu-dropdown-chevron']");
     private static final By DOCS_SELECT = By.xpath("//*[contains(@class,'jenkins-table')and contains(@href,'job/Docs/')]");
     private static final By DOCS_IN = By.linkText("Docs");
 
@@ -64,7 +63,7 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.linkText(name)).getText(), name);
     }
     @Test(dependsOnMethods = {"testCreateFreestyleProject"})
-    public void testBuildFreestyleProject() throws InterruptedException {
+    public void testBuildFreestyleProject(){
 
         getDriver().findElement(DOCS_IN).click();
         getDriver().findElement(JOB_IN).click();
@@ -73,10 +72,9 @@ public class FreestyleBuildInFolderTest extends BaseTest {
         getDriver().findElement(JOB_IN).click();
         getDriver().findElement(BUILD_DROPDOWN).click();
         getDriver().findElement(CONSOLE_OUTPUT).click();
-        Thread.sleep(4000);
+        LockSupport.parkNanos(TimeUnit.MILLISECONDS.toNanos(3000));
 
         Assert.assertTrue(getDriver().findElement(
                 By.cssSelector(".console-output")).getText().toUpperCase().contains("SUCCESS"));
     }
 }
-
