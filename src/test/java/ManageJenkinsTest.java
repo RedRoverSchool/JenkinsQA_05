@@ -39,10 +39,9 @@ public class ManageJenkinsTest extends BaseTest {
     }
 
     @Test
-    public void testRenameFullUserName() throws InterruptedException {
+    public void testRenameFullUserName() {
         getDriver().findElement(MANAGE_JENKINS).click();
         TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.xpath("//h2[text()='Security']")));
-        Thread.sleep(400);
         getDriver().findElement(SECURITY_MANAGE_USERS).click();
         getDriver().findElement(CONFIGURE_BUTTON).click();
         getDriver().findElement(USER_FULL_NAME).clear();
