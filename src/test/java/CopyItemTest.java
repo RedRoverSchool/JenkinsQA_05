@@ -55,6 +55,7 @@ public class CopyItemTest extends BaseTest {
         getDriver().findElement(BY_LINK_NEW_ITEM).click();
         TestUtils.scrollToEnd(getDriver());
         getWait(5).until(ExpectedConditions.visibilityOfElementLocated(BY_FIELD_NAME));
+
         Assert.assertFalse(checkElementExistInDOM("id=\"from\""));
     }
 
