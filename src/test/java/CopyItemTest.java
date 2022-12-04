@@ -47,7 +47,7 @@ public class CopyItemTest extends BaseTest {
                         " " + getDriver().findElement(BY_TEXT_ERROR_MESSAGE_DESCRIPTION).getText();
 
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
-        Assert.assertFalse(checkItemAtTheDashboard(nameItem), "Item " + nameItem + " at the Dashboard");
+        Assert.assertFalse(isItemAtTheDashboard(nameItem), "Item " + nameItem + " at the Dashboard");
     }
 
     @Test
@@ -56,15 +56,15 @@ public class CopyItemTest extends BaseTest {
         TestUtils.scrollToEnd(getDriver());
         getWait(5).until(ExpectedConditions.visibilityOfElementLocated(BY_FIELD_NAME));
 
-        Assert.assertFalse(checkElementExistInDOM("id=\"from\""));
+        Assert.assertFalse(isElementExistInDOM("id=\"from\""));
     }
 
-    private boolean checkItemAtTheDashboard(String nameItem) {
+    private boolean isItemAtTheDashboard(String nameItem) {
         getDriver().findElement(BY_JENKINS_HOME_LINK).click();
         return getDriver().getPageSource().contains("id=\"job_" + nameItem + "\"");
     }
 
-    private boolean checkElementExistInDOM(String htmlElement) {
+    private boolean isElementExistInDOM(String htmlElement) {
         return getDriver().getPageSource().contains(htmlElement);
     }
 
