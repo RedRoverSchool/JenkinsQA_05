@@ -232,6 +232,7 @@ public class FolderOneTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
                 .contains((RANDOM_FOLDER_NAME + "_Folder2") + "/" + (RANDOM_PIPELINE_NAME + "_SubFolder2")));
     }
+
     @Test(dependsOnMethods = {"testCreateFolderWithDisplayNameInFolder"})
     public void testMoveFolderByDropDown() {
         getDriver().findElement(By.linkText(RANDOM_FOLDER_NAME + "_Display2")).click();
