@@ -1,8 +1,4 @@
-import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -23,8 +19,10 @@ public class ManageJenkinsTest extends BaseTest {
     private static final By USER_ADMIN_CONFIGURE = By.cssSelector("a[href='/user/admin/configure']");
     private static final By USER_FULL_NAME = By.xpath("//input[@name='_.fullName']");
     private static final By SAVE_BUTTON = By.id("yui-gen3-button");
+    private static final By CONFIGURE_BUTTON = By.className("jenkins-table__button");
     private static final By H1_TITLE = By.xpath("//h1");
     private static final By PAGE_HEADER_USER = By.cssSelector(".model-link > .hidden-xs.hidden-sm");
+    private static final By BREADCRUMBS_USER_NAME = By.xpath("//li[@class='item'][last()]");
     private static final By PLUGIN_MANAGER = By.xpath("//a[@href='pluginManager']");
     private static final By AVAILABLE_PLUGINS_TAB = By.xpath("//a[@href='./available']");
     private static final By INSTALLED_PLUGINS_TAB = By.xpath("//a[@href='./installed']");
@@ -39,27 +37,21 @@ public class ManageJenkinsTest extends BaseTest {
     public static WebDriverWait getWait(WebDriver driver, int seconds) {
         return new WebDriverWait(driver, Duration.ofSeconds(seconds));
     }
-    @Ignore
+
     @Test
     public void testRenameFullUserName() {
-        final String newFullName = RandomStringUtils.randomAlphanumeric(8);
+        getDriver().findElement(MANAGE_JENKINS).click();
+        TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.xpath("//h2[text()='Security']")));
+        getDriver().findElement(SECURITY_MANAGE_USERS).click();
+        getDriver().findElement(CONFIGURE_BUTTON).click();
+        getDriver().findElement(USER_FULL_NAME).clear();
+        getDriver().findElement(USER_FULL_NAME).sendKeys(NEW_USERS_FULL_NAME);
+        getDriver().findElement(SAVE_BUTTON).click();
 
-        getDriver().findElement(By.linkText("Manage Jenkins")).click();
-        getDriver().findElement(By.xpath("//a[@href='securityRealm/']")).click();
-        String UserIDName = getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']")).getText();
-        getDriver().findElement(By.className("jenkins-table__button")).click();
-        getDriver().findElement(By.name("_.fullName")).clear();
-        getDriver().findElement(By.name("_.fullName")).sendKeys(newFullName);
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
         getDriver().navigate().refresh();
 
-        String actualFullNameOnBreadCrumbs = getDriver().findElement(
-                By.xpath("//a[@href='/manage/securityRealm/user/" + UserIDName + "/']")).getText();
-        String actualFullNameOnPageHeader = getDriver().findElement(
-                By.xpath("//a[@href='/user/" + UserIDName + "']")).getText();
-
-        Assert.assertEquals(actualFullNameOnBreadCrumbs, newFullName);
-        Assert.assertEquals(actualFullNameOnPageHeader, newFullName);
+        Assert.assertEquals(getDriver().findElement(BREADCRUMBS_USER_NAME).getText(), NEW_USERS_FULL_NAME);
+        Assert.assertEquals(getDriver().findElement(PAGE_HEADER_USER).getText(), NEW_USERS_FULL_NAME);
     }
 
     @Test
@@ -78,6 +70,7 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(actualText[actualText.length - 1], expectedText);
     }
 
+    @Ignore
     @Test
     public void testRenameUsersFullName() {
         getDriver().findElement(MANAGE_JENKINS).click();
@@ -94,6 +87,7 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(PAGE_HEADER_USER).getText(), NEW_USERS_FULL_NAME);
     }
 
+    @Ignore
     @Test
     public void testPluginManagerInstallPlugin() {
 
