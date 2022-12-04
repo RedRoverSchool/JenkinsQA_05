@@ -27,16 +27,14 @@ public class EditViewTest extends BaseTest{
             .xpath("//div[contains(@class, 'hetero-list-container')]/div[@class='repeated-chunk'][last()]");
 
     private void createItem(int i){
-        final By CSS_FREESTYLE_0 = By.cssSelector(".j-item-options .hudson_model_FreeStyleProject");
-        final By CSS_PIPELINE_1 = By.cssSelector(".j-item-options .org_jenkinsci_plugins_workflow_job_WorkflowJob");
-        final By CSS_MULTICONFIG_2 = By.cssSelector(".j-item-options .hudson_matrix_MatrixProject");
-        final By CSS_FOLDER_3 = By.cssSelector(".j-item-options .com_cloudbees_hudson_plugins_folder_Folder");
-        final By CSS_MULTIBRANCH_4 = By
+        final By FREESTYLE_0 = By.cssSelector(".j-item-options .hudson_model_FreeStyleProject");
+        final By PIPELINE_1 = By.cssSelector(".j-item-options .org_jenkinsci_plugins_workflow_job_WorkflowJob");
+        final By MULTICONFIG_2 = By.cssSelector(".j-item-options .hudson_matrix_MatrixProject");
+        final By FOLDER_3 = By.cssSelector(".j-item-options .com_cloudbees_hudson_plugins_folder_Folder");
+        final By MULTIBRANCH_4 = By
                 .cssSelector(".j-item-options .org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject");
-        final By CSS_ORGFOLDER_5 = By.cssSelector(".j-item-options .jenkins_branch_OrganizationFolder");
-        final By[] MENU_OPTIONS = {
-                CSS_FREESTYLE_0,CSS_PIPELINE_1, CSS_MULTICONFIG_2,
-                CSS_FOLDER_3, CSS_MULTIBRANCH_4, CSS_ORGFOLDER_5};
+        final By ORGFOLDER_5 = By.cssSelector(".j-item-options .jenkins_branch_OrganizationFolder");
+        final By[] MENU_OPTIONS = {FREESTYLE_0,PIPELINE_1, MULTICONFIG_2,FOLDER_3, MULTIBRANCH_4, ORGFOLDER_5};
 
         getDriver().findElement(By.xpath("//a[contains(@href, '/view/all/newJob')]")).click();
         getDriver().findElement(By.cssSelector("#name.jenkins-input")).sendKeys(getRandomStr());
@@ -107,19 +105,6 @@ public class EditViewTest extends BaseTest{
     public void myViewSeriesPreConditions(String randomAlphaNumeric) {
         createManyItemsOfEach(1);
         createMyView(randomAlphaNumeric);
-    }
-
-    public void deleteAllViews(){
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(MY_VIEWS).click();
-        List<WebElement> allViews = getDriver().findElements(By
-                .xpath("//div[contains(@class, 'tab')]/a[contains(@href, 'my-views/view')]"));
-        for (int i = 0; i < allViews.size(); i++) {
-            getDriver().findElement(By
-                    .xpath("//div[@class='tab']/a[contains(@href, 'my-views/view')]")).click();
-            getDriver().findElement(By.cssSelector("a[href='delete']")).click();
-            getDriver().findElement(SUBMIT_BUTTON).click();
-        }
     }
 
     public void scrollWaitTillNotMovingAndClick(int duration, By locator) {
