@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 public class OrganizationFolderTest extends BaseTest {
     private static final String uniqueOrganizationFolderName = "folder" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
     private static final String ORG_FOLDER_NAME = TestUtils.getRandomStr();
+    private static final String NAME_ORG_FOLDER = TestUtils.getRandomStr();
+    private static final String NAME_FOLDER = TestUtils.getRandomStr();
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
     private static final By INPUT_DISPLAY_NAME = By.xpath("//input  [@name='_.displayNameOrNull']");
     private static final By DESCRIPTION = By.xpath("//textarea [@name='_.description']");
@@ -33,12 +35,7 @@ public class OrganizationFolderTest extends BaseTest {
     private static final By NEW_ITEM = By.linkText("New Item");
     private static final By BUTTON_DELETE_ORGANIZATION_FOLDER = By.xpath("//div[@id='tasks']//a[contains(@href, 'delete')]");
     private static final By BUTTON_SUBMIT = By.xpath("//button[@type= 'submit']");
-
-    private static final String NAME_ORG_FOLDER = TestUtils.getRandomStr();
-    private static final String NAME_FOLDER = TestUtils.getRandomStr();
-
     private static final By ITEM_FOLDER = By.xpath("//span[text()='" + NAME_FOLDER + "']");
-
     private static final By ITEM_ORG_FOLDER = By.xpath("//span[text()= '" + NAME_ORG_FOLDER + "']");
 
     private WebElement notificationSaved() {
@@ -72,8 +69,6 @@ public class OrganizationFolderTest extends BaseTest {
     public WebElement getSaveButton() {
         return getDriver().findElement(SAVE_BUTTON);
     }
-
-    String generatedString = UUID.randomUUID().toString().substring(0, 8);
     private void createNewOrganizationFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName);
