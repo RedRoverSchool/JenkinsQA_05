@@ -135,27 +135,25 @@ public class FreestyleProjectSecondTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testVerifyOptionsInBuildStepsSection")
-    public void testSelectBuildPeriodicallyCheckbox() throws InterruptedException {
+    public void testSelectBuildPeriodicallyCheckbox() {
         boolean selectedCheckbox;
 
         getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']")).click();
-        getWait(5).until(ExpectedConditions
+        getWait(1).until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//label[text()='Build periodically']")));
         WebElement buildPeriodicallyLabel = getDriver()
                 .findElement(By.xpath("//label[text()='Build periodically']"));
-        getWait(5).until(ExpectedConditions.elementToBeClickable(buildPeriodicallyLabel));
+        getWait(1);
         buildPeriodicallyLabel.click();
-
         selectedCheckbox = getDriver().findElement(By.name("hudson-triggers-TimerTrigger")).isSelected();
-
-        getWait(5).until(ExpectedConditions
+        getWait(1).until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//label[text()='Build periodically']")));
         buildPeriodicallyLabel = getDriver()
                 .findElement(By.xpath("//label[text()='Build periodically']"));
-        getWait(5).until(ExpectedConditions.elementToBeClickable(buildPeriodicallyLabel));
+        getWait(1);
         buildPeriodicallyLabel.click();
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
