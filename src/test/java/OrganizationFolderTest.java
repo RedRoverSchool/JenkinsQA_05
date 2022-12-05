@@ -171,8 +171,6 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(INPUT_NAME).sendKeys(NAME_ORG_FOLDER);
         WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));
         TestUtils.scrollToElement(getDriver(), element);
-//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
-//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
         element.click();
 
         getDriver().findElement(OK_BUTTON).click();
