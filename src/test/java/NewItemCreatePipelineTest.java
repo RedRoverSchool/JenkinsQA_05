@@ -187,6 +187,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         new Select(getDriver().findElement(By.xpath("//select[@name='value']"))).selectByVisibleText("Guest");
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getWait(60).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@class='job SUCCESS']")));
+        getDriver().navigate().refresh();
         getDriver().findElement(By.xpath("//a[@href='lastBuild/']")).click();
         getDriver().findElement(By.linkText("Console Output")).click();
 
