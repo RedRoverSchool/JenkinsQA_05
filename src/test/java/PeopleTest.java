@@ -59,7 +59,9 @@ public class PeopleTest extends BaseTest {
         getWait(5).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("people"))));
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "People");
-        
+        Assert.assertEquals(getDriver().findElements(By.className("sortheader")).size(), 4);
+
+
     }
 
 
