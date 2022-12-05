@@ -59,6 +59,7 @@ public class FooterTest extends BaseTest {
                         + "with it. The document tree is shown below.");
 
     }
+
     @Test
     public void testFooterLinkJenkinsIsClickable() {
         getDriver().findElement(By.linkText("Manage Jenkins")).click();
