@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -33,6 +34,7 @@ public class BuildHistoryTest extends BaseTest {
     private static final By ATOM_FEED_LATEST = By.xpath("//a/span[contains(text(), 'Atom feed for just latest builds')]");
     private static final By ICON_LEGEND = By.xpath("//a[@href='/legend']");
     private static final By PROJECT_STATUS_TABLE = By.xpath("//table[@id='projectStatus']/thead/tr/th");
+    private static final By DESCRIPTION_EDIT_PROJECT = By.name("description");
 
     private static String jobName = "";
 
@@ -136,7 +138,7 @@ public class BuildHistoryTest extends BaseTest {
     }
 
     @Test
-    public void testCheckValidityCreateBuildOnPage() {
+    public void testValidityCreateBuildOnPage() {
         createProject();
         clickElement(BUILD_NOW);
         clickElement(TREND_BUILD);
@@ -190,5 +192,15 @@ public class BuildHistoryTest extends BaseTest {
         String jobLink = "http://localhost:8080/job/" + jobName + "/1/";
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='timeline-event-bubble-title']/a")).getAttribute("href"), jobLink);
+    }
+
+    @Test(dependsOnMethods = "testTimelineItemExist")
+    public void testDescriptionIsAdded() {
+        getDriver().findElement(By.xpath("//table/tbody/tr/td/a[@class='jenkins-table__link jenkins-table__badge model-link inside']/button")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(),'Edit Build Information')]")).click();
+        inputName(DESCRIPTION_EDIT_PROJECT);
+        clickElement(SAVE_BUTTON);
+
+        Assert.assertTrue(getDriver().findElement(By.id("description")).isDisplayed());
     }
 }

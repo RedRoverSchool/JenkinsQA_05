@@ -293,18 +293,20 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithDupicateName")
     public void testCreateBuildNowOnFreestyleProjectPage() {
-        final By countBuilds = By.xpath("//a[@class = 'model-link inside build-link display-name']");
         int countBuildsBeforeCreatingNewBuild = 0;
 
         getDriver().findElement(By.linkText(NEW_FREESTYLE_NAME)).click();
 
-        if (getDriver().findElement(By.id("no-builds")).isEnabled()) {
-            countBuildsBeforeCreatingNewBuild = getDriver().findElements(countBuilds).size();
+        if (getDriver().findElement(By.cssSelector(".collapse")).getAttribute("title").equals("expand")) {
+            getDriver().findElement(By.cssSelector(".collapse")).click();
         }
-
+        if (!getDriver().findElement(By.id("no-builds")).isDisplayed()) {
+            countBuildsBeforeCreatingNewBuild = getDriver().findElements(BUILDS_LOCATOR).size();
+        }
         getDriver().findElement(BUILD_NOW_LOCATOR).click();
-        getWait(20).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[@class='build-status-icon__outer']/*[@tooltip = 'In progress &gt; Console Output']")));
-        int countBuildsAfterCreatingNewBuild = getDriver().findElements(countBuilds).size();
+        getWait(20).until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//span[@class='build-status-icon__outer']/*[@tooltip = 'In progress &gt; Console Output']")));
+        int countBuildsAfterCreatingNewBuild = getDriver().findElements(BUILDS_LOCATOR).size();
 
         Assert.assertEquals(countBuildsAfterCreatingNewBuild, countBuildsBeforeCreatingNewBuild + 1);
     }
@@ -408,7 +410,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testAccessProjectConfigurationFromTheProjectPage () {
+    public void testAccessProjectConfigurationFromTheProjectPage() {
         final String NAME_FREESTYLE_PROJECT_TC010401 = NEW_FREESTYLE_NAME + "TC010401";
         final By FIND_NAME_FREESTYLE_PROJECT_TC010401 =
                 By.xpath("//a[@href = 'job/" + NAME_FREESTYLE_PROJECT_TC010401 + "/']");
@@ -439,5 +441,29 @@ public class FreestyleProjectTest extends BaseTest {
         getDriver().findElement(BUTTON_SAVE).click();
 
         Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), "SSS");
+    }
+
+    @Test
+    public void testCreateNewFreestyleProjectWithLongNameFrom256Characters() {
+        final String expectedURL = getDriver().getCurrentUrl()+"view/all/createItem";
+        final String errorPictureName = "rage.svg";
+        final String expectedTextOfError = "A problem occurred while processing the request.";
+        final String longNameWith256Characters = TestUtils.getRandomStr(256);
+
+        getDriver().findElement(LINK_NEW_ITEM).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(FIELD_ENTER_AN_ITEM_NAME))
+                .sendKeys(longNameWith256Characters);
+        getWait(5).until(ExpectedConditions.attributeContains(FIELD_ENTER_AN_ITEM_NAME,
+                "value", longNameWith256Characters));
+        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+        TestUtils.scrollToElement(getDriver(), getDriver().findElement(BUTTON_OK_IN_NEW_ITEM));
+        getWait(5).until(ExpectedConditions.elementToBeClickable(BUTTON_OK_IN_NEW_ITEM)).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), expectedURL);
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//img[contains(@src,'"+errorPictureName+"')]")).isDisplayed());
+        Assert.assertEquals(
+                getDriver().findElement(By.xpath("//div[@id='error-description']//h2")).getText(),
+                expectedTextOfError);
     }
 }

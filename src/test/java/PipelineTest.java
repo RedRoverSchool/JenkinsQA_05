@@ -249,4 +249,26 @@ public class PipelineTest extends BaseTest {
 
         getDriver().findElement(BUTTON_SAVE).click();
     }
+
+    @Test
+    public void testPipelineAEditDescription() {
+
+        String pipelinePojectName = getRandomStr();
+        createPipelineProjectCuttedVersion(pipelinePojectName);
+        getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(pipelinePojectName + "description");
+        getDriver().findElement(BUTTON_SAVE).click();
+
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.xpath(String.format("//a[@href = contains(., '%s')]/button", pipelinePojectName))).click();
+
+        getDriver().findElement(By.id("description-link")).click();
+        getDriver().findElement(TEXTAREA_DESCRIPTION).clear();
+        getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(pipelinePojectName + "edit description");
+        getDriver().findElement(By.cssSelector("button[type='Submit']")).click();
+
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.xpath(String.format("//a[@href = contains(., '%s')]/button", pipelinePojectName))).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), pipelinePojectName + "edit description");
+    }
 }
