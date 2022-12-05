@@ -1,5 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -34,7 +36,7 @@ public class PeoplePageTest extends BaseTest {
     }
 
     @Test
-    public void testFindUserInThePeopleSection(){
+    public void testFindUserInThePeopleSection() {
         getDriver().findElement(By.cssSelector("a[href='/manage']")).click();
         getDriver().findElement(By.cssSelector("a[href='securityRealm/']")).click();
         getDriver().findElement(By.cssSelector("a[href='addUser']")).click();
@@ -53,6 +55,22 @@ public class PeoplePageTest extends BaseTest {
         List<String> lst = list.stream().map(WebElement::getText).collect(Collectors.toList());
 
         Assert.assertTrue(lst.contains(USER_NAME));
+    }
 
+    @Test(dependsOnMethods = "testFindUserInThePeopleSection")
+    public void testPeopleDeleteUser() {
+        getDriver().findElement(By.cssSelector("a[href='/'] ")).click();
+
+        getDriver().findElement(By.cssSelector("a[href='/manage']")).click();
+        getDriver().findElement(By.cssSelector("a[href='securityRealm/']")).click();
+
+        getWait(3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='user/" + USER_NAME.toLowerCase()  + "/delete']"))).click();
+
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+
+        List<WebElement> list = getDriver().findElements(By.className("jenkins-table__link"));
+        List<String> lst = list.stream().map(WebElement::getText).collect(Collectors.toList());
+
+        Assert.assertFalse(lst.contains(USER_NAME));
     }
 }
