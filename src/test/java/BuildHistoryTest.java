@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -47,7 +48,6 @@ public class BuildHistoryTest extends BaseTest {
     private void inputName(By by) {
         jobName = TestUtils.getRandomStr(8);
         getDriver().findElement(by).sendKeys(jobName);
-
     }
 
     private void clickElement(By by) {
@@ -67,7 +67,13 @@ public class BuildHistoryTest extends BaseTest {
         inputName(DESCRIPTION_FIELD);
         clickElement(SAVE_BUTTON);
     }
-
+    private void createProjectNoDescr() {
+        clickElement(NEW_ITEM);
+        inputName(INPUT_NAME);
+        clickElement(FREESTYLE_PROJECT);
+        clickElement(OK_BUTTON);
+        clickElement(SAVE_BUTTON);
+    }
     public List<WebElement> getListOfElements(By by) {
 
         return getDriver().findElements(by);
@@ -168,5 +174,21 @@ public class BuildHistoryTest extends BaseTest {
         clickElement(BUILD_HISTORY);
 
         Assert.assertEquals(getListSize(PROJECT_STATUS_TABLE), 5);
+    }
+
+    @Test
+    public void testTimelineItemExist () {
+        createProjectNoDescr();
+        clickElement(BUILD_NOW);
+        clickElement(DASHBOARD);
+        clickElement(BUILD_HISTORY);
+
+        while(!((getDriver().findElement(By.xpath("//table[@id='projectStatus']//td[4]")).getText().equals("stable")))) {
+            getDriver().navigate().refresh();
+        }
+        getDriver().findElement(By.xpath("//div[contains(text(), \"" + jobName + "\")]")).click();
+        String jobLink = "http://localhost:8080/job/" + jobName + "/1/";
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='timeline-event-bubble-title']/a")).getAttribute("href"), jobLink);
     }
 }

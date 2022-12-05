@@ -3,9 +3,10 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 public class MultiConfigurationProjectsTest extends BaseTest {
-    private static final String PROJECT_RANDOM_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String PROJECT_RANDOM_NAME = TestUtils.getRandomStr(10);
     private static final By DASHBOARD = By.xpath("//img[@id='jenkins-head-icon']");
 
     @Test
@@ -20,5 +21,17 @@ public class MultiConfigurationProjectsTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement
                 (By.xpath("(//*[local-name()='svg' and @tooltip='Disabled'])[2]")).isDisplayed());
+    }
+
+    @Test (dependsOnMethods = "testDisableMultiConfigurationProject")
+    public void testEnableMultiConfigurationProject() {
+
+        getDriver().findElement(By.xpath("//a[@href='job/" + PROJECT_RANDOM_NAME + "/']")).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(By.xpath("//a[@href='job/" + PROJECT_RANDOM_NAME + "/']/button")).click();
+
+        Assert.assertEquals(getDriver().findElement
+                (By.xpath("(//a[@class='yuimenuitemlabel'])[3]/span")).getText(), "Build Now");
     }
 }

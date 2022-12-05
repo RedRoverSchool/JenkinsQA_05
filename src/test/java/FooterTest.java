@@ -1,4 +1,6 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -7,9 +9,8 @@ import java.util.ArrayList;
 
 public class FooterTest extends BaseTest {
 
-    private static final By REST_API_LINK = By.xpath("//*[@id='jenkins']/footer/div/div/div[2]/a");
-    private static final By JENKINS_LINK = By.xpath("//*[@id='jenkins']/footer/div/div/div[3]/a");
-
+    private static final By REST_API_LINK = By.xpath("//a[@href='api/']");
+    private static final By JENKINS_LINK = By.xpath("//a[@href='https://www.jenkins.io/']");
     @Test
     public void testFooterLinkRestIsDisplayed() {
 
@@ -43,5 +44,17 @@ public class FooterTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='ji-toolbar']/a")).getText(), "Jenkins");
 
         getDriver().switchTo().window(tabs.get(0));
+    }
+
+    @Test
+    public void testFooterRestApiClickOnXmlApiDisplayXML() {
+        getDriver().findElement(REST_API_LINK).click();
+
+        getWait(2).until(ExpectedConditions.elementToBeClickable(By.xpath("//dt/a[@href='xml']"))).click();
+
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("body > div.header>span")).getText()
+                , "This XML file does not appear to have any style information associated "
+                        + "with it. The document tree is shown below.");
+
     }
 }
