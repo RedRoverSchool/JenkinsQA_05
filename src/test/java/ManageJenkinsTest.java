@@ -115,6 +115,7 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//tr[@data-plugin-id='testng-plugin']")).isDisplayed());
     }
 
+    @Ignore
     @Test(dependsOnMethods={"testPluginManagerInstallPlugin"})
     public void testPluginManagerDeletePlugin() {
 
