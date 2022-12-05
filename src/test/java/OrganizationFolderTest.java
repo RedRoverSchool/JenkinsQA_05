@@ -215,16 +215,16 @@ public class OrganizationFolderTest extends BaseTest {
         getWait(5).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("dashboard"))));
         WebElement myFolder = getDriver().findElement(ITEM_FOLDER);
 
-        List<String> listFolders= getDriver()
+        List<String> listFolders = getDriver()
                 .findElements(By.xpath("//tr/td[3]/a/span"))
                 .stream()
                 .map(element -> element.getText())
                 .collect(Collectors.toList());
 
         Assert.assertFalse(listFolders.contains(NAME_ORG_FOLDER));
-        Assert.assertTrue(myFolder.isDisplayed());
+        Assert.assertTrue(listFolders.contains(NAME_FOLDER));
 
-        getWait().until(ExpectedConditions.elementToBeClickable(myFolder));
+        getWait(5).until(ExpectedConditions.elementToBeClickable(myFolder));
         TestUtils.scrollToElement(getDriver(), myFolder);
         myFolder.click();
 
