@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -195,6 +196,7 @@ public class PipelineTest extends BaseTest {
         deletePipelineProject(PIPELINE_NAME);
     }
 
+    @Ignore
     @Test
     public void testRenamePipelineUsingSpecialCharacter() {
         String specialCharactersString = "!@#$%*/:;?[]^|";

@@ -312,19 +312,13 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertFalse(foldersList.contains(uniqueOrganizationFolderName + 5));
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateOrganizFolder")
     public void testConfigureOrganizationFolder() {
-        String displayName = "Test Configuration Display Name";
-        String descriptionText = "Test Description";
 
-        getDriver().findElement(By.linkText("New Item")).click();
-        getInputName().sendKeys(NAME_ORG_FOLDER);
-        getOrganizationFolder().click();
-        getOkButton().click();
-        getDriver().findElement(BUTTON_SUBMIT).click();
+        getDriver().findElement(ITEM_ORG_FOLDER).click();
         getDriver().findElement(By.linkText("Configure")).click();
-        getDriver().findElement(INPUT_DISPLAY_NAME).sendKeys(displayName);
-        getDriver().findElement(DESCRIPTION).sendKeys(descriptionText);
+        getDriver().findElement(INPUT_DISPLAY_NAME).sendKeys(NAME_ORG_FOLDER);
+        getDriver().findElement(DESCRIPTION).sendKeys(NAME_ORG_FOLDER);
         getSaveButton().click();
         getDashboard().click();
 
@@ -334,11 +328,11 @@ public class OrganizationFolderTest extends BaseTest {
                 .map(element -> element.getText())
                 .collect(Collectors.toList());
 
-        Assert.assertTrue(foldersList.contains(displayName));
+        Assert.assertTrue(foldersList.contains(NAME_ORG_FOLDER));
     }
 
     @Test
-    public void testCreateOrganizFolder(){
+    public void testCreateOrganizFolder() {
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(INPUT_NAME).sendKeys(NAME_ORG_FOLDER);
         WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));

@@ -38,4 +38,19 @@ public final class ProjectUtils {
     static String getPassword() {
         return BaseUtils.getProperties().getProperty(PROP_ADMIN_PAS);
     }
+
+    public static void createNewItemFromDashboard(WebDriver driver, By type, String name) {
+        driver.findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
+        driver.findElement(By.id("name")).sendKeys(name);
+        driver.findElement(type).click();
+        driver.findElement(By.id("ok-button")).click();
+    }
+
+    public static void createNewViewFromDashboard(WebDriver driver,By type, String name) {
+        driver.findElement(By.xpath("//a[@href='/me/my-views']")).click();
+        driver.findElement(By.className("addTab")).click();
+        driver.findElement(By.id("name")).sendKeys(name);
+        driver.findElement(type).click();
+        driver.findElement(By.id("ok")).click();
+    }
 }
