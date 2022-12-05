@@ -257,14 +257,15 @@ public class OrganizationFolderTest extends BaseTest {
     public void testMoveOrgFolderToDashboard() {
         getDashboard().click();
 
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+       // WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
 
-        wait.until(ExpectedConditions.elementToBeClickable(ITEM_FOLDER));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
-                getDriver().findElement(ITEM_FOLDER));
+        getWait(5).until(ExpectedConditions.elementToBeClickable(ITEM_FOLDER));
+        TestUtils.scrollToElement(getDriver(), getDriver().findElement(ITEM_FOLDER));
+//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
+//                getDriver().findElement(ITEM_FOLDER));
         getDriver().findElement(ITEM_FOLDER).click();
 
-        wait.until(ExpectedConditions.elementToBeClickable(ITEM_ORG_FOLDER));
+        getWait(5).until(ExpectedConditions.elementToBeClickable(ITEM_ORG_FOLDER));
         getDriver().findElement(ITEM_ORG_FOLDER).click();
 
         getDriver().findElement(By.linkText("Move")).click();
@@ -273,13 +274,14 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDashboard().click();
 
-        wait.until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("dashboard"))));
+        getWait(5).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("dashboard"))));
 
         Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
 
         WebElement myFolder = getDriver().findElement(ITEM_FOLDER);
-        wait.until(ExpectedConditions.elementToBeClickable(myFolder));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", myFolder);
+        getWait(5).until(ExpectedConditions.elementToBeClickable(myFolder));
+        TestUtils.scrollToElement(getDriver(), myFolder);
+//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", myFolder);
         myFolder.click();
 
         Assert.assertFalse(isElementExist(NAME_ORG_FOLDER));
