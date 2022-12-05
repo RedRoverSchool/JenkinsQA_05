@@ -1,11 +1,13 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.ArrayList;
+
+import static runner.TestUtils.scrollToEnd;
 
 public class FooterTest extends BaseTest {
 
@@ -56,5 +58,15 @@ public class FooterTest extends BaseTest {
                 , "This XML file does not appear to have any style information associated "
                         + "with it. The document tree is shown below.");
 
+    }
+
+    @Test
+    public void testFooterLinkJenkinsIsVisible() {
+        getDriver().findElement(By.linkText("Manage Jenkins")).click();
+        scrollToEnd(getDriver());
+        new Actions(getDriver()).pause(1500).moveToElement(getDriver().findElement(JENKINS_LINK))
+                .perform();
+
+        Assert.assertTrue(getDriver().findElement(JENKINS_LINK).isDisplayed());
     }
 }
