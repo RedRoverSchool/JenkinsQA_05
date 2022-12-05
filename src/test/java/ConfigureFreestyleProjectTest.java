@@ -1,12 +1,18 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
 import java.util.List;
+
+import static runner.TestUtils.scrollToElement;
+import static runner.TestUtils.scrollToEnd;
 
 public class ConfigureFreestyleProjectTest extends BaseTest {
 
@@ -21,8 +27,7 @@ public class ConfigureFreestyleProjectTest extends BaseTest {
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
 
     private void scrollAndClickAddParameterButton() throws InterruptedException {
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].scrollIntoView(true);", getDriver().findElement(ADD_PARAMETER_BUTTON));
+        scrollToElement(getDriver(), getDriver().findElement(ADD_PARAMETER_BUTTON));
         Thread.sleep(300);
         getDriver().findElement(ADD_PARAMETER_BUTTON).click();
     }
