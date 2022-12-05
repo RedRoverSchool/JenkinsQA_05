@@ -61,7 +61,7 @@ public class FooterTest extends BaseTest {
     }
 
     @Test
-    public void testFooterLinkJenkinsIsClickable() {
+    public void testFooterLinkJenkinsIsVisible() {
         getDriver().findElement(By.linkText("Manage Jenkins")).click();
         scrollToEnd(getDriver());
         new Actions(getDriver()).pause(1500).moveToElement(getDriver().findElement(JENKINS_LINK))
