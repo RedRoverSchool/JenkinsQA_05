@@ -78,15 +78,6 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(SAVE_BUTTON).click();
     }
 
-    private boolean isElementExist(String name) {
-        try {
-            getDriver().findElement(By.xpath("//span[text()='" + name + "']"));
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
     @Test
     public void testCreateOrganizationFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -179,8 +170,11 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(INPUT_NAME).sendKeys(NAME_ORG_FOLDER);
         WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
+        TestUtils.scrollToElement(getDriver(), element);
+//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
+        element.click();
+
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(By.id("yui-gen15-button")).click();
         getDashboard().click();
