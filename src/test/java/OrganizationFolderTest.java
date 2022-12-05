@@ -1,11 +1,7 @@
-import java.time.Duration;
-
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -14,14 +10,20 @@ import runner.BaseTest;
 import runner.TestUtils;
 
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class OrganizationFolderTest extends BaseTest {
     private static final String uniqueOrganizationFolderName = "folder" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
     private static final String ORG_FOLDER_NAME = TestUtils.getRandomStr();
+    private static final String NAME_ORG_FOLDER = TestUtils.getRandomStr();
+    private static final String NAME_FOLDER = TestUtils.getRandomStr();
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
+    private static final By INPUT_DISPLAY_NAME = By.xpath("//input  [@name='_.displayNameOrNull']");
+    private static final By DESCRIPTION = By.xpath("//textarea [@name='_.description']");
     private static final By ORGANIZATION_FOLDER = By.xpath("//li[@class = 'jenkins_branch_OrganizationFolder']");
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By DASHBOARD = By.xpath("//a[text()='Dashboard']");
@@ -33,12 +35,7 @@ public class OrganizationFolderTest extends BaseTest {
     private static final By NEW_ITEM = By.linkText("New Item");
     private static final By BUTTON_DELETE_ORGANIZATION_FOLDER = By.xpath("//div[@id='tasks']//a[contains(@href, 'delete')]");
     private static final By BUTTON_SUBMIT = By.xpath("//button[@type= 'submit']");
-
-    private static final String NAME_ORG_FOLDER = TestUtils.getRandomStr();
-    private static final String NAME_FOLDER = TestUtils.getRandomStr();
-
     private static final By ITEM_FOLDER = By.xpath("//span[text()='" + NAME_FOLDER + "']");
-
     private static final By ITEM_ORG_FOLDER = By.xpath("//span[text()= '" + NAME_ORG_FOLDER + "']");
 
     private WebElement notificationSaved() {
@@ -72,7 +69,6 @@ public class OrganizationFolderTest extends BaseTest {
     public WebElement getSaveButton() {
         return getDriver().findElement(SAVE_BUTTON);
     }
-
     private void createNewOrganizationFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName);
@@ -314,5 +310,44 @@ public class OrganizationFolderTest extends BaseTest {
                 .collect(Collectors.toList());
 
         Assert.assertFalse(foldersList.contains(uniqueOrganizationFolderName + 5));
+    }
+
+    @Test
+    public void testConfigureOrganizationFolder() {
+        String displayName = "Test Configuration Display Name";
+        String descriptionText = "Test Description";
+
+        getDriver().findElement(By.linkText("New Item")).click();
+        getInputName().sendKeys(NAME_ORG_FOLDER);
+        getOrganizationFolder().click();
+        getOkButton().click();
+        getDriver().findElement(BUTTON_SUBMIT).click();
+        getDriver().findElement(By.linkText("Configure")).click();
+        getDriver().findElement(INPUT_DISPLAY_NAME).sendKeys(displayName);
+        getDriver().findElement(DESCRIPTION).sendKeys(descriptionText);
+        getSaveButton().click();
+        getDashboard().click();
+
+        List<String> foldersList = getDriver()
+                .findElements(By.xpath("//tr/td[3]/a/span"))
+                .stream()
+                .map(element -> element.getText())
+                .collect(Collectors.toList());
+
+        Assert.assertTrue(foldersList.contains(displayName));
+    }
+
+    @Test
+    public void testCreateOrganizFolder(){
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(NAME_ORG_FOLDER);
+        WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
+        getOkButton().click();
+        getSaveButton().click();
+        getDashboard().click();
+
+        Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
     }
 }
