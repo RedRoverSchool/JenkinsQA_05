@@ -81,7 +81,6 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(PAGE_HEADER_USER).getText(), NEW_USERS_FULL_NAME);
     }
 
-    @Ignore
     @Test
     public void testPluginManagerInstallPlugin() {
 
