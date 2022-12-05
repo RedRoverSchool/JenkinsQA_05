@@ -62,6 +62,4 @@ public class PeopleTest extends BaseTest {
         Assert.assertEquals(getDriver().findElements(By.className("sortheader")).size(), 4);
         Assert.assertTrue(getDriver().findElement(By.className("jenkins-table__cell--tight")).isDisplayed());
     }
-
-
 }
