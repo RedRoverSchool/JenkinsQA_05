@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NewView1Test extends BaseTest {
 
@@ -14,6 +15,7 @@ public class NewView1Test extends BaseTest {
     private static final By MY_VIEWS = By.cssSelector("a[href='/me/my-views']");
     private static final By ADD_VIEW = By.cssSelector("a[title='New View']");
     private static final By DELETE_VIEW = By.xpath("//a[@href='delete']");
+    private static final String LIST_VIEW_RENAME = "New_List_View";
     private static final String GLOBAL_VIEW_NAME = "Global_View";
     private static final String LIST_VIEW_NAME = "List_View";
     private static final String MY_VIEW_NAME = "My_View";
@@ -36,8 +38,18 @@ public class NewView1Test extends BaseTest {
     public List<WebElement> getListButtonsForJobsDropdownMenu() {
 
         return getWait(10)
-                .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
-                        By.cssSelector(".job-status-nobuilt button")));
+                .until(ExpectedConditions.refreshed(
+                        ExpectedConditions.visibilityOfAllElementsLocatedBy(
+                        By.cssSelector(".job-status-nobuilt button"))));
+    }
+
+    public List<String> getListJobs() {
+
+        return getDriver().findElements(
+                        By.cssSelector("a[class='jenkins-table__link model-link inside'] span"))
+                .stream()
+                .map((WebElement::getText))
+                .collect(Collectors.toList());
     }
 
     private void createAnyJob(String name, By projectType) {
@@ -60,6 +72,14 @@ public class NewView1Test extends BaseTest {
         getDriver().findElement(radioButton).click();
         getDriver().findElement(By.id("ok")).click();
         getDriver().findElement(DASHBOARD_LINK).click();
+    }
+
+    public void goToEditView(String viewName) {
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(By.linkText(viewName)).click();
+        getDriver().findElement(
+                By.cssSelector("a[href='/user/admin/my-views/view/"
+                        + viewName + "/configure']")).click();
     }
 
     public void deleteAllJobsByDropdownMenus() {
@@ -94,12 +114,26 @@ public class NewView1Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateMyViews")
-    public void testViewHasSelectedTypeGlobalView() {
+    public void testRenameMyView() {
+        final By ButtonOkEditView = By.id("yui-gen6-button");
+
         getDriver().findElement(MY_VIEWS).click();
-        getDriver().findElement(By.linkText(GLOBAL_VIEW_NAME)).click();
         getDriver().findElement(
-                By.cssSelector("a[href='/user/admin/my-views/view/"
-                        + GLOBAL_VIEW_NAME + "/configure']")).click();
+                By.cssSelector(".tabBar .tab a[href='/user/admin/my-views/view/"
+                        + LIST_VIEW_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//span[text()='Edit View']/..")).click();
+        getDriver().findElement(By.name("name")).clear();
+        getDriver().findElement(By.name("name")).sendKeys(LIST_VIEW_RENAME);
+        getDriver().findElement(ButtonOkEditView).click();
+
+        Assert.assertEquals(getDriver()
+                        .findElement(By.xpath("//a[@href='/user/admin/my-views/view/" + LIST_VIEW_RENAME + "/']")).getText(),
+                LIST_VIEW_RENAME);
+    }
+
+    @Test(dependsOnMethods = "testRenameMyView")
+    public void testViewHasSelectedTypeGlobalView() {
+        goToEditView(GLOBAL_VIEW_NAME);
 
         Assert.assertEquals(getDriver()
                         .findElement(By.cssSelector(".jenkins-form-description")).getText(),
@@ -108,11 +142,7 @@ public class NewView1Test extends BaseTest {
 
     @Test(dependsOnMethods = "testViewHasSelectedTypeGlobalView")
     public void testViewHasSelectedTypeListView() {
-        getDriver().findElement(MY_VIEWS).click();
-        getDriver().findElement(By.linkText(LIST_VIEW_NAME)).click();
-        getDriver().findElement(
-                By.cssSelector("a[href='/user/admin/my-views/view/"
-                        + LIST_VIEW_NAME + "/configure']")).click();
+        goToEditView(LIST_VIEW_RENAME);
 
         Assert.assertEquals(getDriver().findElement(
                         By.cssSelector("div:nth-of-type(5) > .jenkins-section__title")).getText(),
@@ -120,11 +150,21 @@ public class NewView1Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testViewHasSelectedTypeListView")
+    public void testViewHasSelectedTypeMyView() {
+        final List<String> expectedListJobs = getListJobs();
+
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(By.linkText(MY_VIEW_NAME)).click();
+
+        Assert.assertEquals(getListJobs(), expectedListJobs);
+    }
+
+    @Test(dependsOnMethods = "testViewHasSelectedTypeMyView")
     public void testDeleteView() {
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(
                 By.cssSelector(".tabBar .tab a[href='/user/admin/my-views/view/"
-                        + LIST_VIEW_NAME + "/']")).click();
+                        + LIST_VIEW_RENAME + "/']")).click();
         getDriver().findElement(DELETE_VIEW).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
