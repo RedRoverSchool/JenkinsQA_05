@@ -202,28 +202,33 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = {"testFolderCreation", "testOrgFolderCreation"})
     public void testMoveOrgFolderToFolder() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+       // WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
 
-        wait.until(ExpectedConditions.elementToBeClickable(ITEM_ORG_FOLDER));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
-                getDriver().findElement(ITEM_ORG_FOLDER));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();",
-                getDriver().findElement(ITEM_ORG_FOLDER));
+        getWait(5).until(ExpectedConditions.elementToBeClickable(ITEM_ORG_FOLDER));
+        TestUtils.scrollToElement(getDriver(), getDriver().findElement(ITEM_ORG_FOLDER));
+//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
+//                getDriver().findElement(ITEM_ORG_FOLDER));
+//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();",
+//                getDriver().findElement(ITEM_ORG_FOLDER));
+        getDriver().findElement(ITEM_ORG_FOLDER).click();
+
         getDriver().findElement(By.linkText("Move")).click();
         getDriver().findElement(By.name("destination")).click();
         getDriver().findElement(By.xpath("//option[contains(text(),'" + NAME_FOLDER + "')]")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDashboard().click();
 
-        wait.until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("dashboard"))));
+        getWait(5).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("dashboard"))));
         WebElement myFolder = getDriver().findElement(ITEM_FOLDER);
 
         Assert.assertFalse(isElementExist(NAME_ORG_FOLDER));
         Assert.assertTrue(myFolder.isDisplayed());
 
-        wait.until(ExpectedConditions.elementToBeClickable(myFolder));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", myFolder);
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", myFolder);
+        getWait().until(ExpectedConditions.elementToBeClickable(myFolder));
+        TestUtils.scrollToElement(getDriver(), myFolder);
+        myFolder.click();
+//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", myFolder);
+//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", myFolder);
 
         Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
     }
