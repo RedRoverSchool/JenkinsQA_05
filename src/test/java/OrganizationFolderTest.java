@@ -287,20 +287,12 @@ public class OrganizationFolderTest extends BaseTest {
                 "This folder is empty");
     }
 
-    @Test(dependsOnMethods = "testCreateOrgFolder")
-    public void testDeleteOrganizationFolder() {
-        final By itemInDashboard = By.xpath("//span[text()='" + uniqueOrganizationFolderName + 5 + "']");
+    @Test(dependsOnMethods = {"testCreateOrganizFolder", "testConfigureOrganizationFolder"})
+    public void testDeleteOrganizationFolderDependsMethods() {
+        final By itemInDashboard = By.xpath("//span[text()='" + NAME_ORG_FOLDER + 5 + "']");
 
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-
-        wait.until(ExpectedConditions.elementToBeClickable(itemInDashboard));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
-                getDriver().findElement(itemInDashboard));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();",
-                getDriver().findElement(itemInDashboard));
-        wait.until(ExpectedConditions.elementToBeClickable(BUTTON_DELETE_ORGANIZATION_FOLDER));
+        getDriver().findElement(ITEM_ORG_FOLDER).click();
         getDriver().findElement(BUTTON_DELETE_ORGANIZATION_FOLDER).click();
-        wait.until(ExpectedConditions.elementToBeClickable(BUTTON_SUBMIT));
         getDriver().findElement(BUTTON_SUBMIT).click();
 
         List<String> foldersList = getDriver()
@@ -309,7 +301,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .map(element -> element.getText())
                 .collect(Collectors.toList());
 
-        Assert.assertFalse(foldersList.contains(uniqueOrganizationFolderName + 5));
+        Assert.assertFalse(foldersList.contains(NAME_ORG_FOLDER + 5));
     }
 
     @Test(dependsOnMethods = "testCreateOrganizFolder")
