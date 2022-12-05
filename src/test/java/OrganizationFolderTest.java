@@ -202,14 +202,8 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = {"testFolderCreation", "testOrgFolderCreation"})
     public void testMoveOrgFolderToFolder() {
-       // WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-
         getWait(5).until(ExpectedConditions.elementToBeClickable(ITEM_ORG_FOLDER));
         TestUtils.scrollToElement(getDriver(), getDriver().findElement(ITEM_ORG_FOLDER));
-//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
-//                getDriver().findElement(ITEM_ORG_FOLDER));
-//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();",
-//                getDriver().findElement(ITEM_ORG_FOLDER));
         getDriver().findElement(ITEM_ORG_FOLDER).click();
 
         getDriver().findElement(By.linkText("Move")).click();
@@ -221,14 +215,18 @@ public class OrganizationFolderTest extends BaseTest {
         getWait(5).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("dashboard"))));
         WebElement myFolder = getDriver().findElement(ITEM_FOLDER);
 
-        Assert.assertFalse(isElementExist(NAME_ORG_FOLDER));
+        List<String> listFolders= getDriver()
+                .findElements(By.xpath("//tr/td[3]/a/span"))
+                .stream()
+                .map(element -> element.getText())
+                .collect(Collectors.toList());
+
+        Assert.assertFalse(listFolders.contains(NAME_ORG_FOLDER));
         Assert.assertTrue(myFolder.isDisplayed());
 
         getWait().until(ExpectedConditions.elementToBeClickable(myFolder));
         TestUtils.scrollToElement(getDriver(), myFolder);
         myFolder.click();
-//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", myFolder);
-//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", myFolder);
 
         Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
     }
