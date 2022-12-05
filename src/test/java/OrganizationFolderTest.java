@@ -69,6 +69,7 @@ public class OrganizationFolderTest extends BaseTest {
     public WebElement getSaveButton() {
         return getDriver().findElement(SAVE_BUTTON);
     }
+
     private void createNewOrganizationFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName);
@@ -257,12 +258,8 @@ public class OrganizationFolderTest extends BaseTest {
     public void testMoveOrgFolderToDashboard() {
         getDashboard().click();
 
-       // WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-
         getWait(5).until(ExpectedConditions.elementToBeClickable(ITEM_FOLDER));
         TestUtils.scrollToElement(getDriver(), getDriver().findElement(ITEM_FOLDER));
-//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
-//                getDriver().findElement(ITEM_FOLDER));
         getDriver().findElement(ITEM_FOLDER).click();
 
         getWait(5).until(ExpectedConditions.elementToBeClickable(ITEM_ORG_FOLDER));
@@ -281,10 +278,8 @@ public class OrganizationFolderTest extends BaseTest {
         WebElement myFolder = getDriver().findElement(ITEM_FOLDER);
         getWait(5).until(ExpectedConditions.elementToBeClickable(myFolder));
         TestUtils.scrollToElement(getDriver(), myFolder);
-//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", myFolder);
         myFolder.click();
 
-        Assert.assertFalse(isElementExist(NAME_ORG_FOLDER));
         Assert.assertEquals(getDriver().findElement(By.xpath("//h2[@class='h4']")).getText(),
                 "This folder is empty");
     }
