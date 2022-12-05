@@ -287,7 +287,7 @@ public class OrganizationFolderTest extends BaseTest {
                 "This folder is empty");
     }
 
-    @Test(dependsOnMethods = {"testCreateOrganizFolder", "testConfigureOrganizationFolder"})
+    @Test(dependsOnMethods = "testConfigureOrganizationFolder")
     public void testDeleteOrganizationFolderDependsMethods() {
         final By itemInDashboard = By.xpath("//span[text()='" + NAME_ORG_FOLDER + 5 + "']");
 
