@@ -52,4 +52,15 @@ public class PeopleTest extends BaseTest {
 
         Assert.assertFalse(usersList.contains(RANDOM_FULL_NAME));
     }
+
+    @Test
+    public void testViewPeoplePage() {
+        getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']")).click();
+        getWait(5).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("people"))));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "People");
+        
+    }
+
+
 }
