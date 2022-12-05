@@ -1,7 +1,5 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -11,6 +9,8 @@ import runner.TestUtils;
 
 import java.time.Duration;
 import java.util.List;
+
+import static runner.TestUtils.scrollToElement;
 
 public class BuildHistoryTest extends BaseTest {
 
@@ -204,5 +204,19 @@ public class BuildHistoryTest extends BaseTest {
         clickElement(SAVE_BUTTON);
 
         Assert.assertTrue(getDriver().findElement(By.id("description")).isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "testDescriptionIsAdded")
+    public void testDeleteBuild(){
+        clickElement(DASHBOARD);
+        clickElement(BUILD_HISTORY);
+        getDriver().findElement(By.xpath("//table/tbody/tr/td/a[@class='jenkins-table__link jenkins-table__badge model-link inside']/button")).click();
+
+        scrollToElement(getDriver(),getDriver().findElement(By.xpath("//span[contains(text(),'Delete build')]")));
+
+        getDriver().findElement(By.xpath("//span[contains(text(),'Delete build')]")).click();
+        getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@id='no-builds']")).isDisplayed());
     }
 }
