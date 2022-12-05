@@ -4,7 +4,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -156,7 +155,6 @@ public class NewItemCreatePipelineTest extends BaseTest {
                     .getText().contains("Required"));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
     public void testBuildParametrizedProject() {
         getDriver().findElement((By.xpath(String.format(
