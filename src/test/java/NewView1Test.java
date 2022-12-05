@@ -1,5 +1,4 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -7,6 +6,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NewView1Test extends BaseTest {
 
@@ -38,8 +38,18 @@ public class NewView1Test extends BaseTest {
     public List<WebElement> getListButtonsForJobsDropdownMenu() {
 
         return getWait(10)
-                .until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfAllElementsLocatedBy(
+                .until(ExpectedConditions.refreshed(
+                        ExpectedConditions.visibilityOfAllElementsLocatedBy(
                         By.cssSelector(".job-status-nobuilt button"))));
+    }
+
+    public List<String> getListJobs() {
+
+        return getDriver().findElements(
+                        By.cssSelector("a[class='jenkins-table__link model-link inside'] span"))
+                .stream()
+                .map((WebElement::getText))
+                .collect(Collectors.toList());
     }
 
     private void createAnyJob(String name, By projectType) {
@@ -62,6 +72,14 @@ public class NewView1Test extends BaseTest {
         getDriver().findElement(radioButton).click();
         getDriver().findElement(By.id("ok")).click();
         getDriver().findElement(DASHBOARD_LINK).click();
+    }
+
+    public void goToEditView(String viewName) {
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(By.linkText(viewName)).click();
+        getDriver().findElement(
+                By.cssSelector("a[href='/user/admin/my-views/view/"
+                        + viewName + "/configure']")).click();
     }
 
     public void deleteAllJobsByDropdownMenus() {
@@ -115,11 +133,7 @@ public class NewView1Test extends BaseTest {
 
     @Test(dependsOnMethods = "testRenameMyView")
     public void testViewHasSelectedTypeGlobalView() {
-        getDriver().findElement(MY_VIEWS).click();
-        getDriver().findElement(By.linkText(GLOBAL_VIEW_NAME)).click();
-        getDriver().findElement(
-                By.cssSelector("a[href='/user/admin/my-views/view/"
-                        + GLOBAL_VIEW_NAME + "/configure']")).click();
+        goToEditView(GLOBAL_VIEW_NAME);
 
         Assert.assertEquals(getDriver()
                         .findElement(By.cssSelector(".jenkins-form-description")).getText(),
@@ -128,11 +142,7 @@ public class NewView1Test extends BaseTest {
 
     @Test(dependsOnMethods = "testViewHasSelectedTypeGlobalView")
     public void testViewHasSelectedTypeListView() {
-        getDriver().findElement(MY_VIEWS).click();
-        getDriver().findElement(By.linkText(LIST_VIEW_RENAME)).click();
-        getDriver().findElement(
-                By.cssSelector("a[href='/user/admin/my-views/view/"
-                        + LIST_VIEW_RENAME + "/configure']")).click();
+        goToEditView(LIST_VIEW_RENAME);
 
         Assert.assertEquals(getDriver().findElement(
                         By.cssSelector("div:nth-of-type(5) > .jenkins-section__title")).getText(),
@@ -140,6 +150,16 @@ public class NewView1Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testViewHasSelectedTypeListView")
+    public void testViewHasSelectedTypeMyView() {
+        final List<String> expectedListJobs = getListJobs();
+
+        getDriver().findElement(MY_VIEWS).click();
+        getDriver().findElement(By.linkText(MY_VIEW_NAME)).click();
+
+        Assert.assertEquals(getListJobs(), expectedListJobs);
+    }
+
+    @Test(dependsOnMethods = "testViewHasSelectedTypeMyView")
     public void testDeleteView() {
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(
