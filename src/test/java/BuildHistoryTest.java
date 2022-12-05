@@ -3,6 +3,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -84,6 +85,7 @@ public class BuildHistoryTest extends BaseTest {
         return getListOfElements(by).size();
     }
 
+    @Ignore
     @Test
     public void testVerifyRedirectToMainPage() {
         getDriver().findElement(
