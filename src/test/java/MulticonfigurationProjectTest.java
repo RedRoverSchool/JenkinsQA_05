@@ -344,4 +344,27 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//span/span/*[name()='svg' and @tooltip='Not built']"))
                 .isDisplayed());
     }
+    @Test
+    public void testCreateWithExistName() {
+        String name = TestUtils.getRandomStr(8);
+        String message = String.format("» A job already exists with the name ‘%s’", name);
+
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(name);
+        getDriver().findElement(MULTI_CONFIGURATION_PROJECT).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SAVE_BUTTON).click();
+
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(name);
+        getDriver().findElement(MULTI_CONFIGURATION_PROJECT).click();
+
+        WebElement actualResult = getWait(5).until(ExpectedConditions.visibilityOf(
+                getDriver().findElement(By.xpath("//div[@id = 'itemtype-required']/../div[3]"))));
+        TestUtils.scrollToEnd(getDriver());
+
+        Assert.assertEquals(actualResult.getText(), message);
+        Assert.assertTrue(getDriver().findElement(OK_BUTTON).isEnabled());
+    }
 }
