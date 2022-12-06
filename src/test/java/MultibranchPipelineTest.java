@@ -174,7 +174,7 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void Rename_MultiBranch_Pipeline_From_Dropdown() {
+    public void testRename_MultiBranch_Pipeline_From_Dropdown() {
         createMultibranchPipeline();
         getDriver().findElement(By.id("jenkins-name-icon")).click();
         getDriver().findElement(By.xpath("//a[@class='jenkins-table__link model-link inside']//button[@class='jenkins-menu-dropdown-chevron']")).click();
