@@ -3,9 +3,13 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PeoplePageTest extends BaseTest {
+
+    private static final String USER_NAME = runner.TestUtils.getRandomStr();
 
     @Test
     public void testPeoplePage() {
@@ -27,5 +31,28 @@ public class PeoplePageTest extends BaseTest {
                 Assert.assertTrue(getDriver().findElement(By.id("main-panel")).isDisplayed());
             }
         }
+    }
+
+    @Test
+    public void testFindUserInThePeopleSection(){
+        getDriver().findElement(By.cssSelector("a[href='/manage']")).click();
+        getDriver().findElement(By.cssSelector("a[href='securityRealm/']")).click();
+        getDriver().findElement(By.cssSelector("a[href='addUser']")).click();
+
+        getDriver().findElement(By.id("username")).sendKeys(USER_NAME);
+        getDriver().findElement(By.name("password1")).sendKeys("1234567890");
+        getDriver().findElement(By.name("password2")).sendKeys("1234567890");
+        getDriver().findElement(By.name("fullname")).sendKeys(USER_NAME);
+        getDriver().findElement(By.name("email")).sendKeys("email@email.com");
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+
+        getDriver().findElement(By.cssSelector("a[href='/'] ")).click();
+        getDriver().findElement(By.cssSelector("a[href='/asynchPeople/'] ")).click();
+
+        List<WebElement> list = getDriver().findElements(By.className("jenkins-table__link"));
+        List<String> lst = list.stream().map(WebElement::getText).collect(Collectors.toList());
+
+        Assert.assertTrue(lst.contains(USER_NAME));
+
     }
 }

@@ -1,8 +1,14 @@
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FolderOneTest extends BaseTest {
     private static final By NEW_ITEM = By.linkText("New Item");
@@ -11,6 +17,8 @@ public class FolderOneTest extends BaseTest {
     private static final By NEW_NAME_RENAME = By.xpath("//input[@name='newName']");
     private static final By FOLDER_OPTION = By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']");
     private static final By PIPELINE_OPTION = By.xpath("//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']");
+    private static final By MULTIBRANCH_PIPELINE_OPTION = By.xpath(
+            "//li[@class='org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject']");
     private static final By DROP_DOWN_MENU = By.xpath("//td/a/button[@class='jenkins-menu-dropdown-chevron']");
     private static final By DROP_DOWN_CONFIGURE = By.xpath("//span[contains(text(),'Configure')]");
     private static final By DROP_DOWN_RENAME = By.xpath("//span[contains(text(),'Rename')]");
@@ -23,9 +31,11 @@ public class FolderOneTest extends BaseTest {
     private static final By DELETE_FOLDER = By.linkText("Delete Folder");
     private static final By CONFIGURE_FOLDER = By.linkText("Configure");
     private static final By MOVE_FOLDER = By.linkText("Move");
+    private static final By HEADER_ADDRESS= By.id("breadcrumbs");
     private static final By SELECTION_SCRIPT = By.xpath("//div[@class='samples']/select/option[4]");
     private static final String RANDOM_FOLDER_NAME = RandomStringUtils.randomAlphanumeric(6);
     private static final String RANDOM_PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(6);
+    private static final String RANDOM_MULTIBRANCH_PIPELINE_NAME = TestUtils.getRandomStr(6);
 
     private void submitButtonClick(){
         getDriver().findElement(By.xpath("//button[@type = 'submit']")).click();
@@ -37,6 +47,15 @@ public class FolderOneTest extends BaseTest {
         getDriver().findElement(FOLDER_OPTION).click();
         submitButtonClick();
         submitButtonClick();
+    }
+    private List<String> getJobNameList() {
+        List<WebElement> jobNames = getDriver().findElements(By.xpath("//tr/td/a"));
+        List<String> jobNamesList = new ArrayList<>();
+        for (WebElement element : jobNames) {
+            jobNamesList.add(element.getText());
+        }
+
+        return jobNamesList;
     }
 
     @Test
@@ -57,8 +76,8 @@ public class FolderOneTest extends BaseTest {
         getDriver().findElement(FOLDER_OPTION).click();
         submitButtonClick();
 
-        String actualFolderName = getDriver().findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_FOLDER_NAME)).getText();
-        String actualPipelineName = getDriver().findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_PIPELINE_NAME)).getText();
+        String actualFolderName = getDriver().findElement(HEADER_ADDRESS).findElement(By.linkText(RANDOM_FOLDER_NAME)).getText();
+        String actualPipelineName = getDriver().findElement(HEADER_ADDRESS).findElement(By.linkText(RANDOM_PIPELINE_NAME)).getText();
 
         Assert.assertEquals(RANDOM_FOLDER_NAME,actualFolderName);
         Assert.assertEquals(RANDOM_PIPELINE_NAME,actualPipelineName);
@@ -134,7 +153,7 @@ public class FolderOneTest extends BaseTest {
         submitButtonClick();
 
         String actualFolderName = getDriver()
-                .findElement(By.id("breadcrumbs"))
+                .findElement(HEADER_ADDRESS)
                 .findElement(By.linkText(RANDOM_PIPELINE_NAME + "NEW"))
                 .getText();
 
@@ -150,9 +169,9 @@ public class FolderOneTest extends BaseTest {
         submitButtonClick();
 
         String actualFolderName = getDriver()
-                .findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_FOLDER_NAME)).getText();
+                .findElement(HEADER_ADDRESS).findElement(By.linkText(RANDOM_FOLDER_NAME)).getText();
         String actualPipelineName = getDriver()
-                .findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_PIPELINE_NAME + "NEW")).getText();
+                .findElement(HEADER_ADDRESS).findElement(By.linkText(RANDOM_PIPELINE_NAME + "NEW")).getText();
 
         Assert.assertEquals(RANDOM_FOLDER_NAME,actualFolderName);
         Assert.assertEquals((RANDOM_PIPELINE_NAME + "NEW"),actualPipelineName);
@@ -203,5 +222,70 @@ public class FolderOneTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
                 .contains(RANDOM_FOLDER_NAME + "/" + RANDOM_PIPELINE_NAME));
     }
+
+    @Test(dependsOnMethods = {"testCreateNewFolderPipelineOptionJob"})
+    public void testCreateFolderWithDisplayNameInFolder() {
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(NAME).sendKeys(RANDOM_FOLDER_NAME + "_Folder2");
+        getDriver().findElement(FOLDER_OPTION).click();
+        submitButtonClick();
+        getDriver().findElement(NAME_CONFIGURE).sendKeys(RANDOM_FOLDER_NAME + "_Display2");
+        getDriver().findElement(TEXTAREA).sendKeys("TEXT VERSION 1");
+        submitButtonClick();
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(NAME).sendKeys(RANDOM_PIPELINE_NAME+ "_SubFolder2");
+        getDriver().findElement(FOLDER_OPTION).click();
+        submitButtonClick();
+        getDriver().findElement(NAME_CONFIGURE).sendKeys(RANDOM_PIPELINE_NAME+ "_SubDisplay2");
+        getDriver().findElement(TEXTAREA).sendKeys("TEXT VERSION 2");
+        submitButtonClick();
+
+        String actualFolderName = getDriver()
+                .findElement(HEADER_ADDRESS).findElement(By.linkText(RANDOM_FOLDER_NAME + "_Display2")).getText();
+        String actualPipelineName = getDriver()
+                .findElement(HEADER_ADDRESS).findElement(By.linkText(RANDOM_PIPELINE_NAME + "_SubDisplay2")).getText();
+
+        Assert.assertEquals((RANDOM_FOLDER_NAME + "_Display2"),actualFolderName);
+        Assert.assertEquals((RANDOM_PIPELINE_NAME+ "_SubDisplay2"),actualPipelineName);
+        Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
+                .contains((RANDOM_FOLDER_NAME + "_Folder2") + "/" + (RANDOM_PIPELINE_NAME + "_SubFolder2")));
+    }
+
+    @Test(dependsOnMethods = {"testCreateFolderWithDisplayNameInFolder"})
+    public void testMoveFolderByDropDown() {
+        getDriver().findElement(By.linkText(RANDOM_FOLDER_NAME + "_Display2")).click();
+        getDriver().findElement(By.linkText(RANDOM_PIPELINE_NAME + "_SubDisplay2"))
+                .findElement(DROP_DOWN_MENU).click();
+        getDriver().findElement(By.id("breadcrumb-menu"))
+                .findElement(MOVE_FOLDER).click();
+        getDriver().findElement(By.xpath("//select/option[@value='/"+ RANDOM_FOLDER_NAME + "']")).click();
+        submitButtonClick();
+
+        String actualFolderName = getDriver()
+                .findElement(HEADER_ADDRESS).findElement(By.linkText(RANDOM_FOLDER_NAME)).getText();
+        String actualPipelineName = getDriver()
+                .findElement(HEADER_ADDRESS).findElement(By.linkText(RANDOM_PIPELINE_NAME + "_SubDisplay2")).getText();
+
+        Assert.assertEquals((RANDOM_FOLDER_NAME),actualFolderName);
+        Assert.assertEquals((RANDOM_PIPELINE_NAME+ "_SubDisplay2"),actualPipelineName);
+        Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
+                .contains((RANDOM_FOLDER_NAME) + "/" + (RANDOM_PIPELINE_NAME + "_SubFolder2")));
+    }
+    
+    @Test
+    public void testCreateMultibranchPipelineInFolder() {
+        createFolder();
+        getDriver().findElement(CREATE_JOB).click();
+        getDriver().findElement(NAME).sendKeys(RANDOM_MULTIBRANCH_PIPELINE_NAME);
+        getDriver().findElement(MULTIBRANCH_PIPELINE_OPTION).click();
+        submitButtonClick();
+        submitButtonClick();
+        getDriver().findElement(By.xpath(
+                "//ul[@id='breadcrumbs']/li[3]/a[@href='/job/" + RANDOM_FOLDER_NAME + "/']")).click();
+
+        Assert.assertEquals(getDriver().findElement(TEXT_H1).getText(), RANDOM_FOLDER_NAME);
+        Assert.assertTrue(getJobNameList().size() != 0);
+        Assert.assertTrue(getJobNameList().contains(RANDOM_MULTIBRANCH_PIPELINE_NAME));
+    }    
 }
 

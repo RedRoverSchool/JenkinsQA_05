@@ -161,6 +161,7 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(actualResultPage);
     }
 
+    @Ignore
     @Test
     public void testCheckTheAppropriateSearchResult(){
         createOrganizationFolder();
