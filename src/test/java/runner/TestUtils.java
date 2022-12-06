@@ -20,7 +20,7 @@ public class TestUtils {
     }
 
     public static void scrollToElement(WebDriver driver, WebElement element) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
 
     }
 
