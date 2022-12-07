@@ -1,7 +1,6 @@
 package model;
 
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,6 +15,12 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//tr/td[3]/a/span[1]")
     private List<WebElement> jobList;
+
+    @FindBy(xpath = "//td[3]/a/button")
+    private WebElement dropDownMenuOfJob;
+
+    @FindBy(xpath = "//li[@index='2']")
+    private WebElement deleteButtonInDropDownMenu;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -32,5 +37,21 @@ public class HomePage extends BasePage {
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
+    }
+
+    public HomePage clickDropDownMenu(){
+        dropDownMenuOfJob.click();
+
+        return new HomePage(getDriver());
+    }
+
+    public FolderConfigPage clickDeleteButtonInDropDownMenu(){
+        deleteButtonInDropDownMenu.click();
+
+        return new FolderConfigPage(getDriver());
+    }
+
+    public WebElement getDeleteButtonInDropDownMenu() {
+        return deleteButtonInDropDownMenu;
     }
 }
