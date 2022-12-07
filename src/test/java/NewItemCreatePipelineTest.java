@@ -163,6 +163,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         getWait(5).until(ExpectedConditions.elementToBeClickable(CONFIGURE_BUTTON));
         getDriver().findElement(CONFIGURE_BUTTON).click();
 
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//label[text()='This project is parameterized']")));
         getDriver().findElement(By.xpath("//label[text()='This project is parameterized']")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDriver().findElement(By.id("yui-gen9")).click();
