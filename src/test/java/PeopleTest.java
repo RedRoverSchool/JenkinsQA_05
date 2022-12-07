@@ -24,7 +24,7 @@ public class PeopleTest extends BaseTest {
     private static final By CREATE_USER_BUTTON = By.id("yui-gen1-button");
     private static final By USERS_LIST = By.xpath("//tbody/tr");
     private static final String RANDOM_FULL_NAME = getRandomStr();
-    private static final String RANDOM_EMAIL = getRandomStr()+"@gmail.com";
+    private static final String RANDOM_EMAIL = getRandomStr() + "@gmail.com";
     private static final String RANDOM_PASSWORD = getRandomStr();
 
     @Test
@@ -51,5 +51,15 @@ public class PeopleTest extends BaseTest {
                 .collect(Collectors.toList());
 
         Assert.assertFalse(usersList.contains(RANDOM_FULL_NAME));
+    }
+
+    @Test
+    public void testViewPeoplePage() {
+        getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']")).click();
+        getWait(5).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.id("people"))));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "People");
+        Assert.assertEquals(getDriver().findElements(By.className("sortheader")).size(), 4);
+        Assert.assertTrue(getDriver().findElement(By.className("jenkins-table__cell--tight")).isDisplayed());
     }
 }

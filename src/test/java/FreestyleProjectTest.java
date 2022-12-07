@@ -293,18 +293,20 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithDupicateName")
     public void testCreateBuildNowOnFreestyleProjectPage() {
-        final By countBuilds = By.xpath("//a[@class = 'model-link inside build-link display-name']");
         int countBuildsBeforeCreatingNewBuild = 0;
 
         getDriver().findElement(By.linkText(NEW_FREESTYLE_NAME)).click();
 
-        if (getDriver().findElement(By.id("no-builds")).isEnabled()) {
-            countBuildsBeforeCreatingNewBuild = getDriver().findElements(countBuilds).size();
+        if (getDriver().findElement(By.cssSelector(".collapse")).getAttribute("title").equals("expand")) {
+            getDriver().findElement(By.cssSelector(".collapse")).click();
         }
-
+        if (!getDriver().findElement(By.id("no-builds")).isDisplayed()) {
+            countBuildsBeforeCreatingNewBuild = getDriver().findElements(BUILDS_LOCATOR).size();
+        }
         getDriver().findElement(BUILD_NOW_LOCATOR).click();
-        getWait(20).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[@class='build-status-icon__outer']/*[@tooltip = 'In progress &gt; Console Output']")));
-        int countBuildsAfterCreatingNewBuild = getDriver().findElements(countBuilds).size();
+        getWait(20).until(ExpectedConditions.invisibilityOfElementLocated(
+                By.xpath("//span[@class='build-status-icon__outer']/*[@tooltip = 'In progress &gt; Console Output']")));
+        int countBuildsAfterCreatingNewBuild = getDriver().findElements(BUILDS_LOCATOR).size();
 
         Assert.assertEquals(countBuildsAfterCreatingNewBuild, countBuildsBeforeCreatingNewBuild + 1);
     }
@@ -408,7 +410,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void testAccessProjectConfigurationFromTheProjectPage () {
+    public void testAccessProjectConfigurationFromTheProjectPage() {
         final String NAME_FREESTYLE_PROJECT_TC010401 = NEW_FREESTYLE_NAME + "TC010401";
         final By FIND_NAME_FREESTYLE_PROJECT_TC010401 =
                 By.xpath("//a[@href = 'job/" + NAME_FREESTYLE_PROJECT_TC010401 + "/']");
