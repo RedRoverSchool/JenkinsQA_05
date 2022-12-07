@@ -373,7 +373,7 @@ public class FreestyleProjectTest extends BaseTest {
         final Set<String> expectedFreestyleConfigSideMenu = new TreeSet<>(List.of("General", "Source Code Management", "Build Triggers", "Build Environment", "Build Steps", "Post-build Actions"));
 
         Set<String> actualFreestyleConfigSideMenu = new HomePage(getDriver())
-                .clickProjectName(FREESTYLE_NAME_WITH_DESCRIPTION)
+                .clickProjectName()
                 .clickSideMenuConfigure()
                 .collectFreestyleConfigSideMenu();
 
