@@ -104,6 +104,7 @@ public class ConfigureFreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//input[@type= 'checkbox']")).isSelected());
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testConfigureJobAsParameterized")
     public void testConfigureSourceCodeGIT() {
         final String repositoryURL = "https://github.com/AlekseiChapaev/TestingJenkinsRepo.git";
