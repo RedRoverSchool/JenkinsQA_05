@@ -50,7 +50,9 @@ public class FreestyleProjectSecondTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(By.xpath("//div/textarea[@name='description']")).sendKeys(DESCRIPTION_TEXT);
+        getWait(10).until(ExpectedConditions
+                .presenceOfElementLocated(By.xpath("//div/textarea[@name='description']")))
+                .sendKeys(DESCRIPTION_TEXT);
         getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(),
