@@ -59,6 +59,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         matcher.find();
 
         setJobPipeline(name);
+        getWait(5).until(ExpectedConditions.attributeToBeNotEmpty(getDriver().findElement(By.cssSelector("div#itemname-invalid")), "textContent"));
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("div#itemname-invalid")).getAttribute("textContent"),
                 String.format("» ‘%s’ is an unsafe character", name.charAt(matcher.start())));
