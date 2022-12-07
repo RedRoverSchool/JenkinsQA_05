@@ -160,6 +160,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
     public void testBuildParametrizedProject() {
         getDriver().findElement((By.xpath(String.format(
                 "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", RANDOM_STRING)))).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(CONFIGURE_BUTTON));
         getDriver().findElement(CONFIGURE_BUTTON).click();
 
         getDriver().findElement(By.xpath("//label[text()='This project is parameterized']")).click();
