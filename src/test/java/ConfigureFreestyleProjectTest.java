@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -36,6 +37,7 @@ public class ConfigureFreestyleProjectTest extends BaseTest {
                 .getAttribute("tooltip");
     }
 
+    @Ignore
     @Test
     public void testConfigureJobAsParameterized() throws InterruptedException {
         final String stringParameterName = "Held post";
@@ -102,6 +104,7 @@ public class ConfigureFreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//input[@type= 'checkbox']")).isSelected());
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testConfigureJobAsParameterized")
     public void testConfigureSourceCodeGIT() {
         final String repositoryURL = "https://github.com/AlekseiChapaev/TestingJenkinsRepo.git";

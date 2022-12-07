@@ -180,6 +180,7 @@ public class BuildHistoryTest extends BaseTest {
         Assert.assertEquals(getListSize(PROJECT_STATUS_TABLE), 5);
     }
 
+    @Ignore
     @Test
     public void testTimelineItemExist () {
         createProjectNoDescr();
@@ -196,6 +197,7 @@ public class BuildHistoryTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='timeline-event-bubble-title']/a")).getAttribute("href"), jobLink);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testTimelineItemExist")
     public void testDescriptionIsAdded() {
         getDriver().findElement(By.xpath("//table/tbody/tr/td/a[@class='jenkins-table__link jenkins-table__badge model-link inside']/button")).click();
@@ -206,6 +208,7 @@ public class BuildHistoryTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("description")).isDisplayed());
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDescriptionIsAdded")
     public void testDeleteBuild(){
         clickElement(DASHBOARD);

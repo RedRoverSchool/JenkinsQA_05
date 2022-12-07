@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -171,6 +172,7 @@ public class NewView1Test extends BaseTest {
         Assert.assertFalse(getListViewsNames().contains(LIST_VIEW_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDeleteView")
     public void testDeleteAllViews() {
         getDriver().findElement(DASHBOARD_LINK).click();
