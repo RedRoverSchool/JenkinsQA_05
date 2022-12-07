@@ -1,3 +1,4 @@
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -140,6 +141,15 @@ public class OrganizationFolderTest extends BaseTest {
         }
 
         Assert.assertTrue(actualResult);
+    }
+
+    @Test
+    public void testCreateOrgFolder1(){
+//        HomePage homePage = new HomePage(getDriver())
+//                .clickNewItem()
+//                .typeName(uniqueOrganizationFolderName + 4)
+//                .selectOrgFolderAndClickOk()
+//                //.clickDashboard();
     }
 
     @Test
