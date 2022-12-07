@@ -119,6 +119,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertNotNull(getDriver().findElement(By.className("empty-state-block")));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewPipeline")
     public void testAddingGitRepository() {
         final String gitHubRepo = "https://github.com/patriotby07/simple-maven-project-with-tests";
