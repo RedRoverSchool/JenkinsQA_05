@@ -177,9 +177,10 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 .perform();
 
         TestUtils.scrollToEnd(getDriver());
-        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(By.xpath("(//select[contains(@class,'jenkins-select__input dropdownList')])[2]")));
+        getWait(5).until(ExpectedConditions.elementToBeSelected(By.xpath("(//select[contains(@class,'jenkins-select__input dropdownList')])[2]")));
         new Select(getDriver().findElement(By.xpath("(//select[contains(@class,'jenkins-select__input dropdownList')])[2]")))
                 .selectByVisibleText("Pipeline script from SCM");
+        getWait(5).until(ExpectedConditions.elementToBeSelected(By.xpath("(//select[contains(@class,'jenkins-select__input dropdownList')])[3]")));
         new Select(getDriver().findElement(By.xpath("(//select[contains(@class,'jenkins-select__input dropdownList')])[3]")))
                 .selectByVisibleText("Git");
         getWait(5).until(ExpectedConditions.elementToBeClickable(By.name("_.url")));
