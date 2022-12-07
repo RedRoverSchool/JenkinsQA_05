@@ -177,6 +177,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 .perform();
 
         TestUtils.scrollToEnd(getDriver());
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(By.xpath("(//select[contains(@class,'jenkins-select__input dropdownList')])[2]")));
         new Select(getDriver().findElement(By.xpath("(//select[contains(@class,'jenkins-select__input dropdownList')])[2]")))
                 .selectByVisibleText("Pipeline script from SCM");
         new Select(getDriver().findElement(By.xpath("(//select[contains(@class,'jenkins-select__input dropdownList')])[3]")))
