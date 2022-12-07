@@ -3,6 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -42,6 +43,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .getText(), NEW_FREESTYLE_NAME);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateAndRenameFreestyleProject")
     public void testCreateWithDescriptionFreestyleProject(){
 
@@ -67,6 +69,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 "Project " + VALID_NAME);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateWithDescriptionFreestyleProject")
     public void testConfigurationProvideDiscardOldBuildsWithDaysToKeepBuilds() {
         final String expectedDaysToKeepBuilds = Integer.toString((int)(Math.random() * 20 + 1));
@@ -87,6 +90,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
         Assert.assertEquals(actualDaysToKeepBuilds,expectedDaysToKeepBuilds);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testConfigurationProvideDiscardOldBuildsWithDaysToKeepBuilds")
     public void testConfigurationProvideKeepMaxNumberOfOldBuilds() {
         final String expectedMaxNumberToKeepBuilds = Integer.toString((int)(Math.random() * 20 + 1));
@@ -106,6 +110,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
         Assert.assertEquals(actualMaxNumberToKeepBuilds,expectedMaxNumberToKeepBuilds);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testConfigurationProvideKeepMaxNumberOfOldBuilds")
     public void testVerifyOptionsInBuildStepsSection() throws InterruptedException {
 

@@ -119,6 +119,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 "‘@’ is an unsafe character");
     }
 
+    @Ignore
     @Test
     public void testCreateWithUnsafeCharsInName() {
         String itemName = "MultiBranch!Pipeline/000504";
@@ -173,6 +174,7 @@ public class MultibranchPipelineTest extends BaseTest {
         deleteItem(nameOfItem);
     }
 
+    @Ignore
     @Test
     public void testRename_MultiBranch_Pipeline_From_Dropdown() {
         createMultibranchPipeline();

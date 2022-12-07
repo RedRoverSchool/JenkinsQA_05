@@ -6,6 +6,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -105,6 +106,7 @@ public class NewViewTest extends BaseTest {
         Assert.assertEquals(getDriver().findElements(By.xpath("//table[@id='legend-table']//tr")).size(), 17);
     }
 
+    @Ignore
     @Test()
     public void testCreateListViewWithExtraSettings() {
         createProjectFromDashboard(MULTI_CONFIGURATION_PROJECT, PROJECT_NAME);

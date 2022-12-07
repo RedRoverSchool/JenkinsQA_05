@@ -5,6 +5,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -40,6 +41,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
         return RandomStringUtils.randomAlphanumeric(randomLength);
     }
 
+    @Ignore
     @Test
     public void testCreateUser() throws InterruptedException {
 
@@ -72,6 +74,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateUser")
     public void testToDeleteUser() {
 

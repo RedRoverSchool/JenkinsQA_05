@@ -159,6 +159,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getDriver().switchTo().alert().accept();
     }
 
+    @Ignore
     @Test
     public void testMultiConfigurationProjectBuild() {
         getDriver().findElement(NEW_ITEM).click();
@@ -272,6 +273,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         deleteNewMCProject("MC Project");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testMultiConfigurationProjectBuild")
     public void testMultiConfigurationProjectsRunJobInBuildHistory() {
 
