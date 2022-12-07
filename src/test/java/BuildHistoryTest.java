@@ -180,6 +180,7 @@ public class BuildHistoryTest extends BaseTest {
         Assert.assertEquals(getListSize(PROJECT_STATUS_TABLE), 5);
     }
 
+    @Ignore
     @Test
     public void testTimelineItemExist () {
         createProjectNoDescr();

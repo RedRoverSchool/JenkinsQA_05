@@ -242,6 +242,7 @@ public class OrganizationFolderTest extends BaseTest {
                 , "notif-alert-success notif-alert-show");
     }
 
+    @Ignore
     @Test
     public void testCreateOrgFolderExistName() {
         createNewOrganizationFolder();

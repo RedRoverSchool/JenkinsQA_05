@@ -110,6 +110,7 @@ public class HeaderTest extends BaseTest {
                 "http://localhost:8080/");
     }
 
+    @Ignore
     @Test
     public void testUserDropdownMenuToOpenPageAdminConfigure() {
         openUserDropdownMenu();
