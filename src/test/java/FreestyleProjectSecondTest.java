@@ -1,6 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -147,12 +148,13 @@ public class FreestyleProjectSecondTest extends BaseTest {
         WebElement buildPeriodicallyLabel = getDriver()
                 .findElement(By.xpath("//label[text()='Build periodically']"));
         getWait(1).until(ExpectedConditions.elementToBeClickable(buildPeriodicallyLabel));
-        buildPeriodicallyLabel.click();
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(buildPeriodicallyLabel).click().perform();
 
         selectedCheckbox = getDriver().findElement(By.name("hudson-triggers-TimerTrigger")).isSelected();
 
         getWait(1).until(ExpectedConditions.elementToBeClickable(buildPeriodicallyLabel));
-        buildPeriodicallyLabel.click();
+        actions.moveToElement(buildPeriodicallyLabel).click().perform();
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
         Assert.assertTrue(selectedCheckbox);
