@@ -2,6 +2,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -263,6 +264,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), String.format("Project %s", FREESTYLE_NAME_WITH_DESCRIPTION));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithDescription")
     public void testEditFreestyleProjectWithDescription() {
         getDriver().findElement(By.xpath("//span[contains(text(),'" + FREESTYLE_NAME_WITH_DESCRIPTION + "')]")).click();
@@ -432,6 +434,7 @@ public class FreestyleProjectTest extends BaseTest {
         deleteFreestyleProject(NAME_FREESTYLE_PROJECT_TC010401);
     }
 
+    @Ignore
     @Test
     public void testAddingDescription() {
         getDriver().findElement(BUTTON_ADD_NEW_ITEM).click();
