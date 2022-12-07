@@ -54,6 +54,7 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(usernameInUserPage, String.format("Jenkins User ID: %s", usernameInUserAccountLink));
     }
 
+    @Ignore
     @Test
     public void testCountAndNamesItemsInUserDropdownMenu() {
         getDriver().findElement(
