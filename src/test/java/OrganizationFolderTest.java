@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -118,6 +119,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(TITLE).getText(), uniqueOrganizationFolderName + "1");
     }
 
+    @Ignore
     @Test
     public void testCreateOrganizationFolderWithCheckOnDashbord() {
         final String organizationFolderName = "OrganizationFolder_" + (int) (Math.random() * 100);
@@ -154,6 +156,7 @@ public class OrganizationFolderTest extends BaseTest {
                 findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), uniqueOrganizationFolderName + 5);
     }
 
+    @Ignore
     @Test
     public void testCreateOrgFolderEmptyName() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -223,6 +226,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testCheckNotificationAfterApply() {
         getDriver().findElement(By.linkText("New Item")).click();
