@@ -43,7 +43,6 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .getText(), NEW_FREESTYLE_NAME);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateAndRenameFreestyleProject")
     public void testCreateWithDescriptionFreestyleProject(){
 
