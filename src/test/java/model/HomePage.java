@@ -32,7 +32,7 @@ public class HomePage extends BasePage {
                 .collect(Collectors.toList());
     }
 
-    public FreestyleProjectPage clickFreestyleName(String name) {
+    public FreestyleProjectPage clickProjectName(String name) {
         jobList.get(0).click();
 
         return new FreestyleProjectPage(getDriver());
