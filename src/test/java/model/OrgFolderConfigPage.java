@@ -1,6 +1,5 @@
 package model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,8 +12,10 @@ public class OrgFolderConfigPage extends BasePage{
     public OrgFolderConfigPage(WebDriver driver) {
         super(driver);
     }
-    public void clickSaveButton(){
+    public OrgFolderStatusPage clickSaveButton(){
         saveButton.click();
+
+        return new OrgFolderStatusPage(getDriver());
     }
 
 
