@@ -74,6 +74,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateUser")
     public void testToDeleteUser() {
 
