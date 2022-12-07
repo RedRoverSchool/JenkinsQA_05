@@ -108,6 +108,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 RANDOM_STRING);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testPipelineStepFromSCMConfiguration")
     public void testDeletePipelineFromDashboard() {
         getDriver().findElement(LINK_TO_DASHBOARD).click();
