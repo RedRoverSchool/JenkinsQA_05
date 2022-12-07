@@ -123,6 +123,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
         getDriver().findElement((By.xpath(String.format(
                 "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", RANDOM_STRING)))).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(CONFIGURE_BUTTON));
         getDriver().findElement(CONFIGURE_BUTTON).click();
         getDriver().findElement(GITHUB_CHECKBOX).click();
         new Actions(getDriver()).moveToElement(getDriver().findElement(By.name("_.projectUrlStr"))).click()
@@ -180,6 +181,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 .selectByVisibleText("Pipeline script from SCM");
         new Select(getDriver().findElement(By.xpath("(//select[contains(@class,'jenkins-select__input dropdownList')])[3]")))
                 .selectByVisibleText("Git");
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.name("_.url")));
         getDriver().findElement(By.name("_.url")).sendKeys("https://github.com/patriotby07/simple-maven-project-with-tests");
         getDriver().findElement(SAVE_BUTTON).click();
 
@@ -248,6 +250,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         new Select(selectDropDownList.get(1)).selectByVisibleText("Pipeline script from SCM");
 
         new Select(getDriver().findElement(By.cssSelector(".dropdownList-container.tr .dropdownList"))).selectByValue("1");
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@checkdependson='credentialsId']")));
         getDriver().findElement(By.xpath("//input[@checkdependson='credentialsId']")).sendKeys("https://github.com/olpolezhaeva/MyAppium");
 
         WebElement branchField = getDriver().findElement(By.xpath("//div[@name='branches']//input[@default='*/master']"));
