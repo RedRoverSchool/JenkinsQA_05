@@ -32,6 +32,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     private void setJobPipeline(String jobName) {
         getDriver().findElement(By.linkText("New Item")).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.id("name")));
         getDriver().findElement(By.id("name")).sendKeys(jobName);
         getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
     }
