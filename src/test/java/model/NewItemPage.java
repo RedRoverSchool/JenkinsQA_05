@@ -16,6 +16,9 @@ public class NewItemPage extends BasePage {
     @FindBy(className = "btn-decorator")
     private WebElement okButton;
 
+    @FindBy(xpath = "//li[@class = 'jenkins_branch_OrganizationFolder']")
+    private WebElement orgFolder;
+
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -33,4 +36,12 @@ public class NewItemPage extends BasePage {
 
         return new FolderConfigPage(getDriver());
     }
+
+    public OrgFolderConfigPage selectOrgFolderAndClickOk() {
+        orgFolder.click();
+        okButton.click();
+
+        return new OrgFolderConfigPage(getDriver());
+    }
+
 }
