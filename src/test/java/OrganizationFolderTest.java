@@ -21,6 +21,7 @@ public class OrganizationFolderTest extends BaseTest {
     private static final String uniqueOrganizationFolderName = "folder" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
     private static final String ORG_FOLDER_NAME = TestUtils.getRandomStr();
     private static final String NAME_ORG_FOLDER = TestUtils.getRandomStr();
+    private static final String nameOrgFolderPOM = TestUtils.getRandomStr();
     private static final String NAME_FOLDER = TestUtils.getRandomStr();
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
     private static final By INPUT_DISPLAY_NAME = By.xpath("//input  [@name='_.displayNameOrNull']");
@@ -144,16 +145,15 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrgFolder1(){
+    public void testCreateOrgFolderWithPOM(){
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .typeName(uniqueOrganizationFolderName + 4)
+                .typeName(nameOrgFolderPOM)
                 .selectOrgFolderAndClickOk()
                 .clickSaveButton()
                 .goToDashboard();
 
-        Assert.assertTrue(homePage.getJobList().contains(uniqueOrganizationFolderName + 4));
-
+        Assert.assertTrue(homePage.getJobList().contains(nameOrgFolderPOM));
     }
 
     @Test
