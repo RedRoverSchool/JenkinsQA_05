@@ -59,6 +59,7 @@ public class PeoplePageTest extends BaseTest {
         Assert.assertTrue(lst.contains(USER_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testFindUserInThePeopleSection")
     public void testPeopleDeleteUser() {
         getDriver().findElement(By.cssSelector("a[href='/'] ")).click();
