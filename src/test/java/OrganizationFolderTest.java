@@ -144,6 +144,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(actualResult);
     }
 
+    @Ignore
     @Test
     public void testCreateOrgFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
