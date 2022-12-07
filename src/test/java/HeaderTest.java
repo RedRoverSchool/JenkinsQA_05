@@ -122,6 +122,7 @@ public class HeaderTest extends BaseTest {
                 "API Token");
     }
 
+    @Ignore
     @Test
     public void testUserDropdownMenuToOpenPageAdminMyViews() {
         openUserDropdownMenu();
