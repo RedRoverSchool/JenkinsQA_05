@@ -145,7 +145,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrgFolderWithPOM(){
+    public void testCreateOrgFolderWithPOM() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
                 .typeName(nameOrgFolderPOM)

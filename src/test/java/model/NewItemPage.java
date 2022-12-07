@@ -20,7 +20,6 @@ public class NewItemPage extends BasePage {
     @FindBy(xpath = "//li[@class = 'jenkins_branch_OrganizationFolder']")
     private WebElement orgFolder;
 
-
     public NewItemPage(WebDriver driver) {
         super(driver);
     }
@@ -45,5 +44,4 @@ public class NewItemPage extends BasePage {
 
         return new OrgFolderConfigPage(getDriver());
     }
-
 }
