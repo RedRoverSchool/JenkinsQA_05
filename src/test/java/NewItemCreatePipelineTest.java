@@ -4,6 +4,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -52,7 +53,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         return new Object[][]{{"!Pipeline1"}, {"pipel@ne2"}, {"PipeLine3#"},
                 {"PIPL$N@4"}, {"5%^PiPl$^Ne)"}};
     }
-
+    @Ignore
     @Test(dataProvider = "new-item-unsafe-names")
     public void testCreateNewItemWithUnsafeCharactersName(String name) {
         Matcher matcher = Pattern.compile("[!@#$%^&*|:?></.']").matcher(name);
@@ -154,7 +155,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 By.xpath("//input[contains(@checkurl,'MavenInstallation/checkName')]/parent::div/following-sibling::div"))
                     .getText().contains("Required"));
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
     public void testBuildParametrizedProject() {
         getDriver().findElement((By.xpath(String.format(
@@ -238,6 +239,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 .getAttribute("textContent"),ITEM_DESCRIPTION);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreatePipelineWithName")
     public void testPipelineStepFromSCMConfiguration() {
 
