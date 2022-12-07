@@ -72,6 +72,7 @@ public class HeaderTest extends BaseTest {
                 "BuildsConfigureMy ViewsCredentials");
     }
 
+    @Ignore
     @Test
     public void testUserDropdownMenuToOpenPageAdminBuilds() {
         openUserDropdownMenu();
