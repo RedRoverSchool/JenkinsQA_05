@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import runner.TestUtils;
 
 public class NewItemPage extends BasePage {
 
@@ -38,6 +39,7 @@ public class NewItemPage extends BasePage {
     }
 
     public OrgFolderConfigPage selectOrgFolderAndClickOk() {
+        TestUtils.scrollToElement(getDriver(), orgFolder);
         orgFolder.click();
         okButton.click();
 
