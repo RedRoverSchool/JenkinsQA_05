@@ -54,6 +54,7 @@ public class HeaderTest extends BaseTest {
         Assert.assertEquals(usernameInUserPage, String.format("Jenkins User ID: %s", usernameInUserAccountLink));
     }
 
+    @Ignore
     @Test
     public void testCountAndNamesItemsInUserDropdownMenu() {
         getDriver().findElement(
@@ -72,6 +73,7 @@ public class HeaderTest extends BaseTest {
                 "BuildsConfigureMy ViewsCredentials");
     }
 
+    @Ignore
     @Test
     public void testUserDropdownMenuToOpenPageAdminBuilds() {
         openUserDropdownMenu();
@@ -108,6 +110,7 @@ public class HeaderTest extends BaseTest {
                 "http://localhost:8080/");
     }
 
+    @Ignore
     @Test
     public void testUserDropdownMenuToOpenPageAdminConfigure() {
         openUserDropdownMenu();
@@ -119,6 +122,7 @@ public class HeaderTest extends BaseTest {
                 "API Token");
     }
 
+    @Ignore
     @Test
     public void testUserDropdownMenuToOpenPageAdminMyViews() {
         openUserDropdownMenu();
@@ -130,6 +134,7 @@ public class HeaderTest extends BaseTest {
                 "My Views");
     }
 
+    @Ignore
     @Test
     public void testUserDropdownMenuToOpenPageAdminCredentials() {
         openUserDropdownMenu();

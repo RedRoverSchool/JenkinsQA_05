@@ -3,6 +3,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.ArrayList;
@@ -289,6 +290,7 @@ public class FolderTest extends BaseTest {
         Assert.assertFalse(foldersList.contains(generatedString));
     }
 
+    @Ignore
     @Test
     public void testMoveFreestyleProjectInFolderUsingDropDownMenu() {
         final String folderName = getRandomName();
@@ -316,6 +318,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
     }
 
+    @Ignore
     @Test
     public void testConfigureFolderDisplayNameWithDropdownMenu() {
 
@@ -352,6 +355,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(matcher.group(), String.format("Folder name: %s", folderName));
     }
 
+    @Ignore
     @Test
     public void testDeleteFolderUsingDropDown() {
 
@@ -406,6 +410,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
     }
 
+    @Ignore
     @Test
     public void testCreateFreestyleProjectInFolderByNewItemDropDownInCrambMenu(){
         final String folderName = getRandomName();
