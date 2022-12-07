@@ -145,11 +145,15 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateOrgFolder1(){
-//        HomePage homePage = new HomePage(getDriver())
-//                .clickNewItem()
-//                .typeName(uniqueOrganizationFolderName + 4)
-//                .selectOrgFolderAndClickOk()
-//                //.clickDashboard();
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .typeName(uniqueOrganizationFolderName + 4)
+                .selectOrgFolderAndClickOk()
+                .clickSaveButton()
+                .goToDashboard();
+
+        Assert.assertTrue(homePage.getJobList().contains(uniqueOrganizationFolderName + 4));
+
     }
 
     @Test
