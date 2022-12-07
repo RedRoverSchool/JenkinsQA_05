@@ -138,6 +138,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertTrue(sideMenuGitHub.getAttribute("href").contains(gitHubRepo));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddingGitRepository")
     public void testCheckingDisappearanceOfWarningMessage() {
         getDriver().findElement(By.linkText("Manage Jenkins")).click();
@@ -198,6 +199,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.className("console-output")).getText().contains("Finished: SUCCESS"));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
     public void testCreateNewItemFromOtherNonExistingName() {
         final String jobName = TestUtils.getRandomStr(7);
