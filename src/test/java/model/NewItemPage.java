@@ -33,6 +33,9 @@ public class NewItemPage extends BasePage {
     @FindBy(xpath = "//span[contains(text(), 'Multi-configuration project')]")
     private WebElement multiConfigurationProject;
 
+    @FindBy(xpath = "//span[text() = 'Pipeline']")
+    private WebElement pipeline;
+
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -91,5 +94,12 @@ public class NewItemPage extends BasePage {
     public int getItemsListSize() {
         getWait(5).until(ExpectedConditions.visibilityOfAllElements(itemsList));
         return itemsList.size();
+    }
+
+    public PipelineConfigPage selectPipelineAndClickOk() {
+        pipeline.click();
+        okButton.click();
+
+        return new PipelineConfigPage(getDriver());
     }
 }

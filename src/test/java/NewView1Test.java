@@ -1,3 +1,4 @@
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -95,12 +96,32 @@ public class NewView1Test extends BaseTest {
 
     @Test
     public void testCreateMyViews() {
-        createAnyJob("Freestyle project",
-                By.xpath("//span[text() = 'Freestyle project']"));
-        createAnyJob("Pipeline",
-                By.xpath("//span[text() = 'Freestyle project']"));
-        createAnyJob("Multi-configuration project",
-                By.xpath("//span[text() = 'Multi-configuration project']"));
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName("Freestyle project")
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickDashboard()
+
+                .clickNewItem()
+                .setProjectName("Pipeline")
+                .selectPipelineAndClickOk()
+                .saveConfigAndGoToProject()
+                .clickDashboard()
+
+                .clickNewItem()
+                .setProjectName("Multi-configuration project")
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSave()
+                .goToDashboard()
+
+        .clickMyViews()
+                .clickNewView()
+
+
+
+
+
         createAnyView(GLOBAL_VIEW_NAME,
                 By.cssSelector("label[for='hudson.model.ProxyView']"));
         createAnyView(LIST_VIEW_NAME,

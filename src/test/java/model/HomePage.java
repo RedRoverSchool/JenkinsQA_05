@@ -30,6 +30,9 @@ public class HomePage extends BasePage {
     @FindBy(tagName = "h1")
     private WebElement header;
 
+    @FindBy(css = "a[href='/me/my-views']")
+    private WebElement myViews;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -88,5 +91,11 @@ public class HomePage extends BasePage {
         getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']")).sendKeys(Keys.RETURN);
 
         return new StatusPage(getDriver());
+    }
+
+    public MyViewsPage clickMyViews() {
+        myViews.click();
+
+        return new MyViewsPage(getDriver());
     }
 }
