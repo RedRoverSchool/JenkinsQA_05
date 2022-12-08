@@ -72,7 +72,6 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 "Project " + VALID_NAME);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateWithDescriptionFreestyleProject")
     public void testConfigurationProvideDiscardOldBuildsWithDaysToKeepBuilds() {
         final String expectedDaysToKeepBuilds = Integer.toString((int)(Math.random() * 20 + 1));
