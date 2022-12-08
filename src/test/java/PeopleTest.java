@@ -47,7 +47,6 @@ public class PeopleTest extends BaseTest {
                 .stream()
                 .map(element -> element.getText())
                 .collect(Collectors.toList());
-        System.out.println(usersList);
 
         Assert.assertFalse(usersList.contains(RANDOM_FULL_NAME));
     }
