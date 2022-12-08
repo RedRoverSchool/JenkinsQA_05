@@ -16,10 +16,10 @@ public class MulticonfigurationProjectConfigPage extends BasePage {
         super(driver);
     }
 
-    public MultiConfigurationProjectPage clickSave() {
+    public MultiConfigurationProjectStatusPage clickSave() {
         saveButton.click();
 
-        return new MultiConfigurationProjectPage(getDriver());
+        return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
     public HomePage goToDashboard() {
