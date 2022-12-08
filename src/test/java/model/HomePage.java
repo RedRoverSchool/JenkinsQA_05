@@ -1,5 +1,6 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,6 +16,9 @@ public class HomePage extends BasePage {
 
     @FindBy(css = "tr td a.model-link")
     private List<WebElement> jobList;
+
+    @FindBy(linkText = "Configure")
+    private WebElement configureDropDownMenu;
 
     @FindBy(xpath = "//td[3]/a/button")
     private WebElement dropDownMenuOfJob;
@@ -56,5 +60,22 @@ public class HomePage extends BasePage {
         deleteButtonInDropDownMenu.click();
 
         return new FolderConfigPage(getDriver());
+    }
+
+    public WebElement getDeleteButtonInDropDownMenu() {
+        return deleteButtonInDropDownMenu;
+    }
+
+    public HomePage clickJobDropDownMenu(String name) {
+        getDriver().findElement((By.xpath(String.format(
+                "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", name)))).click();
+
+        return this;
+    }
+
+    public PipelineConfigPage clickConfigureDropDownMenu() {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(configureDropDownMenu)).click();
+
+        return new PipelineConfigPage(getDriver());
     }
 }
