@@ -363,16 +363,17 @@ public class FolderTest extends BaseTest {
 
         final String folderName = TestUtils.getRandomStr(5);
 
-        HomePage homePage = new HomePage(getDriver());
-        homePage.clickNewItem()
+        List<String> jobList = new HomePage(getDriver())
+                .clickNewItem()
                 .typeName(folderName)
                 .selectFolderAndClickOk()
                 .clickDashboard()
                 .clickDropDownMenu()
                 .clickDeleteButtonInDropDownMenu()
-                .clickSubmitButtonForDeleteFolder();
+                .clickSubmitButtonForDeleteFolder()
+                .getJobList();
 
-        Assert.assertFalse(homePage.getJobList().contains(folderName));
+        Assert.assertFalse(jobList.contains(folderName));
     }
 
     @Test
