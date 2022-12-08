@@ -78,7 +78,8 @@ public class HomePage extends BasePage {
     }
 
     public DropdownMenu clickFolderDropdownMenu(String folderName) {
-        getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']/button")).click();
+        getWait(5).until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='job/" + folderName + "/']/button"))).click();
 
         return new DropdownMenu(getDriver());
     }
