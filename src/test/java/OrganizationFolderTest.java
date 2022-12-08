@@ -146,7 +146,6 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(actualResult);
     }
 
-    @Ignore
     @Test
     public void testCreateOrgFolderWithPOM() {
         HomePage homePage = new HomePage(getDriver())
