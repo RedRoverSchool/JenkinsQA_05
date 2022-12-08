@@ -130,7 +130,6 @@ public class FreestyleProjectSecondTest extends BaseTest {
 
         for (WebElement element : listOfOptions) {
             actualOptions.add(element.getText());
-            System.out.println(element.getText());
         }
 
         getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
