@@ -43,7 +43,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .typeName(PROJECT_NAME)
+                .setProjectName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSave()
                 .goToDashboard();
