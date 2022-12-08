@@ -23,7 +23,7 @@ public class NewItemPage extends BasePage {
         super(driver);
     }
 
-    public NewItemPage typeName(String name) {
+    public NewItemPage setProjectName(String name) {
         itemName.sendKeys(name);
 
         return this;
