@@ -375,6 +375,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(welcomeJenkinsHeader, "Welcome to Jenkins!");
     }
 
+    @Ignore
     @Test
     public void testAddFolderDescription() {
         String folderName = getRandomName();
