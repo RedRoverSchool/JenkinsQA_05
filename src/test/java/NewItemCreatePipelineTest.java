@@ -1,3 +1,5 @@
+import model.HomePage;
+import model.PipelineConfigPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -33,7 +35,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     private void setJobPipeline(String jobName) {
         getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(jobName);
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys(jobName);
         getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
     }
 
@@ -108,8 +110,8 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 RANDOM_STRING);
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testPipelineStepFromSCMConfiguration")
+
+    @Test(dependsOnMethods = "testAddingGitRepository")
     public void testDeletePipelineFromDashboard() {
         getDriver().findElement(LINK_TO_DASHBOARD).click();
         getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", RANDOM_STRING))).click();
@@ -119,23 +121,20 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertNotNull(getDriver().findElement(By.className("empty-state-block")));
     }
 
-    @Ignore
+
     @Test(dependsOnMethods = "testCreateNewPipeline")
     public void testAddingGitRepository() {
         final String gitHubRepo = "https://github.com/patriotby07/simple-maven-project-with-tests";
 
-        getDriver().findElement((By.xpath(String.format(
-                "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", RANDOM_STRING)))).click();
-        getDriver().findElement(CONFIGURE_BUTTON).click();
-        getDriver().findElement(GITHUB_CHECKBOX).click();
-        new Actions(getDriver()).moveToElement(getDriver().findElement(By.name("_.projectUrlStr"))).click()
-                .sendKeys(gitHubRepo).perform();
-        getDriver().findElement(SAVE_BUTTON).click();
+        PipelineConfigPage pipelineConfigPage = new HomePage(getDriver())
+                .clickJobDropDownMenu(RANDOM_STRING)
+                .clickConfigureDropDownMenu()
+                .clickGitHubCheckbox()
+                .setGitHubRepo(gitHubRepo)
+                .saveConfigAndGoToProject();
 
-        WebElement sideMenuGitHub = getDriver().findElement(By.xpath("(//a[contains(@class,'task-link')])[7]"));
-
-        Assert.assertTrue(sideMenuGitHub.isDisplayed());
-        Assert.assertTrue(sideMenuGitHub.getAttribute("href").contains(gitHubRepo));
+        Assert.assertTrue(pipelineConfigPage.isDisplayedGitHubOnSideMenu());
+        Assert.assertTrue(pipelineConfigPage.getAttributeGitHubSideMenu("href").contains(gitHubRepo));
     }
 
     @Ignore

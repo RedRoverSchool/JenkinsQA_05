@@ -92,6 +92,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(TITLE).getText(), uniqueOrganizationFolderName + "2");
     }
 
+    @Ignore
     @Test
     public void testRenameOrganizationFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
