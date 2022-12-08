@@ -106,7 +106,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
         alert.accept();
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testMulticonfigurationProjectAddDescription")
     public void testMultiConfigurationProjectDisable() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
