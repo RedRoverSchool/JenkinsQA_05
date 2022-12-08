@@ -67,7 +67,7 @@ public class PeoplePageTest extends BaseTest {
 
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
-        List<WebElement> list = getDriver().findElements(By.className("jenkins-table__link"));
+        List<WebElement> list = getWait(1).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("jenkins-table__link")));
         List<String> lst = list.stream().map(WebElement::getText).collect(Collectors.toList());
 
         Assert.assertFalse(lst.contains(USER_NAME));
