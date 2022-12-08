@@ -3,6 +3,7 @@ package model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 
 public class NewItemPage extends BasePage {
@@ -19,12 +20,15 @@ public class NewItemPage extends BasePage {
     @FindBy(xpath = "//li[@class = 'jenkins_branch_OrganizationFolder']")
     private WebElement orgFolder;
 
+    @FindBy(xpath = "//span[contains(text(), 'Multi-configuration project')]")
+    private WebElement multiConfigurationProject;
+
     public NewItemPage(WebDriver driver) {
         super(driver);
     }
 
     public NewItemPage typeName(String name) {
-        itemName.sendKeys(name);
+        getWait(2).until(ExpectedConditions.visibilityOf(itemName)).sendKeys(name);
 
         return this;
     }
@@ -42,5 +46,12 @@ public class NewItemPage extends BasePage {
         okButton.click();
 
         return new OrgFolderConfigPage(getDriver());
+    }
+
+    public MulticonfigurationProjectConfigPage selectMultiConfigurationProjectAndClickOk() {
+        multiConfigurationProject.click();
+        okButton.click();
+
+        return new MulticonfigurationProjectConfigPage(getDriver());
     }
 }
