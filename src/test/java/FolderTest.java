@@ -3,7 +3,6 @@ import model.HomePage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -368,12 +367,9 @@ public class FolderTest extends BaseTest {
                 .typeName(folderName)
                 .selectFolderAndClickOk()
                 .clickDashboard()
-                .clickDropDownMenu();
-        getWait(3).until(ExpectedConditions
-                .elementToBeClickable(homePage.getDeleteButtonInDropDownMenu()));
-        homePage.clickDeleteButtonInDropDownMenu();
-        FolderConfigPage folderConfigPage = new FolderConfigPage(getDriver());
-        folderConfigPage.clickSubmitButtonForDeleteFolder();
+                .clickDropDownMenu()
+                .clickDeleteButtonInDropDownMenu()
+                .clickSubmitButtonForDeleteFolder();
 
         Assert.assertFalse(homePage.getJobList().contains(folderName));
     }

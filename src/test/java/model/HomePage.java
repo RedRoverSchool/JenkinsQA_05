@@ -4,6 +4,7 @@ package model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,12 +47,9 @@ public class HomePage extends BasePage {
     }
 
     public FolderConfigPage clickDeleteButtonInDropDownMenu(){
+        getWait(3).until(ExpectedConditions.elementToBeClickable(deleteButtonInDropDownMenu));
         deleteButtonInDropDownMenu.click();
 
         return new FolderConfigPage(getDriver());
-    }
-
-    public WebElement getDeleteButtonInDropDownMenu() {
-        return deleteButtonInDropDownMenu;
     }
 }
