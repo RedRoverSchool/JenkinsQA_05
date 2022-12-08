@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import runner.TestUtils;
 
 public class NewItemPage extends BasePage {
 
@@ -16,6 +17,8 @@ public class NewItemPage extends BasePage {
     @FindBy(className = "btn-decorator")
     private WebElement okButton;
 
+    @FindBy(xpath = "//li[@class = 'jenkins_branch_OrganizationFolder']")
+    private WebElement orgFolder;
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -32,5 +35,13 @@ public class NewItemPage extends BasePage {
         okButton.click();
 
         return new FolderConfigPage(getDriver());
+    }
+
+    public OrgFolderConfigPage selectOrgFolderAndClickOk() {
+        TestUtils.scrollToElement(getDriver(), orgFolder);
+        orgFolder.click();
+        okButton.click();
+
+        return new OrgFolderConfigPage(getDriver());
     }
 }
