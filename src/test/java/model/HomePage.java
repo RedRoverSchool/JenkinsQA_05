@@ -40,6 +40,10 @@ public class HomePage extends BasePage {
                 .collect(Collectors.toList());
     }
 
+    public WebElement getDeleteButtonInDropDownMenu() {
+        return deleteButtonInDropDownMenu;
+    }
+
     public HomePage clickDropDownMenu(){
         dropDownMenuOfJob.click();
 

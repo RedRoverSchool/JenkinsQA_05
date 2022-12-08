@@ -371,6 +371,7 @@ public class FolderTest extends BaseTest {
                 .clickDeleteButtonInDropDownMenu()
                 .clickSubmitButtonForDeleteFolder();
 
+
         Assert.assertFalse(homePage.getJobList().contains(folderName));
     }
 
