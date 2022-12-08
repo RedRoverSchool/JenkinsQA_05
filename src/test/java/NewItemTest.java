@@ -20,6 +20,7 @@ public class NewItemTest extends BaseTest {
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
     }
 
+    @Ignore
     @Test
     public void testNewItemsPageContainsItemsWithoutCreatedProject() {
         final List<String> expectedResult = List.of("Freestyle project", "Pipeline", "Multi-configuration project",

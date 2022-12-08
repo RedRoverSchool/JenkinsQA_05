@@ -3,6 +3,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -35,6 +36,7 @@ public class PeoplePageTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testFindUserInThePeopleSection() {
         getDriver().findElement(By.cssSelector("a[href='/manage']")).click();
@@ -57,6 +59,7 @@ public class PeoplePageTest extends BaseTest {
         Assert.assertTrue(lst.contains(USER_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testFindUserInThePeopleSection")
     public void testPeopleDeleteUser() {
         getDriver().findElement(By.cssSelector("a[href='/'] ")).click();

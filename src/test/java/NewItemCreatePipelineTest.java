@@ -4,6 +4,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -52,7 +53,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         return new Object[][]{{"!Pipeline1"}, {"pipel@ne2"}, {"PipeLine3#"},
                 {"PIPL$N@4"}, {"5%^PiPl$^Ne)"}};
     }
-
+    @Ignore
     @Test(dataProvider = "new-item-unsafe-names")
     public void testCreateNewItemWithUnsafeCharactersName(String name) {
         Matcher matcher = Pattern.compile("[!@#$%^&*|:?></.']").matcher(name);
@@ -107,6 +108,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 RANDOM_STRING);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testPipelineStepFromSCMConfiguration")
     public void testDeletePipelineFromDashboard() {
         getDriver().findElement(LINK_TO_DASHBOARD).click();
@@ -117,6 +119,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertNotNull(getDriver().findElement(By.className("empty-state-block")));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewPipeline")
     public void testAddingGitRepository() {
         final String gitHubRepo = "https://github.com/patriotby07/simple-maven-project-with-tests";
@@ -135,6 +138,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertTrue(sideMenuGitHub.getAttribute("href").contains(gitHubRepo));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddingGitRepository")
     public void testCheckingDisappearanceOfWarningMessage() {
         getDriver().findElement(By.linkText("Manage Jenkins")).click();
@@ -154,7 +158,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 By.xpath("//input[contains(@checkurl,'MavenInstallation/checkName')]/parent::div/following-sibling::div"))
                     .getText().contains("Required"));
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
     public void testBuildParametrizedProject() {
         getDriver().findElement((By.xpath(String.format(
@@ -195,6 +199,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.className("console-output")).getText().contains("Finished: SUCCESS"));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
     public void testCreateNewItemFromOtherNonExistingName() {
         final String jobName = TestUtils.getRandomStr(7);
@@ -238,6 +243,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 .getAttribute("textContent"),ITEM_DESCRIPTION);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreatePipelineWithName")
     public void testPipelineStepFromSCMConfiguration() {
 
