@@ -79,13 +79,13 @@ public class HomePage extends BasePage {
         return new PipelineConfigPage(getDriver());
     }
 
-    public DropdownMenu clickCreatedFolderDropdownMenu(String folderName) {
+    public DropdownMenu clickFolderDropdownMenu(String folderName) {
         getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']/button")).click();
 
         return new DropdownMenu(getDriver());
     }
 
-    public StatusPage clickCreatedFolder(String folderName) {
+    public StatusPage clickFolder(String folderName) {
         getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']")).sendKeys(Keys.RETURN);
 
         return new StatusPage(getDriver());
