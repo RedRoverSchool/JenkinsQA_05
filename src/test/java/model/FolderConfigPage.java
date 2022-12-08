@@ -9,6 +9,9 @@ public class FolderConfigPage extends BasePage {
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
 
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement submitButtonForDeleteFolder;
+
     public FolderConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -18,4 +21,11 @@ public class FolderConfigPage extends BasePage {
 
         return new HomePage(getDriver());
     }
+
+    public HomePage clickSubmitButtonForDeleteFolder(){
+        submitButtonForDeleteFolder.click();
+
+        return new HomePage(getDriver());
+    }
+
 }

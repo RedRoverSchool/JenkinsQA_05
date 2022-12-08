@@ -21,7 +21,9 @@ public class FreestyleProjectSecondTest extends BaseTest {
     public void testCreateFreestyleProject(){
 
         getDriver().findElement(By.xpath("//span/a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.xpath("//input[@class='jenkins-input']")).sendKeys(FREESTYLE_NAME);
+        getWait(10).until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//input[@class='jenkins-input']")))
+                .sendKeys(FREESTYLE_NAME);
         getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
         getDriver().findElement(By.id("ok-button")).click();
 
@@ -43,13 +45,14 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .getText(), NEW_FREESTYLE_NAME);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateAndRenameFreestyleProject")
     public void testCreateWithDescriptionFreestyleProject(){
 
         getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(By.xpath("//div/textarea[@name='description']")).sendKeys(DESCRIPTION_TEXT);
+        getWait(10).until(ExpectedConditions
+                .presenceOfElementLocated(By.xpath("//div/textarea[@name='description']")))
+                .sendKeys(DESCRIPTION_TEXT);
         getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(),

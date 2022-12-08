@@ -15,6 +15,12 @@ public class HomePage extends BasePage {
     @FindBy(css = "tr td a.model-link")
     private List<WebElement> jobList;
 
+    @FindBy(xpath = "//td[3]/a/button")
+    private WebElement dropDownMenuOfJob;
+
+    @FindBy(xpath = "//li[@index='2']")
+    private WebElement deleteButtonInDropDownMenu;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -36,5 +42,21 @@ public class HomePage extends BasePage {
         jobList.get(0).click();
 
         return new FreestyleProjectPage(getDriver());
+    }
+
+    public HomePage clickDropDownMenu(){
+        dropDownMenuOfJob.click();
+
+        return new HomePage(getDriver());
+    }
+
+    public FolderConfigPage clickDeleteButtonInDropDownMenu(){
+        deleteButtonInDropDownMenu.click();
+
+        return new FolderConfigPage(getDriver());
+    }
+
+    public WebElement getDeleteButtonInDropDownMenu() {
+        return deleteButtonInDropDownMenu;
     }
 }
