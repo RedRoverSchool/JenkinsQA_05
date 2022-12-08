@@ -1,3 +1,4 @@
+import model.HomePage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -367,20 +368,16 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testEditFreestyleProjectWithDescription")
-    public void testFreestyleProjectSideMenu() {
+    public void testFreestyleConfigSideMenu() {
 
-        final Set<String> expectedFreestyleProjectSideMenu = new TreeSet<>(List.of("General", "Source Code Management", "Build Triggers", "Build Environment", "Build Steps", "Post-build Actions"));
+        final Set<String> expectedFreestyleConfigSideMenu = new TreeSet<>(List.of("General", "Source Code Management", "Build Triggers", "Build Environment", "Build Steps", "Post-build Actions"));
 
-        getDriver().findElements(By.xpath("//tr/td/a")).get(0).click();
-        getDriver().findElement(By.linkText("Configure")).click();
+        Set<String> actualFreestyleConfigSideMenu = new HomePage(getDriver())
+                .clickProjectName()
+                .clickSideMenuConfigure()
+                .collectFreestyleConfigSideMenu();
 
-        List<WebElement> freestyleProjectSideMenu = getDriver().findElements(By.cssSelector("button.task-link"));
-        Set<String> actualFreestyleProjectSideMenu = new TreeSet<>();
-        for (WebElement menu : freestyleProjectSideMenu) {
-            actualFreestyleProjectSideMenu.add(menu.getText());
-        }
-
-        Assert.assertEquals(actualFreestyleProjectSideMenu, expectedFreestyleProjectSideMenu);
+        Assert.assertEquals(actualFreestyleConfigSideMenu, expectedFreestyleConfigSideMenu);
     }
 
     @Ignore

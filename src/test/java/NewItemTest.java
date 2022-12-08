@@ -1,3 +1,5 @@
+import model.HomePage;
+import model.NewItemPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -5,10 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
-import javax.lang.model.element.Name;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class NewItemTest extends BaseTest {
@@ -56,5 +55,25 @@ public class NewItemTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement
                 (By.xpath("//table[@id='projectstatus']//a[@href='job/"+ PROJECT_NAME + "/']")).getText(), PROJECT_NAME);
+    }
+
+    @Test
+    public void testCreateAnyItemWithSpacesOnlyNameError() {
+
+        int itemsListSize =  new HomePage(getDriver())
+                .clickNewItem()
+                .getItemsListSize();
+
+        for (int i = 0; i < itemsListSize; i++) {
+
+            String actualErrorMessage =  new NewItemPage(getDriver())
+                    .rootMenuDashboardLinkClick()
+                    .clickNewItem()
+                    .setProjectName("      ")
+                    .setItemAndClickOk(i)
+                    .getErrorMessage();
+
+            Assert.assertEquals(actualErrorMessage, "No name is specified");
+        }
     }
 }

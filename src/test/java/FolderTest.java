@@ -1,3 +1,4 @@
+import model.HomePage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -6,14 +7,14 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static runner.TestUtils.scrollToEnd;
 
 public class FolderTest extends BaseTest {
 
@@ -355,24 +356,22 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(matcher.group(), String.format("Folder name: %s", folderName));
     }
 
-    @Ignore
     @Test
     public void testDeleteFolderUsingDropDown() {
 
-        final String folderName = getRandomName();
+        final String folderName = TestUtils.getRandomStr(5);
 
-        createProjectFromDashboard(FOLDER, folderName);
-        getDashboard().click();
-        getAction().
-                moveToElement(getDriver().findElement(By.linkText(folderName)))
-                .moveToElement(getDriver().findElement(By.xpath("//tr[@id = 'job_" + folderName + "']//td/a/button")))
-                .click()
-                .build()
-                .perform();
-        getDriver().findElement(By.xpath("//a[@href = '/job/" + folderName + "/delete']")).click();
-        getDriver().findElement(By.cssSelector("#yui-gen1-button")).click();
+        String welcomeJenkinsHeader = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(folderName)
+                .selectFolderAndClickOk()
+                .clickDashboard()
+                .clickJobDropDownMenu(folderName)
+                .clickDeleteDropDownMenu()
+                .clickSubmitDeleteProject()
+                .getTextHeader();
 
-        Assert.assertFalse(getProjectNameFromProjectTable().contains(folderName));
+        Assert.assertEquals(welcomeJenkinsHeader, "Welcome to Jenkins!");
     }
 
     @Test
@@ -412,7 +411,7 @@ public class FolderTest extends BaseTest {
 
     @Ignore
     @Test
-    public void testCreateFreestyleProjectInFolderByNewItemDropDownInCrambMenu(){
+    public void testCreateFreestyleProjectInFolderByNewItemDropDownInCrambMenu() {
         final String folderName = getRandomName();
         final String freestyleProjectName = getRandomName();
 
@@ -425,8 +424,9 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(By.xpath("//a[text()='" + folderName + "']")).click();
 
-        Assert.assertTrue(getDriver().findElement(By.cssSelector("#job_"+ freestyleProjectName)).isEnabled());
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("#job_" + freestyleProjectName)).isEnabled());
     }
+
     @Test
     public void testCreateNewMagicFolder() {
 
