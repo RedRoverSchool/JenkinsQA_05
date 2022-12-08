@@ -368,12 +368,9 @@ public class FolderTest extends BaseTest {
                 .typeName(folderName)
                 .selectFolderAndClickOk()
                 .clickDashboard()
-                .clickDropDownMenu();
-        getWait(3).until(ExpectedConditions
-                .elementToBeClickable(homePage.getDeleteButtonInDropDownMenu()));
-        homePage.clickDeleteButtonInDropDownMenu();
-        FolderConfigPage folderConfigPage = new FolderConfigPage(getDriver());
-        folderConfigPage.clickSubmitButtonForDeleteFolder();
+                .clickDropDownMenu()
+                .clickDeleteButtonInDropDownMenu()
+                .clickSubmitButtonForDeleteFolder();
 
         Assert.assertFalse(homePage.getJobList().contains(folderName));
     }
