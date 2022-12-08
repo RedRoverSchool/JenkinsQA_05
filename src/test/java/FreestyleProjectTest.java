@@ -75,7 +75,7 @@ public class FreestyleProjectTest extends BaseTest {
     public void testCreateNewFreestyleProject() {
         final String freestyleProjectTitle = new HomePage(getDriver())
                 .clickNewItem()
-                .typeName(FREESTYLE_NAME)
+                .setProjectName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .getHeadlineText();
