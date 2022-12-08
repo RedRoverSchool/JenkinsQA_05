@@ -1,3 +1,4 @@
+import model.HomePage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -15,7 +16,7 @@ import java.time.Duration;
 import java.util.List;
 
 public class MulticonfigurationProjectTest extends BaseTest {
-    private static final String PROJECT_NAME = RandomStringUtils.randomAlphanumeric(8);
+    private static final String PROJECT_NAME = TestUtils.getRandomStr(8);
     private static final String NEW_PROJECT_NAME = RandomStringUtils.randomAlphanumeric(8);
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By DASHBOARD = By.xpath("//img[@id='jenkins-head-icon']");
@@ -38,19 +39,19 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void testCreateMultiConfigurationProjectWithValidName_HappyPath() {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
-        getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(DASHBOARD).click();
+    public void testCreateMultiConfigurationProjectWithValidName() {
 
-        Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME)))
-                .getText(), PROJECT_NAME);
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(PROJECT_NAME)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSave()
+                .goToDashboard();
+
+        Assert.assertTrue(homePage.getJobList().contains(PROJECT_NAME));
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMulticonfigurationProjectAddDescription() {
         final String description = "Description";
 
@@ -182,7 +183,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testCreateNewMCProjectAsCopyFromExistingProject() {
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(INPUT_NAME).sendKeys(NEW_PROJECT_NAME);
@@ -216,7 +217,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testFindMultiConfigurationProject() {
         getDriver().findElement(By.cssSelector("#search-box")).sendKeys(PROJECT_NAME);
         getDriver().findElement(By.cssSelector("#search-box")).sendKeys(Keys.ENTER);

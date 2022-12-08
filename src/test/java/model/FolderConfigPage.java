@@ -22,7 +22,7 @@ public class FolderConfigPage extends BasePage {
         return new HomePage(getDriver());
     }
 
-    public HomePage clickSubmitButtonForDeleteFolder(){
+    public HomePage clickSubmitDeleteProject(){
         submitButtonForDeleteFolder.click();
 
         return new HomePage(getDriver());
