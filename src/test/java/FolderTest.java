@@ -169,6 +169,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(description, "Add description");
     }
 
+    @Ignore
     @Test
     public void testMoveFolderInFolder() {
         createFolder();
