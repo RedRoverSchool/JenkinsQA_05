@@ -1,9 +1,7 @@
-import model.FolderConfigPage;
 import model.HomePage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -363,17 +361,17 @@ public class FolderTest extends BaseTest {
 
         final String folderName = TestUtils.getRandomStr(5);
 
-        List<String> jobList = new HomePage(getDriver())
+        String welcomeJenkinsHeader = new HomePage(getDriver())
                 .clickNewItem()
-                .typeName(folderName)
+                .setProjectName(folderName)
                 .selectFolderAndClickOk()
                 .clickDashboard()
-                .clickDropDownMenu()
-                .clickDeleteButtonInDropDownMenu()
-                .clickSubmitButtonForDeleteFolder()
-                .getJobList();
+                .clickJobDropDownMenu(folderName)
+                .clickDeleteDropDownMenu()
+                .clickSubmitDeleteProject()
+                .getTextHeader();
 
-        Assert.assertFalse(jobList.contains(folderName));
+        Assert.assertEquals(welcomeJenkinsHeader, "Welcome to Jenkins!");
     }
 
     @Test
