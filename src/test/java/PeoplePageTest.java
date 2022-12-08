@@ -36,21 +36,21 @@ public class PeoplePageTest extends BaseTest {
 
     @Test
     public void testFindUserInThePeopleSection() {
-        getWait(2).until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/manage']"))).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='securityRealm/']"))).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='addUser']"))).click();
+        getDriver().findElement(By.cssSelector("a[href='/manage']")).click();
+        getDriver().findElement(By.cssSelector("a[href='securityRealm/']")).click();
+        getDriver().findElement(By.cssSelector("a[href='addUser']")).click();
 
-        getWait(2).until(ExpectedConditions.presenceOfElementLocated(By.id("username"))).sendKeys(USER_NAME);
-        getWait(2).until(ExpectedConditions.presenceOfElementLocated(By.name("password1"))).sendKeys("1234567890");
-        getWait(2).until(ExpectedConditions.presenceOfElementLocated(By.name("password2"))).sendKeys("1234567890");
-        getWait(2).until(ExpectedConditions.presenceOfElementLocated(By.name("fullname"))).sendKeys(USER_NAME);
-        getWait(2).until(ExpectedConditions.presenceOfElementLocated(By.name("email"))).sendKeys("email@email.com");
-        getWait(2).until(ExpectedConditions.elementToBeClickable(By.id("yui-gen1-button"))).click();
+        getDriver().findElement(By.id("username")).sendKeys(USER_NAME);
+        getDriver().findElement(By.name("password1")).sendKeys("1234567890");
+        getDriver().findElement(By.name("password2")).sendKeys("1234567890");
+        getDriver().findElement(By.name("fullname")).sendKeys(USER_NAME);
+        getDriver().findElement(By.name("email")).sendKeys("email@email.com");
+        getDriver().findElement(By.id("yui-gen1-button")).click();
 
-        getWait(2).until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/'] "))).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/asynchPeople/'] "))).click();
+        getDriver().findElement(By.cssSelector("a[href='/'] ")).click();
+        getDriver().findElement(By.cssSelector("a[href='/asynchPeople/'] ")).click();
 
-        List<WebElement> list = getWait(2).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("jenkins-table__link")));
+        List<WebElement> list = getDriver().findElements(By.className("jenkins-table__link"));
         List<String> lst = list.stream().map(WebElement::getText).collect(Collectors.toList());
 
         Assert.assertTrue(lst.contains(USER_NAME));
@@ -58,16 +58,16 @@ public class PeoplePageTest extends BaseTest {
 
     @Test(dependsOnMethods = "testFindUserInThePeopleSection")
     public void testPeopleDeleteUser() {
-        getWait(2).until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/'] "))).click();
+        getDriver().findElement(By.cssSelector("a[href='/'] ")).click();
 
-        getWait(2).until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/manage']"))).click();
-        getWait(2).until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='securityRealm/']"))).click();
+        getDriver().findElement(By.cssSelector("a[href='/manage']")).click();
+        getDriver().findElement(By.cssSelector("a[href='securityRealm/']")).click();
 
-        getWait(2).until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='user/" + USER_NAME.toLowerCase() + "/delete']"))).click();
+        getWait(3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='user/" + USER_NAME.toLowerCase()  + "/delete']"))).click();
 
-        getWait(2).until(ExpectedConditions.elementToBeClickable(By.id("yui-gen1-button"))).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
 
-        List<WebElement> list = getWait(2).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("jenkins-table__link")));
+        List<WebElement> list = getDriver().findElements(By.className("jenkins-table__link"));
         List<String> lst = list.stream().map(WebElement::getText).collect(Collectors.toList());
 
         Assert.assertFalse(lst.contains(USER_NAME));
