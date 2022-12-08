@@ -17,9 +17,9 @@ public class EditViewPage extends BasePage {
     }
 
     public EditViewPage addJobToView(String name) {
-        WebElement elementJob = getDriver().findElement(By.xpath("//label[@title='" + name + "']"));
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", elementJob);
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})",
+                getDriver().findElement(By.xpath("//label[@title='" + name + "']")));
         getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(
                 By.xpath("//label[@title='" + name + "']"))).click();
 

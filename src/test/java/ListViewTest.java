@@ -60,7 +60,7 @@ public class ListViewTest extends BaseTest {
 
         int quantityProjectsAll =
                 new ViewPage(getDriver())
-                        .clickDashboard()
+                        .goToDashboard()
                         .getJobList().size();
 
         Assert.assertEquals(quantityProjectsInListView, 1);

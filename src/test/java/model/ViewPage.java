@@ -26,7 +26,7 @@ public class ViewPage extends BasePage{
                 .collect(Collectors.toList());
     }
 
-    public HomePage clickDashboard() {
+    public HomePage goToDashboard() {
         dashboard.click();
 
         return new HomePage(getDriver());
