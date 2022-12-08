@@ -147,6 +147,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
 
         Assert.assertTrue(userNameFromListTable.contains(randomUsername));
     }
+    @Ignore
     @Test
     public void testCreateNewUserJenkins(){
 

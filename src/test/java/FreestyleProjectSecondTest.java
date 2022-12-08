@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +22,9 @@ public class FreestyleProjectSecondTest extends BaseTest {
     public void testCreateFreestyleProject(){
 
         getDriver().findElement(By.xpath("//span/a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.xpath("//input[@class='jenkins-input']")).sendKeys(FREESTYLE_NAME);
+        getWait(10).until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//input[@class='jenkins-input']")))
+                .sendKeys(FREESTYLE_NAME);
         getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
         getDriver().findElement(By.id("ok-button")).click();
 
@@ -43,13 +46,14 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .getText(), NEW_FREESTYLE_NAME);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateAndRenameFreestyleProject")
     public void testCreateWithDescriptionFreestyleProject(){
 
         getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
         getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(By.xpath("//div/textarea[@name='description']")).sendKeys(DESCRIPTION_TEXT);
+        getWait(10).until(ExpectedConditions
+                .presenceOfElementLocated(By.xpath("//div/textarea[@name='description']")))
+                .sendKeys(DESCRIPTION_TEXT);
         getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(),
@@ -69,7 +73,6 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 "Project " + VALID_NAME);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateWithDescriptionFreestyleProject")
     public void testConfigurationProvideDiscardOldBuildsWithDaysToKeepBuilds() {
         final String expectedDaysToKeepBuilds = Integer.toString((int)(Math.random() * 20 + 1));
@@ -90,7 +93,6 @@ public class FreestyleProjectSecondTest extends BaseTest {
         Assert.assertEquals(actualDaysToKeepBuilds,expectedDaysToKeepBuilds);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testConfigurationProvideDiscardOldBuildsWithDaysToKeepBuilds")
     public void testConfigurationProvideKeepMaxNumberOfOldBuilds() {
         final String expectedMaxNumberToKeepBuilds = Integer.toString((int)(Math.random() * 20 + 1));
@@ -110,7 +112,6 @@ public class FreestyleProjectSecondTest extends BaseTest {
         Assert.assertEquals(actualMaxNumberToKeepBuilds,expectedMaxNumberToKeepBuilds);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testConfigurationProvideKeepMaxNumberOfOldBuilds")
     public void testVerifyOptionsInBuildStepsSection() throws InterruptedException {
 
@@ -123,14 +124,14 @@ public class FreestyleProjectSecondTest extends BaseTest {
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-steps']")).click();
-        Thread.sleep(2000);
+        getWait(10).until(TestUtils
+                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']")));
         getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
         List<WebElement> listOfOptions = getDriver()
                 .findElements(By.xpath("//button[text()='Add build step']/../../..//a[@href='#']"));
 
         for (WebElement element : listOfOptions) {
             actualOptions.add(element.getText());
-            System.out.println(element.getText());
         }
 
         getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
