@@ -19,4 +19,3 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
         return new HomePage(getDriver());
     }
 }
-

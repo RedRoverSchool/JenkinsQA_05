@@ -28,4 +28,3 @@ public class MulticonfigurationProjectConfigPage extends BasePage {
         return new HomePage(getDriver());
     }
 }
-
