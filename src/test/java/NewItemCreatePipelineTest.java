@@ -111,7 +111,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
     }
 
 
-    @Test(dependsOnMethods = "testPipelineStepFromSCMConfiguration")
+    @Test(dependsOnMethods = "testAddingGitRepository")
     public void testDeletePipelineFromDashboard() {
         getDriver().findElement(LINK_TO_DASHBOARD).click();
         getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", RANDOM_STRING))).click();
