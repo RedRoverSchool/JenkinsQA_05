@@ -360,7 +360,7 @@ public class FolderTest extends BaseTest {
     @Test
     public void testDeleteFolderUsingDropDown() {
 
-        final String folderName = TestUtils.getRandomStr(5);
+        final String folderName = TestUtils.getRandomStr(6);
 
         HomePage homePage = new HomePage(getDriver());
         homePage.clickNewItem()
