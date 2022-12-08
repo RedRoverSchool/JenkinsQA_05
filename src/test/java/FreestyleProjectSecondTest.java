@@ -3,7 +3,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -138,5 +137,27 @@ public class FreestyleProjectSecondTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
         Assert.assertEquals(actualOptions, expectedOptions);
+    }
+
+    @Test(dependsOnMethods = "testVerifyOptionsInBuildStepsSection")
+    public void testSelectBuildPeriodicallyCheckbox() {
+        boolean selectedCheckbox;
+
+        getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
+        getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
+                .click();
+        getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']")).click();
+        getWait(10).until(TestUtils.
+                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']")));
+        getDriver().findElement(By.xpath("//label[text()='Build periodically']")).click();
+
+        selectedCheckbox = getDriver().findElement(By.name("hudson-triggers-TimerTrigger")).isSelected();
+
+        getWait(10).until(TestUtils.
+                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']")));
+        getDriver().findElement(By.xpath("//label[text()='Build periodically']")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
+        Assert.assertTrue(selectedCheckbox);
     }
 }

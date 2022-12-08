@@ -1,4 +1,6 @@
+import model.FreestyleProjectConfigPage;
 import model.HomePage;
+import model.NewItemPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -71,14 +73,14 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateNewFreestyleProject() {
-        getWait(10).until(ExpectedConditions.elementToBeClickable(LINK_NEW_ITEM)).click();
+        final String freestyleProjectTitle = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .getHeadlineText();
 
-        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(FREESTYLE_NAME);
-        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
-        getWait(10).until(ExpectedConditions.elementToBeClickable(BUTTON_OK_IN_NEW_ITEM)).click();
-        getWait(10).until(ExpectedConditions.elementToBeClickable(BUTTON_SAVE)).click();
-
-        Assert.assertEquals(getDriver().findElement(JOB_HEADLINE_LOCATOR).getText(), "Project " + FREESTYLE_NAME);
+        Assert.assertEquals(freestyleProjectTitle, String.format("Project %s", FREESTYLE_NAME));
     }
 
     @Ignore
