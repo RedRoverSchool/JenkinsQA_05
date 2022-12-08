@@ -50,6 +50,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .getText(), PROJECT_NAME);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName_HappyPath")
     public void testMulticonfigurationProjectAddDescription() {
         final String description = "Description";
@@ -105,6 +106,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         alert.accept();
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testMulticonfigurationProjectAddDescription")
     public void testMultiConfigurationProjectDisable() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
