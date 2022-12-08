@@ -50,7 +50,7 @@ public class PeoplePageTest extends BaseTest {
         getDriver().findElement(By.cssSelector("a[href='/'] ")).click();
         getDriver().findElement(By.cssSelector("a[href='/asynchPeople/'] ")).click();
 
-        List<WebElement> list = getDriver().findElements(By.className("jenkins-table__link"));
+        List<WebElement> list = getWait(1).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("jenkins-table__link")));
         List<String> lst = list.stream().map(WebElement::getText).collect(Collectors.toList());
 
         Assert.assertTrue(lst.contains(USER_NAME));
