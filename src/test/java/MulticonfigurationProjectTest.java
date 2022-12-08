@@ -130,6 +130,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         deleteNewMCProject(PROJECT_NAME);
     }
 
+    @Ignore
     @Test
     public void CreateMultiConfigurationProjectWithDescription() {
         final String nameMCP = "MultiConfigProject000302";
