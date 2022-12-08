@@ -153,6 +153,7 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(namesBlock[1], "Folder name: " + generatedString);
     }
 
+    @Ignore
     @Test
     public void testConfigureFolderAddDescription() {
         String generatedString = UUID.randomUUID().toString().substring(0, 8);
