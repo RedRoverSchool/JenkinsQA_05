@@ -1,5 +1,6 @@
+import model.HomePage;
+import model.ViewPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -47,32 +48,24 @@ public class ListViewTest extends BaseTest {
         createFreestyleProject(projectOne);
         createFreestyleProject(projectTwo);
 
-        getDriver().findElement(By.xpath("//a[@tooltip='New View']")).click();
-        getDriver().findElement(By.cssSelector("#name")).sendKeys(RANDOM_LIST_VIEW_NAME);
-        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
-        getDriver().findElement(By.cssSelector("#ok")).click();
+        int quantityProjectsInListView =
+                new HomePage(getDriver())
+                        .clickNewView()
+                        .setViewName(RANDOM_LIST_VIEW_NAME)
+                        .selectListView()
+                        .clickCreate()
+                        .addJobToView(projectOne)
+                        .clickOk()
+                        .getJobList().size();
 
-        WebElement elementJob = getDriver().findElement(By.xpath("//label[@title='" + projectOne + "']"));
-
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", elementJob);
-
-        getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(
-                By.xpath("//label[@title='" + projectOne + "']"))).click();
-
-        getDriver().findElement(OK_BUTTON).click();
-
-        int quantityProjectsInListView = getDriver().findElements(
-                By.xpath("//table[@id='projectstatus']/tbody/tr")).size();
-
-        getDriver().findElement(DASHBOARD).click();
-
-        int quantityProjectsAll = getDriver().findElements(
-                By.xpath("//table[@id='projectstatus']/tbody/tr")).size();
+        int quantityProjectsAll =
+                new ViewPage(getDriver())
+                        .clickDashboard()
+                        .getJobList().size();
 
         Assert.assertEquals(quantityProjectsInListView, 1);
         Assert.assertTrue(quantityProjectsAll > 1);
-        Assert.assertTrue(getDriver().findElement(CREATED_LIST_VIEW).isDisplayed());
+        Assert.assertTrue(new HomePage(getDriver()).getListView(RANDOM_LIST_VIEW_NAME).isDisplayed());
     }
 
     @Test(dependsOnMethods = "testCreateNewListViewWithExistingJob")

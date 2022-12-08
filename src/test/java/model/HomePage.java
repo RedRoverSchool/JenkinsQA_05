@@ -30,6 +30,9 @@ public class HomePage extends BasePage {
     @FindBy(tagName = "h1")
     private WebElement header;
 
+    @FindBy(xpath = "//a[@tooltip='New View']")
+    private WebElement newView;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -88,4 +91,17 @@ public class HomePage extends BasePage {
 
         return new StatusPage(getDriver());
     }
+
+    public NewViewPage clickNewView() {
+        newView.click();
+
+        return new NewViewPage(getDriver());
+    }
+
+    public WebElement getListView(String name) {
+
+        return getDriver().findElement(By.xpath("//a[@href='/view/" + name + "/']"));
+    }
+
+
 }
