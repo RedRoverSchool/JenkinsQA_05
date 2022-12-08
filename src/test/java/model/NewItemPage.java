@@ -27,7 +27,7 @@ public class NewItemPage extends BasePage {
         super(driver);
     }
 
-    public NewItemPage typeName(String name) {
+    public NewItemPage setProjectName(String name) {
         getWait(2).until(ExpectedConditions.visibilityOf(itemName)).sendKeys(name);
 
         return this;
