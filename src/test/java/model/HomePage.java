@@ -1,6 +1,7 @@
 package model;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -76,5 +77,17 @@ public class HomePage extends BasePage {
         getWait(5).until(ExpectedConditions.elementToBeClickable(configureDropDownMenu)).click();
 
         return new PipelineConfigPage(getDriver());
+    }
+
+    public DropdownMenu clickCreatedFolderDropdownMenu(String folderName) {
+        getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']/button")).click();
+
+        return new DropdownMenu(getDriver());
+    }
+
+    public StatusPage clickCreatedFolder(String folderName) {
+        getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']")).sendKeys(Keys.RETURN);
+
+        return new StatusPage(getDriver());
     }
 }
