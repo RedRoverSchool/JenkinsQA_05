@@ -84,9 +84,9 @@ public class HomePage extends BasePage {
         return new DropdownMenu(getDriver());
     }
 
-    public FolderPage clickFolder(String folderName) {
+    public FolderStatusPage clickFolder(String folderName) {
         getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']")).sendKeys(Keys.RETURN);
 
-        return new FolderPage(getDriver());
+        return new FolderStatusPage(getDriver());
     }
 }

@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FolderPage extends BasePage {
+public class FolderStatusPage extends BasePage {
 
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
@@ -22,7 +22,7 @@ public class FolderPage extends BasePage {
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement renameSubmitButton;
 
-    public FolderPage(WebDriver driver) {
+    public FolderStatusPage(WebDriver driver) {
         super(driver);
     }
 
@@ -38,22 +38,22 @@ public class FolderPage extends BasePage {
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
     }
-    public FolderPage clickRename(String folderName) {
+    public FolderStatusPage clickRename(String folderName) {
         getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/confirm-rename']")).click();
 
-        return new FolderPage(getDriver());
+        return new FolderStatusPage(getDriver());
     }
 
-    public FolderPage clearAndSetNewName(String folderName) {
+    public FolderStatusPage clearAndSetNewName(String folderName) {
         folderNewName.clear();
         folderNewName.sendKeys(folderName);
 
-        return new FolderPage(getDriver());
+        return new FolderStatusPage(getDriver());
     }
 
-    public FolderPage clickRenameSubmitButton() {
+    public FolderStatusPage clickRenameSubmitButton() {
         renameSubmitButton.click();
 
-        return new FolderPage(getDriver());
+        return new FolderStatusPage(getDriver());
     }
 }

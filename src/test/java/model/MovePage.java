@@ -22,9 +22,9 @@ public class MovePage extends BasePage {
 
         return this;
     }
-    public FolderPage clickMove() {
+    public FolderStatusPage clickMove() {
         moveButton.click();
 
-        return new FolderPage(getDriver());
+        return new FolderStatusPage(getDriver());
     }
 }
