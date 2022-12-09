@@ -1,6 +1,5 @@
 package model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -59,6 +58,11 @@ public class NewViewPage extends BasePage {
         createButton.click();
 
         return new MyViewsPage(getDriver());
+    }
+    public EditViewPage clickCreateListView() {
+        createButton.click();
+
+        return new EditViewPage(getDriver());
     }
 
     public HomePage clickOkButton() {

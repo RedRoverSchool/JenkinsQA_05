@@ -1,5 +1,4 @@
 import model.HomePage;
-import model.ViewPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -12,7 +11,6 @@ import java.util.List;
 
 public class ListViewTest extends BaseTest {
 
-    private static final By DASHBOARD = By.id("jenkins-name-icon");
     private static final By OK_BUTTON = By.cssSelector("#yui-gen6-button");
     private static final By DESCRIPTION_AREA = By.xpath("//textarea[@name='description']");
     private static final By DESCRIPTION = By.xpath(
@@ -21,15 +19,6 @@ public class ListViewTest extends BaseTest {
     private static final String RANDOM_LIST_VIEW_NAME = TestUtils.getRandomStr();
     private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + RANDOM_LIST_VIEW_NAME + "/']");
 
-
-    private void createFreestyleProject(String name) {
-
-        getDriver().findElement(By.xpath("//span/a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.xpath("//input[@class='jenkins-input']")).sendKeys(name);
-        getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(DASHBOARD).click();
-    }
 
     private List<String> getListFromWebElements(List<WebElement> elements) {
         List<String> list = new ArrayList<>();
@@ -43,29 +32,23 @@ public class ListViewTest extends BaseTest {
     @Test
     public void testCreateNewListViewWithExistingJob() {
         final String projectOne = TestUtils.getRandomStr();
-        final String projectTwo = TestUtils.getRandomStr();
 
-        createFreestyleProject(projectOne);
-        createFreestyleProject(projectTwo);
-
-        int quantityProjectsInListView =
-                new HomePage(getDriver())
-                        .clickNewView()
-                        .setViewName(RANDOM_LIST_VIEW_NAME)
-                        .selectListView()
-                        .clickCreate()
-                        .addJobToView(projectOne)
-                        .clickOk()
-                        .getJobList().size();
-
-        int quantityProjectsAll =
-                new ViewPage(getDriver())
-                        .goToDashboard()
-                        .getJobList().size();
+        int quantityProjectsInListView = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(projectOne)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickDashboard()
+                .clickNewView()
+                .setViewName(RANDOM_LIST_VIEW_NAME)
+                .setListViewType()
+                .clickCreateListView()
+                .addJobToView(projectOne)
+                .clickOk()
+                .getJobList().size();
 
         Assert.assertEquals(quantityProjectsInListView, 1);
-        Assert.assertTrue(quantityProjectsAll > 1);
-        Assert.assertTrue(new HomePage(getDriver()).getListView(RANDOM_LIST_VIEW_NAME).isDisplayed());
+        Assert.assertTrue(new HomePage(getDriver()).getViewList().contains(RANDOM_LIST_VIEW_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateNewListViewWithExistingJob")
