@@ -1,3 +1,6 @@
+import model.FreestyleProjectConfigPage;
+import model.HomePage;
+import model.NewItemPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -62,22 +65,22 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     private void deleteFreestyleProject(String projectName) {
-        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
-        getDriver().findElement(By.xpath("//a[@href = 'job/" + projectName + "/']")).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(GO_TO_DASHBOARD_BUTTON)).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href = 'job/" + projectName + "/']"))).click();
         getDriver().findElement(DELETE_PROJECT_OPTION).click();
         alertAccept();
     }
 
     @Test
     public void testCreateNewFreestyleProject() {
-        getWait(10).until(ExpectedConditions.elementToBeClickable(LINK_NEW_ITEM)).click();
+        final String freestyleProjectTitle = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .getHeadlineText();
 
-        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(FREESTYLE_NAME);
-        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
-        getWait(10).until(ExpectedConditions.elementToBeClickable(BUTTON_OK_IN_NEW_ITEM)).click();
-        getWait(10).until(ExpectedConditions.elementToBeClickable(BUTTON_SAVE)).click();
-
-        Assert.assertEquals(getDriver().findElement(JOB_HEADLINE_LOCATOR).getText(), "Project " + FREESTYLE_NAME);
+        Assert.assertEquals(freestyleProjectTitle, String.format("Project %s", FREESTYLE_NAME));
     }
 
     @Ignore
@@ -367,20 +370,16 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testEditFreestyleProjectWithDescription")
-    public void testFreestyleProjectSideMenu() {
+    public void testFreestyleConfigSideMenu() {
 
-        final Set<String> expectedFreestyleProjectSideMenu = new TreeSet<>(List.of("General", "Source Code Management", "Build Triggers", "Build Environment", "Build Steps", "Post-build Actions"));
+        final Set<String> expectedFreestyleConfigSideMenu = new TreeSet<>(List.of("General", "Source Code Management", "Build Triggers", "Build Environment", "Build Steps", "Post-build Actions"));
 
-        getDriver().findElements(By.xpath("//tr/td/a")).get(0).click();
-        getDriver().findElement(By.linkText("Configure")).click();
+        Set<String> actualFreestyleConfigSideMenu = new HomePage(getDriver())
+                .clickProjectName()
+                .clickSideMenuConfigure()
+                .collectFreestyleConfigSideMenu();
 
-        List<WebElement> freestyleProjectSideMenu = getDriver().findElements(By.cssSelector("button.task-link"));
-        Set<String> actualFreestyleProjectSideMenu = new TreeSet<>();
-        for (WebElement menu : freestyleProjectSideMenu) {
-            actualFreestyleProjectSideMenu.add(menu.getText());
-        }
-
-        Assert.assertEquals(actualFreestyleProjectSideMenu, expectedFreestyleProjectSideMenu);
+        Assert.assertEquals(actualFreestyleConfigSideMenu, expectedFreestyleConfigSideMenu);
     }
 
     @Ignore
@@ -428,7 +427,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel > p")).getText(), "No name is specified");
     }
 
-    @Ignore
     @Test
     public void testAccessProjectConfigurationFromTheProjectPage() {
         final String NAME_FREESTYLE_PROJECT_TC010401 = NEW_FREESTYLE_NAME + "TC010401";
@@ -437,12 +435,13 @@ public class FreestyleProjectTest extends BaseTest {
         final By CONFIG_NAME_FREESTYLE_PROJECT_TC010401 =
                 By.xpath("//a[@href='/job/" + NAME_FREESTYLE_PROJECT_TC010401 + "/configure']");
 
-        getDriver().findElement(LINK_NEW_ITEM).click();
-        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(NAME_FREESTYLE_PROJECT_TC010401);
+        getWait(5).until(ExpectedConditions.elementToBeClickable(LINK_NEW_ITEM)).click();
+        getWait(5).until(ExpectedConditions.presenceOfElementLocated(FIELD_ENTER_AN_ITEM_NAME)).
+                sendKeys(NAME_FREESTYLE_PROJECT_TC010401);
         getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
         getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
         getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
-        getDriver().findElement(FIND_NAME_FREESTYLE_PROJECT_TC010401).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(FIND_NAME_FREESTYLE_PROJECT_TC010401)).click();
         getDriver().findElement(CONFIG_NAME_FREESTYLE_PROJECT_TC010401).click();
 
         Assert.assertTrue(getDriver().findElement(CONFIGURATION_PAGE_HEAD).getText().contains("Configuration"));
