@@ -137,28 +137,22 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertTrue(pipelineConfigPage.getAttributeGitHubSideMenu("href").contains(gitHubRepo));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testAddingGitRepository")
-    public void testCheckingDisappearanceOfWarningMessage() {
-        getDriver().findElement(By.linkText("Manage Jenkins")).click();
-        getDriver().findElement(By.xpath("//a[@href='configureTools']")).click();
-        TestUtils.scrollToEnd(getDriver());
+    public void testWarningMessageIsDisappeared() {
 
-        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_MAVEN_BUTTON));
-        getDriver().findElement(ADD_MAVEN_BUTTON).click();
-        TestUtils.scrollToEnd(getDriver());
-        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_MAVEN_BUTTON));
-        WebElement fieldName = getDriver().findElement(By.cssSelector("input[checkurl$='MavenInstallation/checkName']"));
-        fieldName.click();
-        fieldName.sendKeys("Maven");
-        getDriver().findElement(By.id("yui-gen5-button")).click();
+         String emptyErrorArea = new HomePage(getDriver())
+                .clickMenuManageJenkins()
+                .clickConfigureTools()
+                .clickAddMavenButton()
+                .setMavenTitleField("Maven")
+                .clickApplyButton()
+                .getErrorAreaText();
 
-        Assert.assertFalse(getDriver().findElement(
-                By.xpath("//input[contains(@checkurl,'MavenInstallation/checkName')]/parent::div/following-sibling::div"))
-                    .getText().contains("Required"));
+        Assert.assertEquals(emptyErrorArea, "");
     }
+
     @Ignore
-    @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
+    @Test(dependsOnMethods = "testWarningMessageIsDisappeared")
     public void testBuildParametrizedProject() {
         getDriver().findElement((By.xpath(String.format(
                 "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", RANDOM_STRING)))).click();
@@ -199,7 +193,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
+    @Test(dependsOnMethods = "testWarningMessageIsDisappeared")
     public void testCreateNewItemFromOtherNonExistingName() {
         final String jobName = TestUtils.getRandomStr(7);
 
