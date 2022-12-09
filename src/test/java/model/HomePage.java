@@ -31,7 +31,7 @@ public class HomePage extends BasePage {
     private WebElement header;
 
     @FindBy(linkText = "Manage Jenkins")
-    private WebElement manageJenkins;
+    private WebElement menuManageJenkins;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -76,7 +76,7 @@ public class HomePage extends BasePage {
         return new PipelineConfigPage(getDriver());
     }
 
-    public String getTextHeader() {
+    public String getTextHeader(){
         return header.getText();
     }
 
@@ -93,8 +93,8 @@ public class HomePage extends BasePage {
         return new StatusPage(getDriver());
     }
 
-    public ManageJenkinsPage clickManageJenkins() {
-        manageJenkins.click();;
+    public ManageJenkinsPage clickMenuManageJenkins() {
+        menuManageJenkins.click();
 
         return new ManageJenkinsPage(getDriver());
     }
