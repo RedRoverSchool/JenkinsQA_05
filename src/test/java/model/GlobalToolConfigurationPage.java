@@ -26,10 +26,9 @@ public class GlobalToolConfigurationPage extends BasePage {
 
     public GlobalToolConfigurationPage clickAddMavenButton() {
         TestUtils.scrollToEnd(getDriver());
-        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(By.id("yui-gen9-button")));
-        addMavenButton.click();
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(addMavenButton)).click();
         TestUtils.scrollToEnd(getDriver());
-        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(By.id("yui-gen9-button")));
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(addMavenButton));
 
         return this;
     }

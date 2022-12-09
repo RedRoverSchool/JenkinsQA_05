@@ -20,7 +20,6 @@ public class NewItemCreatePipelineTest extends BaseTest {
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By SAVE_BUTTON = By.id("yui-gen6-button");
     private static final By LINK_TO_DASHBOARD  = By.id("jenkins-name-icon");
-    private static final By ADD_MAVEN_BUTTON  = By.id("yui-gen9-button");
     private static final By GITHUB_CHECKBOX  = By.xpath("//label[text()='GitHub project']");
     private static final By CONFIGURE_BUTTON  = By.linkText("Configure");
 
