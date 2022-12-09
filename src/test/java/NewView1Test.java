@@ -97,6 +97,9 @@ public class NewView1Test extends BaseTest {
 
     @Test
     public void testCreateMyViews() {
+
+        MyViewsPage myViewsPage = new MyViewsPage(getDriver());
+
         new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName("Freestyle project")
@@ -139,9 +142,9 @@ public class NewView1Test extends BaseTest {
 
                 .clickMyViews();
 
-        Assert.assertTrue(new MyViewsPage(getDriver()).getListViewsNames().contains(GLOBAL_VIEW_NAME));
-        Assert.assertTrue(new MyViewsPage(getDriver()).getListViewsNames().contains(LIST_VIEW_NAME));
-        Assert.assertTrue(new MyViewsPage(getDriver()).getListViewsNames().contains(MY_VIEW_NAME));
+        Assert.assertTrue(myViewsPage.getListViewsNames().contains(GLOBAL_VIEW_NAME));
+        Assert.assertTrue(myViewsPage.getListViewsNames().contains(LIST_VIEW_NAME));
+        Assert.assertTrue(myViewsPage.getListViewsNames().contains(MY_VIEW_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateMyViews")
