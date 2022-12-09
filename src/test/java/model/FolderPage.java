@@ -15,6 +15,12 @@ public class FolderPage extends BasePage {
     @FindBy(xpath = "//tr/td[3]/a/span[1]")
     private List<WebElement> jobList;
 
+    @FindBy(xpath = "//input[@checkdependson='newName']")
+    private WebElement folderNewName;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement renameSubmitButton;
+
     public FolderPage(WebDriver driver) {
         super(driver);
     }
