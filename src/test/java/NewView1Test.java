@@ -96,7 +96,6 @@ public class NewView1Test extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateMyViews")
     public void testRenameMyView() {
-        final By ButtonOkEditView = By.id("yui-gen6-button");
 
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(
@@ -105,7 +104,7 @@ public class NewView1Test extends BaseTest {
         getDriver().findElement(By.xpath("//span[text()='Edit View']/..")).click();
         getDriver().findElement(By.name("name")).clear();
         getDriver().findElement(By.name("name")).sendKeys(LIST_VIEW_RENAME);
-        getDriver().findElement(ButtonOkEditView).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
         Assert.assertEquals(getDriver()
                         .findElement(By.xpath("//a[@href='/user/admin/my-views/view/" + LIST_VIEW_RENAME + "/']")).getText(),
