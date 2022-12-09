@@ -1,7 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -94,7 +93,6 @@ public class NewView1Test extends BaseTest {
         Assert.assertTrue(getListViewsNames().contains(LIST_VIEW_NAME));
         Assert.assertTrue(getListViewsNames().contains(MY_VIEW_NAME));
     }
-
 
     @Test(dependsOnMethods = "testCreateMyViews")
     public void testRenameMyView() {
