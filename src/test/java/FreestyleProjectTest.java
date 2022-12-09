@@ -65,8 +65,8 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     private void deleteFreestyleProject(String projectName) {
-        getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
-        getDriver().findElement(By.xpath("//a[@href = 'job/" + projectName + "/']")).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(GO_TO_DASHBOARD_BUTTON)).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href = 'job/" + projectName + "/']"))).click();
         getDriver().findElement(DELETE_PROJECT_OPTION).click();
         alertAccept();
     }
@@ -427,7 +427,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel > p")).getText(), "No name is specified");
     }
 
-    @Ignore
     @Test
     public void testAccessProjectConfigurationFromTheProjectPage() {
         final String NAME_FREESTYLE_PROJECT_TC010401 = NEW_FREESTYLE_NAME + "TC010401";
@@ -436,12 +435,13 @@ public class FreestyleProjectTest extends BaseTest {
         final By CONFIG_NAME_FREESTYLE_PROJECT_TC010401 =
                 By.xpath("//a[@href='/job/" + NAME_FREESTYLE_PROJECT_TC010401 + "/configure']");
 
-        getDriver().findElement(LINK_NEW_ITEM).click();
-        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(NAME_FREESTYLE_PROJECT_TC010401);
+        getWait(5).until(ExpectedConditions.elementToBeClickable(LINK_NEW_ITEM)).click();
+        getWait(5).until(ExpectedConditions.presenceOfElementLocated(FIELD_ENTER_AN_ITEM_NAME)).
+                sendKeys(NAME_FREESTYLE_PROJECT_TC010401);
         getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
         getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
         getDriver().findElement(GO_TO_DASHBOARD_BUTTON).click();
-        getDriver().findElement(FIND_NAME_FREESTYLE_PROJECT_TC010401).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(FIND_NAME_FREESTYLE_PROJECT_TC010401)).click();
         getDriver().findElement(CONFIG_NAME_FREESTYLE_PROJECT_TC010401).click();
 
         Assert.assertTrue(getDriver().findElement(CONFIGURATION_PAGE_HEAD).getText().contains("Configuration"));
@@ -450,6 +450,7 @@ public class FreestyleProjectTest extends BaseTest {
         deleteFreestyleProject(NAME_FREESTYLE_PROJECT_TC010401);
     }
 
+    @Ignore
     @Test
     public void testAddingDescription() {
         getDriver().findElement(LINK_NEW_ITEM).click();

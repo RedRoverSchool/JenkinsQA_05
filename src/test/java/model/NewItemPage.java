@@ -18,7 +18,7 @@ public class NewItemPage extends BasePage {
     @FindBy(xpath = "//div[@class='icon']")
     private List<WebElement> itemsList;
 
-    @FindBy(className = "btn-decorator")
+    @FindBy(id = "ok-button")
     private WebElement okButton;
 
     @FindBy(className = "hudson_model_FreeStyleProject")
@@ -36,6 +36,11 @@ public class NewItemPage extends BasePage {
     @FindBy(xpath = "//span[text() = 'Pipeline']")
     private WebElement pipeline;
 
+    @FindBy(xpath = "//span[contains(text(), 'Multibranch Pipeline')]")
+    private WebElement multibranchPipeline;
+
+    @FindBy(id = "itemname-required")
+    private WebElement nameRequiredMessage;
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -101,5 +106,19 @@ public class NewItemPage extends BasePage {
         okButton.click();
 
         return new PipelineConfigPage(getDriver());
+
+    public NewItemPage selectMultibranchPipeline() {
+        getWait(1).until(ExpectedConditions.visibilityOf(multibranchPipeline));
+        multibranchPipeline.click();
+
+        return this;
+    }
+
+    public String getNameRequiredMessageText() {
+        return nameRequiredMessage.getText();
+    }
+
+    public WebElement getOkButton() {
+        return okButton;
     }
 }
