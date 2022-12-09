@@ -73,7 +73,7 @@ public class HomePage extends BasePage {
         return new PipelineConfigPage(getDriver());
     }
 
-    public String getTextHeader(){
+    public String getTextHeader() {
         return header.getText();
     }
 
