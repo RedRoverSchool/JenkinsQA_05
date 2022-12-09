@@ -1,9 +1,10 @@
 import model.HomePage;
-import model.StatusPage;
+import model.FolderStatusPage;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import runner.BaseTest;
@@ -35,7 +36,7 @@ public class FolderMoveTest extends BaseTest {
 
         Assert.assertFalse(homePage.getJobList().contains(folderName1));
 
-        StatusPage statusPage = new HomePage(getDriver())
+        FolderStatusPage statusPage = new HomePage(getDriver())
                 .clickFolder(folderName2);
 
         Assert.assertTrue(statusPage.getJobList().contains(folderName1));

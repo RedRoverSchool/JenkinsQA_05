@@ -112,7 +112,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testConfigurationProvideKeepMaxNumberOfOldBuilds")
-    public void testVerifyOptionsInBuildStepsSection() throws InterruptedException {
+    public void testVerifyOptionsInBuildStepsSection() {
 
         final Set<String> expectedOptions = new HashSet<>(List.of("Execute Windows batch command", "Execute shell",
                 "Invoke Ant", "Invoke Gradle script", "Invoke top-level Maven targets", "Run with timeout",
@@ -133,7 +133,11 @@ public class FreestyleProjectSecondTest extends BaseTest {
             actualOptions.add(element.getText());
         }
 
+        getWait(10).until(TestUtils
+                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']")));
         getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
+        getWait(10).until(TestUtils
+                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[@type='submit']")));
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
         Assert.assertEquals(actualOptions, expectedOptions);
@@ -151,7 +155,8 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']")));
         getDriver().findElement(By.xpath("//label[text()='Build periodically']")).click();
 
-        selectedCheckbox = getDriver().findElement(By.name("hudson-triggers-TimerTrigger")).isSelected();
+        selectedCheckbox = getWait(10).until(ExpectedConditions
+                .elementSelectionStateToBe(By.name("hudson-triggers-TimerTrigger"),true));
 
         getWait(10).until(TestUtils.
                 ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']")));
