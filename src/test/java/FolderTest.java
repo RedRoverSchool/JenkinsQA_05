@@ -195,8 +195,8 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testNameAfterRenameIngFolder() {
-        final String folderName1 = TestUtils.getRandomStr(5);
-        final String folderName2 = TestUtils.getRandomStr(5);
+        final String folderName1 = TestUtils.getRandomStr(6);
+        final String folderName2 = TestUtils.getRandomStr(6);
 
         List<String> newFolderName = new HomePage(getDriver())
                 .clickNewItem()
