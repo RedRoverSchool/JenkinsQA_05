@@ -1,3 +1,5 @@
+import model.HomePage;
+import model.NewItemPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -101,6 +103,17 @@ public class MultibranchPipelineTest extends BaseTest {
         assertTextByXPath("//span[text()='MultibranchPipeline']", nameOfItem);
 
         deleteItem(nameOfItem);
+    }
+
+    @Test
+    public void testCreateMbPipelineEmptyName() {
+        NewItemPage newItemPage = new HomePage(getDriver())
+                .clickNewItem()
+                .selectMultibranchPipeline();
+
+        Assert.assertEquals(newItemPage.getNameRequiredMessageText(),
+                "» This field cannot be empty, please enter a valid name");
+        Assert.assertFalse(newItemPage.getOkButton().isEnabled());
     }
 
     @Test
