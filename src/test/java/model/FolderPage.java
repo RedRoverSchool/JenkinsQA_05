@@ -1,5 +1,6 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -36,5 +37,23 @@ public class FolderPage extends BasePage {
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
+    }
+    public FolderPage clickRename(String folderName) {
+        getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/confirm-rename']")).click();
+
+        return new FolderPage(getDriver());
+    }
+
+    public FolderPage clearAndSetNewName(String folderName) {
+        folderNewName.clear();
+        folderNewName.sendKeys(folderName);
+
+        return new FolderPage(getDriver());
+    }
+
+    public FolderPage clickRenameSubmitButton() {
+        renameSubmitButton.click();
+
+        return new FolderPage(getDriver());
     }
 }
