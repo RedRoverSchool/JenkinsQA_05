@@ -47,10 +47,16 @@ public class HomePage extends BasePage {
                 .collect(Collectors.toList());
     }
 
-    public FreestyleProjectPage clickProjectName() {
+    public FreestyleProjectPage clickFreestyleProjectName() {
         jobList.get(0).click();
 
         return new FreestyleProjectPage(getDriver());
+    }
+
+    public PipelineProjectPage clickPipelineProjectName() {
+        jobList.get(0).click();
+
+        return new PipelineProjectPage(getDriver());
     }
 
     public FolderConfigPage clickDeleteDropDownMenu() {

@@ -274,4 +274,18 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 stepEchoTotalText.replace(getDriver().findElement(By.xpath("//span[@class='timestamp']")).getText(), "").trim(),
                 "This is MyPipelineJob!");
     }
+
+    @Test(dependsOnMethods = "testCreateNewPipelineWithDescription")
+    public void testEditPipelineDescription()  {
+        final String newDescription = "new description";
+
+        String actualDescription = new HomePage(getDriver())
+                .clickJobDropDownMenu(RANDOM_STRING)
+                .clickPipelineProjectName()
+                .editDescription(newDescription)
+                .clickSaveButton()
+                .getDescription("textContent");
+
+        Assert.assertEquals(actualDescription, newDescription);
+    }
 }
