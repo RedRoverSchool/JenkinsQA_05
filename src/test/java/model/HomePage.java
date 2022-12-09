@@ -30,6 +30,12 @@ public class HomePage extends BasePage {
     @FindBy(tagName = "h1")
     private WebElement header;
 
+    @FindBy(linkText = "Manage Jenkins")
+    private WebElement menuManageJenkins;
+
+    @FindBy(css = "a[href='/me/my-views']")
+    private WebElement myViews;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -84,9 +90,21 @@ public class HomePage extends BasePage {
         return new DropdownMenu(getDriver());
     }
 
-    public StatusPage clickFolder(String folderName) {
+    public FolderStatusPage clickFolder(String folderName) {
         getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']")).sendKeys(Keys.RETURN);
 
-        return new StatusPage(getDriver());
+        return new FolderStatusPage(getDriver());
+    }
+
+    public ManageJenkinsPage clickMenuManageJenkins() {
+        menuManageJenkins.click();
+
+        return new ManageJenkinsPage(getDriver());
+    }
+    
+     public MyViewsPage clickMyViews() {
+        myViews.click();
+
+        return new MyViewsPage(getDriver());
     }
 }
