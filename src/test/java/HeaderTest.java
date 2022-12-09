@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 import java.time.Duration;
 import java.util.List;
@@ -25,7 +26,7 @@ public class HeaderTest extends BaseTest {
             String organizationFolderName = "OrganizationFolder_" + (int) (Math.random() * 1000);
 
             getDriver().findElement(By.linkText("New Item")).click();
-            getDriver().findElement(By.cssSelector(".jenkins_branch_OrganizationFolder")).click();
+            getWait(5).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".jenkins_branch_OrganizationFolder"))).click();
             getDriver().findElement(By.xpath("//input [@name = 'name']")).sendKeys(organizationFolderName);
             getDriver().findElement(By.id("ok-button")).click();
             getDriver().findElement(By.id("yui-gen15-button")).click();
@@ -166,7 +167,6 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(actualResultPage);
     }
 
-    @Ignore
     @Test
     public void testCheckTheAppropriateSearchResult(){
         createOrganizationFolder();

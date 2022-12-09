@@ -70,13 +70,12 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(actualText[actualText.length - 1], expectedText);
     }
 
-    @Ignore
     @Test
     public void testRenameUsersFullName() {
         getDriver().findElement(MANAGE_JENKINS).click();
         getDriver().findElement(SECURITY_MANAGE_USERS).click();
         getDriver().findElement(JENKINS_MENU_DROPDOWN).click();
-        getDriver().findElement(USER_ADMIN_CONFIGURE).click();
+        getWait(1).until(ExpectedConditions.elementToBeClickable(USER_ADMIN_CONFIGURE)).click();
         getDriver().findElement(USER_FULL_NAME).clear();
         getDriver().findElement(USER_FULL_NAME).sendKeys(NEW_USERS_FULL_NAME);
         getDriver().findElement(SAVE_BUTTON).click();

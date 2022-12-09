@@ -4,6 +4,7 @@ import model.StatusPage;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import runner.BaseTest;
@@ -21,6 +22,7 @@ public class FolderMoveTest extends BaseTest {
                 .clickDashboard();
     }
 
+    @Ignore
     @Test
     public void testMoveFolderToFolder() {
         createFolder(folderName1);
