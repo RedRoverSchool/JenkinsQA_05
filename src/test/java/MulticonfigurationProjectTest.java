@@ -143,7 +143,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         getWait(5).until(ExpectedConditions.presenceOfElementLocated(By.className("textarea-show-preview"))).click();
         String ActualPreviewText = getDriver().findElement(By.xpath("//div[@class='textarea-preview']"))
                 .getText();
-        getWait(15).until(ExpectedConditions.elementToBeClickable(By.id("yui-gen25"))).click();
+        getWait(15).until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@type='submit']"))).click();
         getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Dashboard']"))).click();
         getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='" + nameMCP + "']"))).click();
         String ActualNameMCP = getWait(5)
