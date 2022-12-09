@@ -1,8 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -34,14 +32,6 @@ public class NewView1Test extends BaseTest {
         }
 
         return listViewsNames.toString().trim();
-    }
-
-    public List<WebElement> getListButtonsForJobsDropdownMenu() {
-
-        return getWait(10)
-                .until(ExpectedConditions.refreshed(
-                        ExpectedConditions.visibilityOfAllElementsLocatedBy(
-                        By.cssSelector(".job-status-nobuilt button"))));
     }
 
     public List<String> getListJobs() {
@@ -81,16 +71,6 @@ public class NewView1Test extends BaseTest {
         getDriver().findElement(
                 By.cssSelector("a[href='/user/admin/my-views/view/"
                         + viewName + "/configure']")).click();
-    }
-
-    public void deleteAllJobsByDropdownMenus() {
-        getDriver().findElement(DASHBOARD_LINK).click();
-        for (int i = getListButtonsForJobsDropdownMenu().size() - 1; i >= 0; i--) {
-            getListButtonsForJobsDropdownMenu().get(i).click();
-            getDriver().findElement(
-                    By.partialLinkText("Delete")).click();
-            getDriver().switchTo().alert().accept();
-        }
     }
 
     @Test
@@ -172,7 +152,6 @@ public class NewView1Test extends BaseTest {
         Assert.assertFalse(getListViewsNames().contains(LIST_VIEW_NAME));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testDeleteView")
     public void testDeleteAllViews() {
         getDriver().findElement(DASHBOARD_LINK).click();
@@ -187,7 +166,5 @@ public class NewView1Test extends BaseTest {
         }
 
         Assert.assertEquals(getListViewsNames(), "All");
-
-        deleteAllJobsByDropdownMenus();
     }
 }
