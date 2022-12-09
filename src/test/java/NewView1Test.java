@@ -74,7 +74,7 @@ public class NewView1Test extends BaseTest {
                         + viewName + "/configure']")).click();
     }
 
-    @Ignore
+
     @Test
     public void testCreateMyViews() {
         createAnyJob("Freestyle project",
@@ -95,6 +95,7 @@ public class NewView1Test extends BaseTest {
         Assert.assertTrue(getListViewsNames().contains(LIST_VIEW_NAME));
         Assert.assertTrue(getListViewsNames().contains(MY_VIEW_NAME));
     }
+
 
     @Test(dependsOnMethods = "testCreateMyViews")
     public void testRenameMyView() {
