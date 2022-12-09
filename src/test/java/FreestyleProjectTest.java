@@ -1,7 +1,4 @@
-import model.FreestyleProjectConfigPage;
 import model.HomePage;
-import model.NewItemPage;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
