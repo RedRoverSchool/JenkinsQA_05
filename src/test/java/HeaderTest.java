@@ -176,6 +176,7 @@ public class HeaderTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void test_Logo_HeadIcon_ReloadMainPage(){
         getDriver().findElement(By.id("description-link")).click();
