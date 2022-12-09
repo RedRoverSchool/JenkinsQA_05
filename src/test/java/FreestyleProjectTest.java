@@ -1,4 +1,3 @@
-import model.FreestyleProjectConfigPage;
 import model.HomePage;
 import model.NewItemPage;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -382,14 +381,12 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualFreestyleConfigSideMenu, expectedFreestyleConfigSideMenu);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testCreateFreestyleProjectWithEmptyName() {
-        getDriver().findElement(LINK_NEW_ITEM).click();
-        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+        NewItemPage newItemPage = new HomePage(getDriver()).clickNewItem().selectFreestyleProject();
 
-        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(), "» This field cannot be empty, please enter a valid name");
-        Assert.assertFalse(getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).isEnabled());
+        Assert.assertEquals(newItemPage.getInputValidationMsg(), "» This field cannot be empty, please enter a valid name");
+        Assert.assertFalse(newItemPage.isOkButtonEnabled());
     }
 
     @Test

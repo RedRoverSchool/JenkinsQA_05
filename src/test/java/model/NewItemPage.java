@@ -15,10 +15,13 @@ public class NewItemPage extends BasePage {
     @FindBy(id = "name")
     private WebElement itemName;
 
+    @FindBy(id = "itemname-required")
+    private WebElement inputValidationMsg;
+
     @FindBy(xpath = "//div[@class='icon']")
     private List<WebElement> itemsList;
 
-    @FindBy(className = "btn-decorator")
+    @FindBy(id = "ok-button")
     private WebElement okButton;
 
     @FindBy(className = "hudson_model_FreeStyleProject")
@@ -44,8 +47,13 @@ public class NewItemPage extends BasePage {
         return this;
     }
 
+    public NewItemPage selectFreestyleProject() {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(freestyleProject)).click();
+        return this;
+    }
+
     public FreestyleProjectConfigPage selectFreestyleProjectAndClickOk() {
-        freestyleProject.click();
+        selectFreestyleProject();
         okButton.click();
 
         return new FreestyleProjectConfigPage(getDriver());
@@ -91,5 +99,13 @@ public class NewItemPage extends BasePage {
     public int getItemsListSize() {
         getWait(5).until(ExpectedConditions.visibilityOfAllElements(itemsList));
         return itemsList.size();
+    }
+
+    public String getInputValidationMsg() {
+        return inputValidationMsg.getText();
+    }
+
+    public boolean isOkButtonEnabled() {
+        return okButton.isEnabled();
     }
 }

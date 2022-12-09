@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class HomePage extends BasePage {
 
-    @FindBy(xpath = "//a[@href='/view/all/newJob']")
+    @FindBy(linkText = "New Item")
     private WebElement newItem;
 
     @FindBy(css = "tr td a.model-link")
