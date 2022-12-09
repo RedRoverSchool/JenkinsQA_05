@@ -78,9 +78,7 @@ public class NewView1Test extends BaseTest {
 
     @Test
     public void testCreateMyViews() {
-        MyViewsPage myViewsPage = new MyViewsPage(getDriver());
-
-        new HomePage(getDriver())
+        MyViewsPage myViewsPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName("Freestyle project")
                 .selectFreestyleProjectAndClickOk()

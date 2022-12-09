@@ -15,6 +15,9 @@ public class MyViewsPage extends BasePage{
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
 
+    @FindBy(css = ".tabBar .tab a[href]")
+    private List <WebElement> listViews;
+
     public MyViewsPage(WebDriver driver) {
         super(driver);
     }
@@ -33,8 +36,7 @@ public class MyViewsPage extends BasePage{
 
     public List<WebElement> getListViews() {
 
-        return getDriver().findElements(
-                By.cssSelector(".tabBar .tab a[href]"));
+        return listViews;
     }
 
     public String getListViewsNames() {
