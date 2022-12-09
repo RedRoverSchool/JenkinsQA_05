@@ -333,15 +333,14 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateOrganizFolder() {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(NAME_ORG_FOLDER);
-        WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
-        getOkButton().click();
-        getSaveButton().click();
-        getDashboard().click();
 
-        Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(NAME_ORG_FOLDER)
+                .selectOrgFolderAndClickOk()
+                .clickSaveButton()
+                .goToDashboard();
+
+        Assert.assertTrue(homePage.getJobList().contains(NAME_ORG_FOLDER));
     }
 }
