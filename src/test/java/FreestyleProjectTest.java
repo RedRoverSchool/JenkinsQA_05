@@ -382,11 +382,10 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualFreestyleConfigSideMenu, expectedFreestyleConfigSideMenu);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testCreateFreestyleProjectWithEmptyName() {
         getDriver().findElement(LINK_NEW_ITEM).click();
-        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(LINK_FREESTYLE_PROJECT)).click();
 
         Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(), "» This field cannot be empty, please enter a valid name");
         Assert.assertFalse(getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).isEnabled());
@@ -415,16 +414,15 @@ public class FreestyleProjectTest extends BaseTest {
                 "» ‘" + INVALID_CHAR + "’ is an unsafe character");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithEmptyName")
     public void testCreateFreestyleProjectWithSpacesInsteadOfName() {
-        getDriver().findElement(LINK_NEW_ITEM).click();
-        getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(SPACE_INSTEAD_OF_NAME);
-        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
-        getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).click();
+        FreestyleProjectConfigPage freestyleProjectConfigPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(SPACE_INSTEAD_OF_NAME)
+                .selectFreestyleProjectAndClickOk();
 
-        Assert.assertEquals(getDriver().findElement(JOB_HEADLINE_LOCATOR).getText(), "Error");
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel > p")).getText(), "No name is specified");
+        Assert.assertEquals(freestyleProjectConfigPage.getHeadlineText(), "Error");
+        Assert.assertEquals(freestyleProjectConfigPage.getErrorMsg(), "No name is specified");
     }
 
     @Ignore
