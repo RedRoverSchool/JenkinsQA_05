@@ -148,7 +148,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 getText();
         getWait(5).until(ExpectedConditions.elementToBeClickable(By.id("yui-gen25-button"))).click();
         getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Dashboard']"))).click();
-        getDriver().findElement(By.xpath("//span[text()='" + nameMCP + "']")).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='" + nameMCP + "']"))).click();
         String ActualNameMCP = getWait(5)
                 .until(ExpectedConditions
                 .presenceOfElementLocated(
