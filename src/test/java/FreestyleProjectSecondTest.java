@@ -153,7 +153,8 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']")));
         getDriver().findElement(By.xpath("//label[text()='Build periodically']")).click();
 
-        selectedCheckbox = getDriver().findElement(By.name("hudson-triggers-TimerTrigger")).isSelected();
+        selectedCheckbox = getWait(10).until(ExpectedConditions
+                .elementSelectionStateToBe(By.name("hudson-triggers-TimerTrigger"),true));
 
         getWait(10).until(TestUtils.
                 ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']")));
