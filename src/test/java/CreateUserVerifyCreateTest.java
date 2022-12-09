@@ -27,10 +27,10 @@ public class CreateUserVerifyCreateTest extends BaseTest {
     private static final By BUTTON_FINAL_CREATE_USER = By.id("yui-gen1-button");
     private String randUserName = getRandomDigitAndLetterString();
 
-    private static String USERNAME = getRandomStr(10);
-    private static String PASSWORD = getRandomStr(7);
-    private static String FULLNAME = getRandomStr(5);
-    private static String EMAIL = getRandomStr(5) + "@gmail.com";
+    private static final String USERNAME = getRandomStr(10);
+    private static final String PASSWORD = getRandomStr(7);
+    private static final String FULLNAME = getRandomStr(5);
+    private static final String EMAIL = getRandomStr(5) + "@gmail.com";
 
     public static String getRandomDigitAndLetterString() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
