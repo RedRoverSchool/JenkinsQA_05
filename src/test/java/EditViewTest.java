@@ -187,6 +187,7 @@ public class EditViewTest extends BaseTest{
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test
     public void testListViewAddAllItems() {
         createManyItemsOfEach(1);

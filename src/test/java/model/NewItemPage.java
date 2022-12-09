@@ -39,6 +39,10 @@ public class NewItemPage extends BasePage {
     @FindBy(id = "itemname-required")
     private WebElement nameRequiredMessage;
 
+    @FindBy(xpath = "//span[text() = 'Pipeline']")
+    private WebElement pipeline;
+
+
     public NewItemPage(WebDriver driver) {
         super(driver);
     }
@@ -111,5 +115,12 @@ public class NewItemPage extends BasePage {
 
     public WebElement getOkButton() {
         return okButton;
+    }
+
+    public PipelineConfigPage selectPipelineAndClickOk() {
+        pipeline.click();
+        okButton.click();
+
+        return new PipelineConfigPage(getDriver());
     }
 }

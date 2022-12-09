@@ -1,3 +1,5 @@
+import model.HomePage;
+import model.StatusUserPage;
 import org.openqa.selenium.*;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -11,7 +13,7 @@ import runner.TestUtils;
 import java.time.Duration;
 
 public class ManageJenkinsTest extends BaseTest {
-    private static final String NEW_USERS_FULL_NAME = TestUtils.getRandomStr();
+    private static final String NEW_USERS_FULL_NAME = TestUtils.getRandomStr(6);
     private static final String PLUGIN_NAME = "TestNG Results";
     private static final By MANAGE_JENKINS = By.linkText("Manage Jenkins");
     private static final By SECURITY_MANAGE_USERS = By.xpath("//a[@href='securityRealm/']");
@@ -19,10 +21,8 @@ public class ManageJenkinsTest extends BaseTest {
     private static final By USER_ADMIN_CONFIGURE = By.cssSelector("a[href='/user/admin/configure']");
     private static final By USER_FULL_NAME = By.xpath("//input[@name='_.fullName']");
     private static final By SAVE_BUTTON = By.id("yui-gen3-button");
-    private static final By CONFIGURE_BUTTON = By.className("jenkins-table__button");
     private static final By H1_TITLE = By.xpath("//h1");
     private static final By PAGE_HEADER_USER = By.cssSelector(".model-link > .hidden-xs.hidden-sm");
-    private static final By BREADCRUMBS_USER_NAME = By.xpath("//li[@class='item'][last()]");
     private static final By PLUGIN_MANAGER = By.xpath("//a[@href='pluginManager']");
     private static final By AVAILABLE_PLUGINS_TAB = By.xpath("//a[@href='./available']");
     private static final By INSTALLED_PLUGINS_TAB = By.xpath("//a[@href='./installed']");
@@ -40,18 +40,18 @@ public class ManageJenkinsTest extends BaseTest {
 
     @Test
     public void testRenameFullUserName() {
-        getDriver().findElement(MANAGE_JENKINS).click();
-        TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.xpath("//h2[text()='Security']")));
-        getDriver().findElement(SECURITY_MANAGE_USERS).click();
-        getDriver().findElement(CONFIGURE_BUTTON).click();
-        getDriver().findElement(USER_FULL_NAME).clear();
-        getDriver().findElement(USER_FULL_NAME).sendKeys(NEW_USERS_FULL_NAME);
-        getDriver().findElement(SAVE_BUTTON).click();
+        StatusUserPage userStatusPage = new HomePage(getDriver())
+                .clickMenuManageJenkins()
+                .clickManageUsers()
+                .clickConfigureUser()
+                .clearInputFieldFullUserName()
+                .inputNameInFieldFullUserName(NEW_USERS_FULL_NAME)
+                .clickSaveButton()
+                .refreshPage();
 
-        getDriver().navigate().refresh();
-
-        Assert.assertEquals(getDriver().findElement(BREADCRUMBS_USER_NAME).getText(), NEW_USERS_FULL_NAME);
-        Assert.assertEquals(getDriver().findElement(PAGE_HEADER_USER).getText(), NEW_USERS_FULL_NAME);
+        Assert.assertEquals(userStatusPage.getPageHeaderUserName(), NEW_USERS_FULL_NAME);
+        Assert.assertEquals(userStatusPage.getBreadcrumbsUserName(), NEW_USERS_FULL_NAME);
+        Assert.assertEquals(userStatusPage.getH1Title(), NEW_USERS_FULL_NAME);
     }
 
     @Test
