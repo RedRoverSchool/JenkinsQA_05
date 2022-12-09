@@ -22,7 +22,6 @@ public class FolderMoveTest extends BaseTest {
                 .clickDashboard();
     }
 
-    @Ignore
     @Test
     public void testMoveFolderToFolder() {
         createFolder(folderName1);
