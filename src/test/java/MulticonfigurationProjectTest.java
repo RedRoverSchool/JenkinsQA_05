@@ -136,8 +136,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
         final String descriptionMCP = "Description000302";
 
         getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/view/all/newJob']"))).click();
-        getWait(5).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@class='jenkins-input']"))).sendKeys(nameMCP);
-        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
+        getDriver().findElement(By.xpath("//input[@class='jenkins-input']")).sendKeys(nameMCP);
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Multi-configuration project']"))).click();
         getDriver().findElement(By.id("ok-button")).click();
         getWait(5).until(ExpectedConditions.presenceOfElementLocated(By.name("description"))).sendKeys(descriptionMCP);
         getDriver().findElement(By.className("textarea-show-preview")).click();
