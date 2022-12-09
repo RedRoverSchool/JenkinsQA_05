@@ -30,6 +30,9 @@ public class HomePage extends BasePage {
     @FindBy(tagName = "h1")
     private WebElement header;
 
+    @FindBy(linkText = "Manage Jenkins")
+    private WebElement menuManageJenkins;
+
     @FindBy(css = "a[href='/me/my-views']")
     private WebElement myViews;
 
@@ -93,7 +96,13 @@ public class HomePage extends BasePage {
         return new StatusPage(getDriver());
     }
 
-    public MyViewsPage clickMyViews() {
+    public ManageJenkinsPage clickMenuManageJenkins() {
+        menuManageJenkins.click();
+
+        return new ManageJenkinsPage(getDriver());
+    }
+    
+     public MyViewsPage clickMyViews() {
         myViews.click();
 
         return new MyViewsPage(getDriver());
