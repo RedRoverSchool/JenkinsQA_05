@@ -162,7 +162,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testNoBuildFreestyleProjectChanges")
-    public void testRenameFreestyleProject() {
+    public void testRenameFreestyleProjectWillBeDeleted() {
 
         getDriver().findElement(By.cssSelector("tr#job_" + FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
         getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/job/" + FREESTYLE_NAME + "/confirm-rename']"))).click();
@@ -175,7 +175,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getListExistingFreestyleProjectsNames(BY_LIST_FREESTYLE_JOBS).contains(NEW_FREESTYLE_NAME));
     }
 
-    @Test(dependsOnMethods = "testRenameFreestyleProject")
+    @Test(dependsOnMethods = "testRenameFreestyleProjectWillBeDeleted")
     public void testViewFreestyleProjectPage() {
         getDriver().findElement(By.linkText(NEW_FREESTYLE_NAME)).click();
 
@@ -465,5 +465,25 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(
                 getDriver().findElement(By.xpath("//div[@id='error-description']//h2")).getText(),
                 expectedTextOfError);
+    }
+
+    @Test
+    public void testRenameFreestyleProject() {
+        final String freestyleName = "freestyleName";
+        final String newFreestyleName = getRandomStr(10);
+
+        List<String> jobsList = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(freestyleName)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickRenameButton()
+                .clearFieldAndInputNewName(newFreestyleName)
+                .clickSubmitButton()
+                .clickDashboard()
+                .getJobList();
+
+        Assert.assertFalse(jobsList.contains(freestyleName));
+        Assert.assertTrue(jobsList.contains(newFreestyleName));
     }
 }
