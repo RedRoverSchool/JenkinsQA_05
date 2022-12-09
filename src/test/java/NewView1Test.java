@@ -202,22 +202,22 @@ public class NewView1Test extends BaseTest {
         Assert.assertFalse(new MyViewsPage(getDriver()).getListViewsNames().contains(LIST_VIEW_NAME));
     }
 
-//    @Ignore
-//    @Test(dependsOnMethods = "testDeleteView")
-//    public void testDeleteAllViews() {
-//        getDriver().findElement(DASHBOARD_LINK).click();
-//        getDriver().findElement(MY_VIEWS).click();
-//        for (int i = getListViews().size() - 1; i >= 0; i--) {
-//            if (!getListViews().get(i).getText().equals("All")
-//                    && !getListViews().get(i).equals(getDriver().findElement(ADD_VIEW))) {
-//                getListViews().get(i).click();
-//                getDriver().findElement(DELETE_VIEW).click();
-//                getDriver().findElement(By.id("yui-gen1-button")).click();
-//            }
-//        }
-//
-//        Assert.assertEquals(getListViewsNames(), "All");
-//
-//        deleteAllJobsByDropdownMenus();
-//    }
+    @Ignore
+    @Test(dependsOnMethods = "testDeleteView")
+    public void testDeleteAllViews() {
+        getDriver().findElement(DASHBOARD_LINK).click();
+        getDriver().findElement(MY_VIEWS).click();
+        for (int i = getListViews().size() - 1; i >= 0; i--) {
+            if (!getListViews().get(i).getText().equals("All")
+                    && !getListViews().get(i).equals(getDriver().findElement(ADD_VIEW))) {
+                getListViews().get(i).click();
+                getDriver().findElement(DELETE_VIEW).click();
+                getDriver().findElement(By.id("yui-gen1-button")).click();
+            }
+        }
+
+        Assert.assertEquals(getListViewsNames(), "All");
+
+        deleteAllJobsByDropdownMenus();
+    }
 }
