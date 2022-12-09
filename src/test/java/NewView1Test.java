@@ -74,7 +74,6 @@ public class NewView1Test extends BaseTest {
                         + viewName + "/configure']")).click();
     }
 
-
     @Test
     public void testCreateMyViews() {
         createAnyJob("Freestyle project",
