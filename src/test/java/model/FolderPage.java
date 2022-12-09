@@ -39,20 +39,20 @@ public class FolderPage extends BasePage {
                 .collect(Collectors.toList());
     }
 
-    public FolderPage clickRename(String folderName){
+    public FolderPage clickRename(String folderName) {
         getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/confirm-rename']")).click();
 
         return new FolderPage(getDriver());
     }
 
-    public FolderPage clearAndSetNewName(String folderName){
+    public FolderPage clearAndSetNewName(String folderName) {
         folderNewName.clear();
         folderNewName.sendKeys(folderName);
 
         return new FolderPage(getDriver());
     }
 
-    public FolderPage clickRenameSubmitButton(){
+    public FolderPage clickRenameSubmitButton() {
         renameSubmitButton.click();
 
         return new FolderPage(getDriver());
