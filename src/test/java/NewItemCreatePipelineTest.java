@@ -1,4 +1,5 @@
 import model.HomePage;
+import model.NewItemPage;
 import model.PipelineConfigPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -41,13 +42,18 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineExistingNameError() {
-        createPipeline(RANDOM_STRING);
-        getDriver().findElement(LINK_TO_DASHBOARD).click();
-        setJobPipeline(RANDOM_STRING);
+        final String projectName = "AnyUnusualName";
 
-        WebElement notificationError = getDriver().findElement(By.id("itemname-invalid"));
+        String newItemPageErrorMessage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(projectName)
+                .selectPipelineAndClickOk()
+                .rootMenuDashboardLinkClick()
+                .clickNewItem()
+                .setProjectName(projectName)
+                .getErrorMessage();
 
-        Assert.assertEquals(notificationError.getText(), String.format("» A job already exists with the name ‘%s’", RANDOM_STRING));
+        Assert.assertEquals(newItemPageErrorMessage, String.format("» A job already exists with the name ‘%s’", projectName));
     }
 
     @DataProvider(name = "new-item-unsafe-names")

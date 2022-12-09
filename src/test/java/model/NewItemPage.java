@@ -24,6 +24,9 @@ public class NewItemPage extends BasePage {
     @FindBy(className = "hudson_model_FreeStyleProject")
     private WebElement freestyleProject;
 
+    @FindBy(xpath = "//span[text()='Pipeline']")
+    private WebElement pipeline;
+
     @FindBy(className = "com_cloudbees_hudson_plugins_folder_Folder")
     private WebElement folderType;
 
@@ -38,6 +41,9 @@ public class NewItemPage extends BasePage {
 
     @FindBy(id = "itemname-required")
     private WebElement nameRequiredMessage;
+
+    @FindBy(id = "itemname-invalid")
+    private WebElement errorMessage;
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -61,6 +67,13 @@ public class NewItemPage extends BasePage {
         okButton.click();
 
         return new FolderConfigPage(getDriver());
+    }
+
+    public PipelineConfigPage selectPipelineAndClickOk() {
+        pipeline.click();
+        okButton.click();
+
+        return new PipelineConfigPage(getDriver());
     }
 
     public OrgFolderConfigPage selectOrgFolderAndClickOk() {
@@ -111,5 +124,9 @@ public class NewItemPage extends BasePage {
 
     public WebElement getOkButton() {
         return okButton;
+    }
+
+    public String getErrorMessage() {
+        return getWait(5).until(ExpectedConditions.visibilityOf(errorMessage)).getText();
     }
 }
