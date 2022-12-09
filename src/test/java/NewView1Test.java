@@ -1,4 +1,5 @@
 import model.HomePage;
+import model.MyViewsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -42,7 +43,7 @@ public class NewView1Test extends BaseTest {
         return getWait(10)
                 .until(ExpectedConditions.refreshed(
                         ExpectedConditions.visibilityOfAllElementsLocatedBy(
-                        By.cssSelector(".job-status-nobuilt button"))));
+                                By.cssSelector(".job-status-nobuilt button"))));
     }
 
     public List<String> getListJobs() {
@@ -96,7 +97,7 @@ public class NewView1Test extends BaseTest {
 
     @Test
     public void testCreateMyViews() {
-        HomePage homePage = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName("Freestyle project")
                 .selectFreestyleProjectAndClickOk()
@@ -115,24 +116,32 @@ public class NewView1Test extends BaseTest {
                 .clickSave()
                 .goToDashboard()
 
-        .clickMyViews()
+                .clickMyViews()
                 .clickNewView()
+                .setViewName(GLOBAL_VIEW_NAME)
+                .setGlobalViewType()
+                .clickCreateButton()
+                .clickDashboard()
 
+                .clickMyViews()
+                .clickNewView()
+                .setViewName(LIST_VIEW_NAME)
+                .setGlobalViewType()
+                .clickCreateButton()
+                .clickDashboard()
 
+                .clickMyViews()
+                .clickNewView()
+                .setViewName(MY_VIEW_NAME)
+                .setGlobalViewType()
+                .clickCreateButton()
+                .clickDashboard()
 
+                .clickMyViews();
 
-
-        createAnyView(GLOBAL_VIEW_NAME,
-                By.cssSelector("label[for='hudson.model.ProxyView']"));
-        createAnyView(LIST_VIEW_NAME,
-                By.cssSelector("label[for='hudson.model.ListView']"));
-        createAnyView(MY_VIEW_NAME,
-                By.cssSelector("label[for='hudson.model.MyView']"));
-        getDriver().findElement(MY_VIEWS).click();
-
-        Assert.assertTrue(getListViewsNames().contains(GLOBAL_VIEW_NAME));
-        Assert.assertTrue(getListViewsNames().contains(LIST_VIEW_NAME));
-        Assert.assertTrue(getListViewsNames().contains(MY_VIEW_NAME));
+        Assert.assertTrue(new MyViewsPage(getDriver()).getListViewsNames().contains(GLOBAL_VIEW_NAME));
+        Assert.assertTrue(new MyViewsPage(getDriver()).getListViewsNames().contains(LIST_VIEW_NAME));
+        Assert.assertTrue(new MyViewsPage(getDriver()).getListViewsNames().contains(MY_VIEW_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateMyViews")
@@ -190,25 +199,25 @@ public class NewView1Test extends BaseTest {
         getDriver().findElement(DELETE_VIEW).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
-        Assert.assertFalse(getListViewsNames().contains(LIST_VIEW_NAME));
+        Assert.assertFalse(new MyViewsPage(getDriver()).getListViewsNames().contains(LIST_VIEW_NAME));
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testDeleteView")
-    public void testDeleteAllViews() {
-        getDriver().findElement(DASHBOARD_LINK).click();
-        getDriver().findElement(MY_VIEWS).click();
-        for (int i = getListViews().size() - 1; i >= 0; i--) {
-            if (!getListViews().get(i).getText().equals("All")
-                    && !getListViews().get(i).equals(getDriver().findElement(ADD_VIEW))) {
-                getListViews().get(i).click();
-                getDriver().findElement(DELETE_VIEW).click();
-                getDriver().findElement(By.id("yui-gen1-button")).click();
-            }
-        }
-
-        Assert.assertEquals(getListViewsNames(), "All");
-
-        deleteAllJobsByDropdownMenus();
-    }
+//    @Ignore
+//    @Test(dependsOnMethods = "testDeleteView")
+//    public void testDeleteAllViews() {
+//        getDriver().findElement(DASHBOARD_LINK).click();
+//        getDriver().findElement(MY_VIEWS).click();
+//        for (int i = getListViews().size() - 1; i >= 0; i--) {
+//            if (!getListViews().get(i).getText().equals("All")
+//                    && !getListViews().get(i).equals(getDriver().findElement(ADD_VIEW))) {
+//                getListViews().get(i).click();
+//                getDriver().findElement(DELETE_VIEW).click();
+//                getDriver().findElement(By.id("yui-gen1-button")).click();
+//            }
+//        }
+//
+//        Assert.assertEquals(getListViewsNames(), "All");
+//
+//        deleteAllJobsByDropdownMenus();
+//    }
 }

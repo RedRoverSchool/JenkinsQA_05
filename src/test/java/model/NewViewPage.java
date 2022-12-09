@@ -23,6 +23,9 @@ public class NewViewPage extends BasePage {
     @FindBy(id = "ok")
     private WebElement createButton;
 
+    @FindBy(xpath = "//button[text() = 'OK']")
+    private WebElement okButton;
+
 
     public NewViewPage(WebDriver driver) {
         super(driver);
@@ -52,4 +55,15 @@ public class NewViewPage extends BasePage {
         return this;
     }
 
+    public MyViewsPage clickCreateButton() {
+        createButton.click();
+
+        return new MyViewsPage(getDriver());
+    }
+
+    public HomePage clickOkButton() {
+        okButton.click();
+
+        return new HomePage(getDriver());
+    }
 }
