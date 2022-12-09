@@ -1,39 +1,69 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class NewViewPage extends BasePage {
 
-    @FindBy(css = "#name")
-    private WebElement nameView;
+    @FindBy(id = "name")
+    private WebElement viewName;
 
-    @FindBy(xpath = "//label[@for='hudson.model.ListView']")
-    private WebElement listViewRadiobutton;
+    @FindBy(css = "label[for='hudson.model.ProxyView']")
+    private WebElement globalViewType;
 
-    @FindBy(css = "#ok")
+    @FindBy(css = "label[for='hudson.model.ListView']")
+    private WebElement listViewType;
+
+    @FindBy(css = "label[for='hudson.model.MyView']")
+    private WebElement myViewType;
+
+    @FindBy(id = "ok")
     private WebElement createButton;
+
+    @FindBy(xpath = "//button[text() = 'OK']")
+    private WebElement okButton;
+
 
     public NewViewPage(WebDriver driver) {
         super(driver);
     }
 
     public NewViewPage setViewName(String name) {
-        nameView.sendKeys(name);
+        getWait(2).until(ExpectedConditions.visibilityOf(viewName)).sendKeys(name);
 
-        return new NewViewPage(getDriver());
+        return this;
     }
 
-    public NewViewPage selectListView() {
-        listViewRadiobutton.click();
+    public NewViewPage setGlobalViewType() {
+        globalViewType.click();
 
-        return new NewViewPage(getDriver());
+        return this;
     }
 
-    public EditViewPage clickCreate() {
+    public NewViewPage setListViewType() {
+        listViewType.click();
+
+        return this;
+    }
+
+    public NewViewPage setMyViewType() {
+        myViewType.click();
+
+        return this;
+    }
+
+    public MyViewsPage clickCreateButton() {
         createButton.click();
 
-        return new EditViewPage(getDriver());
+        return new MyViewsPage(getDriver());
+    }
+
+    public HomePage clickOkButton() {
+        okButton.click();
+
+        return new HomePage(getDriver());
     }
 }

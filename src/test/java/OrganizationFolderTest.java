@@ -120,14 +120,13 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(TITLE).getText(), uniqueOrganizationFolderName + "1");
     }
 
-    @Ignore
     @Test
     public void testCreateOrganizationFolderWithCheckOnDashbord() {
         final String organizationFolderName = "OrganizationFolder_" + (int) (Math.random() * 100);
         boolean actualResult = false;
 
         getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.cssSelector(".jenkins_branch_OrganizationFolder")).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".jenkins_branch_OrganizationFolder"))).click();
         getInputName().sendKeys(organizationFolderName);
         getOkButton().click();
         getDriver().findElement(By.xpath("//li[@class='item']/a[@href='/']")).click();
