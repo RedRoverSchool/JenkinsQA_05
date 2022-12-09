@@ -77,7 +77,6 @@ public class NewView1Test extends BaseTest {
 
     @Test
     public void testCreateMyViews() {
-
         MyViewsPage myViewsPage = new MyViewsPage(getDriver());
 
         new HomePage(getDriver())
@@ -129,7 +128,6 @@ public class NewView1Test extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateMyViews")
     public void testRenameMyView() {
-
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(
                 By.cssSelector(".tabBar .tab a[href='/user/admin/my-views/view/"
