@@ -22,8 +22,14 @@ public class NewItemPage extends BasePage {
     @FindBy(id = "name")
     private WebElement itemName;
 
+    @FindBy(id = "itemname-required")
+    private WebElement itemNameRequiredMsg;
+
     @FindBy(id = "itemname-invalid")
     private WebElement itemNameInvalidMsg;
+
+    @FindBy(id = "itemtype-required")
+    private WebElement itemTypeRequiredMsg;
 
     @FindBy(xpath = "//div[@class='icon']")
     private List<WebElement> itemsList;
@@ -118,11 +124,11 @@ public class NewItemPage extends BasePage {
     public String getInputValidationMsg(InputValidationMsgType type) {
         switch (type) {
             case NAME_REQ:
-                return "» This field cannot be empty, please enter a valid name";
+                return itemNameRequiredMsg.getText();
             case NAME_INVALID:
                 return itemNameInvalidMsg.getText();
             case TYPE_REQ:
-                return "» Please select an item type";
+                return itemTypeRequiredMsg.getText();
         }
         return "";
     }
