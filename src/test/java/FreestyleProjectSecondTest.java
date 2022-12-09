@@ -137,6 +137,8 @@ public class FreestyleProjectSecondTest extends BaseTest {
         getWait(10).until(TestUtils
                 .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']")));
         getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
+        getWait(10).until(TestUtils
+                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[@type='submit']")));
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
         Assert.assertEquals(actualOptions, expectedOptions);
