@@ -99,6 +99,7 @@ public class NewItemPage extends BasePage {
     }
 
     public NewItemPage selectMultibranchPipeline() {
+        getWait(1).until(ExpectedConditions.visibilityOf(multibranchPipeline));
         multibranchPipeline.click();
 
         return this;
@@ -110,10 +111,5 @@ public class NewItemPage extends BasePage {
 
     public WebElement getOkButton() {
         return okButton;
-    }
-
-    public NewItemPage clearItemNameField() {
-        itemName.clear();
-        return this;
     }
 }

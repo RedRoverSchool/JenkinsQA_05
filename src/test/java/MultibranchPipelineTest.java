@@ -109,7 +109,6 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testCreateMbPipelineEmptyName() {
         NewItemPage newItemPage = new HomePage(getDriver())
                 .clickNewItem()
-                .clearItemNameField()
                 .selectMultibranchPipeline();
 
         Assert.assertEquals(newItemPage.getNameRequiredMessageText(),
