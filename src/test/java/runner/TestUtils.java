@@ -51,19 +51,12 @@ public class TestUtils {
             };
         }
 
-        public static ExpectedCondition<WebElement> elementIsNotMoving(final WebElement webElement) {
+        public static ExpectedCondition<WebElement> elementIsNotMoving(final WebElement element) {
             return new ExpectedCondition<>() {
                 private Point location = null;
 
                 @Override
                 public WebElement apply(WebDriver driver) {
-                    WebElement element;
-                    try {
-                        element = webElement;
-                    } catch (NoSuchElementException e) {
-                        return null;
-                    }
-
                     if (element.isDisplayed()) {
                         Point location = element.getLocation();
                         if (location.equals(this.location)) {
