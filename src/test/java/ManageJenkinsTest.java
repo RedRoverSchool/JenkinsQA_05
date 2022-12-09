@@ -41,7 +41,7 @@ public class ManageJenkinsTest extends BaseTest {
     @Test
     public void testRenameFullUserName() {
         StatusUserPage userStatusPage = new HomePage(getDriver())
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageUsers()
                 .clickConfigureUser()
                 .clearInputFieldFullUserName()
