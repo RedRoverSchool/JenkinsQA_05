@@ -335,6 +335,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(actualDescText, multiConfProjectDescriptionText);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectDisabled")
     public void testEnableDisabledMultiConfigurationProject() {
         getDriver().findElement(By.xpath("//span[text()='" + PROJECT_NAME + "']")).click();
