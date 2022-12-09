@@ -3,6 +3,7 @@ import model.MyViewsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -151,6 +152,7 @@ public class NewView1Test extends BaseTest {
                 "The name of a global view that will be shown.");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testViewHasSelectedTypeGlobalView")
     public void testViewHasSelectedTypeListView() {
         goToEditView(LIST_VIEW_RENAME);
@@ -160,7 +162,7 @@ public class NewView1Test extends BaseTest {
                 "Job Filters");
     }
 
-    @Test(dependsOnMethods = "testViewHasSelectedTypeListView")
+    @Test(dependsOnMethods = "testViewHasSelectedTypeGlobalView")
     public void testViewHasSelectedTypeMyView() {
         final List<String> expectedListJobs = getListJobs();
 
