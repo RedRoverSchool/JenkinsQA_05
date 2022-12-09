@@ -271,7 +271,6 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//option[text()='Jenkins']")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDashboard().click();
-
         getWait(5).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("dashboard"))));
 
         Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
