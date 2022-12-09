@@ -17,7 +17,7 @@ public class ProjectsInFolderTest extends BaseTest {
     public void testCreateFolder() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .typeName(RANDOM_NAME)
+                .setProjectName(RANDOM_NAME)
                 .selectFolderAndClickOk()
                 .clickDashboard();
 

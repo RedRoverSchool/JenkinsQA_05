@@ -1,3 +1,6 @@
+import model.FreestyleProjectConfigPage;
+import model.HomePage;
+import model.NewItemPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -63,24 +66,25 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     private void deleteFreestyleProject(String projectName) {
-        getDriver().findElement(GO_TO_DASHBOARD_LINK).click();
-        getDriver().findElement(By.xpath("//a[@href = 'job/" + projectName + "/']")).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(GO_TO_DASHBOARD_LINK)).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href = 'job/" + projectName + "/']"))).click();
         getDriver().findElement(DROPDOWN_DELETE_PROJECT).click();
         alertAccept();
     }
 
     @Test
     public void testCreateNewFreestyleProject() {
-        getWait(10).until(ExpectedConditions.elementToBeClickable(BUTTON_ADD_NEW_ITEM)).click();
+        final String freestyleProjectTitle = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .getHeadlineText();
 
-        getDriver().findElement(FIELD_ENTER_NAME).sendKeys(FREESTYLE_NAME);
-        getDriver().findElement(BUTTON_SELECT_FREESTYLE_PROJECT).click();
-        getWait(10).until(ExpectedConditions.elementToBeClickable(BUTTON_OK)).click();
-        getWait(10).until(ExpectedConditions.elementToBeClickable(BUTTON_SUBMIT)).click();
-
-        Assert.assertEquals(getDriver().findElement(NEW_ITEM_NAME_HEADLINE).getText(), "Project " + FREESTYLE_NAME);
+        Assert.assertEquals(freestyleProjectTitle, String.format("Project %s", FREESTYLE_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithSpacesInsteadOfName")
     public void testCreateFreestyleProjectWithIncorrectCharacters() {
         final List<Character> incorrectNameCharacters = List.of('!', '@', '#', '$', '%', '^', '&', '*', '[', ']', '\\', '|', ';', ':', '/', '?', '<', '>');
@@ -96,6 +100,7 @@ public class FreestyleProjectTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithIncorrectCharacters")
     public void testDisableProject() {
 
@@ -110,6 +115,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getBuildStatus(), "Disabled");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDisableProject")
     public void testEnableProject() {
 
@@ -120,6 +126,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getBuildStatus(), "Not built");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testEnableProject")
     public void testFreestyleProjectPageIsOpenedFromDashboard() {
 
@@ -130,12 +137,14 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(BUTTON_ENABLE_DISABLE_PROJECT).isEnabled());
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testFreestyleProjectPageIsOpenedFromDashboard")
     public void testPresentationNewProjectOnDashboard() {
 
         Assert.assertTrue(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(FREESTYLE_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testPresentationNewProjectOnDashboard")
     public void testAddDescriptionToFreestyleProject() {
         final String descriptionText = "This is job #" + FREESTYLE_NAME;
@@ -152,6 +161,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(DESCRIPTION_TEXT).getText(), descriptionText);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddDescriptionToFreestyleProject")
     public void testNoBuildFreestyleProjectChanges() {
         getDriver().findElement(By.linkText(FREESTYLE_NAME)).click();
@@ -162,6 +172,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualChangesText, "No builds.");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testNoBuildFreestyleProjectChanges")
     public void testRenameFreestyleProject() {
 
@@ -176,6 +187,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getListExistingFreestyleProjectsNames(LIST_FREESTYLE_JOBS).contains(NEW_FREESTYLE_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testRenameFreestyleProject")
     public void testViewFreestyleProjectPage() {
         getDriver().findElement(By.linkText(NEW_FREESTYLE_NAME)).click();
@@ -183,6 +195,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(NEW_ITEM_NAME_HEADLINE).getText(), String.format("Project %s", NEW_FREESTYLE_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testViewFreestyleProjectPage")
     public void testViewChangesNoBuildsSignAppears() {
         final String expectedText = "Changes\nNo builds.";
@@ -195,6 +208,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualText, expectedText);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears")
     public void testFreestyleProjectConfigureByDropdown() {
         getDriver().findElement(By.cssSelector("#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
@@ -205,6 +219,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(), NEW_FREESTYLE_NAME + " Config [Jenkins]");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testFreestyleProjectConfigureByDropdown")
     public void testFreestyleProjectConfigureMenu() {
         getDriver().findElement(By.xpath("//a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
@@ -227,6 +242,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEqualsNoOrder(textConfigMenu, actualConfigMenu);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testFreestyleProjectConfigureMenu")
     public void testCreateNewFreestyleProjectWithDupicateName() {
         getDriver().findElement(BUTTON_ADD_NEW_ITEM).click();
@@ -238,6 +254,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(ITEM_NAME_INVALID_MESSAGE).getText(), String.format("» A job already exists with the name ‘%s’", NEW_FREESTYLE_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testFreestyleProjectBuild")
     public void testDeleteFreestyleProject() {
 
@@ -264,7 +281,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), String.format("Project %s", FREESTYLE_NAME_WITH_DESCRIPTION));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithDescription")
     public void testEditFreestyleProjectWithDescription() {
         getDriver().findElement(By.xpath("//span[contains(text(),'" + FREESTYLE_NAME_WITH_DESCRIPTION + "')]")).click();
@@ -294,6 +310,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithDupicateName")
     public void testCreateBuildNowOnFreestyleProjectPage() {
         int countBuildsBeforeCreatingNewBuild = 0;
@@ -330,6 +347,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(lstWithStrings.contains(name));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateBuildNowOnFreestyleProjectPage")
     public void testFreestyleProjectBuild() {
         getDriver().findElement(By.linkText(NEW_FREESTYLE_NAME)).click();
@@ -353,22 +371,19 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testEditFreestyleProjectWithDescription")
-    public void testFreestyleProjectSideMenu() {
+    public void testFreestyleConfigSideMenu() {
 
-        final Set<String> expectedFreestyleProjectSideMenu = new TreeSet<>(List.of("General", "Source Code Management", "Build Triggers", "Build Environment", "Build Steps", "Post-build Actions"));
+        final Set<String> expectedFreestyleConfigSideMenu = new TreeSet<>(List.of("General", "Source Code Management", "Build Triggers", "Build Environment", "Build Steps", "Post-build Actions"));
 
-        getDriver().findElements(By.xpath("//tr/td/a")).get(0).click();
-        getDriver().findElement(By.linkText("Configure")).click();
+        Set<String> actualFreestyleConfigSideMenu = new HomePage(getDriver())
+                .clickProjectName()
+                .clickSideMenuConfigure()
+                .collectFreestyleConfigSideMenu();
 
-        List<WebElement> freestyleProjectSideMenu = getDriver().findElements(By.cssSelector("button.task-link"));
-        Set<String> actualFreestyleProjectSideMenu = new TreeSet<>();
-        for (WebElement menu : freestyleProjectSideMenu) {
-            actualFreestyleProjectSideMenu.add(menu.getText());
-        }
-
-        Assert.assertEquals(actualFreestyleProjectSideMenu, expectedFreestyleProjectSideMenu);
+        Assert.assertEquals(actualFreestyleConfigSideMenu, expectedFreestyleConfigSideMenu);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testCreateFreestyleProjectWithEmptyName() {
         getDriver().findElement(BUTTON_ADD_NEW_ITEM).click();
@@ -401,6 +416,7 @@ public class FreestyleProjectTest extends BaseTest {
                 "» ‘" + INVALID_CHAR + "’ is an unsafe character");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithEmptyName")
     public void testCreateFreestyleProjectWithSpacesInsteadOfName() {
         getDriver().findElement(BUTTON_ADD_NEW_ITEM).click();
@@ -420,12 +436,13 @@ public class FreestyleProjectTest extends BaseTest {
         final By CONFIG_NAME_FREESTYLE_PROJECT_TC010401 =
                 By.xpath("//a[@href='/job/" + NAME_FREESTYLE_PROJECT_TC010401 + "/configure']");
 
-        getDriver().findElement(BUTTON_ADD_NEW_ITEM).click();
-        getDriver().findElement(FIELD_ENTER_NAME).sendKeys(NAME_FREESTYLE_PROJECT_TC010401);
+        getWait(5).until(ExpectedConditions.elementToBeClickable(BUTTON_ADD_NEW_ITEM)).click();
+        getWait(5).until(ExpectedConditions.presenceOfElementLocated(FIELD_ENTER_NAME)).
+                sendKeys(NAME_FREESTYLE_PROJECT_TC010401);
         getDriver().findElement(BUTTON_SELECT_FREESTYLE_PROJECT).click();
         getDriver().findElement(BUTTON_OK).click();
         getDriver().findElement(GO_TO_DASHBOARD_LINK).click();
-        getDriver().findElement(FIND_NAME_FREESTYLE_PROJECT_TC010401).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(FIND_NAME_FREESTYLE_PROJECT_TC010401)).click();
         getDriver().findElement(CONFIG_NAME_FREESTYLE_PROJECT_TC010401).click();
 
         Assert.assertTrue(getDriver().findElement(CONFIGURATION_PAGE_HEADLINE).getText().contains("Configuration"));
@@ -434,7 +451,6 @@ public class FreestyleProjectTest extends BaseTest {
         deleteFreestyleProject(NAME_FREESTYLE_PROJECT_TC010401);
     }
 
-    @Ignore
     @Test
     public void testAddingDescription() {
         getDriver().findElement(BUTTON_ADD_NEW_ITEM).click();

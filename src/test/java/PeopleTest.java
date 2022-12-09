@@ -1,10 +1,12 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 import java.time.Duration;
 import java.util.List;
@@ -30,12 +32,8 @@ public class PeopleTest extends BaseTest {
     @Test
     public void createUserTest() {
         getDriver().findElement(BUTTON_MANAGE_JENKINS).click();
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(BUTTON_MANAGE_USERS));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);",
-                getDriver().findElement(BUTTON_MANAGE_USERS));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();",
-                getDriver().findElement(BUTTON_MANAGE_USERS));
+        TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.xpath("//h2[text() = 'Troubleshooting']")));
+        getDriver().findElement(BUTTON_MANAGE_USERS).click();
         getDriver().findElement(BUTTON_CREATE_USER).click();
         getDriver().findElement(TEXTFIELD_USERNAME).sendKeys(RANDOM_FULL_NAME);
         getDriver().findElement(TEXTFIELD_PASSWORD).sendKeys(RANDOM_PASSWORD);
