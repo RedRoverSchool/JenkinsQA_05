@@ -50,5 +50,31 @@ public class TestUtils {
                 }
             };
         }
+
+        public static ExpectedCondition<WebElement> elementIsNotMoving(final WebElement webElement) {
+            return new ExpectedCondition<>() {
+                private Point location = null;
+
+                @Override
+                public WebElement apply(WebDriver driver) {
+                    WebElement element;
+                    try {
+                        element = webElement;
+                    } catch (NoSuchElementException e) {
+                        return null;
+                    }
+
+                    if (element.isDisplayed()) {
+                        Point location = element.getLocation();
+                        if (location.equals(this.location)) {
+                            return element;
+                        }
+                        this.location = location;
+                    }
+
+                    return null;
+                }
+            };
+        }
     }
 }
