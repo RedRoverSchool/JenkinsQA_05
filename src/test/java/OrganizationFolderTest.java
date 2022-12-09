@@ -146,18 +146,6 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrgFolderWithPOM() {
-        HomePage homePage = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(nameOrgFolderPOM)
-                .selectOrgFolderAndClickOk()
-                .clickSaveButton()
-                .goToDashboard();
-
-        Assert.assertTrue(homePage.getJobList().contains(nameOrgFolderPOM));
-    }
-
-    @Test
     public void testCreateOrgFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName + 5);
@@ -345,4 +333,42 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
     }
+
+    @Test
+    public void testCreateOrgFolderWithPOM() {
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(nameOrgFolderPOM)
+                .selectOrgFolderAndClickOk()
+                .clickSaveButton()
+                .goToDashboard();
+
+        Assert.assertTrue(homePage.getJobList().contains(nameOrgFolderPOM));
+    }
+
+//    public void testOrgFolderCreation() {
+//        getDriver().findElement(NEW_ITEM).click();
+//        getDriver().findElement(INPUT_NAME).sendKeys(NAME_ORG_FOLDER);
+//        WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));
+//        TestUtils.scrollToElement(getDriver(), element);
+//        element.click();
+//
+//        getDriver().findElement(OK_BUTTON).click();
+//        getDriver().findElement(By.id("yui-gen15-button")).click();
+//        getDashboard().click();
+//
+//        Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
+//    }
+//
+//    @Test
+//    public void testFolderCreation() {
+//        getDriver().findElement(NEW_ITEM).click();
+//        getDriver().findElement(INPUT_NAME).sendKeys(NAME_FOLDER);
+//        getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
+//        getDriver().findElement(OK_BUTTON).click();
+//        getDriver().findElement(By.id("yui-gen6-button")).click();
+//        getDashboard().click();
+//
+//        Assert.assertTrue(getDriver().findElement(ITEM_FOLDER).isDisplayed());
+//    }
 }
