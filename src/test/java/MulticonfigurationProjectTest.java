@@ -146,7 +146,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .presenceOfElementLocated(
                 By.xpath("//div[@class='textarea-preview']"))).
                 getText();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(By.id("yui-gen25"))).click();
+        TestUtils.scrollToEnd(getDriver());
+        getWait(10).until(ExpectedConditions.elementToBeClickable(By.id("yui-gen25"))).click();
         getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Dashboard']"))).click();
         getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='" + nameMCP + "']"))).click();
         String ActualNameMCP = getWait(5)
