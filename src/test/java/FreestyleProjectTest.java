@@ -450,6 +450,7 @@ public class FreestyleProjectTest extends BaseTest {
         deleteFreestyleProject(NAME_FREESTYLE_PROJECT_TC010401);
     }
 
+    @Ignore
     @Test
     public void testAddingDescription() {
         getDriver().findElement(LINK_NEW_ITEM).click();
