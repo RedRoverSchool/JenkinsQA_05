@@ -70,7 +70,6 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(actualText[actualText.length - 1], expectedText);
     }
 
-    @Ignore
     @Test
     public void testRenameUsersFullName() {
         getDriver().findElement(MANAGE_JENKINS).click();
