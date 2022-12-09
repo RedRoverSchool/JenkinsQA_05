@@ -42,6 +42,9 @@ public class NewItemPage extends BasePage {
     @FindBy(xpath = "//span[text() = 'Pipeline']")
     private WebElement pipeline;
 
+    @FindBy(css = "div#itemname-invalid" )
+    private WebElement unsafeCharErrorMessage;
+
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -122,5 +125,9 @@ public class NewItemPage extends BasePage {
         okButton.click();
 
         return new PipelineConfigPage(getDriver());
+    }
+
+    public String getUnsafeCharErrorMessageText() {
+        return unsafeCharErrorMessage.getAttribute("textContent");
     }
 }
