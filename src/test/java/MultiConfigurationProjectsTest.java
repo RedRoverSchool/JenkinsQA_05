@@ -1,6 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -23,6 +24,7 @@ public class MultiConfigurationProjectsTest extends BaseTest {
                 (By.xpath("(//*[local-name()='svg' and @tooltip='Disabled'])[2]")).isDisplayed());
     }
 
+    @Ignore
     @Test (dependsOnMethods = "testDisableMultiConfigurationProject")
     public void testEnableMultiConfigurationProject() {
 
