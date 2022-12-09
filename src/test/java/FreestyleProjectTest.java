@@ -1,4 +1,3 @@
-import model.FreestyleProjectConfigPage;
 import model.HomePage;
 import model.NewItemPage;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -83,19 +82,17 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(freestyleProjectTitle, String.format("Project %s", FREESTYLE_NAME));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithSpacesInsteadOfName")
     public void testCreateFreestyleProjectWithIncorrectCharacters() {
         final List<Character> incorrectNameCharacters = List.of('!', '@', '#', '$', '%', '^', '&', '*', '[', ']', '\\', '|', ';', ':', '/', '?', '<', '>');
+        NewItemPage newItemPage = new HomePage(getDriver()).clickNewItem();
 
-        getDriver().findElement(LINK_NEW_ITEM).click();
         for (Character character : incorrectNameCharacters) {
-            getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).click();
-            getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).clear();
-            getDriver().findElement(FIELD_ENTER_AN_ITEM_NAME).sendKeys(String.valueOf(character));
-            getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+            newItemPage.clearItemName()
+                    .setProjectName(String.valueOf(character))
+                    .selectFreestyleProject();
 
-            Assert.assertEquals(getDriver().findElement(ITEM_NAME_INVALID).getText(), "» ‘" + character + "’ is an unsafe character");
+            Assert.assertEquals(newItemPage.getInputValidationMsg(NewItemPage.InputValidationMsgType.NAME_INVALID), String.format("» ‘%s’ is an unsafe character", character));
         }
     }
 
@@ -382,11 +379,10 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualFreestyleConfigSideMenu, expectedFreestyleConfigSideMenu);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testCreateFreestyleProjectWithEmptyName() {
         getDriver().findElement(LINK_NEW_ITEM).click();
-        getDriver().findElement(LINK_FREESTYLE_PROJECT).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(LINK_FREESTYLE_PROJECT)).click();
 
         Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(), "» This field cannot be empty, please enter a valid name");
         Assert.assertFalse(getDriver().findElement(BUTTON_OK_IN_NEW_ITEM).isEnabled());
@@ -415,7 +411,6 @@ public class FreestyleProjectTest extends BaseTest {
                 "» ‘" + INVALID_CHAR + "’ is an unsafe character");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithEmptyName")
     public void testCreateFreestyleProjectWithSpacesInsteadOfName() {
         getDriver().findElement(LINK_NEW_ITEM).click();

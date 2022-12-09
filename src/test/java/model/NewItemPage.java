@@ -5,15 +5,25 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
+
 import java.util.List;
 
 public class NewItemPage extends BasePage {
+    
+    public enum InputValidationMsgType {
+        NAME_INVALID,
+        NAME_REQ,
+        TYPE_REQ
+    }
 
     @FindBy(className = "item")
     private WebElement rootMenuDashboardLink;
 
     @FindBy(id = "name")
     private WebElement itemName;
+
+    @FindBy(id = "itemname-invalid")
+    private WebElement itemNameInvalidMsg;
 
     @FindBy(xpath = "//div[@class='icon']")
     private List<WebElement> itemsList;
@@ -38,14 +48,26 @@ public class NewItemPage extends BasePage {
         super(driver);
     }
 
+    public NewItemPage clearItemName() {
+        itemName.clear();
+
+        return this;
+    }
+
     public NewItemPage setProjectName(String name) {
         getWait(2).until(ExpectedConditions.visibilityOf(itemName)).sendKeys(name);
 
         return this;
     }
 
+    public NewItemPage selectFreestyleProject() {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(freestyleProject)).click();
+
+        return this;
+    }
+
     public FreestyleProjectConfigPage selectFreestyleProjectAndClickOk() {
-        freestyleProject.click();
+        selectFreestyleProject();
         okButton.click();
 
         return new FreestyleProjectConfigPage(getDriver());
@@ -91,5 +113,17 @@ public class NewItemPage extends BasePage {
     public int getItemsListSize() {
         getWait(5).until(ExpectedConditions.visibilityOfAllElements(itemsList));
         return itemsList.size();
+    }
+
+    public String getInputValidationMsg(InputValidationMsgType type) {
+        switch (type) {
+            case NAME_REQ:
+                return "» This field cannot be empty, please enter a valid name";
+            case NAME_INVALID:
+                return itemNameInvalidMsg.getText();
+            case TYPE_REQ:
+                return "» Please select an item type";
+        }
+        return "";
     }
 }
