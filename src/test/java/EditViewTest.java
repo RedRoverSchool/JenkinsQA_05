@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 import static runner.TestUtils.getRandomStr;
 
 public class EditViewTest extends BaseTest{
-    private static String localRandomAlphaNumeric = "";
-    private static final int WAIT_TIME = 5;
+    private static String localRandomAlphaNumeric;
+    private static final int waitTime = 5;
     private static final By DASHBOARD = By.cssSelector("#jenkins-name-icon");
     private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
     private static final By ITEM_PATH = By.cssSelector(".jenkins-table__link");
@@ -28,27 +28,27 @@ public class EditViewTest extends BaseTest{
     private static final By LAST_EXISTING_COLUMN = By
             .xpath("//div[contains(@class, 'hetero-list-container')]/div[@class='repeated-chunk'][last()]");
 
-    private void createItem(int i){
-        final By FREESTYLE_0 = By.cssSelector(".j-item-options .hudson_model_FreeStyleProject");
-        final By PIPELINE_1 = By.cssSelector(".j-item-options .org_jenkinsci_plugins_workflow_job_WorkflowJob");
-        final By MULTICONFIG_2 = By.cssSelector(".j-item-options .hudson_matrix_MatrixProject");
-        final By FOLDER_3 = By.cssSelector(".j-item-options .com_cloudbees_hudson_plugins_folder_Folder");
-        final By MULTIBRANCH_4 = By
-                .cssSelector(".j-item-options .org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject");
-        final By ORGFOLDER_5 = By.cssSelector(".j-item-options .jenkins_branch_OrganizationFolder");
-        final By[] MENU_OPTIONS = {FREESTYLE_0,PIPELINE_1, MULTICONFIG_2,FOLDER_3, MULTIBRANCH_4, ORGFOLDER_5};
+    final By FREESTYLE_0 = By.cssSelector(".j-item-options .hudson_model_FreeStyleProject");
+    final By PIPELINE_1 = By.cssSelector(".j-item-options .org_jenkinsci_plugins_workflow_job_WorkflowJob");
+    final By MULTICONFIG_2 = By.cssSelector(".j-item-options .hudson_matrix_MatrixProject");
+    final By FOLDER_3 = By.cssSelector(".j-item-options .com_cloudbees_hudson_plugins_folder_Folder");
+    final By MULTIBRANCH_4 = By
+            .cssSelector(".j-item-options .org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject");
+    final By ORGFOLDER_5 = By.cssSelector(".j-item-options .jenkins_branch_OrganizationFolder");
+    final By[] listAllJobTypes = {FREESTYLE_0,PIPELINE_1, MULTICONFIG_2,FOLDER_3, MULTIBRANCH_4, ORGFOLDER_5};
 
+    private void createItem(int indexOfItem){
         getDriver().findElement(By.xpath("//a[contains(@href, '/view/all/newJob')]")).click();
         getDriver().findElement(By.cssSelector("#name.jenkins-input")).sendKeys(getRandomStr());
-        getDriver().findElement(MENU_OPTIONS[i]).click();
+        getDriver().findElement(listAllJobTypes[indexOfItem]).click();
         getDriver().findElement(SUBMIT_BUTTON).submit();
         getDriver().findElement(DASHBOARD).click();
     }
 
-    private void createManyItemsOfEach(int i){
-        for(int j = 0; j < i; j++){
-            for(int k = 0; k < 6; k++) {
-                createItem(k);
+    private void createManyItemsOfEachType(int numberOfItemsOfEachType){
+        for(int i = 0; i < numberOfItemsOfEachType; i++){
+            for(int j = 0; j < listAllJobTypes.length; j++) {
+                createItem(j);
             }
         }
     }
@@ -93,19 +93,19 @@ public class EditViewTest extends BaseTest{
     }
 
     private void globalViewSeriesPreConditions(String randomAlphaNumeric) {
-        createManyItemsOfEach(1);
+        createManyItemsOfEachType(1);
         createGlobalView(randomAlphaNumeric);
     }
 
     private void listViewSeriesPreConditions(String randomAlphaNumeric) {
-        createManyItemsOfEach(1);
+        createManyItemsOfEachType(1);
         createListView(randomAlphaNumeric);
         addFiveItemsToListView();
         goToEditView(randomAlphaNumeric);
     }
 
     private void myViewSeriesPreConditions(String randomAlphaNumeric) {
-        createManyItemsOfEach(1);
+        createManyItemsOfEachType(1);
         createMyView(randomAlphaNumeric);
     }
 
@@ -135,7 +135,6 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testGlobalViewAddFilterBuildQueue() {
-
         boolean newPaneIsDisplayed = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(getRandomStr())
@@ -157,7 +156,7 @@ public class EditViewTest extends BaseTest{
     @Test
     public void testListViewAddFiveItems() {
         localRandomAlphaNumeric = getRandomStr();
-        createManyItemsOfEach(1);
+        createManyItemsOfEachType(1);
         createListView(localRandomAlphaNumeric);
         addFiveItemsToListView();
 
@@ -187,7 +186,7 @@ public class EditViewTest extends BaseTest{
     public void testListViewAddNewColumn() {
         listViewSeriesPreConditions(getRandomStr());
 
-        scrollWaitTillNotMovingAndClick(WAIT_TIME, ADD_COLUMN);
+        scrollWaitTillNotMovingAndClick(waitTime, ADD_COLUMN);
         getDriver().findElement(By.
                 xpath("//a[@class='yuimenuitemlabel' and text()='Git Branches']")).click();
         getDriver().findElement(SUBMIT_BUTTON).click();
@@ -200,7 +199,7 @@ public class EditViewTest extends BaseTest{
     @Ignore
     @Test
     public void testListViewAddAllItems() {
-        createManyItemsOfEach(1);
+        createManyItemsOfEachType(1);
         localRandomAlphaNumeric = getRandomStr();
         createListView(localRandomAlphaNumeric);
         goToEditView(localRandomAlphaNumeric);
@@ -216,12 +215,12 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testListViewAddRegexFilter() {
-        createManyItemsOfEach(2);
+        createManyItemsOfEachType(2);
         List<WebElement> itemsToSelect = getDriver().findElements(ITEM_PATH);
         long expectedResult = itemsToSelect.stream().filter(element -> element.getText().contains("9")).count();
         createListView(getRandomStr());
 
-        scrollWaitTillNotMovingAndClick(WAIT_TIME, REGEX);
+        scrollWaitTillNotMovingAndClick(waitTime, REGEX);
         getDriver().findElement(By.cssSelector("input[name='includeRegex']")).sendKeys(".*9.*");
         getDriver().findElement(SUBMIT_BUTTON).click();
         long actualResult = getDriver().findElements(ITEM_PATH).size();
@@ -234,7 +233,7 @@ public class EditViewTest extends BaseTest{
         localRandomAlphaNumeric = getRandomStr();
         listViewSeriesPreConditions(localRandomAlphaNumeric);
 
-        scrollWaitTillNotMovingAndClick(WAIT_TIME, STATUS_DRAG_HANDLE);
+        scrollWaitTillNotMovingAndClick(waitTime, STATUS_DRAG_HANDLE);
         dragByYOffset(STATUS_DRAG_HANDLE, 100);
         getDriver().findElement(SUBMIT_BUTTON).click();
         String[] expectedResult = {"W", "S"};
@@ -247,7 +246,7 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testListViewAddFilterBuildQueue() {
-        createManyItemsOfEach(1);
+        createManyItemsOfEachType(1);
         createListView(getRandomStr());
 
         getDriver().findElement(FILTER_QUEUE).click();
@@ -282,7 +281,7 @@ public class EditViewTest extends BaseTest{
                 "S", "W", "Name", "Last Success", "Last Failure", "Last Stable",
                 "Last Duration", "","Git Branches", "Name", "Description"};
 
-        scrollWaitTillNotMovingAndClick(WAIT_TIME, ADD_COLUMN);
+        scrollWaitTillNotMovingAndClick(waitTime, ADD_COLUMN);
         final List<WebElement> addColumnMenuItems = getDriver().findElements(By.cssSelector("a.yuimenuitemlabel"));
         Map<String, String> tableMenuMap = new HashMap<>();
         for (int i = 0; i < addColumnMenuItems.size(); i++) {
@@ -299,9 +298,9 @@ public class EditViewTest extends BaseTest{
                     .cssSelector("table#projectstatus th:last-child")).getText().replace("↓"," ").trim();
             allMatches.add(tableMenuMap.get(selectedColumnName).equals(lastColumnName));
             getDriver().findElement(By.xpath("//a[contains(@href, 'configure')]")).click();
-            scrollWaitTillNotMovingAndClick(WAIT_TIME,LAST_EXISTING_COLUMN);
+            scrollWaitTillNotMovingAndClick(waitTime,LAST_EXISTING_COLUMN);
             getDriver().findElement(LAST_EXISTING_COLUMN).findElement(By.cssSelector("button.repeatable-delete")).click();
-            scrollWaitTillNotMovingAndClick(WAIT_TIME, ADD_COLUMN);
+            scrollWaitTillNotMovingAndClick(waitTime, ADD_COLUMN);
         }
         getDriver().findElement(SUBMIT_BUTTON).click();
 
@@ -315,7 +314,7 @@ public class EditViewTest extends BaseTest{
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
         js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN));
-        getWait(WAIT_TIME).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_COLUMN));
+        getWait(waitTime).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_COLUMN));
         getDriver().findElement(By
                 .cssSelector("div[descriptorid='hudson.views.StatusColumn'] button.repeatable-delete")).click();
         new Actions(getDriver()).pause(300).perform();
