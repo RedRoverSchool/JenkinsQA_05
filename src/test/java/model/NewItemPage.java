@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 import java.util.List;
 
-public class NewItemPage extends BasePage {
+public class NewItemPage extends HomePage {
 
     @FindBy(className = "item")
     private WebElement rootMenuDashboardLink;
