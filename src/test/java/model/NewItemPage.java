@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 import java.util.List;
 
-public class NewItemPage extends BasePage {
+public class NewItemPage extends HomePage {
 
     @FindBy(className = "item")
     private WebElement rootMenuDashboardLink;
@@ -16,7 +16,7 @@ public class NewItemPage extends BasePage {
     private WebElement itemName;
 
     @FindBy(id = "itemname-required")
-    private WebElement inputValidationMsg;
+    private WebElement itemNameRequiredMessage;
 
     @FindBy(xpath = "//div[@class='icon']")
     private List<WebElement> itemsList;
@@ -35,6 +35,12 @@ public class NewItemPage extends BasePage {
 
     @FindBy(xpath = "//span[contains(text(), 'Multi-configuration project')]")
     private WebElement multiConfigurationProject;
+
+    @FindBy(xpath = "//span[contains(text(), 'Multibranch Pipeline')]")
+    private WebElement multibranchPipeline;
+
+    @FindBy(xpath = "//span[text() = 'Pipeline']")
+    private WebElement pipeline;
 
 
     public NewItemPage(WebDriver driver) {
@@ -101,11 +107,29 @@ public class NewItemPage extends BasePage {
         return itemsList.size();
     }
 
+    public NewItemPage selectMultibranchPipeline() {
+        getWait(1).until(ExpectedConditions.visibilityOf(multibranchPipeline));
+        multibranchPipeline.click();
+
+        return this;
+    }
+
     public String getInputValidationMsg() {
-        return inputValidationMsg.getText();
+        return itemNameRequiredMessage.getText();
     }
 
     public boolean isOkButtonEnabled() {
         return okButton.isEnabled();
+    }
+
+    public WebElement getOkButton() {
+        return okButton;
+    }
+
+    public PipelineConfigPage selectPipelineAndClickOk() {
+        pipeline.click();
+        okButton.click();
+
+        return new PipelineConfigPage(getDriver());
     }
 }
