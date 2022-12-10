@@ -286,9 +286,8 @@ public class EditViewTest extends BaseTest{
     public void testDeleteColumn() {
         localViewNameVar = getRandomStr();
         listViewSeriesPreConditions(1, localViewNameVar);
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
-        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN));
+        scrollToElement_PlaceInCenter(getDriver(), getDriver().findElement(ADD_COLUMN));
         getWait(waitTime).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_COLUMN));
         getDriver().findElement(By
                 .cssSelector("div[descriptorid='hudson.views.StatusColumn'] button.repeatable-delete")).click();
