@@ -33,7 +33,7 @@ public class NewItemPage extends HomePage {
     @FindBy(xpath = "//span[contains(text(), 'Multi-configuration project')]")
     private WebElement multiConfigurationProject;
 
-    @FindBy(xpath = "//span[contains(text(), 'Multibranch Pipeline')]")
+    @FindBy(xpath = "//li[@class='org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject']")
     private WebElement multibranchPipeline;
 
     @FindBy(id = "itemname-required")
@@ -41,6 +41,9 @@ public class NewItemPage extends HomePage {
 
     @FindBy(xpath = "//span[text() = 'Pipeline']")
     private WebElement pipeline;
+
+    @FindBy(css = "div#itemname-invalid" )
+    private WebElement unsafeCharErrorMessage;
 
 
     public NewItemPage(WebDriver driver) {
@@ -109,6 +112,13 @@ public class NewItemPage extends HomePage {
         return this;
     }
 
+    public MultibranchPipelineConfigPage selectMultibranchPipelineAndClickOk() {
+        multibranchPipeline.click();
+        okButton.click();
+
+        return new MultibranchPipelineConfigPage(getDriver());
+    }
+
     public String getNameRequiredMessageText() {
         return nameRequiredMessage.getText();
     }
@@ -122,5 +132,9 @@ public class NewItemPage extends HomePage {
         okButton.click();
 
         return new PipelineConfigPage(getDriver());
+    }
+
+    public String getUnsafeCharErrorMessageText() {
+        return unsafeCharErrorMessage.getAttribute("textContent");
     }
 }
