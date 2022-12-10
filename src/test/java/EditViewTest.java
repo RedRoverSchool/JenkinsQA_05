@@ -144,6 +144,7 @@ public class EditViewTest extends BaseTest{
     @Test
     public void testGlobalViewAddBothFilters() {
         localViewNameVar = getRandomStr();
+
         editViewTestPreConditions(0, localViewNameVar);
 
         getDriver().findElement(FILTER_QUEUE).click();
