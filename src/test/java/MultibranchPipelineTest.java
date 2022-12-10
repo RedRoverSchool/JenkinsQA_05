@@ -113,7 +113,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
         Assert.assertEquals(newItemPage.getNameRequiredMessageText(),
                 "» This field cannot be empty, please enter a valid name");
-        Assert.assertFalse(newItemPage.getOkButton().isEnabled());
+        Assert.assertFalse(newItemPage.isOkButtonEnabled());
     }
 
     @Test

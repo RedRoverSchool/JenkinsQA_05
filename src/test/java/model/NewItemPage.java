@@ -109,7 +109,7 @@ public class NewItemPage extends BasePage {
         return nameRequiredMessage.getText();
     }
 
-    public WebElement getOkButton() {
-        return okButton;
+    public boolean isOkButtonEnabled() {
+        return okButton.isEnabled();
     }
 }
