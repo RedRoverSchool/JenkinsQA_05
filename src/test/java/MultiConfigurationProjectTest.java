@@ -16,7 +16,7 @@ import runner.TestUtils;
 import java.time.Duration;
 import java.util.List;
 
-public class MulticonfigurationProjectTest extends BaseTest {
+public class MultiConfigurationProjectTest extends BaseTest {
     private static final String PROJECT_NAME = TestUtils.getRandomStr(8);
     private static final String NEW_PROJECT_NAME = RandomStringUtils.randomAlphanumeric(8);
     private static final By OK_BUTTON = By.id("ok-button");
@@ -205,7 +205,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     public void testCreateMultiConfigurationProjectDisabled() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.xpath("//input[@class='jenkins-input']"))
-                .sendKeys(MulticonfigurationProjectTest.PROJECT_NAME);
+                .sendKeys(MultiConfigurationProjectTest.PROJECT_NAME);
         getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.xpath("//*[@id='toggle-switch-enable-disable-project']/label/span[2]")).click();
