@@ -1,4 +1,5 @@
 import model.HomePage;
+import model.MultiConfigurationProjectStatusPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -53,14 +54,14 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMulticonfigurationProjectAddDescription() {
-        final String description = "Description";
 
-        getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
-        getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(By.name("description")).sendKeys(description);
-        getDriver().findElement(By.xpath("//button[contains(text(),'Save')]")).click();
+        MultiConfigurationProjectStatusPage multConfPage = new HomePage(getDriver())
+                .clickMultConfJobName(PROJECT_NAME)
+                .clickAddDescription()
+                .fillDescription("Description")
+                .clickSave();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description div")).getText(), description);
+        Assert.assertEquals(multConfPage.getDescriptionText(), "Description");
     }
 
     @Ignore
@@ -131,24 +132,25 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void CreateMultiConfigurationProjectWithDescription() {
+    public void testCreateMultiConfigurationProjectWithDescription() {
         final String nameMCP = "MultiConfigProject000302";
         final String descriptionMCP = "Description000302";
 
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.xpath("//input[@class='jenkins-input']")).sendKeys(nameMCP);
-        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/view/all/newJob']"))).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys(nameMCP);
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Multi-configuration project']"))).click();
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.name("description")).sendKeys(descriptionMCP);
-        getDriver().findElement(By.className("textarea-show-preview")).click();
-        String ActualPreviewText = getDriver().findElement(By.xpath("//div[@class='textarea-preview']")).
-                getText();
-        getDriver().findElement(
-                By.xpath("//span[@class='yui-button yui-submit-button submit-button primary']")).click();
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
-        getDriver().findElement(By.xpath("//span[text()='" + nameMCP + "']")).click();
-        String ActualNameMCP = getDriver().findElement(
-                By.xpath("//li[@class='item']//a[@href='/job/MultiConfigProject000302/']")).getText();
+        getWait(5).until(ExpectedConditions.presenceOfElementLocated(By.name("description"))).sendKeys(descriptionMCP);
+        getWait(5).until(ExpectedConditions.presenceOfElementLocated(By.className("textarea-show-preview"))).click();
+        String ActualPreviewText = getDriver().findElement(By.xpath("//div[@class='textarea-preview']"))
+                .getText();
+        getWait(15).until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@type='submit']"))).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Dashboard']"))).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='" + nameMCP + "']"))).click();
+        String ActualNameMCP = getWait(5)
+                .until(ExpectedConditions
+                .presenceOfElementLocated(
+                By.xpath("//li[@class='item']//a[@href='/job/MultiConfigProject000302/']"))).getText();
         String ActualDecriptionMCP = getDriver().findElement(
                 By.xpath("//div[@id='description']/div[1]")).getText();
 
@@ -198,6 +200,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         deleteNewMCProject(NEW_PROJECT_NAME);
     }
 
+    @Ignore
     @Test
     public void testCreateMultiConfigurationProjectDisabled() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
@@ -330,6 +333,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(actualDescText, multiConfProjectDescriptionText);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectDisabled")
     public void testEnableDisabledMultiConfigurationProject() {
         getDriver().findElement(By.xpath("//span[text()='" + PROJECT_NAME + "']")).click();

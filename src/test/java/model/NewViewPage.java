@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class NewViewPage extends BasePage {
+public class NewViewPage extends MyViewsPage {
 
     @FindBy(id = "name")
     private WebElement viewName;
@@ -22,9 +22,6 @@ public class NewViewPage extends BasePage {
 
     @FindBy(id = "ok")
     private WebElement createButton;
-
-    @FindBy(xpath = "//button[text() = 'OK']")
-    private WebElement okButton;
 
 
     public NewViewPage(WebDriver driver) {
@@ -55,15 +52,10 @@ public class NewViewPage extends BasePage {
         return this;
     }
 
-    public MyViewsPage clickCreateButton() {
+    public EditViewPage clickCreateButton() {
         createButton.click();
 
-        return new MyViewsPage(getDriver());
+        return new EditViewPage(getDriver());
     }
 
-    public HomePage clickOkButton() {
-        okButton.click();
-
-        return new HomePage(getDriver());
-    }
 }
