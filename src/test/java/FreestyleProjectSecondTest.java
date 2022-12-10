@@ -1,6 +1,5 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -153,8 +152,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']")).click();
 
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].scrollIntoView({block: 'center'})",
+        TestUtils.scrollToElement_PlaceInCenter(getDriver(),
                 getDriver().findElement(By.xpath("//label[text()='Build periodically']")));
         getWait(10).until(TestUtils.
                 ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']"))).click();
