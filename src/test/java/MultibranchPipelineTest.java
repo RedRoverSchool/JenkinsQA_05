@@ -1,4 +1,6 @@
+import model.FolderStatusPage;
 import model.HomePage;
+import model.MultibranchPipelineStatusPage;
 import model.NewItemPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -230,25 +232,21 @@ public class MultibranchPipelineTest extends BaseTest {
         final String randomFolderName = TestUtils.getRandomStr(6);
         final String randomMultibranchPipelineName = TestUtils.getRandomStr(6);
 
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(NAME).sendKeys(randomFolderName);
-        getDriver().findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']")).click();
-        submitButtonClick();
-        submitButtonClick();
-        getDriver().findElement(By.linkText("Create a job")).click();
-        getDriver().findElement(NAME).sendKeys(randomMultibranchPipelineName);
-        getDriver().findElement(MULTIBRANCH_PIPELINE_OPTION).click();
-        submitButtonClick();
-        submitButtonClick();
-        getDriver().findElement(By.id("jenkins-home-link")).click();
+        FolderStatusPage folderStatusPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(randomFolderName)
+                .selectFolderAndClickOk()
+                .clickSaveButton()
+                .clickCreateJob()
+                .setProjectName(randomMultibranchPipelineName)
+                .selectMultibranchPipelineAndClickOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolder(randomFolderName)
+                .clickMultibranchPipeline(randomMultibranchPipelineName)
+                .clickDeleteMultibranchPipeline()
+                .clickSubmitButton();
 
-        getDriver().findElement(By.linkText(randomFolderName)).click();
-        getDriver().findElement(By.xpath("//a[@href='job/" + randomMultibranchPipelineName + "/']")).click();
-        getDriver().findElement(By.linkText("Delete Multibranch Pipeline")).click();
-        submitButtonClick();
-
-        Assert.assertNotNull(getDriver().findElement(By.className("empty-state-block")));
-        Assert.assertEquals(getDriver().findElement(By.className("h4")).getText(), "This folder is empty");
-
+        Assert.assertNotNull(folderStatusPage.getEmptyStateBlock());
     }
 }

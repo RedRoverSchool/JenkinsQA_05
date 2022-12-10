@@ -33,7 +33,7 @@ public class NewItemPage extends BasePage {
     @FindBy(xpath = "//span[contains(text(), 'Multi-configuration project')]")
     private WebElement multiConfigurationProject;
 
-    @FindBy(xpath = "//span[contains(text(), 'Multibranch Pipeline')]")
+    @FindBy(xpath = "//li[@class='org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject']")
     private WebElement multibranchPipeline;
 
     @FindBy(id = "itemname-required")
@@ -107,6 +107,13 @@ public class NewItemPage extends BasePage {
         multibranchPipeline.click();
 
         return this;
+    }
+
+    public MultibranchPipelineConfigPage selectMultibranchPipelineAndClickOk() {
+        multibranchPipeline.click();
+        okButton.click();
+
+        return new MultibranchPipelineConfigPage(getDriver());
     }
 
     public String getNameRequiredMessageText() {
