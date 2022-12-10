@@ -99,6 +99,7 @@ public class BuildHistoryTest extends BaseTest {
                 "Add description");
     }
 
+    @Ignore
     @Test
     public void testVerifyDefaultIconSize() {
         getDriver().findElement(By.linkText("New Item")).click();

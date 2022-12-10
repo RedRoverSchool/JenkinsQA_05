@@ -30,11 +30,18 @@ public class HomePage extends BasePage {
     @FindBy(tagName = "h1")
     private WebElement header;
 
-    @FindBy(xpath = "//a[@href='/manage']")
+    @FindBy(linkText = "Manage Jenkins")
+    private WebElement menuManageJenkins;
+
+    @FindBy(css = "a[href='/me/my-views']")
+    private WebElement myViews;
+    
+      @FindBy(xpath = "//a[@href='/manage']")
     private WebElement manageJenkins;
 
     @FindBy(xpath = "//span/a[@href='/asynchPeople/']")
     private WebElement people;
+
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -53,10 +60,16 @@ public class HomePage extends BasePage {
                 .collect(Collectors.toList());
     }
 
-    public FreestyleProjectPage clickProjectName() {
+    public FreestyleProjectPage clickFreestyleProjectName() {
         jobList.get(0).click();
 
         return new FreestyleProjectPage(getDriver());
+    }
+
+    public PipelineProjectPage clickPipelineProjectName() {
+        jobList.get(0).click();
+
+        return new PipelineProjectPage(getDriver());
     }
 
     public FolderConfigPage clickDeleteDropDownMenu() {
@@ -90,10 +103,22 @@ public class HomePage extends BasePage {
         return new DropdownMenu(getDriver());
     }
 
-    public StatusPage clickFolder(String folderName) {
+    public FolderStatusPage clickFolder(String folderName) {
         getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']")).sendKeys(Keys.RETURN);
 
-        return new StatusPage(getDriver());
+        return new FolderStatusPage(getDriver());
+    }
+
+    public ManageJenkinsPage clickMenuManageJenkins() {
+        menuManageJenkins.click();
+
+        return new ManageJenkinsPage(getDriver());
+    }
+    
+     public MyViewsPage clickMyViews() {
+        myViews.click();
+
+        return new MyViewsPage(getDriver());
     }
 
     public ManageJenkinsPage clickManageJenkins(){

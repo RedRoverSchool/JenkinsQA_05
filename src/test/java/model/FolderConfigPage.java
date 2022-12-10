@@ -12,6 +12,9 @@ public class FolderConfigPage extends BasePage {
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement submitButtonForDeleteFolder;
 
+    @FindBy(id = "yui-gen6-button")
+    private WebElement saveButton;
+
     public FolderConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -28,4 +31,9 @@ public class FolderConfigPage extends BasePage {
         return new HomePage(getDriver());
     }
 
+    public FolderStatusPage clickSaveButton(){
+        saveButton.click();
+
+        return new FolderStatusPage(getDriver());
+    }
 }
