@@ -31,7 +31,8 @@ public class FreestyleProjectPage extends BasePage {
     @FindBy(xpath = "//div[@id = 'description'] /div[1]")
     private WebElement description;
 
-
+    @FindBy(xpath = "//span[contains(text(),'Delete Project')]")
+    private WebElement buttonDeleteProject;
 
     public FreestyleProjectPage(WebDriver driver) {
         super(driver);
@@ -75,5 +76,17 @@ public class FreestyleProjectPage extends BasePage {
     public String getDescriptionText(){
 
         return description.getText();
+    }
+
+    public FreestyleProjectPage clickButtonDeleteProject(){
+        getWait(10).until(ExpectedConditions.elementToBeClickable(buttonDeleteProject)).click();
+
+        return this;
+    }
+
+    public HomePage confirmAlertAndDeleteProject(){
+        getDriver().switchTo().alert().accept();
+
+        return new HomePage(getDriver());
     }
 }
