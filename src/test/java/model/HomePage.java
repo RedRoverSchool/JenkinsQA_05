@@ -35,6 +35,13 @@ public class HomePage extends BasePage {
 
     @FindBy(css = "a[href='/me/my-views']")
     private WebElement myViews;
+    
+      @FindBy(xpath = "//a[@href='/manage']")
+    private WebElement manageJenkins;
+
+    @FindBy(xpath = "//span/a[@href='/asynchPeople/']")
+    private WebElement people;
+
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -112,5 +119,17 @@ public class HomePage extends BasePage {
         myViews.click();
 
         return new MyViewsPage(getDriver());
+    }
+
+    public ManageJenkinsPage clickManageJenkins(){
+        manageJenkins.click();
+
+        return new ManageJenkinsPage(getDriver());
+    }
+
+    public PeoplePage clickPeople(){
+        people.click();
+
+        return new PeoplePage(getDriver());
     }
 }
