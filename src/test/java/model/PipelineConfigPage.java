@@ -18,6 +18,9 @@ public class PipelineConfigPage extends BasePage {
     @FindBy(xpath = "(//a[contains(@class,'task-link')])[7]")
     private WebElement gitHubSideMenu;
 
+    @FindBy(css = "#breadcrumbs li a")
+    private WebElement topMenuRoot;
+
     public PipelineConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -46,5 +49,11 @@ public class PipelineConfigPage extends BasePage {
 
     public String getAttributeGitHubSideMenu(String attribute) {
         return gitHubSideMenu.getAttribute(attribute);
+    }
+
+    public HomePage clickDashboard() {
+        topMenuRoot.click();
+
+        return new HomePage(getDriver());
     }
 }

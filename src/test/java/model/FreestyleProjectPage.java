@@ -12,6 +12,9 @@ public class FreestyleProjectPage extends BasePage {
     @FindBy(linkText = "Configure")
     private WebElement sideMenuConfigure;
 
+    @FindBy(css = "#breadcrumbs li a")
+    private WebElement topMenuRoot;
+
     public FreestyleProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -24,5 +27,11 @@ public class FreestyleProjectPage extends BasePage {
 
     public String getHeadlineText() {
         return headline.getText();
+    }
+
+    public HomePage clickDashboard() {
+        topMenuRoot.click();
+
+        return new HomePage(getDriver());
     }
 }
