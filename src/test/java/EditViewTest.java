@@ -329,12 +329,12 @@ public class EditViewTest extends BaseTest{
     public void testMultipleSpacesRenameView() {
         localRandomAlphaNumeric = getRandomStr();
         listViewSeriesPreConditions(localRandomAlphaNumeric);
-        final String nonSpaces = getRandomStr((3 +(int)(Math.random() * (10 - 3) + 1)));
+        final String nonSpaces = getRandomStr(5);
         final String spaces = nonSpaces.replaceAll("[a-zA-Z0-9]", " ");
-        final String NEW_NAME = nonSpaces + spaces + nonSpaces;
+        final String newName = nonSpaces + spaces + nonSpaces;
 
         getDriver().findElement(INPUT_NAME).clear();
-        getDriver().findElement(INPUT_NAME).sendKeys(NEW_NAME);
+        getDriver().findElement(INPUT_NAME).sendKeys(newName);
         getDriver().findElement(SUBMIT_BUTTON).click();
         String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
 
@@ -346,15 +346,15 @@ public class EditViewTest extends BaseTest{
     public void testIllegalCharacterRenameView() {
         localRandomAlphaNumeric = getRandomStr();
         listViewSeriesPreConditions(localRandomAlphaNumeric);
-        final char[] ILLEGAL_CHARACTERS = "#!@$%^&*:;<>?/[]|\\".toCharArray();
+        final char[] illegalCharacters = "#!@$%^&*:;<>?/[]|\\".toCharArray();
 
         List<Boolean> checks = new ArrayList<>();
-        for (int i = 0; i < ILLEGAL_CHARACTERS.length; i++) {
+        for (int i = 0; i < illegalCharacters.length; i++) {
             getDriver().findElement(INPUT_NAME).clear();
-            getDriver().findElement(INPUT_NAME).sendKeys(ILLEGAL_CHARACTERS[i] + localRandomAlphaNumeric);
+            getDriver().findElement(INPUT_NAME).sendKeys(illegalCharacters[i] + localRandomAlphaNumeric);
             getDriver().findElement(SUBMIT_BUTTON).click();
             if(getDriver().findElements(By.cssSelector("#main-panel h1")).size() > 0) {
-                checks.add(String.format("‘%c’ is an unsafe character", ILLEGAL_CHARACTERS[i])
+                checks.add(String.format("‘%c’ is an unsafe character", illegalCharacters[i])
                         .equals(getDriver().findElement(By.cssSelector("#main-panel p")).getText()));
                 getDriver().findElement(DASHBOARD).click();
                 getDriver().findElement(MY_VIEWS).click();
@@ -363,7 +363,7 @@ public class EditViewTest extends BaseTest{
                         .findElements(By
                         .xpath(String.format("//a[contains(@href, '/my-views/view/%s/')]", localRandomAlphaNumeric)))
                         .stream().noneMatch(element -> element.getText()
-                        .equals(String.format("‘%c’ is an unsafe character", ILLEGAL_CHARACTERS[finalI]))));
+                        .equals(String.format("‘%c’ is an unsafe character", illegalCharacters[finalI]))));
                 goToEditView(localRandomAlphaNumeric);
             } else {
                 checks.add(false);
@@ -377,14 +377,14 @@ public class EditViewTest extends BaseTest{
     public void testRenameView() {
         localRandomAlphaNumeric = getRandomStr();
         listViewSeriesPreConditions(localRandomAlphaNumeric);
-        final String NEW_NAME = getRandomStr();
+        final String newName = getRandomStr();
 
         getDriver().findElement(INPUT_NAME).clear();
-        getDriver().findElement(INPUT_NAME).sendKeys(NEW_NAME);
+        getDriver().findElement(INPUT_NAME).sendKeys(newName);
         getDriver().findElement(SUBMIT_BUTTON).click();
         String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
 
         Assert.assertFalse(actualResult.equals(localRandomAlphaNumeric));
-        Assert.assertEquals(actualResult, NEW_NAME);
+        Assert.assertEquals(actualResult, newName);
     }
 }
