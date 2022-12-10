@@ -12,6 +12,10 @@ import java.util.stream.Collectors;
 
 public class HomePage extends BasePage {
 
+
+    @FindBy(css = "#breadcrumbs li a")
+    private WebElement topMenuRoot;
+
     @FindBy(xpath = "//a[@href='/view/all/newJob']")
     private WebElement newItem;
 
@@ -36,6 +40,13 @@ public class HomePage extends BasePage {
     @FindBy(css = "a[href='/me/my-views']")
     private WebElement myViews;
 
+    @FindBy(css=".tabBar>.tab>a[class='']")
+    private WebElement openViewLink;
+
+    @FindBy(css=".tabBar>.tab>a.addTab")
+    private WebElement addViewLink;
+
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -44,6 +55,22 @@ public class HomePage extends BasePage {
         newItem.click();
 
         return new NewItemPage(getDriver());
+    }
+
+    public HomePage clickDashboard() {
+        topMenuRoot.click();
+
+        return new HomePage(getDriver());
+    }
+
+    public void clickViewLink() {
+        openViewLink.click();
+    }
+
+    public NewViewPage clickAddViewLink() {
+        addViewLink.click();
+
+        return new NewViewPage(getDriver());
     }
 
     public List<String> getJobList() {

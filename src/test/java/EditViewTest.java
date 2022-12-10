@@ -1,9 +1,11 @@
+import model.HomePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import runner.BaseTest;
 import runner.TestUtils;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import static runner.TestUtils.getRandomStr;
@@ -133,12 +135,20 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testGlobalViewAddFilterBuildQueue() {
-        globalViewSeriesPreConditions(getRandomStr());
 
-        getDriver().findElement(FILTER_QUEUE).click();
-        getDriver().findElement(SUBMIT_BUTTON).click();
-        boolean newPaneIsDisplayed = getDriver().findElements(PANE_HEADER)
-                .stream().map(WebElement::getText).collect(Collectors.toList())
+        boolean newPaneIsDisplayed = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(getRandomStr())
+                .selectFolderAndClickOk()
+                .clickDashboard()
+                .clickMyViews()
+                .clickAddViewLink()
+                .setViewName(getRandomStr())
+                .setGlobalViewType()
+                .clickCreateButton()
+                .filterBuildQueueOptionCheckBoxSelect()
+                .clickOkButton()
+                .getActiveFiltersList()
                 .contains("Filtered Build Queue");
 
         Assert.assertTrue(newPaneIsDisplayed);

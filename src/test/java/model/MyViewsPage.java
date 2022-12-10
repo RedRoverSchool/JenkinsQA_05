@@ -6,17 +6,18 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class MyViewsPage extends BasePage{
+public class MyViewsPage extends HomePage{
 
     @FindBy(css = "a[title='New View']")
     private WebElement newView;
 
-    @FindBy(css = "#breadcrumbs li a")
-    private WebElement topMenuRoot;
-
     @FindBy(css = ".tabBar .tab a[href]")
     private List <WebElement> listViews;
+
+    @FindBy(css = ".pane-header-title")
+    private List <WebElement> listViewActiveFilters;
 
     public MyViewsPage(WebDriver driver) {
         super(driver);
@@ -26,12 +27,6 @@ public class MyViewsPage extends BasePage{
         newView.click();
 
         return new NewViewPage(getDriver());
-    }
-
-    public HomePage clickDashboard() {
-        topMenuRoot.click();
-
-        return new HomePage(getDriver());
     }
 
     public List<WebElement> getListViews() {
@@ -46,5 +41,10 @@ public class MyViewsPage extends BasePage{
         }
 
         return listViewsNames.toString().trim();
+    }
+
+    public List<String> getActiveFiltersList() {
+
+        return listViewActiveFilters.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 }
