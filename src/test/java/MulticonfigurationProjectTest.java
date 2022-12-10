@@ -81,7 +81,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 By.xpath(String.format("//h1[contains(text(),'Project %s')]", NEW_PROJECT_NAME))).getText(), String.format("Project %s", NEW_PROJECT_NAME));
     }
 
-
     @Ignore
     @Test(dependsOnMethods = "testMultiConfigurationProjectRenameProjectViaDropDownMenu")
     public void testMultiConfigurationProjectRenameProjectViaSideMenu() {
