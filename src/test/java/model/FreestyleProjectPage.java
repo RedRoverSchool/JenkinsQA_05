@@ -16,6 +16,9 @@ public class FreestyleProjectPage extends BasePage {
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
 
+    @FindBy(xpath = "//li[@class='item'][last()-1]")
+    private WebElement breadcrumbsParentFolderLink;
+
     @FindBy(linkText = "Rename")
     private WebElement buttonRename;
 
@@ -51,6 +54,12 @@ public class FreestyleProjectPage extends BasePage {
         topMenuRoot.click();
 
         return new HomePage(getDriver());
+    }
+
+    public FolderStatusPage clickParentFolderInBreadcrumbs(){
+        breadcrumbsParentFolderLink.click();
+
+        return new FolderStatusPage(getDriver());
     }
 
     public RenameItemPage clickRenameButton(){
