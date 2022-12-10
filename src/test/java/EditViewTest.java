@@ -183,6 +183,7 @@ public class EditViewTest extends BaseTest{
         Assert.assertTrue(filterBuildQueueStatus.equals("true") && filterBuildExecutorsStatus.equals("true"));
     }
 
+    @Ignore
     @Test
     public void testListViewAddNewColumn() {
         listViewSeriesPreConditions(getRandomStr());
