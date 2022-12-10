@@ -59,6 +59,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//span[text()='Move']")
     private WebElement moveButtonDropdown;
 
+    @FindBy(xpath = "//div/a[@class='model-link']")
+    private WebElement iconUserName;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -187,5 +190,11 @@ public class HomePage extends BasePage {
 
     public String getpageHeader() {
         return header.getText();
+    }
+
+    public StatusUserPage clickUserIcon() {
+        iconUserName.click();
+
+        return new StatusUserPage(getDriver());
     }
 }
