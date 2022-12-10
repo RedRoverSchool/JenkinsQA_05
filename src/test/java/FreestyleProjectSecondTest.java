@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static runner.TestUtils.scrollToElement_PlaceInCenter;
+
 public class FreestyleProjectSecondTest extends BaseTest {
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
@@ -152,7 +154,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']")).click();
 
-        TestUtils.scrollToElement_PlaceInCenter(getDriver(),
+        scrollToElement_PlaceInCenter(getDriver(),
                 getDriver().findElement(By.xpath("//label[text()='Build periodically']")));
         getWait(10).until(TestUtils.
                 ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']"))).click();
