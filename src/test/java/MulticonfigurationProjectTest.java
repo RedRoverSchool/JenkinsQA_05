@@ -350,4 +350,18 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//span/span/*[name()='svg' and @tooltip='Not built']"))
                 .isDisplayed());
     }
+
+    @Test
+    public void testDisableMultiConfigurationProject() {
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(PROJECT_NAME)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSave()
+                .clickDisableButton()
+                .goToDashboard();
+
+        Assert.assertTrue(getDriver().findElement
+                (By.xpath("(//*[local-name()='svg' and @tooltip='Disabled'])[2]")).isDisplayed());
+    }
 }
