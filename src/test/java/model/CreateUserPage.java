@@ -58,9 +58,9 @@ public class CreateUserPage extends BasePage{
         return this;
     }
 
-    public UsersPage clickCreateUserButton(){
+    public ManageUsersPage clickCreateUserButton(){
         createUserButton.click();
 
-        return new UsersPage(getDriver());
+        return new ManageUsersPage(getDriver());
     }
 }

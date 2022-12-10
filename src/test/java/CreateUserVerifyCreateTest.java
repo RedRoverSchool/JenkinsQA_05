@@ -1,6 +1,6 @@
 import model.HomePage;
+import model.ManageUsersPage;
 import model.PeoplePage;
-import model.UsersPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -158,7 +158,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
 
     @Test
     public void testCreateNewUserJenkins(){
-        UsersPage homePage = new HomePage(getDriver())
+        ManageUsersPage homePage = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()

@@ -28,11 +28,5 @@ public class ManageJenkinsPage extends BasePage {
 
         return new ManageUsersPage(getDriver());
     }
-    
-    public UsersPage clickManageUsers(){
-        manageUsers.click();
-
-        return new UsersPage(getDriver());
-    }
 }
 
