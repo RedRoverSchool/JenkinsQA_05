@@ -136,6 +136,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertTrue(pipelineConfigPage.getAttributeGitHubSideMenu("href").contains(gitHubRepo));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddingGitRepository")
     public void testWarningMessageIsDisappeared() {
 
