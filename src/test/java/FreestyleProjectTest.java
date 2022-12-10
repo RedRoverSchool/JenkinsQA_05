@@ -386,6 +386,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(BY_DESCRIPTION_TEXT).getText(), DESCRIPTION_INPUT);
     }
 
+    @Ignore
     @Test
     public void testCreateFreestyleProjectWithInvalidCharBeforeName() {
         getDriver().findElement(BY_BUTTON_ADD_NEW_ITEM).click();

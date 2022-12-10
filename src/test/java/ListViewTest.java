@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -90,6 +91,7 @@ public class ListViewTest extends BaseTest {
         Assert.assertEquals(actualDescription.getText(), descriptionRandom);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testEditViewAddDescription")
     public void testEditViewDeleteDescription() {
 
@@ -101,6 +103,7 @@ public class ListViewTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(DESCRIPTION).getText(), "");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testEditViewDeleteDescription")
     public void testDeleteListView() {
 
