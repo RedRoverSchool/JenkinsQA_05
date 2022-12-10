@@ -43,7 +43,7 @@ public class NewItemPage extends HomePage {
     private WebElement pipeline;
 
     @FindBy(css = "div#itemname-invalid" )
-    private WebElement unsafeCharErrorMessage;
+    private WebElement nameErrorMessage;
 
 
     public NewItemPage(WebDriver driver) {
@@ -134,7 +134,7 @@ public class NewItemPage extends HomePage {
         return new PipelineConfigPage(getDriver());
     }
 
-    public String getUnsafeCharErrorMessageText() {
-        return unsafeCharErrorMessage.getAttribute("textContent");
+    public String getNameErrorMessageText() {
+        return nameErrorMessage.getAttribute("textContent");
     }
 }

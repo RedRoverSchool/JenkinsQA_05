@@ -37,13 +37,18 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineExistingNameError() {
-        createPipeline(RANDOM_STRING);
-        getDriver().findElement(LINK_TO_DASHBOARD).click();
-        setJobPipeline(RANDOM_STRING);
+        final String projectName = "AnyUnusualName1";
 
-        WebElement notificationError = getDriver().findElement(By.id("itemname-invalid"));
+        String newItemPageErrorMessage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(projectName)
+                .selectPipelineAndClickOk()
+                .clickDashboard()
+                .clickNewItem()
+                .setProjectName(projectName)
+                .getNameErrorMessageText();
 
-        Assert.assertEquals(notificationError.getText(), String.format("» A job already exists with the name ‘%s’", RANDOM_STRING));
+        Assert.assertEquals(newItemPageErrorMessage, String.format("» A job already exists with the name ‘%s’", projectName));
     }
 
     @Test
@@ -52,7 +57,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         String errorMessage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(nameNewItem)
-                .getUnsafeCharErrorMessageText();
+                .getNameErrorMessageText();
 
         Assert.assertEquals(errorMessage,"» ‘%’ is an unsafe character");
     }
