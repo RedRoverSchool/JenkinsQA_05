@@ -76,7 +76,6 @@ public class FooterTest extends BaseTest {
 
     @Test(dependsOnMethods = "testFooterLinkJenkinsIsVisible")
     public void testFooterLinkJenkinsIsClickable() {
-
         scrollToEnd(getDriver());
         new Actions(getDriver()).pause(1500).moveToElement(getDriver().findElement(JENKINS_LINK))
                 .click().perform();
