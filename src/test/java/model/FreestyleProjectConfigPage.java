@@ -13,9 +13,9 @@ public class FreestyleProjectConfigPage extends BasePage {
         super(driver);
     }
 
-    public FreestyleProjectPage clickSaveBtn() {
+    public FreestyleProjectStatusPage clickSaveBtn() {
         saveBtn.click();
 
-        return new FreestyleProjectPage(getDriver());
+        return new FreestyleProjectStatusPage(getDriver());
     }
 }

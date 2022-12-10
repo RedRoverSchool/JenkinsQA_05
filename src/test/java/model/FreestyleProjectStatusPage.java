@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FreestyleProjectPage extends BasePage {
+public class FreestyleProjectStatusPage extends BasePage {
 
     @FindBy(xpath = "//h1")
     private WebElement headline;
@@ -15,7 +15,10 @@ public class FreestyleProjectPage extends BasePage {
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
 
-    public FreestyleProjectPage(WebDriver driver) {
+    @FindBy(name = "Submit")
+    private WebElement disableOrEnableBtn;
+
+    public FreestyleProjectStatusPage(WebDriver driver) {
         super(driver);
     }
 
@@ -33,5 +36,11 @@ public class FreestyleProjectPage extends BasePage {
         topMenuRoot.click();
 
         return new HomePage(getDriver());
+    }
+
+    public FreestyleProjectStatusPage clickDisableOrEnableSwitchBtn() {
+        disableOrEnableBtn.click();
+
+        return this;
     }
 }
