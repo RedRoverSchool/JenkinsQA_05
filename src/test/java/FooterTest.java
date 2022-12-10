@@ -1,3 +1,4 @@
+import org.checkerframework.checker.units.qual.s;
 import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -6,6 +7,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static runner.TestUtils.scrollToEnd;
 
@@ -13,6 +15,7 @@ public class FooterTest extends BaseTest {
 
     private static final By REST_API_LINK = By.xpath("//a[@href='api/']");
     private static final By JENKINS_LINK = By.xpath("//a[@href='https://www.jenkins.io/']");
+
     @Test
     public void testFooterLinkRestIsDisplayed() {
 
@@ -68,5 +71,22 @@ public class FooterTest extends BaseTest {
                 .perform();
 
         Assert.assertTrue(getDriver().findElement(JENKINS_LINK).isDisplayed());
+    }
+
+
+    @Test(dependsOnMethods = "testFooterLinkJenkinsIsVisible")
+    public void testFooterLinkJenkinsIsClickable() {
+
+        scrollToEnd(getDriver());
+        new Actions(getDriver()).pause(1500).moveToElement(getDriver().findElement(JENKINS_LINK))
+                .click().perform();
+
+        ArrayList<String> newJenkins = new ArrayList<>(getDriver().getWindowHandles());
+        getDriver().switchTo().window(newJenkins.get(1));
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class='page-title']")).getText()
+                , "Jenkins");
+
+        getDriver().switchTo().window(newJenkins.get(0));
     }
 }

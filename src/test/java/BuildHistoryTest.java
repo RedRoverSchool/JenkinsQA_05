@@ -1,3 +1,6 @@
+
+import model.HomePage;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -85,18 +88,6 @@ public class BuildHistoryTest extends BaseTest {
     public int getListSize(By by) {
 
         return getListOfElements(by).size();
-    }
-
-    @Ignore
-    @Test
-    public void testVerifyRedirectToMainPage() {
-        getDriver().findElement(
-                By.linkText("Build History")).click();
-
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description-link")).getText(),
-                "Add description");
     }
 
     @Ignore
@@ -222,5 +213,16 @@ public class BuildHistoryTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[@id='no-builds']")).isDisplayed());
+    }
+
+    @Test
+    public void testRedirectToMainPage() {
+        HomePage homePage = new HomePage(getDriver())
+
+                .clickBuildHistory()
+                .clickDashboard();
+
+        Assert.assertEquals(homePage.getpageHeader(),"Welcome to Jenkins!");
+
     }
 }

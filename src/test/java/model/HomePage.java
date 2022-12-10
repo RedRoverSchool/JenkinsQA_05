@@ -10,7 +10,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static runner.TestUtils.scrollToElement;
+
 public class HomePage extends BasePage {
+
+    @FindBy(linkText = "Build History")
+    private WebElement buildHistory;
+
 
 
     @FindBy(css = "#breadcrumbs li a")
@@ -39,20 +45,21 @@ public class HomePage extends BasePage {
 
     @FindBy(css = "a[href='/me/my-views']")
     private WebElement myViews;
-    
-      @FindBy(xpath = "//a[@href='/manage']")
+
+    @FindBy(xpath = "//a[@href='/manage']")
     private WebElement manageJenkins;
 
     @FindBy(xpath = "//span/a[@href='/asynchPeople/']")
     private WebElement people;
 
-
-    @FindBy(css=".tabBar>.tab>a[class='']")
+    @FindBy(css = ".tabBar>.tab>a[class='']")
     private WebElement openViewLink;
 
-    @FindBy(css=".tabBar>.tab>a.addTab")
+    @FindBy(css = ".tabBar>.tab>a.addTab")
     private WebElement addViewLink;
 
+    @FindBy(xpath = "//span[text()='Move']")
+    private WebElement moveButtonDropdown;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -119,15 +126,15 @@ public class HomePage extends BasePage {
         return new PipelineConfigPage(getDriver());
     }
 
-    public String getTextHeader(){
+    public String getTextHeader() {
         return header.getText();
     }
 
-    public DropdownMenu clickFolderDropdownMenu(String folderName) {
+    public HomePage clickFolderDropdownMenu(String folderName) {
         getWait(5).until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//a[@href='job/" + folderName + "/']/button"))).click();
 
-        return new DropdownMenu(getDriver());
+        return this;
     }
 
     public FolderStatusPage clickFolder(String folderName) {
@@ -141,22 +148,45 @@ public class HomePage extends BasePage {
 
         return new ManageJenkinsPage(getDriver());
     }
-    
-     public MyViewsPage clickMyViews() {
+
+    public MyViewsPage clickMyViews() {
         myViews.click();
 
         return new MyViewsPage(getDriver());
     }
 
-    public ManageJenkinsPage clickManageJenkins(){
+    public ManageJenkinsPage clickManageJenkins() {
         manageJenkins.click();
 
         return new ManageJenkinsPage(getDriver());
     }
 
-    public PeoplePage clickPeople(){
+    public PeoplePage clickPeople() {
         people.click();
 
         return new PeoplePage(getDriver());
     }
-}
+
+    public MultiConfigurationProjectStatusPage clickMultConfJobName(String name) {
+        jobList.get(0).click();
+        return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+    public MovePage clickMoveButtonDropdown() {
+        getWait(5).until(ExpectedConditions.visibilityOf(moveButtonDropdown));
+        scrollToElement(getDriver(), moveButtonDropdown);
+        moveButtonDropdown.click();
+        return new MovePage(getDriver());
+    }
+
+    public BuildHistoryPage clickBuildHistory(){
+        buildHistory.click();
+
+        return new BuildHistoryPage(getDriver());
+    }
+
+    public String getpageHeader() {
+        return header.getText();
+    }
+
+   }
