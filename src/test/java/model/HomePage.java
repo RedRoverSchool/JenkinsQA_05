@@ -53,7 +53,6 @@ public class HomePage extends BasePage {
     @FindBy(css=".tabBar>.tab>a.addTab")
     private WebElement addViewLink;
 
-
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -158,5 +157,10 @@ public class HomePage extends BasePage {
         people.click();
 
         return new PeoplePage(getDriver());
+    }
+
+    public MultiConfigurationProjectStatusPage clickMultConfJobName(String name){
+        jobList.get(0).click();
+        return new MultiConfigurationProjectStatusPage(getDriver());
     }
 }

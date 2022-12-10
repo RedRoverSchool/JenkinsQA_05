@@ -15,6 +15,9 @@ public class FreestyleProjectPage extends BasePage {
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
 
+    @FindBy(linkText = "Rename")
+    private WebElement buttonRename;
+
     public FreestyleProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -33,5 +36,11 @@ public class FreestyleProjectPage extends BasePage {
         topMenuRoot.click();
 
         return new HomePage(getDriver());
+    }
+
+    public RenameItemPage clickRenameButton(){
+        buttonRename.click();
+
+        return new RenameItemPage(getDriver());
     }
 }
