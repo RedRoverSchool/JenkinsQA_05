@@ -125,9 +125,11 @@ public class FreestyleProjectSecondTest extends BaseTest {
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-steps']")).click();
+
+        scrollToElement_PlaceInCenter(getDriver(),
+                getDriver().findElement(By.xpath("//button[text()='Add build step']")));
         getWait(10).until(TestUtils
-                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']")));
-        getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
+                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']"))).click();
         List<WebElement> listOfOptions = getDriver()
                 .findElements(By.xpath("//button[text()='Add build step']/../../..//a[@href='#']"));
 
@@ -136,11 +138,9 @@ public class FreestyleProjectSecondTest extends BaseTest {
         }
 
         getWait(10).until(TestUtils
-                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']")));
-        getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
+                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']"))).click();
         getWait(10).until(TestUtils
-                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[@type='submit']")));
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[@type='submit']"))).click();
 
         Assert.assertEquals(actualOptions, expectedOptions);
     }
