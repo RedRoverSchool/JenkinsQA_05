@@ -1,9 +1,11 @@
+import model.HomePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import runner.BaseTest;
 import runner.TestUtils;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import static runner.TestUtils.getRandomStr;
@@ -43,7 +45,7 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(DASHBOARD).click();
     }
 
-    public void createManyItemsOfEach(int i){
+    private void createManyItemsOfEach(int i){
         for(int j = 0; j < i; j++){
             for(int k = 0; k < 6; k++) {
                 createItem(k);
@@ -51,7 +53,7 @@ public class EditViewTest extends BaseTest{
         }
     }
 
-    public void createGlobalView(String randomAlphaNumeric) {
+    private void createGlobalView(String randomAlphaNumeric) {
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(By.cssSelector(".addTab")).click();
@@ -61,7 +63,7 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON).click();
     }
 
-    public void createListView(String randomAlphaNumeric) {
+    private void createListView(String randomAlphaNumeric) {
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(By.cssSelector(".addTab")).click();
@@ -71,7 +73,7 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON).click();
     }
 
-    public void createMyView(String randomAlphaNumeric) {
+    private void createMyView(String randomAlphaNumeric) {
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(By.cssSelector(".addTab")).click();
@@ -81,7 +83,7 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON).click();
     }
 
-    public void goToEditView(String randomAlphaNumeric) {
+    private void goToEditView(String randomAlphaNumeric) {
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(By
@@ -90,31 +92,31 @@ public class EditViewTest extends BaseTest{
                 .xpath(String.format("//a[contains(@href, '/my-views/view/%s/configure')]", randomAlphaNumeric))).click();
     }
 
-    public void globalViewSeriesPreConditions(String randomAlphaNumeric) {
+    private void globalViewSeriesPreConditions(String randomAlphaNumeric) {
         createManyItemsOfEach(1);
         createGlobalView(randomAlphaNumeric);
     }
 
-    public void listViewSeriesPreConditions(String randomAlphaNumeric) {
+    private void listViewSeriesPreConditions(String randomAlphaNumeric) {
         createManyItemsOfEach(1);
         createListView(randomAlphaNumeric);
         addFiveItemsToListView();
         goToEditView(randomAlphaNumeric);
     }
 
-    public void myViewSeriesPreConditions(String randomAlphaNumeric) {
+    private void myViewSeriesPreConditions(String randomAlphaNumeric) {
         createManyItemsOfEach(1);
         createMyView(randomAlphaNumeric);
     }
 
-    public void scrollWaitTillNotMovingAndClick(int duration, By locator) {
+    private void scrollWaitTillNotMovingAndClick(int duration, By locator) {
         ((JavascriptExecutor) getDriver())
                 .executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(locator));
         getWait(duration).until(TestUtils.ExpectedConditions.elementIsNotMoving(locator));
         getDriver().findElement(locator).click();
     }
 
-    public void addFiveItemsToListView() {
+    private void addFiveItemsToListView() {
         List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION);
         for (int i = 0; i < 5; i++) {
             itemsToSelect.get(i).click();
@@ -122,7 +124,7 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON).click();
     }
 
-    public void dragByYOffset (By locator, int offset) {
+    private void dragByYOffset (By locator, int offset) {
         Actions actions = new Actions(getDriver());
         actions.moveToElement(getDriver().findElement(locator))
                 .clickAndHold(getDriver().findElement(locator))
@@ -131,15 +133,22 @@ public class EditViewTest extends BaseTest{
                 .release().perform();
     }
 
-   @Ignore
     @Test
     public void testGlobalViewAddFilterBuildQueue() {
-        globalViewSeriesPreConditions(getRandomStr());
 
-        getDriver().findElement(FILTER_QUEUE).click();
-        getDriver().findElement(SUBMIT_BUTTON).click();
-        boolean newPaneIsDisplayed = getDriver().findElements(PANE_HEADER)
-                .stream().map(WebElement::getText).collect(Collectors.toList())
+        boolean newPaneIsDisplayed = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(getRandomStr())
+                .selectFolderAndClickOk()
+                .clickDashboard()
+                .clickMyViews()
+                .clickAddViewLink()
+                .setViewName(getRandomStr())
+                .setGlobalViewType()
+                .clickCreateButton()
+                .filterBuildQueueOptionCheckBoxSelect()
+                .clickOkButton()
+                .getActiveFiltersList()
                 .contains("Filtered Build Queue");
 
         Assert.assertTrue(newPaneIsDisplayed);
@@ -174,6 +183,7 @@ public class EditViewTest extends BaseTest{
         Assert.assertTrue(filterBuildQueueStatus.equals("true") && filterBuildExecutorsStatus.equals("true"));
     }
 
+    @Ignore
     @Test
     public void testListViewAddNewColumn() {
         listViewSeriesPreConditions(getRandomStr());

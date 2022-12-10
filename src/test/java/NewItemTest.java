@@ -76,4 +76,22 @@ public class NewItemTest extends BaseTest {
             Assert.assertEquals(actualErrorMessage, "No name is specified");
         }
     }
+
+    @Test
+    public void testCreateItemsWithoutName() {
+        int itemsListSize = new HomePage((getDriver()))
+                .clickNewItem()
+                .getItemsListSize();
+
+        for (int i = 0; i < itemsListSize; i++) {
+
+            String actualErrorMessage = new NewItemPage((getDriver()))
+                    .rootMenuDashboardLinkClick()
+                    .clickNewItem()
+                    .setItem(i)
+                    .getEmptyNameErrorMessage();
+
+            Assert.assertEquals(actualErrorMessage,"» This field cannot be empty, please enter a valid name");
+        }
+    }
 }
