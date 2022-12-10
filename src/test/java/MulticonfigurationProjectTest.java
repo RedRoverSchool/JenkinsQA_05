@@ -1,4 +1,5 @@
 import model.HomePage;
+import model.MultiConfigurationProjectStatusPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -53,14 +54,14 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMulticonfigurationProjectAddDescription() {
-        final String description = "Description";
 
-        getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
-        getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(By.name("description")).sendKeys(description);
-        getDriver().findElement(By.xpath("//button[contains(text(),'Save')]")).click();
+        MultiConfigurationProjectStatusPage multConfPage = new HomePage(getDriver())
+                .clickMultConfJobName(PROJECT_NAME)
+                .clickAddDescription()
+                .fillDescription("Description")
+                .clickSave();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description div")).getText(), description);
+        Assert.assertEquals(multConfPage.getDescriptionText(), "Description");
     }
 
     @Ignore

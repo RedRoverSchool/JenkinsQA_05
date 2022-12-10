@@ -60,7 +60,6 @@ public class FooterTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.cssSelector("body > div.header>span")).getText()
                 , "This XML file does not appear to have any style information associated "
                         + "with it. The document tree is shown below.");
-
     }
 
     @Test
@@ -72,7 +71,6 @@ public class FooterTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(JENKINS_LINK).isDisplayed());
     }
-
 
     @Test(dependsOnMethods = "testFooterLinkJenkinsIsVisible")
     public void testFooterLinkJenkinsIsClickable() {
