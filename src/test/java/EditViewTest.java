@@ -132,7 +132,7 @@ public class EditViewTest extends BaseTest{
                 .moveByOffset(0,offset/2)
                 .release().perform();
     }
-
+    @Ignore
     @Test
     public void testGlobalViewAddFilterBuildQueue() {
 
