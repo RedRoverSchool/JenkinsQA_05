@@ -97,6 +97,7 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(BUTTON_OK).click();
     }
 
+    @Ignore
     @Test
     public void testDisablePipelineProjectMessage() {
 
@@ -110,6 +111,7 @@ public class PipelineTest extends BaseTest {
                 .contains("This project is currently disabled"));
     }
 
+    @Ignore
     @Test
     public void testCreatedPipelineDisplayedOnMyViews() {
 
@@ -122,6 +124,7 @@ public class PipelineTest extends BaseTest {
                 .isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testPipelineAddDescription() {
 
@@ -138,6 +141,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), pipelinePojectName + "description");
     }
 
+    @Ignore
     @Test
     public void testNewPipelineItemAppearedInTheList() {
 
@@ -148,6 +152,7 @@ public class PipelineTest extends BaseTest {
                 By.xpath("//a[@href='job/" + pipelineProjectName + "/']")).getText(), pipelineProjectName);
     }
 
+    @Ignore
     @Test
     public void testRenamePipelineWithValidName() {
         createPipelineProject(PIPELINE_NAME);
@@ -160,6 +165,7 @@ public class PipelineTest extends BaseTest {
         deletePipelineProject(PIPELINE_NAME);
     }
 
+    @Ignore
     @Test
     public void testRenamedPipelineIsDisplayedInMyViews() {
         createPipelineProject(PIPELINE_NAME);
@@ -177,6 +183,7 @@ public class PipelineTest extends BaseTest {
         deletePipelineProject(PIPELINE_NAME);
     }
 
+    @Ignore
     @Test
     public void testRenamePipelineWithoutChangingName() {
         createPipelineProject(PIPELINE_NAME);
@@ -221,6 +228,7 @@ public class PipelineTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testPipelinePreviewDescription() {
 
@@ -236,6 +244,7 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(BUTTON_SAVE).click();
     }
 
+    @Ignore
     @Test
     public void testPipelineHidePreviewDescription() {
 
@@ -252,6 +261,7 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(BUTTON_SAVE).click();
     }
 
+    @Ignore
     @Test
     public void testPipelineAEditDescription() {
 

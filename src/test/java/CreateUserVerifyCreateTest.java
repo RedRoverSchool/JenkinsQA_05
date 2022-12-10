@@ -1,3 +1,6 @@
+import model.HomePage;
+import model.ManageUsersPage;
+import model.PeoplePage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -5,14 +8,16 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+
+import static runner.TestUtils.getRandomStr;
 
 public class CreateUserVerifyCreateTest extends BaseTest {
 
@@ -22,6 +27,10 @@ public class CreateUserVerifyCreateTest extends BaseTest {
     private static final By BUTTON_FINAL_CREATE_USER = By.id("yui-gen1-button");
     private String randUserName = getRandomDigitAndLetterString();
 
+    private static final String USERNAME = getRandomStr(10);
+    private static final String PASSWORD = getRandomStr(7);
+    private static final String FULLNAME = getRandomStr(5);
+    private static final String EMAIL = getRandomStr(5) + "@gmail.com";
 
     public static String getRandomDigitAndLetterString() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -40,6 +49,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
         return RandomStringUtils.randomAlphanumeric(randomLength);
     }
 
+    @Ignore
     @Test
     public void testCreateUser() throws InterruptedException {
 
@@ -72,6 +82,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateUser")
     public void testToDeleteUser() {
 
@@ -144,43 +155,29 @@ public class CreateUserVerifyCreateTest extends BaseTest {
 
         Assert.assertTrue(userNameFromListTable.contains(randomUsername));
     }
+
     @Test
     public void testCreateNewUserJenkins(){
+        ManageUsersPage homePage = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickManageUsers()
+                .clickCreateUser()
+                .setUsername(USERNAME)
+                .setPassword(PASSWORD)
+                .confirmPassword(PASSWORD)
+                .setFullName(FULLNAME)
+                .setEmail(EMAIL)
+                .clickCreateUserButton();
 
-        final String username = getRandomDigitAndLetterString();
-        final String password = getRandomDigitAndLetterString();
-        final String fullName = getRandomDigitAndLetterString();
-        final String email = getRandomDigitAndLetterString() + ".@com";
+        Assert.assertTrue(homePage.getListOfUsers().contains(USERNAME));
+        Assert.assertTrue(homePage.getListOfUsers().contains(FULLNAME));
 
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getDriver().findElement(By.xpath("//div/a[@href='securityRealm/']")).click();
-        getDriver().findElement(By.xpath("//a[@href='addUser']")).click();
-        getDriver().findElement(By.id("username")).sendKeys(username);
-        getDriver().findElement(By.xpath("//div/input[@name='password1']")).sendKeys(password);
-        getDriver().findElement(By.xpath("//div/input[@name='password2']")).sendKeys(password);
-        getDriver().findElement(By.xpath("//div/input[@name='fullname']")).sendKeys(fullName);
-        getDriver().findElement(By.xpath("//div/input[@name='email']")).sendKeys(email);
-        getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
+        homePage.rootMenuDashboardLinkClick()
+                .clickPeople();
+        PeoplePage peoplePage = new PeoplePage(getDriver());
 
-        List<WebElement> usersList = getDriver().findElements(By.xpath("//table[@id='people']//tbody//tr//td"));
-        List<String> listOfUsers = new ArrayList<>();
-        for (int i = 0; i < usersList.size(); i++) {
-            listOfUsers.add(i, usersList.get(i).getText());
-        }
-
-        Assert.assertTrue(listOfUsers.contains(username));
-        Assert.assertTrue(listOfUsers.contains(fullName));
-
-        getDriver().findElement(By.xpath("//li/a[@href='/']")).click();
-        getDriver().findElement(By.xpath("//span/a[@href='/asynchPeople/']")).click();
-        List<WebElement> usersListInPeople = getDriver().findElements(By.xpath("//tbody/tr/td"));
-        List<String> listOfUsersInPeople = new ArrayList<>();
-        for (int i = 0; i < usersListInPeople.size(); i++) {
-            listOfUsersInPeople.add(i, usersListInPeople.get(i).getText());
-        }
-
-        Assert.assertTrue(listOfUsersInPeople.contains(username));
-        Assert.assertTrue(listOfUsersInPeople.contains(fullName));
+        Assert.assertTrue(peoplePage.getListOfUSersInPeople().contains(USERNAME));
+        Assert.assertTrue(peoplePage.getListOfUSersInPeople().contains(FULLNAME));
     }
 }
 

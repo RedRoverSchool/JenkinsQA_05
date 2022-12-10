@@ -1,10 +1,10 @@
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +17,9 @@ public class ListViewTest extends BaseTest {
     private static final By DESCRIPTION = By.xpath(
             "//div[@class='jenkins-buttons-row jenkins-buttons-row--invert']/preceding-sibling::div");
     private static final By EDIT_VIEW_MENU = By.linkText("Edit View");
-    private static final String RANDOM_LIST_VIEW_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private static final String RANDOM_LIST_VIEW_NAME = TestUtils.getRandomStr();
     private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + RANDOM_LIST_VIEW_NAME + "/']");
 
-
-    private String getRandomString() {
-
-        return RandomStringUtils.randomAlphanumeric(10);
-    }
 
     private void createFreestyleProject(String name) {
 
@@ -46,8 +41,8 @@ public class ListViewTest extends BaseTest {
 
     @Test
     public void testCreateNewListViewWithExistingJob() {
-        final String projectOne = getRandomString();
-        final String projectTwo = getRandomString();
+        final String projectOne = TestUtils.getRandomStr();
+        final String projectTwo = TestUtils.getRandomStr();
 
         createFreestyleProject(projectOne);
         createFreestyleProject(projectTwo);
@@ -60,7 +55,10 @@ public class ListViewTest extends BaseTest {
         WebElement elementJob = getDriver().findElement(By.xpath("//label[@title='" + projectOne + "']"));
 
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].click();", elementJob);
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", elementJob);
+
+        getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(
+                By.xpath("//label[@title='" + projectOne + "']"))).click();
 
         getDriver().findElement(OK_BUTTON).click();
 
@@ -79,7 +77,7 @@ public class ListViewTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateNewListViewWithExistingJob")
     public void testEditViewAddDescription() {
-        final String descriptionRandom = getRandomString();
+        final String descriptionRandom = TestUtils.getRandomStr();
 
         getDriver().findElement(CREATED_LIST_VIEW).click();
         getDriver().findElement(EDIT_VIEW_MENU).click();
