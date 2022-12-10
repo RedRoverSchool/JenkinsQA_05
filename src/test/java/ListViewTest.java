@@ -39,7 +39,7 @@ public class ListViewTest extends BaseTest {
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .clickDashboard()
-                .clickNewView()
+                .clickAddViewLink()
                 .setViewName(RANDOM_LIST_VIEW_NAME)
                 .setListViewType()
                 .clickCreateListView()
@@ -71,7 +71,9 @@ public class ListViewTest extends BaseTest {
 
         getDriver().findElement(CREATED_LIST_VIEW).click();
         getDriver().findElement(By.cssSelector("#description-link")).click();
-        getDriver().findElement(DESCRIPTION_AREA).clear();
+        getWait(5)
+                .until(TestUtils.ExpectedConditions.elementIsNotMoving(
+                        getDriver().findElement(DESCRIPTION_AREA))).clear();
         getDriver().findElement(By.cssSelector("#yui-gen1-button")).click();
 
         Assert.assertEquals(getDriver().findElement(DESCRIPTION).getText(), "");

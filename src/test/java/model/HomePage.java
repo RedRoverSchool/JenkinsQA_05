@@ -57,9 +57,6 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//span[text()='Move']")
     private WebElement moveButtonDropdown;
 
-    @FindBy(xpath = "//a[@tooltip='New View']")
-    private WebElement newView;
-
     @FindBy(xpath = "//div[@class='tabBar']/div/a")
     private List<WebElement> viewList;
 
@@ -186,11 +183,5 @@ public class HomePage extends BasePage {
         scrollToElement(getDriver(), moveButtonDropdown);
         moveButtonDropdown.click();
         return new MovePage(getDriver());
-    }
-
-    public NewViewPage clickNewView() {
-        newView.click();
-
-        return new NewViewPage(getDriver());
     }
 }

@@ -1,7 +1,6 @@
 package model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -49,8 +48,7 @@ public class EditViewPage extends HomePage {
     }
 
     public EditViewPage addJobToView(String name) {
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].scrollIntoView({block: 'center'})",
+        TestUtils.scrollToElement_PlaceInCenter(getDriver(),
                 getDriver().findElement(By.xpath("//label[@title='" + name + "']")));
         getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(
                 By.xpath("//label[@title='" + name + "']"))).click();
