@@ -47,4 +47,11 @@ public class MyViewsPage extends HomePage{
 
         return listViewActiveFilters.stream().map(WebElement::getText).collect(Collectors.toList());
     }
+
+    public ViewPage clickView(String viewName) {
+        getDriver().findElement(By.cssSelector(".tabBar .tab a[href='/user/admin/my-views/view/" + viewName + "/']")).click();
+
+        return new ViewPage(getDriver());
+    }
+
 }
