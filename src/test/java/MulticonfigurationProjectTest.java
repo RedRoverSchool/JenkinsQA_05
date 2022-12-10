@@ -40,7 +40,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Test
     public void testCreateMultiConfigurationProjectWithValidName() {
-
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(PROJECT_NAME)
@@ -52,6 +51,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+
     public void testMulticonfigurationProjectAddDescription() {
         final String description = "Description";
 
