@@ -34,7 +34,7 @@ public class NewItemPage extends BasePage {
     @FindBy(xpath = "//div[@class='icon']")
     private List<WebElement> itemsList;
 
-    @FindBy(className = "btn-decorator")
+    @FindBy(id = "ok-button")
     private WebElement okButton;
 
     @FindBy(className = "hudson_model_FreeStyleProject")
@@ -48,6 +48,15 @@ public class NewItemPage extends BasePage {
 
     @FindBy(xpath = "//span[contains(text(), 'Multi-configuration project')]")
     private WebElement multiConfigurationProject;
+
+    @FindBy(xpath = "//span[contains(text(), 'Multibranch Pipeline')]")
+    private WebElement multibranchPipeline;
+
+    @FindBy(id = "itemname-required")
+    private WebElement nameRequiredMessage;
+
+    @FindBy(xpath = "//span[text() = 'Pipeline']")
+    private WebElement pipeline;
 
 
     public NewItemPage(WebDriver driver) {
@@ -121,6 +130,13 @@ public class NewItemPage extends BasePage {
         return itemsList.size();
     }
 
+    public NewItemPage selectMultibranchPipeline() {
+        getWait(1).until(ExpectedConditions.visibilityOf(multibranchPipeline));
+        multibranchPipeline.click();
+
+        return this;
+    }
+
     public String getInputValidationMsg(InputValidationMsgType type) {
         switch (type) {
             case NAME_REQ:
@@ -131,5 +147,20 @@ public class NewItemPage extends BasePage {
                 return itemTypeRequiredMsg.getText();
         }
         return "";
+    }
+
+    public String getNameRequiredMessageText() {
+        return nameRequiredMessage.getText();
+    }
+
+    public WebElement getOkButton() {
+        return okButton;
+    }
+
+    public PipelineConfigPage selectPipelineAndClickOk() {
+        pipeline.click();
+        okButton.click();
+
+        return new PipelineConfigPage(getDriver());
     }
 }

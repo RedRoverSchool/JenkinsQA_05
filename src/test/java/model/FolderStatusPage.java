@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class StatusPage extends BasePage {
+public class FolderStatusPage extends BasePage {
 
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
@@ -15,7 +15,7 @@ public class StatusPage extends BasePage {
     @FindBy(xpath = "//tr/td[3]/a/span[1]")
     private List<WebElement> jobList;
 
-    public StatusPage(WebDriver driver) {
+    public FolderStatusPage(WebDriver driver) {
         super(driver);
     }
 
