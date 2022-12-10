@@ -133,6 +133,7 @@ public class EditViewTest extends BaseTest{
                 .release().perform();
     }
 
+   @Ignore
     @Test
     public void testGlobalViewAddFilterBuildQueue() {
 
