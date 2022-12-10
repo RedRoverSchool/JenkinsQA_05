@@ -1,9 +1,9 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -144,7 +144,6 @@ public class FreestyleProjectSecondTest extends BaseTest {
         Assert.assertEquals(actualOptions, expectedOptions);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testVerifyOptionsInBuildStepsSection")
     public void testSelectBuildPeriodicallyCheckbox() {
         boolean selectedCheckbox;
@@ -153,16 +152,18 @@ public class FreestyleProjectSecondTest extends BaseTest {
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']")).click();
+
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'})",
+                getDriver().findElement(By.xpath("//label[text()='Build periodically']")));
         getWait(10).until(TestUtils.
-                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']")));
-        getDriver().findElement(By.xpath("//label[text()='Build periodically']")).click();
+                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']"))).click();
 
         selectedCheckbox = getWait(10).until(ExpectedConditions
                 .elementSelectionStateToBe(By.name("hudson-triggers-TimerTrigger"),true));
 
         getWait(10).until(TestUtils.
-                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']")));
-        getDriver().findElement(By.xpath("//label[text()='Build periodically']")).click();
+                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']"))).click();
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
         Assert.assertTrue(selectedCheckbox);
