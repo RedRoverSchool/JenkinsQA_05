@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 import java.util.List;
 
-public class NewItemPage extends BasePage {
+public class NewItemPage extends HomePage {
 
     @FindBy(className = "item")
     private WebElement rootMenuDashboardLink;
@@ -33,7 +33,7 @@ public class NewItemPage extends BasePage {
     @FindBy(xpath = "//span[contains(text(), 'Multi-configuration project')]")
     private WebElement multiConfigurationProject;
 
-    @FindBy(xpath = "//span[contains(text(), 'Multibranch Pipeline')]")
+    @FindBy(xpath = "//li[@class='org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject']")
     private WebElement multibranchPipeline;
 
     @FindBy(id = "itemname-required")
@@ -41,6 +41,12 @@ public class NewItemPage extends BasePage {
 
     @FindBy(xpath = "//span[text() = 'Pipeline']")
     private WebElement pipeline;
+
+    @FindBy(css = "div#itemname-invalid" )
+    private WebElement nameErrorMessage;
+
+    @FindBy(css = "#itemname-required")
+    private WebElement emptyNameErrorMessage;
 
 
     public NewItemPage(WebDriver driver) {
@@ -97,6 +103,13 @@ public class NewItemPage extends BasePage {
         return new CreateItemErrorPage(getDriver());
     }
 
+    public NewItemPage setItem(int index) {
+        getAction().scrollByAmount(0, 250).perform();
+        itemsList.get(index).click();
+
+        return this;
+    }
+
     public int getItemsListSize() {
         getWait(5).until(ExpectedConditions.visibilityOfAllElements(itemsList));
         return itemsList.size();
@@ -109,12 +122,19 @@ public class NewItemPage extends BasePage {
         return this;
     }
 
+    public MultibranchPipelineConfigPage selectMultibranchPipelineAndClickOk() {
+        multibranchPipeline.click();
+        okButton.click();
+
+        return new MultibranchPipelineConfigPage(getDriver());
+    }
+
     public String getNameRequiredMessageText() {
         return nameRequiredMessage.getText();
     }
 
-    public WebElement getOkButton() {
-        return okButton;
+    public boolean isOkButtonEnabled() {
+        return okButton.isEnabled();
     }
 
     public PipelineConfigPage selectPipelineAndClickOk() {
@@ -122,5 +142,14 @@ public class NewItemPage extends BasePage {
         okButton.click();
 
         return new PipelineConfigPage(getDriver());
+    }
+
+    public String getNameErrorMessageText() {
+        return nameErrorMessage.getAttribute("textContent");
+    }
+
+    public String getEmptyNameErrorMessage() {
+
+        return emptyNameErrorMessage.getAttribute("textContent");
     }
 }

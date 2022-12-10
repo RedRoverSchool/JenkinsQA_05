@@ -3,7 +3,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -11,6 +10,8 @@ import runner.TestUtils;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static runner.TestUtils.scrollToElement_PlaceInCenter;
 
 public class FreestyleProjectSecondTest extends BaseTest {
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
@@ -112,7 +113,6 @@ public class FreestyleProjectSecondTest extends BaseTest {
         Assert.assertEquals(actualMaxNumberToKeepBuilds,expectedMaxNumberToKeepBuilds);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testConfigurationProvideKeepMaxNumberOfOldBuilds")
     public void testVerifyOptionsInBuildStepsSection() {
 
@@ -125,9 +125,11 @@ public class FreestyleProjectSecondTest extends BaseTest {
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-steps']")).click();
+
+        scrollToElement_PlaceInCenter(getDriver(),
+                getDriver().findElement(By.xpath("//button[text()='Add build step']")));
         getWait(10).until(TestUtils
-                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']")));
-        getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
+                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']"))).click();
         List<WebElement> listOfOptions = getDriver()
                 .findElements(By.xpath("//button[text()='Add build step']/../../..//a[@href='#']"));
 
@@ -136,16 +138,13 @@ public class FreestyleProjectSecondTest extends BaseTest {
         }
 
         getWait(10).until(TestUtils
-                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']")));
-        getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
+                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']"))).click();
         getWait(10).until(TestUtils
-                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[@type='submit']")));
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[@type='submit']"))).click();
 
         Assert.assertEquals(actualOptions, expectedOptions);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testVerifyOptionsInBuildStepsSection")
     public void testSelectBuildPeriodicallyCheckbox() {
         boolean selectedCheckbox;
@@ -154,15 +153,17 @@ public class FreestyleProjectSecondTest extends BaseTest {
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']")).click();
-        getWait(10).until(TestUtils.
-                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']")));
-        getDriver().findElement(By.xpath("//label[text()='Build periodically']")).click();
 
-        selectedCheckbox = getDriver().findElement(By.name("hudson-triggers-TimerTrigger")).isSelected();
+        scrollToElement_PlaceInCenter(getDriver(),
+                getDriver().findElement(By.xpath("//label[text()='Build periodically']")));
+        getWait(10).until(TestUtils.
+                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']"))).click();
+
+        selectedCheckbox = getWait(10).until(ExpectedConditions
+                .elementSelectionStateToBe(By.name("hudson-triggers-TimerTrigger"),true));
 
         getWait(10).until(TestUtils.
-                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']")));
-        getDriver().findElement(By.xpath("//label[text()='Build periodically']")).click();
+                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']"))).click();
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
         Assert.assertTrue(selectedCheckbox);

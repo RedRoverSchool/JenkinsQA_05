@@ -10,7 +10,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static runner.TestUtils.scrollToElement;
+
 public class HomePage extends BasePage {
+
+
+    @FindBy(css = "#breadcrumbs li a")
+    private WebElement topMenuRoot;
 
     @FindBy(xpath = "//a[@href='/view/all/newJob']")
     private WebElement newItem;
@@ -36,6 +42,21 @@ public class HomePage extends BasePage {
     @FindBy(css = "a[href='/me/my-views']")
     private WebElement myViews;
 
+    @FindBy(xpath = "//a[@href='/manage']")
+    private WebElement manageJenkins;
+
+    @FindBy(xpath = "//span/a[@href='/asynchPeople/']")
+    private WebElement people;
+
+    @FindBy(css = ".tabBar>.tab>a[class='']")
+    private WebElement openViewLink;
+
+    @FindBy(css = ".tabBar>.tab>a.addTab")
+    private WebElement addViewLink;
+
+    @FindBy(xpath = "//span[text()='Move']")
+    private WebElement moveButtonDropdown;
+
     @FindBy(xpath = "//a[@tooltip='New View']")
     private WebElement newView;
 
@@ -50,6 +71,22 @@ public class HomePage extends BasePage {
         newItem.click();
 
         return new NewItemPage(getDriver());
+    }
+
+    public HomePage clickDashboard() {
+        topMenuRoot.click();
+
+        return new HomePage(getDriver());
+    }
+
+    public void clickViewLink() {
+        openViewLink.click();
+    }
+
+    public NewViewPage clickAddViewLink() {
+        addViewLink.click();
+
+        return new NewViewPage(getDriver());
     }
 
     public List<String> getJobList() {
@@ -98,15 +135,15 @@ public class HomePage extends BasePage {
         return new PipelineConfigPage(getDriver());
     }
 
-    public String getTextHeader(){
+    public String getTextHeader() {
         return header.getText();
     }
 
-    public DropdownMenu clickFolderDropdownMenu(String folderName) {
+    public HomePage clickFolderDropdownMenu(String folderName) {
         getWait(5).until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//a[@href='job/" + folderName + "/']/button"))).click();
 
-        return new DropdownMenu(getDriver());
+        return this;
     }
 
     public FolderStatusPage clickFolder(String folderName) {
@@ -121,10 +158,34 @@ public class HomePage extends BasePage {
         return new ManageJenkinsPage(getDriver());
     }
 
-     public MyViewsPage clickMyViews() {
+    public MyViewsPage clickMyViews() {
         myViews.click();
 
         return new MyViewsPage(getDriver());
+    }
+
+    public ManageJenkinsPage clickManageJenkins() {
+        manageJenkins.click();
+
+        return new ManageJenkinsPage(getDriver());
+    }
+
+    public PeoplePage clickPeople() {
+        people.click();
+
+        return new PeoplePage(getDriver());
+    }
+
+    public MultiConfigurationProjectStatusPage clickMultConfJobName(String name) {
+        jobList.get(0).click();
+        return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+    public MovePage clickMoveButtonDropdown() {
+        getWait(5).until(ExpectedConditions.visibilityOf(moveButtonDropdown));
+        scrollToElement(getDriver(), moveButtonDropdown);
+        moveButtonDropdown.click();
+        return new MovePage(getDriver());
     }
 
     public NewViewPage clickNewView() {

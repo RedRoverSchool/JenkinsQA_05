@@ -91,7 +91,7 @@ public class FreestyleProjectTest extends BaseTest {
             getDriver().findElement(BY_FIELD_ENTER_NAME).sendKeys(String.valueOf(character));
             getDriver().findElement(BY_BUTTON_SELECT_FREESTYLE_PROJECT).click();
 
-            Assert.assertEquals(getDriver().findElement(BY_ITEM_NAME_INVALID_MESSAGE).getText(), "» ‘" + character + "’ is an unsafe character");
+            Assert.assertEquals(getWait(1).until(ExpectedConditions.presenceOfElementLocated(BY_ITEM_NAME_INVALID_MESSAGE)).getText(), "» ‘" + character + "’ is an unsafe character");
         }
     }
 
@@ -139,16 +139,13 @@ public class FreestyleProjectTest extends BaseTest {
     public void testAddDescriptionToFreestyleProject() {
         final String descriptionText = "This is job #" + FREESTYLE_NAME;
 
-        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(BY_DESCRIPTION_LINK).click();
-        getDriver().findElement(BY_DESCRIPTION_TEXT_FIELD).sendKeys("This is job #" + FREESTYLE_NAME);
-        getDriver().findElement(By.xpath("//div[@class = 'textarea-preview-container']/a[1]")).click();
+        String freestyleProjectDescription = new HomePage(getDriver())
+                .clickFreestyleProjectName()
+                .clickButtonAddDescription()
+                .inputAndSaveDescriptionText(descriptionText)
+                .getDescriptionText();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'textarea-preview']")).getText(), descriptionText);
-
-        getDriver().findElement(BY_BUTTON_SAVE).click();
-
-        Assert.assertEquals(getDriver().findElement(BY_DESCRIPTION_TEXT).getText(), descriptionText);
+        Assert.assertEquals(freestyleProjectDescription, descriptionText);
     }
 
     @Test(dependsOnMethods = "testAddDescriptionToFreestyleProject")
@@ -162,7 +159,7 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testNoBuildFreestyleProjectChanges")
-    public void testRenameFreestyleProject() {
+    public void testRenameFreestyleProjectWillBeDeleted() {
 
         getDriver().findElement(By.cssSelector("tr#job_" + FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
         getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/job/" + FREESTYLE_NAME + "/confirm-rename']"))).click();
@@ -175,7 +172,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(getListExistingFreestyleProjectsNames(BY_LIST_FREESTYLE_JOBS).contains(NEW_FREESTYLE_NAME));
     }
 
-    @Test(dependsOnMethods = "testRenameFreestyleProject")
+    @Test(dependsOnMethods = "testRenameFreestyleProjectWillBeDeleted")
     public void testViewFreestyleProjectPage() {
         getDriver().findElement(By.linkText(NEW_FREESTYLE_NAME)).click();
 
@@ -197,7 +194,7 @@ public class FreestyleProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears")
     public void testFreestyleProjectConfigureByDropdown() {
         getDriver().findElement(By.cssSelector("#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
-        WebElement element = getDriver().findElement(BY_BUTTON_DROPDOWN_CONFIGURE);
+        WebElement element = getWait(3).until(ExpectedConditions.presenceOfElementLocated(BY_BUTTON_DROPDOWN_CONFIGURE));
         scrollToElement(getDriver(), element);
         element.click();
 
@@ -465,5 +462,25 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(
                 getDriver().findElement(By.xpath("//div[@id='error-description']//h2")).getText(),
                 expectedTextOfError);
+    }
+
+    @Test
+    public void testRenameFreestyleProject() {
+        final String freestyleName = "freestyleName";
+        final String newFreestyleName = getRandomStr(10);
+
+        List<String> jobsList = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(freestyleName)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickRenameButton()
+                .clearFieldAndInputNewName(newFreestyleName)
+                .clickSubmitButton()
+                .clickDashboard()
+                .getJobList();
+
+        Assert.assertFalse(jobsList.contains(freestyleName));
+        Assert.assertTrue(jobsList.contains(newFreestyleName));
     }
 }

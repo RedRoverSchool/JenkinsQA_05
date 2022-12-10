@@ -29,3 +29,4 @@ public class ManageJenkinsPage extends BasePage {
         return new ManageUsersPage(getDriver());
     }
 }
+
