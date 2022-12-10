@@ -89,4 +89,10 @@ public class FreestyleProjectPage extends BasePage {
 
         return new HomePage(getDriver());
     }
+
+    public FreestyleProjectConfigPage clickSideMenuConfigureLink() {
+        sideMenuConfigure.click();
+
+        return new FreestyleProjectConfigPage(getDriver());
+    }
 }
