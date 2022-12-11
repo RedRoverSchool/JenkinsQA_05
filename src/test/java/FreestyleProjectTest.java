@@ -322,7 +322,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(lstWithStrings.contains(name));
     }
 
-    @Test(dependsOnMethods = "testCreateNewFreestyleProjectWithDuplicateName")
+    @Test(dependsOnMethods = "testCreateBuildNowOnFreestyleProjectPage")
     public void testFreestyleProjectBuild() {
         getDriver().findElement(By.linkText(NEW_FREESTYLE_NAME)).click();
 

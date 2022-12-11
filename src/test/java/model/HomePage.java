@@ -108,7 +108,7 @@ public class HomePage extends BasePage {
     }
 
     public FreestyleProjectStatusPage clickFreestyleProjectName() {
-        getWait(5).until(ExpectedConditions.elementToBeClickable(jobList.get(0))).click();
+        jobList.get(0).click();
 
         return new FreestyleProjectStatusPage(getDriver());
     }
@@ -209,7 +209,7 @@ public class HomePage extends BasePage {
                 .findElement(By.xpath(".//*[name()='svg']")).getAttribute("tooltip");
     }
 
-    public  FooterPage clickRestApiLink() {
+    public FooterPage clickRestApiLink() {
         restApiLink.click();
 
         return new FooterPage(getDriver());
