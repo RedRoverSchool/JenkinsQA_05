@@ -1,5 +1,6 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,6 +18,9 @@ public class FreestyleProjectConfigPage extends BasePage {
 
     @FindBy(xpath = "//input[@name='_.numToKeepStr']")
     private WebElement maxNumberOfBuildsToKeep;
+
+    @FindBy(xpath = "//li[@class='item'][2]")
+    private WebElement projectButton;
 
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
@@ -44,7 +48,7 @@ public class FreestyleProjectConfigPage extends BasePage {
 
         return daysToKeepBuilds.getAttribute("value");
     }
-
+    
     public FreestyleProjectConfigPage typeMaxNumberOfBuildsToKeep(String numberOfBuilds) {
         maxNumberOfBuildsToKeep.sendKeys(numberOfBuilds);
 
@@ -55,4 +59,9 @@ public class FreestyleProjectConfigPage extends BasePage {
 
         return maxNumberOfBuildsToKeep.getAttribute("value");
     }
+    
+    public String getFreestyleProjectName(String name){
+
+        return projectButton.getText();
+        }
 }
