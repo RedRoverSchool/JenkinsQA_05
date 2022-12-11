@@ -10,7 +10,7 @@ import java.util.List;
 
 public class FreestyleProjectStatusPage extends BasePage {
 
-    @FindBy(xpath = "//h1")
+    @FindBy(tagName = "h1")
     private WebElement headline;
 
     @FindBy(linkText = "Configure")

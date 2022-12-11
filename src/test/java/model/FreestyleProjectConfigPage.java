@@ -1,6 +1,5 @@
 package model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,6 +8,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import static runner.TestUtils.scrollToElement;
 
 public class FreestyleProjectConfigPage extends BasePage {
+
+    @FindBy(tagName = "h1")
+    private WebElement headline;
+
+    @FindBy(css = "#main-panel > p")
+    private WebElement errorMsg;
 
     @FindBy(name = "Submit")
     private WebElement saveBtn;
@@ -67,6 +72,14 @@ public class FreestyleProjectConfigPage extends BasePage {
         saveBtn.click();
 
         return new FreestyleProjectStatusPage(getDriver());
+    }
+
+    public String getHeadlineText() {
+        return headline.getText();
+    }
+
+    public String getErrorMsg() {
+        return errorMsg.getText();
     }
 
     public FreestyleProjectConfigPage clickDiscardOldBuildsCheckbox() {
