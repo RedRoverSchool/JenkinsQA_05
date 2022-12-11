@@ -4,7 +4,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-
 public class EditViewPage extends HomePage {
 
     @FindBy(xpath = "//button[text() = 'OK']")
@@ -15,6 +14,9 @@ public class EditViewPage extends HomePage {
 
     @FindBy(name = "name")
     private WebElement viewName;
+
+    @FindBy(css = ".jenkins-form-description")
+    private WebElement uniqueTextOnGlobalViewEditPage;
 
     public EditViewPage(WebDriver driver) {
         super(driver);
@@ -43,5 +45,10 @@ public class EditViewPage extends HomePage {
         okButton.click();
 
         return new ViewPage(getDriver());
+    }
+
+    public String getUniqueTextOnGlobalViewEditPage() {
+
+        return uniqueTextOnGlobalViewEditPage.getText();
     }
 }
