@@ -196,13 +196,8 @@ public class EditViewTest extends BaseTest{
         long expectedResult = itemsToSelect.stream().filter(element -> element.getText().contains("9")).count();
         createViewFromListOfViewTypes(1, getRandomStr());
 
-        TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.id("yui-gen1-button")));
-        //TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.xpath("//div[text()='Jobs']")));
-        //TestUtils.scrollToEnd(getDriver());
-        //TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.xpath("//div[text()='Jobs']")));
-        //getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(REGEX_FIELD)).click();
-        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='useincluderegex']+label"))).click();
-        //getDriver().findElement(REGEX_FIELD).click();
+        TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.xpath("//div[text()='Jobs']")));
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(REGEX_FIELD)).click();
 
         getDriver().findElement(By.cssSelector("input[name='includeRegex']")).sendKeys(".*9.*");
         getDriver().findElement(SUBMIT_BUTTON).click();
