@@ -46,7 +46,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 .clickDashboard()
                 .clickNewItem()
                 .setProjectName(projectName)
-                .getNameErrorMessageText();
+                .getItemNameInvalidMsg();
 
         Assert.assertEquals(newItemPageErrorMessage, String.format("» A job already exists with the name ‘%s’", projectName));
     }
@@ -57,7 +57,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
         String errorMessage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(nameNewItem)
-                .getNameErrorMessageText();
+                .getItemNameInvalidMsg();
 
         Assert.assertEquals(errorMessage,"» ‘%’ is an unsafe character");
     }

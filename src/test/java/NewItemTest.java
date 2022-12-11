@@ -89,7 +89,7 @@ public class NewItemTest extends BaseTest {
                     .rootMenuDashboardLinkClick()
                     .clickNewItem()
                     .setItem(i)
-                    .getEmptyNameErrorMessage();
+                    .getItemNameRequiredMsg();
 
             Assert.assertEquals(actualErrorMessage,"» This field cannot be empty, please enter a valid name");
         }
