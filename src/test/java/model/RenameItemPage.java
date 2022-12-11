@@ -23,9 +23,9 @@ public class RenameItemPage extends BasePage{
         return this;
     }
 
-    public FreestyleProjectPage clickSubmitButton(){
+    public FreestyleProjectStatusPage clickSubmitButton(){
         buttonSubmit.click();
 
-        return new FreestyleProjectPage(getDriver());
+        return new FreestyleProjectStatusPage(getDriver());
     }
 }

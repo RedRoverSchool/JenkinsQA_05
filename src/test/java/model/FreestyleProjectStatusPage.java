@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class FreestyleProjectPage extends BasePage {
+public class FreestyleProjectStatusPage extends BasePage {
 
     @FindBy(xpath = "//h1")
     private WebElement headline;
@@ -15,6 +15,12 @@ public class FreestyleProjectPage extends BasePage {
 
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
+
+    @FindBy(xpath = "//li[@class='item'][last()-1]")
+    private WebElement breadcrumbsParentFolderLink;
+
+    @FindBy(name = "Submit")
+    private WebElement disableOrEnableBtn;
 
     @FindBy(linkText = "Rename")
     private WebElement buttonRename;
@@ -34,7 +40,7 @@ public class FreestyleProjectPage extends BasePage {
     @FindBy(xpath = "//span[contains(text(),'Delete Project')]")
     private WebElement buttonDeleteProject;
 
-    public FreestyleProjectPage(WebDriver driver) {
+    public FreestyleProjectStatusPage(WebDriver driver) {
         super(driver);
     }
 
@@ -54,19 +60,31 @@ public class FreestyleProjectPage extends BasePage {
         return new HomePage(getDriver());
     }
 
+    public FolderStatusPage clickParentFolderInBreadcrumbs(){
+        breadcrumbsParentFolderLink.click();
+
+        return new FolderStatusPage(getDriver());
+    }
+
+    public FreestyleProjectStatusPage clickDisableOrEnableSwitchBtn() {
+        disableOrEnableBtn.click();
+
+        return this;
+    }
+
     public RenameItemPage clickRenameButton(){
         buttonRename.click();
 
         return new RenameItemPage(getDriver());
     }
 
-    public FreestyleProjectPage clickButtonAddDescription(){
+    public FreestyleProjectStatusPage clickButtonAddDescription(){
         getWait(10).until(ExpectedConditions.elementToBeClickable(buttonAddDescription)).click();
 
         return this;
     }
 
-    public FreestyleProjectPage inputAndSaveDescriptionText(String description){
+    public FreestyleProjectStatusPage inputAndSaveDescriptionText(String description){
         getWait(10).until(ExpectedConditions.elementToBeClickable(fieldDescriptionText)).sendKeys(description);
         getWait(10).until(ExpectedConditions.elementToBeClickable(buttonSave)).click();
 
@@ -78,7 +96,7 @@ public class FreestyleProjectPage extends BasePage {
         return description.getText();
     }
 
-    public FreestyleProjectPage clickButtonDeleteProject(){
+    public FreestyleProjectStatusPage clickButtonDeleteProject(){
         getWait(10).until(ExpectedConditions.elementToBeClickable(buttonDeleteProject)).click();
 
         return this;
@@ -88,5 +106,11 @@ public class FreestyleProjectPage extends BasePage {
         getDriver().switchTo().alert().accept();
 
         return new HomePage(getDriver());
+    }
+
+    public FreestyleProjectConfigPage clickSideMenuConfigureLink() {
+        sideMenuConfigure.click();
+
+        return new FreestyleProjectConfigPage(getDriver());
     }
 }

@@ -5,6 +5,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +15,12 @@ public class FolderStatusPage extends BasePage {
 
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
+
+    @FindBy(xpath = "//li[@class='item'][last()]//button")
+    private WebElement breadcrumbsThisFolderToggleDropdown;
+
+    @FindBy(css = "li.yuimenuitem[index='1']")
+    private WebElement newItemInDropDown;
 
     @FindBy(xpath = "//tr/td[3]/a/span[1]")
     private List<WebElement> jobList;
@@ -31,6 +39,13 @@ public class FolderStatusPage extends BasePage {
         topMenuRoot.click();
 
         return new HomePage(getDriver());
+    }
+
+    public NewItemPage clickNewItemDropdownThisFolderInBreadcrumbs(){
+        breadcrumbsThisFolderToggleDropdown.click();
+        newItemInDropDown.click();
+
+        return new NewItemPage(getDriver());
     }
 
     public List<String> getJobList() {
