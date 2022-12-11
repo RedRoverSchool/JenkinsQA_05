@@ -64,6 +64,12 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath ="(//*[local-name()='svg' and @tooltip='Disabled'])[2]")
     private WebElement projectDisabledIcon;
+    
+    @FindBy(xpath = "//a[@href='api/']")
+    private WebElement restApiLink;
+
+    @FindBy(xpath = "//div/a[@class='model-link']")
+    private WebElement iconUserName;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -218,5 +224,18 @@ public class HomePage extends BasePage {
 
     public Boolean getProjectIconText() {
         return projectDisabledIcon.isDisplayed();
+        
+    }
+    
+    public  FooterPage clickRestApiLink() {
+        restApiLink.click();
+
+        return new FooterPage(getDriver());
+    }
+
+    public StatusUserPage clickUserIcon() {
+        iconUserName.click();
+
+        return new StatusUserPage(getDriver());
     }
 }

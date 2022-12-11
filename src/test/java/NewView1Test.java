@@ -1,3 +1,4 @@
+import model.EditViewPage;
 import model.HomePage;
 import model.MyViewsPage;
 import org.openqa.selenium.By;
@@ -111,10 +112,12 @@ public class NewView1Test extends BaseTest {
 
     @Test(dependsOnMethods = "testRenameView")
     public void testViewHasSelectedTypeGlobalView() {
-        goToEditView(GLOBAL_VIEW_NAME);
+        EditViewPage editViewPage = new HomePage(getDriver())
+                .clickMyViews()
+                .clickView(GLOBAL_VIEW_NAME)
+                .clickEditViewButton();
 
-        Assert.assertEquals(getDriver()
-                        .findElement(By.cssSelector(".jenkins-form-description")).getText(),
+        Assert.assertEquals(editViewPage.getUniqueTextOnGlobalViewEditPage(),
                 "The name of a global view that will be shown.");
     }
 
