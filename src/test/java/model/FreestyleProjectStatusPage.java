@@ -41,6 +41,9 @@ public class FreestyleProjectStatusPage extends BasePage {
     @FindBy(xpath = "//span[contains(text(),'Delete Project')]")
     private WebElement buttonDeleteProject;
 
+    @FindBy(xpath = "//li[@class='item'][2]")
+    private WebElement projectButton;
+
     public FreestyleProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -116,6 +119,7 @@ public class FreestyleProjectStatusPage extends BasePage {
     }
 
     public String getFreestyleProjectName(String name){
-        return getDriver().findElement(By.xpath("//li/a[@href='/job/" + name + "/']")).getText();
+
+        return projectButton.getText();
     }
 }
