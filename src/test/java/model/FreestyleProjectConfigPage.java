@@ -26,6 +26,9 @@ public class FreestyleProjectConfigPage extends BasePage {
     @FindBy (xpath = "//a [@rel = 'noopener noreferrer']")
     private WebElement jenkinsCurrentVersion;
 
+    @FindBy(xpath = "//input[@name='_.numToKeepStr']")
+    private WebElement maxNumberOfBuildsToKeep;
+
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -67,5 +70,15 @@ public class FreestyleProjectConfigPage extends BasePage {
     public String getJenkinsCurrentVersion() {
 
         return jenkinsCurrentVersion.getText();
+
+    public FreestyleProjectConfigPage typeMaxNumberOfBuildsToKeep(String numberOfBuilds) {
+        maxNumberOfBuildsToKeep.sendKeys(numberOfBuilds);
+
+        return this;
+    }
+
+    public String getMaxNumberOfBuildsToKeep() {
+
+        return maxNumberOfBuildsToKeep.getAttribute("value");
     }
 }
