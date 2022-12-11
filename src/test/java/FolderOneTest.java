@@ -246,7 +246,7 @@ public class FolderOneTest extends BaseTest {
         getDriver().findElement(By.linkText(RANDOM_NAME_1 + "_Display2")).click();
         getDriver().findElement(By.linkText(RANDOM_NAME_2 + "_SubDisplay2"))
                 .findElement(DROP_DOWN_MENU).click();
-        getDriver().findElement(DROP_DOWN_MOVE).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(DROP_DOWN_MOVE)).click();
         getDriver().findElement(By.xpath("//select/option[@value='/"+ RANDOM_NAME_1 + "']")).click();
         submitButtonClick();
 
@@ -276,4 +276,3 @@ public class FolderOneTest extends BaseTest {
         Assert.assertTrue(getJobNameList().contains(RANDOM_MULTIBRANCH_PIPELINE_NAME));
     }    
 }
-
