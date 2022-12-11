@@ -222,18 +222,17 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreate")
     public void testCreateMultiConfigurationProjectInFolder() {
-
         final String multiConfigurationProjectName = TestUtils.getRandomStr();
 
-        getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).click();
-        getDriver().findElement(CREATE_A_JOB).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(multiConfigurationProjectName);
-        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(By.xpath("//a[text()='" + generatedString + "']")).click();
+        FolderStatusPage folderStatusPage = new HomePage(getDriver())
+                .clickFolder(generatedString)
+                .clickCreateJob()
+                .setProjectName(multiConfigurationProjectName)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSave()
+                .clickParentFolderInBreadcrumbs();
 
-        Assert.assertTrue(getProjectNameFromProjectTable().contains(multiConfigurationProjectName));
+        Assert.assertTrue(folderStatusPage.getJobList().contains(multiConfigurationProjectName));
     }
 
     @Test
