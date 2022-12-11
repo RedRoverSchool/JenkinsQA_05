@@ -52,7 +52,7 @@ jobs:
         run: ./.github/wait-for-jenkins.sh
 
       - name: Maven test
-        run: mvn test -DEditViewTest.testListViewAddRegexFilter
+        run: mvn -Dtest=EditViewTest#testListViewAddRegexFilter
         env:
           CHROME_OPTIONS: --disable-gpu;--no-sandbox;--disable-dev-shm-usage;--headless;--window-size=1920,1080
           APP_OPTIONS: port=8080;admin.username=${{ secrets.ADMIN_USERNAME }};admin.password=${{ secrets.ADMIN_PASSWORD }}
