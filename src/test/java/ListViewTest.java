@@ -1,5 +1,5 @@
+import model.HomePage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -11,7 +11,6 @@ import java.util.List;
 
 public class ListViewTest extends BaseTest {
 
-    private static final By DASHBOARD = By.id("jenkins-name-icon");
     private static final By OK_BUTTON = By.cssSelector("#yui-gen6-button");
     private static final By DESCRIPTION_AREA = By.xpath("//textarea[@name='description']");
     private static final By DESCRIPTION = By.xpath(
@@ -20,15 +19,6 @@ public class ListViewTest extends BaseTest {
     private static final String RANDOM_LIST_VIEW_NAME = TestUtils.getRandomStr();
     private static final By CREATED_LIST_VIEW = By.xpath("//a[@href='/view/" + RANDOM_LIST_VIEW_NAME + "/']");
 
-
-    private void createFreestyleProject(String name) {
-
-        getDriver().findElement(By.xpath("//span/a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.xpath("//input[@class='jenkins-input']")).sendKeys(name);
-        getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(DASHBOARD).click();
-    }
 
     private List<String> getListFromWebElements(List<WebElement> elements) {
         List<String> list = new ArrayList<>();
@@ -42,37 +32,23 @@ public class ListViewTest extends BaseTest {
     @Test
     public void testCreateNewListViewWithExistingJob() {
         final String projectOne = TestUtils.getRandomStr();
-        final String projectTwo = TestUtils.getRandomStr();
 
-        createFreestyleProject(projectOne);
-        createFreestyleProject(projectTwo);
-
-        getDriver().findElement(By.xpath("//a[@tooltip='New View']")).click();
-        getDriver().findElement(By.cssSelector("#name")).sendKeys(RANDOM_LIST_VIEW_NAME);
-        getDriver().findElement(By.xpath("//label[@for='hudson.model.ListView']")).click();
-        getDriver().findElement(By.cssSelector("#ok")).click();
-
-        WebElement elementJob = getDriver().findElement(By.xpath("//label[@title='" + projectOne + "']"));
-
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", elementJob);
-
-        getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(
-                By.xpath("//label[@title='" + projectOne + "']"))).click();
-
-        getDriver().findElement(OK_BUTTON).click();
-
-        int quantityProjectsInListView = getDriver().findElements(
-                By.xpath("//table[@id='projectstatus']/tbody/tr")).size();
-
-        getDriver().findElement(DASHBOARD).click();
-
-        int quantityProjectsAll = getDriver().findElements(
-                By.xpath("//table[@id='projectstatus']/tbody/tr")).size();
+        int quantityProjectsInListView = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(projectOne)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickDashboard()
+                .clickAddViewLink()
+                .setViewName(RANDOM_LIST_VIEW_NAME)
+                .setListViewType()
+                .clickCreateListView()
+                .addJobToView(projectOne)
+                .clickOk()
+                .getJobList().size();
 
         Assert.assertEquals(quantityProjectsInListView, 1);
-        Assert.assertTrue(quantityProjectsAll > 1);
-        Assert.assertTrue(getDriver().findElement(CREATED_LIST_VIEW).isDisplayed());
+        Assert.assertTrue(new HomePage(getDriver()).getViewList().contains(RANDOM_LIST_VIEW_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateNewListViewWithExistingJob")
@@ -95,7 +71,9 @@ public class ListViewTest extends BaseTest {
 
         getDriver().findElement(CREATED_LIST_VIEW).click();
         getDriver().findElement(By.cssSelector("#description-link")).click();
-        getDriver().findElement(DESCRIPTION_AREA).clear();
+        getWait(5)
+                .until(TestUtils.ExpectedConditions.elementIsNotMoving(
+                        getDriver().findElement(DESCRIPTION_AREA))).clear();
         getDriver().findElement(By.cssSelector("#yui-gen1-button")).click();
 
         Assert.assertEquals(getDriver().findElement(DESCRIPTION).getText(), "");

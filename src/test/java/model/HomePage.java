@@ -59,6 +59,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//span[text()='Move']")
     private WebElement moveButtonDropdown;
 
+    @FindBy(xpath = "//div[@class='tabBar']/div/a")
+    private List<WebElement> viewList;
+
     @FindBy(xpath = "//a[@href='api/']")
     private WebElement restApiLink;
 
@@ -92,6 +95,13 @@ public class HomePage extends BasePage {
 
     public List<String> getJobList() {
         return jobList
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getViewList() {
+        return viewList
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
