@@ -1,5 +1,6 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -40,5 +41,9 @@ public class FreestyleProjectConfigPage extends BasePage {
     public String getNumberOfDaysToKeepBuilds() {
 
         return daysToKeepBuilds.getAttribute("value");
+    }
+
+    public String getFreestyleProjectName(String name){
+        return getDriver().findElement(By.xpath("//li/a[@href='/job/" + name + "/']")).getText();
     }
 }
