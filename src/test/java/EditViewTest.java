@@ -189,7 +189,7 @@ public class EditViewTest extends BaseTest{
         Assert.assertEquals(actualResult,expectedResult);
     }
 
-    @Test
+    @Test(invocationCount = 10)
     public void testListViewAddRegexFilter() {
         createManyJobsOfEachType(2);
         List<WebElement> itemsToSelect = getDriver().findElements(JOB_PATH);
