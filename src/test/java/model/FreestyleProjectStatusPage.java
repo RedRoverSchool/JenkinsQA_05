@@ -1,10 +1,11 @@
 package model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.List;
 
 public class FreestyleProjectStatusPage extends BasePage {
 
@@ -44,6 +45,21 @@ public class FreestyleProjectStatusPage extends BasePage {
     @FindBy(xpath = "//li[@class='item'][2]")
     private WebElement projectButton;
 
+    @FindBy(css = ".collapse")
+    private WebElement buttonOpenBuildHistoryOnSidePanel;
+
+    @FindBy(css = "#no-builds")
+    private WebElement buildsInformationOnSidePanel;
+
+    @FindBy(css = ".build-row-cell")
+    private List<WebElement> buildRowsOnBuildsInformation;
+
+    @FindBy(linkText = "Build Now")
+    private WebElement buttonBuildNowOnSidePanel;
+
+    @FindBy(css = ".build-status-icon__outer>[tooltip = 'Success &gt; Console Output']")
+    private WebElement buildLoadingIconSuccess;
+
     public FreestyleProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -64,7 +80,7 @@ public class FreestyleProjectStatusPage extends BasePage {
         return new HomePage(getDriver());
     }
 
-    public FolderStatusPage clickParentFolderInBreadcrumbs(){
+    public FolderStatusPage clickParentFolderInBreadcrumbs() {
         breadcrumbsParentFolderLink.click();
 
         return new FolderStatusPage(getDriver());
@@ -76,37 +92,37 @@ public class FreestyleProjectStatusPage extends BasePage {
         return this;
     }
 
-    public RenameItemPage clickRenameButton(){
+    public RenameItemPage clickRenameButton() {
         buttonRename.click();
 
         return new RenameItemPage(getDriver());
     }
 
-    public FreestyleProjectStatusPage clickButtonAddDescription(){
+    public FreestyleProjectStatusPage clickButtonAddDescription() {
         getWait(10).until(ExpectedConditions.elementToBeClickable(buttonAddDescription)).click();
 
         return this;
     }
 
-    public FreestyleProjectStatusPage inputAndSaveDescriptionText(String description){
+    public FreestyleProjectStatusPage inputAndSaveDescriptionText(String description) {
         getWait(10).until(ExpectedConditions.elementToBeClickable(fieldDescriptionText)).sendKeys(description);
         getWait(10).until(ExpectedConditions.elementToBeClickable(buttonSave)).click();
 
         return this;
     }
 
-    public String getDescriptionText(){
+    public String getDescriptionText() {
 
         return description.getText();
     }
 
-    public FreestyleProjectStatusPage clickButtonDeleteProject(){
+    public FreestyleProjectStatusPage clickButtonDeleteProject() {
         getWait(10).until(ExpectedConditions.elementToBeClickable(buttonDeleteProject)).click();
 
         return this;
     }
 
-    public HomePage confirmAlertAndDeleteProject(){
+    public HomePage confirmAlertAndDeleteProject() {
         getDriver().switchTo().alert().accept();
 
         return new HomePage(getDriver());
@@ -118,8 +134,34 @@ public class FreestyleProjectStatusPage extends BasePage {
         return new FreestyleProjectConfigPage(getDriver());
     }
 
-    public String getFreestyleProjectName(String name){
+    public String getFreestyleProjectName(String name) {
 
         return projectButton.getText();
+    }
+
+    public FreestyleProjectStatusPage openBuildHistoryOnSidePanel() {
+        if (buttonOpenBuildHistoryOnSidePanel.getAttribute("title").equals("expand")) {
+            buttonOpenBuildHistoryOnSidePanel.click();
+        }
+
+        return this;
+    }
+
+    public int countBuildsOnSidePanel() {
+        getWait(10).until(ExpectedConditions.attributeContains(buildsInformationOnSidePanel, "style", "display"));
+        int countBuilds = 0;
+        if (buildsInformationOnSidePanel.getAttribute("style").equals("display: none;")) {
+            countBuilds = buildRowsOnBuildsInformation.size();
+        }
+
+        return countBuilds;
+    }
+
+    public FreestyleProjectStatusPage clickBuildNowOnSidePanel() {
+        buttonBuildNowOnSidePanel.click();
+        getWait(20).until(ExpectedConditions.visibilityOf((buildLoadingIconSuccess)));
+        getWait(10).until(ExpectedConditions.attributeToBe(buildsInformationOnSidePanel,"style","display: none;"));
+
+        return this;
     }
 }
