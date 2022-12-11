@@ -11,7 +11,7 @@ public class XmlPage extends BasePage {
         super(driver);
     }
 
-    public String getStructureXML(){
+    public String getStructureXML() {
 
         return textOnPageXML.getText();
     }
