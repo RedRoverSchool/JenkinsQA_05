@@ -1,6 +1,7 @@
 import model.HomePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import runner.BaseTest;
@@ -195,7 +196,12 @@ public class EditViewTest extends BaseTest{
         long expectedResult = itemsToSelect.stream().filter(element -> element.getText().contains("9")).count();
         createViewFromListOfViewTypes(1, getRandomStr());
 
-        scrollWaitTillNotMovingAndClick(waitTime, REGEX_FIELD);
+        //TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.id("yui-gen1-button")));
+        //TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.xpath("//div[text()='Jobs']")));
+        TestUtils.scrollToEnd(getDriver());
+        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='useincluderegex']")));
+        getDriver().findElement(REGEX_FIELD).click();
+
         getDriver().findElement(By.cssSelector("input[name='includeRegex']")).sendKeys(".*9.*");
         getDriver().findElement(SUBMIT_BUTTON).click();
 
