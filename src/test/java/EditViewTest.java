@@ -201,7 +201,7 @@ public class EditViewTest extends BaseTest{
         //TestUtils.scrollToEnd(getDriver());
         TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.xpath("//div[text()='Jobs']")));
         //getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(REGEX_FIELD)).click();
-        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='useincluderegex']+label")));
+        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='useincluderegex']+label"))).click();
         //getDriver().findElement(REGEX_FIELD).click();
 
         getDriver().findElement(By.cssSelector("input[name='includeRegex']")).sendKeys(".*9.*");
