@@ -8,16 +8,16 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MyViewsPage extends HomePage{
+public class MyViewsPage extends HomePage {
 
     @FindBy(css = "a[title='New View']")
     private WebElement newView;
 
-    @FindBy(css = ".tabBar .tab a[href]")
-    private List <WebElement> listViews;
+    @FindBy(xpath = "//tbody/tr/td/a")
+    private List<WebElement> listViews;
 
     @FindBy(css = ".pane-header-title")
-    private List <WebElement> listViewActiveFilters;
+    private List<WebElement> listViewActiveFilters;
 
     public MyViewsPage(WebDriver driver) {
         super(driver);

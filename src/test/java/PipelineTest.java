@@ -1,3 +1,4 @@
+import model.HomePage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -7,6 +8,9 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
+
+import java.util.List;
 
 import static runner.TestUtils.getRandomStr;
 
@@ -111,17 +115,20 @@ public class PipelineTest extends BaseTest {
                 .contains("This project is currently disabled"));
     }
 
-    @Ignore
     @Test
     public void testCreatedPipelineDisplayedOnMyViews() {
 
-        String pipelinePojectName = generatePipelineProjectName();
-        createPipelineProject(pipelinePojectName);
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
+        final String pipelineName = TestUtils.getRandomStr(5);
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='job/" + pipelinePojectName + "/']"))
-                .isDisplayed());
+        String pipelineNameInMyViewList = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(pipelineName)
+                .selectPipelineAndClickOk()
+                .clickDashboard()
+                .clickMyViews()
+                .getListViewsNames();
+
+        Assert.assertEquals(pipelineNameInMyViewList, pipelineName);
     }
 
     @Ignore
