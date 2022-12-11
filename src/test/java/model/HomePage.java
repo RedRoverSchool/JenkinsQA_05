@@ -68,6 +68,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//div/a[@class='model-link']")
     private WebElement iconUserName;
 
+    @FindBy(xpath = "//span[text()='Edit View']/..")
+    private WebElement editView;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -222,5 +225,13 @@ public class HomePage extends BasePage {
         iconUserName.click();
 
         return new StatusUserPage(getDriver());
+    }
+
+    public EditViewPage goToEditView(String viewName) {
+        clickMyViews();
+        getDriver().findElement(By.linkText(viewName)).click();
+        editView.click();
+
+        return new EditViewPage(getDriver());
     }
 }

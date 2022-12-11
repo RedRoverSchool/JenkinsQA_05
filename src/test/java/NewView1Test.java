@@ -40,14 +40,6 @@ public class NewView1Test extends BaseTest {
                 .collect(Collectors.toList());
     }
 
-    private void goToEditView(String viewName) {
-        getDriver().findElement(BY_MY_VIEWS).click();
-        getDriver().findElement(By.linkText(viewName)).click();
-        getDriver().findElement(
-                By.cssSelector("a[href='/user/admin/my-views/view/"
-                        + viewName + "/configure']")).click();
-    }
-
     @Test
     public void testCreateViews() {
         MyViewsPage myViewsPage = new HomePage(getDriver())
@@ -100,9 +92,7 @@ public class NewView1Test extends BaseTest {
     @Test(dependsOnMethods = "testCreateViews")
     public void testRenameView() {
         MyViewsPage myViewsPage = new HomePage(getDriver())
-                .clickMyViews()
-                .clickView(LIST_VIEW_NAME)
-                .clickEditViewButton()
+                .goToEditView(LIST_VIEW_NAME)
                 .renameView(LIST_VIEW_RENAME)
                 .clickOk()
                 .clickMyViews();
@@ -113,9 +103,7 @@ public class NewView1Test extends BaseTest {
     @Test(dependsOnMethods = "testRenameView")
     public void testViewHasSelectedTypeGlobalView() {
         EditViewPage editViewPage = new HomePage(getDriver())
-                .clickMyViews()
-                .clickView(GLOBAL_VIEW_NAME)
-                .clickEditViewButton();
+                .goToEditView(GLOBAL_VIEW_NAME);
 
         Assert.assertEquals(editViewPage.getUniqueTextOnGlobalViewEditPage(),
                 "The name of a global view that will be shown.");
@@ -123,10 +111,10 @@ public class NewView1Test extends BaseTest {
 
     @Test(dependsOnMethods = "testViewHasSelectedTypeGlobalView")
     public void testViewHasSelectedTypeListView() {
-        goToEditView(LIST_VIEW_RENAME);
+        EditViewPage editViewPage = new HomePage(getDriver())
+                .goToEditView(LIST_VIEW_RENAME);
 
-        Assert.assertEquals(getDriver().findElement(
-                        By.cssSelector("div:nth-of-type(5) > .jenkins-section__title")).getText(),
+        Assert.assertEquals(editViewPage.getUniqueSectionOnListViewEditPage(),
                 "Job Filters");
     }
 
