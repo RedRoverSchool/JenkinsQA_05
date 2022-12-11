@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static runner.TestUtils.scrollToElement_PlaceInCenter;
+
 public class FreestyleProjectSecondTest extends BaseTest {
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private static final String NEW_FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
@@ -114,7 +116,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
 
     @Ignore
     @Test(dependsOnMethods = "testConfigurationProvideKeepMaxNumberOfOldBuilds")
-    public void testVerifyOptionsInBuildStepsSection() throws InterruptedException {
+    public void testVerifyOptionsInBuildStepsSection() {
 
         final Set<String> expectedOptions = new HashSet<>(List.of("Execute Windows batch command", "Execute shell",
                 "Invoke Ant", "Invoke Gradle script", "Invoke top-level Maven targets", "Run with timeout",
@@ -125,9 +127,11 @@ public class FreestyleProjectSecondTest extends BaseTest {
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-steps']")).click();
+
+        scrollToElement_PlaceInCenter(getDriver(),
+                getDriver().findElement(By.xpath("//button[text()='Add build step']")));
         getWait(10).until(TestUtils
-                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']")));
-        getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
+                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']"))).click();
         List<WebElement> listOfOptions = getDriver()
                 .findElements(By.xpath("//button[text()='Add build step']/../../..//a[@href='#']"));
 
@@ -135,8 +139,10 @@ public class FreestyleProjectSecondTest extends BaseTest {
             actualOptions.add(element.getText());
         }
 
-        getDriver().findElement(By.xpath("//button[text()='Add build step']")).click();
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getWait(10).until(TestUtils
+                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']"))).click();
+        getWait(10).until(TestUtils
+                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[@type='submit']"))).click();
 
         Assert.assertEquals(actualOptions, expectedOptions);
     }
@@ -149,15 +155,17 @@ public class FreestyleProjectSecondTest extends BaseTest {
         getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
                 .click();
         getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']")).click();
-        getWait(10).until(TestUtils.
-                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']")));
-        getDriver().findElement(By.xpath("//label[text()='Build periodically']")).click();
 
-        selectedCheckbox = getDriver().findElement(By.name("hudson-triggers-TimerTrigger")).isSelected();
+        scrollToElement_PlaceInCenter(getDriver(),
+                getDriver().findElement(By.xpath("//label[text()='Build periodically']")));
+        getWait(10).until(TestUtils.
+                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']"))).click();
+
+        selectedCheckbox = getWait(10).until(ExpectedConditions
+                .elementSelectionStateToBe(By.name("hudson-triggers-TimerTrigger"),true));
 
         getWait(10).until(TestUtils.
-                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']")));
-        getDriver().findElement(By.xpath("//label[text()='Build periodically']")).click();
+                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']"))).click();
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
         Assert.assertTrue(selectedCheckbox);

@@ -21,7 +21,10 @@ public class TestUtils {
 
     public static void scrollToElement(WebDriver driver, WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
+    }
 
+    public static void scrollToElement_PlaceInCenter(WebDriver driver, WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
     }
 
     public static class ExpectedConditions {
@@ -38,6 +41,25 @@ public class TestUtils {
                         return null;
                     }
 
+                    if (element.isDisplayed()) {
+                        Point location = element.getLocation();
+                        if (location.equals(this.location)) {
+                            return element;
+                        }
+                        this.location = location;
+                    }
+
+                    return null;
+                }
+            };
+        }
+
+        public static ExpectedCondition<WebElement> elementIsNotMoving(final WebElement element) {
+            return new ExpectedCondition<>() {
+                private Point location = null;
+
+                @Override
+                public WebElement apply(WebDriver driver) {
                     if (element.isDisplayed()) {
                         Point location = element.getLocation();
                         if (location.equals(this.location)) {

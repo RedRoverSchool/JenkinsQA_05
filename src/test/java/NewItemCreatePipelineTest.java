@@ -5,22 +5,18 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class NewItemCreatePipelineTest extends BaseTest {
 
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By SAVE_BUTTON = By.id("yui-gen6-button");
     private static final By LINK_TO_DASHBOARD  = By.id("jenkins-name-icon");
-    private static final By ADD_MAVEN_BUTTON  = By.id("yui-gen9-button");
     private static final By GITHUB_CHECKBOX  = By.xpath("//label[text()='GitHub project']");
     private static final By CONFIGURE_BUTTON  = By.linkText("Configure");
 
@@ -41,38 +37,29 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineExistingNameError() {
-        createPipeline(RANDOM_STRING);
-        getDriver().findElement(LINK_TO_DASHBOARD).click();
-        setJobPipeline(RANDOM_STRING);
+        final String projectName = "AnyUnusualName1";
 
-        WebElement notificationError = getDriver().findElement(By.id("itemname-invalid"));
+        String newItemPageErrorMessage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(projectName)
+                .selectPipelineAndClickOk()
+                .clickDashboard()
+                .clickNewItem()
+                .setProjectName(projectName)
+                .getNameErrorMessageText();
 
-        Assert.assertEquals(notificationError.getText(), String.format("» A job already exists with the name ‘%s’", RANDOM_STRING));
-    }
-
-    @DataProvider(name = "new-item-unsafe-names")
-    public Object[][] dpMethod() {
-        return new Object[][]{{"!Pipeline1"}, {"pipel@ne2"}, {"PipeLine3#"},
-                {"PIPL$N@4"}, {"5%^PiPl$^Ne)"}};
-    }
-    @Ignore
-    @Test(dataProvider = "new-item-unsafe-names")
-    public void testCreateNewItemWithUnsafeCharactersName(String name) {
-        Matcher matcher = Pattern.compile("[!@#$%^&*|:?></.']").matcher(name);
-        matcher.find();
-
-        setJobPipeline(name);
-
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("div#itemname-invalid")).getAttribute("textContent"),
-                String.format("» ‘%s’ is an unsafe character", name.charAt(matcher.start())));
+        Assert.assertEquals(newItemPageErrorMessage, String.format("» A job already exists with the name ‘%s’", projectName));
     }
 
     @Test
-    public void testCreatePipelineWithoutName() {
-        setJobPipeline("");
+    public void testCreateNewItemWithUnsafeCharacterName(){
+        final String nameNewItem = "5%^PiPl$^Ne)";
+        String errorMessage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(nameNewItem)
+                .getNameErrorMessageText();
 
-        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
-                "» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(errorMessage,"» ‘%’ is an unsafe character");
     }
 
     @Test
@@ -137,28 +124,22 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertTrue(pipelineConfigPage.getAttributeGitHubSideMenu("href").contains(gitHubRepo));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testAddingGitRepository")
-    public void testCheckingDisappearanceOfWarningMessage() {
-        getDriver().findElement(By.linkText("Manage Jenkins")).click();
-        getDriver().findElement(By.xpath("//a[@href='configureTools']")).click();
-        TestUtils.scrollToEnd(getDriver());
+    public void testWarningMessageIsDisappeared() {
 
-        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_MAVEN_BUTTON));
-        getDriver().findElement(ADD_MAVEN_BUTTON).click();
-        TestUtils.scrollToEnd(getDriver());
-        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_MAVEN_BUTTON));
-        WebElement fieldName = getDriver().findElement(By.cssSelector("input[checkurl$='MavenInstallation/checkName']"));
-        fieldName.click();
-        fieldName.sendKeys("Maven");
-        getDriver().findElement(By.id("yui-gen5-button")).click();
+         String emptyErrorArea = new HomePage(getDriver())
+                .clickMenuManageJenkins()
+                .clickConfigureTools()
+                .clickAddMavenButton()
+                .setMavenTitleField("Maven")
+                .clickApplyButton()
+                .getErrorAreaText();
 
-        Assert.assertFalse(getDriver().findElement(
-                By.xpath("//input[contains(@checkurl,'MavenInstallation/checkName')]/parent::div/following-sibling::div"))
-                    .getText().contains("Required"));
+        Assert.assertEquals(emptyErrorArea, "");
     }
+
     @Ignore
-    @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
+    @Test(dependsOnMethods = "testWarningMessageIsDisappeared")
     public void testBuildParametrizedProject() {
         getDriver().findElement((By.xpath(String.format(
                 "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", RANDOM_STRING)))).click();
@@ -199,7 +180,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testCheckingDisappearanceOfWarningMessage")
+    @Test(dependsOnMethods = "testWarningMessageIsDisappeared")
     public void testCreateNewItemFromOtherNonExistingName() {
         final String jobName = TestUtils.getRandomStr(7);
 
@@ -223,6 +204,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 ITEM_DESCRIPTION);
     }
 
+    @Ignore
     @Test (dependsOnMethods = "testCreateNewPipelineWithDescription")
     public void testCreateNewPipelineFromExisting() {
         final String jobName = TestUtils.getRandomStr(7);
@@ -273,5 +255,19 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertEquals(
                 stepEchoTotalText.replace(getDriver().findElement(By.xpath("//span[@class='timestamp']")).getText(), "").trim(),
                 "This is MyPipelineJob!");
+    }
+
+    @Test(dependsOnMethods = "testCreateNewPipelineWithDescription")
+    public void testEditPipelineDescription()  {
+        final String newDescription = "new description";
+
+        String actualDescription = new HomePage(getDriver())
+                .clickJobDropDownMenu(RANDOM_STRING)
+                .clickPipelineProjectName()
+                .editDescription(newDescription)
+                .clickSaveButton()
+                .getDescription();
+
+        Assert.assertEquals(actualDescription, newDescription);
     }
 }

@@ -1,3 +1,5 @@
+import model.HomePage;
+import model.MyViewsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -14,18 +16,18 @@ public class NewView1Test extends BaseTest {
     private static final By MY_VIEWS = By.cssSelector("a[href='/me/my-views']");
     private static final By ADD_VIEW = By.cssSelector("a[title='New View']");
     private static final By DELETE_VIEW = By.xpath("//a[@href='delete']");
-    private static final String LIST_VIEW_RENAME = "New_List_View";
     private static final String GLOBAL_VIEW_NAME = "Global_View";
     private static final String LIST_VIEW_NAME = "List_View";
     private static final String MY_VIEW_NAME = "My_View";
+    private static final String LIST_VIEW_RENAME = "New_List_View";
 
-    public List<WebElement> getListViews() {
+    private List<WebElement> getListViews() {
 
         return getDriver().findElements(
                 By.cssSelector(".tabBar .tab a[href]"));
     }
 
-    public String getListViewsNames() {
+    private String getListViewsNames() {
         StringBuilder listViewsNames = new StringBuilder();
         for (WebElement view : getListViews()) {
             listViewsNames.append(view.getText()).append(" ");
@@ -34,7 +36,7 @@ public class NewView1Test extends BaseTest {
         return listViewsNames.toString().trim();
     }
 
-    public List<String> getListJobs() {
+    private List<String> getListJobs() {
 
         return getDriver().findElements(
                         By.cssSelector("a[class='jenkins-table__link model-link inside'] span"))
@@ -43,29 +45,7 @@ public class NewView1Test extends BaseTest {
                 .collect(Collectors.toList());
     }
 
-    private void createAnyJob(String name, By projectType) {
-        final By ButtonOKCreateJob =
-                By.cssSelector(".large-button.primary.yui-button");
-        final By ButtonSaveJob = By.cssSelector("[type='submit']");
-
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(PROJECT_OR_VIEW_NAME).sendKeys(name);
-        getDriver().findElement(projectType).click();
-        getDriver().findElement(ButtonOKCreateJob).click();
-        getDriver().findElement(ButtonSaveJob).click();
-        getDriver().findElement(DASHBOARD_LINK).click();
-    }
-
-    public void createAnyView(String name, By radioButton) {
-        getDriver().findElement(MY_VIEWS).click();
-        getDriver().findElement(ADD_VIEW).click();
-        getDriver().findElement(PROJECT_OR_VIEW_NAME).sendKeys(name);
-        getDriver().findElement(radioButton).click();
-        getDriver().findElement(By.id("ok")).click();
-        getDriver().findElement(DASHBOARD_LINK).click();
-    }
-
-    public void goToEditView(String viewName) {
+    private void goToEditView(String viewName) {
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(By.linkText(viewName)).click();
         getDriver().findElement(
@@ -75,40 +55,64 @@ public class NewView1Test extends BaseTest {
 
     @Test
     public void testCreateMyViews() {
-        createAnyJob("Freestyle project",
-                By.xpath("//span[text() = 'Freestyle project']"));
-        createAnyJob("Pipeline",
-                By.xpath("//span[text() = 'Freestyle project']"));
-        createAnyJob("Multi-configuration project",
-                By.xpath("//span[text() = 'Multi-configuration project']"));
-        createAnyView(GLOBAL_VIEW_NAME,
-                By.cssSelector("label[for='hudson.model.ProxyView']"));
-        createAnyView(LIST_VIEW_NAME,
-                By.cssSelector("label[for='hudson.model.ListView']"));
-        createAnyView(MY_VIEW_NAME,
-                By.cssSelector("label[for='hudson.model.MyView']"));
-        getDriver().findElement(MY_VIEWS).click();
+        MyViewsPage myViewsPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName("Freestyle project")
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickDashboard()
 
-        Assert.assertTrue(getListViewsNames().contains(GLOBAL_VIEW_NAME));
-        Assert.assertTrue(getListViewsNames().contains(LIST_VIEW_NAME));
-        Assert.assertTrue(getListViewsNames().contains(MY_VIEW_NAME));
+                .clickNewItem()
+                .setProjectName("Pipeline")
+                .selectPipelineAndClickOk()
+                .saveConfigAndGoToProject()
+                .clickDashboard()
+
+                .clickNewItem()
+                .setProjectName("Multi-configuration project")
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSave()
+                .goToDashboard()
+
+                .clickMyViews()
+                .clickNewView()
+                .setViewName(GLOBAL_VIEW_NAME)
+                .setGlobalViewType()
+                .clickCreateButton()
+                .clickDashboard()
+
+                .clickMyViews()
+                .clickNewView()
+                .setViewName(LIST_VIEW_NAME)
+                .setListViewType()
+                .clickCreateButton()
+                .clickDashboard()
+
+                .clickMyViews()
+                .clickNewView()
+                .setViewName(MY_VIEW_NAME)
+                .setMyViewType()
+                .clickCreateButton()
+                .clickDashboard()
+
+                .clickMyViews();
+
+        Assert.assertTrue(myViewsPage.getListViewsNames().contains(GLOBAL_VIEW_NAME));
+        Assert.assertTrue(myViewsPage.getListViewsNames().contains(LIST_VIEW_NAME));
+        Assert.assertTrue(myViewsPage.getListViewsNames().contains(MY_VIEW_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateMyViews")
     public void testRenameMyView() {
+        MyViewsPage myViewsPage = new HomePage(getDriver())
+                .clickMyViews()
+                .clickView(LIST_VIEW_NAME)
+                .clickEditViewButton()
+                .renameView(LIST_VIEW_RENAME)
+                .clickOk()
+                .clickMyViews();
 
-        getDriver().findElement(MY_VIEWS).click();
-        getDriver().findElement(
-                By.cssSelector(".tabBar .tab a[href='/user/admin/my-views/view/"
-                        + LIST_VIEW_NAME + "/']")).click();
-        getDriver().findElement(By.xpath("//span[text()='Edit View']/..")).click();
-        getDriver().findElement(By.name("name")).clear();
-        getDriver().findElement(By.name("name")).sendKeys(LIST_VIEW_RENAME);
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-
-        Assert.assertEquals(getDriver()
-                        .findElement(By.xpath("//a[@href='/user/admin/my-views/view/" + LIST_VIEW_RENAME + "/']")).getText(),
-                LIST_VIEW_RENAME);
+        Assert.assertTrue(myViewsPage.getListViewsNames().contains(LIST_VIEW_RENAME));
     }
 
     @Test(dependsOnMethods = "testRenameMyView")
