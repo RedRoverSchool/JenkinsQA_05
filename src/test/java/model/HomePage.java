@@ -64,7 +64,7 @@ public class HomePage extends BasePage {
     }
 
     public NewItemPage clickNewItem() {
-        newItem.click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(newItem)).click();
 
         return new NewItemPage(getDriver());
     }

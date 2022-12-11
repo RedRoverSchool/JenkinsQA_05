@@ -1,3 +1,4 @@
+import model.FreestyleProjectConfigPage;
 import model.HomePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -5,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +47,6 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By BY_BUTTON_ENABLE_DISABLE_PROJECT = By.id("yui-gen1-button");
     private static final By BY_GO_TO_DASHBOARD_LINK = By.linkText("Dashboard");
     private static final By BY_BUTTON_DROPDOWN_CONFIGURE = By.linkText("Configure");
-    private static final By BY_JENKINS_CURRENT_VERSION = By.xpath("//a [@rel = 'noopener noreferrer']");
-    private static final By BY_CONFIGURATION_PAGE_HEADLINE = By.xpath("//div[@class = 'jenkins-app-bar__content']/h1");
     private static final By BY_DROPDOWN_DELETE_PROJECT = By.xpath("//span[contains(text(),'Delete Project')]");
 
     private List<String> getListExistingFreestyleProjectsNames(By by) {
@@ -55,17 +55,6 @@ public class FreestyleProjectTest extends BaseTest {
 
     private String getBuildStatus() {
         return getDriver().findElement(By.xpath("//span/span/*[name()='svg' and @class= 'svg-icon ']")).getAttribute("tooltip");
-    }
-
-    private void alertAccept() {
-        getDriver().switchTo().alert().accept();
-    }
-
-    private void deleteFreestyleProject(String projectName) {
-        getWait(5).until(ExpectedConditions.elementToBeClickable(BY_GO_TO_DASHBOARD_LINK)).click();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href = 'job/" + projectName + "/']"))).click();
-        getDriver().findElement(BY_DROPDOWN_DELETE_PROJECT).click();
-        alertAccept();
     }
 
     @Test
@@ -409,25 +398,24 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testAccessProjectConfigurationFromTheProjectPage() {
-        final String NAME_FREESTYLE_PROJECT_TC010401 = NEW_FREESTYLE_NAME + "TC010401";
-        final By FIND_NAME_FREESTYLE_PROJECT_TC010401 =
-                By.xpath("//a[@href = 'job/" + NAME_FREESTYLE_PROJECT_TC010401 + "/']");
-        final By CONFIG_NAME_FREESTYLE_PROJECT_TC010401 =
-                By.xpath("//a[@href='/job/" + NAME_FREESTYLE_PROJECT_TC010401 + "/configure']");
+            final String NAME_FREESTYLE_PROJECT_TC010401 = TestUtils.getRandomStr(5) + "TC010401";
 
-        getWait(10).until(ExpectedConditions.elementToBeClickable(BY_BUTTON_ADD_NEW_ITEM)).click();
-        getWait(10).until(ExpectedConditions.presenceOfElementLocated(BY_FIELD_ENTER_NAME)).
-                sendKeys(NAME_FREESTYLE_PROJECT_TC010401);
-        getDriver().findElement(BY_BUTTON_SELECT_FREESTYLE_PROJECT).click();
-        getDriver().findElement(BY_BUTTON_OK).click();
-        getDriver().findElement(BY_GO_TO_DASHBOARD_LINK).click();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(FIND_NAME_FREESTYLE_PROJECT_TC010401)).click();
-        getDriver().findElement(CONFIG_NAME_FREESTYLE_PROJECT_TC010401).click();
+            FreestyleProjectConfigPage FreeStylePoject010401 = new HomePage(getDriver())
+                    .clickNewItem()
+                    .setProjectName(NAME_FREESTYLE_PROJECT_TC010401)
+                    .selectFreestyleProjectAndClickOk()
+                    .goDashboard()
+                    .clickFreestyleProjectName(NAME_FREESTYLE_PROJECT_TC010401)
+                    .clickSideMenuConfigureLink();
 
-        Assert.assertTrue(getDriver().findElement(BY_CONFIGURATION_PAGE_HEADLINE).getText().contains("Configuration"));
-        Assert.assertTrue(getDriver().findElement(BY_JENKINS_CURRENT_VERSION).getText().contains("Jenkins 2.361.4"));
+            Assert.assertTrue(FreeStylePoject010401.getHeadTextFreeStyleConfigPage().contains("Configuration"));
+            Assert.assertTrue(FreeStylePoject010401.getJenkinsCurrentVersion().contains("Jenkins 2.361.4"));
 
-        deleteFreestyleProject(NAME_FREESTYLE_PROJECT_TC010401);
+            new FreestyleProjectConfigPage(getDriver())
+                    .goDashboard()
+                    .clickFreestyleProjectName(NAME_FREESTYLE_PROJECT_TC010401)
+                    .clickButtonDeleteProject()
+                    .confirmAlertAndDeleteProject();
     }
 
     @Ignore
