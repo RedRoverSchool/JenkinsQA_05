@@ -118,6 +118,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .getText().contains("This project is currently disabled"));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testMultiConfigurationProjectDisable")
     public void testMultiConfigurationProjectEnable() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();

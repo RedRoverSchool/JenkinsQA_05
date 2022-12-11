@@ -392,6 +392,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
     }
 
+    @Ignore
     @Test
     public void testCreateFreestyleProjectInFolderByNewItemDropDownInCrambMenu() {
         final String folderName = TestUtils.getRandomStr();
