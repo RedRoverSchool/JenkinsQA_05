@@ -26,6 +26,15 @@ public class FreestyleProjectConfigPage extends BasePage {
         super(driver);
     }
 
+    @FindBy(linkText = "Dashboard")
+    private WebElement dashboard;
+
+    @FindBy(xpath = "//div[@class = 'jenkins-app-bar__content']/h1")
+    private WebElement headLine;
+
+    @FindBy (xpath = "//a [@rel = 'noopener noreferrer']")
+    private WebElement jenkinsCurrentVersion;
+
     public FreestyleProjectStatusPage clickSaveBtn() {
         saveBtn.click();
 
@@ -64,4 +73,20 @@ public class FreestyleProjectConfigPage extends BasePage {
 
         return projectButton.getText();
         }
+
+    public HomePage goDashboard() {
+        dashboard.click();
+
+        return new HomePage(getDriver());
+    }
+
+    public String getHeadTextFreeStyleConfigPage() {
+
+        return headLine.getText();
+    }
+
+    public String getJenkinsCurrentVersion() {
+
+        return jenkinsCurrentVersion.getText();
+    }
 }
