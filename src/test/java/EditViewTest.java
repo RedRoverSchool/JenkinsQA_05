@@ -189,7 +189,7 @@ public class EditViewTest extends BaseTest{
         Assert.assertEquals(actualResult,expectedResult);
     }
 
-    @Test(invocationCount = 10)
+    @Test(invocationCount = 15)
     public void testListViewAddRegexFilter() {
         createManyJobsOfEachType(2);
         List<WebElement> itemsToSelect = getDriver().findElements(JOB_PATH);
@@ -198,8 +198,10 @@ public class EditViewTest extends BaseTest{
 
         //TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.id("yui-gen1-button")));
         //TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.xpath("//div[text()='Jobs']")));
-        TestUtils.scrollToEnd(getDriver());
-        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='useincluderegex']")));
+        //TestUtils.scrollToEnd(getDriver());
+        TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.xpath("//div[text()='Jobs']")));
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(REGEX_FIELD)).click();
+        //getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='useincluderegex']")));
         getDriver().findElement(REGEX_FIELD).click();
 
         getDriver().findElement(By.cssSelector("input[name='includeRegex']")).sendKeys(".*9.*");
