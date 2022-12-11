@@ -1,5 +1,6 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -7,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class FreestyleProjectStatusPage extends BasePage {
 
-    @FindBy(xpath = "//h1")
+    @FindBy(tagName = "h1")
     private WebElement headline;
 
     @FindBy(linkText = "Configure")
@@ -39,6 +40,9 @@ public class FreestyleProjectStatusPage extends BasePage {
 
     @FindBy(xpath = "//span[contains(text(),'Delete Project')]")
     private WebElement buttonDeleteProject;
+
+    @FindBy(xpath = "//li[@class='item'][2]")
+    private WebElement projectButton;
 
     public FreestyleProjectStatusPage(WebDriver driver) {
         super(driver);
@@ -112,5 +116,14 @@ public class FreestyleProjectStatusPage extends BasePage {
         sideMenuConfigure.click();
 
         return new FreestyleProjectConfigPage(getDriver());
+    }
+
+    public String getFreestyleProjectName(String name){
+
+        return projectButton.getText();
+    }
+
+    public String getProjectName() {
+        return headline.getText().substring(8);
     }
 }

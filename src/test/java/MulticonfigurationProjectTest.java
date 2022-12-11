@@ -136,32 +136,24 @@ public class MulticonfigurationProjectTest extends BaseTest {
         final String nameMCP = "MultiConfigProject000302";
         final String descriptionMCP = "Description000302";
 
-        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/view/all/newJob']"))).click();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys(nameMCP);
-        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Multi-configuration project']"))).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getWait(5).until(ExpectedConditions.presenceOfElementLocated(By.name("description"))).sendKeys(descriptionMCP);
-        getWait(5).until(ExpectedConditions.presenceOfElementLocated(By.className("textarea-show-preview"))).click();
-        String ActualPreviewText = getDriver().findElement(By.xpath("//div[@class='textarea-preview']"))
-                .getText();
-        getWait(15).until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@type='submit']"))).click();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Dashboard']"))).click();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='" + nameMCP + "']"))).click();
-        String ActualNameMCP = getWait(5)
-                .until(ExpectedConditions
-                .presenceOfElementLocated(
-                By.xpath("//li[@class='item']//a[@href='/job/MultiConfigProject000302/']"))).getText();
-        String ActualDecriptionMCP = getDriver().findElement(
-                By.xpath("//div[@id='description']/div[1]")).getText();
+        MultiConfigurationProjectStatusPage multiConfigProject = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(nameMCP)
+                .selectMultiConfigurationProjectAndClickOk()
+                .inputDescription(descriptionMCP)
+                .showPreview()
+                .clickSaveButton()
+                .goToDashboard()
+                .clickMultConfJobName(nameMCP);
 
-        Assert.assertEquals(ActualNameMCP, nameMCP);
-        Assert.assertEquals(ActualDecriptionMCP, descriptionMCP);
-        Assert.assertEquals(descriptionMCP, ActualPreviewText);
+        MultiConfigurationProjectStatusPage multiConfigProjectPreview = new MultiConfigurationProjectStatusPage(getDriver());
 
-        getDriver().findElement(By.xpath("//span[text()='Delete Multi-configuration project']")).click();
-        getDriver().switchTo().alert().accept();
+        Assert.assertEquals(multiConfigProject.getNameMultiConfigProject(nameMCP), nameMCP);
+        Assert.assertEquals(multiConfigProject.getDescriptionText(), descriptionMCP);
+        Assert.assertEquals(multiConfigProjectPreview.getDescriptionText(), descriptionMCP);
+
+        multiConfigProject.deleteMultiConfigProject();
     }
-
     @Ignore
     @Test
     public void testMultiConfigurationProjectBuild() {

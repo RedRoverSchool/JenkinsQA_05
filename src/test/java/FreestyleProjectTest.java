@@ -1,3 +1,4 @@
+import model.FreestyleProjectConfigPage;
 import model.HomePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -399,13 +400,13 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithEmptyName")
     public void testCreateFreestyleProjectWithSpacesInsteadOfName() {
-        getDriver().findElement(BY_BUTTON_ADD_NEW_ITEM).click();
-        getDriver().findElement(BY_FIELD_ENTER_NAME).sendKeys(SPACE_INSTEAD_OF_NAME);
-        getDriver().findElement(BY_BUTTON_SELECT_FREESTYLE_PROJECT).click();
-        getDriver().findElement(BY_BUTTON_OK).click();
+        FreestyleProjectConfigPage freestyleProjectConfigPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(SPACE_INSTEAD_OF_NAME)
+                .selectFreestyleProjectAndClickOk();
 
-        Assert.assertEquals(getDriver().findElement(BY_NEW_ITEM_NAME_HEADLINE).getText(), "Error");
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("#main-panel > p")).getText(), "No name is specified");
+        Assert.assertEquals(freestyleProjectConfigPage.getHeadlineText(), "Error");
+        Assert.assertEquals(freestyleProjectConfigPage.getErrorMsg(), "No name is specified");
     }
 
     @Test
