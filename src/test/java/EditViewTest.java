@@ -8,18 +8,18 @@ import runner.TestUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import static runner.TestUtils.getRandomStr;
+import static runner.TestUtils.*;
 
 public class EditViewTest extends BaseTest{
-    private static String localRandomAlphaNumeric = "";
-    private static final int WAIT_TIME = 5;
+    private static String localViewNameVar;
+    private static final int waitTime = 5;
     private static final By DASHBOARD = By.cssSelector("#jenkins-name-icon");
     private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
-    private static final By ITEM_PATH = By.cssSelector(".jenkins-table__link");
+    private static final By JOB_PATH = By.cssSelector(".jenkins-table__link");
     private static final By ITEM_OPTION = By.cssSelector("input[json='true']+label");
     private static final By FILTER_QUEUE = By.cssSelector("input[name=filterQueue]+label");
     private static final By MY_VIEWS = By.xpath("//a[@href='/me/my-views']");
-    private static final By REGEX = By.cssSelector("input[name='useincluderegex']+label");
+    private static final By REGEX_FIELD = By.cssSelector("input[name='useincluderegex']+label");
     private static final By INPUT_NAME = By.cssSelector("[name='name']");
     private static final By PANE_HEADER = By.cssSelector(".pane-header-title");
     private static final By STATUS_DRAG_HANDLE = By
@@ -28,90 +28,67 @@ public class EditViewTest extends BaseTest{
     private static final By LAST_EXISTING_COLUMN = By
             .xpath("//div[contains(@class, 'hetero-list-container')]/div[@class='repeated-chunk'][last()]");
 
-    private void createItem(int i){
-        final By FREESTYLE_0 = By.cssSelector(".j-item-options .hudson_model_FreeStyleProject");
-        final By PIPELINE_1 = By.cssSelector(".j-item-options .org_jenkinsci_plugins_workflow_job_WorkflowJob");
-        final By MULTICONFIG_2 = By.cssSelector(".j-item-options .hudson_matrix_MatrixProject");
-        final By FOLDER_3 = By.cssSelector(".j-item-options .com_cloudbees_hudson_plugins_folder_Folder");
-        final By MULTIBRANCH_4 = By
-                .cssSelector(".j-item-options .org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject");
-        final By ORGFOLDER_5 = By.cssSelector(".j-item-options .jenkins_branch_OrganizationFolder");
-        final By[] MENU_OPTIONS = {FREESTYLE_0,PIPELINE_1, MULTICONFIG_2,FOLDER_3, MULTIBRANCH_4, ORGFOLDER_5};
+    final By FREESTYLE_0 = By.cssSelector(".j-item-options .hudson_model_FreeStyleProject");
+    final By PIPELINE_1 = By.cssSelector(".j-item-options .org_jenkinsci_plugins_workflow_job_WorkflowJob");
+    final By MULTICONFIG_2 = By.cssSelector(".j-item-options .hudson_matrix_MatrixProject");
+    final By FOLDER_3 = By.cssSelector(".j-item-options .com_cloudbees_hudson_plugins_folder_Folder");
+    final By MULTIBRANCH_4 = By
+            .cssSelector(".j-item-options .org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject");
+    final By ORGFOLDER_5 = By.cssSelector(".j-item-options .jenkins_branch_OrganizationFolder");
+    final By[] listAllJobTypes = {FREESTYLE_0,PIPELINE_1, MULTICONFIG_2,FOLDER_3, MULTIBRANCH_4, ORGFOLDER_5};
 
+    final By GLOBAL_VIEW_0 = By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.ProxyView']");
+    final By LIST_VIEW_1 = By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.ListView']");
+    final By GLOBAL_VIEW_2 = By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.MyView']");
+    final By[] listAllViewTypes = {GLOBAL_VIEW_0, LIST_VIEW_1, GLOBAL_VIEW_2};
+
+
+    private void createOneItemFromListOfJobTypes(int indexOfJob){
         getDriver().findElement(By.xpath("//a[contains(@href, '/view/all/newJob')]")).click();
         getDriver().findElement(By.cssSelector("#name.jenkins-input")).sendKeys(getRandomStr());
-        getDriver().findElement(MENU_OPTIONS[i]).click();
+        getDriver().findElement(listAllJobTypes[indexOfJob]).click();
         getDriver().findElement(SUBMIT_BUTTON).submit();
         getDriver().findElement(DASHBOARD).click();
     }
 
-    private void createManyItemsOfEach(int i){
-        for(int j = 0; j < i; j++){
-            for(int k = 0; k < 6; k++) {
-                createItem(k);
+    private void createManyJobsOfEachType(int numberOfJobsOfEachType){
+        for(int i = 0; i < numberOfJobsOfEachType; i++){
+            for(int j = 0; j < listAllJobTypes.length; j++) {
+                createOneItemFromListOfJobTypes(j);
             }
         }
     }
 
-    private void createGlobalView(String randomAlphaNumeric) {
+    private void createViewFromListOfViewTypes(int indexOfView, String viewName) {
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(By.cssSelector(".addTab")).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(randomAlphaNumeric);
-        getDriver().findElement(By
-                .xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.ProxyView']")).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(viewName);
+        getDriver().findElement(listAllViewTypes[indexOfView]).click();
         getDriver().findElement(SUBMIT_BUTTON).click();
     }
 
-    private void createListView(String randomAlphaNumeric) {
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(MY_VIEWS).click();
-        getDriver().findElement(By.cssSelector(".addTab")).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(randomAlphaNumeric);
-        getDriver().findElement(By
-                .xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.ListView']")).click();
-        getDriver().findElement(SUBMIT_BUTTON).click();
-    }
-
-    private void createMyView(String randomAlphaNumeric) {
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(MY_VIEWS).click();
-        getDriver().findElement(By.cssSelector(".addTab")).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(randomAlphaNumeric);
-        getDriver().findElement(By
-                .xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.MyView']")).click();
-        getDriver().findElement(SUBMIT_BUTTON).click();
-    }
-
-    private void goToEditView(String randomAlphaNumeric) {
+    private void goToEditView(String viewName) {
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(MY_VIEWS).click();
         getDriver().findElement(By
-                .xpath(String.format("//a[contains(@href, '/my-views/view/%s/')]", randomAlphaNumeric))).click();
+                .xpath(String.format("//a[contains(@href, '/my-views/view/%s/')]", viewName))).click();
         getDriver().findElement(By
-                .xpath(String.format("//a[contains(@href, '/my-views/view/%s/configure')]", randomAlphaNumeric))).click();
+                .xpath(String.format("//a[contains(@href, '/my-views/view/%s/configure')]", viewName))).click();
     }
 
-    private void globalViewSeriesPreConditions(String randomAlphaNumeric) {
-        createManyItemsOfEach(1);
-        createGlobalView(randomAlphaNumeric);
+    private void editViewTestPreConditions(int indexOfView, String viewName) {
+        createManyJobsOfEachType(1);
+        createViewFromListOfViewTypes(indexOfView, viewName);
     }
 
-    private void listViewSeriesPreConditions(String randomAlphaNumeric) {
-        createManyItemsOfEach(1);
-        createListView(randomAlphaNumeric);
+    private void listViewSeriesPreConditions(int indexOfView, String viewName) {
+        editViewTestPreConditions(indexOfView, viewName);
         addFiveItemsToListView();
-        goToEditView(randomAlphaNumeric);
+        goToEditView(viewName);
     }
-
-    private void myViewSeriesPreConditions(String randomAlphaNumeric) {
-        createManyItemsOfEach(1);
-        createMyView(randomAlphaNumeric);
-    }
-
     private void scrollWaitTillNotMovingAndClick(int duration, By locator) {
-        ((JavascriptExecutor) getDriver())
-                .executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(locator));
+        scrollToElement_PlaceInCenter(getDriver(), getDriver().findElement(locator));
         getWait(duration).until(TestUtils.ExpectedConditions.elementIsNotMoving(locator));
         getDriver().findElement(locator).click();
     }
@@ -135,7 +112,6 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testGlobalViewAddFilterBuildQueue() {
-
         boolean newPaneIsDisplayed = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(getRandomStr())
@@ -156,138 +132,135 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testListViewAddFiveItems() {
-        localRandomAlphaNumeric = getRandomStr();
-        createManyItemsOfEach(1);
-        createListView(localRandomAlphaNumeric);
+        localViewNameVar = getRandomStr();
+        createManyJobsOfEachType(1);
+        createViewFromListOfViewTypes(1, localViewNameVar);
         addFiveItemsToListView();
 
-        int actualResult = getDriver().findElements(ITEM_PATH).size();
-
+        int actualResult = getDriver().findElements(JOB_PATH).size();
         Assert.assertEquals(actualResult,5);
     }
 
     @Test
     public void testGlobalViewAddBothFilters() {
-        localRandomAlphaNumeric = getRandomStr();
-        globalViewSeriesPreConditions(localRandomAlphaNumeric);
+        localViewNameVar = getRandomStr();
+        editViewTestPreConditions(0, localViewNameVar);
 
         getDriver().findElement(FILTER_QUEUE).click();
         getDriver().findElement(By.cssSelector("input[name=filterExecutors]+label")).click();
         getDriver().findElement(SUBMIT_BUTTON).click();
-        goToEditView(localRandomAlphaNumeric);
+        goToEditView(localViewNameVar);
+
         String filterBuildQueueStatus = getDriver().findElement(
                 By.cssSelector("input[name=filterQueue]")).getAttribute("checked");
         String filterBuildExecutorsStatus = getDriver().findElement(
                 By.cssSelector("input[name=filterExecutors]")).getAttribute("checked");
-
         Assert.assertTrue(filterBuildQueueStatus.equals("true") && filterBuildExecutorsStatus.equals("true"));
     }
 
-    @Ignore
     @Test
     public void testListViewAddNewColumn() {
-        listViewSeriesPreConditions(getRandomStr());
+        listViewSeriesPreConditions(1, getRandomStr());
+        String expectedResult = "Git Branches";
 
-        scrollWaitTillNotMovingAndClick(WAIT_TIME, ADD_COLUMN);
+        scrollWaitTillNotMovingAndClick(waitTime, ADD_COLUMN);
         getDriver().findElement(By.
                 xpath("//a[@class='yuimenuitemlabel' and text()='Git Branches']")).click();
         getDriver().findElement(SUBMIT_BUTTON).click();
-        String expectedResult = "Git Branches";
-        String actualResult = getDriver().findElement(By.cssSelector("#projectstatus th:last-child a")).getText();
 
+        String actualResult = getDriver().findElement(By.cssSelector("#projectstatus th:last-child a")).getText();
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Ignore
     @Test
     public void testListViewAddAllItems() {
-        createManyItemsOfEach(1);
-        localRandomAlphaNumeric = getRandomStr();
-        createListView(localRandomAlphaNumeric);
-        goToEditView(localRandomAlphaNumeric);
+        createManyJobsOfEachType(1);
+        localViewNameVar = getRandomStr();
+        createViewFromListOfViewTypes(1, localViewNameVar);
+        goToEditView(localViewNameVar);
 
         List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION);
         int expectedResult = itemsToSelect.size();
         itemsToSelect.forEach(WebElement::click);
         getDriver().findElement(SUBMIT_BUTTON).click();
-        int actualResult = getDriver().findElements(ITEM_PATH).size();
 
+        int actualResult = getDriver().findElements(JOB_PATH).size();
         Assert.assertEquals(actualResult,expectedResult);
     }
 
     @Test
     public void testListViewAddRegexFilter() {
-        createManyItemsOfEach(2);
-        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_PATH);
+        createManyJobsOfEachType(2);
+        List<WebElement> itemsToSelect = getDriver().findElements(JOB_PATH);
         long expectedResult = itemsToSelect.stream().filter(element -> element.getText().contains("9")).count();
-        createListView(getRandomStr());
+        createViewFromListOfViewTypes(1, getRandomStr());
 
-        scrollWaitTillNotMovingAndClick(WAIT_TIME, REGEX);
+        scrollWaitTillNotMovingAndClick(waitTime, REGEX_FIELD);
         getDriver().findElement(By.cssSelector("input[name='includeRegex']")).sendKeys(".*9.*");
         getDriver().findElement(SUBMIT_BUTTON).click();
-        long actualResult = getDriver().findElements(ITEM_PATH).size();
 
+        long actualResult = getDriver().findElements(JOB_PATH).size();
         Assert.assertEquals(actualResult,expectedResult);
     }
 
     @Test
     public void testListViewChangeColumnOrder() {
-        localRandomAlphaNumeric = getRandomStr();
-        listViewSeriesPreConditions(localRandomAlphaNumeric);
+        localViewNameVar = getRandomStr();
+        listViewSeriesPreConditions(1, localViewNameVar);
+        String[] expectedResult = {"W", "S"};
 
-        scrollWaitTillNotMovingAndClick(WAIT_TIME, STATUS_DRAG_HANDLE);
+        scrollWaitTillNotMovingAndClick(waitTime, STATUS_DRAG_HANDLE);
         dragByYOffset(STATUS_DRAG_HANDLE, 100);
         getDriver().findElement(SUBMIT_BUTTON).click();
-        String[] expectedResult = {"W", "S"};
+
         String[] actualResult = {getDriver().findElement(By
                 .cssSelector("#projectstatus th:nth-child(1) a")).getText(),getDriver().findElement(By
                 .cssSelector("#projectstatus th:nth-child(2) a")).getText()};
-
         Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
     public void testListViewAddFilterBuildQueue() {
-        createManyItemsOfEach(1);
-        createListView(getRandomStr());
+        createManyJobsOfEachType(1);
+        createViewFromListOfViewTypes(1, getRandomStr());
 
         getDriver().findElement(FILTER_QUEUE).click();
         getDriver().findElement(SUBMIT_BUTTON).click();
+
         boolean newPaneIsDisplayed = getDriver().findElements(PANE_HEADER)
                 .stream().map(element -> element.getText()).collect(Collectors.toList())
                 .contains("Filtered Build Queue");
-
         Assert.assertTrue(newPaneIsDisplayed);
     }
 
     @Test
     public void testMyViewAddFilterBuildQueue() {
-        localRandomAlphaNumeric = getRandomStr();
-        myViewSeriesPreConditions(localRandomAlphaNumeric);
-        goToEditView(localRandomAlphaNumeric);
+        localViewNameVar = getRandomStr();
+        editViewTestPreConditions(2, localViewNameVar);
+        goToEditView(localViewNameVar);
 
         getDriver().findElement(FILTER_QUEUE).click();
         getDriver().findElement(SUBMIT_BUTTON).click();
+
         boolean newPaneIsDisplayed = getDriver().findElements(PANE_HEADER)
                 .stream().map(element -> element.getText()).collect(Collectors.toList())
                 .contains("Filtered Build Queue");
-
         Assert.assertTrue(newPaneIsDisplayed);
     }
 
     @Test
     public void testListViewCheckEveryAddColumnItem() {
-        localRandomAlphaNumeric = getRandomStr();
-        listViewSeriesPreConditions(localRandomAlphaNumeric);
-        final String[] TABLE_VALUES = {
+        localViewNameVar = getRandomStr();
+        listViewSeriesPreConditions(1, localViewNameVar);
+        final String[] tableValues = {
                 "S", "W", "Name", "Last Success", "Last Failure", "Last Stable",
                 "Last Duration", "","Git Branches", "Name", "Description"};
 
-        scrollWaitTillNotMovingAndClick(WAIT_TIME, ADD_COLUMN);
+        scrollWaitTillNotMovingAndClick(waitTime, ADD_COLUMN);
         final List<WebElement> addColumnMenuItems = getDriver().findElements(By.cssSelector("a.yuimenuitemlabel"));
         Map<String, String> tableMenuMap = new HashMap<>();
         for (int i = 0; i < addColumnMenuItems.size(); i++) {
-            tableMenuMap.put(addColumnMenuItems.get(i).getText(), TABLE_VALUES[i]);
+            tableMenuMap.put(addColumnMenuItems.get(i).getText(), tableValues[i]);
         }
         List<Boolean> allMatches = new ArrayList<>(addColumnMenuItems.size());
         for (int j = 1; j <= addColumnMenuItems.size(); j++) {
@@ -300,9 +273,9 @@ public class EditViewTest extends BaseTest{
                     .cssSelector("table#projectstatus th:last-child")).getText().replace("↓"," ").trim();
             allMatches.add(tableMenuMap.get(selectedColumnName).equals(lastColumnName));
             getDriver().findElement(By.xpath("//a[contains(@href, 'configure')]")).click();
-            scrollWaitTillNotMovingAndClick(WAIT_TIME,LAST_EXISTING_COLUMN);
+            scrollWaitTillNotMovingAndClick(waitTime,LAST_EXISTING_COLUMN);
             getDriver().findElement(LAST_EXISTING_COLUMN).findElement(By.cssSelector("button.repeatable-delete")).click();
-            scrollWaitTillNotMovingAndClick(WAIT_TIME, ADD_COLUMN);
+            scrollWaitTillNotMovingAndClick(waitTime, ADD_COLUMN);
         }
         getDriver().findElement(SUBMIT_BUTTON).click();
 
@@ -311,61 +284,60 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testDeleteColumn() {
-        localRandomAlphaNumeric = getRandomStr();
-        listViewSeriesPreConditions(localRandomAlphaNumeric);
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        localViewNameVar = getRandomStr();
+        listViewSeriesPreConditions(1, localViewNameVar);
 
-        js.executeScript("arguments[0].scrollIntoView({block: 'center'})", getDriver().findElement(ADD_COLUMN));
-        getWait(WAIT_TIME).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_COLUMN));
+        scrollToElement_PlaceInCenter(getDriver(), getDriver().findElement(ADD_COLUMN));
+        getWait(waitTime).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_COLUMN));
         getDriver().findElement(By
                 .cssSelector("div[descriptorid='hudson.views.StatusColumn'] button.repeatable-delete")).click();
         new Actions(getDriver()).pause(300).perform();
         getDriver().findElement(SUBMIT_BUTTON).click();
-        List<WebElement> columnList = getDriver().findElements(By.cssSelector("table#projectstatus th"));
 
+        List<WebElement> columnList = getDriver().findElements(By.cssSelector("table#projectstatus th"));
         Assert.assertTrue(columnList.stream().noneMatch(element -> element.getText().equals("S")));
     }
 
     @Test
     public void testMultipleSpacesRenameView() {
-        localRandomAlphaNumeric = getRandomStr();
-        listViewSeriesPreConditions(localRandomAlphaNumeric);
-        final String nonSpaces = getRandomStr((3 +(int)(Math.random() * (10 - 3) + 1)));
+        localViewNameVar = getRandomStr();
+        listViewSeriesPreConditions(1, localViewNameVar);
+        final String nonSpaces = getRandomStr(5);
         final String spaces = nonSpaces.replaceAll("[a-zA-Z0-9]", " ");
-        final String NEW_NAME = nonSpaces + spaces + nonSpaces;
+        final String newName = nonSpaces + spaces + nonSpaces;
 
         getDriver().findElement(INPUT_NAME).clear();
-        getDriver().findElement(INPUT_NAME).sendKeys(NEW_NAME);
+        getDriver().findElement(INPUT_NAME).sendKeys(newName);
         getDriver().findElement(SUBMIT_BUTTON).click();
-        String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
 
-        Assert.assertNotEquals(actualResult, localRandomAlphaNumeric);
+        String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
+        Assert.assertNotEquals(actualResult, localViewNameVar);
         Assert.assertEquals(actualResult, (nonSpaces + " " + nonSpaces));
     }
 
     @Test
     public void testIllegalCharacterRenameView() {
-        localRandomAlphaNumeric = getRandomStr();
-        listViewSeriesPreConditions(localRandomAlphaNumeric);
-        final char[] ILLEGAL_CHARACTERS = "#!@$%^&*:;<>?/[]|\\".toCharArray();
+        localViewNameVar = getRandomStr();
+        listViewSeriesPreConditions(1, localViewNameVar);
+        final char[] illegalCharacters = "#!@$%^&*:;<>?/[]|\\".toCharArray();
 
         List<Boolean> checks = new ArrayList<>();
-        for (int i = 0; i < ILLEGAL_CHARACTERS.length; i++) {
+        for (int i = 0; i < illegalCharacters.length; i++) {
             getDriver().findElement(INPUT_NAME).clear();
-            getDriver().findElement(INPUT_NAME).sendKeys(ILLEGAL_CHARACTERS[i] + localRandomAlphaNumeric);
+            getDriver().findElement(INPUT_NAME).sendKeys(illegalCharacters[i] + localViewNameVar);
             getDriver().findElement(SUBMIT_BUTTON).click();
             if(getDriver().findElements(By.cssSelector("#main-panel h1")).size() > 0) {
-                checks.add(String.format("‘%c’ is an unsafe character", ILLEGAL_CHARACTERS[i])
+                checks.add(String.format("‘%c’ is an unsafe character", illegalCharacters[i])
                         .equals(getDriver().findElement(By.cssSelector("#main-panel p")).getText()));
                 getDriver().findElement(DASHBOARD).click();
                 getDriver().findElement(MY_VIEWS).click();
                 int finalI = i;
                 checks.add(getDriver()
                         .findElements(By
-                        .xpath(String.format("//a[contains(@href, '/my-views/view/%s/')]", localRandomAlphaNumeric)))
+                        .xpath(String.format("//a[contains(@href, '/my-views/view/%s/')]", localViewNameVar)))
                         .stream().noneMatch(element -> element.getText()
-                        .equals(String.format("‘%c’ is an unsafe character", ILLEGAL_CHARACTERS[finalI]))));
-                goToEditView(localRandomAlphaNumeric);
+                        .equals(String.format("‘%c’ is an unsafe character", illegalCharacters[finalI]))));
+                goToEditView(localViewNameVar);
             } else {
                 checks.add(false);
             }
@@ -376,16 +348,16 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testRenameView() {
-        localRandomAlphaNumeric = getRandomStr();
-        listViewSeriesPreConditions(localRandomAlphaNumeric);
-        final String NEW_NAME = getRandomStr();
+        localViewNameVar = getRandomStr();
+        listViewSeriesPreConditions(1, localViewNameVar);
+        final String newName = getRandomStr();
 
         getDriver().findElement(INPUT_NAME).clear();
-        getDriver().findElement(INPUT_NAME).sendKeys(NEW_NAME);
+        getDriver().findElement(INPUT_NAME).sendKeys(newName);
         getDriver().findElement(SUBMIT_BUTTON).click();
-        String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
 
-        Assert.assertFalse(actualResult.equals(localRandomAlphaNumeric));
-        Assert.assertEquals(actualResult, NEW_NAME);
+        String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
+        Assert.assertFalse(actualResult.equals(localViewNameVar));
+        Assert.assertEquals(actualResult, newName);
     }
 }

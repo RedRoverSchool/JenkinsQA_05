@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+
 public class EditViewPage extends HomePage {
 
     @FindBy(xpath = "//button[text() = 'OK']")
@@ -11,6 +12,9 @@ public class EditViewPage extends HomePage {
 
     @FindBy(css = "input[name=filterQueue]+label")
     private WebElement filterBuildQueueOptionCheckBox;
+
+    @FindBy(name = "name")
+    private WebElement viewName;
 
     public EditViewPage(WebDriver driver) {
         super(driver);
@@ -26,5 +30,18 @@ public class EditViewPage extends HomePage {
         filterBuildQueueOptionCheckBox.click();
 
         return new EditViewPage(getDriver());
+    }
+
+    public EditViewPage renameView(String name) {
+        viewName.clear();
+        viewName.sendKeys(name);
+
+        return this;
+    }
+
+    public ViewPage clickOk() {
+        okButton.click();
+
+        return new ViewPage(getDriver());
     }
 }
