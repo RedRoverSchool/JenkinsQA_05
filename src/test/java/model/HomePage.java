@@ -59,6 +59,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//span[text()='Move']")
     private WebElement moveButtonDropdown;
 
+    @FindBy(xpath = "//a[@href='api/']")
+    private WebElement restApiLink;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -194,5 +197,11 @@ public class HomePage extends BasePage {
     public String getJobBuildStatus(String name) {
         return getDriver().findElement(By.id(String.format("job_%s", name)))
                 .findElement(By.xpath(".//*[name()='svg']")).getAttribute("tooltip");
+    }
+
+    public  FooterPage clickRestApiLink() {
+        restApiLink.click();
+
+        return new FooterPage(getDriver());
     }
 }
