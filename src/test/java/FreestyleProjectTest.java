@@ -111,12 +111,13 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testDisableProject")
     public void testEnableProject() {
+        final String jobStatusIconTooltip = new HomePage(getDriver())
+                .clickFreestyleProjectName(FREESTYLE_NAME)
+                .clickDisableOrEnableSwitchBtn()
+                .clickDashboard()
+                .getJobBuildStatus(FREESTYLE_NAME);
 
-        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(BY_BUTTON_ENABLE_DISABLE_PROJECT).click();
-        getDriver().findElement(BY_GO_TO_DASHBOARD_LINK).click();
-
-        Assert.assertEquals(getBuildStatus(), "Not built");
+        Assert.assertEquals(jobStatusIconTooltip, "Not built");
     }
 
     @Test(dependsOnMethods = "testEnableProject")
@@ -242,7 +243,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickFreestyleProjectName()
                 .clickButtonDeleteProject()
                 .confirmAlertAndDeleteProject()
-                .getTextHeader();
+                .getHeaderText();
 
         Assert.assertEquals(pageHeaderText, "Welcome to Jenkins!");
     }
