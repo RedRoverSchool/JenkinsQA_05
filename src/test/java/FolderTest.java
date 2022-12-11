@@ -1,3 +1,4 @@
+import model.FolderStatusPage;
 import model.HomePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -221,18 +222,17 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreate")
     public void testCreateMultiConfigurationProjectInFolder() {
-
         final String multiConfigurationProjectName = TestUtils.getRandomStr();
 
-        getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).click();
-        getDriver().findElement(CREATE_A_JOB).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(multiConfigurationProjectName);
-        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(By.xpath("//a[text()='" + generatedString + "']")).click();
+        FolderStatusPage folderStatusPage = new HomePage(getDriver())
+                .clickFolder(generatedString)
+                .clickCreateJob()
+                .setProjectName(multiConfigurationProjectName)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSave()
+                .clickParentFolderInBreadcrumbs();
 
-        Assert.assertTrue(getProjectNameFromProjectTable().contains(multiConfigurationProjectName));
+        Assert.assertTrue(folderStatusPage.getJobList().contains(multiConfigurationProjectName));
     }
 
     @Test
@@ -351,7 +351,7 @@ public class FolderTest extends BaseTest {
                 .clickJobDropDownMenu(folderName)
                 .clickDeleteDropDownMenu()
                 .clickSubmitDeleteProject()
-                .getTextHeader();
+                .getHeaderText();
 
         Assert.assertEquals(welcomeJenkinsHeader, "Welcome to Jenkins!");
     }
@@ -393,22 +393,23 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
     }
 
-    @Ignore
     @Test
     public void testCreateFreestyleProjectInFolderByNewItemDropDownInCrambMenu() {
         final String folderName = TestUtils.getRandomStr();
         final String freestyleProjectName = TestUtils.getRandomStr();
 
-        ProjectUtils.createNewItemFromDashboard(getDriver(), FOLDER, folderName);
+        FolderStatusPage folderStatusPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(folderName)
+                .selectFolderAndClickOk()
+                .clickSaveButton()
+                .clickNewItemDropdownThisFolderInBreadcrumbs()
+                .setProjectName(freestyleProjectName)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickParentFolderInBreadcrumbs();
 
-        getDriver().findElement(By.xpath("//a[text()='" + folderName + "']//following-sibling::button")).click();
-        getDriver().findElement(By.xpath("//li/a/span[text()='New Item']")).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(freestyleProjectName);
-        getDriver().findElement(FREESTYLE_PROJECT).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(By.xpath("//a[text()='" + folderName + "']")).click();
-
-        Assert.assertTrue(getDriver().findElement(By.cssSelector("#job_" + freestyleProjectName)).isEnabled());
+        Assert.assertTrue(folderStatusPage.getJobList().contains(freestyleProjectName));
     }
 
     @Test
