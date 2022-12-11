@@ -343,4 +343,16 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//span/span/*[name()='svg' and @tooltip='Not built']"))
                 .isDisplayed());
     }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    public void testDisableMultiConfigurationProject() {
+
+        Boolean projectIconText = new HomePage(getDriver())
+                .clickProject(PROJECT_NAME)
+                .clickDisableButton()
+                .goToDashboard()
+                .getProjectIconText();
+
+        Assert.assertTrue(projectIconText);
+    }
 }

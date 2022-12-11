@@ -68,6 +68,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//div/a[@class='model-link']")
     private WebElement iconUserName;
 
+    @FindBy(xpath ="(//*[local-name()='svg' and @tooltip='Disabled'])[2]")
+    private WebElement projectDisabledIcon;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -222,5 +225,16 @@ public class HomePage extends BasePage {
         iconUserName.click();
 
         return new StatusUserPage(getDriver());
+    }
+
+    public MultiConfigurationProjectStatusPage clickProject(String projectName) {
+        getWait(5).until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='job/" + projectName + "/']"))).click();
+
+        return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+    public Boolean getProjectIconText() {
+        return projectDisabledIcon.isDisplayed();
     }
 }
