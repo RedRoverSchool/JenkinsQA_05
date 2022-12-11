@@ -9,6 +9,12 @@ public class FreestyleProjectConfigPage extends BasePage {
     @FindBy(name = "Submit")
     private WebElement saveBtn;
 
+    @FindBy(xpath = "//span/label[text()='Discard old builds']")
+    private WebElement discardOldBuildsCheckbox;
+
+    @FindBy(xpath = "//input[@name='_.daysToKeepStr']")
+    private WebElement daysToKeepBuilds;
+
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -17,5 +23,22 @@ public class FreestyleProjectConfigPage extends BasePage {
         saveBtn.click();
 
         return new FreestyleProjectStatusPage(getDriver());
+    }
+
+    public FreestyleProjectConfigPage clickDiscardOldBuildsCheckbox() {
+        discardOldBuildsCheckbox.click();
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage typeDaysToKeepBuilds(String numberOfDays) {
+        daysToKeepBuilds.sendKeys(numberOfDays);
+
+        return this;
+    }
+
+    public String getNumberOfDaysToKeepBuilds() {
+
+        return daysToKeepBuilds.getAttribute("value");
     }
 }
