@@ -226,8 +226,8 @@ public class HomePage extends BasePage {
         return projectDisabledIcon.isDisplayed();
         
     }
-    
-    public  FooterPage clickRestApiLink() {
+  
+    public FooterPage clickRestApiLink() {
         restApiLink.click();
 
         return new FooterPage(getDriver());
