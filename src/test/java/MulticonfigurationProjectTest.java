@@ -1,10 +1,8 @@
 import model.HomePage;
 import model.MultiConfigurationProjectStatusPage;
+import model.MulticonfigurationProjectConsolePage;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -350,5 +348,22 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//span/span/*[name()='svg' and @tooltip='Not built']"))
                 .isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    public void testMultiConfigurationProjectCheckConcoleOutput() {
+        MulticonfigurationProjectConsolePage multiConfigProjectConsole = new HomePage(getDriver())
+                .clickMultConfJobName(PROJECT_NAME)
+                .clickCongiguration(PROJECT_NAME)
+                .scrollAndClickBuildSteps()
+                .selectionAndClickExecuteWindowsFromBuildSteps().enterCommandInBuildSteps("echo Hello world!")
+                .clickSave()
+                .clickBuildNowButton()
+                .clickDropDownBuildIcon()
+                .selectAndClickConsoleOutput();
+
+        Assert.assertEquals(
+                multiConfigProjectConsole.getTextConsoleOutputUserName(), new HomePage(getDriver()).getTextHeaderUserName());
+        Assert.assertTrue(multiConfigProjectConsole.getTextConsoleOutput().contains("Finished: SUCCESS"));
     }
 }

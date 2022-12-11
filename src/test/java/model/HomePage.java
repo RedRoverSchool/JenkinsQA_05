@@ -53,6 +53,9 @@ public class HomePage extends BasePage {
     @FindBy(css=".tabBar>.tab>a.addTab")
     private WebElement addViewLink;
 
+    @FindBy(xpath = "//pre/a[@href='/user/admin']")
+    private WebElement headerUserName;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -162,5 +165,10 @@ public class HomePage extends BasePage {
     public MultiConfigurationProjectStatusPage clickMultConfJobName(String name){
         jobList.get(0).click();
         return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+    public String getTextHeaderUserName() {
+
+        return headerUserName.getText();
     }
 }
