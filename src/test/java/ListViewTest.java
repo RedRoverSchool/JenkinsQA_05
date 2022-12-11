@@ -67,7 +67,6 @@ public class ListViewTest extends BaseTest {
         Assert.assertEquals(actualDescription.getText(), descriptionRandom);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testEditViewAddDescription")
     public void testEditViewDeleteDescription() {
 
@@ -81,7 +80,6 @@ public class ListViewTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(DESCRIPTION).getText(), "");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testEditViewDeleteDescription")
     public void testDeleteListView() {
 

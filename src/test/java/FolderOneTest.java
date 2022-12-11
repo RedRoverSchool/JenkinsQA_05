@@ -242,7 +242,6 @@ public class FolderOneTest extends BaseTest {
                 .contains((RANDOM_NAME_1 + "_Folder2") + "/" + (RANDOM_NAME_2 + "_SubFolder2")));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateFolderWithDisplayNameInFolder")
     public void testMoveFolderByDropDown() {
         getDriver().findElement(By.linkText(RANDOM_NAME_1 + "_Display2")).click();
