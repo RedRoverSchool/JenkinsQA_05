@@ -9,12 +9,6 @@ import runner.TestUtils;
 import java.util.List;
 
 public class NewItemPage extends BasePage {
-    
-    public enum InputValidationMsgType {
-        NAME_INVALID,
-        NAME_REQ,
-        TYPE_REQ
-    }
 
     @FindBy(className = "item")
     private WebElement rootMenuDashboardLink;
@@ -49,14 +43,14 @@ public class NewItemPage extends BasePage {
     @FindBy(xpath = "//span[contains(text(), 'Multi-configuration project')]")
     private WebElement multiConfigurationProject;
 
-    @FindBy(xpath = "//span[contains(text(), 'Multibranch Pipeline')]")
+    @FindBy(xpath = "//li[@class='org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject']")
     private WebElement multibranchPipeline;
-
-    @FindBy(id = "itemname-required")
-    private WebElement nameRequiredMessage;
 
     @FindBy(xpath = "//span[text() = 'Pipeline']")
     private WebElement pipeline;
+
+    @FindBy(css = "#itemname-required")
+    private WebElement emptyNameErrorMessage;
 
 
     public NewItemPage(WebDriver driver) {
@@ -125,6 +119,13 @@ public class NewItemPage extends BasePage {
         return new CreateItemErrorPage(getDriver());
     }
 
+    public NewItemPage setItem(int index) {
+        getAction().scrollByAmount(0, 250).perform();
+        itemsList.get(index).click();
+
+        return this;
+    }
+
     public int getItemsListSize() {
         getWait(5).until(ExpectedConditions.visibilityOfAllElements(itemsList));
         return itemsList.size();
@@ -137,24 +138,23 @@ public class NewItemPage extends BasePage {
         return this;
     }
 
-    public String getInputValidationMsg(InputValidationMsgType type) {
-        switch (type) {
-            case NAME_REQ:
-                return itemNameRequiredMsg.getText();
-            case NAME_INVALID:
-                return itemNameInvalidMsg.getText();
-            case TYPE_REQ:
-                return itemTypeRequiredMsg.getText();
-        }
-        return "";
+    public MultibranchPipelineConfigPage selectMultibranchPipelineAndClickOk() {
+        multibranchPipeline.click();
+        okButton.click();
+
+        return new MultibranchPipelineConfigPage(getDriver());
     }
 
-    public String getNameRequiredMessageText() {
-        return nameRequiredMessage.getText();
+    public String getItemNameRequiredMsg() {
+        return itemNameRequiredMsg.getText();
     }
 
-    public WebElement getOkButton() {
-        return okButton;
+    public String getItemNameInvalidMsg() {
+        return itemNameInvalidMsg.getText();
+    }
+
+    public boolean isOkButtonEnabled() {
+        return okButton.isEnabled();
     }
 
     public PipelineConfigPage selectPipelineAndClickOk() {
