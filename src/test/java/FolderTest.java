@@ -352,7 +352,7 @@ public class FolderTest extends BaseTest {
                 .clickJobDropDownMenu(folderName)
                 .clickDeleteDropDownMenu()
                 .clickSubmitDeleteProject()
-                .getTextHeader();
+                .getHeaderText();
 
         Assert.assertEquals(welcomeJenkinsHeader, "Welcome to Jenkins!");
     }

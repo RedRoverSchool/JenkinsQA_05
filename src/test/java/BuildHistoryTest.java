@@ -221,6 +221,6 @@ public class BuildHistoryTest extends BaseTest {
                 .clickBuildHistory()
                 .clickDashboard();
 
-        Assert.assertEquals(homePage.getpageHeader(),"Welcome to Jenkins!");
+        Assert.assertEquals(homePage.getHeaderText(),"Welcome to Jenkins!");
     }
 }

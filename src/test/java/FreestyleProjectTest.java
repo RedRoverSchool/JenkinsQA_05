@@ -243,7 +243,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickFreestyleProjectName()
                 .clickButtonDeleteProject()
                 .confirmAlertAndDeleteProject()
-                .getTextHeader();
+                .getHeaderText();
 
         Assert.assertEquals(pageHeaderText, "Welcome to Jenkins!");
     }
