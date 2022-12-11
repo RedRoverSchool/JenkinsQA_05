@@ -65,6 +65,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[@href='api/']")
     private WebElement restApiLink;
 
+    @FindBy(xpath = "//div/a[@class='model-link']")
+    private WebElement iconUserName;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -213,5 +216,11 @@ public class HomePage extends BasePage {
         restApiLink.click();
 
         return new FooterPage(getDriver());
+    }
+
+    public StatusUserPage clickUserIcon() {
+        iconUserName.click();
+
+        return new StatusUserPage(getDriver());
     }
 }

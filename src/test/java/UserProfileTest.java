@@ -1,3 +1,5 @@
+import model.HomePage;
+import model.StatusUserPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -70,13 +72,14 @@ public class UserProfileTest extends BaseTest {
     @Test
     public void testUserProfilePreviewDescription() {
 
-        getDriver().findElement(USER).click();
-        getDriver().findElement(ADD_DES).click();
-        getDriver().findElement(STATUS_INPUT_FIELD).clear();
-        getDriver().findElement(STATUS_INPUT_FIELD).sendKeys(TEXT);
-        getDriver().findElement(PREVIEW_LINK).click();
+        StatusUserPage statusUserPage = new HomePage(getDriver())
+                .clickUserIcon()
+                .clickAddDescriptionLink()
+                .clearDescriptionInputField()
+                .inputTextInDescriptionField(TEXT)
+                .clickPreviewLink();
 
-        Assert.assertEquals(getDriver().findElement(PREVIEW_FIELD).getText(), TEXT);
+        Assert.assertEquals(statusUserPage.getPreviewText(), TEXT);
     }
 
     @Test (dependsOnMethods = "testUserProfileAddDescription")

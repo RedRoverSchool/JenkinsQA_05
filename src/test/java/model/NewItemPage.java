@@ -61,7 +61,7 @@ public class NewItemPage extends HomePage {
 
     public FreestyleProjectConfigPage selectFreestyleProjectAndClickOk() {
         freestyleProject.click();
-        okButton.click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(okButton)).click();
 
         return new FreestyleProjectConfigPage(getDriver());
     }

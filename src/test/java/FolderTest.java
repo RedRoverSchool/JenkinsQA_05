@@ -182,24 +182,23 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testNameAfterRenamingFolder() {
-        final String expectedResult = "Folder2";
+    public void testNameAfterRenameIngFolder() {
+        final String folderName1 = TestUtils.getRandomStr(6);
+        final String folderName2 = TestUtils.getRandomStr(6);
 
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys("Folder1");
-        getDriver().findElement(By.className("com_cloudbees_hudson_plugins_folder_Folder")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.id("yui-gen6-button")).click();
+        List<String> newFolderName = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(folderName1)
+                .selectFolderAndClickOk()
+                .clickDashboard()
+                .clickFolder(folderName1)
+                .clickRename(folderName1)
+                .clearAndSetNewName(folderName2)
+                .clickRenameSubmitButton()
+                .clickDashboard()
+                .getJobList();
 
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
-        getDriver().findElement(By.xpath("//a[@href='job/Folder1/']")).click();
-        getDriver().findElement(By.xpath("//a[@href='/job/Folder1/confirm-rename']")).click();
-        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).clear();
-        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).sendKeys(expectedResult);
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/Folder2/']")).getText(), expectedResult);
+        Assert.assertTrue(newFolderName.contains(folderName2));
     }
 
     @Test
