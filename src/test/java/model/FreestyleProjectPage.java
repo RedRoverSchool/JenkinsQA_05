@@ -31,8 +31,6 @@ public class FreestyleProjectPage extends BasePage {
     @FindBy(xpath = "//div[@id = 'description'] /div[1]")
     private WebElement description;
 
-
-
     public FreestyleProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -75,5 +73,9 @@ public class FreestyleProjectPage extends BasePage {
     public String getDescriptionText(){
 
         return description.getText();
+    }
+
+    public String getProjectName() {
+        return headline.getText().substring(8);
     }
 }
