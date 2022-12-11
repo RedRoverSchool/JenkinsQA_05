@@ -352,17 +352,15 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .isDisplayed());
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testDisableMultiConfigurationProject() {
-        HomePage homePage = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(PROJECT_NAME)
-                .selectMultiConfigurationProjectAndClickOk()
-                .clickSave()
-                .clickDisableButton()
-                .goToDashboard();
 
-        Assert.assertTrue(getDriver().findElement
-                (By.xpath("(//*[local-name()='svg' and @tooltip='Disabled'])[2]")).isDisplayed());
+        Boolean projectIconText = new HomePage(getDriver())
+                .clickProject(PROJECT_NAME)
+                .clickDisableButton()
+                .goToDashboard()
+                .getProjectIconText();
+
+        Assert.assertTrue(projectIconText);
     }
 }
