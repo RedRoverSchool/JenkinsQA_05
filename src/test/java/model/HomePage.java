@@ -108,7 +108,7 @@ public class HomePage extends BasePage {
     }
 
     public FreestyleProjectStatusPage clickFreestyleProjectName() {
-        jobList.get(0).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(jobList.get(0))).click();
 
         return new FreestyleProjectStatusPage(getDriver());
     }
