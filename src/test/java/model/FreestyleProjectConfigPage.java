@@ -16,6 +16,9 @@ public class FreestyleProjectConfigPage extends BasePage {
     @FindBy(xpath = "//input[@name='_.daysToKeepStr']")
     private WebElement daysToKeepBuilds;
 
+    @FindBy(xpath = "//input[@name='_.numToKeepStr']")
+    private WebElement maxNumberOfBuildsToKeep;
+
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -42,8 +45,19 @@ public class FreestyleProjectConfigPage extends BasePage {
 
         return daysToKeepBuilds.getAttribute("value");
     }
+    
+    public FreestyleProjectConfigPage typeMaxNumberOfBuildsToKeep(String numberOfBuilds) {
+        maxNumberOfBuildsToKeep.sendKeys(numberOfBuilds);
 
+        return this;
+    }
+
+    public String getMaxNumberOfBuildsToKeep() {
+
+        return maxNumberOfBuildsToKeep.getAttribute("value");
+    }
+    
     public String getFreestyleProjectName(String name){
         return getDriver().findElement(By.xpath("//li/a[@href='/job/" + name + "/']")).getText();
-    }
+        }
 }
