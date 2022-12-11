@@ -36,8 +36,8 @@ public class PipelineProjectPage extends BasePage{
         return this;
     }
 
-    public String getDescription(String name) {
+    public String getDescription() {
 
-        return description.getAttribute(name);
+        return description.getAttribute("textContent");
     }
 }

@@ -5,15 +5,12 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class NewItemCreatePipelineTest extends BaseTest {
 
@@ -40,38 +37,29 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineExistingNameError() {
-        createPipeline(RANDOM_STRING);
-        getDriver().findElement(LINK_TO_DASHBOARD).click();
-        setJobPipeline(RANDOM_STRING);
+        final String projectName = "AnyUnusualName1";
 
-        WebElement notificationError = getDriver().findElement(By.id("itemname-invalid"));
+        String newItemPageErrorMessage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(projectName)
+                .selectPipelineAndClickOk()
+                .clickDashboard()
+                .clickNewItem()
+                .setProjectName(projectName)
+                .getNameErrorMessageText();
 
-        Assert.assertEquals(notificationError.getText(), String.format("» A job already exists with the name ‘%s’", RANDOM_STRING));
-    }
-
-    @DataProvider(name = "new-item-unsafe-names")
-    public Object[][] dpMethod() {
-        return new Object[][]{{"!Pipeline1"}, {"pipel@ne2"}, {"PipeLine3#"},
-                {"PIPL$N@4"}, {"5%^PiPl$^Ne)"}};
-    }
-    @Ignore
-    @Test(dataProvider = "new-item-unsafe-names")
-    public void testCreateNewItemWithUnsafeCharactersName(String name) {
-        Matcher matcher = Pattern.compile("[!@#$%^&*|:?></.']").matcher(name);
-        matcher.find();
-
-        setJobPipeline(name);
-
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("div#itemname-invalid")).getAttribute("textContent"),
-                String.format("» ‘%s’ is an unsafe character", name.charAt(matcher.start())));
+        Assert.assertEquals(newItemPageErrorMessage, String.format("» A job already exists with the name ‘%s’", projectName));
     }
 
     @Test
-    public void testCreatePipelineWithoutName() {
-        setJobPipeline("");
+    public void testCreateNewItemWithUnsafeCharacterName(){
+        final String nameNewItem = "5%^PiPl$^Ne)";
+        String errorMessage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(nameNewItem)
+                .getNameErrorMessageText();
 
-        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
-                "» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(errorMessage,"» ‘%’ is an unsafe character");
     }
 
     @Test
@@ -278,7 +266,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 .clickPipelineProjectName()
                 .editDescription(newDescription)
                 .clickSaveButton()
-                .getDescription("textContent");
+                .getDescription();
 
         Assert.assertEquals(actualDescription, newDescription);
     }
