@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class BuildWithParametersPage extends FreestyleProjectPage{
+public class BuildWithParametersPage extends FreestyleProjectStatusPage{
     public BuildWithParametersPage(WebDriver driver) {
         super(driver);
     }

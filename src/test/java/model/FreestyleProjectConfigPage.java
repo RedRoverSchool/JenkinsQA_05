@@ -25,15 +25,6 @@ public class FreestyleProjectConfigPage extends BasePage {
     @FindBy(xpath = "//li[@class='item'][2]")
     private WebElement projectButton;
 
-    @FindBy(xpath = "//span/label[text()='Discard old builds']")
-    private WebElement discardOldBuildsCheckbox;
-
-    @FindBy(xpath = "//input[@name='_.daysToKeepStr']")
-    private WebElement daysToKeepBuilds;
-
-    @FindBy(xpath = "//input[@name='_.numToKeepStr']")
-    private WebElement maxNumberOfBuildsToKeep;
-
     @FindBy(xpath = "//label[text() = 'This project is parameterized']")
     private WebElement checkBoxProjectIsParametrized;
 
