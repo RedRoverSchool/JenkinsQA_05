@@ -173,4 +173,16 @@ public class NewItemPage extends HomePage {
 
         return new CreateItemErrorPage(getDriver());
     }
+
+    public PipelineConfigPage clickOk() {
+        okButton.click();
+
+        return new PipelineConfigPage(getDriver());
+    }
+    public NewItemPage setCopyFromItemName(String name) {
+        TestUtils.scrollToEnd(getDriver());
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(copyFrom)).sendKeys(name);
+
+        return this;
+    }
 }

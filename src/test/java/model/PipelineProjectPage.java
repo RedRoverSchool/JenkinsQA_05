@@ -24,6 +24,9 @@ public class PipelineProjectPage extends BasePage{
     @FindBy(xpath = "(//a[contains(@class,'task-link')])[7]")
     private WebElement gitHubSideMenu;
 
+    @FindBy(css = ".job-index-headline")
+    private WebElement pipelineName;
+
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -60,5 +63,9 @@ public class PipelineProjectPage extends BasePage{
 
     public String getAttributeGitHubSideMenu(String attribute) {
         return gitHubSideMenu.getAttribute(attribute);
+    }
+
+    public String getPipelineName() {
+        return pipelineName.getAttribute("textContent").substring(pipelineName.getAttribute("textContent").indexOf(" ") + 1);
     }
 }

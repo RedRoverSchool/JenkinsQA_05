@@ -14,12 +14,14 @@ import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
 
+import static runner.TestUtils.getRandomStr;
+
 public class PipelineTest extends BaseTest {
     private static final String RENAME_SUFFIX = "renamed";
     private static final String PIPELINE_NAME = generatePipelineProjectName();
     private static final String pipeline_name = getRandomStr();
     private static final String VIEW_NAME = RandomStringUtils.randomAlphanumeric(5);
-    private static final String RANDOM_STRING  = TestUtils.getRandomStr(7);
+    private static final String RANDOM_STRING  = getRandomStr(7);
     private static final String ITEM_DESCRIPTION = "This is a sample description for item";
 
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
@@ -118,7 +120,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testCreatedPipelineDisplayedOnMyViews() {
 
-        final String pipelineName = TestUtils.getRandomStr(5);
+        final String pipelineName = getRandomStr(5);
 
         MyViewsPage pipelineNameInMyViewList = new HomePage(getDriver())
                 .clickNewItem()
@@ -235,7 +237,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testPipelinePreviewDescription() {
 
-        String pipelinePojectName = TestUtils.getRandomStr();
+        String pipelinePojectName = getRandomStr();
         createPipelineProjectCuttedVersion(pipelinePojectName);
 
         getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(pipelinePojectName + "description");
@@ -251,7 +253,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testPipelineHidePreviewDescription() {
 
-        String pipelinePojectName = TestUtils.getRandomStr();
+        String pipelinePojectName = getRandomStr();
         createPipelineProjectCuttedVersion(pipelinePojectName);
 
         getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(pipelinePojectName + "description");
@@ -268,7 +270,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testPipelineAEditDescription() {
 
-        String pipelinePojectName = TestUtils.getRandomStr();
+        String pipelinePojectName = getRandomStr();
         createPipelineProjectCuttedVersion(pipelinePojectName);
         getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(pipelinePojectName + "description");
         getDriver().findElement(BUTTON_SAVE).click();
@@ -421,26 +423,22 @@ public class PipelineTest extends BaseTest {
                 ITEM_DESCRIPTION);
     }
 
-    @Ignore
     @Test (dependsOnMethods = "testCreateNewPipelineWithDescription")
     public void testCreateNewPipelineFromExisting() {
-        final String jobName = TestUtils.getRandomStr(7);
+        final String jobName = getRandomStr(7);
 
-        getDriver().findElement(By.linkText("New Item")).click();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys(jobName);
-        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
-        TestUtils.scrollToEnd(getDriver());
-        new Actions(getDriver()).pause(300).moveToElement(getDriver().findElement(By.cssSelector("#from")))
-                .click().sendKeys(RANDOM_STRING.substring(0,2)).pause(400)
-                .sendKeys(Keys.ARROW_DOWN)
-                .sendKeys(Keys.ENTER).perform();
-        getDriver().findElement(BUTTON_OK).click();
-        getDriver().findElement(BUTTON_SAVE).click();
+        String actualJobName = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(jobName)
+                .setCopyFromItemName(RANDOM_STRING)
+                .clickOk()
+                .saveConfigAndGoToProjectPage()
+                .getPipelineName();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getAttribute("textContent").substring(9),
-                jobName);
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child")).getAttribute("textContent"),
-                ITEM_DESCRIPTION);
+        String actualDescription = new PipelineProjectPage(getDriver()).getDescription();
+
+        Assert.assertEquals(actualJobName,jobName);
+        Assert.assertEquals(actualDescription,ITEM_DESCRIPTION);
     }
 
     @Test(dependsOnMethods = "testCreateNewPipelineWithDescription")
