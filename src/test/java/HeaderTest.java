@@ -1,3 +1,4 @@
+import model.BuildsUserPage;
 import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -70,13 +71,12 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageAdminBuilds() {
-        openUserDropdownMenu();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(
-                By.linkText("Builds"))).click();
+    public void testUserDropdownMenuToOpenPageUserBuilds() {
+        BuildsUserPage buildsUserPage = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .clickBuildsItemInUserDropdownMenu();
 
-        Assert.assertEquals(getDriver().findElement(
-                        By.cssSelector("div#main-panel > h1")).getText(),
+        Assert.assertEquals(buildsUserPage.getHeaderH1Text(),
                 "Builds for admin");
     }
 
@@ -106,7 +106,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageAdminConfigure() {
+    public void testUserDropdownMenuToOpenPageUserConfigure() {
         openUserDropdownMenu();
         getWait(5).until(ExpectedConditions.elementToBeClickable(
                 By.linkText("Configure"))).click();
@@ -117,7 +117,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageAdminMyViews() {
+    public void testUserDropdownMenuToOpenPageUserMyViews() {
         openUserDropdownMenu();
         getWait(5).until(ExpectedConditions.elementToBeClickable(
                 By.linkText("My Views"))).click();
@@ -128,7 +128,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageAdminCredentials() {
+    public void testUserDropdownMenuToOpenPageUserCredentials() {
         openUserDropdownMenu();
         getWait(5).until(ExpectedConditions.elementToBeClickable(
                 By.linkText("Credentials"))).click();

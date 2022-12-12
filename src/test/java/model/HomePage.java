@@ -77,6 +77,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//span[text()='Edit View']/..")
     private WebElement editView;
 
+    @FindBy(linkText = "Builds")
+    private WebElement buildsItemInUserDropdownMenu;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -267,5 +270,12 @@ public class HomePage extends BasePage {
         editView.click();
 
         return new EditViewPage(getDriver());
+    }
+
+    public BuildsUserPage clickBuildsItemInUserDropdownMenu() {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(
+                buildsItemInUserDropdownMenu)).click();
+
+        return new BuildsUserPage(getDriver());
     }
 }
