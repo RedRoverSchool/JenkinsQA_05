@@ -296,4 +296,19 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(homePageHeaderText, "Welcome to Jenkins!");
     }
+
+    @Test
+    public void testEnablePipelineProject() {
+        createPipelineProject("testProject");
+
+        HomePage homePage = new HomePage(getDriver());
+            homePage.clickDashboard()
+                .clickPipelineProjectName()
+                .clickDisableProject()
+                .clickEnableProject();
+
+        homePage.clickDashboard();
+
+        Assert.assertNotNull(getDriver().findElement(By.xpath("//a[@tooltip='Schedule a Build for testProject']")));
+    }
 }

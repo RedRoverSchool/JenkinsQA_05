@@ -21,6 +21,12 @@ public class PipelineProjectPage extends BasePage{
     @FindBy(xpath = "//span[text()='Delete Pipeline']")
     private WebElement deletePipelineButton;
 
+    @FindBy(id = "yui-gen1-button")
+    private WebElement disableProjectButton;
+
+    @FindBy(id = "yui-gen1")
+    private WebElement enableProjectButton;
+
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -49,5 +55,17 @@ public class PipelineProjectPage extends BasePage{
         getDriver().switchTo().alert().accept();
 
         return new HomePage(getDriver());
+    }
+
+    public PipelineProjectPage clickDisableProject() {
+        disableProjectButton.click();
+
+        return new PipelineProjectPage(getDriver());
+    }
+
+    public PipelineProjectPage clickEnableProject() {
+        enableProjectButton.click();
+
+        return new PipelineProjectPage(getDriver());
     }
 }
