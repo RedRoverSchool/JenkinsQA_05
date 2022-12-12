@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static runner.TestUtils.scrollToElement;
+import static runner.TestUtils.scrollToElement_PlaceInCenter;
 
 import java.util.HashSet;
 import java.util.List;
@@ -217,21 +218,19 @@ public class FreestyleProjectConfigPage extends BasePage {
     }
 
     public FreestyleProjectConfigPage openAddBuildStepDropDown() {
+        scrollToElement_PlaceInCenter(getDriver(), buildStepsButton);
         Actions actions = new Actions(getDriver());
         actions.moveToElement(buildStepsButton).perform();
-        getWait(10).until(ExpectedConditions.presenceOfElementLocated(
-                By.cssSelector(".yui-button-hover.yui-menu-button-hover")));
+        getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".yui-button-hover.yui-menu-button-hover")));
         buildStepsButton.click();
-        getWait(10).until(ExpectedConditions.presenceOfElementLocated(
-                By.cssSelector(".yui-button-active.yui-menu-button-active")));
+        getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".yui-button-active.yui-menu-button-active")));
 
         return this;
     }
 
     public FreestyleProjectConfigPage closeAddBuildStepDropDown() {
         buildStepsButton.click();
-        getWait(10).until(ExpectedConditions.invisibilityOfElementLocated(
-                By.cssSelector(".yui-button-active.yui-menu-button-active")));
+        getWait(10).until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".yui-button-active.yui-menu-button-active")));
 
         return this;
     }
