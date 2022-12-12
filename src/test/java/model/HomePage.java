@@ -132,6 +132,12 @@ public class HomePage extends BasePage {
         return new FolderConfigPage(getDriver());
     }
 
+    public ConfigurationGeneralPage clickConfigDropDownMenu() {
+        getWait(6).until(ExpectedConditions.elementToBeClickable(configureDropDownMenu)).click();
+
+        return new ConfigurationGeneralPage(getDriver());
+    }
+
     public HomePage clickJobDropDownMenu(String name) {
         getDriver().findElement((By.xpath(String.format(
                 "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", name)))).click();
