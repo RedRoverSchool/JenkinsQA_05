@@ -1,6 +1,5 @@
 package model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -43,6 +42,12 @@ public class FreestyleProjectStatusPage extends BasePage {
 
     @FindBy(xpath = "//li[@class='item'][2]")
     private WebElement projectButton;
+
+    @FindBy(linkText = "Build Now")
+    private WebElement buttonBuildNow;
+
+    @FindBy(xpath = "//span[contains(@class, 'build-status-icon')]/span/child::*")
+    private WebElement buildStatusIcon;
 
     public FreestyleProjectStatusPage(WebDriver driver) {
         super(driver);
@@ -125,5 +130,13 @@ public class FreestyleProjectStatusPage extends BasePage {
 
     public String getProjectName() {
         return headline.getText().substring(8);
+    }
+
+    public FreestyleProjectStatusPage clickButtonBuildNowAndWaitBuildComplete(){
+        buttonBuildNow.click();
+        getWait(60).until(ExpectedConditions.not(ExpectedConditions
+                .attributeContains(buildStatusIcon, "tooltip", "In progress &gt; Console Output")));
+
+        return this;
     }
 }

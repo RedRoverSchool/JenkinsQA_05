@@ -1,12 +1,12 @@
 package model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.TestUtils;
 
-import static runner.TestUtils.scrollToElement;
+import static runner.TestUtils.scrollToElement_PlaceInCenter;
 
 public class FreestyleProjectConfigPage extends BasePage {
 
@@ -59,6 +59,12 @@ public class FreestyleProjectConfigPage extends BasePage {
     @FindBy(xpath = "//label[text() = 'Set by Default']")
     private WebElement setByDefault;
 
+    @FindBy(xpath = "//label[text() = 'Git']")
+    private WebElement radioButtonGit;
+
+    @FindBy(xpath = "//div[text() = 'Repository URL']/following-sibling::div/input")
+    private WebElement fieldInputRepositoryURL;
+
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -102,7 +108,7 @@ public class FreestyleProjectConfigPage extends BasePage {
         return projectButton.getText();
         }
 
-    public FreestyleProjectConfigPage clickCheckBoxThisProjectIsParametrized(){
+    public FreestyleProjectConfigPage switchONCheckBoxThisProjectIsParametrized(){
         checkBoxProjectIsParametrized.click();
 
         return this;
@@ -168,10 +174,9 @@ public class FreestyleProjectConfigPage extends BasePage {
         return this;
     }
 
-    public FreestyleProjectConfigPage scrollAndClickAddParameterButton() throws InterruptedException {
-        scrollToElement(getDriver(), buttonAddParameter);
-        Thread.sleep(300);
-        buttonAddParameter.click();
+    public FreestyleProjectConfigPage scrollAndClickAddParameterButton() {
+        scrollToElement_PlaceInCenter(getDriver(), buttonAddParameter);
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(buttonAddParameter)).click();
 
         return this;
     }
@@ -181,4 +186,25 @@ public class FreestyleProjectConfigPage extends BasePage {
 
         return new BuildWithParametersPage(getDriver());
     }
+
+    public FreestyleProjectConfigPage selectSourceCodeManagementGIT(){
+        radioButtonGit.click();
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage inputGITRepositoryURL(String url){
+        //scrollToElement_PlaceInCenter(getDriver(), fieldInputRepositoryURL);
+        getWait(10).until(ExpectedConditions.elementToBeClickable(fieldInputRepositoryURL)).sendKeys(url);
+
+        return this;
+    }
+
+    public FreestyleConfigSideMenuPage switchOFFCheckBoxThisProjectIsParametrized(){
+        checkBoxProjectIsParametrized.click();
+
+        return new FreestyleConfigSideMenuPage(getDriver());
+    }
+
+
 }

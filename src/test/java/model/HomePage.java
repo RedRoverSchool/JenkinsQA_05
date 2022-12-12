@@ -68,6 +68,12 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//div/a[@class='model-link']")
     private WebElement iconUserName;
 
+    @FindBy(xpath = "//a[contains(@title, 'Schedule a Build')]")
+    private WebElement buttonBuild;
+
+    @FindBy(xpath = "//span[contains(@class, 'build-status-icon')]/span/child::*")
+    private WebElement buildStatusIcon;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -212,6 +218,11 @@ public class HomePage extends BasePage {
                 .findElement(By.xpath(".//*[name()='svg']")).getAttribute("tooltip");
     }
 
+    public String getJobBuildStatus(){
+
+        return buildStatusIcon.getAttribute("tooltip");
+    }
+
     public  FooterPage clickRestApiLink() {
         restApiLink.click();
 
@@ -222,5 +233,17 @@ public class HomePage extends BasePage {
         iconUserName.click();
 
         return new StatusUserPage(getDriver());
+    }
+
+    public String getBuildDurationTime(){
+        if(getJobBuildStatus().equals("Success")){
+
+            return getDriver().findElement(By.xpath("//tr[contains(@class, 'job-status')]/td[4]")).getText();
+        } else if(getJobBuildStatus().equals("Failed")){
+
+            return getDriver().findElement(By.xpath("//tr[contains(@class, 'job-status')]/td[5]")).getText();
+        }
+
+        return null;
     }
 }
