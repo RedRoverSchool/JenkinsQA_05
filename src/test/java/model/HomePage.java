@@ -137,6 +137,12 @@ public class HomePage extends BasePage {
         return new FreestyleProjectStatusPage(getDriver());
     }
 
+    public ConfigurationGeneralPage clickConfigDropDownMenu() {
+        getWait(6).until(ExpectedConditions.elementToBeClickable(configureDropDownMenu)).click();
+
+        return new ConfigurationGeneralPage(getDriver());
+    }
+
     public PipelineProjectPage clickPipelineProjectName() {
         jobList.get(0).click();
 
