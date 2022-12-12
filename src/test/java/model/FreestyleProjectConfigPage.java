@@ -208,7 +208,6 @@ public class FreestyleProjectConfigPage extends BasePage {
     }
 
     public FreestyleProjectConfigPage inputGITRepositoryURL(String url){
-        //scrollToElement_PlaceInCenter(getDriver(), fieldInputRepositoryURL);
         getWait(10).until(ExpectedConditions.elementToBeClickable(fieldInputRepositoryURL)).sendKeys(url);
 
         return this;

@@ -167,19 +167,18 @@ public class FreestyleProjectStatusPage extends BasePage {
         return countBuilds;
     }
 
-    public FreestyleProjectStatusPage clickButtonBuildNowAndWaitBuildComplete(){
-        buttonBuildNow.click();
-        getWait(60).until(ExpectedConditions.not(ExpectedConditions
-                .attributeContains(buildStatusIcon, "tooltip", "In progress &gt; Console Output")));
-
-        return this;
-    }
-}
-
     public FreestyleProjectStatusPage clickBuildNowOnSidePanel() {
         buttonBuildNowOnSidePanel.click();
         getWait(20).until(ExpectedConditions.visibilityOf((buildLoadingIconSuccess)));
         getWait(10).until(ExpectedConditions.attributeToBe(buildsInformationOnSidePanel,"style","display: none;"));
+
+        return this;
+    }
+
+    public FreestyleProjectStatusPage clickButtonBuildNowAndWaitBuildComplete(){
+        buttonBuildNow.click();
+        getWait(60).until(ExpectedConditions.not(ExpectedConditions
+                .attributeContains(buildStatusIcon, "tooltip", "In progress &gt; Console Output")));
 
         return this;
     }

@@ -80,9 +80,6 @@ public class HomePage extends BasePage {
     @FindBy(linkText = "Builds")
     private WebElement buildsItemInUserDropdownMenu;
 
-    @FindBy(xpath = "//a[contains(@title, 'Schedule a Build')]")
-    private WebElement buttonBuild;
-
     @FindBy(xpath = "//span[contains(@class, 'build-status-icon')]/span/child::*")
     private WebElement buildStatusIcon;
 
@@ -167,7 +164,8 @@ public class HomePage extends BasePage {
     }
 
     public String getHeaderText() {
-        return header.getText();
+
+        return getWait(3).until(ExpectedConditions.visibilityOf(header)).getText();
     }
 
     public HomePage clickFolderDropdownMenu(String folderName) {
@@ -231,12 +229,6 @@ public class HomePage extends BasePage {
     }
 
     public FooterPage clickRestApiLink() {
-    public String getJobBuildStatus(){
-
-        return buildStatusIcon.getAttribute("tooltip");
-    }
-
-    public  FooterPage clickRestApiLink() {
         restApiLink.click();
 
         return new FooterPage(getDriver());
@@ -301,5 +293,10 @@ public class HomePage extends BasePage {
         }
 
         return null;
+    }
+
+    public String getJobBuildStatus(){
+
+        return buildStatusIcon.getAttribute("tooltip");
     }
 }
