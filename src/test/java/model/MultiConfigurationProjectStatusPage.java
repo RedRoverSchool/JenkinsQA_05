@@ -34,14 +34,11 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
     @FindBy(linkText = "Build Now")
     private WebElement buildNowButton;
 
-    private final By SUCCESS_BUILD_ICON = By.xpath("//span[@class='build-status-icon__outer']"
-            + "/*[name()='svg'][@tooltip='Success &gt; Console Output']");
-
     @FindBy(css = ".model-link.inside.build-link.display-name")
     private WebElement dropDownBuildIcon;
 
     @FindBy(xpath = "//li[@id='yui-gen3']/a/*[name()='svg']")
-    private WebElement consoleOutputDropDownBuildIcon;
+    private WebElement  consoleOutputDropDownBuildIcon;
 
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
@@ -108,17 +105,17 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
     }
 
     public MultiConfigurationProjectStatusPage clickDropDownBuildIcon() {
-        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(SUCCESS_BUILD_ICON));
+        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='build-status-icon__outer']"
+                + "/*[name()='svg'][@tooltip='Success &gt; Console Output']")));
         dropDownBuildIcon.click();
 
         return this;
     }
 
     public MulticonfigurationProjectConsolePage selectAndClickConsoleOutput() {
+        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@id='yui-gen3']/a/*[name()='svg']")));
         consoleOutputDropDownBuildIcon.click();
 
         return new MulticonfigurationProjectConsolePage(getDriver());
     }
-
-
 }
