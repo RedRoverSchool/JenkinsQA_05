@@ -1,3 +1,5 @@
+import model.BuildHistoryPage;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -16,6 +18,8 @@ public class BuildHistoryTest extends BaseTest {
 
     private static final By DASHBOARD = By.xpath("//a[contains(text(), 'Dashboard')]");
     private static final By BUILD_HISTORY = By.linkText("Build History");
+
+    private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
 
     private static String jobName = "";
 
@@ -69,24 +73,33 @@ public class BuildHistoryTest extends BaseTest {
         }
     }
 
+
     @Test
     public void testH1Header_BuildHistory() {
-        createProject();
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(BUILD_HISTORY).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='jenkins-app-bar__content']/h1")).getText(),
-                "Build History of Jenkins");
+        final String header_BuildHistory = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickDashboard()
+                .clickBuildHistory().getHeaderText();
+
+        Assert.assertEquals(header_BuildHistory, "Build History of Jenkins");
     }
 
-    @Test
-    public void testValidityCreateBuildOnPage() {
-        createProject();
-        getDriver().findElement(By.linkText("Build Now")).click();
-        getDriver().findElement(By.xpath("//div[@class='jenkins-pane__header--build-history']/a")).click();
-
-        Assert.assertTrue(getDriver().findElement(By.id("map")).isDisplayed());
-    }
+//    @Test
+//    public void testValidityCreateBuildOnPage() {
+//        HomePage mapOfBuild = new HomePage(getDriver())
+//                .clickNewItem()
+//                .setProjectName(FREESTYLE_NAME)
+//                .selectFreestyleProjectAndClickOk()
+//                .clickSaveBtn()
+//                .clickDashboard()
+//                .clickBuildHistory();
+//
+//        Assert.assertTrue();
+//    }
 
     @Test
     public void testIfSMLIconsExist() {

@@ -1,5 +1,6 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -60,7 +61,6 @@ public class FreestyleProjectConfigPage extends BasePage {
 
     @FindBy(xpath = "//div[@class = 'jenkins-form-item hetero-list-container with-drag-drop  ']/div[3]//input[@name = 'parameter.name']")
     private WebElement fieldInputBooleanParameterName;
-
 
     @FindBy(xpath = "//label[text() = 'Set by Default']")
     private WebElement setByDefault;
