@@ -122,6 +122,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
         Assert.assertEquals(actualOptionsInBuildStepsSection, expectedOptionsInBuildStepsSection);
     }
 
+
     @Ignore
     @Test(dependsOnMethods = "testVerifyOptionsInBuildStepsSection")
     public void testSelectBuildPeriodicallyCheckbox() {
