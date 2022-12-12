@@ -43,7 +43,10 @@ public class NewItemPage extends HomePage {
     private WebElement pipeline;
 
     @FindBy(css = "div#itemname-invalid" )
-    private WebElement unsafeCharErrorMessage;
+    private WebElement nameErrorMessage;
+
+    @FindBy(css = "#itemname-required")
+    private WebElement emptyNameErrorMessage;
 
 
     public NewItemPage(WebDriver driver) {
@@ -58,7 +61,7 @@ public class NewItemPage extends HomePage {
 
     public FreestyleProjectConfigPage selectFreestyleProjectAndClickOk() {
         freestyleProject.click();
-        okButton.click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(okButton)).click();
 
         return new FreestyleProjectConfigPage(getDriver());
     }
@@ -100,6 +103,13 @@ public class NewItemPage extends HomePage {
         return new CreateItemErrorPage(getDriver());
     }
 
+    public NewItemPage setItem(int index) {
+        getAction().scrollByAmount(0, 250).perform();
+        itemsList.get(index).click();
+
+        return this;
+    }
+
     public int getItemsListSize() {
         getWait(5).until(ExpectedConditions.visibilityOfAllElements(itemsList));
         return itemsList.size();
@@ -123,8 +133,8 @@ public class NewItemPage extends HomePage {
         return nameRequiredMessage.getText();
     }
 
-    public WebElement getOkButton() {
-        return okButton;
+    public boolean isOkButtonEnabled() {
+        return okButton.isEnabled();
     }
 
     public PipelineConfigPage selectPipelineAndClickOk() {
@@ -134,7 +144,12 @@ public class NewItemPage extends HomePage {
         return new PipelineConfigPage(getDriver());
     }
 
-    public String getUnsafeCharErrorMessageText() {
-        return unsafeCharErrorMessage.getAttribute("textContent");
+    public String getNameErrorMessageText() {
+        return nameErrorMessage.getAttribute("textContent");
+    }
+
+    public String getEmptyNameErrorMessage() {
+
+        return emptyNameErrorMessage.getAttribute("textContent");
     }
 }

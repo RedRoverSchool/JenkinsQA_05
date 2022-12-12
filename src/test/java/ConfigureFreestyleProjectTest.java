@@ -1,5 +1,6 @@
+import model.BuildWithParametersPage;
+import model.HomePage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -12,21 +13,9 @@ import java.util.List;
 public class ConfigureFreestyleProjectTest extends BaseTest {
 
     private static final String FREESTYLE_NAME = TestUtils.getRandomStr();
-    private static final By CREATE_NEW_ITEM_BUTTON = By.linkText("New Item");
-    private static final By INPUT_NEW_ITEM_NAME_FIELD = By.id("name");
-    private static final By SELECT_FREESTYLE_PROJECT = By.cssSelector(".hudson_model_FreeStyleProject");
-    private static final By OK_BUTTON = By.cssSelector("#ok-button");
-    private static final By ADD_PARAMETER_BUTTON = By.xpath("//button[text() = 'Add Parameter']");
     private static final By SAVE_BUTTON = By.xpath("//button[@type = 'submit']");
     private static final By CONFIGURE_BUTTON = By.linkText("Configure");
     private static final By GO_TO_DASHBOARD_BUTTON = By.linkText("Dashboard");
-
-    private void scrollAndClickAddParameterButton() throws InterruptedException {
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].scrollIntoView(true);", getDriver().findElement(ADD_PARAMETER_BUTTON));
-        Thread.sleep(300);
-        getDriver().findElement(ADD_PARAMETER_BUTTON).click();
-    }
 
     private List<WebElement> getJobSpecifications(String nameJob) {
         return getDriver().findElements(By.xpath("//tr[@id = 'job_" + nameJob + "']/td"));
@@ -37,71 +26,44 @@ public class ConfigureFreestyleProjectTest extends BaseTest {
                 .getAttribute("tooltip");
     }
 
-    @Ignore
     @Test
     public void testConfigureJobAsParameterized() throws InterruptedException {
+        final String freestyleName = FREESTYLE_NAME;
         final String stringParameterName = "Held post";
         final String stringParameterDefaultValue = "Manager";
         final String choiceParameterName = "Employee_name";
         final String choiceParameterValues = "John Smith\nJane Dow";
         final String booleanParameterName = "Employed";
+        final String pageNotification = "This build requires parameters:";
 
-        getDriver().findElement(CREATE_NEW_ITEM_BUTTON).click();
-        getDriver().findElement(INPUT_NEW_ITEM_NAME_FIELD).sendKeys(FREESTYLE_NAME);
-        getDriver().findElement(SELECT_FREESTYLE_PROJECT).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(By.xpath("//label[text() = 'This project is parameterized']")).click();
+        BuildWithParametersPage page = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(freestyleName)
+                .selectFreestyleProjectAndClickOk()
+                .clickCheckBoxThisProjectIsParametrized()
+                .clickButtonAddParameter()
+                .selectStringParameter()
+                .inputStringParameterName(stringParameterName)
+                .inputStringParameterDefaultValue(stringParameterDefaultValue)
+                .scrollAndClickAddParameterButton()
+                .selectChoiceParameter()
+                .inputChoiceParameterName(choiceParameterName)
+                .inputChoiceParameterValue(choiceParameterValues)
+                .scrollAndClickAddParameterButton()
+                .selectBooleanParameter()
+                .inputBooleanParameterName(booleanParameterName)
+                .switchONBooleanParameterAsDefault()
+                .clickSaveButton()
+                .clickButtonBuildWithParameters();
 
-        getDriver().findElement(ADD_PARAMETER_BUTTON).click();
-        getDriver().findElement(By.xpath("//a[text() = 'String Parameter']")).click();
-        getDriver().findElement(By.xpath("//input[@name = 'parameter.name']")).sendKeys(stringParameterName);
-        getDriver().findElement(By.xpath("//input[@name = 'parameter.defaultValue']"))
-                .sendKeys(stringParameterDefaultValue);
-
-        scrollAndClickAddParameterButton();
-        getDriver().findElement(By.xpath("//a[text() = 'Choice Parameter']")).click();
-        getDriver().findElement(By
-            .xpath("//div[@class = 'jenkins-form-item hetero-list-container with-drag-drop  ']/div[2]//input[@name = 'parameter.name']"))
-            .sendKeys(choiceParameterName);
-        getDriver().findElement(By.xpath("//textarea[@name= 'parameter.choices']")).sendKeys(choiceParameterValues);
-
-        scrollAndClickAddParameterButton();
-        getDriver().findElement(By.xpath("//a[text() = 'Boolean Parameter']")).click();
-        getDriver().findElement(By
-                        .xpath("//div[@class = 'jenkins-form-item hetero-list-container with-drag-drop  ']/div[3]//input[@name = 'parameter.name']"))
-                .sendKeys(booleanParameterName);
-        getDriver().findElement(By.xpath("//label[text() = 'Set by Default']")).click();
-
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(By.linkText("Build with Parameters")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id = 'main-panel']/p")).getText(),
-                "This build requires parameters:");
-
-        Assert.assertEquals(
-                getDriver().findElement(By.xpath("//div[@class= 'parameters']/div[1]//input[1]"))
-                        .getAttribute("value"),
-                stringParameterName);
-
-        Assert.assertEquals(
-                getDriver().findElement(By.xpath("//div[@class= 'parameters']/div[1]//input[2]"))
-                        .getAttribute("value"),
-                stringParameterDefaultValue);
-
-        Assert.assertEquals(
-                getDriver().findElement(By.xpath("//div[@class= 'parameters']/div[2]//input"))
-                        .getAttribute("value"),
-                choiceParameterName);
-
-        Assert.assertEquals(
-                getDriver().findElement(By.xpath("//div[@class= 'parameters']/div[3]//input[@name = 'name']"))
-                        .getAttribute("value"),
-                booleanParameterName);
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//select[@name= 'value']")).getText(),
-                choiceParameterValues);
-
-        Assert.assertTrue(getDriver().findElement(By.xpath("//input[@type= 'checkbox']")).isSelected());
+        Assert.assertEquals(page.getProjectName(), freestyleName);
+        Assert.assertEquals(page.getPageNotificationText(), pageNotification);
+        Assert.assertEquals(page.getFirstParamName(), stringParameterName);
+        Assert.assertEquals(page.getFirstParamValue(), stringParameterDefaultValue);
+        Assert.assertEquals(page.getSecondParamName(), choiceParameterName);
+        Assert.assertEquals(page.selectedParametersValues(), choiceParameterValues);
+        Assert.assertEquals(page.getThirdParamName(), booleanParameterName);
+        Assert.assertTrue(page.isBooleanParameterDefaultOn());
     }
 
     @Ignore

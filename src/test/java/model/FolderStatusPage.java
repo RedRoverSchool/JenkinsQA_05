@@ -5,6 +5,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +15,12 @@ public class FolderStatusPage extends BasePage {
 
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
+
+    @FindBy(xpath = "//li[@class='item'][last()]//button")
+    private WebElement breadcrumbsThisFolderToggleDropdown;
+
+    @FindBy(css = "li.yuimenuitem[index='1']")
+    private WebElement newItemInDropDown;
 
     @FindBy(xpath = "//tr/td[3]/a/span[1]")
     private List<WebElement> jobList;
@@ -23,6 +31,12 @@ public class FolderStatusPage extends BasePage {
     @FindBy(className = "empty-state-block")
     private WebElement emptyStateBlock;
 
+    @FindBy(xpath = "//input[@checkdependson='newName']")
+    private WebElement folderNewName;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement renameSubmitButton;
+
     public FolderStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -31,6 +45,13 @@ public class FolderStatusPage extends BasePage {
         topMenuRoot.click();
 
         return new HomePage(getDriver());
+    }
+
+    public NewItemPage clickNewItemDropdownThisFolderInBreadcrumbs(){
+        breadcrumbsThisFolderToggleDropdown.click();
+        newItemInDropDown.click();
+
+        return new NewItemPage(getDriver());
     }
 
     public List<String> getJobList() {
@@ -55,5 +76,24 @@ public class FolderStatusPage extends BasePage {
     public WebElement getEmptyStateBlock() {
 
         return emptyStateBlock;
+    }
+
+    public FolderStatusPage clickRename(String folderName) {
+        getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/confirm-rename']")).click();
+
+        return new FolderStatusPage(getDriver());
+    }
+
+    public FolderStatusPage clearAndSetNewName(String folderName) {
+        folderNewName.clear();
+        folderNewName.sendKeys(folderName);
+
+        return new FolderStatusPage(getDriver());
+    }
+
+    public FolderStatusPage clickRenameSubmitButton() {
+        renameSubmitButton.click();
+
+        return new FolderStatusPage(getDriver());
     }
 }

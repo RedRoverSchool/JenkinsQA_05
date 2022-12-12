@@ -15,6 +15,15 @@ public class MulticonfigurationProjectConfigPage extends BasePage {
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement saveButton;
 
+    @FindBy(name = "description")
+    private WebElement inputDescription;
+
+    @FindBy(className = "textarea-show-preview")
+    private WebElement textareaShowPreview;
+
+    @FindBy(xpath = "//div[@class='textarea-preview']")
+    private WebElement previewArea;
+
     @FindBy(id = "build-steps")
     private WebElement buildStepsSection;
 
@@ -47,6 +56,18 @@ public class MulticonfigurationProjectConfigPage extends BasePage {
         return new HomePage(getDriver());
     }
 
+    public MulticonfigurationProjectConfigPage inputDescription (String description) {
+        inputDescription.sendKeys(description);
+
+        return new MulticonfigurationProjectConfigPage(getDriver());
+    }
+
+    public MulticonfigurationProjectConfigPage showPreview() {
+        getWait(5).until(ExpectedConditions.visibilityOf(textareaShowPreview)).click();
+
+        return new MulticonfigurationProjectConfigPage(getDriver());
+    }
+
     public MulticonfigurationProjectConfigPage scrollAndClickBuildSteps(){
         TestUtils.scrollToElement(getDriver(), buildStepsSection);
         addBuildStepButton.click();
@@ -65,5 +86,17 @@ public class MulticonfigurationProjectConfigPage extends BasePage {
         textAreaBuildSteps.sendKeys(command);
 
         return this;
+    }
+
+    public MultiConfigurationProjectStatusPage getPreview () {
+        getWait(5).until(ExpectedConditions.visibilityOf(previewArea)).getText();
+
+        return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+    public MultiConfigurationProjectStatusPage clickSaveButton(){
+        getWait(5).until(ExpectedConditions.visibilityOf(saveButton)).click();
+
+        return new MultiConfigurationProjectStatusPage(getDriver());
     }
 }
