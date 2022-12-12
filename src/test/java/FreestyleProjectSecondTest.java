@@ -1,8 +1,10 @@
+import model.HomePage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -22,43 +24,38 @@ public class FreestyleProjectSecondTest extends BaseTest {
     @Test
     public void testCreateFreestyleProject(){
 
-        getDriver().findElement(By.xpath("//span/a[@href='/view/all/newJob']")).click();
-        getWait(10).until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//input[@class='jenkins-input']")))
-                .sendKeys(FREESTYLE_NAME);
-        getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
+       String projectName = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndClickOk()
+                .getFreestyleProjectName(FREESTYLE_NAME);
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//li/a[@href='/job/" + FREESTYLE_NAME + "/']"))
-                .getText(), FREESTYLE_NAME);
+        Assert.assertEquals(projectName, FREESTYLE_NAME);
     }
 
     @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testCreateAndRenameFreestyleProject(){
 
-        getDriver().findElement(By.xpath("//td/a[@href='job/" + FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(By.xpath("//span/a[@href='/job/" + FREESTYLE_NAME + "/confirm-rename']")).click();
-        WebElement newName = getDriver().findElement(By.xpath("//div/input[@checkdependson='newName']"));
-        newName.clear();
-        newName.sendKeys(NEW_FREESTYLE_NAME);
-        getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
+        String projectName = new HomePage(getDriver())
+                .clickFreestyleProjectName(FREESTYLE_NAME)
+                .clickRenameButton()
+                .clearFieldAndInputNewName(NEW_FREESTYLE_NAME)
+                .clickSubmitButton()
+                .getFreestyleProjectName(NEW_FREESTYLE_NAME);
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//li/a[@href='/job/" + NEW_FREESTYLE_NAME + "/']"))
-                .getText(), NEW_FREESTYLE_NAME);
+        Assert.assertEquals(projectName, NEW_FREESTYLE_NAME);
     }
 
     @Test(dependsOnMethods = "testCreateAndRenameFreestyleProject")
     public void testCreateWithDescriptionFreestyleProject(){
 
-        getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(By.id("description-link")).click();
-        getWait(10).until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath("//div/textarea[@name='description']")))
-                .sendKeys(DESCRIPTION_TEXT);
-        getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
+        String description = new HomePage(getDriver())
+                .clickFreestyleProjectName(NEW_FREESTYLE_NAME)
+                .clickButtonAddDescription()
+                .inputAndSaveDescriptionText(DESCRIPTION_TEXT)
+                .getDescriptionText();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(),
-                DESCRIPTION_TEXT);
+        Assert.assertEquals(description, DESCRIPTION_TEXT);
     }
 
     @Test
@@ -77,42 +74,35 @@ public class FreestyleProjectSecondTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateWithDescriptionFreestyleProject")
     public void testConfigurationProvideDiscardOldBuildsWithDaysToKeepBuilds() {
         final String expectedDaysToKeepBuilds = Integer.toString((int)(Math.random() * 20 + 1));
-        String actualDaysToKeepBuilds;
 
-        getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
-                .click();
-        getDriver().findElement(By.xpath("//span/label[text()='Discard old builds']")).click();
-        getDriver().findElement(By.xpath("//input[@name='_.daysToKeepStr']"))
-                .sendKeys(expectedDaysToKeepBuilds);
-        getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
-        getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
-                .click();
-        actualDaysToKeepBuilds = getDriver().findElement(By.xpath("//input[@name='_.daysToKeepStr']"))
-                .getAttribute("value");
+        String actualDaysToKeepBuilds = new HomePage(getDriver())
+                .clickFreestyleProjectName()
+                .clickSideMenuConfigureLink()
+                .clickDiscardOldBuildsCheckbox()
+                .typeDaysToKeepBuilds(expectedDaysToKeepBuilds)
+                .clickSaveBtn()
+                .clickSideMenuConfigureLink()
+                .getNumberOfDaysToKeepBuilds();
 
         Assert.assertEquals(actualDaysToKeepBuilds,expectedDaysToKeepBuilds);
     }
 
     @Test(dependsOnMethods = "testConfigurationProvideDiscardOldBuildsWithDaysToKeepBuilds")
     public void testConfigurationProvideKeepMaxNumberOfOldBuilds() {
-        final String expectedMaxNumberToKeepBuilds = Integer.toString((int)(Math.random() * 20 + 1));
-        String actualMaxNumberToKeepBuilds;
+        final String expectedMaxNumberOfBuildsToKeep= Integer.toString((int)(Math.random() * 20 + 1));
 
-        getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
-                .click();
-        getDriver().findElement(By.xpath("//input[@name='_.numToKeepStr']"))
-                .sendKeys(expectedMaxNumberToKeepBuilds);
-        getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
-        getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
-                .click();
-        actualMaxNumberToKeepBuilds = getDriver().findElement(By.xpath("//input[@name='_.numToKeepStr']"))
-                .getAttribute("value");
+        String actualMaxNumberOfBuildsToKeep = new HomePage(getDriver())
+                .clickFreestyleProjectName()
+                .clickSideMenuConfigureLink()
+                .typeMaxNumberOfBuildsToKeep(expectedMaxNumberOfBuildsToKeep)
+                .clickSaveBtn()
+                .clickSideMenuConfigureLink()
+                .getMaxNumberOfBuildsToKeep();
 
-        Assert.assertEquals(actualMaxNumberToKeepBuilds,expectedMaxNumberToKeepBuilds);
+        Assert.assertEquals(actualMaxNumberOfBuildsToKeep,expectedMaxNumberOfBuildsToKeep);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testConfigurationProvideKeepMaxNumberOfOldBuilds")
     public void testVerifyOptionsInBuildStepsSection() {
 
@@ -145,6 +135,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
         Assert.assertEquals(actualOptions, expectedOptions);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testVerifyOptionsInBuildStepsSection")
     public void testSelectBuildPeriodicallyCheckbox() {
         boolean selectedCheckbox;

@@ -339,9 +339,9 @@ public class EditViewTest extends BaseTest{
                 int finalI = i;
                 checks.add(getDriver()
                         .findElements(By
-                        .xpath(String.format("//a[contains(@href, '/my-views/view/%s/')]", localViewName)))
+                                .xpath(String.format("//a[contains(@href, '/my-views/view/%s/')]", localViewName)))
                         .stream().noneMatch(element -> element.getText()
-                        .equals(String.format("‘%c’ is an unsafe character", illegalCharacters[finalI]))));
+                                .equals(String.format("‘%c’ is an unsafe character", illegalCharacters[finalI]))));
                 goToEditView(localViewName);
             } else {
                 checks.add(false);

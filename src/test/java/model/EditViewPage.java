@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
+import runner.TestUtils;
 
 public class EditViewPage extends MyViewsPage {
 
@@ -35,6 +35,18 @@ public class EditViewPage extends MyViewsPage {
     @FindBy(xpath = "//button[text() = 'Apply']")
     private WebElement applyButton;
 
+    @FindBy(name = "name")
+    private WebElement viewName;
+
+    @FindBy(css = ".jenkins-form-description")
+    private WebElement uniqueTextOnGlobalViewEditPage;
+
+    @FindBy(css = "div:nth-of-type(5) > .jenkins-section__title")
+    private WebElement uniqueSectionOnListViewEditPage;
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement description;
+
     public EditViewPage(WebDriver driver) {
         super(driver);
     }
@@ -50,7 +62,6 @@ public class EditViewPage extends MyViewsPage {
 
         return this;
     }
-
     public EditViewPage selectFilterBuildExecutorsOptionCheckBox() {
         filterBuildExecutorsOptionCheckBox.findElement(By.xpath("following-sibling::label")).click();
 
@@ -76,6 +87,30 @@ public class EditViewPage extends MyViewsPage {
 
         return new ViewPage(getDriver());
     }
+
+    public EditViewPage addJobToView(String name) {
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(
+                By.xpath(String.format("//label[@title='%s']", name)))).click();
+
+        return this;
+    }
+
+    public String getUniqueTextOnGlobalViewEditPage() {
+
+        return uniqueTextOnGlobalViewEditPage.getText();
+    }
+
+    public String getUniqueSectionOnListViewEditPage() {
+
+        return uniqueSectionOnListViewEditPage.getText();
+    }
+
+    public EditViewPage addDescription(String desc) {
+        description.sendKeys(desc);
+
+        return new EditViewPage(getDriver());
+    }
+
 
     public boolean isFilterBuildQueueOptionCheckBoxChecked() {
 
