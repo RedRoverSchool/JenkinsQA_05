@@ -24,12 +24,6 @@ public class Pipeline2Test extends BaseTest {
         ProjectUtils.createNewItemFromDashboard(getDriver(),By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
     }
 
-    private void setJobTypePipeline(String jobName) {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys(jobName);
-        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
-    }
-
     @Test
     public void testCreatePipelineExistingNameError() {
         final String projectName = "AnyUnusualName1";
@@ -157,7 +151,9 @@ public class Pipeline2Test extends BaseTest {
     public void testCreateNewPipelineFromExisting() {
         final String jobName = TestUtils.getRandomStr(7);
 
-        setJobTypePipeline(jobName);
+        getDriver().findElement(By.linkText("New Item")).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys(jobName);
+        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
         TestUtils.scrollToEnd(getDriver());
         new Actions(getDriver()).pause(300).moveToElement(getDriver().findElement(By.cssSelector("#from")))
                 .click().sendKeys(RANDOM_STRING.substring(0,2)).pause(400)
