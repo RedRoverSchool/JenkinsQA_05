@@ -1,11 +1,18 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static runner.TestUtils.scrollToElement;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class FreestyleProjectConfigPage extends BasePage {
 
@@ -60,9 +67,17 @@ public class FreestyleProjectConfigPage extends BasePage {
     @FindBy(xpath = "//div[@class = 'jenkins-form-item hetero-list-container with-drag-drop  ']/div[3]//input[@name = 'parameter.name']")
     private WebElement fieldInputBooleanParameterName;
 
-
     @FindBy(xpath = "//label[text() = 'Set by Default']")
     private WebElement setByDefault;
+
+    @FindBy(xpath = "//button[@data-section-id='build-steps']")
+    private WebElement buildStepsSideMenuOption;
+
+    @FindBy(xpath = "//button[text()='Add build step']")
+    private WebElement buildStepsButton;
+
+    @FindBy(xpath = "//button[text()='Add build step']/../../..//a[@href='#']")
+    private List <WebElement> listOfElementsInBuildStepsDropDown;
 
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
@@ -193,5 +208,39 @@ public class FreestyleProjectConfigPage extends BasePage {
         saveBtn.click();
 
         return new BuildWithParametersPage(getDriver());
+    }
+
+    public FreestyleProjectConfigPage clickBuildStepsSideMenuOption() {
+        buildStepsSideMenuOption.click();
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage openAddBuildStepDropDown() {
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(buildStepsButton).perform();
+        getWait(10).until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector(".yui-button-hover.yui-menu-button-hover")));
+        buildStepsButton.click();
+        getWait(10).until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector(".yui-button-active.yui-menu-button-active")));
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage closeAddBuildStepDropDown() {
+        buildStepsButton.click();
+        getWait(10).until(ExpectedConditions.invisibilityOfElementLocated(
+                By.cssSelector(".yui-button-active.yui-menu-button-active")));
+
+        return this;
+    }
+
+    public Set<String> collectOptionsInBuildStepsDropDown() {
+
+        return listOfElementsInBuildStepsDropDown
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toCollection(HashSet::new));
     }
 }
