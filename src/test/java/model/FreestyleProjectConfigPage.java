@@ -66,7 +66,7 @@ public class FreestyleProjectConfigPage extends BasePage {
     private WebElement setByDefault;
 
     @FindBy(xpath = "//label[text() = 'Git']")
-    private WebElement radioButtonGit;
+    private WebElement radioGitButton;
 
     @FindBy(xpath = "//div[text() = 'Repository URL']/following-sibling::div/input")
     private WebElement fieldInputRepositoryURL;
@@ -202,7 +202,7 @@ public class FreestyleProjectConfigPage extends BasePage {
     }
 
     public FreestyleProjectConfigPage selectSourceCodeManagementGIT(){
-        radioButtonGit.click();
+        radioGitButton.click();
 
         return this;
     }

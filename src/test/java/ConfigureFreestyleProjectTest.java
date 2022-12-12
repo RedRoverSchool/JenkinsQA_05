@@ -3,14 +3,13 @@ import model.HomePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
-import static runner.TestUtils.getRandomStr;
+import runner.TestUtils;
 
 public class ConfigureFreestyleProjectTest extends BaseTest {
 
     @Test
     public void testConfigureJobAsParameterized() {
-        final String freestyleName = getRandomStr();
+        final String freestyleName = TestUtils.getRandomStr();
         final String stringParameterName = "Held post";
         final String stringParameterDefaultValue = "Manager";
         final String choiceParameterName = "Employee_name";
