@@ -1,3 +1,5 @@
+import model.BuildsUserPage;
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -17,7 +19,7 @@ public class HeaderTest extends BaseTest {
 
     private void openUserDropdownMenu() {
         getDriver().findElement(
-                By.cssSelector("header#page-header .jenkins-menu-dropdown-chevron")).click();
+                By.cssSelector("#page-header .jenkins-menu-dropdown-chevron")).click();
     }
 
     private void createOrganizationFolder() {
@@ -25,7 +27,7 @@ public class HeaderTest extends BaseTest {
             String organizationFolderName = "OrganizationFolder_" + (int) (Math.random() * 1000);
 
             getDriver().findElement(By.linkText("New Item")).click();
-            getDriver().findElement(By.cssSelector(".jenkins_branch_OrganizationFolder")).click();
+            getWait(5).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".jenkins_branch_OrganizationFolder"))).click();
             getDriver().findElement(By.xpath("//input [@name = 'name']")).sendKeys(organizationFolderName);
             getDriver().findElement(By.id("ok-button")).click();
             getDriver().findElement(By.id("yui-gen15-button")).click();
@@ -56,30 +58,25 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testCountAndNamesItemsInUserDropdownMenu() {
-        getDriver().findElement(
-                By.cssSelector("header#page-header .jenkins-menu-dropdown-chevron")).click();
-        List<WebElement> userDropdownItems = getDriver().findElements(
-                By.cssSelector(".first-of-type > .yuimenuitem"));
-        int actualItemsCount = 0;
-        StringBuilder actualNamesItems = new StringBuilder();
-        for (WebElement item : userDropdownItems) {
-            actualItemsCount++;
-            actualNamesItems.append(item.getText());
-        }
+        int itemsCount = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .getItemsCountInUserDropdownMenu();
 
-        Assert.assertEquals(actualItemsCount, 4);
-        Assert.assertEquals(actualNamesItems.toString(),
-                "BuildsConfigureMy ViewsCredentials");
+        String itemsNames = new HomePage (getDriver())
+                .clickUserDropdownMenu()
+                .getItemsNamesInUserDropdownMenu();
+
+        Assert.assertEquals(itemsCount, 4);
+        Assert.assertEquals(itemsNames,"Builds Configure My Views Credentials");
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageAdminBuilds() {
-        openUserDropdownMenu();
-        getDriver().findElement(
-                By.cssSelector("ul > li:nth-of-type(1) span")).click();
+    public void testUserDropdownMenuToOpenPageUserBuilds() {
+        BuildsUserPage buildsUserPage = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .clickBuildsItemInUserDropdownMenu();
 
-        Assert.assertEquals(getDriver().findElement(
-                        By.cssSelector("div#main-panel > h1")).getText(),
+        Assert.assertEquals(buildsUserPage.getHeaderH1Text(),
                 "Builds for admin");
     }
 
@@ -109,32 +106,32 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageAdminConfigure() {
+    public void testUserDropdownMenuToOpenPageUserConfigure() {
         openUserDropdownMenu();
-        getDriver().findElement(
-                By.cssSelector("ul > li:nth-of-type(2) span")).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(
+                By.linkText("Configure"))).click();
 
         Assert.assertEquals(getDriver().findElement(
-                        By.cssSelector("div:nth-of-type(3) > .jenkins-section__title")).getText(),
-                "API Token");
+                        By.cssSelector("#yui-gen2-button")).getText(),
+                "Add new Token");
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageAdminMyViews() {
+    public void testUserDropdownMenuToOpenPageUserMyViews() {
         openUserDropdownMenu();
-        getDriver().findElement(
-                By.cssSelector("ul > li:nth-of-type(3) span")).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(
+                By.linkText("My Views"))).click();
 
         Assert.assertEquals(getDriver().findElement(
-                        By.xpath("//ul[@id='breadcrumbs']//a[@href='/user/admin/my-views/']")).getText(),
+                        By.xpath("//ul[@id='breadcrumbs']/li[5]")).getText(),
                 "My Views");
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageAdminCredentials() {
+    public void testUserDropdownMenuToOpenPageUserCredentials() {
         openUserDropdownMenu();
-        getDriver().findElement(
-                By.cssSelector("li:nth-of-type(4) span")).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(
+                By.linkText("Credentials"))).click();
 
         Assert.assertEquals(
                 getDriver().findElement(By.tagName("h1")).getText(),
@@ -161,7 +158,6 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(actualResultPage);
     }
 
-    @Ignore
     @Test
     public void testCheckTheAppropriateSearchResult(){
         createOrganizationFolder();
@@ -177,6 +173,7 @@ public class HeaderTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void test_Logo_HeadIcon_ReloadMainPage(){
         getDriver().findElement(By.id("description-link")).click();
