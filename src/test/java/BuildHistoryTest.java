@@ -120,6 +120,7 @@ public class BuildHistoryTest extends BaseTest {
         getDriver().findElement(DASHBOARD).click();
         String jobLink = getDriver().getCurrentUrl() + "job/" + jobName + "/1/";
         getDriver().findElement(BUILD_HISTORY).click();
+        getDriver().navigate().refresh();
         getWait(10).until(ExpectedConditions.not(ExpectedConditions.textToBe(By.xpath("//table[@id='projectStatus']//td[4]"), "stable")));
         getDriver().findElement(By.xpath("//div[contains(text(), \"" + jobName + "\")]")).click();
 
