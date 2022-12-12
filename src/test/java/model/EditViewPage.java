@@ -23,6 +23,9 @@ public class EditViewPage extends HomePage {
     @FindBy(css = "div:nth-of-type(5) > .jenkins-section__title")
     private WebElement uniqueSectionOnListViewEditPage;
 
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement description;
+
     public EditViewPage(WebDriver driver) {
         super(driver);
     }
@@ -67,5 +70,11 @@ public class EditViewPage extends HomePage {
     public String getUniqueSectionOnListViewEditPage() {
 
         return uniqueSectionOnListViewEditPage.getText();
+    }
+
+    public EditViewPage addDescription(String desc) {
+        description.sendKeys(desc);
+
+        return new EditViewPage(getDriver());
     }
 }
