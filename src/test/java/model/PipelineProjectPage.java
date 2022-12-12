@@ -21,6 +21,9 @@ public class PipelineProjectPage extends BasePage{
     @FindBy(xpath = "//span[text()='Delete Pipeline']")
     private WebElement deletePipelineButton;
 
+    @FindBy(xpath = "(//a[contains(@class,'task-link')])[7]")
+    private WebElement gitHubSideMenu;
+
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -49,5 +52,13 @@ public class PipelineProjectPage extends BasePage{
         getDriver().switchTo().alert().accept();
 
         return new HomePage(getDriver());
+    }
+
+    public boolean isDisplayedGitHubOnSideMenu() {
+        return gitHubSideMenu.isDisplayed();
+    }
+
+    public String getAttributeGitHubSideMenu(String attribute) {
+        return gitHubSideMenu.getAttribute(attribute);
     }
 }

@@ -2,7 +2,6 @@ import model.HomePage;
 import model.NewItemPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -117,17 +116,19 @@ public class NewItemTest extends BaseTest {
                 "» This field cannot be empty, please enter a valid name");
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testWarningMessageIsDisappeared")
+
+    @Test(dependsOnMethods = "testCreateFolder")
     public void testCreateNewItemFromOtherNonExistingName() {
         final String jobName = TestUtils.getRandomStr(7);
 
-        setJobTypePipeline(jobName);
-        new Actions(getDriver()).moveToElement(getDriver().findElement(By.id("from"))).click()
-                .sendKeys(jobName).perform();
-        getDriver().findElement(By.id("ok-button")).click();
+         String errorMessage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(jobName)
+                .selectPipeline()
+                .setCopyFrom(jobName)
+                .clickOkButton()
+                .getErrorMessage();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
-                "No such job: " + jobName);
+        Assert.assertEquals(errorMessage, "No such job: " + jobName);
     }
 }
