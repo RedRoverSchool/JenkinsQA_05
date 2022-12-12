@@ -56,4 +56,10 @@ public class PipelineConfigPage extends BasePage {
 
         return new HomePage(getDriver());
     }
+
+    public PipelineProjectPage clickSaveButton() {
+        saveButton.click();
+
+        return new PipelineProjectPage(getDriver());
+    }
 }

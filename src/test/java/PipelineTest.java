@@ -1,6 +1,7 @@
 import model.HomePage;
 import model.PipelineConfigPage;
 import model.MyViewsPage;
+import model.PipelineProjectPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -20,6 +21,7 @@ import static runner.TestUtils.getRandomStr;
 public class PipelineTest extends BaseTest {
     private static final String RENAME_SUFFIX = "renamed";
     private static final String PIPELINE_NAME = generatePipelineProjectName();
+    private static final String pipeline_name = getRandomStr();
     private static final String VIEW_NAME = RandomStringUtils.randomAlphanumeric(5);
     private static final String RANDOM_STRING  = TestUtils.getRandomStr(7);
     private static final String ITEM_DESCRIPTION = "This is a sample description for item";
@@ -132,21 +134,18 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(pipelineNameInMyViewList.getListProjectsNames().contains(pipelineName));
     }
 
-    @Ignore
     @Test
     public void testPipelineAddDescription() {
 
-        String pipelinePojectName = generatePipelineProjectName();
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(PIPELINE).click();
-        getDriver().findElement(ITEM_NAME).sendKeys(pipelinePojectName);
-        getDriver().findElement(BUTTON_OK).click();
-        getDriver().findElement(BUTTON_SAVE).click();
-        getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(pipelinePojectName + "description");
-        getDriver().findElement(By.id("yui-gen2-button")).click();
+        PipelineProjectPage pipelineProjectPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(pipeline_name)
+                .selectPipelineAndClickOk()
+                .clickSaveButton()
+                .editDescription(pipeline_name + "description")
+                .clickSaveButton();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), pipelinePojectName + "description");
+        Assert.assertEquals(pipelineProjectPage.getDescription(), pipeline_name + "description");
     }
 
     @Ignore
