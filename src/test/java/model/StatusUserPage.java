@@ -28,6 +28,9 @@ public class StatusUserPage extends BasePage {
     @FindBy(xpath = "//div[@class='textarea-preview']")
     private WebElement previewField;
 
+    @FindBy(xpath = "//a[@class='textarea-hide-preview']")
+    private  WebElement hidePreviewLink;
+
     public StatusUserPage(WebDriver driver) {
         super(driver);
     }
@@ -77,5 +80,16 @@ public class StatusUserPage extends BasePage {
     public String getPreviewText() {
 
         return previewField.getText();
+    }
+
+    public StatusUserPage clickHidePreviewLink() {
+        hidePreviewLink.click();
+
+        return this;
+    }
+
+    public boolean isDisplayedPreviewField() {
+
+        return previewField.isDisplayed();
     }
 }
