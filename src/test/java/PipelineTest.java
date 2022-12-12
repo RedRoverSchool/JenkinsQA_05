@@ -1,9 +1,11 @@
 import model.HomePage;
+import model.HomePage;
 import model.MyViewsPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -51,7 +53,7 @@ public class PipelineTest extends BaseTest {
         actions.sendKeys(Keys.F5);
         getDriver().findElement(DASHBOARD).click();
         getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(PIPELINE).click();
+        getWait(3).until(ExpectedConditions.elementToBeClickable(PIPELINE)).click();
         getDriver().findElement(ITEM_NAME).sendKeys(projectName);
         getDriver().findElement(BUTTON_OK).click();
         getDriver().findElement(BUTTON_SAVE).click();
@@ -286,5 +288,17 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(By.xpath(String.format("//a[@href = contains(., '%s')]/button", pipelinePojectName))).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), pipelinePojectName + "edit description");
+    }
+
+    @Test
+    public void testDeletePipelineFromDashboard() {
+        createPipelineProject("testProject");
+        String homePageHeaderText = new HomePage(getDriver())
+                .clickDashboard()
+                .clickPipelineProjectName()
+                .clickDeletePipelineButton()
+                .getHeaderText();
+
+        Assert.assertEquals(homePageHeaderText, "Welcome to Jenkins!");
     }
 }

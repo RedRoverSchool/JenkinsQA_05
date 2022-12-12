@@ -20,6 +20,9 @@ public class EditViewPage extends HomePage {
     @FindBy(css = ".jenkins-form-description")
     private WebElement uniqueTextOnGlobalViewEditPage;
 
+    @FindBy(css = "div:nth-of-type(5) > .jenkins-section__title")
+    private WebElement uniqueSectionOnListViewEditPage;
+
     public EditViewPage(WebDriver driver) {
         super(driver);
     }
@@ -61,5 +64,10 @@ public class EditViewPage extends HomePage {
     public String getUniqueTextOnGlobalViewEditPage() {
 
         return uniqueTextOnGlobalViewEditPage.getText();
+    }
+
+    public String getUniqueSectionOnListViewEditPage() {
+
+        return uniqueSectionOnListViewEditPage.getText();
     }
 }

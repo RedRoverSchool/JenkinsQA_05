@@ -13,11 +13,17 @@ public class MyViewsPage extends HomePage{
     @FindBy(css = "a[title='New View']")
     private WebElement newView;
 
-    @FindBy(css = ".tabBar .tab a[href]")
-    private List <WebElement> listViews;
+    @FindBy(css = ".tabBar .tab a[href*='/user/admin/my-views/view/']")
+    private List<WebElement> listViews;
 
     @FindBy(css = ".pane-header-title")
     private List <WebElement> listViewActiveFilters;
+
+    @FindBy(xpath = "//a[@href='delete']")
+    private WebElement deleteViewItem;
+
+    @FindBy(id = "yui-gen1-button")
+    private WebElement yesButtonDeleteView;
 
     @FindBy(xpath = "//tbody/tr/td/a")
     private  List <WebElement> listProjects;
@@ -32,14 +38,9 @@ public class MyViewsPage extends HomePage{
         return new NewViewPage(getDriver());
     }
 
-    public List<WebElement> getListViews() {
-
-        return listViews;
-    }
-
     public String getListViewsNames() {
         StringBuilder listViewsNames = new StringBuilder();
-        for (WebElement view : getListViews()) {
+        for (WebElement view : listViews) {
             listViewsNames.append(view.getText()).append(" ");
         }
 
@@ -57,6 +58,15 @@ public class MyViewsPage extends HomePage{
         return new ViewPage(getDriver());
     }
 
+    public MyViewsPage deleteAllViews() {
+        for (int i = listViews.size() - 1; i >= 0; i--) {
+            listViews.get(i).click();
+            deleteViewItem.click();
+            yesButtonDeleteView.click();
+        }
+
+        return this;
+    }
     public List <WebElement> getProjectsList(){
 
         return listProjects;
