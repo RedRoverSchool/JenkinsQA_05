@@ -1,14 +1,12 @@
 import model.EditViewPage;
 import model.HomePage;
 import model.MyViewsPage;
+import model.ViewPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class NewView1Test extends BaseTest {
 
@@ -29,15 +27,6 @@ public class NewView1Test extends BaseTest {
         }
 
         return listViewsNames.toString().trim();
-    }
-
-    private List<String> getListJobs() {
-
-        return getDriver().findElements(
-                        By.cssSelector("a[class='jenkins-table__link model-link inside'] span"))
-                .stream()
-                .map((WebElement::getText))
-                .collect(Collectors.toList());
     }
 
     @Test
@@ -120,12 +109,12 @@ public class NewView1Test extends BaseTest {
 
     @Test(dependsOnMethods = "testViewHasSelectedTypeListView")
     public void testViewHasSelectedTypeMyView() {
-        final List<String> expectedListJobs = getListJobs();
+        ViewPage viewPage = new HomePage(getDriver())
+                .clickMyViews()
+                .clickView(MY_VIEW_NAME);
 
-        getDriver().findElement(BY_MY_VIEWS).click();
-        getDriver().findElement(By.linkText(MY_VIEW_NAME)).click();
-
-        Assert.assertEquals(getListJobs(), expectedListJobs);
+        Assert.assertEquals(viewPage.getJobList(),
+                new HomePage(getDriver()).getJobList());
     }
 
     @Test(dependsOnMethods = "testViewHasSelectedTypeMyView")
