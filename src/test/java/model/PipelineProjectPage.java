@@ -18,6 +18,9 @@ public class PipelineProjectPage extends BasePage{
     @FindBy(css = "#description >*:first-child")
     private WebElement description;
 
+    @FindBy(xpath = "//span[text()='Delete Pipeline']")
+    private WebElement deletePipelineButton;
+
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -39,5 +42,12 @@ public class PipelineProjectPage extends BasePage{
     public String getDescription() {
 
         return description.getAttribute("textContent");
+    }
+
+    public HomePage clickDeletePipelineButton() {
+        deletePipelineButton.click();
+        getDriver().switchTo().alert().accept();
+
+        return new HomePage(getDriver());
     }
 }
