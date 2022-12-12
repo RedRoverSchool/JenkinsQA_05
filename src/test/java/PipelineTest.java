@@ -416,7 +416,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testCreateNewPipelineWithDescription() {
         ProjectUtils.createNewItemFromDashboard(getDriver(),By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
-        getDriver().findElement(By.cssSelector(".jenkins-input")).sendKeys(ITEM_DESCRIPTION);
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(By.cssSelector(".jenkins-input"))).sendKeys(ITEM_DESCRIPTION);
         getDriver().findElement(BUTTON_SAVE).click();
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child")).getAttribute("textContent"),
