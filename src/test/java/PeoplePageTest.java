@@ -60,18 +60,13 @@ public class PeoplePageTest extends BaseTest {
 
     @Test(dependsOnMethods = "testFindUserInThePeopleSection")
     public void testPeopleDeleteUser() {
-        getDriver().findElement(By.cssSelector("a[href='/'] ")).click();
+        DeleteUserPage deleteUserPage = new PeoplePage(getDriver())
+                .rootMenuDashboardLinkClick()
+                .clickManageJenkins()
+                .clickManageUsers()
+                .clickDeleteUser(user_name)
+                .clickYes();
 
-        getDriver().findElement(By.cssSelector("a[href='/manage']")).click();
-        getDriver().findElement(By.cssSelector("a[href='securityRealm/']")).click();
-
-        getWait(3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='user/" + user_name.toLowerCase() + "/delete']"))).click();
-
-        getDriver().findElement(By.id("yui-gen1-button")).click();
-
-        List<WebElement> list = getWait(1).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("jenkins-table__link")));
-        List<String> lst = list.stream().map(WebElement::getText).collect(Collectors.toList());
-
-        Assert.assertFalse(lst.contains(user_name));
+        Assert.assertFalse(deleteUserPage.getListOfUsers().contains(user_name));
     }
 }

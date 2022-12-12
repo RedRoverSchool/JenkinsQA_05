@@ -1,6 +1,5 @@
 package model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,6 +12,12 @@ public class FolderConfigPage extends HomePage {
 
     @FindBy(id = "yui-gen6-button")
     private WebElement saveButton;
+
+    @FindBy(xpath = "//input[@name='_.displayNameOrNull']")
+    private WebElement displayName;
+
+    @FindBy(xpath="//textarea[@name='_.description']")
+    private WebElement description;
 
     public FolderConfigPage(WebDriver driver) {
         super(driver);
@@ -29,4 +34,19 @@ public class FolderConfigPage extends HomePage {
 
         return new FolderStatusPage(getDriver());
     }
+
+    public FolderConfigPage clickDisplayName(String secondJobName){
+        getWait(5).until(ExpectedConditions.elementToBeClickable(displayName));
+        displayName.sendKeys(secondJobName);
+
+        return  new FolderConfigPage(getDriver());
+    }
+
+    public FolderConfigPage clickDescription(String inputDescription){
+        getWait(5).until(ExpectedConditions.visibilityOf(description)).click();
+        description.sendKeys(inputDescription);
+
+        return new FolderConfigPage(getDriver());
+    }
+
 }

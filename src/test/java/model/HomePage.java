@@ -65,6 +65,24 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[@href='api/']")
     private WebElement restApiLink;
 
+    @FindBy(xpath = "//div/a[@class='model-link']")
+    private WebElement iconUserName;
+
+    @FindBy(css = "#page-header .jenkins-menu-dropdown-chevron")
+    private WebElement userDropdownMenu;
+
+    @FindBy(css = ".first-of-type > .yuimenuitem")
+    private List<WebElement> userDropdownMenuItems;
+
+    @FindBy(xpath = "//span[text()='Edit View']/..")
+    private WebElement editView;
+
+    @FindBy(linkText = "Builds")
+    private WebElement buildsItemInUserDropdownMenu;
+
+    @FindBy(xpath = "//span[contains(@class, 'build-status-icon')]/span/child::*")
+    private WebElement buildStatusIcon;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -152,7 +170,8 @@ public class HomePage extends BasePage {
     }
 
     public String getHeaderText() {
-        return header.getText();
+
+        return getWait(3).until(ExpectedConditions.visibilityOf(header)).getText();
     }
 
     public HomePage clickFolderDropdownMenu(String folderName) {
@@ -166,6 +185,12 @@ public class HomePage extends BasePage {
         getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']")).sendKeys(Keys.RETURN);
 
         return new FolderStatusPage(getDriver());
+    }
+
+    public FolderConfigPage clickConfigureDropDownMenuForFolder() {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(configureDropDownMenu)).click();
+
+        return new FolderConfigPage(getDriver());
     }
 
     public ManageJenkinsPage clickMenuManageJenkins() {
@@ -215,9 +240,81 @@ public class HomePage extends BasePage {
                 .findElement(By.xpath(".//*[name()='svg']")).getAttribute("tooltip");
     }
 
-    public  FooterPage clickRestApiLink() {
+    public FooterPage clickRestApiLink() {
         restApiLink.click();
 
         return new FooterPage(getDriver());
+    }
+
+    public StatusUserPage clickUserIcon() {
+        iconUserName.click();
+
+        return new StatusUserPage(getDriver());
+    }
+
+    public HomePage clickUserDropdownMenu() {
+        userDropdownMenu.click();
+
+        return this;
+    }
+
+    public int getItemsCountInUserDropdownMenu() {
+        int itemsCount = 0;
+        for (WebElement item : getWait(5).until(
+                ExpectedConditions.visibilityOfAllElements(
+                        userDropdownMenuItems))) {
+            itemsCount++;
+        }
+
+        return itemsCount;
+    }
+
+    public String getItemsNamesInUserDropdownMenu() {
+        StringBuilder itemsNames = new StringBuilder();
+        for (WebElement item : getWait(5).until(
+                ExpectedConditions.visibilityOfAllElements(
+                        userDropdownMenuItems))) {
+            itemsNames.append(item.getText()).append(" ");
+        }
+
+        return itemsNames.toString().trim();
+    }
+
+    public EditViewPage goToEditView(String viewName) {
+        clickMyViews();
+        getDriver().findElement(By.linkText(viewName)).click();
+        editView.click();
+
+        return new EditViewPage(getDriver());
+    }
+
+    public BuildsUserPage clickBuildsItemInUserDropdownMenu() {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(
+                buildsItemInUserDropdownMenu)).click();
+
+        return new BuildsUserPage(getDriver());
+    }
+
+    public String getBuildDurationTime(){
+        if(getJobBuildStatus().equals("Success")){
+
+            return getDriver().findElement(By.xpath("//tr[contains(@class, 'job-status')]/td[4]")).getText();
+        } else if(getJobBuildStatus().equals("Failed")){
+
+            return getDriver().findElement(By.xpath("//tr[contains(@class, 'job-status')]/td[5]")).getText();
+        }
+
+        return null;
+    }
+
+    public String getJobBuildStatus(){
+
+        return buildStatusIcon.getAttribute("tooltip");
+    }
+
+    public ViewPage clickView(String name) {
+        getDriver().findElement(By.xpath(String.format("//a[@href='/view/%s/']", name))).click();
+
+        return new ViewPage(getDriver());
     }
 }

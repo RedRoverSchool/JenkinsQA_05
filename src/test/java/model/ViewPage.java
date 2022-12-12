@@ -1,5 +1,6 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,6 +22,14 @@ public class ViewPage extends BasePage{
     @FindBy(xpath = "//div[@class='tab']//a[@href='/user/admin/my-views/']")
     private WebElement allButton;
 
+    @FindBy(xpath = "//a[@href='delete']")
+    private WebElement deleteViewItem;
+
+    @FindBy(id = "yui-gen1-button")
+    private WebElement yesButtonDeleteView;
+
+    @FindBy(xpath = "//div[@class='jenkins-buttons-row jenkins-buttons-row--invert']/preceding-sibling::div")
+    private WebElement descriptionText;
 
     public ViewPage(WebDriver driver) {
         super(driver);
@@ -48,5 +57,22 @@ public class ViewPage extends BasePage{
         allButton.click();
 
         return new MyViewsPage(getDriver());
+    }
+
+    public ViewPage clickDeleteViewItem() {
+        deleteViewItem.click();
+
+        return this;
+    }
+
+    public MyViewsPage clickYesButtonDeleteView() {
+        yesButtonDeleteView.click();
+
+        return new MyViewsPage(getDriver());
+    }
+
+    public String getTextDescription() {
+
+        return descriptionText.getText();
     }
 }

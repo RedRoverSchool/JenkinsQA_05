@@ -8,8 +8,6 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FolderOneTest extends BaseTest {
     private static final By NEW_ITEM = By.linkText("New Item");
@@ -18,7 +16,6 @@ public class FolderOneTest extends BaseTest {
     private static final By NEW_NAME_RENAME = By.name("newName");
     private static final By FOLDER_OPTION = By.className("com_cloudbees_hudson_plugins_folder_Folder");
     private static final By PIPELINE_OPTION = By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob");
-    private static final By MULTIBRANCH_PIPELINE_OPTION = By.className("org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject");
     private static final By DROP_DOWN_MENU = By.cssSelector(".jenkins-menu-dropdown-chevron");
     private static final By DROP_DOWN_RENAME = By.xpath("//span[contains(text(),'Rename')]");
     private static final By DROP_DOWN_DELETE = By.xpath("//span[contains(text(),'Delete Folder')]");
@@ -39,6 +36,7 @@ public class FolderOneTest extends BaseTest {
     private void submitButtonClick(){
         getDriver().findElement(By.cssSelector("[type='submit']")).click();
     }
+
 
     private void createFolder(String folderName){
         new HomePage(getDriver())
@@ -272,20 +270,24 @@ public class FolderOneTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
                 .contains((RANDOM_NAME_1) + "/" + (RANDOM_NAME_2 + "_SubFolder2")));
     }
-    @Ignore
+
     @Test
     public void testCreateMultibranchPipelineInFolder() {
-        createFolder(RANDOM_NAME_1);
-        getDriver().findElement(CREATE_JOB).click();
-        getDriver().findElement(NAME).sendKeys(RANDOM_MULTIBRANCH_PIPELINE_NAME);
-        getDriver().findElement(MULTIBRANCH_PIPELINE_OPTION).click();
-        submitButtonClick();
-        submitButtonClick();
-        getDriver().findElement(By.xpath(
-                "//ul[@id='breadcrumbs']/li[3]/a[@href='/job/" + RANDOM_NAME_1 + "/']")).click();
 
-        Assert.assertEquals(getDriver().findElement(TEXT_H1).getText(), RANDOM_NAME_1);
-        Assert.assertTrue(getJobNameList().size() != 0);
-        Assert.assertTrue(getJobNameList().contains(RANDOM_MULTIBRANCH_PIPELINE_NAME));
+        FolderStatusPage folderStatusPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(RANDOM_NAME_1)
+                .selectFolderAndClickOk()
+                .clickSaveButton()
+                .clickCreateJob()
+                .setProjectName(RANDOM_MULTIBRANCH_PIPELINE_NAME)
+                .selectMultibranchPipelineAndClickOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolder(RANDOM_NAME_1);
+
+        Assert.assertEquals(folderStatusPage.getHeaderFolderText(), RANDOM_NAME_1);
+        Assert.assertTrue(folderStatusPage.getJobList().size() != 0);
+        Assert.assertTrue(folderStatusPage.getJobList().contains(RANDOM_MULTIBRANCH_PIPELINE_NAME));
     }    
 }

@@ -43,6 +43,15 @@ public class FolderStatusPage extends BasePage {
     @FindBy(id = "main-panel")
     private WebElement textAddress;
 
+    @FindBy(xpath = "//input[@checkdependson='newName']")
+    private WebElement folderNewName;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement renameSubmitButton;
+
+    @FindBy(xpath = "//h1")
+    private WebElement folderHeader;
+
     public FolderStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -84,6 +93,7 @@ public class FolderStatusPage extends BasePage {
         return emptyStateBlock;
     }
 
+
     public NewItemPage clickFolderNewItem(){
         folderNewItem.click();
 
@@ -102,5 +112,28 @@ public class FolderStatusPage extends BasePage {
     }
 
     public String getDescriptionText() {return textAddress.getText();
+
+    public FolderStatusPage clickRename(String folderName) {
+        getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/confirm-rename']")).click();
+
+        return new FolderStatusPage(getDriver());
+    }
+
+    public FolderStatusPage clearAndSetNewName(String folderName) {
+        folderNewName.clear();
+        folderNewName.sendKeys(folderName);
+
+        return new FolderStatusPage(getDriver());
+    }
+
+    public FolderStatusPage clickRenameSubmitButton() {
+        renameSubmitButton.click();
+
+        return new FolderStatusPage(getDriver());
+    }
+
+    public String getHeaderFolderText() {
+
+        return folderHeader.getText();
     }
 }

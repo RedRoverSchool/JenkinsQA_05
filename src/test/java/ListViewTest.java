@@ -55,15 +55,14 @@ public class ListViewTest extends BaseTest {
     public void testEditViewAddDescription() {
         final String descriptionRandom = TestUtils.getRandomStr();
 
-        getDriver().findElement(CREATED_LIST_VIEW).click();
-        getDriver().findElement(EDIT_VIEW_MENU).click();
-        getDriver().findElement(DESCRIPTION_AREA).sendKeys(descriptionRandom);
-        getDriver().findElement(OK_BUTTON).click();
+        String actualDescription = new HomePage(getDriver())
+                .clickView(RANDOM_LIST_VIEW_NAME)
+                .clickEditViewButton()
+                .addDescription(descriptionRandom)
+                .clickOk()
+                .getTextDescription();
 
-        WebElement actualDescription = getDriver().findElement(DESCRIPTION);
-
-        Assert.assertTrue(actualDescription.isDisplayed());
-        Assert.assertEquals(actualDescription.getText(), descriptionRandom);
+        Assert.assertEquals(actualDescription, descriptionRandom);
     }
 
     @Test(dependsOnMethods = "testEditViewAddDescription")

@@ -1,3 +1,4 @@
+import model.FolderConfigPage;
 import model.FolderStatusPage;
 import model.HomePage;
 import org.openqa.selenium.*;
@@ -94,18 +95,22 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testConfigureFolderDisplayName() {
-        String secondJobName = "Second job";
-        createFolder();
-        getDashboard().click();
-        getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).click();
-        getDriver().findElement(By.xpath("//a[@href='/job/" + generatedString + "/configure']")).click();
-        getDriver().findElement(By.xpath("//input[@name='_.displayNameOrNull']")).sendKeys(secondJobName);
-        getDriver().findElement(By.xpath("//textarea[@name='_.description']")).sendKeys("change name");
-        getSaveButton().click();
-        getDashboard().click();
-        String changedName = getDriver().findElement(By.xpath("//span[text()='" + secondJobName + "']")).getText();
+        final String folderName = TestUtils.getRandomStr(5);
+        final String secondJob = "Second job";
+      HomePage folderStatusPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(folderName)
+                .selectFolderAndClickOk()
+                .clickDashboard()
+                .clickJobDropDownMenu(folderName)
+                .clickConfigureDropDownMenuForFolder()
+                .clickDisplayName(secondJob)
+                .clickDescription("change name")
+                .clickSaveButton()
+                .clickDashboard();
 
-        Assert.assertEquals(changedName, secondJobName);
+        Assert.assertTrue(folderStatusPage.getJobList().contains(secondJob));
+
     }
 
     @Test
@@ -182,24 +187,23 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void testNameAfterRenamingFolder() {
-        final String expectedResult = "Folder2";
+    public void testNameAfterRenameIngFolder() {
+        final String folderName1 = TestUtils.getRandomStr(6);
+        final String folderName2 = TestUtils.getRandomStr(6);
 
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys("Folder1");
-        getDriver().findElement(By.className("com_cloudbees_hudson_plugins_folder_Folder")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.id("yui-gen6-button")).click();
+        List<String> newFolderName = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(folderName1)
+                .selectFolderAndClickOk()
+                .clickDashboard()
+                .clickFolder(folderName1)
+                .clickRename(folderName1)
+                .clearAndSetNewName(folderName2)
+                .clickRenameSubmitButton()
+                .clickDashboard()
+                .getJobList();
 
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
-        getDriver().findElement(By.xpath("//a[@href='job/Folder1/']")).click();
-        getDriver().findElement(By.xpath("//a[@href='/job/Folder1/confirm-rename']")).click();
-        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).clear();
-        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).sendKeys(expectedResult);
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/Folder2/']")).getText(), expectedResult);
+        Assert.assertTrue(newFolderName.contains(folderName2));
     }
 
     @Test
