@@ -113,6 +113,8 @@ public class BuildHistoryTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElements(By.xpath("//table[@id='projectStatus']/thead/tr/th")).size(), 5);
     }
+    
+    @Ignore
     @Test
     public void testTimelineItemExist() {
         createProject("empty");
@@ -120,13 +122,13 @@ public class BuildHistoryTest extends BaseTest {
         getDriver().findElement(DASHBOARD).click();
         String jobLink = getDriver().getCurrentUrl() + "job/" + jobName + "/1/";
         getDriver().findElement(BUILD_HISTORY).click();
-        getDriver().navigate().refresh();
         getWait(10).until(ExpectedConditions.not(ExpectedConditions.textToBe(By.xpath("//table[@id='projectStatus']//td[4]"), "stable")));
         getDriver().findElement(By.xpath("//div[contains(text(), \"" + jobName + "\")]")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='timeline-event-bubble-title']/a")).getAttribute("href"), jobLink);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testTimelineItemExist")
     public void testDescriptionIsAdded() {
         getDriver().navigate().refresh();
@@ -140,6 +142,7 @@ public class BuildHistoryTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("description")).isDisplayed());
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDescriptionIsAdded")
     public void testDeleteBuild() {
         getDriver().findElement(DASHBOARD).click();
