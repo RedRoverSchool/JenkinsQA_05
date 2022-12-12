@@ -205,6 +205,7 @@ public class HomePage extends BasePage {
     }
 
     public MultiConfigurationProjectStatusPage clickMultConfJobName(String name) {
+        getWait(5).until(ExpectedConditions.visibilityOf(people));
         jobList.get(0).click();
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
