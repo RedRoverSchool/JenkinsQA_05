@@ -117,16 +117,27 @@ public class NewView1Test extends BaseTest {
                 new HomePage(getDriver()).getJobList());
     }
 
+//    @Test(dependsOnMethods = "testViewHasSelectedTypeMyView")
+//    public void testDeleteView() {
+//        getDriver().findElement(BY_MY_VIEWS).click();
+//        getDriver().findElement(
+//                By.cssSelector(".tabBar .tab a[href='/user/admin/my-views/view/"
+//                        + LIST_VIEW_RENAME + "/']")).click();
+//        getDriver().findElement(BY_DELETE_VIEW).click();
+//        getDriver().findElement(By.id("yui-gen1-button")).click();
+//
+//        Assert.assertFalse(getListViewsNames().contains(LIST_VIEW_NAME));
+//    }
+
     @Test(dependsOnMethods = "testViewHasSelectedTypeMyView")
     public void testDeleteView() {
-        getDriver().findElement(BY_MY_VIEWS).click();
-        getDriver().findElement(
-                By.cssSelector(".tabBar .tab a[href='/user/admin/my-views/view/"
-                        + LIST_VIEW_RENAME + "/']")).click();
-        getDriver().findElement(BY_DELETE_VIEW).click();
-        getDriver().findElement(By.id("yui-gen1-button")).click();
+        MyViewsPage myViewsPage = new HomePage(getDriver())
+                .clickMyViews()
+                .clickView(LIST_VIEW_RENAME)
+                .clickDeleteViewItem()
+                .clickYesButtonDeleteView();
 
-        Assert.assertFalse(getListViewsNames().contains(LIST_VIEW_NAME));
+        Assert.assertFalse(myViewsPage.getListViewsNames().contains(LIST_VIEW_RENAME));
     }
 
     @Test(dependsOnMethods = "testDeleteView")
