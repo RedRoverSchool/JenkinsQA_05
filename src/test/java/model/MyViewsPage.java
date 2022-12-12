@@ -67,14 +67,10 @@ public class MyViewsPage extends HomePage{
 
         return this;
     }
-    public List <WebElement> getProjectsList(){
-
-        return listProjects;
-    }
 
     public String getListProjectsNames() {
         StringBuilder listProjectsNames = new StringBuilder();
-        for (WebElement projects : getProjectsList()) {
+        for (WebElement projects : listProjects) {
             listProjectsNames.append(projects.getText()).append(" ");
         }
 
