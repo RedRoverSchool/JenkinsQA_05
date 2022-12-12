@@ -15,9 +15,6 @@ public class PipelineConfigPage extends BasePage {
     @FindBy(id = "yui-gen6-button")
     private WebElement saveButton;
 
-    @FindBy(xpath = "(//a[contains(@class,'task-link')])[7]")
-    private WebElement gitHubSideMenu;
-
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
 
@@ -43,17 +40,21 @@ public class PipelineConfigPage extends BasePage {
         return this;
     }
 
-    public boolean isDisplayedGitHubOnSideMenu() {
-        return gitHubSideMenu.isDisplayed();
-    }
+    public PipelineProjectPage saveConfigAndGoToProjectPage() {
+        saveButton.click();
 
-    public String getAttributeGitHubSideMenu(String attribute) {
-        return gitHubSideMenu.getAttribute(attribute);
+        return new PipelineProjectPage(getDriver());
     }
 
     public HomePage clickDashboard() {
         topMenuRoot.click();
 
         return new HomePage(getDriver());
+    }
+
+    public PipelineProjectPage clickSaveButton() {
+        saveButton.click();
+
+        return new PipelineProjectPage(getDriver());
     }
 }
