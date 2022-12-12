@@ -1,12 +1,13 @@
+import model.FolderStatusPage;
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FolderOneTest extends BaseTest {
     private static final By NEW_ITEM = By.linkText("New Item");
@@ -15,7 +16,6 @@ public class FolderOneTest extends BaseTest {
     private static final By NEW_NAME_RENAME = By.name("newName");
     private static final By FOLDER_OPTION = By.className("com_cloudbees_hudson_plugins_folder_Folder");
     private static final By PIPELINE_OPTION = By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob");
-    private static final By MULTIBRANCH_PIPELINE_OPTION = By.className("org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject");
     private static final By DROP_DOWN_MENU = By.cssSelector(".jenkins-menu-dropdown-chevron");
     private static final By DROP_DOWN_CONFIGURE = By.xpath("//span[contains(text(),'Configure')]");
     private static final By DROP_DOWN_RENAME = By.xpath("//span[contains(text(),'Rename')]");
@@ -40,20 +40,11 @@ public class FolderOneTest extends BaseTest {
     }
 
     private void createFolder(){
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(NAME).sendKeys(RANDOM_NAME_1);
-        getDriver().findElement(FOLDER_OPTION).click();
-        submitButtonClick();
-        submitButtonClick();
-    }
-
-    private List<String> getJobNameList() {
-        List<WebElement> jobNames = getDriver().findElements(By.xpath("//tr/td/a"));
-        List<String> jobNamesList = new ArrayList<>();
-        for (WebElement element : jobNames) {
-            jobNamesList.add(element.getText());
-        }
-        return jobNamesList;
+        FolderStatusPage folderStatusPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(RANDOM_NAME_1)
+                .selectFolderAndClickOk()
+                .clickSaveButton();
     }
 
     @Test
@@ -241,12 +232,13 @@ public class FolderOneTest extends BaseTest {
                 .contains((RANDOM_NAME_1 + "_Folder2") + "/" + (RANDOM_NAME_2 + "_SubFolder2")));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateFolderWithDisplayNameInFolder")
     public void testMoveFolderByDropDown() {
         getDriver().findElement(By.linkText(RANDOM_NAME_1 + "_Display2")).click();
         getDriver().findElement(By.linkText(RANDOM_NAME_2 + "_SubDisplay2"))
                 .findElement(DROP_DOWN_MENU).click();
-        getDriver().findElement(DROP_DOWN_MOVE).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(DROP_DOWN_MOVE)).click();
         getDriver().findElement(By.xpath("//select/option[@value='/"+ RANDOM_NAME_1 + "']")).click();
         submitButtonClick();
 
@@ -262,18 +254,20 @@ public class FolderOneTest extends BaseTest {
     
     @Test
     public void testCreateMultibranchPipelineInFolder() {
-        createFolder();
-        getDriver().findElement(CREATE_JOB).click();
-        getDriver().findElement(NAME).sendKeys(RANDOM_MULTIBRANCH_PIPELINE_NAME);
-        getDriver().findElement(MULTIBRANCH_PIPELINE_OPTION).click();
-        submitButtonClick();
-        submitButtonClick();
-        getDriver().findElement(By.xpath(
-                "//ul[@id='breadcrumbs']/li[3]/a[@href='/job/" + RANDOM_NAME_1 + "/']")).click();
+        FolderStatusPage folderStatusPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(RANDOM_NAME_1)
+                .selectFolderAndClickOk()
+                .clickSaveButton()
+                .clickCreateJob()
+                .setProjectName(RANDOM_MULTIBRANCH_PIPELINE_NAME)
+                .selectMultibranchPipelineAndClickOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickFolder(RANDOM_NAME_1);
 
-        Assert.assertEquals(getDriver().findElement(TEXT_H1).getText(), RANDOM_NAME_1);
-        Assert.assertTrue(getJobNameList().size() != 0);
-        Assert.assertTrue(getJobNameList().contains(RANDOM_MULTIBRANCH_PIPELINE_NAME));
+        Assert.assertEquals(folderStatusPage.getHeaderFolderText(), RANDOM_NAME_1);
+        Assert.assertTrue(folderStatusPage.getJobList().size() != 0);
+        Assert.assertTrue(folderStatusPage.getJobList().contains(RANDOM_MULTIBRANCH_PIPELINE_NAME));
     }    
 }
-

@@ -24,43 +24,38 @@ public class FreestyleProjectSecondTest extends BaseTest {
     @Test
     public void testCreateFreestyleProject(){
 
-        getDriver().findElement(By.xpath("//span/a[@href='/view/all/newJob']")).click();
-        getWait(10).until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//input[@class='jenkins-input']")))
-                .sendKeys(FREESTYLE_NAME);
-        getDriver().findElement(By.xpath("//img[@class='icon-freestyle-project icon-xlg']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
+       String projectName = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndClickOk()
+                .getFreestyleProjectName(FREESTYLE_NAME);
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//li/a[@href='/job/" + FREESTYLE_NAME + "/']"))
-                .getText(), FREESTYLE_NAME);
+        Assert.assertEquals(projectName, FREESTYLE_NAME);
     }
 
     @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testCreateAndRenameFreestyleProject(){
 
-        getDriver().findElement(By.xpath("//td/a[@href='job/" + FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(By.xpath("//span/a[@href='/job/" + FREESTYLE_NAME + "/confirm-rename']")).click();
-        WebElement newName = getDriver().findElement(By.xpath("//div/input[@checkdependson='newName']"));
-        newName.clear();
-        newName.sendKeys(NEW_FREESTYLE_NAME);
-        getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
+        String projectName = new HomePage(getDriver())
+                .clickFreestyleProjectName(FREESTYLE_NAME)
+                .clickRenameButton()
+                .clearFieldAndInputNewName(NEW_FREESTYLE_NAME)
+                .clickSubmitButton()
+                .getFreestyleProjectName(NEW_FREESTYLE_NAME);
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//li/a[@href='/job/" + NEW_FREESTYLE_NAME + "/']"))
-                .getText(), NEW_FREESTYLE_NAME);
+        Assert.assertEquals(projectName, NEW_FREESTYLE_NAME);
     }
 
     @Test(dependsOnMethods = "testCreateAndRenameFreestyleProject")
     public void testCreateWithDescriptionFreestyleProject(){
 
-        getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(By.id("description-link")).click();
-        getWait(10).until(ExpectedConditions
-                .presenceOfElementLocated(By.xpath("//div/textarea[@name='description']")))
-                .sendKeys(DESCRIPTION_TEXT);
-        getDriver().findElement(By.xpath("//span/button[@type='submit']")).click();
+        String description = new HomePage(getDriver())
+                .clickFreestyleProjectName(NEW_FREESTYLE_NAME)
+                .clickButtonAddDescription()
+                .inputAndSaveDescriptionText(DESCRIPTION_TEXT)
+                .getDescriptionText();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(),
-                DESCRIPTION_TEXT);
+        Assert.assertEquals(description, DESCRIPTION_TEXT);
     }
 
     @Test

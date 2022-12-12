@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.TestUtils;
 
-
 public class EditViewPage extends HomePage {
 
     @FindBy(css = "input[name=filterQueue]+label")
@@ -17,6 +16,12 @@ public class EditViewPage extends HomePage {
 
     @FindBy(css = "#yui-gen6-button")
     private WebElement okButton;
+
+    @FindBy(css = ".jenkins-form-description")
+    private WebElement uniqueTextOnGlobalViewEditPage;
+
+    @FindBy(css = "div:nth-of-type(5) > .jenkins-section__title")
+    private WebElement uniqueSectionOnListViewEditPage;
 
     public EditViewPage(WebDriver driver) {
         super(driver);
@@ -52,5 +57,15 @@ public class EditViewPage extends HomePage {
                 By.xpath(String.format("//label[@title='%s']", name)))).click();
 
         return this;
+    }
+
+    public String getUniqueTextOnGlobalViewEditPage() {
+
+        return uniqueTextOnGlobalViewEditPage.getText();
+    }
+
+    public String getUniqueSectionOnListViewEditPage() {
+
+        return uniqueSectionOnListViewEditPage.getText();
     }
 }

@@ -5,9 +5,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.List;
+
 public class FreestyleProjectStatusPage extends BasePage {
 
-    @FindBy(xpath = "//h1")
+    @FindBy(tagName = "h1")
     private WebElement headline;
 
     @FindBy(linkText = "Configure")
@@ -39,6 +41,30 @@ public class FreestyleProjectStatusPage extends BasePage {
 
     @FindBy(xpath = "//span[contains(text(),'Delete Project')]")
     private WebElement buttonDeleteProject;
+
+    @FindBy(xpath = "//li[@class='item'][2]")
+    private WebElement projectButton;
+
+    @FindBy(css = ".collapse")
+    private WebElement buttonOpenBuildHistoryOnSidePanel;
+
+    @FindBy(css = "#no-builds")
+    private WebElement buildsInformationOnSidePanel;
+
+    @FindBy(css = ".build-row-cell")
+    private List<WebElement> buildRowsOnBuildsInformation;
+
+    @FindBy(linkText = "Build Now")
+    private WebElement buttonBuildNowOnSidePanel;
+
+    @FindBy(css = ".build-status-icon__outer>[tooltip = 'Success &gt; Console Output']")
+    private WebElement buildLoadingIconSuccess;
+
+    @FindBy(linkText = "Build Now")
+    private WebElement buttonBuildNow;
+
+    @FindBy(xpath = "//span[contains(@class, 'build-status-icon')]/span/child::*")
+    private WebElement buildStatusIcon;
 
     public FreestyleProjectStatusPage(WebDriver driver) {
         super(driver);
@@ -112,5 +138,48 @@ public class FreestyleProjectStatusPage extends BasePage {
         sideMenuConfigure.click();
 
         return new FreestyleProjectConfigPage(getDriver());
+    }
+
+    public String getFreestyleProjectName(String name){
+
+        return projectButton.getText();
+    }
+
+    public String getProjectName() {
+        return headline.getText().substring(8);
+    }
+
+    public FreestyleProjectStatusPage openBuildHistoryOnSidePanel() {
+        if (buttonOpenBuildHistoryOnSidePanel.getAttribute("title").equals("expand")) {
+            buttonOpenBuildHistoryOnSidePanel.click();
+        }
+
+        return this;
+    }
+
+    public int countBuildsOnSidePanel() {
+        getWait(10).until(ExpectedConditions.attributeContains(buildsInformationOnSidePanel, "style", "display"));
+        int countBuilds = 0;
+        if (buildsInformationOnSidePanel.getAttribute("style").equals("display: none;")) {
+            countBuilds = buildRowsOnBuildsInformation.size();
+        }
+
+        return countBuilds;
+    }
+
+    public FreestyleProjectStatusPage clickBuildNowOnSidePanel() {
+        buttonBuildNowOnSidePanel.click();
+        getWait(20).until(ExpectedConditions.visibilityOf((buildLoadingIconSuccess)));
+        getWait(10).until(ExpectedConditions.attributeToBe(buildsInformationOnSidePanel,"style","display: none;"));
+
+        return this;
+    }
+
+    public FreestyleProjectStatusPage clickButtonBuildNowAndWaitBuildComplete(){
+        buttonBuildNow.click();
+        getWait(60).until(ExpectedConditions.not(ExpectedConditions
+                .attributeContains(buildStatusIcon, "tooltip", "In progress &gt; Console Output")));
+
+        return this;
     }
 }
