@@ -8,28 +8,23 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectUtils;
 import runner.TestUtils;
 
-import java.util.List;
 
-public class NewItemCreatePipelineTest extends BaseTest {
+public class Pipeline2Test extends BaseTest {
 
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By SAVE_BUTTON = By.id("yui-gen6-button");
-    private static final By LINK_TO_DASHBOARD  = By.id("jenkins-name-icon");
     private static final By GITHUB_CHECKBOX  = By.xpath("//label[text()='GitHub project']");
-    private static final By CONFIGURE_BUTTON  = By.linkText("Configure");
-
     private static final String RANDOM_STRING  = TestUtils.getRandomStr(7);
-    private static final String ITEM_DESCRIPTION = "This is a sample " +
-            "description for item";
+    private static final String ITEM_DESCRIPTION = "This is a sample description for item";
 
-    private void createPipeline(String jobName) {
-        setJobPipeline(jobName);
-        getDriver().findElement(OK_BUTTON).click();
+    private void createPipeline() {
+        ProjectUtils.createNewItemFromDashboard(getDriver(),By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
     }
 
-    private void setJobPipeline(String jobName) {
+    private void setJobTypePipeline(String jobName) {
         getDriver().findElement(By.linkText("New Item")).click();
         getWait(5).until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys(jobName);
         getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
@@ -52,35 +47,15 @@ public class NewItemCreatePipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreateNewItemWithUnsafeCharacterName(){
-        final String nameNewItem = "5%^PiPl$^Ne)";
-        String errorMessage = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(nameNewItem)
-                .getNameErrorMessageText();
-
-        Assert.assertEquals(errorMessage,"» ‘%’ is an unsafe character");
-    }
-
-    @Test
-    public void testCreateNewItemWithoutChooseAnyFolder(){
-        setJobPipeline("");
-
-        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
-                "» This field cannot be empty, please enter a valid name");
-    }
-
-    @Test
     public void testCreatePipelineOnBreadcrumbs () {
-        createPipeline(RANDOM_STRING);
+        createPipeline();
 
-        Assert.assertTrue(getDriver().findElement(By.className("jenkins-breadcrumbs"))
-                .getAttribute("textContent").contains(RANDOM_STRING));
+        Assert.assertTrue(getDriver().findElement(By.className("jenkins-breadcrumbs")).getAttribute("textContent").contains(RANDOM_STRING));
     }
 
     @Test
     public void testCreateNewPipeline() {
-        createPipeline(RANDOM_STRING);
+        createPipeline();
         new Actions(getDriver()).moveToElement(getDriver().findElement(SAVE_BUTTON)).click().perform();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']")).getText(),
@@ -89,9 +64,9 @@ public class NewItemCreatePipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithName() {
-        createPipeline(RANDOM_STRING);
+        createPipeline();
         getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(LINK_TO_DASHBOARD).click();
+        getDriver().findElement(By.id("jenkins-name-icon")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", RANDOM_STRING))).getText(),
                 RANDOM_STRING);
@@ -131,7 +106,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
     public void testBuildParametrizedProject() {
         getDriver().findElement((By.xpath(String.format(
                 "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", RANDOM_STRING)))).click();
-        getDriver().findElement(CONFIGURE_BUTTON).click();
+        getDriver().findElement(By.linkText("Configure")).click();
 
         getDriver().findElement(By.xpath("//label[text()='This project is parameterized']")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
@@ -167,24 +142,9 @@ public class NewItemCreatePipelineTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.className("console-output")).getText().contains("Finished: SUCCESS"));
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testWarningMessageIsDisappeared")
-    public void testCreateNewItemFromOtherNonExistingName() {
-        final String jobName = TestUtils.getRandomStr(7);
-
-        setJobPipeline(jobName);
-        new Actions(getDriver()).moveToElement(getDriver().findElement(By.id("from"))).click()
-                .sendKeys(jobName).perform();
-        getDriver().findElement(OK_BUTTON).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
-                "No such job: " + jobName);
-    }
-
     @Test
     public void testCreateNewPipelineWithDescription() {
-        setJobPipeline(RANDOM_STRING);
-        getDriver().findElement(OK_BUTTON).click();
+        createPipeline();
         getDriver().findElement(By.cssSelector(".jenkins-input")).sendKeys(ITEM_DESCRIPTION);
         getDriver().findElement(SAVE_BUTTON).click();
 
@@ -197,7 +157,7 @@ public class NewItemCreatePipelineTest extends BaseTest {
     public void testCreateNewPipelineFromExisting() {
         final String jobName = TestUtils.getRandomStr(7);
 
-        setJobPipeline(jobName);
+        setJobTypePipeline(jobName);
         TestUtils.scrollToEnd(getDriver());
         new Actions(getDriver()).pause(300).moveToElement(getDriver().findElement(By.cssSelector("#from")))
                 .click().sendKeys(RANDOM_STRING.substring(0,2)).pause(400)
@@ -206,43 +166,10 @@ public class NewItemCreatePipelineTest extends BaseTest {
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(SAVE_BUTTON).click();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector(".job-index-headline.page-headline"))
-                .getAttribute("textContent").substring(9),jobName);
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child"))
-                .getAttribute("textContent"),ITEM_DESCRIPTION);
-    }
-
-    @Ignore
-    @Test(dependsOnMethods = "testCreatePipelineWithName")
-    public void testPipelineStepFromSCMConfiguration() {
-
-        getDriver().findElements(By.xpath("//tr/td/a")).get(0).click();
-        getDriver().findElement(CONFIGURE_BUTTON).click();
-
-        List<WebElement> selectDropDownList = getDriver().findElements(By.className("dropdownList"));
-        new Select(selectDropDownList.get(1)).selectByVisibleText("Pipeline script from SCM");
-
-        new Select(getDriver().findElement(By.cssSelector(".dropdownList-container.tr .dropdownList"))).selectByValue("1");
-        getDriver().findElement(By.xpath("//input[@checkdependson='credentialsId']")).sendKeys("https://github.com/olpolezhaeva/MyAppium");
-
-        WebElement branchField = getDriver().findElement(By.xpath("//div[@name='branches']//input[@default='*/master']"));
-        branchField.clear();
-        branchField.sendKeys("*/main");
-
-        WebElement jenkinsFilePathField = getDriver().findElement(By.xpath("//input[@default='Jenkinsfile']"));
-        jenkinsFilePathField.clear();
-        jenkinsFilePathField.sendKeys("jenkins/first.jenkins");
-
-        getDriver().findElement(SAVE_BUTTON).click();
-
-        getDriver().findElement(By.linkText("Build Now")).click();
-        getWait(20).until(ExpectedConditions.presenceOfElementLocated(By.className("build-icon"))).click();
-
-        String stepEchoTotalText = getDriver().findElement(By.xpath("//span[@class='pipeline-node-17']")).getText();
-
-        Assert.assertEquals(
-                stepEchoTotalText.replace(getDriver().findElement(By.xpath("//span[@class='timestamp']")).getText(), "").trim(),
-                "This is MyPipelineJob!");
+        Assert.assertEquals(getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getAttribute("textContent").substring(9),
+                jobName);
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child")).getAttribute("textContent"),
+                ITEM_DESCRIPTION);
     }
 
     @Test(dependsOnMethods = "testCreateNewPipelineWithDescription")
