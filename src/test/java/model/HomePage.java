@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import javax.xml.stream.events.EndElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,13 +49,16 @@ public class HomePage extends BasePage {
     private WebElement people;
 
     @FindBy(css = ".tabBar>.tab>a[class='']")
-    private WebElement openViewLink;
+    private WebElement viewLink;
 
     @FindBy(css = ".tabBar>.tab>a.addTab")
     private WebElement addViewLink;
 
     @FindBy(xpath = "//span[text()='Move']")
     private WebElement moveButtonDropdown;
+
+    @FindBy(css = "a[href*=configure]")
+    private WebElement editViewMenuLink;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -72,8 +76,8 @@ public class HomePage extends BasePage {
         return new HomePage(getDriver());
     }
 
-    public HomePage clickViewLink() {
-        openViewLink.click();
+    public HomePage clickViewLink(String viewName) {
+        viewLink.findElement(By.linkText(viewName)).click();
 
         return this;
     }
@@ -174,5 +178,23 @@ public class HomePage extends BasePage {
         scrollToElement(getDriver(), moveButtonDropdown);
         moveButtonDropdown.click();
         return new MovePage(getDriver());
+    }
+
+    public boolean isViewActive(String viewName){
+
+        return viewLink.findElement(By.linkText(viewName)).getAttribute("class").equals("tab active");
+    }
+
+    public EditViewPage clickEditViewMenuLink() {
+        editViewMenuLink.click();
+
+        return new EditViewPage(getDriver());
+    }
+
+    public boolean isCheckboxChecked(WebElement element) {
+        if(element.getAttribute("type").equals("checkbox")) {
+            return element.isSelected();
+        }
+        return false;
     }
 }

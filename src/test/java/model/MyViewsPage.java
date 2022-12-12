@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MyViewsPage extends HomePage{
+public class MyViewsPage<Self extends MyViewsPage<?>> extends HomePage{
 
     @FindBy(css = "a[title='New View']")
     private WebElement newView;
@@ -53,5 +53,4 @@ public class MyViewsPage extends HomePage{
 
         return new ViewPage(getDriver());
     }
-
 }

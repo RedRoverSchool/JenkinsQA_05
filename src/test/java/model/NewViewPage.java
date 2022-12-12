@@ -1,6 +1,5 @@
 package model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -34,22 +33,25 @@ public class NewViewPage extends MyViewsPage {
         return this;
     }
 
-    public NewViewPage setGlobalViewType() {
+    public EditViewPage setAndCreateGlobalViewType() {
         globalViewType.click();
+        createButton.click();
 
-        return this;
+        return new EditViewPage(getDriver());
     }
 
-    public NewViewPage setListViewType() {
+    public EditListViewPage setAndCreateListViewType() {
         listViewType.click();
+        createButton.click();
 
-        return this;
+        return new EditListViewPage(getDriver());
     }
 
-    public NewViewPage setMyViewType() {
+    public ViewPage setAndCreateMyViewType() {
         myViewType.click();
+        createButton.click();
 
-        return this;
+        return new ViewPage(getDriver());
     }
 
     public EditViewPage clickCreateButton() {
@@ -57,5 +59,4 @@ public class NewViewPage extends MyViewsPage {
 
         return new EditViewPage(getDriver());
     }
-
 }

@@ -77,22 +77,19 @@ public class NewView1Test extends BaseTest {
                 .clickMyViews()
                 .clickNewView()
                 .setViewName(GLOBAL_VIEW_NAME)
-                .setGlobalViewType()
-                .clickCreateButton()
+                .setAndCreateGlobalViewType()
                 .clickDashboard()
 
                 .clickMyViews()
                 .clickNewView()
                 .setViewName(LIST_VIEW_NAME)
-                .setListViewType()
-                .clickCreateButton()
+                .setAndCreateListViewType()
                 .clickDashboard()
 
                 .clickMyViews()
                 .clickNewView()
                 .setViewName(MY_VIEW_NAME)
-                .setMyViewType()
-                .clickCreateButton()
+                .setAndCreateListViewType()
                 .clickDashboard()
 
                 .clickMyViews();

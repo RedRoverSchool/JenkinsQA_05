@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ViewPage extends BasePage{
+public class ViewPage extends MyViewsPage{
     @FindBy(xpath = "//span[text()='Edit View']/..")
     private WebElement editView;
 
