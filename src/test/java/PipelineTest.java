@@ -1,5 +1,4 @@
 import model.HomePage;
-import model.HomePage;
 import model.MyViewsPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
