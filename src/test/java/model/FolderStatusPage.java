@@ -37,6 +37,9 @@ public class FolderStatusPage extends BasePage {
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement renameSubmitButton;
 
+    @FindBy(xpath = "//h1")
+    private WebElement folderHeader;
+
     public FolderStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -95,5 +98,10 @@ public class FolderStatusPage extends BasePage {
         renameSubmitButton.click();
 
         return new FolderStatusPage(getDriver());
+    }
+
+    public String getHeaderFolderText() {
+
+        return folderHeader.getText();
     }
 }
