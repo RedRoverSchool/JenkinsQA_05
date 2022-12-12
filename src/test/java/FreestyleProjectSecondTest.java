@@ -1,7 +1,7 @@
+import model.FreestyleProjectConfigPage;
 import model.HomePage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -102,37 +102,24 @@ public class FreestyleProjectSecondTest extends BaseTest {
         Assert.assertEquals(actualMaxNumberOfBuildsToKeep,expectedMaxNumberOfBuildsToKeep);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testConfigurationProvideKeepMaxNumberOfOldBuilds")
     public void testVerifyOptionsInBuildStepsSection() {
+        final Set<String> expectedOptionsInBuildStepsSection = new HashSet<>(List.of("Execute Windows batch command",
+                "Execute shell", "Invoke Ant", "Invoke Gradle script", "Invoke top-level Maven targets",
+                "Run with timeout", "Set build status to \"pending\" on GitHub commit"));
 
-        final Set<String> expectedOptions = new HashSet<>(List.of("Execute Windows batch command", "Execute shell",
-                "Invoke Ant", "Invoke Gradle script", "Invoke top-level Maven targets", "Run with timeout",
-                "Set build status to \"pending\" on GitHub commit"));
-        Set<String> actualOptions = new HashSet<>();
+        Set<String> actualOptionsInBuildStepsSection = new HomePage(getDriver())
+                .clickFreestyleProjectName(NEW_FREESTYLE_NAME)
+                .clickSideMenuConfigureLink()
+                .clickBuildStepsSideMenuOption()
+                .openAddBuildStepDropDown()
+                .collectOptionsInBuildStepsDropDown();
 
-        getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
-                .click();
-        getDriver().findElement(By.xpath("//button[@data-section-id='build-steps']")).click();
+        new FreestyleProjectConfigPage (getDriver())
+                .closeAddBuildStepDropDown()
+                .clickSaveBtn();
 
-        scrollToElement_PlaceInCenter(getDriver(),
-                getDriver().findElement(By.xpath("//button[text()='Add build step']")));
-        getWait(10).until(TestUtils
-                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']"))).click();
-        List<WebElement> listOfOptions = getDriver()
-                .findElements(By.xpath("//button[text()='Add build step']/../../..//a[@href='#']"));
-
-        for (WebElement element : listOfOptions) {
-            actualOptions.add(element.getText());
-        }
-
-        getWait(10).until(TestUtils
-                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[text()='Add build step']"))).click();
-        getWait(10).until(TestUtils
-                .ExpectedConditions.elementIsNotMoving(By.xpath("//button[@type='submit']"))).click();
-
-        Assert.assertEquals(actualOptions, expectedOptions);
+        Assert.assertEquals(actualOptionsInBuildStepsSection, expectedOptionsInBuildStepsSection);
     }
 
     @Ignore
