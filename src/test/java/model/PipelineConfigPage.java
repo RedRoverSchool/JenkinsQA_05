@@ -3,6 +3,8 @@ package model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.TestUtils;
 
 public class PipelineConfigPage extends BasePage {
 
@@ -17,6 +19,12 @@ public class PipelineConfigPage extends BasePage {
 
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
+
+    @FindBy (xpath = "//option[text()='try sample Pipeline...']")
+    private WebElement trySamplePipelineDropDownMenu;
+
+    @FindBy (css = "option[value='hello']")
+    private WebElement helloWorldScript;
 
     @FindBy(name = "description")
     private WebElement descriptionField;
@@ -59,6 +67,30 @@ public class PipelineConfigPage extends BasePage {
         topMenuRoot.click();
 
         return new HomePage(getDriver());
+    }
+
+    public PipelineConfigPage scrollToEndPipelineConfigPage () {
+        TestUtils.scrollToEnd(getDriver());
+
+        return this;
+    }
+
+    public PipelineConfigPage clickTrySamplePipelineDropDownMenu() {
+        getWait(10).until(ExpectedConditions.visibilityOf(trySamplePipelineDropDownMenu)).click();
+
+        return this;
+    }
+
+    public PipelineConfigPage clickHelloWorld() {
+        helloWorldScript.click();
+
+        return this;
+    }
+
+    public PipelineProjectPage clickSaveButton() {
+        saveButton.click();
+
+        return new PipelineProjectPage(getDriver());
     }
 
     public PipelineConfigPage setDescriptionField(String name) {

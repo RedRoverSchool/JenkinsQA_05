@@ -14,6 +14,7 @@ import static runner.TestUtils.scrollToElement;
 
 public class HomePage extends BasePage {
 
+    public boolean getProjectNameFromProjectTabl;
     @FindBy(linkText = "Build History")
     private WebElement buildHistory;
 
@@ -82,6 +83,9 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//span[contains(@class, 'build-status-icon')]/span/child::*")
     private WebElement buildStatusIcon;
+
+    @FindBy(xpath = "//*[@id=\"job_Pipeline1\"]/td[4]")
+    private WebElement lastSuccessStatus;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -316,5 +320,10 @@ public class HomePage extends BasePage {
         getDriver().findElement(By.xpath(String.format("//a[@href='/view/%s/']", name))).click();
 
         return new ViewPage(getDriver());
+    }
+
+    public String getLastSuccessText() {
+
+        return lastSuccessStatus.getText();
     }
 }
