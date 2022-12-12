@@ -42,10 +42,6 @@ public class PipelineTest extends BaseTest {
     private static final By TEXTAREA_DESCRIPTION = By.xpath("//textarea[@name='description']");
     private static final By GITHUB_CHECKBOX  = By.xpath("//label[text()='GitHub project']");
 
-    private void createPipeline() {
-        ProjectUtils.createNewItemFromDashboard(getDriver(),By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
-    }
-
     private static String generatePipelineProjectName() {
         return RandomStringUtils.randomAlphanumeric(10);
     }
@@ -320,14 +316,14 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineOnBreadcrumbs () {
-        createPipeline();
+        ProjectUtils.createNewItemFromDashboard(getDriver(),By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
 
         Assert.assertTrue(getDriver().findElement(By.className("jenkins-breadcrumbs")).getAttribute("textContent").contains(RANDOM_STRING));
     }
 
     @Test
     public void testCreateNewPipeline() {
-        createPipeline();
+        ProjectUtils.createNewItemFromDashboard(getDriver(),By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
         new Actions(getDriver()).moveToElement(getDriver().findElement(BUTTON_SAVE)).click().perform();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']")).getText(),
@@ -336,7 +332,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithName() {
-        createPipeline();
+        ProjectUtils.createNewItemFromDashboard(getDriver(),By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
         getDriver().findElement(BUTTON_SAVE).click();
         getDriver().findElement(By.id("jenkins-name-icon")).click();
 
@@ -416,7 +412,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreateNewPipelineWithDescription() {
-        createPipeline();
+        ProjectUtils.createNewItemFromDashboard(getDriver(),By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
         getDriver().findElement(By.cssSelector(".jenkins-input")).sendKeys(ITEM_DESCRIPTION);
         getDriver().findElement(BUTTON_SAVE).click();
 
