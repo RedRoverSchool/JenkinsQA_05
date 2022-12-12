@@ -48,10 +48,8 @@ public class EditViewPage extends HomePage {
     }
 
     public EditViewPage addJobToView(String name) {
-        TestUtils.scrollToElement_PlaceInCenter(getDriver(),
-                getDriver().findElement(By.xpath("//label[@title='" + name + "']")));
-        getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(
-                By.xpath("//label[@title='" + name + "']"))).click();
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(
+                By.xpath(String.format("//label[@title='%s']", name)))).click();
 
         return this;
     }
