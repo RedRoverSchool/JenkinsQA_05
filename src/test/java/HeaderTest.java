@@ -1,3 +1,4 @@
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -56,20 +57,16 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testCountAndNamesItemsInUserDropdownMenu() {
-        openUserDropdownMenu();
-        List<WebElement> userDropdownItems = getWait(5).until(
-                ExpectedConditions.visibilityOfAllElementsLocatedBy(
-                        By.cssSelector(".first-of-type > .yuimenuitem")));
-        int actualItemsCount = 0;
-        StringBuilder actualNamesItems = new StringBuilder();
-        for (WebElement item : userDropdownItems) {
-            actualItemsCount++;
-            actualNamesItems.append(item.getText()).append(" ");
-        }
+        int itemsCount = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .getItemsCountInUserDropdownMenu();
 
-        Assert.assertEquals(actualItemsCount, 4);
-        Assert.assertEquals(actualNamesItems.toString().trim(),
-                "Builds Configure My Views Credentials");
+        String itemsNames = new HomePage (getDriver())
+                .clickUserDropdownMenu()
+                .getItemsNamesInUserDropdownMenu();
+
+        Assert.assertEquals(itemsCount, 4);
+        Assert.assertEquals(itemsNames,"Builds Configure My Views Credentials");
     }
 
     @Test

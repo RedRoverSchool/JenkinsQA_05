@@ -68,6 +68,12 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//div/a[@class='model-link']")
     private WebElement iconUserName;
 
+    @FindBy(css = "#page-header .jenkins-menu-dropdown-chevron")
+    private WebElement userDropdownMenu;
+
+    @FindBy(css = ".first-of-type > .yuimenuitem")
+    private List<WebElement> userDropdownMenuItems;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -222,5 +228,33 @@ public class HomePage extends BasePage {
         iconUserName.click();
 
         return new StatusUserPage(getDriver());
+    }
+
+    public HomePage clickUserDropdownMenu() {
+        userDropdownMenu.click();
+
+        return this;
+    }
+
+    public int getItemsCountInUserDropdownMenu() {
+        int itemsCount = 0;
+        for (WebElement item : getWait(5).until(
+                ExpectedConditions.visibilityOfAllElements(
+                        userDropdownMenuItems))) {
+            itemsCount++;
+        }
+
+        return itemsCount;
+    }
+
+    public String getItemsNamesInUserDropdownMenu() {
+        StringBuilder itemsNames = new StringBuilder();
+        for (WebElement item : getWait(5).until(
+                ExpectedConditions.visibilityOfAllElements(
+                        userDropdownMenuItems))) {
+            itemsNames.append(item.getText()).append(" ");
+        }
+
+        return itemsNames.toString().trim();
     }
 }
