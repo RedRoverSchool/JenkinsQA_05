@@ -3,6 +3,7 @@ package model;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
@@ -241,7 +242,11 @@ public class FreestyleProjectConfigPage extends BasePage {
     }
 
     public FreestyleProjectConfigPage openAddBuildStepDropDown() {
-        scrollToElement_PlaceInCenter(getDriver(), buildStepsButton);
+        new Actions(getDriver())
+                .scrollToElement(buildStepsButton)
+                .moveToElement(buildStepsButton)
+                .perform();
+        getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".yui-button-hover.yui-menu-button-hover")));
         getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(buildStepsButton)).click();
         getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".yui-button-active.yui-menu-button-active")));
 
