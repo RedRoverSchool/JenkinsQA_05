@@ -8,16 +8,19 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MyViewsPage extends HomePage {
+public class MyViewsPage extends HomePage{
 
     @FindBy(css = "a[title='New View']")
     private WebElement newView;
 
-    @FindBy(xpath = "//tbody/tr/td/a")
-    private List<WebElement> listViews;
+    @FindBy(css = ".tabBar .tab a[href]")
+    private List <WebElement> listViews;
 
     @FindBy(css = ".pane-header-title")
-    private List<WebElement> listViewActiveFilters;
+    private List <WebElement> listViewActiveFilters;
+
+    @FindBy(xpath = "//tbody/tr/td/a")
+    private  List <WebElement> listProjects;
 
     public MyViewsPage(WebDriver driver) {
         super(driver);
@@ -54,4 +57,17 @@ public class MyViewsPage extends HomePage {
         return new ViewPage(getDriver());
     }
 
+    public List <WebElement> getProjectsList(){
+
+        return listProjects;
+    }
+
+    public String getListProjectsNames() {
+        StringBuilder listProjectsNames = new StringBuilder();
+        for (WebElement projects : getProjectsList()) {
+            listProjectsNames.append(projects.getText()).append(" ");
+        }
+
+        return listProjectsNames.toString().trim();
+    }
 }

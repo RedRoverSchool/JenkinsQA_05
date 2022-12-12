@@ -1,6 +1,6 @@
 import model.HomePage;
+import model.MyViewsPage;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -9,8 +9,6 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
-
-import java.util.List;
 
 import static runner.TestUtils.getRandomStr;
 
@@ -120,15 +118,14 @@ public class PipelineTest extends BaseTest {
 
         final String pipelineName = TestUtils.getRandomStr(5);
 
-        String pipelineNameInMyViewList = new HomePage(getDriver())
+        MyViewsPage pipelineNameInMyViewList = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(pipelineName)
                 .selectPipelineAndClickOk()
                 .clickDashboard()
-                .clickMyViews()
-                .getListViewsNames();
+                .clickMyViews();
 
-        Assert.assertEquals(pipelineNameInMyViewList, pipelineName);
+        Assert.assertTrue(pipelineNameInMyViewList.getListProjectsNames().contains(pipelineName));
     }
 
     @Ignore
