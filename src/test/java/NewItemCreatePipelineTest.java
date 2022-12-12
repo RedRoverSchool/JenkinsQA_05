@@ -97,18 +97,6 @@ public class NewItemCreatePipelineTest extends BaseTest {
                 RANDOM_STRING);
     }
 
-
-    @Test(dependsOnMethods = "testAddingGitRepository")
-    public void testDeletePipelineFromDashboard() {
-        getDriver().findElement(LINK_TO_DASHBOARD).click();
-        getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", RANDOM_STRING))).click();
-        getDriver().findElement(By.xpath("//span[text()='Delete Pipeline']")).click();
-        getDriver().switchTo().alert().accept();
-
-        Assert.assertNotNull(getDriver().findElement(By.className("empty-state-block")));
-    }
-
-
     @Test(dependsOnMethods = "testCreateNewPipeline")
     public void testAddingGitRepository() {
         final String gitHubRepo = "https://github.com/patriotby07/simple-maven-project-with-tests";
