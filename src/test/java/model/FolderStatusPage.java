@@ -66,8 +66,8 @@ public class FolderStatusPage extends BasePage {
     }
 
     public NewItemPage clickNewItemDropdownThisFolderInBreadcrumbs(){
-        breadcrumbsThisFolderToggleDropdown.click();
-        newItemInDropDown.click();
+        getWait(5).until(ExpectedConditions.visibilityOf(breadcrumbsThisFolderToggleDropdown)).click();
+        getWait(5).until(ExpectedConditions.visibilityOf(newItemInDropDown)).click();
 
         return new NewItemPage(getDriver());
     }
