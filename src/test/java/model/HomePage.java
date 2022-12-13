@@ -31,6 +31,9 @@ public class HomePage extends BasePage {
     @FindBy(linkText = "Configure")
     private WebElement configureDropDownMenu;
 
+    @FindBy(linkText = "Rename")
+    private WebElement renameDropDownMenu;
+
     @FindBy(xpath = "//td[3]/a/button")
     private WebElement dropDownMenuOfJob;
 
@@ -143,6 +146,12 @@ public class HomePage extends BasePage {
         getDriver().findElement(By.linkText(name)).click();
 
         return new FreestyleProjectStatusPage(getDriver());
+    }
+
+    public RenameItemPage clickRenameDropDownMenu() {
+        getWait(6).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
+
+        return new RenameItemPage(getDriver());
     }
 
     public ConfigurationGeneralPage clickConfigDropDownMenu() {
