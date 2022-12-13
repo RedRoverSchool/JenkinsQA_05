@@ -1,3 +1,4 @@
+import model.EditViewPage;
 import model.HomePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -109,7 +110,6 @@ public class EditViewTest extends BaseTest{
                 .moveByOffset(0,offset/2)
                 .release().perform();
     }
-    @Ignore
     @Test
     public void testGlobalViewAddFilterBuildQueue() {
         boolean newPaneIsDisplayed = new HomePage(getDriver())
@@ -122,7 +122,7 @@ public class EditViewTest extends BaseTest{
                 .setViewName(getRandomStr())
                 .setGlobalViewType()
                 .clickCreateButton()
-                .filterBuildQueueOptionCheckBoxSelect()
+                .selectFilterBuildQueueOptionCheckBox()
                 .clickOkButton()
                 .getActiveFiltersList()
                 .contains("Filtered Build Queue");
@@ -143,19 +143,23 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testGlobalViewAddBothFilters() {
-        localViewNameVar = getRandomStr();
-        editViewTestPreConditions(0, localViewNameVar);
 
-        getDriver().findElement(FILTER_QUEUE).click();
-        getDriver().findElement(By.cssSelector("input[name=filterExecutors]+label")).click();
-        getDriver().findElement(SUBMIT_BUTTON).click();
-        goToEditView(localViewNameVar);
+        EditViewPage editViewPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(getRandomStr())
+                .selectFolderAndClickOk()
+                .clickDashboard()
+                .clickMyViews()
+                .clickAddViewLink()
+                .setViewName(getRandomStr())
+                .setGlobalViewType()
+                .clickCreateButton()
+                .selectFilterBuildQueueOptionCheckBox()
+                .selectFilterBuildExecutorsOptionCheckBox()
+                .clickOkButton()
+                .clickEditViewLink();
 
-        String filterBuildQueueStatus = getDriver().findElement(
-                By.cssSelector("input[name=filterQueue]")).getAttribute("checked");
-        String filterBuildExecutorsStatus = getDriver().findElement(
-                By.cssSelector("input[name=filterExecutors]")).getAttribute("checked");
-        Assert.assertTrue(filterBuildQueueStatus.equals("true") && filterBuildExecutorsStatus.equals("true"));
+        Assert.assertTrue(editViewPage.isFilterBuildQueueOptionCheckBoxSelected() && editViewPage.isFilterBuildExecutorsOptionCheckBoxSelected());
     }
 
     @Test
