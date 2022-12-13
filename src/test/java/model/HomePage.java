@@ -326,4 +326,9 @@ public class HomePage extends BasePage {
 
         return lastSuccessStatus.getText();
     }
+
+    public String getJobName(String name) {
+
+        return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", name))).getText();
+    }
 }

@@ -185,4 +185,10 @@ public class NewItemPage extends HomePage {
 
         return this;
     }
+
+    public MulticonfigurationProjectConfigPage clickOK() {
+        okButton.click();
+
+        return new MulticonfigurationProjectConfigPage(getDriver());
+    }
 }
