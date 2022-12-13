@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 import java.util.List;
 
-public class NewItemPage extends HomePage {
+public class NewItemPage extends BasePage {
 
     @FindBy(className = "item")
     private WebElement rootMenuDashboardLink;
@@ -16,7 +16,7 @@ public class NewItemPage extends HomePage {
     private WebElement itemName;
 
     @FindBy(id = "itemname-required")
-    private WebElement itemNameRequiredMessage;
+    private WebElement itemNameRequiredMsg;
 
     @FindBy(xpath = "//div[@class='icon']")
     private List<WebElement> itemsList;
@@ -36,11 +36,17 @@ public class NewItemPage extends HomePage {
     @FindBy(xpath = "//span[contains(text(), 'Multi-configuration project')]")
     private WebElement multiConfigurationProject;
 
-    @FindBy(xpath = "//span[contains(text(), 'Multibranch Pipeline')]")
+    @FindBy(xpath = "//li[@class='org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject']")
     private WebElement multibranchPipeline;
 
     @FindBy(xpath = "//span[text() = 'Pipeline']")
     private WebElement pipeline;
+
+    @FindBy(css = "div#itemname-invalid" )
+    private WebElement itemNameInvalidMsg;
+
+    @FindBy(id = "from")
+    private WebElement copyFrom;
 
 
     public NewItemPage(WebDriver driver) {
@@ -102,6 +108,13 @@ public class NewItemPage extends HomePage {
         return new CreateItemErrorPage(getDriver());
     }
 
+    public NewItemPage setItem(int index) {
+        getAction().scrollByAmount(0, 250).perform();
+        itemsList.get(index).click();
+
+        return this;
+    }
+
     public int getItemsListSize() {
         getWait(5).until(ExpectedConditions.visibilityOfAllElements(itemsList));
         return itemsList.size();
@@ -114,16 +127,19 @@ public class NewItemPage extends HomePage {
         return this;
     }
 
-    public String getInputValidationMsg() {
-        return itemNameRequiredMessage.getText();
+    public MultibranchPipelineConfigPage selectMultibranchPipelineAndClickOk() {
+        multibranchPipeline.click();
+        okButton.click();
+
+        return new MultibranchPipelineConfigPage(getDriver());
+    }
+
+    public String getItemNameRequiredMsg() {
+        return itemNameRequiredMsg.getText();
     }
 
     public boolean isOkButtonEnabled() {
         return okButton.isEnabled();
-    }
-
-    public WebElement getOkButton() {
-        return okButton;
     }
 
     public PipelineConfigPage selectPipelineAndClickOk() {
@@ -131,5 +147,27 @@ public class NewItemPage extends HomePage {
         okButton.click();
 
         return new PipelineConfigPage(getDriver());
+    }
+
+    public String getItemNameInvalidMsg() {
+        return itemNameInvalidMsg.getAttribute("textContent");
+    }
+
+    public NewItemPage selectPipeline() {
+        pipeline.click();
+
+        return this;
+    }
+
+    public NewItemPage setCopyFrom(String name) {
+        getAction().moveToElement(copyFrom).click().sendKeys(name).perform();
+
+        return this;
+    }
+
+    public CreateItemErrorPage clickOkButton() {
+        okButton.click();
+
+        return new CreateItemErrorPage(getDriver());
     }
 }

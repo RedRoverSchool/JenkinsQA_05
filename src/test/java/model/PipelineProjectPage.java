@@ -18,6 +18,15 @@ public class PipelineProjectPage extends BasePage{
     @FindBy(css = "#description >*:first-child")
     private WebElement description;
 
+    @FindBy(xpath = "//span[text()='Delete Pipeline']")
+    private WebElement deletePipelineButton;
+
+    @FindBy(xpath = "(//a[contains(@class,'task-link')])[7]")
+    private WebElement gitHubSideMenu;
+
+    @FindBy(xpath = "//a[contains(text(), 'Dashboard')]")
+    private WebElement dashboardLink;
+
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -36,8 +45,29 @@ public class PipelineProjectPage extends BasePage{
         return this;
     }
 
-    public String getDescription(String name) {
+    public String getDescription() {
 
-        return description.getAttribute(name);
+        return description.getAttribute("textContent");
+    }
+
+    public HomePage clickDeletePipelineButton() {
+        deletePipelineButton.click();
+        getDriver().switchTo().alert().accept();
+
+        return new HomePage(getDriver());
+    }
+
+    public HomePage clickDashboard() {
+        dashboardLink.click();
+
+        return new HomePage(getDriver());
+    }
+
+    public boolean isDisplayedGitHubOnSideMenu() {
+        return gitHubSideMenu.isDisplayed();
+    }
+
+    public String getAttributeGitHubSideMenu(String attribute) {
+        return gitHubSideMenu.getAttribute(attribute);
     }
 }

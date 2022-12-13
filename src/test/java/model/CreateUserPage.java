@@ -9,19 +9,19 @@ public class CreateUserPage extends BasePage{
     @FindBy(id = "username")
     private WebElement username;
 
-    @FindBy(xpath = "//div/input[@name='password1']")
+    @FindBy(name = "password1")
     private WebElement password;
 
-    @FindBy(xpath = "//div/input[@name='password2']")
+    @FindBy(name = "password2")
     private WebElement confirmPassword;
 
-    @FindBy(xpath = "//div/input[@name='fullname']")
+    @FindBy(name = "fullname")
     private WebElement fullName;
 
-    @FindBy(xpath = "//div/input[@name='email']")
+    @FindBy(name = "email")
     private WebElement email;
 
-    @FindBy(xpath = "//span/button[@type='submit']")
+    @FindBy(id = "yui-gen1-button")
     private WebElement createUserButton;
 
     public CreateUserPage(WebDriver driver) {
