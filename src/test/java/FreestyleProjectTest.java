@@ -361,7 +361,7 @@ public class FreestyleProjectTest extends BaseTest {
     public void testCreateFreestyleProjectWithEmptyName() {
         NewItemPage newItemPage = new HomePage(getDriver()).clickNewItem().selectFreestyleProject();
 
-        Assert.assertEquals(newItemPage.getInputValidationMsg(), "» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(newItemPage.getItemNameRequiredMsg(), "» This field cannot be empty, please enter a valid name");
         Assert.assertFalse(newItemPage.isOkButtonEnabled());
     }
 

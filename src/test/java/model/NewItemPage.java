@@ -42,7 +42,7 @@ public class NewItemPage extends BasePage {
     @FindBy(xpath = "//span[text() = 'Pipeline']")
     private WebElement pipeline;
 
-    @FindBy(css = "div#itemname-invalid" )
+    @FindBy(id = "itemname-invalid" )
     private WebElement itemNameInvalidMsg;
 
     @FindBy(id = "from")
