@@ -449,18 +449,16 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(actualDescription,ITEM_NEW_DESCRIPTION);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreatePipelineWithName")
     public void testEnablePipelineProject() {
-        createPipelineProject("testProject");
-
-        HomePage homePage = new HomePage(getDriver());
-            homePage.clickDashboard()
+        String jobStatusAfterEnable = new HomePage(getDriver())
+                .clickDashboard()
                 .clickPipelineProjectName()
                 .clickDisableProject()
-                .clickEnableProject();
+                .clickEnableProject()
+                .clickDashboard()
+                .getJobBuildStatus();
 
-        homePage.clickDashboard();
-
-        Assert.assertNotNull(getDriver().findElement(By.xpath("//a[@tooltip='Schedule a Build for testProject']")));
+        Assert.assertNotEquals(jobStatusAfterEnable, "Disabled");
     }
 }
