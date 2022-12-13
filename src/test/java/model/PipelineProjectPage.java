@@ -39,7 +39,7 @@ public class PipelineProjectPage extends BasePage{
     @FindBy(id = "yui-gen1")
     private WebElement enableProjectButton;
 
-    @FindBy(xpath = "//div[@id='tasks']/div")
+    @FindBy(xpath = "//span[@class='task-link-wrapper ']//span[2]")
     private List<WebElement> pipelineSideMenuLinks;
 
     public PipelineProjectPage(WebDriver driver) {

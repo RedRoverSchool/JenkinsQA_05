@@ -463,7 +463,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertNotEquals(jobStatusAfterEnable, "Disabled");
     }
 
-    @Test(dependsOnMethods = "testCreateNewPipeline")
+    @Test(dependsOnMethods = "testCreateNewPipelineFromExisting")
     public void testPipelineSideMenuLinks() {
         List<String> pipelineSideMenuOptionsLinks = new HomePage(getDriver())
                 .clickPipelineProjectName()
