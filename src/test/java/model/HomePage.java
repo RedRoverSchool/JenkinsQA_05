@@ -1,5 +1,6 @@
 package model;
 
+import model.base.MyViewSideMenuFrame;
 import model.base.SideMenuFrame;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 import static runner.TestUtils.scrollToElement;
 
-public class HomePage extends SideMenuFrame {
+public class HomePage extends MyViewSideMenuFrame {
 
     public boolean getProjectNameFromProjectTabl;
 

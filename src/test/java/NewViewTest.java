@@ -87,7 +87,7 @@ public class NewViewTest extends BaseTest {
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .clickDashboard()
-                .clickMyViews()
+                .clickMyViewsSideMenuLink()
                 .clickNewView()
                 .setViewName(TestUtils.getRandomStr(6))
                 .setListViewType()
