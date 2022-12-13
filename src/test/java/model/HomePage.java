@@ -94,6 +94,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//*[@id=\"job_Pipeline1\"]/td[4]")
     private WebElement lastSuccessStatus;
 
+    @FindBy(xpath = "//span/span/*[name()='svg' and @tooltip='Disabled']")
+    private WebElement iconDisabled;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -355,5 +358,9 @@ public class HomePage extends BasePage {
     public String getJobName(String name) {
 
         return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", name))).getText();
+    }
+
+    public boolean disableIconIsDisplayed() {
+        return iconDisabled.isDisplayed();
     }
 }
