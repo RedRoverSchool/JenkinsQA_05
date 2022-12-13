@@ -353,7 +353,8 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(pipelineProjectPage.isDisplayedGitHubOnSideMenu());
         Assert.assertTrue(pipelineProjectPage.getAttributeGitHubSideMenu("href").contains(gitHubRepo));
     }
-
+    
+    @Ignore
     @Test(dependsOnMethods = "testAddingGitRepository")
     public void testWarningMessageIsDisappeared() {
 
