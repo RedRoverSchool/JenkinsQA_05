@@ -15,6 +15,8 @@ import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
 
+import java.util.List;
+
 public class PipelineTest extends BaseTest {
     private static final String RENAME_SUFFIX = "renamed";
     private static final String PIPELINE_NAME = generatePipelineProjectName();
@@ -459,5 +461,15 @@ public class PipelineTest extends BaseTest {
                 .getJobBuildStatus();
 
         Assert.assertNotEquals(jobStatusAfterEnable, "Disabled");
+    }
+
+    @Test(dependsOnMethods = "testCreateNewPipeline")
+    public void testPipelineSideMenuLinks() {
+        List<String> pipelineSideMenuOptionsLinks = new HomePage(getDriver())
+                .clickPipelineProjectName()
+                .getPipelineSideMenuLinks();
+
+        Assert.assertEquals(pipelineSideMenuOptionsLinks,
+                List.of("Status", "Changes", "Build Now", "Configure", "Delete Pipeline", "Full Stage View", "Rename", "Pipeline Syntax"));
     }
 }
