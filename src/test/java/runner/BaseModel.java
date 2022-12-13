@@ -24,7 +24,7 @@ public abstract class BaseModel {
         return waitMap.computeIfAbsent(seconds, duration -> new WebDriverWait(driver, Duration.ofSeconds(duration)));
     }
 
-    public Actions getAction() {
+    protected Actions getAction() {
         if(action == null) {
             action = new Actions(driver);
         }
