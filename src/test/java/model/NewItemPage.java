@@ -7,13 +7,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 import java.util.List;
 
-public class NewItemPage extends HomePage {
+public class NewItemPage extends BasePage {
 
     @FindBy(className = "item")
     private WebElement rootMenuDashboardLink;
 
     @FindBy(id = "name")
     private WebElement itemName;
+
+    @FindBy(id = "itemname-required")
+    private WebElement itemNameRequiredMsg;
 
     @FindBy(xpath = "//div[@class='icon']")
     private List<WebElement> itemsList;
@@ -36,17 +39,11 @@ public class NewItemPage extends HomePage {
     @FindBy(xpath = "//li[@class='org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject']")
     private WebElement multibranchPipeline;
 
-    @FindBy(id = "itemname-required")
-    private WebElement nameRequiredMessage;
-
     @FindBy(xpath = "//span[text() = 'Pipeline']")
     private WebElement pipeline;
 
-    @FindBy(css = "div#itemname-invalid" )
-    private WebElement nameErrorMessage;
-
-    @FindBy(css = "#itemname-required")
-    private WebElement emptyNameErrorMessage;
+    @FindBy(id = "itemname-invalid" )
+    private WebElement itemNameInvalidMsg;
 
     @FindBy(id = "from")
     private WebElement copyFrom;
@@ -62,9 +59,14 @@ public class NewItemPage extends HomePage {
         return this;
     }
 
+    public NewItemPage selectFreestyleProject() {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(freestyleProject)).click();
+        return this;
+    }
+
     public FreestyleProjectConfigPage selectFreestyleProjectAndClickOk() {
-        freestyleProject.click();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(okButton)).click();
+        selectFreestyleProject();
+        okButton.click();
 
         return new FreestyleProjectConfigPage(getDriver());
     }
@@ -132,8 +134,8 @@ public class NewItemPage extends HomePage {
         return new MultibranchPipelineConfigPage(getDriver());
     }
 
-    public String getNameRequiredMessageText() {
-        return nameRequiredMessage.getText();
+    public String getItemNameRequiredMsg() {
+        return itemNameRequiredMsg.getText();
     }
 
     public boolean isOkButtonEnabled() {
@@ -147,13 +149,8 @@ public class NewItemPage extends HomePage {
         return new PipelineConfigPage(getDriver());
     }
 
-    public String getNameErrorMessageText() {
-        return nameErrorMessage.getAttribute("textContent");
-    }
-
-    public String getEmptyNameErrorMessage() {
-
-        return emptyNameErrorMessage.getAttribute("textContent");
+    public String getItemNameInvalidMsg() {
+        return itemNameInvalidMsg.getAttribute("textContent");
     }
 
     public NewItemPage selectPipeline() {
@@ -184,5 +181,11 @@ public class NewItemPage extends HomePage {
         getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(copyFrom)).sendKeys(name);
 
         return this;
+    }
+
+    public MulticonfigurationProjectConfigPage clickOK() {
+        okButton.click();
+
+        return new MulticonfigurationProjectConfigPage(getDriver());
     }
 }

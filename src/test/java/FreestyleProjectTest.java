@@ -1,6 +1,7 @@
 import model.FreestyleProjectConfigPage;
 import model.FreestyleProjectStatusPage;
 import model.HomePage;
+import model.NewItemPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -358,11 +359,10 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testCreateFreestyleProjectWithEmptyName() {
-        getDriver().findElement(BY_BUTTON_ADD_NEW_ITEM).click();
-        getWait(10).until(ExpectedConditions.presenceOfElementLocated(BY_BUTTON_SELECT_FREESTYLE_PROJECT)).click();
+        NewItemPage newItemPage = new HomePage(getDriver()).clickNewItem().selectFreestyleProject();
 
-        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(), "» This field cannot be empty, please enter a valid name");
-        Assert.assertFalse(getDriver().findElement(BY_BUTTON_OK).isEnabled());
+        Assert.assertEquals(newItemPage.getItemNameRequiredMsg(), "» This field cannot be empty, please enter a valid name");
+        Assert.assertFalse(newItemPage.isOkButtonEnabled());
     }
 
     @Test
