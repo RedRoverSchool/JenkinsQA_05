@@ -24,6 +24,9 @@ public class PipelineProjectPage extends BasePage{
     @FindBy(xpath = "(//a[contains(@class,'task-link')])[7]")
     private WebElement gitHubSideMenu;
 
+    @FindBy(xpath = "//a[contains(text(), 'Dashboard')]")
+    private WebElement dashboardLink;
+
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -50,6 +53,12 @@ public class PipelineProjectPage extends BasePage{
     public HomePage clickDeletePipelineButton() {
         deletePipelineButton.click();
         getDriver().switchTo().alert().accept();
+
+        return new HomePage(getDriver());
+    }
+
+    public HomePage clickDashboard() {
+        dashboardLink.click();
 
         return new HomePage(getDriver());
     }
