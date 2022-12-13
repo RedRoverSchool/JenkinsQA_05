@@ -57,6 +57,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//span[text()='Move']")
     private WebElement moveButtonDropdown;
 
+    @FindBy(xpath = "//span/span/*[name()='svg' and @tooltip='Disabled']")
+    private WebElement disableIcon;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -173,5 +176,8 @@ public class HomePage extends BasePage {
         scrollToElement(getDriver(), moveButtonDropdown);
         moveButtonDropdown.click();
         return new MovePage(getDriver());
+    }
+    public boolean disableIconIsDisplayed() {
+        return disableIcon.isDisplayed();
     }
 }

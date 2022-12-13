@@ -1,5 +1,6 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -23,6 +24,9 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
 
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement fieldDescription;
+
+    @FindBy(id = "yui-gen1-button")
+    private WebElement disableButton;
 
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
@@ -56,5 +60,10 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
     public String getDescriptionText(){
 
         return fieldDescription.getText();
+    }
+    public MultiConfigurationProjectStatusPage clickDisable(){
+        disableButton.click();
+
+        return this;
     }
 }
