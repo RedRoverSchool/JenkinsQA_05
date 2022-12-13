@@ -306,7 +306,7 @@ public class PipelineTest extends BaseTest {
                 .clickDashboard()
                 .clickNewItem()
                 .setProjectName(projectName)
-                .getNameErrorMessageText();
+                .getItemNameInvalidMsg();
 
         Assert.assertEquals(newItemPageErrorMessage, String.format("» A job already exists with the name ‘%s’", projectName));
     }

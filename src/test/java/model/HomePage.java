@@ -277,4 +277,9 @@ public class HomePage extends SideMenuFrame {
 
         return lastSuccessStatus.getText();
     }
+
+    public String getJobName(String name) {
+
+        return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", name))).getText();
+    }
 }

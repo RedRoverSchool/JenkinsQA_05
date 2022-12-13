@@ -91,7 +91,7 @@ public class NewItemTest extends BaseTest {
                     .rootMenuDashboardLinkClick()
                     .clickNewItem()
                     .setItem(i)
-                    .getEmptyNameErrorMessage();
+                    .getItemNameRequiredMsg();
 
             Assert.assertEquals(actualErrorMessage,"» This field cannot be empty, please enter a valid name");
         }
@@ -103,7 +103,7 @@ public class NewItemTest extends BaseTest {
         String errorMessage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(nameNewItem)
-                .getNameErrorMessageText();
+                .getItemNameInvalidMsg();
 
         Assert.assertEquals(errorMessage,"» ‘%’ is an unsafe character");
     }
