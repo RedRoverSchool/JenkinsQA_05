@@ -284,9 +284,8 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), pipelinePojectName + "edit description");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testEnablePipelineProject")
     public void testDeletePipelineFromDashboard() {
-        createPipelineProject("testProject");
         String homePageHeaderText = new HomePage(getDriver())
                 .clickDashboard()
                 .clickPipelineProjectName()

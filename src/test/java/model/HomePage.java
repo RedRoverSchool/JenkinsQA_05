@@ -185,7 +185,7 @@ public class HomePage extends BasePage {
 
     public String getHeaderText() {
 
-        return getWait(3).until(ExpectedConditions.visibilityOf(header)).getText();
+        return getWait(5).until(ExpectedConditions.visibilityOf(header)).getText();
     }
 
     public HomePage clickFolderDropdownMenu(String folderName) {
