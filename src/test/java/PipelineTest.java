@@ -1,5 +1,6 @@
 import model.HomePage;
 import model.MyViewsPage;
+import model.PipelineConfigPage;
 import model.PipelineProjectPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
@@ -95,11 +96,11 @@ public class PipelineTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen1-button")).click();
     }
 
-    private void createPipelineProjectCuttedVersion(String projectName) {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(PIPELINE).click();
-        getDriver().findElement(ITEM_NAME).sendKeys(projectName);
-        getDriver().findElement(BUTTON_OK).click();
+    private PipelineConfigPage createPipelineProjectCuttedVersion(String projectName) {
+        return new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(pipeline_name)
+                .selectPipelineAndClickOk();
     }
 
     @Ignore
@@ -119,7 +120,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testCreatedPipelineDisplayedOnMyViews() {
 
-        final String pipelineName =TestUtils.getRandomStr(5);
+        final String pipelineName = TestUtils.getRandomStr(5);
 
         MyViewsPage pipelineNameInMyViewList = new HomePage(getDriver())
                 .clickNewItem()
@@ -138,7 +139,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(pipeline_name)
                 .selectPipelineAndClickOk()
-                .clickSaveButton()
+                .saveConfigAndGoToProjectPage()
                 .editDescription(pipeline_name + "description")
                 .clickSaveButton();
 
@@ -232,27 +233,21 @@ public class PipelineTest extends BaseTest {
         }
     }
 
-    @Ignore
     @Test
     public void testPipelinePreviewDescription() {
 
-        String pipelinePojectName =TestUtils.getRandomStr();
-        createPipelineProjectCuttedVersion(pipelinePojectName);
+        PipelineConfigPage pipelineConfigPage = createPipelineProjectCuttedVersion(pipeline_name)
+                .setDescriptionField(pipeline_name + "description")
+                .clickPreviewLink();
 
-        getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(pipelinePojectName + "description");
-
-        getDriver().findElement(By.className("textarea-show-preview")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.className("textarea-preview")).getText(), pipelinePojectName + "description");
-
-        getDriver().findElement(BUTTON_SAVE).click();
+        Assert.assertEquals(pipelineConfigPage.getTextareaPreview(), pipeline_name + "description");
     }
 
     @Ignore
     @Test
     public void testPipelineHidePreviewDescription() {
 
-        String pipelinePojectName =TestUtils.getRandomStr();
+        String pipelinePojectName = TestUtils.getRandomStr();
         createPipelineProjectCuttedVersion(pipelinePojectName);
 
         getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(pipelinePojectName + "description");
@@ -269,7 +264,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testPipelineAEditDescription() {
 
-        String pipelinePojectName =TestUtils.getRandomStr();
+        String pipelinePojectName = TestUtils.getRandomStr();
         createPipelineProjectCuttedVersion(pipelinePojectName);
         getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(pipelinePojectName + "description");
         getDriver().findElement(BUTTON_SAVE).click();
@@ -415,7 +410,7 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testCreateNewPipelineWithDescription() {
         ProjectUtils.createNewItemFromDashboard(getDriver(),By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
-        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(By.cssSelector(".jenkins-input"))).sendKeys(ITEM_DESCRIPTION);
+        getDriver().findElement(By.cssSelector(".jenkins-input")).sendKeys(ITEM_DESCRIPTION);
         getDriver().findElement(BUTTON_SAVE).click();
 
         Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child")).getAttribute("textContent"),
