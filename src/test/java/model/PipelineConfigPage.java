@@ -18,6 +18,15 @@ public class PipelineConfigPage extends BasePage {
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
 
+    @FindBy(name = "description")
+    private WebElement descriptionField;
+
+    @FindBy(className = "textarea-show-preview")
+    private WebElement previewLink;
+
+    @FindBy(className = "textarea-preview")
+    private WebElement textareaPreview;
+
     public PipelineConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -52,9 +61,19 @@ public class PipelineConfigPage extends BasePage {
         return new HomePage(getDriver());
     }
 
-    public PipelineProjectPage clickSaveButton() {
-        saveButton.click();
+    public PipelineConfigPage setDescriptionField(String name) {
+        descriptionField.sendKeys(name);
 
-        return new PipelineProjectPage(getDriver());
+        return this;
+    }
+
+    public PipelineConfigPage clickPreviewLink() {
+        previewLink.click();
+
+        return this;
+    }
+
+    public String getTextareaPreview() {
+        return textareaPreview.getText();
     }
 }
