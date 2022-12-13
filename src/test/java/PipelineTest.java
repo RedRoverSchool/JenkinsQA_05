@@ -296,7 +296,8 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(homePageHeaderText, "Welcome to Jenkins!");
     }
-
+    
+    @Ignore
     @Test
     public void testCreatePipelineExistingNameError() {
         final String projectName = "AnyUnusualName1";
@@ -353,7 +354,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(pipelineProjectPage.isDisplayedGitHubOnSideMenu());
         Assert.assertTrue(pipelineProjectPage.getAttributeGitHubSideMenu("href").contains(gitHubRepo));
     }
-    
+
     @Ignore
     @Test(dependsOnMethods = "testAddingGitRepository")
     public void testWarningMessageIsDisappeared() {
