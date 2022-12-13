@@ -130,17 +130,6 @@ public class EditViewTest extends BaseTest{
     }
 
     @Test
-    public void testListViewAddFiveItems() {
-        localViewName = TestUtils.getRandomStr();
-        createManyJobsOfEachType(1);
-        createViewFromListOfViewTypes(1, localViewName);
-        addFiveItemsToListView();
-
-        int actualResult = getDriver().findElements(JOB_PATH).size();
-        Assert.assertEquals(actualResult,5);
-    }
-
-    @Test
     public void testGlobalViewAddBothFilters() {
 
         EditViewPage editViewPage = new HomePage(getDriver())
@@ -159,6 +148,17 @@ public class EditViewTest extends BaseTest{
                 .clickEditViewLink();
 
         Assert.assertTrue(editViewPage.isFilterBuildQueueOptionCheckBoxSelected() && editViewPage.isFilterBuildExecutorsOptionCheckBoxSelected());
+    }
+
+    @Test
+    public void testListViewAddFiveItems() {
+        localViewName = TestUtils.getRandomStr();
+        createManyJobsOfEachType(1);
+        createViewFromListOfViewTypes(1, localViewName);
+        addFiveItemsToListView();
+
+        int actualResult = getDriver().findElements(JOB_PATH).size();
+        Assert.assertEquals(actualResult,5);
     }
 
     @Test
