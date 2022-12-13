@@ -48,6 +48,9 @@ public class NewItemPage extends HomePage {
     @FindBy(css = "#itemname-required")
     private WebElement emptyNameErrorMessage;
 
+    @FindBy(id = "from")
+    private WebElement copyFrom;
+
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -151,5 +154,23 @@ public class NewItemPage extends HomePage {
     public String getEmptyNameErrorMessage() {
 
         return emptyNameErrorMessage.getAttribute("textContent");
+    }
+
+    public NewItemPage selectPipeline() {
+        pipeline.click();
+
+        return this;
+    }
+
+    public NewItemPage setCopyFrom(String name) {
+        getAction().moveToElement(copyFrom).click().sendKeys(name).perform();
+
+        return this;
+    }
+
+    public CreateItemErrorPage clickOkButton() {
+        okButton.click();
+
+        return new CreateItemErrorPage(getDriver());
     }
 }
