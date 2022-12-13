@@ -1,12 +1,9 @@
 package model;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +28,9 @@ public class FolderStatusPage extends BasePage {
     @FindBy(linkText = "Create a job")
     private WebElement createJob;
 
+    @FindBy(linkText = "Delete Folder")
+    private WebElement deleteFolder;
+
     @FindBy(className = "empty-state-block")
     private WebElement emptyStateBlock;
 
@@ -47,7 +47,7 @@ public class FolderStatusPage extends BasePage {
     private WebElement folderNewName;
 
     @FindBy(xpath = "//button[@type='submit']")
-    private WebElement renameSubmitButton;
+    private WebElement submitButton;
 
     @FindBy(xpath = "//h1")
     private WebElement folderHeader;
@@ -106,8 +106,8 @@ public class FolderStatusPage extends BasePage {
         return new FolderStatusPage(getDriver());
     }
 
-    public FolderStatusPage clickRenameSubmitButton() {
-        renameSubmitButton.click();
+    public FolderStatusPage clickSubmitButton() {
+        submitButton.click();
 
         return new FolderStatusPage(getDriver());
     }
@@ -121,6 +121,12 @@ public class FolderStatusPage extends BasePage {
         folderNewItem.click();
 
         return new NewItemPage(getDriver());
+    }
+
+    public FolderStatusPage clickDeleteFolder(){
+        deleteFolder.click();
+
+        return new FolderStatusPage(getDriver());
     }
 
     public String getHeaderText() {

@@ -1,7 +1,6 @@
 import model.FolderStatusPage;
 import model.HomePage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -97,49 +96,52 @@ public class FolderOneTest extends BaseTest {
         Assert.assertTrue(folderStatusPage.getDescriptionText().contains("Folder description"));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testAddFolderDescription")
     public void testRenameFolderDescription(){
+            HomePage homePage = new HomePage(getDriver())
 
+                .clickFolderDropdownMenu(RANDOM_NAME_1)
+                     .clickRenameDropDownMenu()
+                     .clearFieldAndInputNewName(RANDOM_NAME_2)
+                     .clickSubmitButton()
+                     .clickDashboard();
 
-        getDriver().findElement(By.linkText(RANDOM_NAME_2 + "NEW")).findElement(DROP_DOWN_MENU).click();
-        getWait(5).until(ExpectedConditions.presenceOfElementLocated(DROP_DOWN_RENAME)).click();
-        getDriver().findElement(NEW_NAME_RENAME).clear();
-        getDriver().findElement(NEW_NAME_RENAME).sendKeys(RANDOM_NAME_2 + "NEW_NEW_FOLDER");
-        submitButtonClick();
-        getDriver().findElement(CONFIGURE_FOLDER).click();
-        getDriver().findElement(TEXTAREA).sendKeys(" VERSION 2");
-        submitButtonClick();
-
-        Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
-                .contains(RANDOM_NAME_2 + "NEW_NEW_FOLDER"));
-        Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText().contains("NEW TEXT VERSION 2"));
+        Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME_2));
     }
-    @Ignore
-    @Test(dependsOnMethods = "testRenameFolderDescription")
+
+    @Test
     public void testDeleteFolder(){
-        getDriver().findElement(By.linkText(RANDOM_NAME_2 + "NEW")).click();
-        getDriver().findElement(DELETE_FOLDER).click();
-        submitButtonClick();
+        createFolder(RANDOM_NAME_1);
 
-        Assert.assertNotNull(getDriver().findElement(By.className("empty-state-block")));
+        HomePage homePage = new HomePage(getDriver())
+                .clickFolder(RANDOM_NAME_1)
+                .clickDeleteFolder()
+                .clickSubmitButton()
+                .clickDashboard();
+
+        Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1));
     }
 
-    @Ignore
     @Test
     public void testCreateFolderInFolderJob(){
         createFolder(RANDOM_NAME_1);
-        getDriver().findElement(CREATE_JOB).click();
-        getDriver().findElement(NAME).sendKeys(RANDOM_NAME_2);
-        getDriver().findElement(FOLDER_OPTION).click();
-        submitButtonClick();
-        submitButtonClick();
 
-        String actualFolderName = getDriver().findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_NAME_1)).getText();
-        String actualPipelineName = getDriver().findElement(By.id("breadcrumbs")).findElement(By.linkText(RANDOM_NAME_2)).getText();
-        Assert.assertEquals(actualFolderName, RANDOM_NAME_1);
-        Assert.assertEquals(actualPipelineName, RANDOM_NAME_2);
+        new HomePage(getDriver())
+                .clickFolder(RANDOM_NAME_1);
+
+        createFolder(RANDOM_NAME_2);
+
+        new HomePage(getDriver())
+                .clickFolder(RANDOM_NAME_1);
+
+        FolderStatusPage statusPage = new HomePage(getDriver())
+                .clickFolder(RANDOM_NAME_2);
+
+        Assert.assertTrue(statusPage.getHeaderText().contains(RANDOM_NAME_2));
+        Assert.assertTrue(statusPage.getTopMenueLinkText().contains(RANDOM_NAME_1));
+        Assert.assertTrue(statusPage.getTopMenueLinkText().contains(RANDOM_NAME_2));
     }
+
     @Ignore
     @Test(dependsOnMethods = "testCreateFolderInFolderJob")
     public void testRenameFolder()  {
