@@ -71,7 +71,7 @@ public class NewItemPage extends HomePage {
 
     public FolderConfigPage selectFolderAndClickOk() {
         folderType.click();
-        okButton.click();
+        okButton.submit();
 
         return new FolderConfigPage(getDriver());
     }
@@ -79,14 +79,14 @@ public class NewItemPage extends HomePage {
     public OrgFolderConfigPage selectOrgFolderAndClickOk() {
         TestUtils.scrollToElement(getDriver(), orgFolder);
         orgFolder.click();
-        okButton.click();
+        okButton.submit();
 
         return new OrgFolderConfigPage(getDriver());
     }
 
     public MulticonfigurationProjectConfigPage selectMultiConfigurationProjectAndClickOk() {
         multiConfigurationProject.click();
-        okButton.click();
+        okButton.submit();
 
         return new MulticonfigurationProjectConfigPage(getDriver());
     }
@@ -101,7 +101,7 @@ public class NewItemPage extends HomePage {
 
         getAction().scrollByAmount(0, 250).perform();
         itemsList.get(index).click();
-        okButton.click();
+        okButton.submit();
 
         return new CreateItemErrorPage(getDriver());
     }
@@ -127,7 +127,7 @@ public class NewItemPage extends HomePage {
 
     public MultibranchPipelineConfigPage selectMultibranchPipelineAndClickOk() {
         multibranchPipeline.click();
-        okButton.click();
+        okButton.submit();
 
         return new MultibranchPipelineConfigPage(getDriver());
     }
@@ -142,7 +142,7 @@ public class NewItemPage extends HomePage {
 
     public PipelineConfigPage selectPipelineAndClickOk() {
         pipeline.click();
-        okButton.click();
+        okButton.submit();
 
         return new PipelineConfigPage(getDriver());
     }

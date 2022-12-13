@@ -8,12 +8,12 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MyViewsPage extends HomePage{
+public class MyViewsPage extends MyViewSideMenuFrame {
 
     @FindBy(css = "a[title='New View']")
     private WebElement newView;
 
-    @FindBy(css = ".tabBar .tab a[href*='/user/admin/my-views/view/']")
+    @FindBy(css = ".tabBar .tab a[href*='/my-views/view/']")
     private List<WebElement> listViews;
 
     @FindBy(css = ".pane-header-title")
@@ -53,7 +53,7 @@ public class MyViewsPage extends HomePage{
     }
 
     public ViewPage clickView(String viewName) {
-        getDriver().findElement(By.cssSelector(".tabBar .tab a[href='/user/admin/my-views/view/" + viewName + "/']")).click();
+        getDriver().findElement(By.cssSelector(".tabBar .tab a[href*='/my-views/view/" + viewName + "/']")).click();
 
         return new ViewPage(getDriver());
     }

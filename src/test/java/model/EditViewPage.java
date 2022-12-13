@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.TestUtils;
 
-public class EditViewPage extends HomePage {
+public class EditViewPage extends MyViewSideMenuFrame {
 
     @FindBy(css = "input[name=filterQueue]")
     private WebElement filterBuildQueueOptionCheckBox;

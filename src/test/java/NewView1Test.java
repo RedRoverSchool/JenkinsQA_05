@@ -1,7 +1,4 @@
-import model.EditViewPage;
-import model.HomePage;
-import model.MyViewsPage;
-import model.ViewPage;
+import model.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -34,28 +31,28 @@ public class NewView1Test extends BaseTest {
                 .clickSave()
                 .goToDashboard()
 
-                .clickMyViews()
+                .clickMyViewsSideMenuLink()
                 .clickNewView()
                 .setViewName(GLOBAL_VIEW_NAME)
                 .setGlobalViewType()
                 .clickCreateButton()
                 .clickDashboard()
 
-                .clickMyViews()
+                .clickMyViewsSideMenuLink()
                 .clickNewView()
                 .setViewName(LIST_VIEW_NAME)
                 .setListViewType()
                 .clickCreateButton()
                 .clickDashboard()
 
-                .clickMyViews()
+                .clickMyViewsSideMenuLink()
                 .clickNewView()
                 .setViewName(MY_VIEW_NAME)
                 .setMyViewType()
                 .clickCreateButton()
                 .clickDashboard()
 
-                .clickMyViews();
+                .clickMyViewsSideMenuLink();
 
         Assert.assertTrue(myViewsPage.getListViewsNames().contains(GLOBAL_VIEW_NAME));
         Assert.assertTrue(myViewsPage.getListViewsNames().contains(LIST_VIEW_NAME));
@@ -64,18 +61,18 @@ public class NewView1Test extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateViews")
     public void testRenameView() {
-        MyViewsPage myViewsPage = new HomePage(getDriver())
+        MyViewsPage myViewsPage = new MyViewsPage(getDriver())
                 .goToEditView(LIST_VIEW_NAME)
                 .renameView(LIST_VIEW_RENAME)
                 .clickOk()
-                .clickMyViews();
+                .clickMyViewsHeaderLink();
 
         Assert.assertTrue(myViewsPage.getListViewsNames().contains(LIST_VIEW_RENAME));
     }
 
     @Test(dependsOnMethods = "testRenameView")
     public void testViewHasSelectedTypeGlobalView() {
-        EditViewPage editViewPage = new HomePage(getDriver())
+        EditViewPage editViewPage = new EditViewPage(getDriver())
                 .goToEditView(GLOBAL_VIEW_NAME);
 
         Assert.assertEquals(editViewPage.getUniqueTextOnGlobalViewEditPage(),
@@ -84,7 +81,7 @@ public class NewView1Test extends BaseTest {
 
     @Test(dependsOnMethods = "testViewHasSelectedTypeGlobalView")
     public void testViewHasSelectedTypeListView() {
-        EditViewPage editViewPage = new HomePage(getDriver())
+        EditViewPage editViewPage = new EditViewPage(getDriver())
                 .goToEditView(LIST_VIEW_RENAME);
 
         Assert.assertEquals(editViewPage.getUniqueSectionOnListViewEditPage(),
@@ -93,8 +90,8 @@ public class NewView1Test extends BaseTest {
 
     @Test(dependsOnMethods = "testViewHasSelectedTypeListView")
     public void testViewHasSelectedTypeMyView() {
-        ViewPage viewPage = new HomePage(getDriver())
-                .clickMyViews()
+        ViewPage viewPage = new ViewPage(getDriver())
+                .clickMyViewsSideMenuLink()
                 .clickView(MY_VIEW_NAME);
 
         Assert.assertEquals(viewPage.getJobList(),
@@ -103,8 +100,8 @@ public class NewView1Test extends BaseTest {
 
     @Test(dependsOnMethods = "testViewHasSelectedTypeMyView")
     public void testDeleteView() {
-        MyViewsPage myViewsPage = new HomePage(getDriver())
-                .clickMyViews()
+        MyViewsPage myViewsPage = new ViewPage(getDriver())
+                .clickMyViewsSideMenuLink()
                 .clickView(LIST_VIEW_RENAME)
                 .clickDeleteViewItem()
                 .clickYesButtonDeleteView();
@@ -114,8 +111,8 @@ public class NewView1Test extends BaseTest {
 
     @Test(dependsOnMethods = "testDeleteView")
     public void testDeleteAllViews() {
-        MyViewsPage myViewsPage = new HomePage(getDriver())
-                .clickMyViews()
+        MyViewsPage myViewsPage = new MyViewsPage(getDriver())
+                .clickMyViewsSideMenuLink()
                 .deleteAllViews();
 
         Assert.assertEquals(myViewsPage.getListViewsNames(), "");

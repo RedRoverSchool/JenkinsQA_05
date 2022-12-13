@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class NewViewPage extends MyViewsPage {
+public class NewViewPage extends MyViewSideMenuFrame {
 
     @FindBy(id = "name")
     private WebElement viewName;

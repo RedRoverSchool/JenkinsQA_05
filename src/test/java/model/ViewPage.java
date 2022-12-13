@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ViewPage extends BasePage{
+public class ViewPage extends MyViewSideMenuFrame{
 
     @FindBy(css = "tr td a.model-link")
     private List<WebElement> jobList;
@@ -19,14 +19,8 @@ public class ViewPage extends BasePage{
     @FindBy(xpath = "//span[text()='Edit View']/..")
     private WebElement editView;
 
-    @FindBy(xpath = "//div[@class='tab']//a[@href='/user/admin/my-views/']")
+    @FindBy(css = ".tab a[href*='/my-views/']")
     private WebElement allButton;
-
-    @FindBy(xpath = "//a[@href='delete']")
-    private WebElement deleteViewItem;
-
-    @FindBy(id = "yui-gen1-button")
-    private WebElement yesButtonDeleteView;
 
     @FindBy(xpath = "//div[@class='jenkins-buttons-row jenkins-buttons-row--invert']/preceding-sibling::div")
     private WebElement descriptionText;
@@ -52,24 +46,12 @@ public class ViewPage extends BasePage{
 
         return new EditViewPage(getDriver());
     }
-
-    public MyViewsPage clickMyViews() {
-        allButton.click();
-
-        return new MyViewsPage(getDriver());
-    }
-
-    public ViewPage clickDeleteViewItem() {
-        deleteViewItem.click();
-
-        return this;
-    }
-
-    public MyViewsPage clickYesButtonDeleteView() {
-        yesButtonDeleteView.click();
-
-        return new MyViewsPage(getDriver());
-    }
+//
+//    public MyViewsPage clickMyViews() {
+//        allButton.click();
+//
+//        return new MyViewsPage(getDriver());
+//    }
 
     public String getTextDescription() {
 

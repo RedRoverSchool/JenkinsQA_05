@@ -12,17 +12,9 @@ import java.util.stream.Collectors;
 
 import static runner.TestUtils.scrollToElement;
 
-public class HomePage extends BasePage {
+public class HomePage extends SideMenuFrame {
 
     public boolean getProjectNameFromProjectTabl;
-    @FindBy(linkText = "Build History")
-    private WebElement buildHistory;
-
-    @FindBy(css = "#breadcrumbs li a")
-    private WebElement topMenuRoot;
-
-    @FindBy(xpath = "//a[@href='/view/all/newJob']")
-    private WebElement newItem;
 
     @FindBy(css = "tr td a.model-link")
     private List<WebElement> jobList;
@@ -42,9 +34,6 @@ public class HomePage extends BasePage {
     @FindBy(linkText = "Manage Jenkins")
     private WebElement menuManageJenkins;
 
-    @FindBy(css = "a[href='/me/my-views']")
-    private WebElement myViews;
-
     @FindBy(xpath = "//a[@href='/manage']")
     private WebElement manageJenkins;
 
@@ -53,9 +42,6 @@ public class HomePage extends BasePage {
 
     @FindBy(css = ".tabBar>.tab>a[class='']")
     private WebElement openViewLink;
-
-    @FindBy(css = ".tabBar>.tab>a.addTab")
-    private WebElement addViewLink;
 
     @FindBy(xpath = "//span[text()='Move']")
     private WebElement moveButtonDropdown;
@@ -75,12 +61,6 @@ public class HomePage extends BasePage {
     @FindBy(css = ".first-of-type > .yuimenuitem")
     private List<WebElement> userDropdownMenuItems;
 
-    @FindBy(xpath = "//span[text()='Edit View']/..")
-    private WebElement editView;
-
-    @FindBy(css = "a[href*=configure]")
-    private WebElement editViewMenuLink;
-
     @FindBy(linkText = "Builds")
     private WebElement buildsItemInUserDropdownMenu;
 
@@ -94,28 +74,10 @@ public class HomePage extends BasePage {
         super(driver);
     }
 
-    public NewItemPage clickNewItem() {
-        newItem.click();
-
-        return new NewItemPage(getDriver());
-    }
-
-    public HomePage clickDashboard() {
-        topMenuRoot.click();
-
-        return new HomePage(getDriver());
-    }
-
     public HomePage clickViewLink() {
         openViewLink.click();
 
         return this;
-    }
-
-    public NewViewPage clickAddViewLink() {
-        addViewLink.click();
-
-        return new NewViewPage(getDriver());
     }
 
     public List<String> getJobList() {
@@ -212,12 +174,6 @@ public class HomePage extends BasePage {
         return new ManageJenkinsPage(getDriver());
     }
 
-    public MyViewsPage clickMyViews() {
-        myViews.click();
-
-        return new MyViewsPage(getDriver());
-    }
-
     public ManageJenkinsPage clickManageJenkins() {
         manageJenkins.click();
 
@@ -242,12 +198,6 @@ public class HomePage extends BasePage {
         return new MovePage(getDriver());
     }
 
-    public BuildHistoryPage clickBuildHistory() {
-        buildHistory.click();
-
-        return new BuildHistoryPage(getDriver());
-    }
-
     public String getJobBuildStatus(String name) {
         return getDriver().findElement(By.id(String.format("job_%s", name)))
                 .findElement(By.xpath(".//*[name()='svg']")).getAttribute("tooltip");
@@ -263,12 +213,6 @@ public class HomePage extends BasePage {
         iconUserName.click();
 
         return new StatusUserPage(getDriver());
-    }
-
-    public EditViewPage clickEditViewLink() {
-        editViewMenuLink.click();
-
-        return new EditViewPage(getDriver());
     }
 
     public HomePage clickUserDropdownMenu() {
@@ -297,14 +241,6 @@ public class HomePage extends BasePage {
         }
 
         return itemsNames.toString().trim();
-    }
-
-    public EditViewPage goToEditView(String viewName) {
-        clickMyViews();
-        getDriver().findElement(By.linkText(viewName)).click();
-        editView.click();
-
-        return new EditViewPage(getDriver());
     }
 
     public BuildsUserPage clickBuildsItemInUserDropdownMenu() {
