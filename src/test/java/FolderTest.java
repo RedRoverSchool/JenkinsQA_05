@@ -1,4 +1,3 @@
-import model.FolderConfigPage;
 import model.FolderStatusPage;
 import model.HomePage;
 import org.openqa.selenium.*;
@@ -199,7 +198,7 @@ public class FolderTest extends BaseTest {
                 .clickFolder(folderName1)
                 .clickRename(folderName1)
                 .clearAndSetNewName(folderName2)
-                .clickRenameSubmitButton()
+                .clickSubmitButton()
                 .clickDashboard()
                 .getJobList();
 
