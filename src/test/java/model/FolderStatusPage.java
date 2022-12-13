@@ -52,6 +52,9 @@ public class FolderStatusPage extends BasePage {
     @FindBy(xpath = "//h1")
     private WebElement folderHeader;
 
+    @FindBy(id="view-message")
+    private WebElement textDescription;
+
     public FolderStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -135,5 +138,10 @@ public class FolderStatusPage extends BasePage {
     }
 
     public String getDescriptionText() {return textAddress.getText();
+    }
+
+    public String getTextDescription(String des) {
+
+        return textDescription.getText();
     }
 }
