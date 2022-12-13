@@ -3,7 +3,6 @@ import model.HomePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -159,24 +158,22 @@ public class FolderTest extends BaseTest {
     @Test
     public void testMoveFolderInFolder() {
         createFolder();
-        getDashboard().click();
         String generatedStringFolder2 = UUID.randomUUID().toString().substring(0, 8);
-        getDriver().findElement(By.linkText("New Item")).click();
-        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(INPUT_NAME));
-        getDriver().findElement(INPUT_NAME).sendKeys(generatedStringFolder2);
-        getDriver().findElement(FOLDER).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getSaveButton().click();
-        getDashboard().click();
-        getDriver().findElement(By.xpath("//span[text()='" + generatedStringFolder2 + "']")).click();
-        getDriver().findElement(By.xpath("//span[text()='Move']/..")).click();
-        Select select = new Select(getDriver().findElement(By.xpath("//select[@name='destination']")));
-        select.selectByValue("/" + generatedString);
-        getDriver().findElement(By.xpath("//button[text()='Move']")).click();
-        getDashboard().click();
-        String job = getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).getText();
+        List<String> folderStatusPage = new HomePage(getDriver())
+                .clickDashboard()
+                .clickNewItem()
+                .setProjectName(generatedStringFolder2)
+                .selectFolderAndClickOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .clickJob(generatedStringFolder2)
+                .clickMove()
+                .selectDestination(generatedString)
+                .clickMoveAfterSelectDestination()
+                .clickDashboard()
+                .getJobList();
 
-        Assert.assertEquals(job, generatedString);
+        Assert.assertEquals(folderStatusPage.get(0), generatedString);
     }
 
     @Test
@@ -192,14 +189,13 @@ public class FolderTest extends BaseTest {
                 .clickFolder(folderName1)
                 .clickRename(folderName1)
                 .clearAndSetNewName(folderName2)
-                .clickRenameSubmitButton()
+                .clickSubmitButton()
                 .clickDashboard()
                 .getJobList();
 
         Assert.assertTrue(newFolderName.contains(folderName2));
     }
 
-    @Ignore
     @Test
     public void testCreateFreestyleProjectInFolderCreateJob() {
         final String folderName = TestUtils.getRandomStr();
@@ -391,7 +387,6 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
     }
 
-    @Ignore
     @Test
     public void testCreateFreestyleProjectInFolderByNewItemDropDownInCrambMenu() {
         final String folderName = TestUtils.getRandomStr();

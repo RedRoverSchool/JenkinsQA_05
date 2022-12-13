@@ -457,4 +457,19 @@ public class FreestyleProjectTest extends BaseTest {
                 getDriver().findElement(By.xpath("//div[@id='error-description']//h2")).getText(),
                 expectedTextOfError);
     }
+
+    @Test
+    public void testRenamingFreestyleProject(){
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickRenameButton()
+                .clearFieldAndInputNewName(NEW_FREESTYLE_NAME)
+                .clickSubmitButton()
+                .clickDashboard();
+
+        Assert.assertTrue(homePage.getJobList().contains(NEW_FREESTYLE_NAME));
+    }
 }

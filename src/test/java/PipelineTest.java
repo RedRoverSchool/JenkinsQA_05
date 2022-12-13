@@ -47,6 +47,7 @@ public class PipelineTest extends BaseTest {
     private static final By GITHUB_CHECKBOX  = By.xpath("//label[text()='GitHub project']");
 
     private static String generatePipelineProjectName() {
+
         return RandomStringUtils.randomAlphanumeric(10);
     }
 
@@ -283,9 +284,8 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), pipelinePojectName + "edit description");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testEnablePipelineProject")
     public void testDeletePipelineFromDashboard() {
-        createPipelineProject("testProject");
         String homePageHeaderText = new HomePage(getDriver())
                 .clickDashboard()
                 .clickPipelineProjectName()
@@ -446,5 +446,18 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(actualJobName,jobName);
         Assert.assertEquals(actualDescription,ITEM_NEW_DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testCreatePipelineWithName")
+    public void testEnablePipelineProject() {
+        String jobStatusAfterEnable = new HomePage(getDriver())
+                .clickDashboard()
+                .clickPipelineProjectName()
+                .clickDisableProject()
+                .clickEnableProject()
+                .clickDashboard()
+                .getJobBuildStatus();
+
+        Assert.assertNotEquals(jobStatusAfterEnable, "Disabled");
     }
 }

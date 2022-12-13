@@ -22,6 +22,9 @@ public class HomePage extends SideMenuFrame {
     @FindBy(linkText = "Configure")
     private WebElement configureDropDownMenu;
 
+    @FindBy(linkText = "Rename")
+    private WebElement renameDropDownMenu;
+
     @FindBy(xpath = "//td[3]/a/button")
     private WebElement dropDownMenuOfJob;
 
@@ -106,6 +109,12 @@ public class HomePage extends SideMenuFrame {
         return new FreestyleProjectStatusPage(getDriver());
     }
 
+    public RenameItemPage clickRenameDropDownMenu() {
+        getWait(6).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
+
+        return new RenameItemPage(getDriver());
+    }
+
     public ConfigurationGeneralPage clickConfigDropDownMenu() {
         getWait(6).until(ExpectedConditions.elementToBeClickable(configureDropDownMenu)).click();
 
@@ -146,7 +155,7 @@ public class HomePage extends SideMenuFrame {
 
     public String getHeaderText() {
 
-        return getWait(3).until(ExpectedConditions.visibilityOf(header)).getText();
+        return getWait(5).until(ExpectedConditions.visibilityOf(header)).getText();
     }
 
     public HomePage clickFolderDropdownMenu(String folderName) {
