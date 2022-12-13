@@ -46,12 +46,6 @@ public class ViewPage extends MyViewSideMenuFrame{
 
         return new EditViewPage(getDriver());
     }
-//
-//    public MyViewsPage clickMyViews() {
-//        allButton.click();
-//
-//        return new MyViewsPage(getDriver());
-//    }
 
     public String getTextDescription() {
 
