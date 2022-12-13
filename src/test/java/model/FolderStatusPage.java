@@ -16,6 +16,9 @@ public class FolderStatusPage extends BasePage {
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
 
+    @FindBy(css = "#breadcrumbs li a")
+    private List<WebElement> topMenuList;
+
     @FindBy(xpath = "//li[@class='item'][last()]//button")
     private WebElement breadcrumbsThisFolderToggleDropdown;
 
@@ -30,6 +33,27 @@ public class FolderStatusPage extends BasePage {
 
     @FindBy(className = "empty-state-block")
     private WebElement emptyStateBlock;
+
+    @FindBy(linkText = "New Item")
+    private WebElement folderNewItem;
+
+    @FindBy(tagName = "h1")
+    private WebElement header;
+
+    @FindBy(id = "main-panel")
+    private WebElement textAddress;
+
+    @FindBy(xpath = "//input[@checkdependson='newName']")
+    private WebElement folderNewName;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement renameSubmitButton;
+
+    @FindBy(xpath = "//h1")
+    private WebElement folderHeader;
+
+    @FindBy(id="view-message")
+    private WebElement textDescription;
 
     public FolderStatusPage(WebDriver driver) {
         super(driver);
@@ -70,5 +94,54 @@ public class FolderStatusPage extends BasePage {
     public WebElement getEmptyStateBlock() {
 
         return emptyStateBlock;
+    }
+
+    public FolderStatusPage clickRename(String folderName) {
+        getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/confirm-rename']")).click();
+
+        return new FolderStatusPage(getDriver());
+    }
+
+    public FolderStatusPage clearAndSetNewName(String folderName) {
+        folderNewName.clear();
+        folderNewName.sendKeys(folderName);
+
+        return new FolderStatusPage(getDriver());
+    }
+
+    public FolderStatusPage clickRenameSubmitButton() {
+        renameSubmitButton.click();
+
+        return new FolderStatusPage(getDriver());
+    }
+
+    public String getHeaderFolderText() {
+
+        return folderHeader.getText();
+    }
+
+    public NewItemPage clickFolderNewItem(){
+        folderNewItem.click();
+
+        return new NewItemPage(getDriver());
+    }
+
+    public String getHeaderText() {
+        return header.getText();
+    }
+
+    public List<String> getTopMenueLinkText() {
+        return topMenuList
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+    }
+
+    public String getDescriptionText() {return textAddress.getText();
+    }
+
+    public String getTextDescription(String des) {
+
+        return textDescription.getText();
     }
 }

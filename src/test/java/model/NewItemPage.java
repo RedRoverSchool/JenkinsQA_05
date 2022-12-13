@@ -49,8 +49,8 @@ public class NewItemPage extends BasePage {
     @FindBy(xpath = "//span[text() = 'Pipeline']")
     private WebElement pipeline;
 
-    @FindBy(css = "#itemname-required")
-    private WebElement emptyNameErrorMessage;
+    @FindBy(id = "from")
+    private WebElement copyFrom;
 
 
     public NewItemPage(WebDriver driver) {
@@ -162,5 +162,41 @@ public class NewItemPage extends BasePage {
         okButton.click();
 
         return new PipelineConfigPage(getDriver());
+    }
+
+    public NewItemPage selectPipeline() {
+        pipeline.click();
+
+        return this;
+    }
+
+    public NewItemPage setCopyFrom(String name) {
+        getAction().moveToElement(copyFrom).click().sendKeys(name).perform();
+
+        return this;
+    }
+
+    public CreateItemErrorPage clickOkButton() {
+        okButton.click();
+
+        return new CreateItemErrorPage(getDriver());
+    }
+
+    public PipelineConfigPage clickOk() {
+        okButton.click();
+
+        return new PipelineConfigPage(getDriver());
+    }
+    public NewItemPage setCopyFromItemName(String name) {
+        TestUtils.scrollToEnd(getDriver());
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(copyFrom)).sendKeys(name);
+
+        return this;
+    }
+
+    public MulticonfigurationProjectConfigPage clickOK() {
+        okButton.click();
+
+        return new MulticonfigurationProjectConfigPage(getDriver());
     }
 }
