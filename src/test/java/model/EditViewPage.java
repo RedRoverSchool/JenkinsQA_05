@@ -8,20 +8,29 @@ import runner.TestUtils;
 
 public class EditViewPage extends HomePage {
 
-    @FindBy(css = "input[name=filterQueue]+label")
+    @FindBy(css = "input[name=filterQueue]")
     private WebElement filterBuildQueueOptionCheckBox;
+
+    @FindBy(css = "input[name=filterExecutors]")
+    private WebElement filterBuildExecutorsOptionCheckBox;
 
     @FindBy(name = "name")
     private WebElement viewName;
 
-    @FindBy(css = "#yui-gen6-button")
+    @FindBy(xpath = "//button[text() = 'OK']")
     private WebElement okButton;
+
+    @FindBy(xpath = "//button[text() = 'Apply']")
+    private WebElement applyButton;
 
     @FindBy(css = ".jenkins-form-description")
     private WebElement uniqueTextOnGlobalViewEditPage;
 
     @FindBy(css = "div:nth-of-type(5) > .jenkins-section__title")
     private WebElement uniqueSectionOnListViewEditPage;
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement description;
 
     public EditViewPage(WebDriver driver) {
         super(driver);
@@ -31,12 +40,6 @@ public class EditViewPage extends HomePage {
         okButton.click();
 
         return new MyViewsPage(getDriver());
-    }
-
-    public EditViewPage filterBuildQueueOptionCheckBoxSelect() {
-        filterBuildQueueOptionCheckBox.click();
-
-        return new EditViewPage(getDriver());
     }
 
     public EditViewPage renameView(String name) {
@@ -53,10 +56,8 @@ public class EditViewPage extends HomePage {
     }
 
     public EditViewPage addJobToView(String name) {
-        TestUtils.scrollToElement_PlaceInCenter(getDriver(),
-                getDriver().findElement(By.xpath("//label[@title='" + name + "']")));
-        getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(
-                By.xpath("//label[@title='" + name + "']"))).click();
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(
+                By.xpath(String.format("//label[@title='%s']", name)))).click();
 
         return this;
     }
@@ -69,5 +70,32 @@ public class EditViewPage extends HomePage {
     public String getUniqueSectionOnListViewEditPage() {
 
         return uniqueSectionOnListViewEditPage.getText();
+    }
+
+    public EditViewPage addDescription(String desc) {
+        description.sendKeys(desc);
+
+        return new EditViewPage(getDriver());
+    }
+
+    public EditViewPage selectFilterBuildQueueOptionCheckBox() {
+        filterBuildQueueOptionCheckBox.findElement(By.xpath("following-sibling::label")).click();
+
+        return this;
+    }
+    public EditViewPage selectFilterBuildExecutorsOptionCheckBox() {
+        filterBuildExecutorsOptionCheckBox.findElement(By.xpath("following-sibling::label")).click();
+
+        return this;
+    }
+
+    public boolean isFilterBuildQueueOptionCheckBoxSelected() {
+
+        return filterBuildQueueOptionCheckBox.isSelected();
+    }
+
+    public boolean isFilterBuildExecutorsOptionCheckBoxSelected() {
+
+        return filterBuildExecutorsOptionCheckBox.isSelected();
     }
 }

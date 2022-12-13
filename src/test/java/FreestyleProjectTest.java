@@ -124,12 +124,10 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testEnableProject")
     public void testFreestyleProjectPageIsOpenedFromDashboard() {
+        final FreestyleProjectStatusPage freestyleProjectStatusPage = new HomePage(getDriver())
+                .clickFreestyleProjectName(FREESTYLE_NAME);
 
-        getDriver().findElement(BY_GO_TO_DASHBOARD_LINK).click();
-        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), String.format("Project %s", FREESTYLE_NAME));
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h2")).getText(), "Permalinks");
-        Assert.assertTrue(getDriver().findElement(BY_BUTTON_ENABLE_DISABLE_PROJECT).isEnabled());
+        Assert.assertEquals(freestyleProjectStatusPage.getHeadlineText(), String.format("Project %s", FREESTYLE_NAME));
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectPageIsOpenedFromDashboard")

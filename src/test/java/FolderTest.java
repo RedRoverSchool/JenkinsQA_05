@@ -1,3 +1,4 @@
+import model.FolderConfigPage;
 import model.FolderStatusPage;
 import model.HomePage;
 import org.openqa.selenium.*;
@@ -94,18 +95,22 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testConfigureFolderDisplayName() {
-        String secondJobName = "Second job";
-        createFolder();
-        getDashboard().click();
-        getDriver().findElement(By.xpath("//span[text()='" + generatedString + "']")).click();
-        getDriver().findElement(By.xpath("//a[@href='/job/" + generatedString + "/configure']")).click();
-        getDriver().findElement(By.xpath("//input[@name='_.displayNameOrNull']")).sendKeys(secondJobName);
-        getDriver().findElement(By.xpath("//textarea[@name='_.description']")).sendKeys("change name");
-        getSaveButton().click();
-        getDashboard().click();
-        String changedName = getDriver().findElement(By.xpath("//span[text()='" + secondJobName + "']")).getText();
+        final String folderName = TestUtils.getRandomStr(5);
+        final String secondJob = "Second job";
+      HomePage folderStatusPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(folderName)
+                .selectFolderAndClickOk()
+                .clickDashboard()
+                .clickJobDropDownMenu(folderName)
+                .clickConfigureDropDownMenuForFolder()
+                .clickDisplayName(secondJob)
+                .clickDescription("change name")
+                .clickSaveButton()
+                .clickDashboard();
 
-        Assert.assertEquals(changedName, secondJobName);
+        Assert.assertTrue(folderStatusPage.getJobList().contains(secondJob));
+
     }
 
     @Test

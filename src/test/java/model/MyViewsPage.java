@@ -25,6 +25,9 @@ public class MyViewsPage extends HomePage{
     @FindBy(id = "yui-gen1-button")
     private WebElement yesButtonDeleteView;
 
+    @FindBy(xpath = "//tbody/tr/td/a")
+    private  List <WebElement> listProjects;
+
     public MyViewsPage(WebDriver driver) {
         super(driver);
     }
@@ -63,5 +66,14 @@ public class MyViewsPage extends HomePage{
         }
 
         return this;
+    }
+
+    public String getListProjectsNames() {
+        StringBuilder listProjectsNames = new StringBuilder();
+        for (WebElement projects : listProjects) {
+            listProjectsNames.append(projects.getText()).append(" ");
+        }
+
+        return listProjectsNames.toString().trim();
     }
 }
