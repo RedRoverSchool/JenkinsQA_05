@@ -72,11 +72,14 @@ public class HomePage extends MyViewSideMenuFrame {
     @FindBy(xpath = "//span[contains(@class, 'build-status-icon')]/span/child::*")
     private WebElement buildStatusIcon;
 
-    @FindBy(xpath = "//*[@id=\"job_Pipeline1\"]/td[4]")
+    @FindBy(xpath = "//*[@id='job_Pipeline1']/td[4]")
     private WebElement lastSuccessStatus;
 
     @FindBy(css = "a[href=newJob]")
     private WebElement newJobHomePageLink;
+
+    @FindBy(xpath ="(//*[local-name()='svg' and @tooltip='Disabled'])[2]")
+    private WebElement projectDisabledIcon;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -301,5 +304,16 @@ public class HomePage extends MyViewSideMenuFrame {
     public String getJobName(String name) {
 
         return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", name))).getText();
+    }
+
+    public MultiConfigurationProjectStatusPage clickProject(String projectName) {
+        getWait(5).until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='job/" + projectName + "/']"))).click();
+
+        return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+    public Boolean getProjectIconText() {
+        return projectDisabledIcon.isDisplayed();
     }
 }
