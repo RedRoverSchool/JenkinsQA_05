@@ -41,7 +41,7 @@ public class FolderOneTest extends BaseTest {
 
     private void createFolder(String folderName){
         new HomePage(getDriver())
-                .clickNewItem()
+                .clickNewJobHomePageLink()
                 .setProjectName(folderName)
                 .selectFolderAndClickOk()
                 .clickSaveButton()

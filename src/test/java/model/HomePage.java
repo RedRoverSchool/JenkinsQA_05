@@ -75,6 +75,9 @@ public class HomePage extends MyViewSideMenuFrame {
     @FindBy(xpath = "//*[@id=\"job_Pipeline1\"]/td[4]")
     private WebElement lastSuccessStatus;
 
+    @FindBy(css = "a[href=newJob]")
+    private WebElement newJobHomePageLink;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -224,6 +227,12 @@ public class HomePage extends MyViewSideMenuFrame {
         iconUserName.click();
 
         return new StatusUserPage(getDriver());
+    }
+
+    public NewItemPage clickNewJobHomePageLink() {
+        newJobHomePageLink.click();
+
+        return new NewItemPage(getDriver());
     }
 
     public HomePage clickUserDropdownMenu() {

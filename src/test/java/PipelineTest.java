@@ -1,7 +1,4 @@
-import model.HomePage;
-import model.MyViewsPage;
-import model.PipelineConfigPage;
-import model.PipelineProjectPage;
+import model.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -306,6 +303,7 @@ public class PipelineTest extends BaseTest {
                 .clickDashboard()
                 .clickNewItem()
                 .setProjectName(projectName)
+                .selectPipeline()
                 .getItemNameInvalidMsg();
 
         Assert.assertEquals(newItemPageErrorMessage, String.format("» A job already exists with the name ‘%s’", projectName));
