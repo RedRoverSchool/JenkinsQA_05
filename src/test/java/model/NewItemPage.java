@@ -190,7 +190,7 @@ public class NewItemPage extends BasePage {
     }
     public NewItemPage setCopyFromItemName(String name) {
         TestUtils.scrollToEnd(getDriver());
-        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(copyFrom)).sendKeys(name);
+        getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(copyFrom)).sendKeys(name);
 
         return this;
     }
