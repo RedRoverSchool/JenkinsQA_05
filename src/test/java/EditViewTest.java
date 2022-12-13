@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import static runner.TestUtils.*;
 
 public class EditViewTest extends BaseTest{
-    private static String localViewNameVar;
+    private static String localViewName;
     private static final int waitTime = 5;
     private static final By DASHBOARD = By.cssSelector("#jenkins-name-icon");
     private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
@@ -132,9 +132,9 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testListViewAddFiveItems() {
-        localViewNameVar = getRandomStr();
+        localViewName = getRandomStr();
         createManyJobsOfEachType(1);
-        createViewFromListOfViewTypes(1, localViewNameVar);
+        createViewFromListOfViewTypes(1, localViewName);
         addFiveItemsToListView();
 
         int actualResult = getDriver().findElements(JOB_PATH).size();
@@ -179,9 +179,9 @@ public class EditViewTest extends BaseTest{
     @Test
     public void testListViewAddAllItems() {
         createManyJobsOfEachType(1);
-        localViewNameVar = getRandomStr();
-        createViewFromListOfViewTypes(1, localViewNameVar);
-        goToEditView(localViewNameVar);
+        localViewName = getRandomStr();
+        createViewFromListOfViewTypes(1, localViewName);
+        goToEditView(localViewName);
 
         List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION);
         int expectedResult = itemsToSelect.size();
@@ -209,8 +209,8 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testListViewChangeColumnOrder() {
-        localViewNameVar = getRandomStr();
-        listViewSeriesPreConditions(1, localViewNameVar);
+        localViewName = getRandomStr();
+        listViewSeriesPreConditions(1, localViewName);
         String[] expectedResult = {"W", "S"};
 
         scrollWaitTillNotMovingAndClick(waitTime, STATUS_DRAG_HANDLE);
@@ -239,9 +239,9 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testMyViewAddFilterBuildQueue() {
-        localViewNameVar = getRandomStr();
-        editViewTestPreConditions(2, localViewNameVar);
-        goToEditView(localViewNameVar);
+        localViewName = getRandomStr();
+        editViewTestPreConditions(2, localViewName);
+        goToEditView(localViewName);
 
         getDriver().findElement(FILTER_QUEUE).click();
         getDriver().findElement(SUBMIT_BUTTON).click();
@@ -254,8 +254,8 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testListViewCheckEveryAddColumnItem() {
-        localViewNameVar = getRandomStr();
-        listViewSeriesPreConditions(1, localViewNameVar);
+        localViewName = getRandomStr();
+        listViewSeriesPreConditions(1, localViewName);
         final String[] tableValues = {
                 "S", "W", "Name", "Last Success", "Last Failure", "Last Stable",
                 "Last Duration", "","Git Branches", "Name", "Description"};
@@ -288,8 +288,8 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testDeleteColumn() {
-        localViewNameVar = getRandomStr();
-        listViewSeriesPreConditions(1, localViewNameVar);
+        localViewName = getRandomStr();
+        listViewSeriesPreConditions(1, localViewName);
 
         scrollToElement_PlaceInCenter(getDriver(), getDriver().findElement(ADD_COLUMN));
         getWait(waitTime).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_COLUMN));
@@ -304,8 +304,8 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testMultipleSpacesRenameView() {
-        localViewNameVar = getRandomStr();
-        listViewSeriesPreConditions(1, localViewNameVar);
+        localViewName = getRandomStr();
+        listViewSeriesPreConditions(1, localViewName);
         final String nonSpaces = getRandomStr(5);
         final String spaces = nonSpaces.replaceAll("[a-zA-Z0-9]", " ");
         final String newName = nonSpaces + spaces + nonSpaces;
@@ -315,20 +315,20 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON).click();
 
         String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
-        Assert.assertNotEquals(actualResult, localViewNameVar);
+        Assert.assertNotEquals(actualResult, localViewName);
         Assert.assertEquals(actualResult, (nonSpaces + " " + nonSpaces));
     }
 
     @Test
     public void testIllegalCharacterRenameView() {
-        localViewNameVar = getRandomStr();
-        listViewSeriesPreConditions(1, localViewNameVar);
+        localViewName = getRandomStr();
+        listViewSeriesPreConditions(1, localViewName);
         final char[] illegalCharacters = "#!@$%^&*:;<>?/[]|\\".toCharArray();
 
         List<Boolean> checks = new ArrayList<>();
         for (int i = 0; i < illegalCharacters.length; i++) {
             getDriver().findElement(INPUT_NAME).clear();
-            getDriver().findElement(INPUT_NAME).sendKeys(illegalCharacters[i] + localViewNameVar);
+            getDriver().findElement(INPUT_NAME).sendKeys(illegalCharacters[i] + localViewName);
             getDriver().findElement(SUBMIT_BUTTON).click();
             if(getDriver().findElements(By.cssSelector("#main-panel h1")).size() > 0) {
                 checks.add(String.format("‘%c’ is an unsafe character", illegalCharacters[i])
@@ -338,10 +338,10 @@ public class EditViewTest extends BaseTest{
                 int finalI = i;
                 checks.add(getDriver()
                         .findElements(By
-                        .xpath(String.format("//a[contains(@href, '/my-views/view/%s/')]", localViewNameVar)))
+                        .xpath(String.format("//a[contains(@href, '/my-views/view/%s/')]", localViewName)))
                         .stream().noneMatch(element -> element.getText()
                         .equals(String.format("‘%c’ is an unsafe character", illegalCharacters[finalI]))));
-                goToEditView(localViewNameVar);
+                goToEditView(localViewName);
             } else {
                 checks.add(false);
             }
@@ -352,8 +352,8 @@ public class EditViewTest extends BaseTest{
 
     @Test
     public void testRenameView() {
-        localViewNameVar = getRandomStr();
-        listViewSeriesPreConditions(1, localViewNameVar);
+        localViewName = getRandomStr();
+        listViewSeriesPreConditions(1, localViewName);
         final String newName = getRandomStr();
 
         getDriver().findElement(INPUT_NAME).clear();
@@ -361,7 +361,7 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON).click();
 
         String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
-        Assert.assertFalse(actualResult.equals(localViewNameVar));
+        Assert.assertFalse(actualResult.equals(localViewName));
         Assert.assertEquals(actualResult, newName);
     }
 }
