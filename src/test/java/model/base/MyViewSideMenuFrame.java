@@ -1,5 +1,8 @@
-package model;
+package model.base;
 
+import model.DeleteViewConfirmationPage;
+import model.EditViewPage;
+import model.base.SideMenuFrame;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

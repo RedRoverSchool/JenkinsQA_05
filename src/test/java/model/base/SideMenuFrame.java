@@ -1,5 +1,10 @@
-package model;
+package model.base;
 
+import model.BuildHistoryPage;
+import model.MyViewsPage;
+import model.NewItemPage;
+import model.NewViewPage;
+import model.base.MainPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
