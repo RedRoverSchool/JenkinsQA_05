@@ -19,7 +19,7 @@ import java.util.List;
 
 public class PipelineTest extends BaseTest {
     private static final String RENAME_SUFFIX = "renamed";
-    private static final String PIPELINE_NAME = generatePipelineProjectName();
+    private static final String PIPELINE_NAME = TestUtils.getRandomStr();
     private static final String pipeline_name = TestUtils.getRandomStr();
     private static final String VIEW_NAME = RandomStringUtils.randomAlphanumeric(5);
     private static final String RANDOM_STRING  = TestUtils.getRandomStr(7);
@@ -54,15 +54,12 @@ public class PipelineTest extends BaseTest {
     }
 
     private void createPipelineProject(String projectName) {
-        Actions actions = new Actions(getDriver());
-        actions.sendKeys(Keys.F5);
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(NEW_ITEM).click();
-        getWait(3).until(ExpectedConditions.elementToBeClickable(PIPELINE)).click();
-        getDriver().findElement(ITEM_NAME).sendKeys(projectName);
-        getDriver().findElement(BUTTON_OK).click();
-        getDriver().findElement(BUTTON_SAVE).click();
-        getDriver().findElement(DASHBOARD).click();
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(projectName)
+                .selectPipelineAndClickOk()
+                .saveConfigAndGoToProjectPage()
+                .clickDashboard();
     }
 
     private void deletePipelineProject(String name) {
@@ -73,13 +70,11 @@ public class PipelineTest extends BaseTest {
     }
 
     private void renamePipelineProject(String name, String rename) {
-        Actions actions = new Actions(getDriver());
-        actions.moveToElement(getDriver().findElement(JOB_PIPELINE))
-                .moveToElement(getDriver().findElement(JOB_PIPELINE_MENU_DROPDOWN_CHEVRON)).click().build().perform();
-        getDriver().findElement(JOB_MENU_RENAME).click();
-        getDriver().findElement(TEXTFIELD_NEW_NAME).clear();
-        getDriver().findElement(TEXTFIELD_NEW_NAME).sendKeys(name + rename);
-        getDriver().findElement(BUTTON_RENAME).click();
+        new HomePage(getDriver())
+                .clickJobDropDownMenu(name)
+                .clickRenameDropDownMenu()
+                .clearFieldAndInputNewName(name+rename)
+                .clickSubmitButton();
     }
 
     private void createNewViewOfTypeMyView() {
@@ -160,7 +155,7 @@ public class PipelineTest extends BaseTest {
                 By.xpath("//a[@href='job/" + pipelineProjectName + "/']")).getText(), pipelineProjectName);
     }
 
-    @Ignore
+
     @Test
     public void testRenamePipelineWithValidName() {
         createPipelineProject(PIPELINE_NAME);
@@ -169,8 +164,6 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(getDriver()
                 .findElement(By.xpath("//h1[@class='job-index-headline page-headline']"))
                 .getText(), "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
-
-        deletePipelineProject(PIPELINE_NAME);
     }
 
     @Ignore
