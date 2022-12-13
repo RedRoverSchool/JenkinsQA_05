@@ -22,6 +22,7 @@ public class PipelineTest extends BaseTest {
     private static final String VIEW_NAME = RandomStringUtils.randomAlphanumeric(5);
     private static final String RANDOM_STRING  = TestUtils.getRandomStr(7);
     private static final String ITEM_DESCRIPTION = "This is a sample description for item";
+    private static final String ITEM_NEW_DESCRIPTION = "New description";
 
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By ITEM_NAME = By.id("name");
@@ -416,39 +417,34 @@ public class PipelineTest extends BaseTest {
                 ITEM_DESCRIPTION);
     }
 
-    @Ignore
-    @Test (dependsOnMethods = "testCreateNewPipelineWithDescription")
-    public void testCreateNewPipelineFromExisting() {
-        final String jobName = TestUtils.getRandomStr(7);
-
-        getDriver().findElement(By.linkText("New Item")).click();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys(jobName);
-        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
-        TestUtils.scrollToEnd(getDriver());
-        new Actions(getDriver()).pause(300).moveToElement(getDriver().findElement(By.cssSelector("#from")))
-                .click().sendKeys(RANDOM_STRING.substring(0,2)).pause(400)
-                .sendKeys(Keys.ARROW_DOWN)
-                .sendKeys(Keys.ENTER).perform();
-        getDriver().findElement(BUTTON_OK).click();
-        getDriver().findElement(BUTTON_SAVE).click();
-
-        Assert.assertEquals(getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getAttribute("textContent").substring(9),
-                jobName);
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child")).getAttribute("textContent"),
-                ITEM_DESCRIPTION);
-    }
-
     @Test(dependsOnMethods = "testCreateNewPipelineWithDescription")
     public void testEditPipelineDescription()  {
-        final String newDescription = "new description";
 
         String actualDescription = new HomePage(getDriver())
                 .clickJobDropDownMenu(RANDOM_STRING)
                 .clickPipelineProjectName()
-                .editDescription(newDescription)
+                .editDescription(ITEM_NEW_DESCRIPTION)
                 .clickSaveButton()
                 .getDescription();
 
-        Assert.assertEquals(actualDescription, newDescription);
+        Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
+    }
+
+    @Test (dependsOnMethods = "testEditPipelineDescription")
+    public void testCreateNewPipelineFromExisting() {
+        final String jobName =TestUtils.getRandomStr(7);
+
+        String actualJobName = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(jobName)
+                .setCopyFromItemName(RANDOM_STRING)
+                .clickOk()
+                .saveConfigAndGoToProjectPage()
+                .getPipelineName();
+
+        String actualDescription = new PipelineProjectPage(getDriver()).getDescription();
+
+        Assert.assertEquals(actualJobName,jobName);
+        Assert.assertEquals(actualDescription,ITEM_NEW_DESCRIPTION);
     }
 }

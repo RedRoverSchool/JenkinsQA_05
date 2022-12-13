@@ -79,6 +79,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//span[text()='Edit View']/..")
     private WebElement editView;
 
+    @FindBy(css = "a[href*=configure]")
+    private WebElement editViewMenuLink;
+
     @FindBy(linkText = "Builds")
     private WebElement buildsItemInUserDropdownMenu;
 
@@ -166,6 +169,12 @@ public class HomePage extends BasePage {
                 "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", name)))).click();
 
         return this;
+    }
+
+    public JobPage clickJob(String name) {
+        getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
+
+        return new JobPage(getDriver());
     }
 
     public PipelineConfigPage clickConfigureDropDownMenu() {
@@ -257,6 +266,12 @@ public class HomePage extends BasePage {
         return new StatusUserPage(getDriver());
     }
 
+    public EditViewPage clickEditViewLink() {
+        editViewMenuLink.click();
+
+        return new EditViewPage(getDriver());
+    }
+
     public HomePage clickUserDropdownMenu() {
         userDropdownMenu.click();
 
@@ -300,11 +315,11 @@ public class HomePage extends BasePage {
         return new BuildsUserPage(getDriver());
     }
 
-    public String getBuildDurationTime(){
-        if(getJobBuildStatus().equals("Success")){
+    public String getBuildDurationTime() {
+        if (getJobBuildStatus().equals("Success")) {
 
             return getDriver().findElement(By.xpath("//tr[contains(@class, 'job-status')]/td[4]")).getText();
-        } else if(getJobBuildStatus().equals("Failed")){
+        } else if (getJobBuildStatus().equals("Failed")) {
 
             return getDriver().findElement(By.xpath("//tr[contains(@class, 'job-status')]/td[5]")).getText();
         }
@@ -312,7 +327,7 @@ public class HomePage extends BasePage {
         return null;
     }
 
-    public String getJobBuildStatus(){
+    public String getJobBuildStatus() {
 
         return buildStatusIcon.getAttribute("tooltip");
     }

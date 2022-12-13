@@ -8,14 +8,20 @@ import runner.TestUtils;
 
 public class EditViewPage extends HomePage {
 
-    @FindBy(css = "input[name=filterQueue]+label")
+    @FindBy(css = "input[name=filterQueue]")
     private WebElement filterBuildQueueOptionCheckBox;
+
+    @FindBy(css = "input[name=filterExecutors]")
+    private WebElement filterBuildExecutorsOptionCheckBox;
 
     @FindBy(name = "name")
     private WebElement viewName;
 
-    @FindBy(css = "#yui-gen6-button")
+    @FindBy(xpath = "//button[text() = 'OK']")
     private WebElement okButton;
+
+    @FindBy(xpath = "//button[text() = 'Apply']")
+    private WebElement applyButton;
 
     @FindBy(css = ".jenkins-form-description")
     private WebElement uniqueTextOnGlobalViewEditPage;
@@ -34,12 +40,6 @@ public class EditViewPage extends HomePage {
         okButton.click();
 
         return new MyViewsPage(getDriver());
-    }
-
-    public EditViewPage filterBuildQueueOptionCheckBoxSelect() {
-        filterBuildQueueOptionCheckBox.click();
-
-        return new EditViewPage(getDriver());
     }
 
     public EditViewPage renameView(String name) {
@@ -76,5 +76,26 @@ public class EditViewPage extends HomePage {
         description.sendKeys(desc);
 
         return new EditViewPage(getDriver());
+    }
+
+    public EditViewPage selectFilterBuildQueueOptionCheckBox() {
+        filterBuildQueueOptionCheckBox.findElement(By.xpath("following-sibling::label")).click();
+
+        return this;
+    }
+    public EditViewPage selectFilterBuildExecutorsOptionCheckBox() {
+        filterBuildExecutorsOptionCheckBox.findElement(By.xpath("following-sibling::label")).click();
+
+        return this;
+    }
+
+    public boolean isFilterBuildQueueOptionCheckBoxSelected() {
+
+        return filterBuildQueueOptionCheckBox.isSelected();
+    }
+
+    public boolean isFilterBuildExecutorsOptionCheckBoxSelected() {
+
+        return filterBuildExecutorsOptionCheckBox.isSelected();
     }
 }
