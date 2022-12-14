@@ -7,7 +7,6 @@ import runner.BaseTest;
 
 public class MyViewsTest extends BaseTest {
     final private static String TEST_DESCRIPTION_NAME = "Test";
-
     final private static String DESCRIPTION_NAME_EDIT = "Test1";
 
     public void createDescription() {
