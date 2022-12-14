@@ -161,7 +161,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
         MultiConfigurationProjectStatusPage buildRowBeforeBuild = new HomePage(getDriver())
                 .clickMultConfJobName(PROJECT_NAME)
                 .getBuildListSize(getDriver());
-
         MultiConfigurationProjectStatusPage buildRowAfterBuild = new MultiConfigurationProjectStatusPage(getDriver())
                 .clickBuildNow()
                 .getBuildListSize(getDriver());
