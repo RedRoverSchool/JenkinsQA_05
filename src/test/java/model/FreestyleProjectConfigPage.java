@@ -247,8 +247,8 @@ public class FreestyleProjectConfigPage extends BasePage {
         getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(buildStepsButton));
         new Actions(getDriver())
                 .moveToElement(buildStepsButton)
-                .click()
                 .perform();
+        buildStepsButton.click();
         getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".yui-button-active.yui-menu-button-active")));
 
         return this;
