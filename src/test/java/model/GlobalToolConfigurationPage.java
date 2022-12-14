@@ -1,6 +1,5 @@
 package model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,7 +7,7 @@ import runner.TestUtils;
 
 public class GlobalToolConfigurationPage extends BasePage {
 
-    @FindBy(id = "yui-gen9-button")
+    @FindBy(xpath = "//button[text()='Add Maven']")
     private WebElement addMavenButton;
 
     @FindBy(css = "input[checkurl$='MavenInstallation/checkName']")
@@ -26,7 +25,8 @@ public class GlobalToolConfigurationPage extends BasePage {
 
     public GlobalToolConfigurationPage clickAddMavenButton() {
         TestUtils.scrollToEnd(getDriver());
-        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(addMavenButton)).click();
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(addMavenButton));
+        addMavenButton.click();
         TestUtils.scrollToEnd(getDriver());
         getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(addMavenButton));
 
