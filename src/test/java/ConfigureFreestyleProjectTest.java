@@ -47,7 +47,6 @@ public class ConfigureFreestyleProjectTest extends BaseTest {
         Assert.assertTrue(page.isBooleanParameterDefaultOn());
     }
 
-
     @Test(dependsOnMethods = "testConfigureJobAsParameterized")
     public void testConfigureSourceCodeByGIT() {
         final String repositoryURL = "https://github.com/RedRoverSchool/course_frontend_05.git";
@@ -87,9 +86,6 @@ public class ConfigureFreestyleProjectTest extends BaseTest {
                 .clickBuildStatusIcon();
 
         Assert.assertEquals(consolePage.getPageHeader(), "Console Output");
-
-
-
         Assert.assertEquals(consolePage.getJobBuildStatus(), "Success");
         Assert.assertTrue(consolePage.getConsoleOutputText().contains("Finished: SUCCESS"));
     }
