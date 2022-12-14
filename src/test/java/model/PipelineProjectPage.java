@@ -4,6 +4,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PipelineProjectPage extends BasePage{
 
     @FindBy(xpath = "//div[@id='description']//a")
@@ -35,6 +38,9 @@ public class PipelineProjectPage extends BasePage{
 
     @FindBy(id = "yui-gen1")
     private WebElement enableProjectButton;
+
+    @FindBy(xpath = "//span[@class='task-link-wrapper ']//span[2]")
+    private List<WebElement> pipelineSideMenuLinks;
 
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
@@ -94,5 +100,14 @@ public class PipelineProjectPage extends BasePage{
         enableProjectButton.click();
 
         return new PipelineProjectPage(getDriver());
+    }
+
+    public List<String> getPipelineSideMenuLinks() {
+        List<String> pipelineProjectText = new ArrayList<>();
+        for (WebElement list : pipelineSideMenuLinks) {
+            pipelineProjectText.add(list.getText());
+        }
+
+        return pipelineProjectText;
     }
 }
