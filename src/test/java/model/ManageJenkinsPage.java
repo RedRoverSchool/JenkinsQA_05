@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class ManageJenkinsPage extends BasePage {
+public class ManageJenkinsPage extends Header {
 
     @FindBy(xpath = "//a[@href='configureTools']")
     private WebElement configureTools;

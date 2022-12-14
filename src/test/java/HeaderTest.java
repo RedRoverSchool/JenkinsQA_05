@@ -1,5 +1,6 @@
 import model.BuildsUserPage;
 import model.HomePage;
+import model.ManageJenkinsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -81,27 +82,28 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void test_Logo_HeadIconIsSeen() {
+    public void testLogoHeadIconIsSeen() {
 
-        Assert.assertTrue(getDriver().findElement(
-                By.id("jenkins-head-icon")).isEnabled());
+        HomePage homePage = new HomePage(getDriver());
 
-        Assert.assertTrue(getDriver().findElement(
-                By.id("jenkins-head-icon")).isDisplayed());
+        Assert.assertTrue(homePage
+                .getJenkinsHeadIcon()
+                .isDisplayed());
+
+        Assert.assertTrue(homePage
+                .getJenkinsHeadIcon()
+                .isEnabled());
     }
 
     @Test
-    public void test_Manage_Jenkins_ClickNameIconToReturnToTheMainPage() {
-        getDriver().findElement(
-                        By.xpath("//div[@id='tasks']//a[@href='/manage']")).
-                click();
+    public void testManageJenkinsClickNameIconToReturnToTheMainPage() {
+        ManageJenkinsPage manageJenkinsPage = new HomePage(getDriver())
+                .clickManageJenkins();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),
+        Assert.assertEquals(manageJenkinsPage.getCurrentURL(),
                 "http://localhost:8080/manage/");
 
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
-
-        Assert.assertEquals(getDriver().getCurrentUrl(),
+        Assert.assertEquals(manageJenkinsPage.clickJenkinsNameIcon().getCurrentURL(),
                 "http://localhost:8080/");
     }
 
@@ -173,19 +175,29 @@ public class HeaderTest extends BaseTest {
         }
     }
 
-    @Ignore
     @Test
-    public void test_Logo_HeadIcon_ReloadMainPage(){
-        getDriver().findElement(By.id("description-link")).click();
+    public void testLogoHeadIconReloadMainPage() {
 
-        Assert.assertTrue(getDriver().findElement(
-                        By.xpath("//div[@id='description']//textarea")).
-                isDisplayed());
+        HomePage homePage = new HomePage(getDriver());
 
-        getDriver().findElement(By.id("jenkins-head-icon")).click();
+        Assert.assertTrue(homePage
+                .clickAddDescriptionButton()
+                .getDescriptionTextarea()
+                .isEnabled());
 
-        Assert.assertTrue(getDriver().findElement(
-                By.id("description-link")).isDisplayed());
+        Assert.assertFalse(homePage
+                .isAddDescriptionButtonPresent());
+
+        Assert.assertFalse(homePage
+                .clickJenkinsHeadIcon()
+                .waitForVisibilityOfAddDescriptionButton()
+                .isDescriptionTextareaPresent());
+
+        Assert.assertTrue(homePage
+                .clickJenkinsHeadIcon()
+                .waitForVisibilityOfAddDescriptionButton()
+                .getAddDescriptionButton()
+                .isEnabled());
     }
 }
 

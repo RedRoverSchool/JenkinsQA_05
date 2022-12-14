@@ -1,9 +1,6 @@
 package model;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -12,7 +9,7 @@ import java.util.stream.Collectors;
 
 import static runner.TestUtils.scrollToElement;
 
-public class HomePage extends BasePage {
+public class HomePage extends Header {
 
     @FindBy(linkText = "Build History")
     private WebElement buildHistory;
@@ -97,6 +94,12 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//span[text()=\"Pipeline1\"]")
     private WebElement pipeline1;
+
+    @FindBy(id = "description-link")
+    private WebElement addDescriptionButton;
+
+    @FindBy(xpath = "//div[@id='description']//textarea")
+    private WebElement descriptionTextarea;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -394,4 +397,48 @@ public class HomePage extends BasePage {
 
         return new FreestyleProjectConfigPage(getDriver());
     }
+
+    public HomePage clickAddDescriptionButton() {
+        getWait(10).until(ExpectedConditions.elementToBeClickable(addDescriptionButton)).click();
+        getWait(10).until(ExpectedConditions.visibilityOf(descriptionTextarea));
+
+        return this;
+    }
+
+    public WebElement getDescriptionTextarea() {
+
+        return descriptionTextarea;
+    }
+
+    public WebElement getAddDescriptionButton() {
+
+        return addDescriptionButton;
+    }
+
+    public HomePage waitForVisibilityOfAddDescriptionButton(){
+        getWait(10).until(ExpectedConditions.visibilityOf(addDescriptionButton));
+
+        return this;
+    }
+
+    public boolean isAddDescriptionButtonPresent(){
+        try{
+            getDriver().findElement(By.id("description-link"));
+            return true;
+        }
+        catch(NoSuchElementException e){
+            return false;
+        }
+    }
+
+    public boolean isDescriptionTextareaPresent(){
+        try{
+            getDriver().findElement(By.xpath("//div[@id='description']//textarea"));
+            return true;
+        }
+        catch(NoSuchElementException e){
+            return false;
+        }
+    }
+
 }
