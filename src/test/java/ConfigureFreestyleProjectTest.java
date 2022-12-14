@@ -87,6 +87,9 @@ public class ConfigureFreestyleProjectTest extends BaseTest {
                 .clickBuildStatusIcon();
 
         Assert.assertEquals(consolePage.getPageHeader(), "Console Output");
+
+
+
         Assert.assertEquals(consolePage.getJobBuildStatus(), "Success");
         Assert.assertTrue(consolePage.getConsoleOutputText().contains("Finished: SUCCESS"));
     }
