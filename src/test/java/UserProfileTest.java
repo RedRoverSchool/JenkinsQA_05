@@ -7,13 +7,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
 import java.time.Duration;
 
 public class UserProfileTest extends BaseTest {
-    private static final String TEXT = RandomStringUtils.randomAlphanumeric(50);
-    private static final String  TEXT_EDIT = RandomStringUtils.randomAlphanumeric(10);
 
+    private static final String TEXT = RandomStringUtils.randomAlphanumeric(50);
+    private static final String TEXT_EDIT = RandomStringUtils.randomAlphanumeric(10);
+    
     @Test
     public void testUserProfileAddDescription() {
         String actualResult = new HomePage(getDriver())
@@ -52,9 +52,8 @@ public class UserProfileTest extends BaseTest {
         Assert.assertEquals(statusUserPage.getPreviewText(), TEXT);
     }
 
-    @Test (dependsOnMethods = "testUserProfileAddDescription")
-    public void testUserProfileEditDescription (){
-
+    @Test(dependsOnMethods = "testUserProfileAddDescription")
+    public void testUserProfileEditDescription() {
         String actualResult = new HomePage(getDriver())
                 .clickUserIcon()
                 .clickAddDescriptionLink()

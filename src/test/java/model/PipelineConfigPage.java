@@ -22,10 +22,10 @@ public class PipelineConfigPage extends BasePage {
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
 
-    @FindBy (xpath = "//option[text()='try sample Pipeline...']")
+    @FindBy(xpath = "//option[text()='try sample Pipeline...']")
     private WebElement trySamplePipelineDropDownMenu;
 
-    @FindBy (css = "option[value='hello']")
+    @FindBy(css = "option[value='hello']")
     private WebElement helloWorldScript;
 
     @FindBy(name = "description")
@@ -95,7 +95,7 @@ public class PipelineConfigPage extends BasePage {
         return new HomePage(getDriver());
     }
 
-    public PipelineConfigPage scrollToEndPipelineConfigPage () {
+    public PipelineConfigPage scrollToEndPipelineConfigPage() {
         TestUtils.scrollToEnd(getDriver());
 
         return this;

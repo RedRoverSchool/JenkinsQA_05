@@ -23,7 +23,7 @@ public class HeaderTest extends BaseTest {
     }
 
     private void createOrganizationFolder() {
-        for(int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= 4; i++) {
             String organizationFolderName = "OrganizationFolder_" + (int) (Math.random() * 1000);
 
             getDriver().findElement(By.linkText("New Item")).click();
@@ -62,12 +62,12 @@ public class HeaderTest extends BaseTest {
                 .clickUserDropdownMenu()
                 .getItemsCountInUserDropdownMenu();
 
-        String itemsNames = new HomePage (getDriver())
+        String itemsNames = new HomePage(getDriver())
                 .clickUserDropdownMenu()
                 .getItemsNamesInUserDropdownMenu();
 
         Assert.assertEquals(itemsCount, 4);
-        Assert.assertEquals(itemsNames,"Builds Configure My Views Credentials");
+        Assert.assertEquals(itemsNames, "Builds Configure My Views Credentials");
     }
 
     @Test
@@ -159,7 +159,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testCheckTheAppropriateSearchResult(){
+    public void testCheckTheAppropriateSearchResult() {
         createOrganizationFolder();
 
         getDriver().findElement(By.id("search-box")).sendKeys("organiza");
@@ -175,7 +175,7 @@ public class HeaderTest extends BaseTest {
 
     @Ignore
     @Test
-    public void test_Logo_HeadIcon_ReloadMainPage(){
+    public void test_Logo_HeadIcon_ReloadMainPage() {
         getDriver().findElement(By.id("description-link")).click();
 
         Assert.assertTrue(getDriver().findElement(
@@ -188,4 +188,3 @@ public class HeaderTest extends BaseTest {
                 By.id("description-link")).isDisplayed());
     }
 }
-

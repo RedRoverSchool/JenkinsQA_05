@@ -38,7 +38,7 @@ public class MulticonfigurationProjectConfigPage extends BasePage {
         return new HomePage(getDriver());
     }
 
-    public MulticonfigurationProjectConfigPage inputDescription (String description) {
+    public MulticonfigurationProjectConfigPage inputDescription(String description) {
         inputDescription.sendKeys(description);
 
         return new MulticonfigurationProjectConfigPage(getDriver());
@@ -50,13 +50,13 @@ public class MulticonfigurationProjectConfigPage extends BasePage {
         return new MulticonfigurationProjectConfigPage(getDriver());
     }
 
-    public MultiConfigurationProjectStatusPage getPreview () {
+    public MultiConfigurationProjectStatusPage getPreview() {
         getWait(5).until(ExpectedConditions.visibilityOf(previewArea)).getText();
 
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
-    public MultiConfigurationProjectStatusPage clickSaveButton(){
+    public MultiConfigurationProjectStatusPage clickSaveButton() {
         getWait(5).until(ExpectedConditions.visibilityOf(saveButton)).click();
 
         return new MultiConfigurationProjectStatusPage(getDriver());

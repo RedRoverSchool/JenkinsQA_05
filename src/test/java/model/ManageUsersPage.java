@@ -14,7 +14,7 @@ public class ManageUsersPage extends BasePage {
     @FindBy(css = ".jenkins-table__button")
     private WebElement ConfigureUser;
 
-    @FindBy (xpath = "//a[@href='addUser']")
+    @FindBy(xpath = "//a[@href='addUser']")
     private WebElement createUser;
 
     @FindBy(xpath = "//table[@id='people']//tbody//tr//td")
@@ -24,7 +24,7 @@ public class ManageUsersPage extends BasePage {
     private WebElement rootMenuDashboardLink;
 
     public ManageUsersPage(WebDriver driver) {
-       super(driver);
+        super(driver);
     }
 
     public ConfigureUserPage clickConfigureUser() {
@@ -33,21 +33,21 @@ public class ManageUsersPage extends BasePage {
         return new ConfigureUserPage(getDriver());
     }
 
-    public CreateUserPage clickCreateUser(){
+    public CreateUserPage clickCreateUser() {
         createUser.click();
 
-        return new CreateUserPage (getDriver());
+        return new CreateUserPage(getDriver());
     }
 
-    public List<String> getListOfUsers(){
+    public List<String> getListOfUsers() {
         List<String> listOfUsers = new ArrayList<>();
-        for (int i = 0; i < usersList.size(); i++){
+        for (int i = 0; i < usersList.size(); i++) {
             listOfUsers.add(i, usersList.get(i).getText());
         }
         return listOfUsers;
     }
 
-    public HomePage rootMenuDashboardLinkClick(){
+    public HomePage rootMenuDashboardLinkClick() {
         rootMenuDashboardLink.click();
 
         return new HomePage(getDriver());

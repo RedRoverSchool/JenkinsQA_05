@@ -133,72 +133,72 @@ public class FreestyleProjectConfigPage extends BasePage {
         return maxNumberOfBuildsToKeep.getAttribute("value");
     }
 
-    public String getFreestyleProjectName(String name){
+    public String getFreestyleProjectName(String name) {
 
         return projectButton.getText();
-        }
+    }
 
-    public FreestyleProjectConfigPage switchONCheckBoxThisProjectIsParametrized(){
+    public FreestyleProjectConfigPage switchONCheckBoxThisProjectIsParametrized() {
         checkBoxProjectIsParametrized.click();
 
         return this;
     }
 
-    public FreestyleProjectConfigPage clickButtonAddParameter(){
+    public FreestyleProjectConfigPage clickButtonAddParameter() {
         buttonAddParameter.click();
 
         return this;
     }
 
-    public FreestyleProjectConfigPage selectStringParameter(){
+    public FreestyleProjectConfigPage selectStringParameter() {
         stringParameter.click();
 
         return this;
     }
 
-    public FreestyleProjectConfigPage inputStringParameterName(String stringParameterName){
+    public FreestyleProjectConfigPage inputStringParameterName(String stringParameterName) {
         getWait(5).until(ExpectedConditions.visibilityOf(fieldInputStringParameterName)).sendKeys(stringParameterName);
 
         return this;
     }
 
-    public FreestyleProjectConfigPage inputStringParameterDefaultValue(String stringParameterDefaultValue){
+    public FreestyleProjectConfigPage inputStringParameterDefaultValue(String stringParameterDefaultValue) {
         fieldInputStringParameterDefaultValue.sendKeys(stringParameterDefaultValue);
 
         return this;
     }
 
-    public FreestyleProjectConfigPage selectChoiceParameter(){
+    public FreestyleProjectConfigPage selectChoiceParameter() {
         choiceParameter.click();
 
         return this;
     }
 
-    public FreestyleProjectConfigPage inputChoiceParameterName(String choiceParameterName){
+    public FreestyleProjectConfigPage inputChoiceParameterName(String choiceParameterName) {
         getWait(5).until(ExpectedConditions.visibilityOf(fieldInputChoiceParameterName)).sendKeys(choiceParameterName);
 
         return this;
     }
 
-    public FreestyleProjectConfigPage inputChoiceParameterValue(String choiceParameterValue){
+    public FreestyleProjectConfigPage inputChoiceParameterValue(String choiceParameterValue) {
         fieldInputChoiceParameterValue.sendKeys(choiceParameterValue);
 
         return this;
     }
 
-    public FreestyleProjectConfigPage selectBooleanParameter(){
+    public FreestyleProjectConfigPage selectBooleanParameter() {
         booleanParameter.click();
 
         return this;
     }
 
-    public FreestyleProjectConfigPage inputBooleanParameterName(String booleanParameterName){
+    public FreestyleProjectConfigPage inputBooleanParameterName(String booleanParameterName) {
         getWait(10).until(ExpectedConditions.visibilityOf(fieldInputBooleanParameterName)).sendKeys(booleanParameterName);
 
         return this;
     }
 
-    public FreestyleProjectConfigPage switchONBooleanParameterAsDefault(){
+    public FreestyleProjectConfigPage switchONBooleanParameterAsDefault() {
         setByDefault.click();
 
         return this;
@@ -217,19 +217,19 @@ public class FreestyleProjectConfigPage extends BasePage {
         return new BuildWithParametersPage(getDriver());
     }
 
-    public FreestyleProjectConfigPage selectSourceCodeManagementGIT(){
+    public FreestyleProjectConfigPage selectSourceCodeManagementGIT() {
         radioGitButton.click();
 
         return this;
     }
 
-    public FreestyleProjectConfigPage inputGITRepositoryURL(String url){
+    public FreestyleProjectConfigPage inputGITRepositoryURL(String url) {
         getWait(10).until(ExpectedConditions.elementToBeClickable(fieldInputRepositoryURL)).sendKeys(url);
 
         return this;
     }
 
-    public FreestyleConfigSideMenuPage switchOFFCheckBoxThisProjectIsParametrized(){
+    public FreestyleConfigSideMenuPage switchOFFCheckBoxThisProjectIsParametrized() {
         checkBoxProjectIsParametrized.click();
 
         return new FreestyleConfigSideMenuPage(getDriver());

@@ -53,7 +53,7 @@ public abstract class BaseTest {
         }
     }
 
-    protected void clearData() {
+    protected static void clearData() {
         BaseUtils.log("Clear data");
         JenkinsUtils.deleteViews();
         JenkinsUtils.deleteJobs();
@@ -78,7 +78,8 @@ public abstract class BaseTest {
     protected void stopDriver() {
         try {
             ProjectUtils.logout(driver);
-        } catch (Exception ignore) {}
+        } catch (Exception ignore) {
+        }
 
         closeDriver();
     }

@@ -109,7 +109,7 @@ public class NewView1Test extends BaseTest {
 
         Assert.assertTrue(viewPage.getBreadcrumbsItemName(LIST_VIEW_RENAME).contains(LIST_VIEW_RENAME));
 
-        Assert.assertEqualsNoOrder(viewPage.getSideMenuTextList(),viewPage.getActualSideMenu());
+        Assert.assertEqualsNoOrder(viewPage.getSideMenuTextList(), viewPage.getActualSideMenu());
     }
 
     @Test(dependsOnMethods = "testViewSideMenu")

@@ -10,7 +10,7 @@ public class HomeTest extends BaseTest {
         final String namePipeline = "Pipeline1";
         final String expectedLastSuccess = "N/A";
 
-        HomePage homePage =new HomePage(getDriver())
+        HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(namePipeline)
                 .selectPipelineAndClickOk()
@@ -36,4 +36,4 @@ public class HomeTest extends BaseTest {
 
         Assert.assertEquals(actualCheckIcon, expectedCheckIcon);
     }
-  }
+}
