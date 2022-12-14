@@ -3,6 +3,7 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
 public class NewFullNameTest extends BaseTest {
     private static final By MANAGE_JENKINS_BUTTON = By.xpath("//div[4]/span/a");
     private static final By MANAGE_USER_BUTTON = By.partialLinkText("Manage Users");
@@ -23,6 +24,7 @@ public class NewFullNameTest extends BaseTest {
         actualResult = getDriver().findElement(By.tagName("h1")).getText();
         Assert.assertEquals(actualResult, NEW_FULL_NAME);
     }
+
     @Test(dependsOnMethods = "testNewUsername")
     public void testNewUsernameAfterReLogging() {
         getDriver().findElement(By.xpath("//a[@href='/logout']")).click();

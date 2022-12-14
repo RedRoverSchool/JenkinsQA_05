@@ -22,9 +22,9 @@ public class FreestyleProjectSecondTest extends BaseTest {
     private static final String VALID_NAME = "New project(1.1)";
 
     @Test
-    public void testCreateFreestyleProject(){
+    public void testCreateFreestyleProject() {
 
-       String projectName = new HomePage(getDriver())
+        String projectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
@@ -34,7 +34,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateFreestyleProject")
-    public void testCreateAndRenameFreestyleProject(){
+    public void testCreateAndRenameFreestyleProject() {
 
         String projectName = new HomePage(getDriver())
                 .clickFreestyleProjectName(FREESTYLE_NAME)
@@ -47,7 +47,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateAndRenameFreestyleProject")
-    public void testCreateWithDescriptionFreestyleProject(){
+    public void testCreateWithDescriptionFreestyleProject() {
 
         String description = new HomePage(getDriver())
                 .clickFreestyleProjectName(NEW_FREESTYLE_NAME)
@@ -59,7 +59,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFreestyleProjectWithValidName(){
+    public void testCreateFreestyleProjectWithValidName() {
 
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys(VALID_NAME);
@@ -73,7 +73,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateWithDescriptionFreestyleProject")
     public void testConfigurationProvideDiscardOldBuildsWithDaysToKeepBuilds() {
-        final String expectedDaysToKeepBuilds = Integer.toString((int)(Math.random() * 20 + 1));
+        final String expectedDaysToKeepBuilds = Integer.toString((int) (Math.random() * 20 + 1));
 
         String actualDaysToKeepBuilds = new HomePage(getDriver())
                 .clickFreestyleProjectName()
@@ -84,12 +84,12 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .clickSideMenuConfigureLink()
                 .getNumberOfDaysToKeepBuilds();
 
-        Assert.assertEquals(actualDaysToKeepBuilds,expectedDaysToKeepBuilds);
+        Assert.assertEquals(actualDaysToKeepBuilds, expectedDaysToKeepBuilds);
     }
 
     @Test(dependsOnMethods = "testConfigurationProvideDiscardOldBuildsWithDaysToKeepBuilds")
     public void testConfigurationProvideKeepMaxNumberOfOldBuilds() {
-        final String expectedMaxNumberOfBuildsToKeep= Integer.toString((int)(Math.random() * 20 + 1));
+        final String expectedMaxNumberOfBuildsToKeep = Integer.toString((int) (Math.random() * 20 + 1));
 
         String actualMaxNumberOfBuildsToKeep = new HomePage(getDriver())
                 .clickFreestyleProjectName()
@@ -99,7 +99,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .clickSideMenuConfigureLink()
                 .getMaxNumberOfBuildsToKeep();
 
-        Assert.assertEquals(actualMaxNumberOfBuildsToKeep,expectedMaxNumberOfBuildsToKeep);
+        Assert.assertEquals(actualMaxNumberOfBuildsToKeep, expectedMaxNumberOfBuildsToKeep);
     }
 
     @Test(dependsOnMethods = "testConfigurationProvideKeepMaxNumberOfOldBuilds")
@@ -115,7 +115,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .openAddBuildStepDropDown()
                 .collectOptionsInBuildStepsDropDown();
 
-        new FreestyleProjectConfigPage (getDriver())
+        new FreestyleProjectConfigPage(getDriver())
                 .closeAddBuildStepDropDown()
                 .clickSaveBtn();
 
@@ -138,7 +138,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']"))).click();
 
         selectedCheckbox = getWait(10).until(ExpectedConditions
-                .elementSelectionStateToBe(By.name("hudson-triggers-TimerTrigger"),true));
+                .elementSelectionStateToBe(By.name("hudson-triggers-TimerTrigger"), true));
 
         getWait(10).until(TestUtils.
                 ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']"))).click();

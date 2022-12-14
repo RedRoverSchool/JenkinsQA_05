@@ -78,7 +78,8 @@ public abstract class BaseTest {
     protected void stopDriver() {
         try {
             ProjectUtils.logout(driver);
-        } catch (Exception ignore) {}
+        } catch (Exception ignore) {
+        }
 
         closeDriver();
     }

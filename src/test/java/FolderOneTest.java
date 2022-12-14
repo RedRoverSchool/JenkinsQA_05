@@ -19,7 +19,7 @@ public class FolderOneTest extends BaseTest {
     private static final By CREATE_JOB = By.linkText("Create a job");
     private static final By TEXT_ADDRESS = By.id("main-panel");
     private static final By TEXTAREA = By.name("_.description");
-    private static final By HEADER_ADDRESS= By.id("breadcrumbs");
+    private static final By HEADER_ADDRESS = By.id("breadcrumbs");
     private static final By SELECTION_SCRIPT = By.xpath("//div[@class='samples']/select/option[4]");
     private static final String RANDOM_NAME_1 = TestUtils.getRandomStr(6);
     private static final String RANDOM_NAME_2 = TestUtils.getRandomStr(6);
@@ -134,16 +134,16 @@ public class FolderOneTest extends BaseTest {
 
 
     @Test(dependsOnMethods = "testCreateFolderInFolderJob")
-    public void testRenameFolder()  {
-            HomePage homePage = new HomePage(getDriver())
-                    .clickFolderDropdownMenu(RANDOM_NAME_1)
-                    .clickRenameDropDownMenu()
-                    .clearFieldAndInputNewName(RANDOM_NAME_1 + "NEW")
-                    .clickSubmitButton()
-                    .clickDashboard();
+    public void testRenameFolder() {
+        HomePage homePage = new HomePage(getDriver())
+                .clickFolderDropdownMenu(RANDOM_NAME_1)
+                .clickRenameDropDownMenu()
+                .clearFieldAndInputNewName(RANDOM_NAME_1 + "NEW")
+                .clickSubmitButton()
+                .clickDashboard();
 
-            Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1));
-            Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME_1 + "NEW"));
+        Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1));
+        Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME_1 + "NEW"));
     }
 
 
@@ -163,13 +163,13 @@ public class FolderOneTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testMoveFolderInFolder")
-    public void testDeleteFolderDropDown(){
+    public void testDeleteFolderDropDown() {
         HomePage homePage = new HomePage(getDriver())
                 .clickFolderDropdownMenu(RANDOM_NAME_1 + "NEW")
                 .clickDeleteDropDownMenu()
                 .clickSubmitDeleteProject();
 
-    Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1 + "NEW"));
+        Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1 + "NEW"));
     }
 
     @Test

@@ -23,9 +23,9 @@ public class StatusUserPage extends BasePage {
     @FindBy(xpath = "//div[@class='textarea-preview']")
     private WebElement previewField;
     @FindBy(xpath = "//a[@class='textarea-hide-preview']")
-    private  WebElement hidePreviewLink;
-    @FindBy(id ="yui-gen1-button")
-    private  WebElement saveButton;
+    private WebElement hidePreviewLink;
+    @FindBy(id = "yui-gen1-button")
+    private WebElement saveButton;
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement displayedDescriptionText;
 
@@ -33,7 +33,7 @@ public class StatusUserPage extends BasePage {
         super(driver);
     }
 
-    public StatusUserPage refreshPage(){
+    public StatusUserPage refreshPage() {
         getDriver().navigate().refresh();
 
         return this;
@@ -63,6 +63,7 @@ public class StatusUserPage extends BasePage {
 
         return this;
     }
+
     public StatusUserPage inputTextInDescriptionField(String text) {
         descriptionInputField.sendKeys(text);
 
@@ -90,11 +91,13 @@ public class StatusUserPage extends BasePage {
 
         return previewField.isDisplayed();
     }
+
     public StatusUserPage clickSaveButton() {
         saveButton.click();
 
         return this;
     }
+
     public String getDescriptionText() {
 
         return displayedDescriptionText.getText();

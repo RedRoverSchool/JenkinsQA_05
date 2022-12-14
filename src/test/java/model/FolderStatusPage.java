@@ -56,7 +56,7 @@ public class FolderStatusPage extends BasePage {
     @FindBy(xpath = "//h1")
     private WebElement folderHeader;
 
-    @FindBy(id="view-message")
+    @FindBy(id = "view-message")
     private WebElement textDescription;
 
     public FolderStatusPage(WebDriver driver) {
@@ -69,7 +69,7 @@ public class FolderStatusPage extends BasePage {
         return new HomePage(getDriver());
     }
 
-    public NewItemPage clickNewItemDropdownThisFolderInBreadcrumbs(){
+    public NewItemPage clickNewItemDropdownThisFolderInBreadcrumbs() {
         getWait(5).until(ExpectedConditions.visibilityOf(breadcrumbsThisFolderToggleDropdown)).click();
         getWait(5).until(ExpectedConditions.visibilityOf(newItemInDropDown)).click();
 
@@ -124,19 +124,19 @@ public class FolderStatusPage extends BasePage {
         return folderHeader.getText();
     }
 
-    public NewItemPage clickFolderNewItem(){
+    public NewItemPage clickFolderNewItem() {
         folderNewItem.click();
 
         return new NewItemPage(getDriver());
     }
 
-    public FolderStatusPage clickDeleteFolder(){
+    public FolderStatusPage clickDeleteFolder() {
         deleteFolder.click();
 
         return new FolderStatusPage(getDriver());
     }
 
-    public MovePage clickMoveFolder(){
+    public MovePage clickMoveFolder() {
         moveFolder.click();
 
         return new MovePage(getDriver());

@@ -17,20 +17,20 @@ public class UserProfileTest extends BaseTest {
     private static final By INPUT_FIELD = By.tagName("textarea");
     private static final By SAVE_BUTTON = By.id("yui-gen1-button");
     private static final String TEXT = RandomStringUtils.randomAlphanumeric(50);
-    private static final String  TEXT_EDIT = RandomStringUtils.randomAlphanumeric(10);
+    private static final String TEXT_EDIT = RandomStringUtils.randomAlphanumeric(10);
 
     private WebDriverWait wait;
 
-   private WebDriverWait getWait() {
-       if (wait == null) {
-          wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+    private WebDriverWait getWait() {
+        if (wait == null) {
+            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
         }
         return wait;
     }
 
-    public void deleteDescription (){
-       getWait().until(ExpectedConditions.elementToBeClickable(ADD_DES)).click();
-       getDriver().findElement(INPUT_FIELD).clear();
+    public void deleteDescription() {
+        getWait().until(ExpectedConditions.elementToBeClickable(ADD_DES)).click();
+        getDriver().findElement(INPUT_FIELD).clear();
         getDriver().findElement(SAVE_BUTTON).click();
     }
 
@@ -46,6 +46,7 @@ public class UserProfileTest extends BaseTest {
 
         Assert.assertEquals(actualResult, TEXT);
     }
+
     @Test
     public void testUserProfileHidePreviewDescription() {
         StatusUserPage statusUserPage = new HomePage(getDriver())
@@ -72,8 +73,8 @@ public class UserProfileTest extends BaseTest {
         Assert.assertEquals(statusUserPage.getPreviewText(), TEXT);
     }
 
-    @Test (dependsOnMethods = "testUserProfileAddDescription")
-    public void testUserProfileEditDescription (){
+    @Test(dependsOnMethods = "testUserProfileAddDescription")
+    public void testUserProfileEditDescription() {
 
         getDriver().findElement(USER_ICON).click();
         getDriver().findElement(ADD_DES).click();
@@ -82,7 +83,7 @@ public class UserProfileTest extends BaseTest {
         getDriver().findElement(SAVE_BUTTON).click();
 
         Assert.assertTrue(getDriver().
-                findElement(By.xpath("//div[contains(text(),'"+TEXT_EDIT+"')]")).isDisplayed());
+                findElement(By.xpath("//div[contains(text(),'" + TEXT_EDIT + "')]")).isDisplayed());
 
         deleteDescription();
     }
