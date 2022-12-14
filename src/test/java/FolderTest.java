@@ -406,6 +406,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(folderStatusPage.getJobList().contains(freestyleProjectName));
     }
 
+    @Ignore
     @Test
     public void testCreateNewMagicFolder() {
 
