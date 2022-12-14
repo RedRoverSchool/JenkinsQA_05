@@ -34,6 +34,7 @@ public class BuildHistoryTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
     }
 
+    @Ignore
     @Test
     public void testVerifyDefaultIconSize() {
         final String size = new HomePage(getDriver())
