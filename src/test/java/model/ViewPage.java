@@ -90,6 +90,12 @@ public class ViewPage extends BasePage {
         return new MyViewsPage(getDriver());
     }
 
+    public HomePage clickYesButtonDeleteListView() {
+        yesButtonDeleteView.click();
+
+        return new HomePage(getDriver());
+    }
+
     public String getTextDescription() {
 
         return descriptionText.getText();
