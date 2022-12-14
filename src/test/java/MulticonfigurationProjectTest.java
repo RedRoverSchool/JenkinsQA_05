@@ -227,7 +227,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     public void testDisableMultiConfigurationProjectCheckIconDashboardPage() {
 
         HomePage homePage = new HomePage(getDriver())
-                .clickMultConfJobName(PROJECT_NAME)
+                .clickProject(PROJECT_NAME)
                 .clickDisableButton()
                 .goToDashboard();
 
