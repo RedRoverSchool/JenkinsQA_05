@@ -242,8 +242,10 @@ public class FreestyleProjectConfigPage extends BasePage {
     }
 
     public FreestyleProjectConfigPage openAddBuildStepDropDown() {
+        TestUtils.scrollToElement(getDriver(), buildStepsButton);
+        getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".yui-button.yui-menu-button")));
+        getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(buildStepsButton));
         new Actions(getDriver())
-                .scrollToElement(buildStepsButton)
                 .moveToElement(buildStepsButton)
                 .perform();
         getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".yui-button-hover.yui-menu-button-hover")));
