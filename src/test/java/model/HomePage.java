@@ -14,8 +14,6 @@ import static runner.TestUtils.scrollToElement;
 
 public class HomePage extends BasePage {
 
-    public boolean getProjectNameFromProjectTabl;
-
     @FindBy(linkText = "Build History")
     private WebElement buildHistory;
 
@@ -91,12 +89,18 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//span[contains(@class, 'build-status-icon')]/span/child::*")
     private WebElement buildStatusIcon;
 
-    @FindBy(xpath = "//*[@id=\"job_Pipeline1\"]/td[4]")
+    @FindBy(xpath = "//*[@id='job_Pipeline1']/td[4]")
     private WebElement lastSuccessStatus;
+
+    @FindBy(xpath ="(//*[local-name()='svg' and @tooltip='Disabled'])[2]")
+    private WebElement projectDisabledIcon;
+
+    @FindBy(xpath = "//span[text()=\"Pipeline1\"]")
+    private WebElement pipeline1;
 
     @FindBy(xpath = "//span/span/*[name()='svg' and @tooltip='Disabled']")
     private WebElement iconDisabled;
-
+  
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -359,7 +363,41 @@ public class HomePage extends BasePage {
 
         return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", name))).getText();
     }
+  
+    public MultiConfigurationProjectStatusPage clickProject(String projectName) {
+        getWait(5).until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='job/" + projectName + "/']"))).click();
 
+        return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+    public Boolean getProjectIconText() {
+        return projectDisabledIcon.isDisplayed();
+    }
+
+    public PipelineProjectPage clickPipeline1() {
+        pipeline1.click();
+
+        return new PipelineProjectPage(getDriver());
+    }
+
+    public String getStatusBuildText() {
+
+        return buildStatusIcon.getAttribute("tooltip");
+    }
+
+    public HomePage movePointToCheckBox(){
+        getAction().moveToElement(buildStatusIcon).perform();
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage clickConfigDropDownMenuFreestyle() {
+        getWait(6).until(ExpectedConditions.elementToBeClickable(configureDropDownMenu)).click();
+
+        return new FreestyleProjectConfigPage(getDriver());
+    }
+  
     public boolean disableIconIsDisplayed() {
         return iconDisabled.isDisplayed();
     }
