@@ -61,7 +61,6 @@ public class FreestyleProjectConfigPage extends BasePage {
     @FindBy(xpath = "//div[@class = 'jenkins-form-item hetero-list-container with-drag-drop  ']/div[3]//input[@name = 'parameter.name']")
     private WebElement fieldInputBooleanParameterName;
 
-
     @FindBy(xpath = "//label[text() = 'Set by Default']")
     private WebElement setByDefault;
 
@@ -70,6 +69,24 @@ public class FreestyleProjectConfigPage extends BasePage {
 
     @FindBy(xpath = "//div[text() = 'Repository URL']/following-sibling::div/input")
     private WebElement fieldInputRepositoryURL;
+
+    @FindBy(xpath = "//label[text() = 'None']")
+    private WebElement radioNoneButton;
+
+    @FindBy(xpath = "//button[contains(text(), 'Add build step')]")
+    private WebElement buttonAddBuildStep;
+
+    @FindBy(linkText = "Execute Windows batch command")
+    private WebElement windowsBatchCommand;
+
+    @FindBy(xpath = "//div[contains(text(), 'Execute Windows batch command')]/following-sibling::div[3]/descendant::textarea")
+    private WebElement fieldInputExecuteWindowsBatchCommand;
+
+    @FindBy(xpath = "//div[contains(text(), 'Branch Specifier')]/following-sibling::div/input")
+    private WebElement fieldBranchSpecifier;
+
+    @FindBy(xpath = "//button[@data-section-id = 'build-steps']")
+    private WebElement buttonAddBuildSteps;
 
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
@@ -208,7 +225,7 @@ public class FreestyleProjectConfigPage extends BasePage {
     }
 
     public FreestyleProjectConfigPage inputGITRepositoryURL(String url){
-        getWait(10).until(ExpectedConditions.elementToBeClickable(fieldInputRepositoryURL)).sendKeys(url);
+        getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(fieldInputRepositoryURL)).sendKeys(url);
 
         return this;
     }
@@ -219,5 +236,35 @@ public class FreestyleProjectConfigPage extends BasePage {
         return new FreestyleConfigSideMenuPage(getDriver());
     }
 
+    public FreestyleConfigSideMenuPage selectSourceCodeManagementNone(){
+        radioNoneButton.click();
 
+        return new FreestyleConfigSideMenuPage(getDriver());
+    }
+
+    public FreestyleProjectConfigPage clickButtonAddBuildStep(){
+        getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(buttonAddBuildStep)).click();
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage selectExecuteWindowsBatchCommand(){
+        getWait(5).until(ExpectedConditions.elementToBeClickable(windowsBatchCommand)).click();
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage inputExecuteWindowsBatchCommand(String command){
+        getWait(5).until(ExpectedConditions.elementToBeClickable(fieldInputExecuteWindowsBatchCommand)).sendKeys(command);
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage inputBranchSpecifier(String specifier){
+        scrollToElement_PlaceInCenter(getDriver(), fieldBranchSpecifier);
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(fieldBranchSpecifier)).clear();
+        fieldBranchSpecifier.sendKeys("*/" + specifier);
+
+        return this;
+    }
 }
