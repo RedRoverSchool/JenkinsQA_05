@@ -154,6 +154,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(freestyleProjectDescription, descriptionText);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddDescriptionToFreestyleProject")
     public void testNoBuildFreestyleProjectChanges() {
         getDriver().findElement(By.linkText(FREESTYLE_NAME)).click();
@@ -164,6 +165,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualChangesText, "No builds.");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testNoBuildFreestyleProjectChanges")
     public void testRenameFreestyleProject() {
 
@@ -179,6 +181,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(jobsList.contains(NEW_FREESTYLE_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testRenameFreestyleProject")
     public void testViewFreestyleProjectPage() {
         getDriver().findElement(By.linkText(NEW_FREESTYLE_NAME)).click();
@@ -186,6 +189,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(BY_NEW_ITEM_NAME_HEADLINE).getText(), String.format("Project %s", NEW_FREESTYLE_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testViewFreestyleProjectPage")
     public void testViewChangesNoBuildsSignAppears() {
         final String expectedText = "Changes\nNo builds.";
@@ -198,6 +202,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualText, expectedText);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears")
     public void testFreestyleProjectConfigureByDropdown() {
         getDriver().findElement(By.cssSelector("#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
@@ -208,6 +213,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().getTitle(), NEW_FREESTYLE_NAME + " Config [Jenkins]");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testFreestyleProjectConfigureByDropdown")
     public void testFreestyleProjectConfigureMenu() {
         getDriver().findElement(By.xpath("//a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
@@ -230,6 +236,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEqualsNoOrder(textConfigMenu, actualConfigMenu);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testFreestyleProjectConfigureMenu")
     public void testCreateNewFreestyleProjectWithDuplicateName() {
         getDriver().findElement(BY_BUTTON_ADD_NEW_ITEM).click();
