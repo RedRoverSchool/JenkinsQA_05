@@ -15,6 +15,8 @@ import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
 
+import java.util.List;
+
 public class PipelineTest extends BaseTest {
     private static final String RENAME_SUFFIX = "renamed";
     private static final String PIPELINE_NAME = generatePipelineProjectName();
@@ -22,6 +24,7 @@ public class PipelineTest extends BaseTest {
     private static final String VIEW_NAME = RandomStringUtils.randomAlphanumeric(5);
     private static final String RANDOM_STRING  = TestUtils.getRandomStr(7);
     private static final String ITEM_DESCRIPTION = "This is a sample description for item";
+    private static final String ITEM_NEW_DESCRIPTION = "New description";
 
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
     private static final By ITEM_NAME = By.id("name");
@@ -46,6 +49,7 @@ public class PipelineTest extends BaseTest {
     private static final By GITHUB_CHECKBOX  = By.xpath("//label[text()='GitHub project']");
 
     private static String generatePipelineProjectName() {
+
         return RandomStringUtils.randomAlphanumeric(10);
     }
 
@@ -282,9 +286,8 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), pipelinePojectName + "edit description");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testEnablePipelineProject")
     public void testDeletePipelineFromDashboard() {
-        createPipelineProject("testProject");
         String homePageHeaderText = new HomePage(getDriver())
                 .clickDashboard()
                 .clickPipelineProjectName()
@@ -293,7 +296,8 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(homePageHeaderText, "Welcome to Jenkins!");
     }
-
+    
+    @Ignore
     @Test
     public void testCreatePipelineExistingNameError() {
         final String projectName = "AnyUnusualName1";
@@ -305,7 +309,7 @@ public class PipelineTest extends BaseTest {
                 .clickDashboard()
                 .clickNewItem()
                 .setProjectName(projectName)
-                .getNameErrorMessageText();
+                .getItemNameInvalidMsg();
 
         Assert.assertEquals(newItemPageErrorMessage, String.format("» A job already exists with the name ‘%s’", projectName));
     }
@@ -351,6 +355,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(pipelineProjectPage.getAttributeGitHubSideMenu("href").contains(gitHubRepo));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddingGitRepository")
     public void testWarningMessageIsDisappeared() {
 
@@ -416,39 +421,57 @@ public class PipelineTest extends BaseTest {
                 ITEM_DESCRIPTION);
     }
 
-    @Ignore
-    @Test (dependsOnMethods = "testCreateNewPipelineWithDescription")
-    public void testCreateNewPipelineFromExisting() {
-        final String jobName = TestUtils.getRandomStr(7);
-
-        getDriver().findElement(By.linkText("New Item")).click();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys(jobName);
-        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
-        TestUtils.scrollToEnd(getDriver());
-        new Actions(getDriver()).pause(300).moveToElement(getDriver().findElement(By.cssSelector("#from")))
-                .click().sendKeys(RANDOM_STRING.substring(0,2)).pause(400)
-                .sendKeys(Keys.ARROW_DOWN)
-                .sendKeys(Keys.ENTER).perform();
-        getDriver().findElement(BUTTON_OK).click();
-        getDriver().findElement(BUTTON_SAVE).click();
-
-        Assert.assertEquals(getDriver().findElement(By.cssSelector(".job-index-headline.page-headline")).getAttribute("textContent").substring(9),
-                jobName);
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("#description >*:first-child")).getAttribute("textContent"),
-                ITEM_DESCRIPTION);
-    }
-
     @Test(dependsOnMethods = "testCreateNewPipelineWithDescription")
     public void testEditPipelineDescription()  {
-        final String newDescription = "new description";
 
         String actualDescription = new HomePage(getDriver())
                 .clickJobDropDownMenu(RANDOM_STRING)
                 .clickPipelineProjectName()
-                .editDescription(newDescription)
+                .editDescription(ITEM_NEW_DESCRIPTION)
                 .clickSaveButton()
                 .getDescription();
 
-        Assert.assertEquals(actualDescription, newDescription);
+        Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
+    }
+
+    @Test (dependsOnMethods = "testEditPipelineDescription")
+    public void testCreateNewPipelineFromExisting() {
+        final String jobName =TestUtils.getRandomStr(7);
+
+        String actualJobName = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(jobName)
+                .setCopyFromItemName(RANDOM_STRING)
+                .clickOk()
+                .saveConfigAndGoToProjectPage()
+                .getPipelineName();
+
+        String actualDescription = new PipelineProjectPage(getDriver()).getDescription();
+
+        Assert.assertEquals(actualJobName,jobName);
+        Assert.assertEquals(actualDescription,ITEM_NEW_DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testCreatePipelineWithName")
+    public void testEnablePipelineProject() {
+        String jobStatusAfterEnable = new HomePage(getDriver())
+                .clickDashboard()
+                .clickPipelineProjectName()
+                .clickDisableProject()
+                .clickEnableProject()
+                .clickDashboard()
+                .getJobBuildStatus();
+
+        Assert.assertNotEquals(jobStatusAfterEnable, "Disabled");
+    }
+
+    @Test(dependsOnMethods = "testCreateNewPipelineFromExisting")
+    public void testPipelineSideMenuLinks() {
+        List<String> pipelineSideMenuOptionsLinks = new HomePage(getDriver())
+                .clickPipelineProjectName()
+                .getPipelineSideMenuLinks();
+
+        Assert.assertEquals(pipelineSideMenuOptionsLinks,
+                List.of("Status", "Changes", "Build Now", "Configure", "Delete Pipeline", "Full Stage View", "Rename", "Pipeline Syntax"));
     }
 }

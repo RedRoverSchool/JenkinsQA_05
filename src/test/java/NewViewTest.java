@@ -1,4 +1,5 @@
-import org.apache.commons.lang3.RandomStringUtils;
+import model.EditViewPage;
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -13,17 +14,14 @@ public class NewViewTest extends BaseTest {
     private static final By PIPELINE = By.xpath("//*[text() = 'Pipeline']");
     private static final By DASHBOARD = By.id("jenkins-name-icon");
     private static final By MY_VIEWS = By.xpath("//a[@href='/me/my-views']");
-    private static final String VIEW_NAME = RandomStringUtils.randomAlphanumeric(5);
-    private static final String LIST_VIEW_NAME = RandomStringUtils.randomAlphanumeric(6);
-    private static final String PROJECT_NAME = RandomStringUtils.randomAlphanumeric(6);
+    private static final String VIEW_NAME = TestUtils.getRandomStr(6);
+    private static final String PROJECT_RANDOM_NAME = TestUtils.getRandomStr(6);
     private static final By RADIO_BUTTON_MY_VIEW = By.xpath("//label[@for='hudson.model.MyView']");
-    private static final By RADIO_BUTTON_LIST_VIEW = By.xpath("//label[@for='hudson.model.ListView']");
     private static final By BUTTON_DELETE = By.cssSelector("svg.icon-edit-delete");
     private static final By BUTTON_S = By.xpath("//div/ol/li/a[@href='/iconSize?16x16'][@class='yui-button link-button']");
     private static final By BUTTON_M = By.xpath("//div/ol/li/a[@href='/iconSize?24x24'][@class='yui-button link-button']");
     private static final By BUTTON_L = By.xpath("//div/ol/li/a[@href='/iconSize?32x32'][@class='yui-button link-button']");
     private static final By MY_VIEWS_TABLE = By.xpath("//table[@id='projectstatus']");
-    private static final By MULTI_CONFIGURATION_PROJECT = By.cssSelector(".hudson_matrix_MatrixProject");
 
     private boolean isElementPresent(WebDriver driver, By by) {
         try {
@@ -36,7 +34,7 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testCreateNewView() {
-        ProjectUtils.createNewItemFromDashboard(getDriver(),PIPELINE, PROJECT_NAME);
+        ProjectUtils.createNewItemFromDashboard(getDriver(),PIPELINE, TestUtils.getRandomStr(6));
         getDriver().findElement(DASHBOARD).click();
         ProjectUtils.createNewViewFromDashboard(getDriver(),RADIO_BUTTON_MY_VIEW, VIEW_NAME);
 
@@ -82,31 +80,36 @@ public class NewViewTest extends BaseTest {
     }
 
     @Test()
-    public void testCreateListViewWithExtraSettings() {
-        ProjectUtils.createNewItemFromDashboard(getDriver(),MULTI_CONFIGURATION_PROJECT, PROJECT_NAME);
-        getDriver().findElement(DASHBOARD).click();
-        ProjectUtils.createNewViewFromDashboard(getDriver(),RADIO_BUTTON_LIST_VIEW, LIST_VIEW_NAME);
+    public void testCreateListViewWithAddSettings() {
+        int countColumnsBeforeAdd = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(PROJECT_RANDOM_NAME)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickDashboard()
+                .clickMyViews()
+                .clickNewView()
+                .setViewName(TestUtils.getRandomStr(6))
+                .setListViewType()
+                .clickCreateButton()
+                .addJobToView(PROJECT_RANDOM_NAME)
+                .getCountColumns();
 
-        getDriver().findElement(By.cssSelector(String.format("label[title='%s']", PROJECT_NAME))).click();
-        int countColumnsBeforeAdd = getDriver().findElements(By.cssSelector(".repeated-chunk__header")).size();
-        TestUtils.scrollToEnd(getDriver());
-        getWait(5).until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".bottom-sticker-inner--stuck")));
-        getDriver().findElement(By.cssSelector("#yui-gen3-button")).click();
-        getDriver().findElement(By.linkText("Build Button")).click();
-        getDriver().findElement(By.cssSelector("#yui-gen5-button")).click();
+        String textConfirmAfterClickingApply = new EditViewPage(getDriver())
+                .addColumn("Build Button")
+                .clickApplyButton()
+                .getTextConfirmAfterClickingApply();
 
-        String TextConfirmAfterClickingApply = getWait(10).until(ExpectedConditions.presenceOfElementLocated(
-                By.cssSelector("#notification-bar"))).getText();
-        getDriver().findElement(By.cssSelector("#yui-gen6-button")).click();
+        String actualMarkedProjectName = new EditViewPage(getDriver())
+                .clickOk()
+                .clickEditViewButton()
+                .getSelectedJobName();
 
-        getDriver().findElement(By.linkText("My Views")).click();
-        getDriver().findElement(By.linkText(LIST_VIEW_NAME)).click();
-        getDriver().findElement(By.linkText("Edit View")).click();
+        int countColumnsAfterAdd = new EditViewPage(getDriver())
+                .getCountColumns();
 
-        String actualMarkedProjectName = getDriver().findElement(By.cssSelector("input[checked='true']")).getAttribute("name");
-        int countColumnsAfterAdd = getDriver().findElements(By.className("repeated-chunk__header")).size();
-        Assert.assertEquals(actualMarkedProjectName, PROJECT_NAME);
+        Assert.assertEquals(actualMarkedProjectName, PROJECT_RANDOM_NAME);
         Assert.assertEquals(countColumnsAfterAdd, countColumnsBeforeAdd + 1);
-        Assert.assertEquals(TextConfirmAfterClickingApply, "Saved");
+        Assert.assertEquals(textConfirmAfterClickingApply, "Saved");
     }
 }

@@ -1,5 +1,6 @@
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -7,7 +8,6 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
-import java.util.List;
 
 import model.HomePage;
 
@@ -18,6 +18,7 @@ public class BuildHistoryTest extends BaseTest {
     private static final By DASHBOARD = By.xpath("//a[contains(text(), 'Dashboard')]");
     private static final By BUILD_HISTORY = By.linkText("Build History");
 
+    private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
     private String jobName;
 
     private void createProject(String description) {
@@ -65,12 +66,16 @@ public class BuildHistoryTest extends BaseTest {
 
     @Test
     public void testH1Header_BuildHistory() {
-        createProject("empty");
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(BUILD_HISTORY).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='jenkins-app-bar__content']/h1")).getText(),
-                "Build History of Jenkins");
+        final String header_BuildHistory = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickDashboard()
+                .clickBuildHistory().getHeaderText();
+
+        Assert.assertEquals(header_BuildHistory, "Build History of Jenkins");
     }
 
     @Test

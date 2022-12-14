@@ -4,6 +4,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PipelineProjectPage extends BasePage{
 
     @FindBy(xpath = "//div[@id='description']//a")
@@ -26,6 +29,18 @@ public class PipelineProjectPage extends BasePage{
 
     @FindBy(xpath = "//a[contains(text(), 'Dashboard')]")
     private WebElement dashboardLink;
+
+    @FindBy(css = ".job-index-headline")
+    private WebElement pipelineName;
+
+    @FindBy(id = "yui-gen1-button")
+    private WebElement disableProjectButton;
+
+    @FindBy(id = "yui-gen1")
+    private WebElement enableProjectButton;
+
+    @FindBy(xpath = "//span[@class='task-link-wrapper ']//span[2]")
+    private List<WebElement> pipelineSideMenuLinks;
 
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
@@ -69,5 +84,30 @@ public class PipelineProjectPage extends BasePage{
 
     public String getAttributeGitHubSideMenu(String attribute) {
         return gitHubSideMenu.getAttribute(attribute);
+    }
+
+    public String getPipelineName() {
+        return pipelineName.getAttribute("textContent").substring(pipelineName.getAttribute("textContent").indexOf(" ") + 1);
+    }
+
+    public PipelineProjectPage clickDisableProject() {
+        disableProjectButton.click();
+
+        return new PipelineProjectPage(getDriver());
+    }
+
+    public PipelineProjectPage clickEnableProject() {
+        enableProjectButton.click();
+
+        return new PipelineProjectPage(getDriver());
+    }
+
+    public List<String> getPipelineSideMenuLinks() {
+        List<String> pipelineProjectText = new ArrayList<>();
+        for (WebElement list : pipelineSideMenuLinks) {
+            pipelineProjectText.add(list.getText());
+        }
+
+        return pipelineProjectText;
     }
 }
