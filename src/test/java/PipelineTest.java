@@ -135,6 +135,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(pipelineNameInMyViewList.getListProjectsNames().contains(pipelineName));
     }
 
+    @Ignore
     @Test
     public void testPipelineAddDescription() {
 

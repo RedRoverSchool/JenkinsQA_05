@@ -33,6 +33,7 @@ public class BuildHistoryTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
     }
 
+    @Ignore
     @Test
     public void testVerifyDefaultIconSize() {
         getDriver().findElement(By.linkText("New Item")).click();
