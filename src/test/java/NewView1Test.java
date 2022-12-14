@@ -11,7 +11,7 @@ public class NewView1Test extends BaseTest {
     private static final String GLOBAL_VIEW_NAME = "Global_View";
     private static final String LIST_VIEW_NAME = "List_View";
     private static final String MY_VIEW_NAME = "My_View";
-    private static final String LIST_VIEW_RENAME = "New_List_View";
+    private static final String LIST_VIEW_RENAME = "NewListView";
 
     @Test
     public void testCreateViews() {
@@ -102,6 +102,17 @@ public class NewView1Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testViewHasSelectedTypeMyView")
+    public void testViewSideMenu() {
+        ViewPage viewPage = new HomePage(getDriver())
+                .clickMyViews()
+                .clickView(LIST_VIEW_RENAME);
+
+        Assert.assertTrue(viewPage.getBreadcrumbsItemName(LIST_VIEW_RENAME).contains(LIST_VIEW_RENAME));
+
+        Assert.assertEqualsNoOrder(viewPage.getSideMenuTextList(),viewPage.getActualSideMenu());
+    }
+
+    @Test(dependsOnMethods = "testViewSideMenu")
     public void testDeleteView() {
         MyViewsPage myViewsPage = new HomePage(getDriver())
                 .clickMyViews()
