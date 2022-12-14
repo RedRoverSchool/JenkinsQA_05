@@ -37,7 +37,7 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
     @FindBy(xpath = "//tr[@page-entry-id]")
     private WebElement buildList;
 
-    @FindBy(linkText = "Build Now")
+    @FindBy(xpath = "//span/a[@onclick]")
     private WebElement buildNow;
 
 
