@@ -1,5 +1,6 @@
 import model.HomePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -67,15 +68,14 @@ public class ListViewTest extends BaseTest {
 
     @Test(dependsOnMethods = "testEditViewAddDescription")
     public void testEditViewDeleteDescription() {
+        String descriptionText = new HomePage(getDriver())
+                .clickView(RANDOM_LIST_VIEW_NAME)
+                .clickEditDescription()
+                .clearDescription()
+                .clickSaveButton()
+                .getTextDescription();
 
-        getDriver().findElement(CREATED_LIST_VIEW).click();
-        getDriver().findElement(By.cssSelector("#description-link")).click();
-        getWait(5)
-                .until(TestUtils.ExpectedConditions.elementIsNotMoving(
-                        getDriver().findElement(DESCRIPTION_AREA))).clear();
-        getDriver().findElement(By.cssSelector("#yui-gen1-button")).click();
-
-        Assert.assertEquals(getDriver().findElement(DESCRIPTION).getText(), "");
+        Assert.assertEquals(descriptionText, "");
     }
 
     @Test(dependsOnMethods = "testEditViewDeleteDescription")

@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.TestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +32,15 @@ public class ViewPage extends BasePage{
 
     @FindBy(xpath = "//div[@class='jenkins-buttons-row jenkins-buttons-row--invert']/preceding-sibling::div")
     private WebElement descriptionText;
+
+    @FindBy(css = "#description-link")
+    private WebElement editDescriptionButton;
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement description;
+
+    @FindBy(css = "#yui-gen1-button")
+    private WebElement saveButton;
 
     public ViewPage(WebDriver driver) {
         super(driver);
@@ -74,5 +85,25 @@ public class ViewPage extends BasePage{
     public String getTextDescription() {
 
         return descriptionText.getText();
+    }
+
+    public ViewPage clickEditDescription() {
+        editDescriptionButton.click();
+
+        return this;
+    }
+
+    public ViewPage clearDescription() {
+        getWait(5)
+                .until(TestUtils.ExpectedConditions.elementIsNotMoving(description)).clear();
+
+        return this;
+    }
+
+    public ViewPage clickSaveButton() {
+        getWait(5)
+                .until(ExpectedConditions.elementToBeClickable(saveButton)).click();
+
+        return this;
     }
 }
