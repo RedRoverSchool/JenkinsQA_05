@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MyViewsPage extends HomePage{
+public class MyViewsPage extends HomePage {
 
     @FindBy(css = "a[title='New View']")
     private WebElement newView;
@@ -17,7 +17,7 @@ public class MyViewsPage extends HomePage{
     private List<WebElement> listViews;
 
     @FindBy(css = ".pane-header-title")
-    private List <WebElement> listViewActiveFilters;
+    private List<WebElement> listViewActiveFilters;
 
     @FindBy(xpath = "//a[@href='delete']")
     private WebElement deleteViewItem;
@@ -26,7 +26,7 @@ public class MyViewsPage extends HomePage{
     private WebElement yesButtonDeleteView;
 
     @FindBy(xpath = "//tbody/tr/td/a")
-    private  List <WebElement> listProjects;
+    private List<WebElement> listProjects;
 
     public MyViewsPage(WebDriver driver) {
         super(driver);
