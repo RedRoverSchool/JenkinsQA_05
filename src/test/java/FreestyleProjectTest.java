@@ -227,13 +227,14 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testFreestyleProjectConfigureMenu")
     public void testCreateNewFreestyleProjectWithDuplicateName() {
-        getDriver().findElement(BY_BUTTON_ADD_NEW_ITEM).click();
 
-        getDriver().findElement(BY_FIELD_ENTER_NAME).click();
-        getDriver().findElement(BY_FIELD_ENTER_NAME).sendKeys(NEW_FREESTYLE_NAME);
-        getDriver().findElement(BY_BUTTON_SELECT_FREESTYLE_PROJECT).click();
+        String actualResult = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(NEW_FREESTYLE_NAME)
+                .selectFreestyleProject()
+                .getItemNameInvalidMsg();
 
-        Assert.assertEquals(getDriver().findElement(BY_ITEM_NAME_INVALID_MESSAGE).getText(), String.format("» A job already exists with the name ‘%s’", NEW_FREESTYLE_NAME));
+        Assert.assertEquals(actualResult, String.format("» A job already exists with the name ‘%s’", NEW_FREESTYLE_NAME));
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectBuild")
