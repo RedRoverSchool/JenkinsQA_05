@@ -14,8 +14,6 @@ import static runner.TestUtils.scrollToElement;
 
 public class HomePage extends BasePage {
 
-    public boolean getProjectNameFromProjectTabl;
-
     @FindBy(linkText = "Build History")
     private WebElement buildHistory;
 
@@ -96,6 +94,9 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath ="(//*[local-name()='svg' and @tooltip='Disabled'])[2]")
     private WebElement projectDisabledIcon;
+
+    @FindBy(xpath = "//span[text()=\"Pipeline1\"]")
+    private WebElement pipeline1;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -369,5 +370,22 @@ public class HomePage extends BasePage {
 
     public Boolean getProjectIconText() {
         return projectDisabledIcon.isDisplayed();
+    }
+
+    public PipelineProjectPage clickPipeline1() {
+        pipeline1.click();
+
+        return new PipelineProjectPage(getDriver());
+    }
+
+    public String getStatusBuildText() {
+
+        return buildStatusIcon.getAttribute("tooltip");
+    }
+
+    public HomePage movePointToCheckBox(){
+        getAction().moveToElement(buildStatusIcon).perform();
+
+        return this;
     }
 }
