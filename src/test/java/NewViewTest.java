@@ -1,3 +1,4 @@
+import model.EditListViewPage;
 import model.EditViewPage;
 import model.HomePage;
 import org.openqa.selenium.By;
@@ -79,7 +80,7 @@ public class NewViewTest extends BaseTest {
         Assert.assertEquals(getDriver().findElements(By.xpath("//table[@id='legend-table']//tr")).size(), 17);
     }
 
-    @Test()
+    @Test
     public void testCreateListViewWithAddSettings() {
         int countColumnsBeforeAdd = new HomePage(getDriver())
                 .clickNewItem()
@@ -87,25 +88,24 @@ public class NewViewTest extends BaseTest {
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .clickDashboard()
-                .clickMyViews()
+                .clickMyViewsSideMenuLink()
                 .clickNewView()
                 .setViewName(TestUtils.getRandomStr(6))
-                .setListViewType()
-                .clickCreateButton()
+                .setListViewTypeAndClickCreate()
                 .addJobToView(PROJECT_RANDOM_NAME)
                 .getCountColumns();
 
-        String textConfirmAfterClickingApply = new EditViewPage(getDriver())
+        String textConfirmAfterClickingApply = new EditListViewPage(getDriver())
                 .addColumn("Build Button")
                 .clickApplyButton()
                 .getTextConfirmAfterClickingApply();
 
         String actualMarkedProjectName = new EditViewPage(getDriver())
-                .clickOk()
+                .clickGlobalViewOkButton()
                 .clickEditViewButton()
                 .getSelectedJobName();
 
-        int countColumnsAfterAdd = new EditViewPage(getDriver())
+        int countColumnsAfterAdd = new EditListViewPage(getDriver())
                 .getCountColumns();
 
         Assert.assertEquals(actualMarkedProjectName, PROJECT_RANDOM_NAME);

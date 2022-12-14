@@ -41,10 +41,9 @@ public class ListViewTest extends BaseTest {
                 .clickDashboard()
                 .clickAddViewLink()
                 .setViewName(RANDOM_LIST_VIEW_NAME)
-                .setListViewType()
-                .clickCreateListView()
+                .setListViewTypeAndClickCreate()
                 .addJobToView(projectOne)
-                .clickOk()
+                .clickGlobalViewOkButton()
                 .getJobList().size();
 
         Assert.assertEquals(quantityProjectsInListView, 1);
@@ -59,7 +58,7 @@ public class ListViewTest extends BaseTest {
                 .clickView(RANDOM_LIST_VIEW_NAME)
                 .clickEditViewButton()
                 .addDescription(descriptionRandom)
-                .clickOk()
+                .clickGlobalViewOkButton()
                 .getTextDescription();
 
         Assert.assertEquals(actualDescription, descriptionRandom);

@@ -130,7 +130,7 @@ public class PipelineTest extends BaseTest {
                 .setProjectName(pipelineName)
                 .selectPipelineAndClickOk()
                 .clickDashboard()
-                .clickMyViews();
+                .clickMyViewsSideMenuLink();
 
         Assert.assertTrue(pipelineNameInMyViewList.getListProjectsNames().contains(pipelineName));
     }
