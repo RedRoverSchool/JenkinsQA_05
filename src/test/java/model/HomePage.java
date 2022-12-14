@@ -97,6 +97,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath ="(//*[local-name()='svg' and @tooltip='Disabled'])[2]")
     private WebElement projectDisabledIcon;
 
+    @FindBy(linkText = "Configure")
+    private WebElement configureItemInUserDropdownMenu;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -369,5 +372,12 @@ public class HomePage extends BasePage {
 
     public Boolean getProjectIconText() {
         return projectDisabledIcon.isDisplayed();
+    }
+
+    public ConfigureUserPage clickConfigureItemInUserDropdownMenu() {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(
+                configureItemInUserDropdownMenu)).click();
+
+        return new ConfigureUserPage(getDriver());
     }
 }

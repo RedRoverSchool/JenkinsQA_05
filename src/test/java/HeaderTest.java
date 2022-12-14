@@ -1,4 +1,5 @@
 import model.BuildsUserPage;
+import model.ConfigureUserPage;
 import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -71,7 +72,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageUserBuilds() {
+    public void testUserDropdownMenuToOpenBuildsUserPage() {
         BuildsUserPage buildsUserPage = new HomePage(getDriver())
                 .clickUserDropdownMenu()
                 .clickBuildsItemInUserDropdownMenu();
@@ -106,18 +107,17 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageUserConfigure() {
-        openUserDropdownMenu();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(
-                By.linkText("Configure"))).click();
+    public void testUserDropdownMenuToOpenConfigureUserPage() {
+        ConfigureUserPage configureUserPage = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .clickConfigureItemInUserDropdownMenu();
 
-        Assert.assertEquals(getDriver().findElement(
-                        By.cssSelector("#yui-gen2-button")).getText(),
+        Assert.assertEquals(configureUserPage.getAddNewTokenButtonName(),
                 "Add new Token");
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageUserMyViews() {
+    public void testUserDropdownMenuToOpenMyViewsUserPage() {
         openUserDropdownMenu();
         getWait(5).until(ExpectedConditions.elementToBeClickable(
                 By.linkText("My Views"))).click();
@@ -128,7 +128,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageUserCredentials() {
+    public void testUserDropdownMenuToOpenCredentialsUserPage() {
         openUserDropdownMenu();
         getWait(5).until(ExpectedConditions.elementToBeClickable(
                 By.linkText("Credentials"))).click();
