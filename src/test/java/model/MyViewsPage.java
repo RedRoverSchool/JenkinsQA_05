@@ -28,6 +28,18 @@ public class MyViewsPage extends HomePage{
     @FindBy(xpath = "//tbody/tr/td/a")
     private  List <WebElement> listProjects;
 
+    @FindBy(id = "description-link")
+    private WebElement descriptionLink;
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement descriptionField;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement saveButton;
+
+    @FindBy(xpath = "//div[@id='description']/div[1]")
+    private WebElement displayedDescriptionText;
+
     public MyViewsPage(WebDriver driver) {
         super(driver);
     }
@@ -75,5 +87,34 @@ public class MyViewsPage extends HomePage{
         }
 
         return listProjectsNames.toString().trim();
+    }
+
+    public MyViewsPage clickAddDescription() {
+        descriptionLink.click();
+
+        return this;
+    }
+
+    public MyViewsPage sendKeysInDescriptionField(String descriptionText) {
+        descriptionField.sendKeys(descriptionText);
+
+        return this;
+    }
+
+    public MyViewsPage clickSaveButton() {
+        saveButton.submit();
+
+        return this;
+    }
+
+    public MyViewsPage clearDescriptionField() {
+        descriptionField.clear();
+
+        return this;
+    }
+
+    public String getDescriptionText() {
+
+        return displayedDescriptionText.getText();
     }
 }

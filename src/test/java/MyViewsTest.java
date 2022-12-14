@@ -1,3 +1,4 @@
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -24,11 +25,16 @@ public class MyViewsTest extends BaseTest {
 
     @Test
     public void testAddDescription() {
-        createDescription();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), TEST_DESCRIPTION_NAME);
+        String actualResult = new HomePage(getDriver())
+                .clickMyViews()
+                .clickAddDescription()
+                .clearDescriptionField()
+                .sendKeysInDescriptionField("Description")
+                .clickSaveButton()
+                .getDescriptionText();
 
-        deleteDescription();
+        Assert.assertEquals(actualResult, "Description");
     }
 
     @Ignore
