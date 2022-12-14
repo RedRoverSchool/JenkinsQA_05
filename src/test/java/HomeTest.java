@@ -22,4 +22,18 @@ public class HomeTest extends BaseTest {
 
         Assert.assertEquals(homePage.getLastSuccessText(), expectedLastSuccess);
     }
-}
+
+    @Test(dependsOnMethods = "testBuildNewPipeline")
+    public void testBuildNewPipelineSuccess() {
+        final String expectedCheckIcon = "Success";
+
+        String actualCheckIcon = new HomePage(getDriver())
+                .clickPipeline1()
+                .clickBuildNow()
+                .clickDashboard()
+                .movePointToCheckBox()
+                .getStatusBuildText();
+
+        Assert.assertEquals(actualCheckIcon, expectedCheckIcon);
+    }
+  }
