@@ -1,6 +1,7 @@
 import model.FreestyleProjectConfigPage;
 import model.FreestyleProjectStatusPage;
 import model.HomePage;
+import model.NewItemPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -85,15 +86,14 @@ public class FreestyleProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithSpacesInsteadOfName")
     public void testCreateFreestyleProjectWithIncorrectCharacters() {
         final List<Character> incorrectNameCharacters = List.of('!', '@', '#', '$', '%', '^', '&', '*', '[', ']', '\\', '|', ';', ':', '/', '?', '<', '>');
+        NewItemPage newItemPage = new HomePage(getDriver()).clickNewItem();
 
-        getDriver().findElement(BY_BUTTON_ADD_NEW_ITEM).click();
         for (Character character : incorrectNameCharacters) {
-            getDriver().findElement(BY_FIELD_ENTER_NAME).click();
-            getDriver().findElement(BY_FIELD_ENTER_NAME).clear();
-            getDriver().findElement(BY_FIELD_ENTER_NAME).sendKeys(String.valueOf(character));
-            getDriver().findElement(BY_BUTTON_SELECT_FREESTYLE_PROJECT).click();
+            newItemPage.clearItemName()
+                    .setProjectName(String.valueOf(character))
+                    .selectFreestyleProject();
 
-            Assert.assertEquals(getWait(1).until(ExpectedConditions.presenceOfElementLocated(BY_ITEM_NAME_INVALID_MESSAGE)).getText(), "» ‘" + character + "’ is an unsafe character");
+            Assert.assertEquals(newItemPage.getItemNameInvalidMsg(), String.format("» ‘%s’ is an unsafe character", character));
         }
     }
 
@@ -124,12 +124,10 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testEnableProject")
     public void testFreestyleProjectPageIsOpenedFromDashboard() {
+        final FreestyleProjectStatusPage freestyleProjectStatusPage = new HomePage(getDriver())
+                .clickFreestyleProjectName(FREESTYLE_NAME);
 
-        getDriver().findElement(BY_GO_TO_DASHBOARD_LINK).click();
-        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), String.format("Project %s", FREESTYLE_NAME));
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h2")).getText(), "Permalinks");
-        Assert.assertTrue(getDriver().findElement(BY_BUTTON_ENABLE_DISABLE_PROJECT).isEnabled());
+        Assert.assertEquals(freestyleProjectStatusPage.getHeadlineText(), String.format("Project %s", FREESTYLE_NAME));
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectPageIsOpenedFromDashboard")
@@ -360,11 +358,10 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testCreateFreestyleProjectWithEmptyName() {
-        getDriver().findElement(BY_BUTTON_ADD_NEW_ITEM).click();
-        getWait(10).until(ExpectedConditions.presenceOfElementLocated(BY_BUTTON_SELECT_FREESTYLE_PROJECT)).click();
+        NewItemPage newItemPage = new HomePage(getDriver()).clickNewItem().selectFreestyleProject();
 
-        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(), "» This field cannot be empty, please enter a valid name");
-        Assert.assertFalse(getDriver().findElement(BY_BUTTON_OK).isEnabled());
+        Assert.assertEquals(newItemPage.getItemNameRequiredMsg(), "» This field cannot be empty, please enter a valid name");
+        Assert.assertFalse(newItemPage.isOkButtonEnabled());
     }
 
     @Test
@@ -459,5 +456,20 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(
                 getDriver().findElement(By.xpath("//div[@id='error-description']//h2")).getText(),
                 expectedTextOfError);
+    }
+
+    @Test
+    public void testRenamingFreestyleProject(){
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickRenameButton()
+                .clearFieldAndInputNewName(NEW_FREESTYLE_NAME)
+                .clickSubmitButton()
+                .clickDashboard();
+
+        Assert.assertTrue(homePage.getJobList().contains(NEW_FREESTYLE_NAME));
     }
 }

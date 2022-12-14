@@ -4,9 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import runner.TestUtils;
 
 public class MultiConfigurationProjectStatusPage extends BasePage{
 
@@ -30,6 +28,9 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
 
     @FindBy(xpath = "//li[@class='item'][last()-1]")
     private WebElement breadcrumbsParentFolderLink;
+
+    @FindBy(xpath = "//button[@id='yui-gen1-button']")
+    private WebElement disableButton;
 
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
@@ -82,4 +83,11 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
 
         return new FolderStatusPage(getDriver());
     }
+
+    public MultiConfigurationProjectStatusPage clickDisableButton(){
+        disableButton.click();
+
+        return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
 }
