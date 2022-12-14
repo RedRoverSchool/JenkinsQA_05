@@ -29,6 +29,9 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
     @FindBy(xpath = "//li[@class='item'][last()-1]")
     private WebElement breadcrumbsParentFolderLink;
 
+    @FindBy(xpath = "//button[@id='yui-gen1-button']")
+    private WebElement disableButton;
+
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -80,4 +83,11 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
 
         return new FolderStatusPage(getDriver());
     }
+
+    public MultiConfigurationProjectStatusPage clickDisableButton(){
+        disableButton.click();
+
+        return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
 }
