@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -7,6 +8,7 @@ import runner.TestUtils;
 public class CreateMultibranchPipelineInFolderTest extends BaseTest {
     private final String randomName = TestUtils.getRandomStr(10);
 
+    @Ignore
     @Test
     public void testCreateMultibranchPipelineInFolder() {
         getDriver().findElement(By.linkText("New Item")).click();
