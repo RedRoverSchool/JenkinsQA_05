@@ -3,6 +3,7 @@ package model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,12 @@ public class PipelineProjectPage extends BasePage{
 
     @FindBy(xpath = "//span[@class='task-link-wrapper ']//span[2]")
     private List<WebElement> pipelineSideMenuLinks;
+
+    @FindBy(xpath = "//a[@href='/job/Pipeline1/build?delay=0sec']")
+    private WebElement buildNowButton;
+
+    @FindBy(className ="duration")
+    private WebElement stageView;
 
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
@@ -110,4 +117,11 @@ public class PipelineProjectPage extends BasePage{
 
         return pipelineProjectText;
     }
+    public PipelineProjectPage clickBuildNow() {
+        buildNowButton.click();
+        getWait(20).until(ExpectedConditions.visibilityOf(stageView));
+
+        return this;
+    }
+
 }
