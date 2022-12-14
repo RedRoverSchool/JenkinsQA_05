@@ -379,15 +379,16 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateFreestyleProjectWithInvalidCharBeforeName() {
-        getDriver().findElement(BY_BUTTON_ADD_NEW_ITEM).click();
-        getDriver().findElement(BY_FIELD_ENTER_NAME).sendKeys(INVALID_FREESTYLE_PROJECT_NAME);
-        getDriver().findElement(BY_BUTTON_SELECT_FREESTYLE_PROJECT).click();
+        final String FreestyleProjectNameInvalidMsg = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(INVALID_FREESTYLE_PROJECT_NAME)
+                .selectFreestyleProject()
+                .getItemNameInvalidMsg();
 
-        Assert.assertEquals(getWait(20).until(ExpectedConditions.presenceOfElementLocated(BY_ITEM_NAME_INVALID_MESSAGE)).getText(),
-                "» ‘" + INVALID_CHAR + "’ is an unsafe character");
+        Assert.assertEquals(FreestyleProjectNameInvalidMsg,"» ‘" + INVALID_CHAR + "’ is an unsafe character");
     }
 
-    @Test(dependsOnMethods = "testCreateFreestyleProjectWithEmptyName")
+    @Test
     public void testCreateFreestyleProjectWithSpacesInsteadOfName() {
         FreestyleProjectConfigPage freestyleProjectConfigPage = new HomePage(getDriver())
                 .clickNewItem()
