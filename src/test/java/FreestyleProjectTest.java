@@ -195,12 +195,11 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears")
     public void testFreestyleProjectConfigureByDropdown() {
-        getDriver().findElement(By.cssSelector("#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
-        WebElement element = getWait(3).until(ExpectedConditions.presenceOfElementLocated(BY_BUTTON_DROPDOWN_CONFIGURE));
-        scrollToElement(getDriver(), element);
-        element.click();
+        FreestyleProjectConfigPage freestyleProjectConfigPage = new HomePage(getDriver())
+                .clickJobDropDownMenu(NEW_FREESTYLE_NAME)
+                .clickConfigDropDownMenuFreestyle();
 
-        Assert.assertEquals(getDriver().getTitle(), NEW_FREESTYLE_NAME + " Config [Jenkins]");
+        Assert.assertEquals(freestyleProjectConfigPage.getHeadlineText(), "Configuration");
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectConfigureByDropdown")

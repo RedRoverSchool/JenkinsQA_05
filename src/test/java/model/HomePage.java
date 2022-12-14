@@ -388,4 +388,10 @@ public class HomePage extends BasePage {
 
         return this;
     }
+
+    public FreestyleProjectConfigPage clickConfigDropDownMenuFreestyle() {
+        getWait(6).until(ExpectedConditions.elementToBeClickable(configureDropDownMenu)).click();
+
+        return new FreestyleProjectConfigPage(getDriver());
+    }
 }
