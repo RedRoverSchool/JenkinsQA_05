@@ -1,6 +1,5 @@
 import model.FolderStatusPage;
 import model.HomePage;
-import model.MultibranchPipelineStatusPage;
 import model.NewItemPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -113,7 +112,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickNewItem()
                 .selectMultibranchPipeline();
 
-        Assert.assertEquals(newItemPage.getNameRequiredMessageText(),
+        Assert.assertEquals(newItemPage.getItemNameRequiredMsg(),
                 "» This field cannot be empty, please enter a valid name");
         Assert.assertFalse(newItemPage.isOkButtonEnabled());
     }

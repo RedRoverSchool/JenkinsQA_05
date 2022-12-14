@@ -1,14 +1,13 @@
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
-import java.time.Duration;
-import java.util.List;
 
 import model.HomePage;
 
@@ -17,79 +16,23 @@ import static runner.TestUtils.scrollToElement;
 public class BuildHistoryTest extends BaseTest {
 
     private static final By DASHBOARD = By.xpath("//a[contains(text(), 'Dashboard')]");
-    private static final By BUILD_NOW_BTN = By.xpath("//body[1]/div[3]/div[1]/div[1]/div[5]/span[1]");
-    private static final By ICON_SIZE = By.xpath("//a[@class='jenkins-table__button']//*[name()='svg']");
-    private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
-    private static final By INPUT_NAME = By.name("name");
-    private static final By FREESTYLE_PROJECT = By.xpath("//li[@class='hudson_model_FreeStyleProject']");
-    private static final By OK_BUTTON = By.xpath("//span[@class='yui-button primary large-button']");
-    private static final By DESCRIPTION_FIELD = By.name("description");
-    private static final By SAVE_BUTTON = By.xpath("//button[@type = 'submit']");
     private static final By BUILD_HISTORY = By.linkText("Build History");
-    private static final By H1_HEADER_BUILD_HISTORY = By.xpath("//div[@class='jenkins-app-bar__content']/h1");
-    private static final By BUILD_NOW = By.linkText("Build Now");
-    private static final By TREND_BUILD = By.xpath("//div[@class='jenkins-pane__header--build-history']/a");
-    private static final By BUTTON_S = By.xpath("//a[@href='/iconSize?16x16']");
-    private static final By BUTTON_M = By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li/following-sibling::li[2]");
-    private static final By BUTTON_L = By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li[last()]");
-    private static final By ATOM_FEED_ALL = By.xpath("//a/span[contains(text(), 'Atom feed for all')]");
-    private static final By ATOM_FEED_FAILURE = By.xpath("//a/span[contains(text(), 'Atom feed for failures')]");
-    private static final By ATOM_FEED_LATEST = By.xpath("//a/span[contains(text(), 'Atom feed for just latest builds')]");
-    private static final By ICON_LEGEND = By.xpath("//a[@href='/legend']");
-    private static final By PROJECT_STATUS_TABLE = By.xpath("//table[@id='projectStatus']/thead/tr/th");
-    private static final By DESCRIPTION_EDIT_PROJECT = By.name("description");
 
-    private static String jobName = "";
+    private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
+    private String jobName;
 
-    private WebDriverWait wait;
-
-    private WebDriverWait getWait() {
-        if (wait == null) {
-            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
-        }
-        return wait;
-    }
-
-    private void inputName(By by) {
+    private void createProject(String description) {
+        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         jobName = TestUtils.getRandomStr(8);
-        getDriver().findElement(by).sendKeys(jobName);
+        getDriver().findElement(By.id("name")).sendKeys(jobName);
+        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        if (!(description.equals("empty"))) {
+            getDriver().findElement(By.name("description")).sendKeys(description);
+        }
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
     }
 
-    private void clickElement(By by) {
-        getDriver().findElement(by).click();
-    }
-
-    private String getText(By by) {
-
-        return getDriver().findElement(by).getText();
-    }
-
-    private void createProject() {
-        clickElement(NEW_ITEM);
-        inputName(INPUT_NAME);
-        clickElement(FREESTYLE_PROJECT);
-        clickElement(OK_BUTTON);
-        inputName(DESCRIPTION_FIELD);
-        clickElement(SAVE_BUTTON);
-    }
-    private void createProjectNoDescr() {
-        clickElement(NEW_ITEM);
-        inputName(INPUT_NAME);
-        clickElement(FREESTYLE_PROJECT);
-        clickElement(OK_BUTTON);
-        clickElement(SAVE_BUTTON);
-    }
-    public List<WebElement> getListOfElements(By by) {
-
-        return getDriver().findElements(by);
-    }
-
-    public int getListSize(By by) {
-
-        return getListOfElements(by).size();
-    }
-
-    @Ignore
     @Test
     public void testVerifyDefaultIconSize() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -97,12 +40,12 @@ public class BuildHistoryTest extends BaseTest {
         getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-        getDriver().findElement(BUILD_NOW_BTN).click();
+        getDriver().findElement(By.xpath("//body[1]/div[3]/div[1]/div[1]/div[5]/span[1]")).click();
         getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
         getDriver().findElement(By.linkText("Build History")).click();
 
-        int width = getDriver().findElement(ICON_SIZE).getSize().getWidth();
-        int height = getDriver().findElement(ICON_SIZE).getSize().getHeight();
+        int width = getDriver().findElement(By.xpath("//a[@class='jenkins-table__button']//*[name()='svg']")).getSize().getWidth();
+        int height = getDriver().findElement(By.xpath("//a[@class='jenkins-table__button']//*[name()='svg']")).getSize().getHeight();
         String size = getDriver().findElement(By.className("jenkins-icon-size__items-item")).getText();
 
         switch (size) {
@@ -123,67 +66,69 @@ public class BuildHistoryTest extends BaseTest {
 
     @Test
     public void testH1Header_BuildHistory() {
-        createProject();
-        clickElement(DASHBOARD);
-        clickElement(BUILD_HISTORY);
 
-        Assert.assertEquals(getText(H1_HEADER_BUILD_HISTORY), "Build History of Jenkins");
+        final String header_BuildHistory = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickDashboard()
+                .clickBuildHistory().getHeaderText();
+
+        Assert.assertEquals(header_BuildHistory, "Build History of Jenkins");
     }
 
     @Test
     public void testValidityCreateBuildOnPage() {
-        createProject();
-        clickElement(BUILD_NOW);
-        clickElement(TREND_BUILD);
+        createProject("empty");
+        getDriver().findElement(By.linkText("Build Now")).click();
+        getDriver().findElement(By.xpath("//div[@class='jenkins-pane__header--build-history']/a")).click();
 
         Assert.assertTrue(getDriver().findElement(By.id("map")).isDisplayed());
     }
 
     @Test
     public void testIfSMLIconsExist() {
-        clickElement(BUILD_HISTORY);
+        getDriver().findElement(BUILD_HISTORY).click();
 
-        Assert.assertTrue(getDriver().findElement(BUTTON_S).isDisplayed());
-        Assert.assertTrue(getDriver().findElement(BUTTON_M).isDisplayed());
-        Assert.assertTrue(getDriver().findElement(BUTTON_L).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='/iconSize?16x16']")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li/following-sibling::li[2]")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li[last()]")).isDisplayed());
     }
 
     @Test
     public void testRssItemsExist() {
-        clickElement(BUILD_HISTORY);
+        getDriver().findElement(BUILD_HISTORY).click();
 
-        Assert.assertTrue(getDriver().findElement(ATOM_FEED_ALL).isDisplayed());
-        Assert.assertTrue(getDriver().findElement(ATOM_FEED_FAILURE).isDisplayed());
-        Assert.assertTrue(getDriver().findElement(ATOM_FEED_LATEST).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//a/span[contains(text(), 'Atom feed for all')]")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//a/span[contains(text(), 'Atom feed for failures')]")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//a/span[contains(text(), 'Atom feed for just latest builds')]")).isDisplayed());
     }
 
     @Test
     public void testIfTheIconLegendExist() {
-        clickElement(BUILD_HISTORY);
+        getDriver().findElement(BUILD_HISTORY).click();
 
-        Assert.assertTrue(getDriver().findElement(ICON_LEGEND).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='/legend']")).isDisplayed());
     }
 
     @Test
     public void testNumberOfColumns_ProjectStatusTable() {
-        clickElement(BUILD_HISTORY);
+        getDriver().findElement(BUILD_HISTORY).click();
 
-        Assert.assertEquals(getListSize(PROJECT_STATUS_TABLE), 5);
+        Assert.assertEquals(getDriver().findElements(By.xpath("//table[@id='projectStatus']/thead/tr/th")).size(), 5);
     }
-
+    
     @Ignore
     @Test
-    public void testTimelineItemExist () {
-        createProjectNoDescr();
-        clickElement(BUILD_NOW);
-        clickElement(DASHBOARD);
-        clickElement(BUILD_HISTORY);
-
-        while(!((getDriver().findElement(By.xpath("//table[@id='projectStatus']//td[4]")).getText().equals("stable")))) {
-            getDriver().navigate().refresh();
-        }
+    public void testTimelineItemExist() {
+        createProject("empty");
+        getDriver().findElement(By.linkText("Build Now")).click();
+        getDriver().findElement(DASHBOARD).click();
+        String jobLink = getDriver().getCurrentUrl() + "job/" + jobName + "/1/";
+        getDriver().findElement(BUILD_HISTORY).click();
+        getWait(10).until(ExpectedConditions.not(ExpectedConditions.textToBe(By.xpath("//table[@id='projectStatus']//td[4]"), "stable")));
         getDriver().findElement(By.xpath("//div[contains(text(), \"" + jobName + "\")]")).click();
-        String jobLink = "http://localhost:8080/job/" + jobName + "/1/";
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='timeline-event-bubble-title']/a")).getAttribute("href"), jobLink);
     }
@@ -191,23 +136,24 @@ public class BuildHistoryTest extends BaseTest {
     @Ignore
     @Test(dependsOnMethods = "testTimelineItemExist")
     public void testDescriptionIsAdded() {
+        getDriver().navigate().refresh();
+        getDriver().navigate().refresh();
+        getDriver().navigate().refresh();
         getDriver().findElement(By.xpath("//table/tbody/tr/td/a[@class='jenkins-table__link jenkins-table__badge model-link inside']/button")).click();
         getDriver().findElement(By.xpath("//span[contains(text(),'Edit Build Information')]")).click();
-        inputName(DESCRIPTION_EDIT_PROJECT);
-        clickElement(SAVE_BUTTON);
+        getDriver().findElement(By.name("description")).sendKeys(TestUtils.getRandomStr(8));
+        getDriver().findElement(By.xpath("//button[@type = 'submit']")).click();
 
         Assert.assertTrue(getDriver().findElement(By.id("description")).isDisplayed());
     }
 
     @Ignore
     @Test(dependsOnMethods = "testDescriptionIsAdded")
-    public void testDeleteBuild(){
-        clickElement(DASHBOARD);
-        clickElement(BUILD_HISTORY);
+    public void testDeleteBuild() {
+        getDriver().findElement(DASHBOARD).click();
+        getDriver().findElement(BUILD_HISTORY).click();
         getDriver().findElement(By.xpath("//table/tbody/tr/td/a[@class='jenkins-table__link jenkins-table__badge model-link inside']/button")).click();
-
-        scrollToElement(getDriver(),getDriver().findElement(By.xpath("//span[contains(text(),'Delete build')]")));
-
+        scrollToElement(getDriver(), getDriver().findElement(By.xpath("//span[contains(text(),'Delete build')]")));
         getDriver().findElement(By.xpath("//span[contains(text(),'Delete build')]")).click();
         getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
 
@@ -217,10 +163,9 @@ public class BuildHistoryTest extends BaseTest {
     @Test
     public void testRedirectToMainPage() {
         HomePage homePage = new HomePage(getDriver())
-
                 .clickBuildHistory()
                 .clickDashboard();
 
-        Assert.assertEquals(homePage.getHeaderText(),"Welcome to Jenkins!");
+        Assert.assertEquals(homePage.getHeaderText(), "Welcome to Jenkins!");
     }
 }

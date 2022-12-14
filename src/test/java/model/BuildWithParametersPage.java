@@ -3,6 +3,8 @@ package model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
@@ -28,6 +30,15 @@ public class BuildWithParametersPage extends FreestyleProjectStatusPage{
 
     @FindBy(xpath = "//input[@type= 'checkbox']")
     private WebElement checkBoxDefaultValue;
+
+    @FindBy(id = "yui-gen1-button")
+    private WebElement buildButton;
+
+    @FindBy(xpath = "//tr[@class='job SUCCESS']")
+    private WebElement iconSuccessfulBuild;
+
+    @FindBy(xpath = "//a[@href='lastBuild/']")
+    private WebElement lastBuildLink;
 
     public BuildWithParametersPage clickButtonBuildWithParameters(){
         buttonBuildWithParameters.click();
@@ -73,5 +84,25 @@ public class BuildWithParametersPage extends FreestyleProjectStatusPage{
     public boolean isBooleanParameterDefaultOn(){
 
         return checkBoxDefaultValue.isSelected();
+    }
+
+    public BuildWithParametersPage selectParametersBuild() {
+        new Select(selectedParameters).selectByVisibleText("Guest");
+
+        return this;
+    }
+
+    public BuildWithParametersPage clickBuildButton() {
+        buildButton.click();
+        getWait(60).until(ExpectedConditions.visibilityOf(iconSuccessfulBuild));
+        getDriver().navigate().refresh();
+
+        return this;
+    }
+
+    public StatusPage clickLastBuildLink () {
+        lastBuildLink.click();
+
+        return new StatusPage(getDriver());
     }
 }

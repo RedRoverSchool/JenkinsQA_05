@@ -16,37 +16,36 @@ public class FolderConfigPage extends HomePage {
     @FindBy(xpath = "//input[@name='_.displayNameOrNull']")
     private WebElement displayName;
 
-    @FindBy(xpath="//textarea[@name='_.description']")
+    @FindBy(xpath = "//textarea[@name='_.description']")
     private WebElement description;
 
     public FolderConfigPage(WebDriver driver) {
         super(driver);
     }
 
-    public HomePage clickSubmitDeleteProject(){
+    public HomePage clickSubmitDeleteProject() {
         submitButtonForDeleteFolder.click();
 
         return new HomePage(getDriver());
     }
 
-    public FolderStatusPage clickSaveButton(){
+    public FolderStatusPage clickSaveButton() {
         saveButton.click();
 
         return new FolderStatusPage(getDriver());
     }
 
-    public FolderConfigPage clickDisplayName(String secondJobName){
+    public FolderConfigPage clickDisplayName(String secondJobName) {
         getWait(5).until(ExpectedConditions.elementToBeClickable(displayName));
         displayName.sendKeys(secondJobName);
 
-        return  new FolderConfigPage(getDriver());
+        return new FolderConfigPage(getDriver());
     }
 
-    public FolderConfigPage clickDescription(String inputDescription){
+    public FolderConfigPage clickDescription(String inputDescription) {
         getWait(5).until(ExpectedConditions.visibilityOf(description)).click();
         description.sendKeys(inputDescription);
 
         return new FolderConfigPage(getDriver());
     }
-
 }
