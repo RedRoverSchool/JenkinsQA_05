@@ -399,6 +399,7 @@ public class HomePage extends BasePage {
     }
   
     public boolean disableIconIsDisplayed() {
+        getWait(3).until(ExpectedConditions.visibilityOf(iconDisabled));
         return iconDisabled.isDisplayed();
     }
 }
