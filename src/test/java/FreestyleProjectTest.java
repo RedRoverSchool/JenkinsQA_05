@@ -97,6 +97,7 @@ public class FreestyleProjectTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithIncorrectCharacters")
     public void testDisableProject() {
 
