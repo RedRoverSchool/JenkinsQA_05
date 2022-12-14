@@ -97,6 +97,7 @@ public class FreestyleProjectTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithIncorrectCharacters")
     public void testDisableProject() {
 
@@ -111,6 +112,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(getBuildStatus(), "Disabled");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDisableProject")
     public void testEnableProject() {
         final String jobStatusIconTooltip = new HomePage(getDriver())
@@ -122,6 +124,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(jobStatusIconTooltip, "Not built");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testEnableProject")
     public void testFreestyleProjectPageIsOpenedFromDashboard() {
         final FreestyleProjectStatusPage freestyleProjectStatusPage = new HomePage(getDriver())
@@ -130,12 +133,14 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(freestyleProjectStatusPage.getHeadlineText(), String.format("Project %s", FREESTYLE_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testFreestyleProjectPageIsOpenedFromDashboard")
     public void testPresentationNewProjectOnDashboard() {
 
         Assert.assertTrue(getListExistingFreestyleProjectsNames(BY_LIST_FREESTYLE_JOBS).contains(FREESTYLE_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testPresentationNewProjectOnDashboard")
     public void testAddDescriptionToFreestyleProject() {
         final String descriptionText = "This is job #" + FREESTYLE_NAME;
