@@ -4,9 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import runner.TestUtils;
+
+import java.util.stream.Collectors;
 
 public class MultiConfigurationProjectStatusPage extends BasePage{
 
@@ -30,6 +30,14 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
 
     @FindBy(xpath = "//li[@class='item'][last()-1]")
     private WebElement breadcrumbsParentFolderLink;
+
+    @FindBy(xpath = "//tr[@page-entry-id]")
+    private WebElement buildList;
+
+    @FindBy(linkText = "Build Now")
+    private WebElement buildNow;
+
+
 
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
@@ -81,5 +89,22 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
         breadcrumbsParentFolderLink.click();
 
         return new FolderStatusPage(getDriver());
+    }
+
+    public MultiConfigurationProjectStatusPage getBuildListSize(WebDriver driver){
+
+        driver.findElements(By.xpath("//tr[@page-entry-id]"))
+                .stream()
+                .map(WebElement::getSize)
+                .collect(Collectors.toList());
+
+        return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+    public MultiConfigurationProjectStatusPage clickBuildNow(){
+        buildNow.click();
+        getWait(5);
+
+        return new MultiConfigurationProjectStatusPage(getDriver());
     }
 }

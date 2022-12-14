@@ -154,26 +154,18 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         multiConfigProject.deleteMultiConfigProject();
     }
-    @Ignore
-    @Test
+    @Test (dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMultiConfigurationProjectBuild() {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(NEW_PROJECT_NAME);
-        getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(DASHBOARD).click();
 
-        getDriver().findElement(By.xpath("//a[@href='job/" + NEW_PROJECT_NAME + "/']")).click();
-        List<WebElement> build_row_before_build = getDriver().findElements(By.xpath("//tr[@page-entry-id]"));
-        int amountOfBuildsBeforeBuildNow = build_row_before_build.size();
+        MultiConfigurationProjectStatusPage buildRowBeforeBuild = new HomePage(getDriver())
+                .clickMultConfJobName(PROJECT_NAME)
+                .getBuildListSize(getDriver());
 
-        getDriver().findElement(By.linkText("Build Now")).click();
+        MultiConfigurationProjectStatusPage buildRowAfterBuild = new MultiConfigurationProjectStatusPage(getDriver())
+                .clickBuildNow()
+                .getBuildListSize(getDriver());
 
-        List<WebElement> build_row_after_build = getDriver().findElements(By.xpath("//tr[@page-entry-id]"));
-        int amountOfBuildsAfterBuildNow = build_row_after_build.size();
-
-        Assert.assertNotEquals(amountOfBuildsAfterBuildNow, amountOfBuildsBeforeBuildNow);
+        Assert.assertNotEquals(buildRowAfterBuild, buildRowBeforeBuild);
     }
 
     @Ignore
