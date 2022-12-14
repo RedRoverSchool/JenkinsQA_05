@@ -247,6 +247,7 @@ public class FreestyleProjectConfigPage extends BasePage {
         getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(buildStepsButton));
         new Actions(getDriver())
                 .moveToElement(buildStepsButton)
+                .pause(1000)
                 .perform();
         getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".yui-button-hover.yui-menu-button-hover")));
         getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(buildStepsButton)).click();
