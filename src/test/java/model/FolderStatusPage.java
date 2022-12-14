@@ -29,6 +29,9 @@ public class FolderStatusPage extends BasePage {
     @FindBy(linkText = "Delete Folder")
     private WebElement deleteFolder;
 
+    @FindBy(linkText = "Move")
+    private WebElement moveFolder;
+
     @FindBy(linkText = "Create a job")
     private WebElement createJob;
 
@@ -133,7 +136,14 @@ public class FolderStatusPage extends BasePage {
         return new FolderStatusPage(getDriver());
     }
 
+    public MovePage clickMoveFolder(){
+        moveFolder.click();
+
+        return new MovePage(getDriver());
+    }
+
     public String getHeaderText() {
+
         return header.getText();
     }
 
@@ -144,7 +154,9 @@ public class FolderStatusPage extends BasePage {
                 .collect(Collectors.toList());
     }
 
-    public String getDescriptionText() {return textAddress.getText();
+    public String getDescriptionText() {
+
+        return textAddress.getText();
     }
 
     public String getTextDescription(String des) {

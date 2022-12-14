@@ -1,7 +1,6 @@
 import model.FolderStatusPage;
 import model.HomePage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -13,23 +12,14 @@ public class FolderOneTest extends BaseTest {
     private static final By NEW_ITEM = By.linkText("New Item");
     private static final By NAME = By.id("name");
     private static final By NAME_CONFIGURE = By.name("_.displayNameOrNull");
-    private static final By NEW_NAME_RENAME = By.name("newName");
     private static final By FOLDER_OPTION = By.className("com_cloudbees_hudson_plugins_folder_Folder");
     private static final By PIPELINE_OPTION = By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob");
     private static final By DROP_DOWN_MENU = By.cssSelector(".jenkins-menu-dropdown-chevron");
-    private static final By DROP_DOWN_CONFIGURE = By.xpath("//span[contains(text(),'Configure')]");
-    private static final By DROP_DOWN_RENAME = By.xpath("//span[contains(text(),'Rename')]");
-    private static final By DROP_DOWN_DELETE = By.xpath("//span[contains(text(),'Delete Folder')]");
     private static final By DROP_DOWN_MOVE = By.xpath("//span[contains(text(),'Move')]");
-    private static final By JENKINS_ICON = By.id("jenkins-name-icon");
     private static final By CREATE_JOB = By.linkText("Create a job");
     private static final By TEXT_ADDRESS = By.id("main-panel");
-    private static final By TEXT_H1 = By.xpath("//h1");
     private static final By TEXTAREA = By.name("_.description");
-    private static final By DELETE_FOLDER = By.linkText("Delete Folder");
-    private static final By CONFIGURE_FOLDER = By.linkText("Configure");
-    private static final By MOVE_FOLDER = By.linkText("Move");
-    private static final By HEADER_ADDRESS = By.id("breadcrumbs");
+    private static final By HEADER_ADDRESS= By.id("breadcrumbs");
     private static final By SELECTION_SCRIPT = By.xpath("//div[@class='samples']/select/option[4]");
     private static final String RANDOM_NAME_1 = TestUtils.getRandomStr(6);
     private static final String RANDOM_NAME_2 = TestUtils.getRandomStr(6);
@@ -142,65 +132,61 @@ public class FolderOneTest extends BaseTest {
         Assert.assertTrue(statusPage.getTopMenueLinkText().contains(RANDOM_NAME_2));
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateFolderInFolderJob")
-    public void testRenameFolder() {
-        getDriver().findElement(By.linkText(RANDOM_NAME_1)).findElement(DROP_DOWN_MENU).click();
-        getWait(5).until(ExpectedConditions.presenceOfElementLocated(DROP_DOWN_RENAME)).click();
-        getDriver().findElement(NEW_NAME_RENAME).clear();
-        getDriver().findElement(NEW_NAME_RENAME).sendKeys(RANDOM_NAME_2 + "NEW");
-        submitButtonClick();
 
-        String actualFolderName = getDriver()
-                .findElement(HEADER_ADDRESS)
-                .findElement(By.linkText(RANDOM_NAME_2 + "NEW"))
-                .getText();
-        Assert.assertEquals(actualFolderName, (RANDOM_NAME_2 + "NEW"));
-        Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText().contains(RANDOM_NAME_2 + "NEW"));
+    @Test(dependsOnMethods = "testCreateFolderInFolderJob")
+    public void testRenameFolder()  {
+            HomePage homePage = new HomePage(getDriver())
+                    .clickFolderDropdownMenu(RANDOM_NAME_1)
+                    .clickRenameDropDownMenu()
+                    .clearFieldAndInputNewName(RANDOM_NAME_1 + "NEW")
+                    .clickSubmitButton()
+                    .clickDashboard();
+
+            Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1));
+            Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME_1 + "NEW"));
     }
 
-    @Ignore
+
     @Test(dependsOnMethods = "testRenameFolder")
     public void testMoveFolderInFolder() {
         createFolder(RANDOM_NAME_1);
-        getDriver().findElement(MOVE_FOLDER).click();
-        getDriver().findElement(By.xpath("//select/option[@value='/" + RANDOM_NAME_2 + "NEW" + "']")).click();
-        submitButtonClick();
 
-        String actualFolderName = getDriver()
-                .findElement(HEADER_ADDRESS).findElement(By.linkText(RANDOM_NAME_1)).getText();
-        String actualPipelineName = getDriver()
-                .findElement(HEADER_ADDRESS).findElement(By.linkText(RANDOM_NAME_2 + "NEW")).getText();
-        Assert.assertEquals(RANDOM_NAME_1, actualFolderName);
-        Assert.assertEquals((RANDOM_NAME_2 + "NEW"), actualPipelineName);
+        FolderStatusPage statusPage = new HomePage(getDriver())
+                .clickFolder(RANDOM_NAME_1)
+                .clickMoveFolder()
+                .selectFolder(RANDOM_NAME_1 + "NEW")
+                .clickMove()
+                .clickDashboard()
+                .clickFolder(RANDOM_NAME_1 + "NEW");
+
+        Assert.assertTrue(statusPage.getJobList().contains(RANDOM_NAME_1));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testMoveFolderInFolder")
-    public void testDeleteFolderDropDown() {
-        getDriver().findElement(By.linkText(RANDOM_NAME_2 + "NEW")).findElement(DROP_DOWN_MENU).click();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(DROP_DOWN_DELETE)).click();
-        submitButtonClick();
+    public void testDeleteFolderDropDown(){
+        HomePage homePage = new HomePage(getDriver())
+                .clickFolderDropdownMenu(RANDOM_NAME_1 + "NEW")
+                .clickDeleteDropDownMenu()
+                .clickSubmitDeleteProject();
 
-        Assert.assertNotNull(getDriver().findElement(By.className("empty-state-block")));
+    Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1 + "NEW"));
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testDeleteFolderDropDown")
+    @Test
     public void testCreateNewFolderWithPipeline() {
         createFolder(RANDOM_NAME_1);
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(NAME).sendKeys(RANDOM_NAME_2);
-        getDriver().findElement((PIPELINE_OPTION)).click();
-        submitButtonClick();
-        submitButtonClick();
 
-        String actualFolderName = getDriver().findElement(By.linkText(RANDOM_NAME_1)).getText();
-        String actualPipelineName = getDriver().findElement(By.linkText(RANDOM_NAME_2)).getText();
-        Assert.assertEquals(actualFolderName, RANDOM_NAME_1);
-        Assert.assertEquals(actualPipelineName, RANDOM_NAME_2);
-        Assert.assertTrue(getDriver().findElement(TEXT_ADDRESS).getText()
-                .contains(RANDOM_NAME_1 + "/" + RANDOM_NAME_2));
+        FolderStatusPage actualResult = new HomePage(getDriver())
+                .clickFolder(RANDOM_NAME_1)
+                .clickFolderNewItem()
+                .setProjectName(RANDOM_MULTIBRANCH_PIPELINE_NAME)
+                .selectMultibranchPipeline()
+                .clickOKButton()
+                .clickSubmitButton();
+
+        Assert.assertTrue(actualResult.getTopMenueLinkText().contains(RANDOM_NAME_1));
+        Assert.assertTrue(actualResult.getTopMenueLinkText().contains(RANDOM_MULTIBRANCH_PIPELINE_NAME));
+        Assert.assertTrue(actualResult.getHeaderText().contains(RANDOM_MULTIBRANCH_PIPELINE_NAME));
     }
 
     @Ignore
