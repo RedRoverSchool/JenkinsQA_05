@@ -1,6 +1,5 @@
 import model.HomePage;
 import model.MultiConfigurationProjectStatusPage;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -18,7 +17,7 @@ import java.util.List;
 
 public class MulticonfigurationProjectTest extends BaseTest {
     private static final String PROJECT_NAME = TestUtils.getRandomStr(8);
-    private static final String NEW_PROJECT_NAME = RandomStringUtils.randomAlphanumeric(8);
+    private static final String NEW_PROJECT_NAME = TestUtils.getRandomStr(8);
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By DASHBOARD = By.xpath("//img[@id='jenkins-head-icon']");
     private static final By NEW_ITEM = By.xpath("//a[@href='/view/all/newJob']");
@@ -107,6 +106,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         alert.accept();
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testMulticonfigurationProjectAddDescription")
     public void testMultiConfigurationProjectDisable() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
@@ -118,6 +118,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .getText().contains("This project is currently disabled"));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testMultiConfigurationProjectDisable")
     public void testMultiConfigurationProjectEnable() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
@@ -167,21 +168,20 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertNotEquals(buildRowAfterBuild, buildRowBeforeBuild);
     }
-
     @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testCreateNewMCProjectAsCopyFromExistingProject() {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(NEW_PROJECT_NAME);
-        getDriver().findElement(By.id("from")).sendKeys(PROJECT_NAME);
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(DASHBOARD).click();
 
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath(String.format("//span[contains(text(),'%s')]", NEW_PROJECT_NAME))).getText(), NEW_PROJECT_NAME);
+        String actualProjectName = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(NEW_PROJECT_NAME)
+                .setCopyFromItemName(PROJECT_NAME)
+                .clickOK()
+                .clickSave()
+                .goToDashboard()
+                .getJobName(NEW_PROJECT_NAME);
 
-        deleteNewMCProject(NEW_PROJECT_NAME);
+        Assert.assertEquals(actualProjectName, NEW_PROJECT_NAME);
     }
 
     @Ignore
@@ -334,5 +334,16 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//span/span/*[name()='svg' and @tooltip='Not built']"))
                 .isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    public void testDisableMultiConfigurationProject() {
+        Boolean projectIconText = new HomePage(getDriver())
+                .clickProject(PROJECT_NAME)
+                .clickDisableButton()
+                .goToDashboard()
+                .getProjectIconText();
+
+        Assert.assertTrue(projectIconText);
     }
 }

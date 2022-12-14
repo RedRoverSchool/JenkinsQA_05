@@ -1,8 +1,10 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,5 +51,11 @@ public class ManageUsersPage extends BasePage {
         rootMenuDashboardLink.click();
 
         return new HomePage(getDriver());
+    }
+
+    public DeleteUserPage clickDeleteUser(String name) {
+        getWait(3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='user/" + name.toLowerCase() + "/delete']"))).click();
+
+        return new DeleteUserPage(getDriver());
     }
 }

@@ -31,6 +31,9 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
     @FindBy(xpath = "//li[@class='item'][last()-1]")
     private WebElement breadcrumbsParentFolderLink;
 
+    @FindBy(xpath = "//button[@id='yui-gen1-button']")
+    private WebElement disableButton;
+
     @FindBy(xpath = "//tr[@page-entry-id]")
     private WebElement buildList;
 
@@ -90,6 +93,13 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
 
         return new FolderStatusPage(getDriver());
     }
+
+    public MultiConfigurationProjectStatusPage clickDisableButton(){
+        disableButton.click();
+
+        return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
 
     public MultiConfigurationProjectStatusPage getBuildListSize(WebDriver driver){
 
