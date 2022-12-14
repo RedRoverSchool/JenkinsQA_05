@@ -1,15 +1,15 @@
 import model.BuildWithParametersPage;
+import model.ConsolePage;
 import model.HomePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.TestUtils;
 
 public class ConfigureFreestyleProjectTest extends BaseTest {
 
     @Test
     public void testConfigureJobAsParameterized() {
-        final String freestyleName = TestUtils.getRandomStr();
+        final String freestyleName = "testConnectWithGIT";
         final String stringParameterName = "Held post";
         final String stringParameterDefaultValue = "Manager";
         final String choiceParameterName = "Employee_name";
@@ -47,9 +47,11 @@ public class ConfigureFreestyleProjectTest extends BaseTest {
         Assert.assertTrue(page.isBooleanParameterDefaultOn());
     }
 
+
     @Test(dependsOnMethods = "testConfigureJobAsParameterized")
     public void testConfigureSourceCodeByGIT() {
-        final String repositoryURL = "https://github.com/RedRoverSchool/JenkinsQA_05.git";
+        final String repositoryURL = "https://github.com/RedRoverSchool/course_frontend_05.git";
+        final String branchSpecifier = "main";
 
         HomePage page = new HomePage(getDriver())
                 .clickFreestyleProjectName()
@@ -58,11 +60,34 @@ public class ConfigureFreestyleProjectTest extends BaseTest {
                 .clickLinkSourceCodeManagement()
                 .selectSourceCodeManagementGIT()
                 .inputGITRepositoryURL(repositoryURL)
+                .inputBranchSpecifier(branchSpecifier)
                 .clickSaveBtn()
                 .clickButtonBuildNowAndWaitBuildComplete()
                 .clickDashboard();
 
-        Assert.assertEquals(page.getJobBuildStatus(), "Failed");
+        Assert.assertEquals(page.getJobBuildStatus(), "Success");
         Assert.assertNotEquals(page.getBuildDurationTime(), "N/A");
+    }
+
+    @Test(dependsOnMethods = "testConfigureSourceCodeByGIT")
+    public void testConfigureJobByExecuteWindowsBatchCommand(){
+        final String outputComment = "This is an example of a Windows batch script";
+        final String executeCommand = "@echo off\necho " + outputComment;
+
+        ConsolePage consolePage = new HomePage(getDriver())
+                .clickFreestyleProjectName()
+                .clickSideMenuConfigureLink()
+                .selectSourceCodeManagementNone()
+                .clickLinkBuildSteps()
+                .clickButtonAddBuildStep()
+                .selectExecuteWindowsBatchCommand()
+                .inputExecuteWindowsBatchCommand(executeCommand)
+                .clickSaveBtn()
+                .clickButtonBuildNowAndWaitBuildComplete()
+                .clickBuildStatusIcon();
+
+        Assert.assertEquals(consolePage.getPageHeader(), "Console Output");
+        Assert.assertEquals(consolePage.getJobBuildStatus(), "Success");
+        Assert.assertTrue(consolePage.getConsoleOutputText().contains("Finished: SUCCESS"));
     }
 }

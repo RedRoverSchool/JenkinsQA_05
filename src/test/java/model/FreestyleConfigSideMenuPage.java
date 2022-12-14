@@ -27,4 +27,10 @@ public class FreestyleConfigSideMenuPage extends BasePage {
 
         return new FreestyleProjectConfigPage(getDriver());
     }
+
+    public FreestyleProjectConfigPage clickLinkBuildSteps(){
+        freestyleConfigSideMenu.get(4).click();
+
+        return new FreestyleProjectConfigPage(getDriver());
+    }
 }

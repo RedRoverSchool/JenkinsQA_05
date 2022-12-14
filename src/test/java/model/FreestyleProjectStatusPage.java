@@ -182,4 +182,10 @@ public class FreestyleProjectStatusPage extends BasePage {
 
         return this;
     }
+
+    public ConsolePage clickBuildStatusIcon(){
+        buildStatusIcon.click();
+
+        return new ConsolePage(getDriver());
+    }
 }
