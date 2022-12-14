@@ -71,6 +71,9 @@ public class FreestyleProjectConfigPage extends BasePage {
     @FindBy(xpath = "//div[text() = 'Repository URL']/following-sibling::div/input")
     private WebElement fieldInputRepositoryURL;
 
+    @FindBy(linkText = "Build Now")
+    private WebElement buildNowButton;
+
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -218,6 +221,13 @@ public class FreestyleProjectConfigPage extends BasePage {
 
         return new FreestyleConfigSideMenuPage(getDriver());
     }
+
+    public FreestyleConfigSideMenuPage clickBuildNowButton() {
+        buildNowButton.click();
+
+        return new FreestyleConfigSideMenuPage(getDriver());
+    }
+
 
 
 }
