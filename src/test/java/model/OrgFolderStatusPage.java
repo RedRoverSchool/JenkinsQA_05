@@ -9,13 +9,13 @@ public class OrgFolderStatusPage extends BasePage {
     @FindBy(xpath = "//a[text()='Dashboard']")
     private WebElement dashboard;
 
-    @FindBy (linkText = "Rename")
+    @FindBy(linkText = "Rename")
     private WebElement renameButton;
 
     @FindBy(name = "newName")
     private WebElement newNameLine;
 
-    @FindBy (id = "yui-gen1-button")
+    @FindBy(id = "yui-gen1-button")
     private WebElement renameButtonOnMainPanel;
 
     public OrgFolderStatusPage(WebDriver driver) {

@@ -56,10 +56,10 @@ public class NewViewPage extends MyViewsPage {
 
         return new EditViewPage(getDriver());
     }
+
     public EditViewPage clickCreateListView() {
         createButton.click();
 
         return new EditViewPage(getDriver());
     }
-
 }

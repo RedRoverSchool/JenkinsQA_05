@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PipelineProjectPage extends BasePage{
+public class PipelineProjectPage extends BasePage {
 
     @FindBy(xpath = "//div[@id='description']//a")
     private WebElement editDescriptionButton;
@@ -46,10 +46,10 @@ public class PipelineProjectPage extends BasePage{
     @FindBy(xpath = "//a[@href='/job/Pipeline1/build?delay=0sec']")
     private WebElement buildNowButton;
 
-    @FindBy(className ="duration")
+    @FindBy(className = "duration")
     private WebElement stageView;
 
-    @FindBy(linkText ="Build with Parameters")
+    @FindBy(linkText = "Build with Parameters")
     private WebElement buildWithParameters;
 
     public PipelineProjectPage(WebDriver driver) {
@@ -120,6 +120,7 @@ public class PipelineProjectPage extends BasePage{
 
         return pipelineProjectText;
     }
+
     public PipelineProjectPage clickBuildNow() {
         buildNowButton.click();
         getWait(20).until(ExpectedConditions.visibilityOf(stageView));

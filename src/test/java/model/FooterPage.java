@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 public class FooterPage extends HomePage {
     @FindBy(xpath = "//dt/a[@href='xml']")
     private WebElement xmlApiLink;
+
     public FooterPage(WebDriver driver) {
         super(driver);
     }
@@ -16,6 +17,4 @@ public class FooterPage extends HomePage {
 
         return new XmlPage(getDriver());
     }
-
-
 }

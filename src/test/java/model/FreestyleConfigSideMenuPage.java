@@ -22,7 +22,7 @@ public class FreestyleConfigSideMenuPage extends BasePage {
         return freestyleConfigSideMenu.stream().map(WebElement::getText).collect(Collectors.toCollection(TreeSet::new));
     }
 
-    public FreestyleProjectConfigPage clickLinkSourceCodeManagement(){
+    public FreestyleProjectConfigPage clickLinkSourceCodeManagement() {
         freestyleConfigSideMenu.get(1).click();
 
         return new FreestyleProjectConfigPage(getDriver());

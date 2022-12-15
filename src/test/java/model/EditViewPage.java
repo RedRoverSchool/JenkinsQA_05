@@ -101,6 +101,7 @@ public class EditViewPage extends HomePage {
 
         return this;
     }
+
     public EditViewPage selectFilterBuildExecutorsOptionCheckBox() {
         filterBuildExecutorsOptionCheckBox.findElement(By.xpath("following-sibling::label")).click();
 

@@ -5,13 +5,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class ManageJenkinsPage extends BasePage {
+public class ManageJenkinsPage extends Header {
 
     @FindBy(xpath = "//a[@href='configureTools']")
     private WebElement configureTools;
 
     @FindBy(xpath = "//a[@href='securityRealm/']")
     private WebElement manageUsers;
+
+    @FindBy(xpath = "//div//h1")
+    private WebElement header1;
 
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
@@ -28,5 +31,10 @@ public class ManageJenkinsPage extends BasePage {
 
         return new ManageUsersPage(getDriver());
     }
-}
 
+    public String getTextHeader1ManageJenkins(){
+        getWait(10).until(ExpectedConditions.visibilityOf(header1));
+
+        return header1.getText();
+    }
+}

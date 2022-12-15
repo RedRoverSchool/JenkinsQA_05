@@ -5,6 +5,7 @@ import runner.BaseTest;
 
 public class FolderWithDescription extends BaseTest {
     private final String DESCRIPTION = "This folder contains job's documentation";
+
     @Test
     public void createFolderDescriptionTest() {
 

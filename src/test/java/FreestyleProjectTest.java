@@ -195,12 +195,11 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears")
     public void testFreestyleProjectConfigureByDropdown() {
-        getDriver().findElement(By.cssSelector("#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
-        WebElement element = getWait(3).until(ExpectedConditions.presenceOfElementLocated(BY_BUTTON_DROPDOWN_CONFIGURE));
-        scrollToElement(getDriver(), element);
-        element.click();
+        FreestyleProjectConfigPage freestyleProjectConfigPage = new HomePage(getDriver())
+                .clickJobDropDownMenu(NEW_FREESTYLE_NAME)
+                .clickConfigDropDownMenuFreestyle();
 
-        Assert.assertEquals(getDriver().getTitle(), NEW_FREESTYLE_NAME + " Config [Jenkins]");
+        Assert.assertEquals(freestyleProjectConfigPage.getHeadlineText(), "Configuration");
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectConfigureByDropdown")
@@ -437,7 +436,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateNewFreestyleProjectWithLongNameFrom256Characters() {
-        final String expectedURL = getDriver().getCurrentUrl()+"view/all/createItem";
+        final String expectedURL = getDriver().getCurrentUrl() + "view/all/createItem";
         final String errorPictureName = "rage.svg";
         final String expectedTextOfError = "A problem occurred while processing the request.";
         final String longNameWith256Characters = getRandomStr(256);
@@ -453,14 +452,14 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), expectedURL);
         Assert.assertTrue(getDriver().findElement(
-                By.xpath("//img[contains(@src,'"+errorPictureName+"')]")).isDisplayed());
+                By.xpath("//img[contains(@src,'" + errorPictureName + "')]")).isDisplayed());
         Assert.assertEquals(
                 getDriver().findElement(By.xpath("//div[@id='error-description']//h2")).getText(),
                 expectedTextOfError);
     }
 
     @Test
-    public void testRenamingFreestyleProject(){
+    public void testRenamingFreestyleProject() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(FREESTYLE_NAME)

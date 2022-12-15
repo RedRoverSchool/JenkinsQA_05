@@ -41,7 +41,7 @@ public class GlobalToolConfigurationPage extends BasePage {
     }
 
     public GlobalToolConfigurationPage clickApplyButton() {
-       applyButton.click();
+        applyButton.click();
 
         return this;
     }

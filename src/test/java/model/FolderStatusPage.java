@@ -29,6 +29,9 @@ public class FolderStatusPage extends BasePage {
     @FindBy(linkText = "Delete Folder")
     private WebElement deleteFolder;
 
+    @FindBy(linkText = "Move")
+    private WebElement moveFolder;
+
     @FindBy(linkText = "Create a job")
     private WebElement createJob;
 
@@ -53,7 +56,7 @@ public class FolderStatusPage extends BasePage {
     @FindBy(xpath = "//h1")
     private WebElement folderHeader;
 
-    @FindBy(id="view-message")
+    @FindBy(id = "view-message")
     private WebElement textDescription;
 
     public FolderStatusPage(WebDriver driver) {
@@ -66,7 +69,7 @@ public class FolderStatusPage extends BasePage {
         return new HomePage(getDriver());
     }
 
-    public NewItemPage clickNewItemDropdownThisFolderInBreadcrumbs(){
+    public NewItemPage clickNewItemDropdownThisFolderInBreadcrumbs() {
         getWait(5).until(ExpectedConditions.visibilityOf(breadcrumbsThisFolderToggleDropdown)).click();
         getWait(5).until(ExpectedConditions.visibilityOf(newItemInDropDown)).click();
 
@@ -121,19 +124,26 @@ public class FolderStatusPage extends BasePage {
         return folderHeader.getText();
     }
 
-    public NewItemPage clickFolderNewItem(){
+    public NewItemPage clickFolderNewItem() {
         folderNewItem.click();
 
         return new NewItemPage(getDriver());
     }
 
-    public FolderStatusPage clickDeleteFolder(){
+    public FolderStatusPage clickDeleteFolder() {
         deleteFolder.click();
 
         return new FolderStatusPage(getDriver());
     }
 
+    public MovePage clickMoveFolder() {
+        moveFolder.click();
+
+        return new MovePage(getDriver());
+    }
+
     public String getHeaderText() {
+
         return header.getText();
     }
 
@@ -144,7 +154,9 @@ public class FolderStatusPage extends BasePage {
                 .collect(Collectors.toList());
     }
 
-    public String getDescriptionText() {return textAddress.getText();
+    public String getDescriptionText() {
+
+        return textAddress.getText();
     }
 
     public String getTextDescription(String des) {

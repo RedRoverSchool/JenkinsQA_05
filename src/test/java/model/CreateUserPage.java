@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class CreateUserPage extends BasePage{
+public class CreateUserPage extends BasePage {
 
     @FindBy(id = "username")
     private WebElement username;
@@ -28,37 +28,37 @@ public class CreateUserPage extends BasePage{
         super(driver);
     }
 
-    public CreateUserPage setUsername(String name){
+    public CreateUserPage setUsername(String name) {
         username.sendKeys(name);
 
         return this;
     }
 
-    public CreateUserPage setPassword(String name){
+    public CreateUserPage setPassword(String name) {
         password.sendKeys(name);
 
         return this;
     }
 
-    public CreateUserPage confirmPassword(String name){
+    public CreateUserPage confirmPassword(String name) {
         confirmPassword.sendKeys(name);
 
         return this;
     }
 
-    public CreateUserPage setFullName(String name){
+    public CreateUserPage setFullName(String name) {
         fullName.sendKeys(name);
 
         return this;
     }
 
-    public CreateUserPage setEmail(String name){
+    public CreateUserPage setEmail(String name) {
         email.sendKeys(name);
 
         return this;
     }
 
-    public ManageUsersPage clickCreateUserButton(){
+    public ManageUsersPage clickCreateUserButton() {
         createUserButton.click();
 
         return new ManageUsersPage(getDriver());
