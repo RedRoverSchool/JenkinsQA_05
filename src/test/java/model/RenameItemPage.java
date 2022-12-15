@@ -28,4 +28,9 @@ public class RenameItemPage extends BasePage {
 
         return new FreestyleProjectStatusPage(getDriver());
     }
+
+    public RenameItemErrorPage clickSaveButton() {
+        buttonSubmit.click();
+        return new RenameItemErrorPage(getDriver());
+    }
 }

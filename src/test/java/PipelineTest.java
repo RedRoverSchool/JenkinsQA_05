@@ -1,7 +1,4 @@
-import model.HomePage;
-import model.MyViewsPage;
-import model.PipelineConfigPage;
-import model.PipelineProjectPage;
+import model.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -51,13 +48,14 @@ public class PipelineTest extends BaseTest {
         return RandomStringUtils.randomAlphanumeric(10);
     }
 
-    private void createPipelineProject(String projectName) {
+    private HomePage createPipelineProject(String projectName) {
         new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(projectName)
                 .selectPipelineAndClickOk()
                 .saveConfigAndGoToProjectPage()
                 .clickDashboard();
+        return new HomePage(getDriver());
     }
 
     private void deletePipelineProject(String name) {
@@ -182,24 +180,21 @@ public class PipelineTest extends BaseTest {
         deletePipelineProject(PIPELINE_NAME);
     }
 
-    @Ignore
     @Test
     public void testRenamePipelineWithoutChangingName() {
-        createPipelineProject(PIPELINE_NAME);
-        Actions actions = new Actions(getDriver());
-        actions.moveToElement(getDriver().findElement(JOB_PIPELINE))
-                .moveToElement(getDriver().findElement(JOB_PIPELINE_MENU_DROPDOWN_CHEVRON)).click().build().perform();
-        getDriver().findElement(JOB_MENU_RENAME).click();
-        getDriver().findElement(BUTTON_RENAME).click();
 
-        Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//div[@id='main-panel']//h1[contains(text(),'Error')]"))
-                .getText(), "Error");
-        Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//div[@id='main-panel']//p"))
-                .getText(), "The new name is the same as the current name.");
+        RenameItemErrorPage renameItemErrorPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(PIPELINE_NAME)
+                .selectPipelineAndClickOk()
+                .saveConfigAndGoToProjectPage()
+                .clickDashboard()
+                .clickJobDropDownMenu(PIPELINE_NAME)
+                .clickRenameDropDownMenu()
+                .clickSaveButton();
 
-        deletePipelineProject(PIPELINE_NAME);
+        Assert.assertEquals(renameItemErrorPage.getHeadErrorMessage(), "Error");
+        Assert.assertEquals(renameItemErrorPage.getErrorMessage(), "The new name is the same as the current name.");
     }
 
     @Ignore
