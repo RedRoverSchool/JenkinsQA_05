@@ -16,11 +16,6 @@ public class HeaderTest extends BaseTest {
 
     private static final By USER_ACCOUNT_LINK = By.xpath("//a[@class='model-link']//span");
 
-    private void openUserDropdownMenu() {
-        getDriver().findElement(
-                By.cssSelector("#page-header .jenkins-menu-dropdown-chevron")).click();
-    }
-
     private void createOrganizationFolder() {
         for (int i = 1; i <= 4; i++) {
             String organizationFolderName = "OrganizationFolder_" + (int) (Math.random() * 1000);
