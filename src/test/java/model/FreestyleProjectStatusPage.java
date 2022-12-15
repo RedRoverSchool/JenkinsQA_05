@@ -69,6 +69,15 @@ public class FreestyleProjectStatusPage extends BasePage {
     @FindBy(css = "tr:nth-child(2)  a.display-name")
     private WebElement buildName;
 
+    @FindBy(linkText = "Changes")
+    private WebElement linkChanges;
+
+    @FindBy(linkText = "Edit description")
+    private WebElement buttonEditDescription;
+
+    @FindBy(xpath = "//div[@class = 'warning']")
+    private WebElement warningMessage;
+
     public FreestyleProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -114,7 +123,8 @@ public class FreestyleProjectStatusPage extends BasePage {
     }
 
     public FreestyleProjectStatusPage inputAndSaveDescriptionText(String description) {
-        getWait(10).until(ExpectedConditions.elementToBeClickable(fieldDescriptionText)).sendKeys(description);
+        getWait(10).until(ExpectedConditions.elementToBeClickable(fieldDescriptionText)).clear();
+        fieldDescriptionText.sendKeys(description);
         getWait(10).until(ExpectedConditions.elementToBeClickable(buttonSave)).click();
 
         return this;
@@ -185,4 +195,22 @@ public class FreestyleProjectStatusPage extends BasePage {
 
         return this;
     }
+
+    public ChangesBuildsPage clickLinkChanges(){
+        linkChanges.click();
+
+        return new ChangesBuildsPage(getDriver());
+    }
+
+    public FreestyleProjectStatusPage clickButtonEditDescription(){
+        buttonEditDescription.click();
+
+        return this;
+    }
+
+    public String getWarningMessage(){
+
+        return warningMessage.getText().trim().substring(0, 34);
+    }
+
 }
