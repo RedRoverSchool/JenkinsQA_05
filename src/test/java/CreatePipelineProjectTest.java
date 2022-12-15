@@ -10,7 +10,7 @@ public class CreatePipelineProjectTest extends BaseTest {
     private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(10);
 
     @Test
-    public void testCreatePipelineProject(){
+    public void testCreatePipelineProject() {
         getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
         getDriver().findElement(
@@ -19,7 +19,7 @@ public class CreatePipelineProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@type = 'submit']")).click();
 
         Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//div[@id='main-panel']/h1")).getText()
+                        .findElement(By.xpath("//div[@id='main-panel']/h1")).getText()
                 , "Pipeline " + PIPELINE_NAME);
     }
 }

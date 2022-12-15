@@ -59,8 +59,8 @@ public class FooterTest extends BaseTest {
                 .clickRestApiLink()
                 .clickXmlApi();
 
-         Assert.assertEquals(xmlPage.getStructureXML(), "This XML file does not appear to have any "
-                 + "style information associated with it. The document tree is shown below.");
+        Assert.assertEquals(xmlPage.getStructureXML(), "This XML file does not appear to have any "
+                + "style information associated with it. The document tree is shown below.");
     }
 
     @Test

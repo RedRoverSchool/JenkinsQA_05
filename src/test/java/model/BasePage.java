@@ -8,4 +8,9 @@ public abstract class BasePage extends BaseModel {
     public BasePage(WebDriver driver) {
         super(driver);
     }
+
+    public String getCurrentURL() {
+
+        return getDriver().getCurrentUrl();
+    }
 }

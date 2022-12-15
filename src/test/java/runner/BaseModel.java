@@ -25,7 +25,7 @@ public abstract class BaseModel {
     }
 
     protected Actions getAction() {
-        if(action == null) {
+        if (action == null) {
             action = new Actions(driver);
         }
 

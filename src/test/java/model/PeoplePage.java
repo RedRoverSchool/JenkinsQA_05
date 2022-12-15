@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class PeoplePage extends BasePage{
+public class PeoplePage extends BasePage {
 
     @FindBy(xpath = "//tbody/tr/td")
     private List<WebElement> usersListInPeople;
@@ -20,7 +20,7 @@ public class PeoplePage extends BasePage{
         super(driver);
     }
 
-    public List <String> getListOfUSersInPeople (){
+    public List<String> getListOfUSersInPeople() {
         List<String> listOfUsersInPeople = new ArrayList<>();
         for (int i = 0; i < usersListInPeople.size(); i++) {
             listOfUsersInPeople.add(i, usersListInPeople.get(i).getText());
@@ -28,7 +28,7 @@ public class PeoplePage extends BasePage{
         return listOfUsersInPeople;
     }
 
-    public HomePage rootMenuDashboardLinkClick(){
+    public HomePage rootMenuDashboardLinkClick() {
         rootMenuDashboardLink.click();
         return new HomePage(getDriver());
     }

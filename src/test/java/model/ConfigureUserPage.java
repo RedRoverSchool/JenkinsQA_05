@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ConfigureUserPage extends BasePage{
+public class ConfigureUserPage extends BasePage {
 
     @FindBy(css = "input[name='_.fullName']")
     private WebElement inputFieldFullUserName;

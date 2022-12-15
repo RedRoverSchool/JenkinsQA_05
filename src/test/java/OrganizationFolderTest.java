@@ -100,7 +100,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .selectOrgFolderAndClickOk()
                 .clickSaveButton()
                 .clickRenameButton()
-                .clearAndInputNewName ("New name " + nameOrgFolderPOM)
+                .clearAndInputNewName("New name " + nameOrgFolderPOM)
                 .goToDashboard();
 
         Assert.assertTrue(homePage.getJobList().contains("New name " + nameOrgFolderPOM));

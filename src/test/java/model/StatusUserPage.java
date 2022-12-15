@@ -4,38 +4,36 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.w3c.dom.Text;
 
 public class StatusUserPage extends BasePage {
 
     @FindBy(css = ".model-link > .hidden-xs.hidden-sm")
     private WebElement pageHeaderUserName;
-
     @FindBy(xpath = "//li[@class='item'][last()]")
     private WebElement breadcrumbsUserName;
-
     @FindBy(xpath = "//h1")
     private WebElement h1Title;
-
     @FindBy(id = "description-link")
     private WebElement addDescriptionLink;
-
     @FindBy(xpath = "//textarea[@name = 'description']")
     private WebElement descriptionInputField;
-
     @FindBy(xpath = "//a[@class='textarea-show-preview']")
     private WebElement previewLink;
-
     @FindBy(xpath = "//div[@class='textarea-preview']")
     private WebElement previewField;
-
     @FindBy(xpath = "//a[@class='textarea-hide-preview']")
-    private  WebElement hidePreviewLink;
+    private WebElement hidePreviewLink;
+    @FindBy(id = "yui-gen1-button")
+    private WebElement saveButton;
+    @FindBy(xpath = "//div[@id='description']/div[1]")
+    private WebElement displayedDescriptionText;
 
     public StatusUserPage(WebDriver driver) {
         super(driver);
     }
 
-    public StatusUserPage refreshPage(){
+    public StatusUserPage refreshPage() {
         getDriver().navigate().refresh();
 
         return this;
@@ -65,6 +63,7 @@ public class StatusUserPage extends BasePage {
 
         return this;
     }
+
     public StatusUserPage inputTextInDescriptionField(String text) {
         descriptionInputField.sendKeys(text);
 
@@ -91,5 +90,16 @@ public class StatusUserPage extends BasePage {
     public boolean isDisplayedPreviewField() {
 
         return previewField.isDisplayed();
+    }
+
+    public StatusUserPage clickSaveButton() {
+        saveButton.click();
+
+        return this;
+    }
+
+    public String getDescriptionText() {
+
+        return displayedDescriptionText.getText();
     }
 }
