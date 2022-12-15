@@ -436,7 +436,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateNewFreestyleProjectWithLongNameFrom256Characters() {
-        final String expectedURL = getDriver().getCurrentUrl()+"view/all/createItem";
+        final String expectedURL = getDriver().getCurrentUrl() + "view/all/createItem";
         final String errorPictureName = "rage.svg";
         final String expectedTextOfError = "A problem occurred while processing the request.";
         final String longNameWith256Characters = getRandomStr(256);
@@ -452,14 +452,14 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), expectedURL);
         Assert.assertTrue(getDriver().findElement(
-                By.xpath("//img[contains(@src,'"+errorPictureName+"')]")).isDisplayed());
+                By.xpath("//img[contains(@src,'" + errorPictureName + "')]")).isDisplayed());
         Assert.assertEquals(
                 getDriver().findElement(By.xpath("//div[@id='error-description']//h2")).getText(),
                 expectedTextOfError);
     }
 
     @Test
-    public void testRenamingFreestyleProject(){
+    public void testRenamingFreestyleProject() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(FREESTYLE_NAME)

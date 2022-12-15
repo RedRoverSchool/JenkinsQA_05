@@ -155,6 +155,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         multiConfigProject.deleteMultiConfigProject();
     }
+
     @Test (dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMultiConfigurationProjectBuild() {
 
@@ -167,6 +168,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertNotEquals(buildRowAfterBuild, buildRowBeforeBuild);
     }
+
     @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testCreateNewMCProjectAsCopyFromExistingProject() {

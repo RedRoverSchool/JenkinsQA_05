@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.stream.Collectors;
 
-public class MultiConfigurationProjectStatusPage extends BasePage{
+public class MultiConfigurationProjectStatusPage extends BasePage {
 
     @FindBy(css = "#breadcrumbs li a")
     private WebElement dashboard;
@@ -52,26 +52,26 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
         return new HomePage(getDriver());
     }
 
-    public MultiConfigurationProjectStatusPage clickAddDescription(){
+    public MultiConfigurationProjectStatusPage clickAddDescription() {
         descriptionLink.click();
 
         return this;
     }
 
-    public MultiConfigurationProjectStatusPage fillDescription(String desc){
+    public MultiConfigurationProjectStatusPage fillDescription(String desc) {
         getWait(5).until(ExpectedConditions.visibilityOf(description));
         description.sendKeys(desc);
 
-        return  this;
+        return this;
     }
 
-    public MultiConfigurationProjectStatusPage clickSave(){
+    public MultiConfigurationProjectStatusPage clickSave() {
         saveDescriptionButton.click();
 
         return this;
     }
 
-    public String getDescriptionText(){
+    public String getDescriptionText() {
 
         return fieldDescription.getText();
     }
@@ -81,20 +81,20 @@ public class MultiConfigurationProjectStatusPage extends BasePage{
         return getDriver().findElement(By.xpath("//li[@class='item']//a[@href='/job/" + name + "/']")).getText();
     }
 
-    public MulticonfigurationProjectConfigPage deleteMultiConfigProject () {
+    public MulticonfigurationProjectConfigPage deleteMultiConfigProject() {
         deleteOption.click();
         getDriver().switchTo().alert().accept();
 
         return new MulticonfigurationProjectConfigPage(getDriver());
     }
 
-    public FolderStatusPage clickParentFolderInBreadcrumbs(){
+    public FolderStatusPage clickParentFolderInBreadcrumbs() {
         breadcrumbsParentFolderLink.click();
 
         return new FolderStatusPage(getDriver());
     }
 
-    public MultiConfigurationProjectStatusPage clickDisableButton(){
+    public MultiConfigurationProjectStatusPage clickDisableButton() {
         disableButton.click();
 
         return new MultiConfigurationProjectStatusPage(getDriver());

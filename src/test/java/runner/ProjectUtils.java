@@ -46,7 +46,7 @@ public final class ProjectUtils {
         driver.findElement(By.id("ok-button")).click();
     }
 
-    public static void createNewViewFromDashboard(WebDriver driver,By type, String name) {
+    public static void createNewViewFromDashboard(WebDriver driver, By type, String name) {
         driver.findElement(By.xpath("//a[@href='/me/my-views']")).click();
         driver.findElement(By.className("addTab")).click();
         driver.findElement(By.id("name")).sendKeys(name);

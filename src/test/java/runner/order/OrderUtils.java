@@ -9,8 +9,7 @@ public final class OrderUtils {
 
     private static <T> void orderMethod(
             T currentMethod, Map<String, T> methodMap, Map<String, Set<T>> dependedMap, Set<T> usedSet,
-            List<T> destinationList, Function<T, String> getNameFunction, Function<T, String[]> getDependencyFunction)
-    {
+            List<T> destinationList, Function<T, String> getNameFunction, Function<T, String[]> getDependencyFunction) {
         usedSet.add(currentMethod);
 
         for (String methodName : getDependencyFunction.apply(currentMethod)) {
@@ -39,8 +38,7 @@ public final class OrderUtils {
     }
 
     static <T> List<List<T>> orderMethods(
-            List<T> sourceList, Function<T, String> getNameFunction, Function<T, String[]> getDependencyFunction)
-    {
+            List<T> sourceList, Function<T, String> getNameFunction, Function<T, String[]> getDependencyFunction) {
 
         Map<String, Set<T>> dependedMap = new HashMap<>();
         for (T method : sourceList) {
