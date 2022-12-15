@@ -448,4 +448,36 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(pipelineSideMenuOptionsLinks,
                 List.of("Status", "Changes", "Build Now", "Configure", "Delete Pipeline", "Full Stage View", "Rename", "Pipeline Syntax"));
     }
+
+    @Test
+    public void testBuildNewPipeline() {
+        final String namePipeline = "Pipeline1";
+        final String expectedLastSuccess = "N/A";
+
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(namePipeline)
+                .selectPipelineAndClickOk()
+                .scrollToEndPipelineConfigPage()
+                .clickTrySamplePipelineDropDownMenu()
+                .clickHelloWorld()
+                .clickSaveButton()
+                .clickDashboard();
+
+        Assert.assertEquals(homePage.getLastSuccessText(), expectedLastSuccess);
+    }
+
+    @Test(dependsOnMethods = "testBuildNewPipeline")
+    public void testBuildNewPipelineSuccess() {
+        final String expectedCheckIcon = "Success";
+
+        String actualCheckIcon = new HomePage(getDriver())
+                .clickPipeline1()
+                .clickBuildNow()
+                .clickDashboard()
+                .movePointToCheckBox()
+                .getStatusBuildText();
+
+        Assert.assertEquals(actualCheckIcon, expectedCheckIcon);
+    }
 }
