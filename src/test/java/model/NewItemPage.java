@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class NewItemPage extends BasePage {
+public class NewItemPage extends HomePage {
 
     @FindBy(className = "jenkins-input")
     private WebElement itemName;
