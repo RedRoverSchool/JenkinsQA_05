@@ -1,7 +1,4 @@
-import model.BuildsUserPage;
-import model.ConfigureUserPage;
-import model.HomePage;
-import model.ManageJenkinsPage;
+import model.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -117,12 +114,11 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testUserDropdownMenuToOpenMyViewsUserPage() {
-        openUserDropdownMenu();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(
-                By.linkText("My Views"))).click();
+        MyViewsPage myViewsPage = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .clickMyViewItemInUserDropdownMenu();
 
-        Assert.assertEquals(getDriver().findElement(
-                        By.xpath("//ul[@id='breadcrumbs']/li[5]")).getText(),
+        Assert.assertEquals(myViewsPage.getMyViewItemNameOnTopBar(),
                 "My Views");
     }
 

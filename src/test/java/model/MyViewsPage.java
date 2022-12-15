@@ -40,6 +40,9 @@ public class MyViewsPage extends HomePage {
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement displayedDescriptionText;
 
+    @FindBy(xpath = "//ul[@id='breadcrumbs']/li[5]")
+    private WebElement myViewItemOnTopBar;
+
     public MyViewsPage(WebDriver driver) {
         super(driver);
     }
@@ -116,5 +119,10 @@ public class MyViewsPage extends HomePage {
     public String getDescriptionText() {
 
         return displayedDescriptionText.getText();
+    }
+
+    public String getMyViewItemNameOnTopBar() {
+
+        return myViewItemOnTopBar.getText();
     }
 }

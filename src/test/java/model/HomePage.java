@@ -104,6 +104,9 @@ public class HomePage extends Header {
     @FindBy(linkText = "Configure")
     private WebElement configureItemInUserDropdownMenu;
 
+    @FindBy(linkText = "My Views")
+    private WebElement myViewItemInUserDropdownMenu;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -449,5 +452,12 @@ public class HomePage extends Header {
                 configureItemInUserDropdownMenu)).click();
 
         return new ConfigureUserPage(getDriver());
+    }
+
+    public MyViewsPage clickMyViewItemInUserDropdownMenu() {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(
+                myViewItemInUserDropdownMenu)).click();
+
+        return new MyViewsPage(getDriver());
     }
 }
