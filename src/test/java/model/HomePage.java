@@ -474,7 +474,7 @@ public class HomePage extends Header {
         return new CredentialsPage(getDriver());
     }
     
-     public boolean disableIconIsDisplayed() {
+    public boolean disableIconIsDisplayed() {
         getWait(10).until(ExpectedConditions.visibilityOf(iconDisabled));
         return iconDisabled.isDisplayed();
     }
