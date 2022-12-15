@@ -10,7 +10,6 @@ import java.util.TreeSet;
 
 import static runner.TestUtils.getRandomStr;
 
-
 public class FreestyleProjectTest extends BaseTest {
 
     private static final String FREESTYLE_NAME = getRandomStr(10);
