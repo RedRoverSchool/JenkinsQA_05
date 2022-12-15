@@ -22,6 +22,7 @@ public class MovePage extends BasePage {
 
         return this;
     }
+
     public FolderStatusPage clickMove() {
         moveButton.click();
 

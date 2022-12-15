@@ -112,7 +112,7 @@ public class JenkinsUtils {
     }
 
     private static void deleteByLink(String link, Set<String> names, String crumb) {
-        String fullCrumb =  String.format("Jenkins-Crumb=%s", crumb);
+        String fullCrumb = String.format("Jenkins-Crumb=%s", crumb);
         for (String name : names) {
             postHttp(String.format(ProjectUtils.getUrl() + link, name), fullCrumb);
         }

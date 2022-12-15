@@ -34,9 +34,9 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testCreateNewView() {
-        ProjectUtils.createNewItemFromDashboard(getDriver(),PIPELINE, TestUtils.getRandomStr(6));
+        ProjectUtils.createNewItemFromDashboard(getDriver(), PIPELINE, TestUtils.getRandomStr(6));
         getDriver().findElement(DASHBOARD).click();
-        ProjectUtils.createNewViewFromDashboard(getDriver(),RADIO_BUTTON_MY_VIEW, VIEW_NAME);
+        ProjectUtils.createNewViewFromDashboard(getDriver(), RADIO_BUTTON_MY_VIEW, VIEW_NAME);
 
         Assert.assertTrue(getDriver().findElement(By.xpath(String.format("//div/a[contains(text(),'%s')]", VIEW_NAME)))
                 .isDisplayed());

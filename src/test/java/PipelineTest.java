@@ -21,7 +21,7 @@ public class PipelineTest extends BaseTest {
     private static final String PIPELINE_NAME = TestUtils.getRandomStr();
     private static final String pipeline_name = TestUtils.getRandomStr();
     private static final String VIEW_NAME = RandomStringUtils.randomAlphanumeric(5);
-    private static final String RANDOM_STRING  = TestUtils.getRandomStr(7);
+    private static final String RANDOM_STRING = TestUtils.getRandomStr(7);
     private static final String ITEM_DESCRIPTION = "This is a sample description for item";
     private static final String ITEM_NEW_DESCRIPTION = "New description";
 
@@ -71,7 +71,7 @@ public class PipelineTest extends BaseTest {
         new HomePage(getDriver())
                 .clickJobDropDownMenu(name)
                 .clickRenameDropDownMenu()
-                .clearFieldAndInputNewName(name+rename)
+                .clearFieldAndInputNewName(name + rename)
                 .clickSubmitButton();
     }
 
@@ -287,7 +287,7 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(homePageHeaderText, "Welcome to Jenkins!");
     }
-    
+
     @Ignore
     @Test
     public void testCreatePipelineExistingNameError() {
@@ -306,15 +306,15 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreatePipelineOnBreadcrumbs () {
-        ProjectUtils.createNewItemFromDashboard(getDriver(),By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
+    public void testCreatePipelineOnBreadcrumbs() {
+        ProjectUtils.createNewItemFromDashboard(getDriver(), By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
 
         Assert.assertTrue(getDriver().findElement(By.className("jenkins-breadcrumbs")).getAttribute("textContent").contains(RANDOM_STRING));
     }
 
     @Test
     public void testCreateNewPipeline() {
-        ProjectUtils.createNewItemFromDashboard(getDriver(),By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
+        ProjectUtils.createNewItemFromDashboard(getDriver(), By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
         new Actions(getDriver()).moveToElement(getDriver().findElement(BUTTON_SAVE)).click().perform();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class='job-index-headline page-headline']")).getText(),
@@ -323,7 +323,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithName() {
-        ProjectUtils.createNewItemFromDashboard(getDriver(),By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
+        ProjectUtils.createNewItemFromDashboard(getDriver(), By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
         getDriver().findElement(BUTTON_SAVE).click();
         getDriver().findElement(By.id("jenkins-name-icon")).click();
 
@@ -387,7 +387,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreateNewPipelineWithDescription() {
-        ProjectUtils.createNewItemFromDashboard(getDriver(),By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
+        ProjectUtils.createNewItemFromDashboard(getDriver(), By.xpath("//span[text()='Pipeline']"), RANDOM_STRING);
         getDriver().findElement(By.cssSelector(".jenkins-input")).sendKeys(ITEM_DESCRIPTION);
         getDriver().findElement(BUTTON_SAVE).click();
 
@@ -396,7 +396,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateNewPipelineWithDescription")
-    public void testEditPipelineDescription()  {
+    public void testEditPipelineDescription() {
 
         String actualDescription = new HomePage(getDriver())
                 .clickJobDropDownMenu(RANDOM_STRING)
@@ -408,9 +408,9 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
     }
 
-    @Test (dependsOnMethods = "testEditPipelineDescription")
+    @Test(dependsOnMethods = "testEditPipelineDescription")
     public void testCreateNewPipelineFromExisting() {
-        final String jobName =TestUtils.getRandomStr(7);
+        final String jobName = TestUtils.getRandomStr(7);
 
         String actualJobName = new HomePage(getDriver())
                 .clickNewItem()
@@ -422,8 +422,8 @@ public class PipelineTest extends BaseTest {
 
         String actualDescription = new PipelineProjectPage(getDriver()).getDescription();
 
-        Assert.assertEquals(actualJobName,jobName);
-        Assert.assertEquals(actualDescription,ITEM_NEW_DESCRIPTION);
+        Assert.assertEquals(actualJobName, jobName);
+        Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
     }
 
     @Test(dependsOnMethods = "testCreatePipelineWithName")

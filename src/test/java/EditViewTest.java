@@ -10,7 +10,7 @@ import runner.TestUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class EditViewTest extends BaseTest{
+public class EditViewTest extends BaseTest {
     private static String localViewName;
     private static final int waitTime = 5;
     private static final By DASHBOARD = By.cssSelector("#jenkins-name-icon");
@@ -35,7 +35,7 @@ public class EditViewTest extends BaseTest{
     final By MULTIBRANCH_4 = By
             .cssSelector(".j-item-options .org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject");
     final By ORGFOLDER_5 = By.cssSelector(".j-item-options .jenkins_branch_OrganizationFolder");
-    final By[] listAllJobTypes = {FREESTYLE_0,PIPELINE_1, MULTICONFIG_2,FOLDER_3, MULTIBRANCH_4, ORGFOLDER_5};
+    final By[] listAllJobTypes = {FREESTYLE_0, PIPELINE_1, MULTICONFIG_2, FOLDER_3, MULTIBRANCH_4, ORGFOLDER_5};
 
     final By GLOBAL_VIEW_0 = By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.ProxyView']");
     final By LIST_VIEW_1 = By.xpath("//label[@class='jenkins-radio__label' and @for='hudson.model.ListView']");
@@ -43,7 +43,7 @@ public class EditViewTest extends BaseTest{
     final By[] listAllViewTypes = {GLOBAL_VIEW_0, LIST_VIEW_1, GLOBAL_VIEW_2};
 
 
-    private void createOneItemFromListOfJobTypes(int indexOfJob){
+    private void createOneItemFromListOfJobTypes(int indexOfJob) {
         getDriver().findElement(By.xpath("//a[contains(@href, '/view/all/newJob')]")).click();
         getDriver().findElement(By.cssSelector("#name.jenkins-input")).sendKeys(TestUtils.getRandomStr());
         getDriver().findElement(listAllJobTypes[indexOfJob]).click();
@@ -51,9 +51,9 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(DASHBOARD).click();
     }
 
-    private void createManyJobsOfEachType(int numberOfJobsOfEachType){
-        for(int i = 0; i < numberOfJobsOfEachType; i++){
-            for(int j = 0; j < listAllJobTypes.length; j++) {
+    private void createManyJobsOfEachType(int numberOfJobsOfEachType) {
+        for (int i = 0; i < numberOfJobsOfEachType; i++) {
+            for (int j = 0; j < listAllJobTypes.length; j++) {
                 createOneItemFromListOfJobTypes(j);
             }
         }
@@ -87,6 +87,7 @@ public class EditViewTest extends BaseTest{
         addFiveItemsToListView();
         goToEditView(viewName);
     }
+
     private void scrollWaitTillNotMovingAndClick(int duration, By locator) {
         TestUtils.scrollToElement_PlaceInCenter(getDriver(), getDriver().findElement(locator));
         getWait(duration).until(TestUtils.ExpectedConditions.elementIsNotMoving(locator));
@@ -101,14 +102,15 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON).click();
     }
 
-    private void dragByYOffset (By locator, int offset) {
+    private void dragByYOffset(By locator, int offset) {
         Actions actions = new Actions(getDriver());
         actions.moveToElement(getDriver().findElement(locator))
                 .clickAndHold(getDriver().findElement(locator))
-                .moveByOffset(0,offset/2)
-                .moveByOffset(0,offset/2)
+                .moveByOffset(0, offset / 2)
+                .moveByOffset(0, offset / 2)
                 .release().perform();
     }
+
     @Test
     public void testGlobalViewAddFilterBuildQueue() {
         boolean newPaneIsDisplayed = new HomePage(getDriver())
@@ -158,7 +160,7 @@ public class EditViewTest extends BaseTest{
         addFiveItemsToListView();
 
         int actualResult = getDriver().findElements(JOB_PATH).size();
-        Assert.assertEquals(actualResult,5);
+        Assert.assertEquals(actualResult, 5);
     }
 
     @Test
@@ -188,7 +190,7 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON).click();
 
         int actualResult = getDriver().findElements(JOB_PATH).size();
-        Assert.assertEquals(actualResult,expectedResult);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
@@ -203,7 +205,7 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON).click();
 
         long actualResult = getDriver().findElements(JOB_PATH).size();
-        Assert.assertEquals(actualResult,expectedResult);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
@@ -217,7 +219,7 @@ public class EditViewTest extends BaseTest{
         getDriver().findElement(SUBMIT_BUTTON).click();
 
         String[] actualResult = {getDriver().findElement(By
-                .cssSelector("#projectstatus th:nth-child(1) a")).getText(),getDriver().findElement(By
+                .cssSelector("#projectstatus th:nth-child(1) a")).getText(), getDriver().findElement(By
                 .cssSelector("#projectstatus th:nth-child(2) a")).getText()};
         Assert.assertEquals(actualResult, expectedResult);
     }
@@ -257,7 +259,7 @@ public class EditViewTest extends BaseTest{
         listViewSeriesPreConditions(1, localViewName);
         final String[] tableValues = {
                 "S", "W", "Name", "Last Success", "Last Failure", "Last Stable",
-                "Last Duration", "","Git Branches", "Name", "Description"};
+                "Last Duration", "", "Git Branches", "Name", "Description"};
 
         scrollWaitTillNotMovingAndClick(waitTime, ADD_COLUMN);
         final List<WebElement> addColumnMenuItems = getDriver().findElements(By.cssSelector("a.yuimenuitemlabel"));
@@ -273,16 +275,16 @@ public class EditViewTest extends BaseTest{
             element.click();
             getDriver().findElement(SUBMIT_BUTTON).click();
             String lastColumnName = getDriver().findElement(By
-                    .cssSelector("table#projectstatus th:last-child")).getText().replace("↓"," ").trim();
+                    .cssSelector("table#projectstatus th:last-child")).getText().replace("↓", " ").trim();
             allMatches.add(tableMenuMap.get(selectedColumnName).equals(lastColumnName));
             getDriver().findElement(By.xpath("//a[contains(@href, 'configure')]")).click();
-            scrollWaitTillNotMovingAndClick(waitTime,LAST_EXISTING_COLUMN);
+            scrollWaitTillNotMovingAndClick(waitTime, LAST_EXISTING_COLUMN);
             getDriver().findElement(LAST_EXISTING_COLUMN).findElement(By.cssSelector("button.repeatable-delete")).click();
             scrollWaitTillNotMovingAndClick(waitTime, ADD_COLUMN);
         }
         getDriver().findElement(SUBMIT_BUTTON).click();
 
-        Assert.assertTrue(allMatches.stream().allMatch(element-> element == true));
+        Assert.assertTrue(allMatches.stream().allMatch(element -> element == true));
     }
 
     @Test
@@ -329,7 +331,7 @@ public class EditViewTest extends BaseTest{
             getDriver().findElement(INPUT_NAME).clear();
             getDriver().findElement(INPUT_NAME).sendKeys(illegalCharacters[i] + localViewName);
             getDriver().findElement(SUBMIT_BUTTON).click();
-            if(getDriver().findElements(By.cssSelector("#main-panel h1")).size() > 0) {
+            if (getDriver().findElements(By.cssSelector("#main-panel h1")).size() > 0) {
                 checks.add(String.format("‘%c’ is an unsafe character", illegalCharacters[i])
                         .equals(getDriver().findElement(By.cssSelector("#main-panel p")).getText()));
                 getDriver().findElement(DASHBOARD).click();
@@ -337,16 +339,16 @@ public class EditViewTest extends BaseTest{
                 int finalI = i;
                 checks.add(getDriver()
                         .findElements(By
-                        .xpath(String.format("//a[contains(@href, '/my-views/view/%s/')]", localViewName)))
+                                .xpath(String.format("//a[contains(@href, '/my-views/view/%s/')]", localViewName)))
                         .stream().noneMatch(element -> element.getText()
-                        .equals(String.format("‘%c’ is an unsafe character", illegalCharacters[finalI]))));
+                                .equals(String.format("‘%c’ is an unsafe character", illegalCharacters[finalI]))));
                 goToEditView(localViewName);
             } else {
                 checks.add(false);
             }
         }
 
-        Assert.assertTrue(checks.stream().allMatch(element->element == true));
+        Assert.assertTrue(checks.stream().allMatch(element -> element == true));
     }
 
     @Test

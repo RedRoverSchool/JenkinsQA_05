@@ -86,7 +86,7 @@ public class FreestyleProjectStatusPage extends BasePage {
         return new HomePage(getDriver());
     }
 
-    public FolderStatusPage clickParentFolderInBreadcrumbs(){
+    public FolderStatusPage clickParentFolderInBreadcrumbs() {
         breadcrumbsParentFolderLink.click();
 
         return new FolderStatusPage(getDriver());
@@ -98,37 +98,37 @@ public class FreestyleProjectStatusPage extends BasePage {
         return this;
     }
 
-    public RenameItemPage clickRenameButton(){
+    public RenameItemPage clickRenameButton() {
         buttonRename.click();
 
         return new RenameItemPage(getDriver());
     }
 
-    public FreestyleProjectStatusPage clickButtonAddDescription(){
+    public FreestyleProjectStatusPage clickButtonAddDescription() {
         getWait(10).until(ExpectedConditions.elementToBeClickable(buttonAddDescription)).click();
 
         return this;
     }
 
-    public FreestyleProjectStatusPage inputAndSaveDescriptionText(String description){
+    public FreestyleProjectStatusPage inputAndSaveDescriptionText(String description) {
         getWait(10).until(ExpectedConditions.elementToBeClickable(fieldDescriptionText)).sendKeys(description);
         getWait(10).until(ExpectedConditions.elementToBeClickable(buttonSave)).click();
 
         return this;
     }
 
-    public String getDescriptionText(){
+    public String getDescriptionText() {
 
         return description.getText();
     }
 
-    public FreestyleProjectStatusPage clickButtonDeleteProject(){
+    public FreestyleProjectStatusPage clickButtonDeleteProject() {
         getWait(10).until(ExpectedConditions.elementToBeClickable(buttonDeleteProject)).click();
 
         return this;
     }
 
-    public HomePage confirmAlertAndDeleteProject(){
+    public HomePage confirmAlertAndDeleteProject() {
         getDriver().switchTo().alert().accept();
 
         return new HomePage(getDriver());
@@ -140,7 +140,7 @@ public class FreestyleProjectStatusPage extends BasePage {
         return new FreestyleProjectConfigPage(getDriver());
     }
 
-    public String getFreestyleProjectName(String name){
+    public String getFreestyleProjectName(String name) {
 
         return projectButton.getText();
     }
@@ -170,12 +170,12 @@ public class FreestyleProjectStatusPage extends BasePage {
     public FreestyleProjectStatusPage clickBuildNowOnSidePanel() {
         buttonBuildNowOnSidePanel.click();
         getWait(20).until(ExpectedConditions.visibilityOf((buildLoadingIconSuccess)));
-        getWait(10).until(ExpectedConditions.attributeToBe(buildsInformationOnSidePanel,"style","display: none;"));
+        getWait(10).until(ExpectedConditions.attributeToBe(buildsInformationOnSidePanel, "style", "display: none;"));
 
         return this;
     }
 
-    public FreestyleProjectStatusPage clickButtonBuildNowAndWaitBuildComplete(){
+    public FreestyleProjectStatusPage clickButtonBuildNowAndWaitBuildComplete() {
         buttonBuildNow.click();
         getWait(60).until(ExpectedConditions.not(ExpectedConditions
                 .attributeContains(buildStatusIcon, "tooltip", "In progress &gt; Console Output")));

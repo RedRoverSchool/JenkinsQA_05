@@ -6,6 +6,7 @@ import runner.BaseTest;
 import runner.TestUtils;
 
 public class FolderOneTest extends BaseTest {
+
     private static final String RANDOM_NAME_1 = TestUtils.getRandomStr(6);
     private static final String RANDOM_NAME_2 = TestUtils.getRandomStr(6);
     private static final String RANDOM_MULTIBRANCH_PIPELINE_NAME = TestUtils.getRandomStr(6);
@@ -114,16 +115,16 @@ public class FolderOneTest extends BaseTest {
 
 
     @Test(dependsOnMethods = "testCreateFolderInFolderJob")
-    public void testRenameFolder()  {
-            HomePage homePage = new HomePage(getDriver())
-                    .clickFolderDropdownMenu(RANDOM_NAME_1)
-                    .clickRenameDropDownMenu()
-                    .clearFieldAndInputNewName(RANDOM_NAME_1 + "NEW")
-                    .clickSubmitButton()
-                    .clickDashboard();
+    public void testRenameFolder() {
+        HomePage homePage = new HomePage(getDriver())
+                .clickFolderDropdownMenu(RANDOM_NAME_1)
+                .clickRenameDropDownMenu()
+                .clearFieldAndInputNewName(RANDOM_NAME_1 + "NEW")
+                .clickSubmitButton()
+                .clickDashboard();
 
-            Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1));
-            Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME_1 + "NEW"));
+        Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1));
+        Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME_1 + "NEW"));
     }
 
 
@@ -149,7 +150,7 @@ public class FolderOneTest extends BaseTest {
                 .clickDeleteDropDownMenu()
                 .clickSubmitDeleteProject();
 
-    Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1 + "NEW"));
+        Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1 + "NEW"));
     }
 
     @Test
