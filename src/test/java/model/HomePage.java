@@ -112,7 +112,7 @@ public class HomePage extends Header {
 
     @FindBy(xpath = "//span/span/*[name()='svg' and @tooltip='Disabled']")
     private WebElement iconDisabled;
-    
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
