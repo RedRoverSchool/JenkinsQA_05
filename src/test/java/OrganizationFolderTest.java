@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public class OrganizationFolderTest extends BaseTest {
     private static final String uniqueOrganizationFolderName = "folder" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
     private static final String ORG_FOLDER_NAME = TestUtils.getRandomStr();
+    private static final String ORG_FOLDER_NAME_CREATE = TestUtils.getRandomStr();
     private static final String NAME_ORG_FOLDER = TestUtils.getRandomStr();
     private static final String nameOrgFolderPOM = TestUtils.getRandomStr();
     private static final String nameFolderPOM = TestUtils.getRandomStr();
@@ -144,14 +145,15 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateOrgFolder() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName + 5);
-        getDriver().findElement(ORGANIZATION_FOLDER).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
+        List<String> allFolders = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(ORG_FOLDER_NAME_CREATE)
+                .selectFolderAndClickOk()
+                .clickSaveButton()
+                .clickDashboard()
+                .getJobList();
 
-        Assert.assertEquals(getDriver().
-                findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), uniqueOrganizationFolderName + 5);
+        Assert.assertTrue(allFolders.contains(ORG_FOLDER_NAME_CREATE));
     }
 
     @Ignore
@@ -240,14 +242,12 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Ignore
-    @Test
+    @Test(dependsOnMethods = "testCreateOrgFolder")
     public void testCreateOrgFolderExistName() {
-        createNewOrganizationFolder();
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(uniqueOrganizationFolderName);
-        getDriver().findElement(ORGANIZATION_FOLDER).click();
-        getDriver().findElement(OK_BUTTON).click();
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(ORG_FOLDER_NAME_CREATE)
+                .selectFolderAndClickOk();
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1['Error']")).isDisplayed());
     }
