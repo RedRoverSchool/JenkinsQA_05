@@ -87,6 +87,20 @@ public class FreestyleProjectConfigPage extends BasePage {
     @FindBy(xpath = "//button[text()='Add build step']/../../..//a[@href='#']")
     private List<WebElement> listOfElementsInBuildStepsDropDown;
 
+    @FindBy(xpath = "//label[text() = 'None']")
+    private WebElement radioNoneButton;
+
+    @FindBy(xpath = "//div[contains(text(), 'Branch Specifier')]/following-sibling::div/input")
+    private WebElement fieldBranchSpecifier;
+
+    @FindBy(xpath = "//button[text() = 'Add build step']/parent::span")
+    private WebElement buttonAddBuildStep;
+
+    @FindBy(linkText = "Execute Windows batch command")
+    private WebElement windowsBatchCommand;
+    @FindBy(xpath = "//div[contains(text(), 'Execute Windows batch command')]/following-sibling::div[3]/descendant::textarea")
+    private WebElement fieldInputExecuteWindowsBatchCommand;
+
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -267,5 +281,38 @@ public class FreestyleProjectConfigPage extends BasePage {
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toCollection(HashSet::new));
+    }
+
+    public FreestyleProjectConfigPage selectSourceCodeManagementNone(){
+        radioNoneButton.click();
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage inputBranchSpecifier(String specifier){
+        scrollToElement_PlaceInCenter(getDriver(), fieldBranchSpecifier);
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(fieldBranchSpecifier)).clear();
+        fieldBranchSpecifier.sendKeys("*/" + specifier);
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage clickButtonAddBuildSteps(){
+        scrollToElement_PlaceInCenter(getDriver(), buttonAddBuildStep);
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(buttonAddBuildStep)).click();
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage selectExecuteWindowsBatchCommand(){
+        getWait(5).until(ExpectedConditions.elementToBeClickable(windowsBatchCommand)).click();
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage inputExecuteWindowsBatchCommand(String command){
+        getWait(5).until(ExpectedConditions.elementToBeClickable(fieldInputExecuteWindowsBatchCommand)).sendKeys(command);
+
+        return this;
     }
 }
