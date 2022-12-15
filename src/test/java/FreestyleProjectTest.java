@@ -99,23 +99,22 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithIncorrectCharacters")
     public void testDisableProject() {
+        FreestyleProjectStatusPage freestyleProjectStatusPage = new HomePage(getDriver())
+                .clickFreestyleProjectName(FREESTYLE_NAME)
+                .clickDisableProjectBtn();
 
-        getDriver().findElement(By.xpath("//a[@href='job/" + FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(BY_BUTTON_ENABLE_DISABLE_PROJECT).click();
+        Assert.assertEquals(freestyleProjectStatusPage.getHeadlineText(), String.format("Project %s", FREESTYLE_NAME));
+        Assert.assertEquals(freestyleProjectStatusPage.getWarningMsg(), "This project is currently disabled");
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + FREESTYLE_NAME);
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class = 'warning']")).getText().trim().substring(0, 34), "This project is currently disabled");
-
-        getDriver().findElement(BY_GO_TO_DASHBOARD_LINK).click();
-
-        Assert.assertEquals(getBuildStatus(), "Disabled");
+        HomePage homePage = freestyleProjectStatusPage.clickDashboard();
+        Assert.assertEquals(homePage.getJobBuildStatus(FREESTYLE_NAME), "Disabled");
     }
 
     @Test(dependsOnMethods = "testDisableProject")
     public void testEnableProject() {
         final String jobStatusIconTooltip = new HomePage(getDriver())
                 .clickFreestyleProjectName(FREESTYLE_NAME)
-                .clickDisableOrEnableSwitchBtn()
+                .clickDisableProjectBtn()
                 .clickDashboard()
                 .getJobBuildStatus(FREESTYLE_NAME);
 
