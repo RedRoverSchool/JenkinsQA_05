@@ -40,7 +40,7 @@ public class NewFreeStyleProjectTest extends BaseTest {
 
         new HomePage(getDriver())
                 .clickJobExists(projectName)
-                .clickConfirmRename(projectName)
+                .clickDropdownRenameButton()
                 .clearRenameField()
                 .sendTextToRenameField(renameNewName)
                 .clickConfirmButton()
@@ -56,7 +56,7 @@ public class NewFreeStyleProjectTest extends BaseTest {
 
         new HomePage(getDriver())
                 .clickJobExists(renameNewName)
-                .clickConfirmRename(renameNewName)
+                .clickDropdownRenameButton()
                 .clickConfirmButton();
 
         String actualPhrase = new FreeStyleProjectMenuPage(getDriver()).getErrorText();

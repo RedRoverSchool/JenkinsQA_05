@@ -5,16 +5,19 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HomePage extends BasePage {
+public class HomePage extends Header {
 
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
     @FindBy(xpath = "//a[@href='/view/all/newJob']")
     private WebElement newItem;
+    @FindBy(id = "yui-gen6")
+    private WebElement dropdownRenameButton;
     @FindBy(className = "icon-edit-delete")
     private WebElement deleteItem;
     @FindBy(xpath = "//tr/td[3]/a/span[1]")
@@ -57,8 +60,9 @@ public class HomePage extends BasePage {
         return this;
     }
 
-    public FreeStyleProjectMenuPage clickConfirmRename(String name) {
-        getDriver().findElement(By.xpath("//a[@href='/job/" + name + "/confirm-rename']")).click();
+    public FreeStyleProjectMenuPage clickDropdownRenameButton() {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(dropdownRenameButton));
+        dropdownRenameButton.click();
 
         return new FreeStyleProjectMenuPage(getDriver());
     }
