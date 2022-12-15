@@ -1,21 +1,19 @@
 package model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class NewItemPage extends BasePage {
 
-    @FindBy(id = "name")
+    @FindBy(className = "jenkins-input")
     private WebElement itemName;
-
     @FindBy(className = "com_cloudbees_hudson_plugins_folder_Folder")
     private WebElement folderType;
-
     @FindBy(className = "btn-decorator")
     private WebElement okButton;
-
+    @FindBy(className = "hudson_model_FreeStyleProject")
+    private WebElement freeStyleProjectType;
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -32,5 +30,12 @@ public class NewItemPage extends BasePage {
         okButton.click();
 
         return new FolderConfigPage(getDriver());
+    }
+
+    public FreeStyleProjectConfigPage selectFreeStyleProjectAndClickOk() {
+        freeStyleProjectType.click();
+        okButton.click();
+
+        return new FreeStyleProjectConfigPage(getDriver());
     }
 }
