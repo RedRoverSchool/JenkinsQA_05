@@ -65,9 +65,6 @@ public class HomePage extends Header {
     @FindBy(xpath = "//div[@class='tabBar']/div/a")
     private List<WebElement> viewList;
 
-    @FindBy(xpath = "//a[@href='api/']")
-    private WebElement restApiLink;
-
     @FindBy(xpath = "//div/a[@class='model-link']")
     private WebElement iconUserName;
 
@@ -283,12 +280,6 @@ public class HomePage extends Header {
         buildHistory.click();
 
         return new BuildHistoryPage(getDriver());
-    }
-
-    public FooterPage clickRestApiLink() {
-        restApiLink.click();
-
-        return new FooterPage(getDriver());
     }
 
     public StatusUserPage clickUserIcon() {
