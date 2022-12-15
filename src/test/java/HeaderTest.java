@@ -124,12 +124,11 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testUserDropdownMenuToOpenCredentialsUserPage() {
-        openUserDropdownMenu();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(
-                By.linkText("Credentials"))).click();
+        CredentialsPage credentialsPage = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .clickCredentialsItemInUserDropdownMenu();
 
-        Assert.assertEquals(
-                getDriver().findElement(By.tagName("h1")).getText(),
+        Assert.assertEquals(credentialsPage.getHeaderH1Text(),
                 "Credentials");
     }
 
