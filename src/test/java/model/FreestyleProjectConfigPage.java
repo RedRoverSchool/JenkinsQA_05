@@ -68,7 +68,6 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
     @FindBy(xpath = "//div[@class = 'jenkins-form-item hetero-list-container with-drag-drop  ']/div[3]//input[@name = 'parameter.name']")
     private WebElement fieldInputBooleanParameterName;
 
-
     @FindBy(xpath = "//label[text() = 'Set by Default']")
     private WebElement setByDefault;
 
@@ -89,6 +88,15 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
 
     @FindBy(linkText = "Build Now")
     private WebElement buildNowButton;
+
+    @FindBy(xpath = "//button[@data-section-id='build-triggers']")
+    private WebElement buildTriggersSideMenuOption;
+
+    @FindBy(xpath = "//label[text()='Build periodically']")
+    private WebElement buildPeriodicallyOption;
+
+    @FindBy(name = "hudson-triggers-TimerTrigger")
+    private WebElement buildPeriodicallyCheckbox;
 
     @FindBy(xpath = "//label[text() = 'None']")
     private WebElement radioNoneButton;
@@ -293,13 +301,41 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
                 .collect(Collectors.toCollection(HashSet::new));
     }
 
-    public FreestyleProjectConfigPage selectSourceCodeManagementNone(){
+    public FreestyleProjectConfigPage clickBuildTriggersSideMenuOption() {
+        buildTriggersSideMenuOption.click();
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage scrollAndClickBuildPeriodicallyCheckbox() {
+        scrollToElement_PlaceInCenter(getDriver(), buildPeriodicallyOption);
+        getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(buildPeriodicallyOption)).click();
+        getWait(10).until(ExpectedConditions
+                .elementSelectionStateToBe(By.name("hudson-triggers-TimerTrigger"), true));
+
+        return this;
+    }
+
+    public boolean verifyThatBuildPeriodicallyCheckboxIsSelected() {
+
+        return buildPeriodicallyCheckbox.isSelected();
+    }
+
+    public FreestyleProjectConfigPage uncheckBuildPeriodicallyCheckbox() {
+        if (buildPeriodicallyCheckbox.isSelected()) {
+            getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(buildPeriodicallyOption)).click();
+        }
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage selectSourceCodeManagementNone() {
         radioNoneButton.click();
 
         return this;
     }
 
-    public FreestyleProjectConfigPage inputBranchSpecifier(String specifier){
+    public FreestyleProjectConfigPage inputBranchSpecifier(String specifier) {
         scrollToElement_PlaceInCenter(getDriver(), fieldBranchSpecifier);
         getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(fieldBranchSpecifier)).clear();
         fieldBranchSpecifier.sendKeys("*/" + specifier);
@@ -307,20 +343,20 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
         return this;
     }
 
-    public FreestyleProjectConfigPage clickButtonAddBuildSteps(){
+    public FreestyleProjectConfigPage clickButtonAddBuildSteps() {
         scrollToElement_PlaceInCenter(getDriver(), buttonAddBuildStep);
         getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(buttonAddBuildStep)).click();
 
         return this;
     }
 
-    public FreestyleProjectConfigPage selectExecuteWindowsBatchCommand(){
+    public FreestyleProjectConfigPage selectExecuteWindowsBatchCommand() {
         getWait(5).until(ExpectedConditions.elementToBeClickable(windowsBatchCommand)).click();
 
         return this;
     }
 
-    public FreestyleProjectConfigPage inputExecuteWindowsBatchCommand(String command){
+    public FreestyleProjectConfigPage inputExecuteWindowsBatchCommand(String command) {
         getWait(5).until(ExpectedConditions.elementToBeClickable(fieldInputExecuteWindowsBatchCommand)).sendKeys(command);
 
         return this;

@@ -7,6 +7,7 @@ import io.cucumber.java.en.When;
 import model.FolderConfigPage;
 import model.HomePage;
 import model.NewItemPage;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import runner.CucumberDriver;
 import runner.TestUtils;
@@ -51,5 +52,45 @@ public class FolderPage {
                 .getJobList();
 
         Assert.assertTrue(allJobsAfterCreate.contains(folderName));
+    }
+
+    @When("Folder was created")
+    public void folderWasCreated() {
+        HomePage homePage = new HomePage(CucumberDriver.getDriver());
+        homePage.clickNewItem()
+                .setProjectName(folderName)
+                .selectFolderAndClickOk()
+                .clickSaveButton();
+    }
+    @And("Return to home page")
+    public void returnToHomePage() {
+        CucumberDriver.getDriver().findElement(By.linkText("Dashboard")).click();
+    }
+
+    @And("Click on the existing folder")
+    public void clickOnTheExistingFolder() {
+        homePage.clickFolder(folderName);
+    }
+
+    @And("Click on menu Delete Folder")
+    public void clickOnMenuDeleteFolder() {
+        CucumberDriver.getDriver()
+                .findElement(By.xpath("//a[@href='/job/" + folderName +"/delete']")).click();
+    }
+
+    @And("Click on button Yes")
+    public void clickOnButtonYes() {
+        CucumberDriver.getDriver()
+                .findElement(By.cssSelector("#yui-gen1-button")).click();
+    }
+
+    @Then("Result: Deleted Folder in not exist")
+    public void resultDeletedFolderInNotExist() {
+        Assert.assertFalse(homePage.getJobList().contains(folderName));
+    }
+
+    @Then("Result: All folder should be deleted")
+    public void resultAllFolderShouldBeDeleted() {
+        Assert.assertTrue(homePage.getJobList().isEmpty());
     }
 }

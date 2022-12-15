@@ -70,7 +70,7 @@ public class ConfigureFreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testConfigureSourceCodeByGIT")
-    public void testConfigureJobByExecuteWindowsBatchCommand(){
+    public void testConfigureJobByExecuteWindowsBatchCommand() {
         final String outputComment = "This is an example of a Windows batch script";
         final String executeCommand = "@echo off\necho " + outputComment;
 
