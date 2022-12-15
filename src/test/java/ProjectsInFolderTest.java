@@ -4,6 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
+
 import static runner.TestUtils.getRandomStr;
 
 public class ProjectsInFolderTest extends BaseTest {
@@ -24,7 +25,7 @@ public class ProjectsInFolderTest extends BaseTest {
         Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME));
     }
 
-    @Test (dependsOnMethods = "testCreateFolder")
+    @Test(dependsOnMethods = "testCreateFolder")
     public void createOrganizationFolderInFolderTest() {
         getDriver().findElement(By.xpath("//a[@href='job/" + RANDOM_NAME + "/']")).click();
         getDriver().findElement(NEW_ITEM_IN_FOLDER).click();

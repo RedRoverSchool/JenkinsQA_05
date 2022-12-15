@@ -56,19 +56,19 @@ public class NewItemTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/' and  @class= 'model-link']")).click();
 
         Assert.assertEquals(getDriver().findElement
-                (By.xpath("//table[@id='projectstatus']//a[@href='job/"+ PROJECT_NAME + "/']")).getText(), PROJECT_NAME);
+                (By.xpath("//table[@id='projectstatus']//a[@href='job/" + PROJECT_NAME + "/']")).getText(), PROJECT_NAME);
     }
 
     @Test
     public void testCreateAnyItemWithSpacesOnlyNameError() {
 
-        int itemsListSize =  new HomePage(getDriver())
+        int itemsListSize = new HomePage(getDriver())
                 .clickNewItem()
                 .getItemsListSize();
 
         for (int i = 0; i < itemsListSize; i++) {
 
-            String actualErrorMessage =  new NewItemPage(getDriver())
+            String actualErrorMessage = new NewItemPage(getDriver())
                     .rootMenuDashboardLinkClick()
                     .clickNewItem()
                     .setProjectName("      ")
@@ -93,23 +93,23 @@ public class NewItemTest extends BaseTest {
                     .setItem(i)
                     .getItemNameRequiredMsg();
 
-            Assert.assertEquals(actualErrorMessage,"» This field cannot be empty, please enter a valid name");
+            Assert.assertEquals(actualErrorMessage, "» This field cannot be empty, please enter a valid name");
         }
     }
 
     @Test
-    public void testCreateNewItemWithUnsafeCharacterName(){
+    public void testCreateNewItemWithUnsafeCharacterName() {
         final String nameNewItem = "5%^PiPl$^Ne)";
         String errorMessage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(nameNewItem)
                 .getItemNameInvalidMsg();
 
-        Assert.assertEquals(errorMessage,"» ‘%’ is an unsafe character");
+        Assert.assertEquals(errorMessage, "» ‘%’ is an unsafe character");
     }
 
     @Test
-    public void testCreateNewItemWithoutChooseAnyFolder(){
+    public void testCreateNewItemWithoutChooseAnyFolder() {
         setJobTypePipeline("");
 
         Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
@@ -121,7 +121,7 @@ public class NewItemTest extends BaseTest {
     public void testCreateNewItemFromOtherNonExistingName() {
         final String jobName = TestUtils.getRandomStr(7);
 
-         String errorMessage = new HomePage(getDriver())
+        String errorMessage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(jobName)
                 .selectPipeline()

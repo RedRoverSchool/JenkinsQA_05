@@ -54,6 +54,4 @@ public class CreateFolderThenCreatePipelineInItTest extends BaseTest {
                 {getUUID(), getUUID()}
         };
     }
-
-
 }

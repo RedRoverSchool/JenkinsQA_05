@@ -1,6 +1,7 @@
 import model.BuildsUserPage;
 import model.ConfigureUserPage;
 import model.HomePage;
+import model.ManageJenkinsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -24,7 +25,7 @@ public class HeaderTest extends BaseTest {
     }
 
     private void createOrganizationFolder() {
-        for(int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= 4; i++) {
             String organizationFolderName = "OrganizationFolder_" + (int) (Math.random() * 1000);
 
             getDriver().findElement(By.linkText("New Item")).click();
@@ -63,12 +64,12 @@ public class HeaderTest extends BaseTest {
                 .clickUserDropdownMenu()
                 .getItemsCountInUserDropdownMenu();
 
-        String itemsNames = new HomePage (getDriver())
+        String itemsNames = new HomePage(getDriver())
                 .clickUserDropdownMenu()
                 .getItemsNamesInUserDropdownMenu();
 
         Assert.assertEquals(itemsCount, 4);
-        Assert.assertEquals(itemsNames,"Builds Configure My Views Credentials");
+        Assert.assertEquals(itemsNames, "Builds Configure My Views Credentials");
     }
 
     @Test
@@ -82,28 +83,26 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void test_Logo_HeadIconIsSeen() {
+    public void testLogoHeadIconIsSeen() {
 
-        Assert.assertTrue(getDriver().findElement(
-                By.id("jenkins-head-icon")).isEnabled());
+        HomePage homePage = new HomePage(getDriver());
 
-        Assert.assertTrue(getDriver().findElement(
-                By.id("jenkins-head-icon")).isDisplayed());
+        Assert.assertTrue(homePage.getJenkinsHeadIcon().isDisplayed());
+
+        Assert.assertTrue(homePage.getJenkinsHeadIcon().isEnabled());
     }
 
     @Test
-    public void test_Manage_Jenkins_ClickNameIconToReturnToTheMainPage() {
-        getDriver().findElement(
-                        By.xpath("//div[@id='tasks']//a[@href='/manage']")).
-                click();
+    public void testManageJenkinsClickNameIconToReturnToTheMainPage() {
+        ManageJenkinsPage manageJenkinsPage = new HomePage(getDriver()).clickManageJenkins();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),
-                "http://localhost:8080/manage/");
+        Assert.assertEquals(manageJenkinsPage.getCurrentURL(), "http://localhost:8080/manage/");
+        Assert.assertEquals(manageJenkinsPage.getTextHeader1ManageJenkins(), "Manage Jenkins");
 
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
+        HomePage homePage = manageJenkinsPage.clickJenkinsNameIcon();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),
-                "http://localhost:8080/");
+        Assert.assertEquals(homePage.getCurrentURL(), "http://localhost:8080/");
+        Assert.assertEquals(homePage.getHeaderText(), "Welcome to Jenkins!");
     }
 
     @Test
@@ -159,7 +158,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testCheckTheAppropriateSearchResult(){
+    public void testCheckTheAppropriateSearchResult() {
         createOrganizationFolder();
 
         getDriver().findElement(By.id("search-box")).sendKeys("organiza");
@@ -173,19 +172,20 @@ public class HeaderTest extends BaseTest {
         }
     }
 
-    @Ignore
     @Test
-    public void test_Logo_HeadIcon_ReloadMainPage(){
-        getDriver().findElement(By.id("description-link")).click();
+    public void testLogoHeadIconReloadMainPage() {
 
-        Assert.assertTrue(getDriver().findElement(
-                        By.xpath("//div[@id='description']//textarea")).
-                isDisplayed());
+        HomePage homePage = new HomePage(getDriver());
 
-        getDriver().findElement(By.id("jenkins-head-icon")).click();
+        Assert.assertTrue(homePage.clickAddDescriptionButton().getDescriptionTextarea().isEnabled());
 
-        Assert.assertTrue(getDriver().findElement(
-                By.id("description-link")).isDisplayed());
+        Assert.assertFalse(homePage.isAddDescriptionButtonPresent());
+
+        Assert.assertFalse(homePage.clickJenkinsHeadIcon()
+                .waitForVisibilityOfAddDescriptionButton().isDescriptionTextareaPresent());
+
+        Assert.assertTrue(homePage.clickJenkinsHeadIcon()
+                .waitForVisibilityOfAddDescriptionButton().getAddDescriptionButton().isEnabled());
     }
 }
 

@@ -195,12 +195,11 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testViewChangesNoBuildsSignAppears")
     public void testFreestyleProjectConfigureByDropdown() {
-        getDriver().findElement(By.cssSelector("#job_" + NEW_FREESTYLE_NAME + " .jenkins-menu-dropdown-chevron")).click();
-        WebElement element = getWait(3).until(ExpectedConditions.presenceOfElementLocated(BY_BUTTON_DROPDOWN_CONFIGURE));
-        scrollToElement(getDriver(), element);
-        element.click();
+        FreestyleProjectConfigPage freestyleProjectConfigPage = new HomePage(getDriver())
+                .clickJobDropDownMenu(NEW_FREESTYLE_NAME)
+                .clickConfigDropDownMenuFreestyle();
 
-        Assert.assertEquals(getDriver().getTitle(), NEW_FREESTYLE_NAME + " Config [Jenkins]");
+        Assert.assertEquals(freestyleProjectConfigPage.getHeadlineText(), "Configuration");
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectConfigureByDropdown")
@@ -227,13 +226,14 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testFreestyleProjectConfigureMenu")
     public void testCreateNewFreestyleProjectWithDuplicateName() {
-        getDriver().findElement(BY_BUTTON_ADD_NEW_ITEM).click();
 
-        getDriver().findElement(BY_FIELD_ENTER_NAME).click();
-        getDriver().findElement(BY_FIELD_ENTER_NAME).sendKeys(NEW_FREESTYLE_NAME);
-        getDriver().findElement(BY_BUTTON_SELECT_FREESTYLE_PROJECT).click();
+        String actualResult = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(NEW_FREESTYLE_NAME)
+                .selectFreestyleProject()
+                .getItemNameInvalidMsg();
 
-        Assert.assertEquals(getDriver().findElement(BY_ITEM_NAME_INVALID_MESSAGE).getText(), String.format("» A job already exists with the name ‘%s’", NEW_FREESTYLE_NAME));
+        Assert.assertEquals(actualResult, String.format("» A job already exists with the name ‘%s’", NEW_FREESTYLE_NAME));
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectBuild")
@@ -436,7 +436,7 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateNewFreestyleProjectWithLongNameFrom256Characters() {
-        final String expectedURL = getDriver().getCurrentUrl()+"view/all/createItem";
+        final String expectedURL = getDriver().getCurrentUrl() + "view/all/createItem";
         final String errorPictureName = "rage.svg";
         final String expectedTextOfError = "A problem occurred while processing the request.";
         final String longNameWith256Characters = getRandomStr(256);
@@ -452,14 +452,14 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().getCurrentUrl(), expectedURL);
         Assert.assertTrue(getDriver().findElement(
-                By.xpath("//img[contains(@src,'"+errorPictureName+"')]")).isDisplayed());
+                By.xpath("//img[contains(@src,'" + errorPictureName + "')]")).isDisplayed());
         Assert.assertEquals(
                 getDriver().findElement(By.xpath("//div[@id='error-description']//h2")).getText(),
                 expectedTextOfError);
     }
 
     @Test
-    public void testRenamingFreestyleProject(){
+    public void testRenamingFreestyleProject() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(FREESTYLE_NAME)
