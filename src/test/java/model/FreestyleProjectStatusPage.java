@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class FreestyleProjectStatusPage extends BasePage {
+public class FreestyleProjectStatusPage extends BaseStatusPage {
 
     @FindBy(tagName = "h1")
     private WebElement headline;
@@ -69,6 +69,21 @@ public class FreestyleProjectStatusPage extends BasePage {
     @FindBy(css = "tr:nth-child(2)  a.display-name")
     private WebElement buildName;
 
+    @FindBy(id = "enable-project")
+    private WebElement warningForm;
+
+    @FindBy(name = "Submit")
+    private WebElement disableProjectBtn;
+
+    @FindBy(linkText = "Changes")
+    private WebElement linkChanges;
+
+    @FindBy(linkText = "Edit description")
+    private WebElement buttonEditDescription;
+
+    @FindBy(xpath = "//div[@class = 'warning']")
+    private WebElement warningMessage;
+
     public FreestyleProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -95,8 +110,8 @@ public class FreestyleProjectStatusPage extends BasePage {
         return new FolderStatusPage(getDriver());
     }
 
-    public FreestyleProjectStatusPage clickDisableOrEnableSwitchBtn() {
-        disableOrEnableBtn.click();
+    public FreestyleProjectStatusPage clickDisableProjectBtn() {
+        disableProjectBtn.click();
 
         return this;
     }
@@ -114,7 +129,8 @@ public class FreestyleProjectStatusPage extends BasePage {
     }
 
     public FreestyleProjectStatusPage inputAndSaveDescriptionText(String description) {
-        getWait(10).until(ExpectedConditions.elementToBeClickable(fieldDescriptionText)).sendKeys(description);
+        getWait(10).until(ExpectedConditions.elementToBeClickable(fieldDescriptionText)).clear();
+        fieldDescriptionText.sendKeys(description);
         getWait(10).until(ExpectedConditions.elementToBeClickable(buttonSave)).click();
 
         return this;
@@ -182,6 +198,22 @@ public class FreestyleProjectStatusPage extends BasePage {
         buttonBuildNow.click();
         getWait(60).until(ExpectedConditions.not(ExpectedConditions
                 .attributeContains(buildStatusIcon, "tooltip", "In progress &gt; Console Output")));
+
+        return this;
+    }
+
+    public String getWarningMsg() {
+        return warningForm.getText().substring(0, warningForm.getText().indexOf("\n"));
+    }
+
+    public ChangesBuildsPage clickLinkChanges() {
+        linkChanges.click();
+
+        return new ChangesBuildsPage(getDriver());
+    }
+
+    public FreestyleProjectStatusPage clickButtonEditDescription() {
+        buttonEditDescription.click();
 
         return this;
     }

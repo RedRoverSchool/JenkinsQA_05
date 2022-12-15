@@ -241,6 +241,11 @@ public class HomePage extends Header {
         return new MyViewsPage(getDriver());
     }
 
+    public String getJobBuildStatus(String name) {
+        return getDriver().findElement(By.id(String.format("job_%s", name)))
+                .findElement(By.xpath(".//*[name()='svg']")).getAttribute("tooltip");
+    }
+
     public MyViewsPage clickMyViewsTopMenuLink() {
         myViewsTopMenuLink.click();
 
@@ -280,6 +285,7 @@ public class HomePage extends Header {
     public String getJobBuildStatus(String name) {
         return getDriver().findElement(By.id(String.format("job_%s", name)))
                 .findElement(By.xpath(".//*[name()='svg']")).getAttribute("tooltip");
+
     }
 
     public StatusUserPage clickUserIcon() {
