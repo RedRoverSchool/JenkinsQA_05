@@ -20,7 +20,7 @@ public class FolderWithoutConfigTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateFolderWithoutConfig")
-    public void testCreateFreestyleProjectInFolderByCreateJob(){
+    public void testCreateFreestyleProjectInFolderByCreateJob() {
         getDriver().findElement(By.linkText(NAME_FOLDER)).click();
         getDriver().findElement(By.linkText("Create a job")).click();
         getDriver().findElement(By.id("name")).sendKeys(VALID_NAME);
@@ -33,7 +33,7 @@ public class FolderWithoutConfigTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateFreestyleProjectInFolderByCreateJob")
-    public void testDeleteFreestyleProjectInFolder(){
+    public void testDeleteFreestyleProjectInFolder() {
         getDriver().findElement(By.linkText(NAME_FOLDER)).click();
         getDriver().findElement(By.linkText(VALID_NAME)).click();
         getDriver().findElement(By.xpath("//*[@id='tasks']/div[7]/span/a/span[1]")).click();

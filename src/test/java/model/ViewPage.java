@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,15 @@ public class ViewPage extends BasePage {
             @FindBy(css = ".task")
     })
     private List<WebElement> sideMenuList;
+
+    @FindBy(css = "#description-link")
+    private WebElement editDescriptionButton;
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement description;
+
+    @FindBy(css = "#yui-gen1-button")
+    private WebElement saveButton;
 
     public ViewPage(WebDriver driver) {
         super(driver);
@@ -79,6 +90,12 @@ public class ViewPage extends BasePage {
         return new MyViewsPage(getDriver());
     }
 
+    public HomePage clickYesButtonDeleteListView() {
+        yesButtonDeleteView.click();
+
+        return new HomePage(getDriver());
+    }
+
     public String getTextDescription() {
 
         return descriptionText.getText();
@@ -108,5 +125,25 @@ public class ViewPage extends BasePage {
         actualSideMenu.add("Delete View");
 
         return actualSideMenu;
+    }
+
+    public ViewPage clickEditDescription() {
+        editDescriptionButton.click();
+
+        return this;
+    }
+
+    public ViewPage clearDescription() {
+        getWait(5)
+                .until(TestUtils.ExpectedConditions.elementIsNotMoving(description)).clear();
+
+        return this;
+    }
+
+    public ViewPage clickSaveButton() {
+        getWait(5)
+                .until(ExpectedConditions.elementToBeClickable(saveButton)).click();
+
+        return this;
     }
 }

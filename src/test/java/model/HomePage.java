@@ -89,7 +89,7 @@ public class HomePage extends Header {
     @FindBy(xpath = "//*[@id='job_Pipeline1']/td[4]")
     private WebElement lastSuccessStatus;
 
-    @FindBy(xpath ="(//*[local-name()='svg' and @tooltip='Disabled'])[2]")
+    @FindBy(xpath = "(//*[local-name()='svg' and @tooltip='Disabled'])[2]")
     private WebElement projectDisabledIcon;
 
     @FindBy(xpath = "//span[text()=\"Pipeline1\"]")
@@ -386,7 +386,7 @@ public class HomePage extends Header {
         return buildStatusIcon.getAttribute("tooltip");
     }
 
-    public HomePage movePointToCheckBox(){
+    public HomePage movePointToCheckBox() {
         getAction().moveToElement(buildStatusIcon).perform();
 
         return this;

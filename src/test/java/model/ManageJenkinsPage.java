@@ -38,4 +38,3 @@ public class ManageJenkinsPage extends Header {
         return header1.getText();
     }
 }
-
