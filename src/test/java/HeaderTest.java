@@ -86,25 +86,22 @@ public class HeaderTest extends BaseTest {
 
         HomePage homePage = new HomePage(getDriver());
 
-        Assert.assertTrue(homePage
-                .getJenkinsHeadIcon()
-                .isDisplayed());
+        Assert.assertTrue(homePage.getJenkinsHeadIcon().isDisplayed());
 
-        Assert.assertTrue(homePage
-                .getJenkinsHeadIcon()
-                .isEnabled());
+        Assert.assertTrue(homePage.getJenkinsHeadIcon().isEnabled());
     }
 
     @Test
     public void testManageJenkinsClickNameIconToReturnToTheMainPage() {
-        ManageJenkinsPage manageJenkinsPage = new HomePage(getDriver())
-                .clickManageJenkins();
+        ManageJenkinsPage manageJenkinsPage = new HomePage(getDriver()).clickManageJenkins();
 
-        Assert.assertEquals(manageJenkinsPage.getCurrentURL(),
-                "http://localhost:8080/manage/");
+        Assert.assertEquals(manageJenkinsPage.getCurrentURL(), "http://localhost:8080/manage/");
+        Assert.assertEquals(manageJenkinsPage.getTextHeader1ManageJenkins(), "Manage Jenkins");
 
-        Assert.assertEquals(manageJenkinsPage.clickJenkinsNameIcon().getCurrentURL(),
-                "http://localhost:8080/");
+        HomePage homePage = manageJenkinsPage.clickJenkinsNameIcon();
+
+        Assert.assertEquals(homePage.getCurrentURL(), "http://localhost:8080/");
+        Assert.assertEquals(homePage.getHeaderText(), "Welcome to Jenkins!");
     }
 
     @Test
@@ -180,24 +177,15 @@ public class HeaderTest extends BaseTest {
 
         HomePage homePage = new HomePage(getDriver());
 
-        Assert.assertTrue(homePage
-                .clickAddDescriptionButton()
-                .getDescriptionTextarea()
-                .isEnabled());
+        Assert.assertTrue(homePage.clickAddDescriptionButton().getDescriptionTextarea().isEnabled());
 
-        Assert.assertFalse(homePage
-                .isAddDescriptionButtonPresent());
+        Assert.assertFalse(homePage.isAddDescriptionButtonPresent());
 
-        Assert.assertFalse(homePage
-                .clickJenkinsHeadIcon()
-                .waitForVisibilityOfAddDescriptionButton()
-                .isDescriptionTextareaPresent());
+        Assert.assertFalse(homePage.clickJenkinsHeadIcon()
+                .waitForVisibilityOfAddDescriptionButton().isDescriptionTextareaPresent());
 
-        Assert.assertTrue(homePage
-                .clickJenkinsHeadIcon()
-                .waitForVisibilityOfAddDescriptionButton()
-                .getAddDescriptionButton()
-                .isEnabled());
+        Assert.assertTrue(homePage.clickJenkinsHeadIcon()
+                .waitForVisibilityOfAddDescriptionButton().getAddDescriptionButton().isEnabled());
     }
 }
 

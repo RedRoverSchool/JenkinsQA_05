@@ -13,6 +13,9 @@ public class ManageJenkinsPage extends Header {
     @FindBy(xpath = "//a[@href='securityRealm/']")
     private WebElement manageUsers;
 
+    @FindBy(xpath = "//div//h1")
+    private WebElement header1;
+
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
     }
@@ -27,6 +30,12 @@ public class ManageJenkinsPage extends Header {
         getWait(5).until(ExpectedConditions.elementToBeClickable(manageUsers)).click();
 
         return new ManageUsersPage(getDriver());
+    }
+
+    public String getTextHeader1ManageJenkins(){
+        getWait(10).until(ExpectedConditions.visibilityOf(header1));
+
+        return header1.getText();
     }
 }
 
