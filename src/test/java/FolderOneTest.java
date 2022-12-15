@@ -264,4 +264,16 @@ public class FolderOneTest extends BaseTest {
                 .clickFolder(RANDOM_NAME_2);
         Assert.assertTrue(folderStatusPage.getJobList().contains(RANDOM_NAME_1));
     }
+
+    @Test(dependsOnMethods = "testCreateMultibranchPipelineInFolder")
+    public void testDeleteMultibranchPipelineFromFolder() {
+        FolderStatusPage folderStatusPage = new HomePage(getDriver())
+                .clickFolder(RANDOM_NAME_1)
+                .clickMultibranchPipeline(RANDOM_MULTIBRANCH_PIPELINE_NAME)
+                .clickDeleteMultibranchPipeline()
+                .clickSubmitButton();
+
+        Assert.assertEquals(folderStatusPage.getHeaderFolderText(), RANDOM_NAME_1);
+        Assert.assertNotNull(folderStatusPage.getEmptyStateBlock());
+    }
 }

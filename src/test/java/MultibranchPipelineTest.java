@@ -76,10 +76,6 @@ public class MultibranchPipelineTest extends BaseTest {
         buttonClickXpath(MULTIBRANCH_PIPELINE_XPATH);
     }
 
-    private void submitButtonClick() {
-        getDriver().findElement(SUBMIT_BUTTON).click();
-    }
-
     private void createMultibranchPipeline() {
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(NAME).sendKeys(RANDOM_MULTIBRANCHPIPELINE_NAME);
@@ -224,28 +220,5 @@ public class MultibranchPipelineTest extends BaseTest {
         redirectToDashboardPage();
 
         Assert.assertEquals(getDriver().findElement(MULTIBRANCH_PIPELINE_NAME).getText(), Renamed);
-    }
-
-    @Test
-    public void testDeleteMultibranchPipelineFromFolder() {
-        final String randomFolderName = TestUtils.getRandomStr(6);
-        final String randomMultibranchPipelineName = TestUtils.getRandomStr(6);
-
-        FolderStatusPage folderStatusPage = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(randomFolderName)
-                .selectFolderAndClickOk()
-                .clickSaveButton()
-                .clickCreateJob()
-                .setProjectName(randomMultibranchPipelineName)
-                .selectMultibranchPipelineAndClickOk()
-                .clickSaveButton()
-                .clickDashboard()
-                .clickFolder(randomFolderName)
-                .clickMultibranchPipeline(randomMultibranchPipelineName)
-                .clickDeleteMultibranchPipeline()
-                .clickSubmitButton();
-
-        Assert.assertNotNull(folderStatusPage.getEmptyStateBlock());
     }
 }
