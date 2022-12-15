@@ -28,8 +28,8 @@ public class CreateItemErrorPage extends BasePage {
         return errorDescription.getText();
     }
 
-    public WebElement getErrorPicture(){
-        return errorPicture;
+    public Boolean isErrorPictureDisplayed(){
+        return errorPicture.isDisplayed();
     }
 
     public String getPageUrl(){

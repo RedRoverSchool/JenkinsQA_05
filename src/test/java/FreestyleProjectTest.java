@@ -284,15 +284,14 @@ public class FreestyleProjectTest extends BaseTest {
     public void testCreateNewFreestyleProjectWithLongNameFrom256Characters() {
         final String expectedURL = "view/all/createItem";
         final String expectedTextOfError = "A problem occurred while processing the request.";
-        final String longNameWith256Characters = getRandomStr(256);
 
         CreateItemErrorPage errorPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(longNameWith256Characters)
+                .setProjectName(getRandomStr(256))
                 .selectFreestyleProjectAndClickOkWithError();
 
         Assert.assertTrue(errorPage.getPageUrl().endsWith(expectedURL));
-        Assert.assertTrue(errorPage.getErrorPicture().isDisplayed());
+        Assert.assertTrue(errorPage.isErrorPictureDisplayed());
         Assert.assertEquals(errorPage.getErrorDescription(), expectedTextOfError);
     }
 }
