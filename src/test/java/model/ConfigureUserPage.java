@@ -12,6 +12,9 @@ public class ConfigureUserPage extends BasePage {
     @FindBy(css = "button[type='submit']")
     private WebElement saveButton;
 
+    @FindBy(id = "yui-gen2-button")
+    private WebElement buttonAddNewToken;
+
     public ConfigureUserPage(WebDriver driver) {
         super(driver);
     }
@@ -32,5 +35,10 @@ public class ConfigureUserPage extends BasePage {
         saveButton.click();
 
         return new StatusUserPage(getDriver());
+    }
+
+    public String getAddNewTokenButtonName() {
+
+        return buttonAddNewToken.getText();
     }
 }

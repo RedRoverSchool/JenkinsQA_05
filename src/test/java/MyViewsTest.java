@@ -26,7 +26,7 @@ public class MyViewsTest extends BaseTest {
     public void testAddDescription() {
 
         String actualResult = new HomePage(getDriver())
-                .clickMyViews()
+                .clickMyViewsSideMenuLink()
                 .clickAddDescription()
                 .clearDescriptionField()
                 .sendKeysInDescriptionField("Description")

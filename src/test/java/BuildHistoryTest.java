@@ -1,3 +1,4 @@
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 
@@ -33,20 +34,20 @@ public class BuildHistoryTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
     }
 
+    @Ignore
     @Test
     public void testVerifyDefaultIconSize() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(TestUtils.getRandomStr(8));
-        getDriver().findElement(By.cssSelector(".hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-        getDriver().findElement(By.xpath("//body[1]/div[3]/div[1]/div[1]/div[5]/span[1]")).click();
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
-        getDriver().findElement(By.linkText("Build History")).click();
+        final String size = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickDashboard()
+                .clickBuildHistory()
+                .getSizeText();
 
         int width = getDriver().findElement(By.xpath("//a[@class='jenkins-table__button']//*[name()='svg']")).getSize().getWidth();
         int height = getDriver().findElement(By.xpath("//a[@class='jenkins-table__button']//*[name()='svg']")).getSize().getHeight();
-        String size = getDriver().findElement(By.className("jenkins-icon-size__items-item")).getText();
 
         switch (size) {
             case "S\nmall":
@@ -79,17 +80,9 @@ public class BuildHistoryTest extends BaseTest {
     }
 
     @Test
-    public void testValidityCreateBuildOnPage() {
-        createProject("empty");
-        getDriver().findElement(By.linkText("Build Now")).click();
-        getDriver().findElement(By.xpath("//div[@class='jenkins-pane__header--build-history']/a")).click();
-
-        Assert.assertTrue(getDriver().findElement(By.id("map")).isDisplayed());
-    }
-
-    @Test
     public void testIfSMLIconsExist() {
-        getDriver().findElement(BUILD_HISTORY).click();
+        HomePage homePage = new HomePage(getDriver())
+                .clickBuildHistory();
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='/iconSize?16x16']")).isDisplayed());
         Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li/following-sibling::li[2]")).isDisplayed());
@@ -98,7 +91,8 @@ public class BuildHistoryTest extends BaseTest {
 
     @Test
     public void testRssItemsExist() {
-        getDriver().findElement(BUILD_HISTORY).click();
+        HomePage homePage = new HomePage(getDriver())
+                .clickBuildHistory();
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//a/span[contains(text(), 'Atom feed for all')]")).isDisplayed());
         Assert.assertTrue(getDriver().findElement(By.xpath("//a/span[contains(text(), 'Atom feed for failures')]")).isDisplayed());
@@ -107,14 +101,16 @@ public class BuildHistoryTest extends BaseTest {
 
     @Test
     public void testIfTheIconLegendExist() {
-        getDriver().findElement(BUILD_HISTORY).click();
+        HomePage homePage = new HomePage(getDriver())
+                .clickBuildHistory();
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='/legend']")).isDisplayed());
     }
 
     @Test
     public void testNumberOfColumns_ProjectStatusTable() {
-        getDriver().findElement(BUILD_HISTORY).click();
+        HomePage homePage = new HomePage(getDriver())
+                .clickBuildHistory();
 
         Assert.assertEquals(getDriver().findElements(By.xpath("//table[@id='projectStatus']/thead/tr/th")).size(), 5);
     }

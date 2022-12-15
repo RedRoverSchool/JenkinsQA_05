@@ -51,6 +51,27 @@ public class NewViewPage extends MyViewsPage {
         return this;
     }
 
+    public EditViewPage setGlobalViewTypeAndCLickCreate() {
+        globalViewType.click();
+        createButton.submit();
+
+        return new EditViewPage(getDriver());
+    }
+
+    public EditListViewPage setListViewTypeAndClickCreate() {
+        listViewType.click();
+        createButton.submit();
+
+        return new EditListViewPage(getDriver());
+    }
+
+    public EditViewPage setMyViewTypeAndCLickCreate() {
+        myViewType.click();
+        createButton.submit();
+
+        return new EditViewPage(getDriver());
+    }
+
     public EditViewPage clickCreateButton() {
         createButton.click();
 

@@ -8,7 +8,7 @@ import runner.TestUtils;
 
 import java.util.List;
 
-public class NewItemPage extends BasePage {
+public class NewItemPage extends HomePage {
 
     @FindBy(className = "item")
     private WebElement rootMenuDashboardLink;
@@ -77,29 +77,29 @@ public class NewItemPage extends BasePage {
 
     public FreestyleProjectConfigPage selectFreestyleProjectAndClickOk() {
         selectFreestyleProject();
-        okButton.click();
+        okButton.submit();
 
         return new FreestyleProjectConfigPage(getDriver());
     }
 
     public FolderConfigPage selectFolderAndClickOk() {
         folderType.click();
-        okButton.click();
+        okButton.submit();
 
         return new FolderConfigPage(getDriver());
     }
 
     public OrgFolderConfigPage selectOrgFolderAndClickOk() {
-        TestUtils.scrollToElement(getDriver(), orgFolder);
+//        TestUtils.scrollToElement(getDriver(), orgFolder);
         orgFolder.click();
-        okButton.click();
+        okButton.submit();
 
         return new OrgFolderConfigPage(getDriver());
     }
 
     public MulticonfigurationProjectConfigPage selectMultiConfigurationProjectAndClickOk() {
         multiConfigurationProject.click();
-        okButton.click();
+        okButton.submit();
 
         return new MulticonfigurationProjectConfigPage(getDriver());
     }
@@ -140,7 +140,7 @@ public class NewItemPage extends BasePage {
 
     public MultibranchPipelineConfigPage selectMultibranchPipelineAndClickOk() {
         multibranchPipeline.click();
-        okButton.click();
+        okButton.submit();
 
         return new MultibranchPipelineConfigPage(getDriver());
     }
@@ -159,7 +159,7 @@ public class NewItemPage extends BasePage {
 
     public PipelineConfigPage selectPipelineAndClickOk() {
         pipeline.click();
-        okButton.click();
+        okButton.submit();
 
         return new PipelineConfigPage(getDriver());
     }

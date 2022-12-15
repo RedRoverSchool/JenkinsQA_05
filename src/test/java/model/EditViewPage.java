@@ -5,11 +5,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import runner.TestUtils;
 
-import java.util.List;
+import javax.swing.text.View;
 
-public class EditViewPage extends HomePage {
+public class EditViewPage extends ViewPage {
 
     @FindBy(css = "input[name=filterQueue]")
     private WebElement filterBuildQueueOptionCheckBox;
@@ -35,15 +34,6 @@ public class EditViewPage extends HomePage {
     @FindBy(xpath = "//textarea[@name='description']")
     private WebElement description;
 
-    @FindBy(css = ".repeated-chunk__header")
-    private List<WebElement> columns;
-
-    @FindBy(css = ".bottom-sticker-inner--stuck")
-    private WebElement bottomStickerDynamic;
-
-    @FindBy(css = "#yui-gen3-button")
-    private WebElement addColumnButton;
-
     @FindBy(css = "#notification-bar")
     private WebElement confirmAfterClickingApply;
 
@@ -54,7 +44,7 @@ public class EditViewPage extends HomePage {
         super(driver);
     }
 
-    public MyViewsPage clickOkButton() {
+    public MyViewsPage clickListOrMyViewOkButton() {
         okButton.click();
 
         return new MyViewsPage(getDriver());
@@ -67,17 +57,10 @@ public class EditViewPage extends HomePage {
         return this;
     }
 
-    public ViewPage clickOk() {
+    public ViewPage clickGlobalViewOkButton() {
         okButton.click();
 
         return new ViewPage(getDriver());
-    }
-
-    public EditViewPage addJobToView(String name) {
-        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(
-                By.xpath(String.format("//label[@title='%s']", name)))).click();
-
-        return this;
     }
 
     public String getUniqueTextOnGlobalViewEditPage() {
@@ -116,19 +99,6 @@ public class EditViewPage extends HomePage {
     public boolean isFilterBuildExecutorsOptionCheckBoxSelected() {
 
         return filterBuildExecutorsOptionCheckBox.isSelected();
-    }
-
-    public int getCountColumns() {
-        return columns.size();
-    }
-
-    public EditViewPage addColumn(String type) {
-        TestUtils.scrollToEnd(getDriver());
-        getWait(10).until(ExpectedConditions.invisibilityOf(bottomStickerDynamic));
-        addColumnButton.click();
-        getDriver().findElement(By.linkText(type)).click();
-
-        return this;
     }
 
     public EditViewPage clickApplyButton() {

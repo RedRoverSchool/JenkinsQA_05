@@ -1,6 +1,4 @@
-import model.BuildsUserPage;
-import model.HomePage;
-import model.ManageJenkinsPage;
+import model.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -17,11 +15,6 @@ import java.util.List;
 public class HeaderTest extends BaseTest {
 
     private static final By USER_ACCOUNT_LINK = By.xpath("//a[@class='model-link']//span");
-
-    private void openUserDropdownMenu() {
-        getDriver().findElement(
-                By.cssSelector("#page-header .jenkins-menu-dropdown-chevron")).click();
-    }
 
     private void createOrganizationFolder() {
         for (int i = 1; i <= 4; i++) {
@@ -72,7 +65,7 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageUserBuilds() {
+    public void testUserDropdownMenuToOpenBuildsUserPage() {
         BuildsUserPage buildsUserPage = new HomePage(getDriver())
                 .clickUserDropdownMenu()
                 .clickBuildsItemInUserDropdownMenu();
@@ -105,35 +98,32 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageUserConfigure() {
-        openUserDropdownMenu();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(
-                By.linkText("Configure"))).click();
+    public void testUserDropdownMenuToOpenConfigureUserPage() {
+        ConfigureUserPage configureUserPage = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .clickConfigureItemInUserDropdownMenu();
 
-        Assert.assertEquals(getDriver().findElement(
-                        By.cssSelector("#yui-gen2-button")).getText(),
+        Assert.assertEquals(configureUserPage.getAddNewTokenButtonName(),
                 "Add new Token");
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageUserMyViews() {
-        openUserDropdownMenu();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(
-                By.linkText("My Views"))).click();
+    public void testUserDropdownMenuToOpenMyViewsUserPage() {
+        MyViewsPage myViewsPage = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .clickMyViewItemInUserDropdownMenu();
 
-        Assert.assertEquals(getDriver().findElement(
-                        By.xpath("//ul[@id='breadcrumbs']/li[5]")).getText(),
+        Assert.assertEquals(myViewsPage.getMyViewItemNameOnTopBar(),
                 "My Views");
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageUserCredentials() {
-        openUserDropdownMenu();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(
-                By.linkText("Credentials"))).click();
+    public void testUserDropdownMenuToOpenCredentialsUserPage() {
+        CredentialsPage credentialsPage = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .clickCredentialsItemInUserDropdownMenu();
 
-        Assert.assertEquals(
-                getDriver().findElement(By.tagName("h1")).getText(),
+        Assert.assertEquals(credentialsPage.getHeaderH1Text(),
                 "Credentials");
     }
 

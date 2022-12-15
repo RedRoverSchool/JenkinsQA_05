@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ViewPage extends BasePage {
+public class ViewPage extends HomePage{
 
     @FindBy(css = "tr td a.model-link")
     private List<WebElement> jobList;
@@ -23,7 +23,7 @@ public class ViewPage extends BasePage {
     @FindBy(xpath = "//span[text()='Edit View']/..")
     private WebElement editView;
 
-    @FindBy(xpath = "//div[@class='tab']//a[@href='/user/admin/my-views/']")
+    @FindBy(css = ".tab a[href*='/my-views/']")
     private WebElement allButton;
 
     @FindBy(xpath = "//a[@href='delete']")
@@ -72,7 +72,7 @@ public class ViewPage extends BasePage {
         return new EditViewPage(getDriver());
     }
 
-    public MyViewsPage clickMyViews() {
+    public MyViewsPage clickMyViewsSideMenuLink() {
         allButton.click();
 
         return new MyViewsPage(getDriver());

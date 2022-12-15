@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MultibranchPipelineConfigPage extends BasePage {
+public class MultibranchPipelineConfigPage extends HomePage {
 
     @FindBy(id = "yui-gen6-button")
     private WebElement saveButton;

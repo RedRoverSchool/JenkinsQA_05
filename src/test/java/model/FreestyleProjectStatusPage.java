@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class FreestyleProjectStatusPage extends BasePage {
+public class FreestyleProjectStatusPage extends BaseStatusPage {
 
     @FindBy(tagName = "h1")
     private WebElement headline;
@@ -66,6 +66,15 @@ public class FreestyleProjectStatusPage extends BasePage {
     @FindBy(xpath = "//span[contains(@class, 'build-status-icon')]/span/child::*")
     private WebElement buildStatusIcon;
 
+    @FindBy(css = "tr:nth-child(2)  a.display-name")
+    private WebElement buildName;
+
+    @FindBy(id = "enable-project")
+    private WebElement warningForm;
+
+    @FindBy(name = "Submit")
+    private WebElement disableProjectBtn;
+
     public FreestyleProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -92,8 +101,8 @@ public class FreestyleProjectStatusPage extends BasePage {
         return new FolderStatusPage(getDriver());
     }
 
-    public FreestyleProjectStatusPage clickDisableOrEnableSwitchBtn() {
-        disableOrEnableBtn.click();
+    public FreestyleProjectStatusPage clickDisableProjectBtn() {
+        disableProjectBtn.click();
 
         return this;
     }
@@ -181,5 +190,9 @@ public class FreestyleProjectStatusPage extends BasePage {
                 .attributeContains(buildStatusIcon, "tooltip", "In progress &gt; Console Output")));
 
         return this;
+    }
+
+    public String getWarningMsg() {
+        return warningForm.getText().substring(0, warningForm.getText().indexOf("\n"));
     }
 }

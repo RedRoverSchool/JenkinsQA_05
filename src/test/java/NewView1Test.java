@@ -34,28 +34,28 @@ public class NewView1Test extends BaseTest {
                 .clickSave()
                 .goToDashboard()
 
-                .clickMyViews()
+                .clickMyViewsSideMenuLink()
                 .clickNewView()
                 .setViewName(GLOBAL_VIEW_NAME)
                 .setGlobalViewType()
                 .clickCreateButton()
                 .clickDashboard()
 
-                .clickMyViews()
+                .clickMyViewsSideMenuLink()
                 .clickNewView()
                 .setViewName(LIST_VIEW_NAME)
                 .setListViewType()
                 .clickCreateButton()
                 .clickDashboard()
 
-                .clickMyViews()
+                .clickMyViewsSideMenuLink()
                 .clickNewView()
                 .setViewName(MY_VIEW_NAME)
                 .setMyViewType()
                 .clickCreateButton()
                 .clickDashboard()
 
-                .clickMyViews();
+                .clickMyViewsSideMenuLink();
 
         Assert.assertTrue(myViewsPage.getListViewsNames().contains(GLOBAL_VIEW_NAME));
         Assert.assertTrue(myViewsPage.getListViewsNames().contains(LIST_VIEW_NAME));
@@ -67,8 +67,7 @@ public class NewView1Test extends BaseTest {
         MyViewsPage myViewsPage = new HomePage(getDriver())
                 .goToEditView(LIST_VIEW_NAME)
                 .renameView(LIST_VIEW_RENAME)
-                .clickOk()
-                .clickMyViews();
+                .clickListOrMyViewOkButton();
 
         Assert.assertTrue(myViewsPage.getListViewsNames().contains(LIST_VIEW_RENAME));
     }
@@ -94,7 +93,7 @@ public class NewView1Test extends BaseTest {
     @Test(dependsOnMethods = "testViewHasSelectedTypeListView")
     public void testViewHasSelectedTypeMyView() {
         ViewPage viewPage = new HomePage(getDriver())
-                .clickMyViews()
+                .clickMyViewsSideMenuLink()
                 .clickView(MY_VIEW_NAME);
 
         Assert.assertEquals(viewPage.getJobList(),
@@ -104,7 +103,7 @@ public class NewView1Test extends BaseTest {
     @Test(dependsOnMethods = "testViewHasSelectedTypeMyView")
     public void testViewSideMenu() {
         ViewPage viewPage = new HomePage(getDriver())
-                .clickMyViews()
+                .clickMyViewsSideMenuLink()
                 .clickView(LIST_VIEW_RENAME);
 
         Assert.assertTrue(viewPage.getBreadcrumbsItemName(LIST_VIEW_RENAME).contains(LIST_VIEW_RENAME));
@@ -115,7 +114,7 @@ public class NewView1Test extends BaseTest {
     @Test(dependsOnMethods = "testViewSideMenu")
     public void testDeleteView() {
         MyViewsPage myViewsPage = new HomePage(getDriver())
-                .clickMyViews()
+                .clickMyViewsSideMenuLink()
                 .clickView(LIST_VIEW_RENAME)
                 .clickDeleteViewItem()
                 .clickYesButtonDeleteView();
@@ -126,7 +125,7 @@ public class NewView1Test extends BaseTest {
     @Test(dependsOnMethods = "testDeleteView")
     public void testDeleteAllViews() {
         MyViewsPage myViewsPage = new HomePage(getDriver())
-                .clickMyViews()
+                .clickMyViewsSideMenuLink()
                 .deleteAllViews();
 
         Assert.assertEquals(myViewsPage.getListViewsNames(), "");

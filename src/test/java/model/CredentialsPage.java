@@ -4,12 +4,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class BuildsUserPage extends BasePage {
+public class CredentialsPage extends BasePage{
 
-    @FindBy(css = "div#main-panel > h1")
+    @FindBy(tagName = "h1")
     private WebElement headerH1;
 
-    public BuildsUserPage(WebDriver driver) {
+    public CredentialsPage(WebDriver driver) {
 
         super(driver);
     }

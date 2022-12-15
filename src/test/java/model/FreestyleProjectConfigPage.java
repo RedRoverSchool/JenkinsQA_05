@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 import static runner.TestUtils.scrollToElement_PlaceInCenter;
 
-public class FreestyleProjectConfigPage extends BasePage {
+public class FreestyleProjectConfigPage extends BaseConfigPage {
 
     @FindBy(tagName = "h1")
     private WebElement headline;
@@ -87,10 +87,14 @@ public class FreestyleProjectConfigPage extends BasePage {
     @FindBy(xpath = "//button[text()='Add build step']/../../..//a[@href='#']")
     private List<WebElement> listOfElementsInBuildStepsDropDown;
 
+    @FindBy(linkText = "Build Now")
+    private WebElement buildNowButton;
+
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
     }
 
+    @Override
     public FreestyleProjectStatusPage clickSaveBtn() {
         saveBtn.click();
 
@@ -231,6 +235,12 @@ public class FreestyleProjectConfigPage extends BasePage {
 
     public FreestyleConfigSideMenuPage switchOFFCheckBoxThisProjectIsParametrized() {
         checkBoxProjectIsParametrized.click();
+
+        return new FreestyleConfigSideMenuPage(getDriver());
+    }
+
+    public FreestyleConfigSideMenuPage clickBuildNowButton() {
+        buildNowButton.click();
 
         return new FreestyleConfigSideMenuPage(getDriver());
     }

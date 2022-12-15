@@ -112,52 +112,85 @@ public class EditViewTest extends BaseTest {
     }
 
     @Test
-    public void testGlobalViewAddFilterBuildQueue() {
-        boolean newPaneIsDisplayed = new HomePage(getDriver())
+    public void createOneItemFromListOfJobTypes() {
+        int actualNumberOfJobs = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(TestUtils.getRandomStr())
+                .selectPipelineAndClickOk()
+
+                .clickDashboard()
+                .clickNewItem()
+                .setProjectName(TestUtils.getRandomStr())
+                .selectPipelineAndClickOk()
+
+                .clickDashboard()
+                .clickNewItem()
+                .setProjectName(TestUtils.getRandomStr())
+                .selectMultiConfigurationProjectAndClickOk()
+
+                .clickDashboard()
                 .clickNewItem()
                 .setProjectName(TestUtils.getRandomStr())
                 .selectFolderAndClickOk()
+
                 .clickDashboard()
-                .clickMyViews()
+                .clickNewItem()
+                .setProjectName(TestUtils.getRandomStr())
+                .selectMultibranchPipelineAndClickOk()
+
+                .clickDashboard()
+                .clickNewItem()
+                .setProjectName(TestUtils.getRandomStr())
+                .selectOrgFolderAndClickOk()
+
+                .clickDashboard()
+                .getJobList()
+                .size();
+
+        Assert.assertEquals(actualNumberOfJobs, 6);
+    }
+
+    @Test(dependsOnMethods = "createOneItemFromListOfJobTypes")
+    public void testGlobalViewAddFilterBuildQueue() {
+        boolean newPaneIsDisplayed = new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
                 .clickAddViewLink()
                 .setViewName(TestUtils.getRandomStr())
                 .setGlobalViewType()
                 .clickCreateButton()
                 .selectFilterBuildQueueOptionCheckBox()
-                .clickOkButton()
+                .clickListOrMyViewOkButton()
                 .getActiveFiltersList()
                 .contains("Filtered Build Queue");
 
         Assert.assertTrue(newPaneIsDisplayed);
     }
 
-    @Test
+    @Test(dependsOnMethods = "createOneItemFromListOfJobTypes")
     public void testGlobalViewAddBothFilters() {
-
         EditViewPage editViewPage = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
-                .selectFolderAndClickOk()
-                .clickDashboard()
-                .clickMyViews()
+                .clickMyViewsSideMenuLink()
                 .clickAddViewLink()
                 .setViewName(TestUtils.getRandomStr())
                 .setGlobalViewType()
                 .clickCreateButton()
                 .selectFilterBuildQueueOptionCheckBox()
                 .selectFilterBuildExecutorsOptionCheckBox()
-                .clickOkButton()
-                .clickEditViewLink();
+                .clickGlobalViewOkButton()
+                .clickEditViewButton();
 
         Assert.assertTrue(editViewPage.isFilterBuildQueueOptionCheckBoxSelected() && editViewPage.isFilterBuildExecutorsOptionCheckBoxSelected());
     }
 
-    @Test
+    @Test(dependsOnMethods = "createOneItemFromListOfJobTypes")
     public void testListViewAddFiveItems() {
-        localViewName = TestUtils.getRandomStr();
-        createManyJobsOfEachType(1);
-        createViewFromListOfViewTypes(1, localViewName);
-        addFiveItemsToListView();
+        new HomePage(getDriver())
+            .clickMyViewsSideMenuLink()
+            .clickAddViewLink()
+            .setViewName(TestUtils.getRandomStr())
+            .setListViewTypeAndClickCreate()
+            .addJobsToListView(5)
+            .clickListOrMyViewOkButton();
 
         int actualResult = getDriver().findElements(JOB_PATH).size();
         Assert.assertEquals(actualResult, 5);

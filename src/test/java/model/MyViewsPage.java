@@ -13,7 +13,7 @@ public class MyViewsPage extends HomePage {
     @FindBy(css = "a[title='New View']")
     private WebElement newView;
 
-    @FindBy(css = ".tabBar .tab a[href*='/user/admin/my-views/view/']")
+    @FindBy(css = ".tabBar .tab a[href*='/my-views/view/']")
     private List<WebElement> listViews;
 
     @FindBy(css = ".pane-header-title")
@@ -40,6 +40,9 @@ public class MyViewsPage extends HomePage {
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement displayedDescriptionText;
 
+    @FindBy(xpath = "//ul[@id='breadcrumbs']/li[5]")
+    private WebElement myViewItemOnTopBar;
+
     public MyViewsPage(WebDriver driver) {
         super(driver);
     }
@@ -65,7 +68,7 @@ public class MyViewsPage extends HomePage {
     }
 
     public ViewPage clickView(String viewName) {
-        getDriver().findElement(By.cssSelector(".tabBar .tab a[href='/user/admin/my-views/view/" + viewName + "/']")).click();
+        getDriver().findElement(By.cssSelector(".tabBar .tab a[href*='/my-views/view/" + viewName + "/']")).click();
 
         return new ViewPage(getDriver());
     }
@@ -116,5 +119,10 @@ public class MyViewsPage extends HomePage {
     public String getDescriptionText() {
 
         return displayedDescriptionText.getText();
+    }
+
+    public String getMyViewItemNameOnTopBar() {
+
+        return myViewItemOnTopBar.getText();
     }
 }
