@@ -445,7 +445,7 @@ public class HomePage extends Header {
     }
 
     public boolean disableIconIsDisplayed() {
-        getWait(5).until(ExpectedConditions.visibilityOf(iconDisabled));
+        getWait(10).until(ExpectedConditions.visibilityOf(iconDisabled));
         return iconDisabled.isDisplayed();
     }
 }
