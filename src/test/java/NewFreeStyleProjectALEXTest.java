@@ -6,7 +6,7 @@ import runner.BaseTest;
 
 import static runner.TestUtils.getRandomStr;
 
-public class NewFreeStyleProjectTest extends BaseTest {
+public class NewFreeStyleProjectALEXTest extends BaseTest {
     private String projectName;
     private String renameNewName;
 
