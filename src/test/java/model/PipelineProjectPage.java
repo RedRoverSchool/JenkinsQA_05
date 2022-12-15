@@ -3,8 +3,12 @@ package model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class PipelineProjectPage extends BasePage{
+import java.util.ArrayList;
+import java.util.List;
+
+public class PipelineProjectPage extends BasePage {
 
     @FindBy(xpath = "//div[@id='description']//a")
     private WebElement editDescriptionButton;
@@ -35,6 +39,18 @@ public class PipelineProjectPage extends BasePage{
 
     @FindBy(id = "yui-gen1")
     private WebElement enableProjectButton;
+
+    @FindBy(xpath = "//span[@class='task-link-wrapper ']//span[2]")
+    private List<WebElement> pipelineSideMenuLinks;
+
+    @FindBy(xpath = "//a[@href='/job/Pipeline1/build?delay=0sec']")
+    private WebElement buildNowButton;
+
+    @FindBy(className = "duration")
+    private WebElement stageView;
+
+    @FindBy(linkText = "Build with Parameters")
+    private WebElement buildWithParameters;
 
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
@@ -94,5 +110,27 @@ public class PipelineProjectPage extends BasePage{
         enableProjectButton.click();
 
         return new PipelineProjectPage(getDriver());
+    }
+
+    public List<String> getPipelineSideMenuLinks() {
+        List<String> pipelineProjectText = new ArrayList<>();
+        for (WebElement list : pipelineSideMenuLinks) {
+            pipelineProjectText.add(list.getText());
+        }
+
+        return pipelineProjectText;
+    }
+
+    public PipelineProjectPage clickBuildNow() {
+        buildNowButton.click();
+        getWait(20).until(ExpectedConditions.visibilityOf(stageView));
+
+        return this;
+    }
+
+    public BuildWithParametersPage clickBuildWithParameters() {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(buildWithParameters)).click();
+
+        return new BuildWithParametersPage(getDriver());
     }
 }

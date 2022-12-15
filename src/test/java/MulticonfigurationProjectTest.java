@@ -106,6 +106,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         alert.accept();
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testMulticonfigurationProjectAddDescription")
     public void testMultiConfigurationProjectDisable() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
@@ -117,6 +118,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .getText().contains("This project is currently disabled"));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testMultiConfigurationProjectDisable")
     public void testMultiConfigurationProjectEnable() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
@@ -153,6 +155,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         multiConfigProject.deleteMultiConfigProject();
     }
+
     @Ignore
     @Test
     public void testMultiConfigurationProjectBuild() {
@@ -175,6 +178,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertNotEquals(amountOfBuildsAfterBuildNow, amountOfBuildsBeforeBuildNow);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testCreateNewMCProjectAsCopyFromExistingProject() {
 
@@ -340,5 +344,16 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("//span/span/*[name()='svg' and @tooltip='Not built']"))
                 .isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    public void testDisableMultiConfigurationProject() {
+        Boolean projectIconText = new HomePage(getDriver())
+                .clickProject(PROJECT_NAME)
+                .clickDisableButton()
+                .goToDashboard()
+                .getProjectIconText();
+
+        Assert.assertTrue(projectIconText);
     }
 }

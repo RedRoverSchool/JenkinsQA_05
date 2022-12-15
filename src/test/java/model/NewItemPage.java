@@ -187,6 +187,7 @@ public class NewItemPage extends BasePage {
 
         return new PipelineConfigPage(getDriver());
     }
+
     public NewItemPage setCopyFromItemName(String name) {
         TestUtils.scrollToEnd(getDriver());
         getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(copyFrom)).sendKeys(name);
@@ -198,5 +199,11 @@ public class NewItemPage extends BasePage {
         okButton.click();
 
         return new MulticonfigurationProjectConfigPage(getDriver());
+    }
+
+    public FolderStatusPage clickOKButton() {
+        okButton.click();
+
+        return new FolderStatusPage(getDriver());
     }
 }

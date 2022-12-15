@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class ConfigurationGeneralPage extends BasePage{
+public class ConfigurationGeneralPage extends BasePage {
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement saveButton;
 
@@ -31,10 +31,9 @@ public class ConfigurationGeneralPage extends BasePage{
         return this;
     }
 
-    public FolderStatusPage clickSaveButton(){
+    public FolderStatusPage clickSaveButton() {
         saveButton.click();
 
         return new FolderStatusPage(getDriver());
     }
-
 }

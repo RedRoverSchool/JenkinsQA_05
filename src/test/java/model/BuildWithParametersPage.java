@@ -3,10 +3,12 @@ package model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
-public class BuildWithParametersPage extends FreestyleProjectStatusPage{
+public class BuildWithParametersPage extends FreestyleProjectStatusPage {
     public BuildWithParametersPage(WebDriver driver) {
         super(driver);
     }
@@ -29,49 +31,78 @@ public class BuildWithParametersPage extends FreestyleProjectStatusPage{
     @FindBy(xpath = "//input[@type= 'checkbox']")
     private WebElement checkBoxDefaultValue;
 
-    public BuildWithParametersPage clickButtonBuildWithParameters(){
+    @FindBy(id = "yui-gen1-button")
+    private WebElement buildButton;
+
+    @FindBy(xpath = "//tr[@class='job SUCCESS']")
+    private WebElement iconSuccessfulBuild;
+
+    @FindBy(xpath = "//a[@href='lastBuild/']")
+    private WebElement lastBuildLink;
+
+    public BuildWithParametersPage clickButtonBuildWithParameters() {
         buttonBuildWithParameters.click();
 
         return this;
     }
 
-    public String getPageNotificationText(){
+    public String getPageNotificationText() {
 
         return pageNotification.getText();
     }
 
-    public String getFirstParameterName(){
+    public String getFirstParameterName() {
 
-        return  firstParameter.getText();
+        return firstParameter.getText();
     }
 
-    public String getFirstParamName(){
+    public String getFirstParamName() {
 
         return listInputtingValues.get(0).getAttribute("value");
     }
 
-    public String getFirstParamValue(){
+    public String getFirstParamValue() {
 
         return listInputtingValues.get(1).getAttribute("value");
     }
 
-    public String getSecondParamName(){
+    public String getSecondParamName() {
 
         return listInputtingValues.get(2).getAttribute("value");
     }
 
-    public String getThirdParamName(){
+    public String getThirdParamName() {
 
         return listInputtingValues.get(3).getAttribute("value");
     }
 
-    public String selectedParametersValues(){
+    public String selectedParametersValues() {
 
-        return  selectedParameters.getText();
+        return selectedParameters.getText();
     }
 
-    public boolean isBooleanParameterDefaultOn(){
+    public boolean isBooleanParameterDefaultOn() {
 
         return checkBoxDefaultValue.isSelected();
+    }
+
+    public BuildWithParametersPage selectParametersBuild() {
+        new Select(selectedParameters).selectByVisibleText("Guest");
+
+        return this;
+    }
+
+    public BuildWithParametersPage clickBuildButton() {
+        buildButton.click();
+        getWait(60).until(ExpectedConditions.visibilityOf(iconSuccessfulBuild));
+        getDriver().navigate().refresh();
+
+        return this;
+    }
+
+    public StatusPage clickLastBuildLink() {
+        lastBuildLink.click();
+
+        return new StatusPage(getDriver());
     }
 }

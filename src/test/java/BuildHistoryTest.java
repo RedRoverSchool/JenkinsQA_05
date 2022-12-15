@@ -114,7 +114,7 @@ public class BuildHistoryTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElements(By.xpath("//table[@id='projectStatus']/thead/tr/th")).size(), 5);
     }
-    
+
     @Ignore
     @Test
     public void testTimelineItemExist() {

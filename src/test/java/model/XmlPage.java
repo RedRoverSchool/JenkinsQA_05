@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 public class XmlPage extends BasePage {
     @FindBy(css = "body > div.header>span")
     private WebElement textOnPageXML;
+
     public XmlPage(WebDriver driver) {
         super(driver);
     }
@@ -15,5 +16,4 @@ public class XmlPage extends BasePage {
 
         return textOnPageXML.getText();
     }
-
 }

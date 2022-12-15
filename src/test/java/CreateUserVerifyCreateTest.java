@@ -45,7 +45,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
     }
 
     private static String randomString() {
-        int randomLength = (int)(Math.random()*(7-4+1)+4);
+        int randomLength = (int) (Math.random() * (7 - 4 + 1) + 4);
         return RandomStringUtils.randomAlphanumeric(randomLength);
     }
 
@@ -89,7 +89,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
         Actions actions = new Actions(getDriver());
         actions.moveToElement(getDriver().findElement(By.xpath("//a[@href='securityRealm/']"))).click().perform();
-        WebElement deleteButton = getDriver().findElement(By.xpath("//a[@href='user/"+randUserName.toLowerCase()+"/delete']"));
+        WebElement deleteButton = getDriver().findElement(By.xpath("//a[@href='user/" + randUserName.toLowerCase() + "/delete']"));
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         List<WebElement> listWithUsersIncludingAdmin = getDriver().findElements(By.xpath("//table[@id='people']/tbody/tr/td[2]/a"));
         List<String> listStringov = listWithUsersIncludingAdmin.stream().map(WebElement::getText).collect(Collectors.toList());
@@ -124,7 +124,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen1-button")).click();
 
         List<WebElement> allUsers = getDriver().findElements(By.xpath("//tbody//td[2]//a"));
-        List<String> allUserNames =  allUsers.stream().map(WebElement::getText).collect(Collectors.toList());
+        List<String> allUserNames = allUsers.stream().map(WebElement::getText).collect(Collectors.toList());
         List<WebElement> allNames = getDriver().findElements(By.xpath("//tbody//td[3]"));
         List<String> allNamesText = allNames.stream().map(WebElement::getText).collect(Collectors.toList());
 
@@ -157,7 +157,7 @@ public class CreateUserVerifyCreateTest extends BaseTest {
     }
 
     @Test
-    public void testCreateNewUserJenkins(){
+    public void testCreateNewUserJenkins() {
         ManageUsersPage homePage = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
@@ -180,4 +180,3 @@ public class CreateUserVerifyCreateTest extends BaseTest {
         Assert.assertTrue(peoplePage.getListOfUSersInPeople().contains(FULLNAME));
     }
 }
-
