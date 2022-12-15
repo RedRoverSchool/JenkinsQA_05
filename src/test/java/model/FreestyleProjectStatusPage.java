@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class FreestyleProjectStatusPage extends BasePage {
+public class FreestyleProjectStatusPage extends BaseStatusPage {
 
     @FindBy(tagName = "h1")
     private WebElement headline;
@@ -69,6 +69,12 @@ public class FreestyleProjectStatusPage extends BasePage {
     @FindBy(css = "tr:nth-child(2)  a.display-name")
     private WebElement buildName;
 
+    @FindBy(id = "enable-project")
+    private WebElement warningForm;
+
+    @FindBy(name = "Submit")
+    private WebElement disableProjectBtn;
+
     @FindBy(linkText = "Changes")
     private WebElement linkChanges;
 
@@ -104,8 +110,8 @@ public class FreestyleProjectStatusPage extends BasePage {
         return new FolderStatusPage(getDriver());
     }
 
-    public FreestyleProjectStatusPage clickDisableOrEnableSwitchBtn() {
-        disableOrEnableBtn.click();
+    public FreestyleProjectStatusPage clickDisableProjectBtn() {
+        disableProjectBtn.click();
 
         return this;
     }
@@ -196,21 +202,19 @@ public class FreestyleProjectStatusPage extends BasePage {
         return this;
     }
 
-    public ChangesBuildsPage clickLinkChanges(){
+    public String getWarningMsg() {
+        return warningForm.getText().substring(0, warningForm.getText().indexOf("\n"));
+    }
+
+    public ChangesBuildsPage clickLinkChanges() {
         linkChanges.click();
 
         return new ChangesBuildsPage(getDriver());
     }
 
-    public FreestyleProjectStatusPage clickButtonEditDescription(){
+    public FreestyleProjectStatusPage clickButtonEditDescription() {
         buttonEditDescription.click();
 
         return this;
     }
-
-    public String getWarningMessage(){
-
-        return warningMessage.getText().trim().substring(0, 34);
-    }
-
 }

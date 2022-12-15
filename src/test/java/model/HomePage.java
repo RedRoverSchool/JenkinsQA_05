@@ -107,6 +107,9 @@ public class HomePage extends Header {
     @FindBy(linkText = "My Views")
     private WebElement myViewItemInUserDropdownMenu;
 
+    @FindBy(linkText = "Credentials")
+    private WebElement credentialsItemInUserDropdownMenu;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -241,6 +244,11 @@ public class HomePage extends Header {
         return new MyViewsPage(getDriver());
     }
 
+    public String getJobBuildStatus(String name) {
+        return getDriver().findElement(By.id(String.format("job_%s", name)))
+                .findElement(By.xpath(".//*[name()='svg']")).getAttribute("tooltip");
+    }
+
     public MyViewsPage clickMyViewsTopMenuLink() {
         myViewsTopMenuLink.click();
 
@@ -275,11 +283,6 @@ public class HomePage extends Header {
         buildHistory.click();
 
         return new BuildHistoryPage(getDriver());
-    }
-
-    public String getJobBuildStatus(String name) {
-        return getDriver().findElement(By.id(String.format("job_%s", name)))
-                .findElement(By.xpath(".//*[name()='svg']")).getAttribute("tooltip");
     }
 
     public FooterPage clickRestApiLink() {
@@ -459,5 +462,12 @@ public class HomePage extends Header {
                 myViewItemInUserDropdownMenu)).click();
 
         return new MyViewsPage(getDriver());
+    }
+
+    public CredentialsPage clickCredentialsItemInUserDropdownMenu() {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(
+                credentialsItemInUserDropdownMenu)).click();
+
+        return new CredentialsPage(getDriver());
     }
 }

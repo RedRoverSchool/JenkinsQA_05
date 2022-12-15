@@ -74,21 +74,22 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithIncorrectCharacters")
     public void testDisableProject() {
+        FreestyleProjectStatusPage freestyleProjectStatusPage = new HomePage(getDriver())
+                .clickFreestyleProjectName(FREESTYLE_NAME)
+                .clickDisableProjectBtn();
 
-         String jobStatus = new HomePage(getDriver())
-             .clickFreestyleProjectName()
-             .clickDisableOrEnableSwitchBtn()
-             .clickDashboard()
-             .getJobBuildStatus();
+        Assert.assertEquals(freestyleProjectStatusPage.getHeadlineText(), String.format("Project %s", FREESTYLE_NAME));
+        Assert.assertEquals(freestyleProjectStatusPage.getWarningMsg(), "This project is currently disabled");
 
-        Assert.assertEquals(jobStatus, "Disabled");
+        HomePage homePage = freestyleProjectStatusPage.clickDashboard();
+        Assert.assertEquals(homePage.getJobBuildStatus(FREESTYLE_NAME), "Disabled");
     }
 
     @Test(dependsOnMethods = "testDisableProject")
     public void testEnableProject() {
         final String jobStatusIconTooltip = new HomePage(getDriver())
                 .clickFreestyleProjectName(FREESTYLE_NAME)
-                .clickDisableOrEnableSwitchBtn()
+                .clickDisableProjectBtn()
                 .clickDashboard()
                 .getJobBuildStatus(FREESTYLE_NAME);
 
