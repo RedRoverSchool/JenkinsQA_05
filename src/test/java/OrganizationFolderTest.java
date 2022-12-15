@@ -1,10 +1,12 @@
+import model.HomePage;
+import model.OrgFolderStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -13,13 +15,14 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class OrganizationFolderTest extends BaseTest {
     private static final String uniqueOrganizationFolderName = "folder" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
     private static final String ORG_FOLDER_NAME = TestUtils.getRandomStr();
     private static final String NAME_ORG_FOLDER = TestUtils.getRandomStr();
+    private static final String nameOrgFolderPOM = TestUtils.getRandomStr();
+    private static final String nameFolderPOM = TestUtils.getRandomStr();
     private static final String NAME_FOLDER = TestUtils.getRandomStr();
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
     private static final By INPUT_DISPLAY_NAME = By.xpath("//input  [@name='_.displayNameOrNull']");
@@ -91,19 +94,16 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testRenameOrganizationFolder() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getInputName().sendKeys("Existing Organization Name");
-        getOrganizationFolder().click();
-        getOkButton().click();
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-        getDriver().findElement(By.linkText("Rename")).click();
-        getInputLine().clear();
-        getInputLine().sendKeys("New Organization Folder");
-        getDriver().findElement(RENAME_BUTTON).click();
-        getDashboard().click();
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(nameOrgFolderPOM)
+                .selectOrgFolderAndClickOk()
+                .clickSaveButton()
+                .clickRenameButton()
+                .clearAndInputNewName("New name " + nameOrgFolderPOM)
+                .goToDashboard();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='job/New%20Organization%20Folder/']"))
-                .getText(), "New Organization Folder");
+        Assert.assertTrue(homePage.getJobList().contains("New name " + nameOrgFolderPOM));
     }
 
     @Test
@@ -124,7 +124,7 @@ public class OrganizationFolderTest extends BaseTest {
         boolean actualResult = false;
 
         getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.cssSelector(".jenkins_branch_OrganizationFolder")).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".jenkins_branch_OrganizationFolder"))).click();
         getInputName().sendKeys(organizationFolderName);
         getOkButton().click();
         getDriver().findElement(By.xpath("//li[@class='item']/a[@href='/']")).click();
@@ -154,6 +154,7 @@ public class OrganizationFolderTest extends BaseTest {
                 findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), uniqueOrganizationFolderName + 5);
     }
 
+    @Ignore
     @Test
     public void testCreateOrgFolderEmptyName() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -223,6 +224,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testCheckNotificationAfterApply() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -237,6 +239,7 @@ public class OrganizationFolderTest extends BaseTest {
                 , "notif-alert-success notif-alert-show");
     }
 
+    @Ignore
     @Test
     public void testCreateOrgFolderExistName() {
         createNewOrganizationFolder();
@@ -265,7 +268,6 @@ public class OrganizationFolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//option[text()='Jenkins']")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
         getDashboard().click();
-
         getWait(5).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("dashboard"))));
 
         Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
@@ -298,7 +300,6 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateOrganizFolder")
     public void testConfigureOrganizationFolder() {
-
         getDriver().findElement(ITEM_ORG_FOLDER).click();
         getDriver().findElement(By.linkText("Configure")).click();
         getDriver().findElement(INPUT_DISPLAY_NAME).sendKeys(NAME_ORG_FOLDER);
@@ -317,15 +318,38 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateOrganizFolder() {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(NAME_ORG_FOLDER);
-        WebElement element = getDriver().findElement(By.className("jenkins_branch_OrganizationFolder"));
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
-        getOkButton().click();
-        getSaveButton().click();
-        getDashboard().click();
 
-        Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(NAME_ORG_FOLDER)
+                .selectOrgFolderAndClickOk()
+                .clickSaveButton()
+                .goToDashboard();
+
+        Assert.assertTrue(homePage.getJobList().contains(NAME_ORG_FOLDER));
+    }
+
+    @Test
+    public void testCreateOrgFolderWithPOM() {
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(nameOrgFolderPOM)
+                .selectOrgFolderAndClickOk()
+                .clickSaveButton()
+                .goToDashboard();
+
+        Assert.assertTrue(homePage.getJobList().contains(nameOrgFolderPOM));
+    }
+
+    @Test
+    public void testCreateFolderWithPOM() {
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(nameFolderPOM)
+                .selectFolderAndClickOk()
+                .clickSaveButton()
+                .clickDashboard();
+
+        Assert.assertTrue(homePage.getJobList().contains(nameFolderPOM));
     }
 }

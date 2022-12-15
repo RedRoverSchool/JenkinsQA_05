@@ -31,7 +31,7 @@ public final class BaseUtils {
             if (isServerRun()) {
                 properties.setProperty(PROP_CHROME_OPTIONS, System.getenv(ENV_CHROME_OPTIONS));
 
-                if (System.getenv(ENV_APP_OPTIONS) != null ) {
+                if (System.getenv(ENV_APP_OPTIONS) != null) {
                     for (String option : System.getenv(ENV_APP_OPTIONS).split(";")) {
                         String[] optionArr = option.split("=");
                         properties.setProperty(PREFIX_PROP + optionArr[0], optionArr[1]);
@@ -92,9 +92,9 @@ public final class BaseUtils {
     static void captureScreenFile(WebDriver driver, String methodName, String className) {
         TakesScreenshot ts = (TakesScreenshot) driver;
         File file = ts.getScreenshotAs(OutputType.FILE);
-         try {
-             FileUtils.copyFile(file, new File(String.format("screenshots/%s-%s.png", className, methodName)));
-        } catch(Exception e) {
+        try {
+            FileUtils.copyFile(file, new File(String.format("screenshots/%s-%s.png", className, methodName)));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
