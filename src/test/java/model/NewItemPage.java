@@ -32,10 +32,10 @@ public class NewItemPage extends HomePage {
         return new FolderConfigPage(getDriver());
     }
 
-    public FreeStyleProjectConfigPage selectFreeStyleProjectAndClickOk() {
+    public FreeStyleProjectConfigALEXPage selectFreeStyleProjectAndClickOk() {
         freeStyleProjectType.click();
         okButton.click();
 
-        return new FreeStyleProjectConfigPage(getDriver());
+        return new FreeStyleProjectConfigALEXPage(getDriver());
     }
 }

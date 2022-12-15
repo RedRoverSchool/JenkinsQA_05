@@ -1,4 +1,4 @@
-import model.FreeStyleProjectMenuPage;
+import model.FreeStyleProjectMenuALEXPage;
 import model.HomePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -59,7 +59,7 @@ public class NewFreeStyleProjectALEXTest extends BaseTest {
                 .clickDropdownRenameButton()
                 .clickConfirmButton();
 
-        String actualPhrase = new FreeStyleProjectMenuPage(getDriver()).getErrorText();
+        String actualPhrase = new FreeStyleProjectMenuALEXPage(getDriver()).getErrorText();
         Assert.assertEquals(actualPhrase, expectedPhrase);
     }
 

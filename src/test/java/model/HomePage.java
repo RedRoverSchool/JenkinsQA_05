@@ -60,11 +60,11 @@ public class HomePage extends Header {
         return this;
     }
 
-    public FreeStyleProjectMenuPage clickDropdownRenameButton() {
+    public FreeStyleProjectMenuALEXPage clickDropdownRenameButton() {
         getWait(5).until(ExpectedConditions.elementToBeClickable(dropdownRenameButton));
         dropdownRenameButton.click();
 
-        return new FreeStyleProjectMenuPage(getDriver());
+        return new FreeStyleProjectMenuALEXPage(getDriver());
     }
 
     public HomePage clickDeleteItem() {

@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 import static runner.TestUtils.scrollToElement;
 
-public class FreeStyleProjectConfigPage extends BasePage {
+public class FreeStyleProjectConfigALEXPage extends BasePage {
 
     @FindBy(xpath = "//textarea[@name='description']")
     private WebElement descriptionField;
@@ -26,26 +26,26 @@ public class FreeStyleProjectConfigPage extends BasePage {
     private WebElement dashboardButton;
 
 
-    public FreeStyleProjectConfigPage(WebDriver driver) {
+    public FreeStyleProjectConfigALEXPage(WebDriver driver) {
         super(driver);
     }
 
-    public FreeStyleProjectConfigPage sendTextToDescriptionField(String text) {
+    public FreeStyleProjectConfigALEXPage sendTextToDescriptionField(String text) {
         descriptionField.sendKeys(text);
         return this;
     }
 
-    public FreeStyleProjectConfigPage clickGithubCheckbox() {
+    public FreeStyleProjectConfigALEXPage clickGithubCheckbox() {
         githubCheckbox.click();
         return this;
     }
 
-    public FreeStyleProjectConfigPage clickGitInfoQuestMark() {
+    public FreeStyleProjectConfigALEXPage clickGitInfoQuestMark() {
         gitInfoQuestionMark.click();
         return this;
     }
 
-    public FreeStyleProjectConfigPage clickTimeTriggerCheckbox() throws InterruptedException {
+    public FreeStyleProjectConfigALEXPage clickTimeTriggerCheckbox() throws InterruptedException {
         scrollToElement(getDriver(), timeTriggerCheckbox);
         Thread.sleep(1000);
         timeTriggerCheckbox.click();
@@ -53,19 +53,19 @@ public class FreeStyleProjectConfigPage extends BasePage {
         return this;
     }
 
-    public FreeStyleProjectConfigPage sendTextToTimeTriggerField(String text) {
+    public FreeStyleProjectConfigALEXPage sendTextToTimeTriggerField(String text) {
         timeTriggerField.sendKeys(text);
 
         return this;
     }
 
-    public FreeStyleProjectConfigPage clickAntCheckbox() {
+    public FreeStyleProjectConfigALEXPage clickAntCheckbox() {
         antCheckbox.click();
 
         return this;
     }
 
-    public FreeStyleProjectConfigPage clickSaveButton() {
+    public FreeStyleProjectConfigALEXPage clickSaveButton() {
         saveButton.click();
 
         return this;
