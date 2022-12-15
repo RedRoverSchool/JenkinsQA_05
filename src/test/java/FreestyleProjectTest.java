@@ -364,6 +364,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertFalse(newItemPage.isOkButtonEnabled());
     }
 
+    @Ignore
     @Test
     public void testCreateFreestyleProjectWithValidNameAndDescription() {
         getDriver().findElement(BY_BUTTON_ADD_NEW_ITEM).click();

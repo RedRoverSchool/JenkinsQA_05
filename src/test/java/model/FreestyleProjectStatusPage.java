@@ -66,6 +66,9 @@ public class FreestyleProjectStatusPage extends BasePage {
     @FindBy(xpath = "//span[contains(@class, 'build-status-icon')]/span/child::*")
     private WebElement buildStatusIcon;
 
+    @FindBy(css = "tr:nth-child(2)  a.display-name")
+    private WebElement buildName;
+
     public FreestyleProjectStatusPage(WebDriver driver) {
         super(driver);
     }
