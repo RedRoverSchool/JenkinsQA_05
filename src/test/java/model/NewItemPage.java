@@ -82,6 +82,13 @@ public class NewItemPage extends HomePage {
         return new FreestyleProjectConfigPage(getDriver());
     }
 
+    public CreateItemErrorPage selectFreestyleProjectAndClickOkWithError() {
+        selectFreestyleProject();
+        okButton.submit();
+
+        return new CreateItemErrorPage(getDriver());
+    }
+
     public FolderConfigPage selectFolderAndClickOk() {
         folderType.click();
         okButton.submit();

@@ -1,7 +1,4 @@
-import model.FreestyleProjectConfigPage;
-import model.FreestyleProjectStatusPage;
-import model.HomePage;
-import model.NewItemPage;
+import model.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -437,26 +434,18 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateNewFreestyleProjectWithLongNameFrom256Characters() {
-        final String expectedURL = getDriver().getCurrentUrl() + "view/all/createItem";
-        final String errorPictureName = "rage.svg";
+        final String expectedURL = "view/all/createItem";
         final String expectedTextOfError = "A problem occurred while processing the request.";
         final String longNameWith256Characters = getRandomStr(256);
 
-        getDriver().findElement(BY_BUTTON_ADD_NEW_ITEM).click();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(BY_FIELD_ENTER_NAME))
-                .sendKeys(longNameWith256Characters);
-        getWait(5).until(ExpectedConditions.attributeContains(BY_FIELD_ENTER_NAME,
-                "value", longNameWith256Characters));
-        getDriver().findElement(BY_BUTTON_SELECT_FREESTYLE_PROJECT).click();
-        scrollToElement(getDriver(), getDriver().findElement(BY_BUTTON_OK));
-        getWait(5).until(ExpectedConditions.elementToBeClickable(BY_BUTTON_OK)).click();
+        CreateItemErrorPage errorPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(longNameWith256Characters)
+                .selectFreestyleProjectAndClickOkWithError();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(), expectedURL);
-        Assert.assertTrue(getDriver().findElement(
-                By.xpath("//img[contains(@src,'" + errorPictureName + "')]")).isDisplayed());
-        Assert.assertEquals(
-                getDriver().findElement(By.xpath("//div[@id='error-description']//h2")).getText(),
-                expectedTextOfError);
+        Assert.assertTrue(errorPage.getPageUrl().endsWith(expectedURL));
+        Assert.assertTrue(errorPage.getErrorPicture().isDisplayed());
+        Assert.assertEquals(errorPage.getErrorDescription(), expectedTextOfError);
     }
 
     @Test
