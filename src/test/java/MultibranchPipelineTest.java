@@ -189,7 +189,6 @@ public class MultibranchPipelineTest extends BaseTest {
         deleteItem(nameOfItem);
     }
 
-
     @Test
     public void testRename_MultiBranch_Pipeline_From_Dropdown() {
         createMultibranchPipeline(RANDOM_MULTIBRANCHPIPELINE_NAME);
