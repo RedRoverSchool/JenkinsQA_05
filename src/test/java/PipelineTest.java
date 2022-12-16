@@ -174,7 +174,6 @@ public class PipelineTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickView(VIEW_NAME);
 
-
         Assert.assertEquals(viewPage.getJobName(PIPELINE_NAME + RENAME_SUFFIX), PIPELINE_NAME + RENAME_SUFFIX);
     }
 
