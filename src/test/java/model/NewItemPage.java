@@ -213,4 +213,10 @@ public class NewItemPage extends HomePage {
 
         return new FolderStatusPage(getDriver());
     }
+
+    public MultibranchPipelineConfigPage clickOkMultibranchPipeline() {
+        okButton.click();
+
+        return new MultibranchPipelineConfigPage(getDriver());
+    }
 }

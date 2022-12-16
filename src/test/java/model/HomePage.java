@@ -481,4 +481,12 @@ public class HomePage extends Header {
 
         return new DeleteMultibranchPipelinePage(getDriver());
     }
+
+    public void sleep() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
