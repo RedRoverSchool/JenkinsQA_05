@@ -213,7 +213,7 @@ public class HomePage extends Header {
 
     public String getHeaderText() {
 
-        return getWait(5).until(ExpectedConditions.visibilityOf(header)).getText();
+        return getWait(10).until(ExpectedConditions.visibilityOf(header)).getText();
     }
 
     public HomePage clickJobDropdownMenu(String folderName) {
