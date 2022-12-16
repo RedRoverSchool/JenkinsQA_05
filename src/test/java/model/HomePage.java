@@ -10,17 +10,27 @@ import java.util.stream.Collectors;
 import static runner.TestUtils.scrollToElement;
 
 public class HomePage extends Header {
+
     @FindBy(linkText = "Build History")
     private WebElement buildHistory;
+
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
-    @FindBy(xpath = "//a[@href='/view/all/newJob']")
+
+    @FindBy(linkText = "New Item")
     private WebElement newItem;
+
+//    @FindBy(xpath = "//a[@href='/view/all/newJob']")
+//    private WebElement newItem;
+
     @FindBy(id = "yui-gen6")
     private WebElement dropdownRenameButton;
     @FindBy(className = "icon-edit-delete")
     private WebElement deleteItem;
     @FindBy(xpath = "//tr/td[3]/a/span[1]")
+    private List<WebElement> jobList;
+
+    @FindBy(css = "tr td a.model-link")
     private List<WebElement> jobList;
     @FindBy(xpath = "//h2[@class='h4']")
     private WebElement homePageWelcomeText;
@@ -38,6 +48,9 @@ public class HomePage extends Header {
 
     @FindBy(xpath = "//li[@index='2']")
     private WebElement deleteButtonInDropDownMenu;
+
+    @FindBy(xpath = "//li[@index='3']")
+    private WebElement deleteMbPipelineButtonInDropDownMenu;
 
     @FindBy(tagName = "h1")
     private WebElement header;
@@ -113,6 +126,9 @@ public class HomePage extends Header {
 
     @FindBy(linkText = "Credentials")
     private WebElement credentialsItemInUserDropdownMenu;
+
+    @FindBy(xpath = "(//a[@class='yuimenuitemlabel'])[3]/span")
+    private WebElement buildNowButton;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -257,6 +273,13 @@ public class HomePage extends Header {
         return this;
     }
 
+    public HomePage clickJobDropdownMenu(String folderName) {
+        getWait(5).until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='job/" + folderName + "/']/button"))).click();
+
+        return this;
+    }
+
     public FolderStatusPage clickFolder(String folderName) {
         getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']")).sendKeys(Keys.RETURN);
 
@@ -321,7 +344,6 @@ public class HomePage extends Header {
 
         return new BuildHistoryPage(getDriver());
     }
-
 
     public FooterPage clickRestApiLink() {
         restApiLink.click();
@@ -507,5 +529,19 @@ public class HomePage extends Header {
                 credentialsItemInUserDropdownMenu)).click();
 
         return new CredentialsPage(getDriver());
+    }
+
+    public boolean clickProjectDropdownMenu(String projectName) {
+        getWait(5).until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='job/" + projectName + "/']/button"))).click();
+
+        return buildNowButton.isDisplayed();
+    }
+
+    public DeleteMultibranchPipelinePage clickDeleteMbPipelineDropDownMenu() {
+        getWait(3).until(ExpectedConditions.elementToBeClickable(deleteMbPipelineButtonInDropDownMenu));
+        deleteMbPipelineButtonInDropDownMenu.click();
+
+        return new DeleteMultibranchPipelinePage(getDriver());
     }
 }

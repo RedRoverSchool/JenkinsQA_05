@@ -32,6 +32,9 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
     @FindBy(xpath = "//button[@id='yui-gen1-button']")
     private WebElement disableButton;
 
+    @FindBy(xpath = "//button[@id='yui-gen1-button']")
+    private WebElement enableButton;
+
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -86,6 +89,12 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
 
     public MultiConfigurationProjectStatusPage clickDisableButton() {
         disableButton.click();
+
+        return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+    public MultiConfigurationProjectStatusPage clickEnableButton(){
+        enableButton.click();
 
         return new MultiConfigurationProjectStatusPage(getDriver());
     }

@@ -2,18 +2,13 @@ import model.FreestyleProjectConfigPage;
 import model.HomePage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.TestUtils;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static runner.TestUtils.scrollToElement_PlaceInCenter;
 
 public class FreestyleProjectSecondTest extends BaseTest {
     private static final String FREESTYLE_NAME = RandomStringUtils.randomAlphanumeric(10);
@@ -122,27 +117,19 @@ public class FreestyleProjectSecondTest extends BaseTest {
         Assert.assertEquals(actualOptionsInBuildStepsSection, expectedOptionsInBuildStepsSection);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testVerifyOptionsInBuildStepsSection")
     public void testSelectBuildPeriodicallyCheckbox() {
-        boolean selectedCheckbox;
 
-        getDriver().findElement(By.xpath("//td/a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(By.xpath("//span/a[@href='/job/" + NEW_FREESTYLE_NAME + "/configure']"))
-                .click();
-        getDriver().findElement(By.xpath("//button[@data-section-id='build-triggers']")).click();
+        boolean selectedCheckbox = new HomePage(getDriver())
+                .clickFreestyleProjectName()
+                .clickSideMenuConfigureLink()
+                .clickBuildTriggersSideMenuOption()
+                .scrollAndClickBuildPeriodicallyCheckbox()
+                .verifyThatBuildPeriodicallyCheckboxIsSelected();
 
-        scrollToElement_PlaceInCenter(getDriver(),
-                getDriver().findElement(By.xpath("//label[text()='Build periodically']")));
-        getWait(10).until(TestUtils.
-                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']"))).click();
-
-        selectedCheckbox = getWait(10).until(ExpectedConditions
-                .elementSelectionStateToBe(By.name("hudson-triggers-TimerTrigger"), true));
-
-        getWait(10).until(TestUtils.
-                ExpectedConditions.elementIsNotMoving(By.xpath("//label[text()='Build periodically']"))).click();
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        new FreestyleProjectConfigPage(getDriver())
+                .uncheckBuildPeriodicallyCheckbox()
+                .clickSaveBtn();
 
         Assert.assertTrue(selectedCheckbox);
     }

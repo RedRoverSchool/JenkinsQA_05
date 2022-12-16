@@ -4,14 +4,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import static runner.TestUtils.getRandomStr;
-import static runner.TestUtils.scrollToElement;
 
 public class FreestyleProjectTest extends BaseTest {
 
@@ -30,7 +27,6 @@ public class FreestyleProjectTest extends BaseTest {
     private static final By BY_SIDE_PANEL_BUILD_NOW = By.linkText("Build Now");
     private static final By BY_BUILD_ROW = By.xpath("//table[@class='pane jenkins-pane stripped']//tr[@page-entry-id]");
     private static final By BY_GO_TO_DASHBOARD_LINK = By.linkText("Dashboard");
-    private static final By BY_BUTTON_DROPDOWN_CONFIGURE = By.linkText("Configure");
     private static final By BY_JENKINS_CURRENT_VERSION = By.xpath("//a [@rel = 'noopener noreferrer']");
     private static final By BY_CONFIGURATION_PAGE_HEADLINE = By.xpath("//div[@class = 'jenkins-app-bar__content']/h1");
     private static final By BY_DROPDOWN_DELETE_PROJECT = By.xpath("//span[contains(text(),'Delete Project')]");
@@ -170,28 +166,6 @@ public class FreestyleProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectConfigureByDropdown")
-    public void testFreestyleProjectConfigureMenu() {
-        getDriver().findElement(By.xpath("//a[@href='job/" + NEW_FREESTYLE_NAME + "/']")).click();
-        getDriver().findElement(BY_BUTTON_DROPDOWN_CONFIGURE).click();
-
-        List<String> textConfigMenu = new ArrayList<>();
-        List<WebElement> configMenu = getDriver().findElements(By.cssSelector("button.task-link"));
-        for (WebElement element : configMenu) {
-            textConfigMenu.add(element.getText());
-        }
-
-        List<String> actualConfigMenu = new ArrayList<>();
-        actualConfigMenu.add("General");
-        actualConfigMenu.add("Source Code Management");
-        actualConfigMenu.add("Build Triggers");
-        actualConfigMenu.add("Build Environment");
-        actualConfigMenu.add("Build Steps");
-        actualConfigMenu.add("Post-build Actions");
-
-        Assert.assertEqualsNoOrder(textConfigMenu, actualConfigMenu);
-    }
-
-    @Test(dependsOnMethods = "testFreestyleProjectConfigureMenu")
     public void testCreateNewFreestyleProjectWithDuplicateName() {
 
         String actualResult = new HomePage(getDriver())
@@ -307,25 +281,16 @@ public class FreestyleProjectTest extends BaseTest {
 
     @Test
     public void testCreateNewFreestyleProjectWithLongNameFrom256Characters() {
-        final String expectedURL = getDriver().getCurrentUrl() + "view/all/createItem";
-        final String errorPictureName = "rage.svg";
+        final String expectedURL = "view/all/createItem";
         final String expectedTextOfError = "A problem occurred while processing the request.";
-        final String longNameWith256Characters = getRandomStr(256);
 
-        getDriver().findElement(BY_BUTTON_ADD_NEW_ITEM).click();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(BY_FIELD_ENTER_NAME))
-                .sendKeys(longNameWith256Characters);
-        getWait(5).until(ExpectedConditions.attributeContains(BY_FIELD_ENTER_NAME,
-                "value", longNameWith256Characters));
-        getDriver().findElement(BY_BUTTON_SELECT_FREESTYLE_PROJECT).click();
-        scrollToElement(getDriver(), getDriver().findElement(BY_BUTTON_OK));
-        getWait(5).until(ExpectedConditions.elementToBeClickable(BY_BUTTON_OK)).click();
+        CreateItemErrorPage errorPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(getRandomStr(256))
+                .selectFreestyleProjectAndClickOkWithError();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(), expectedURL);
-        Assert.assertTrue(getDriver().findElement(
-                By.xpath("//img[contains(@src,'" + errorPictureName + "')]")).isDisplayed());
-        Assert.assertEquals(
-                getDriver().findElement(By.xpath("//div[@id='error-description']//h2")).getText(),
-                expectedTextOfError);
+        Assert.assertTrue(errorPage.getPageUrl().endsWith(expectedURL));
+        Assert.assertTrue(errorPage.isErrorPictureDisplayed());
+        Assert.assertEquals(errorPage.getErrorDescription(), expectedTextOfError);
     }
 }
