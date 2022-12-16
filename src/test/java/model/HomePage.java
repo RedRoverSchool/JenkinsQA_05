@@ -35,6 +35,9 @@ public class HomePage extends Header {
     @FindBy(xpath = "//li[@index='2']")
     private WebElement deleteButtonInDropDownMenu;
 
+    @FindBy(xpath = "//li[@index='3']")
+    private WebElement deleteMbPipelineButtonInDropDownMenu;
+
     @FindBy(tagName = "h1")
     private WebElement header;
 
@@ -216,7 +219,7 @@ public class HomePage extends Header {
         return getWait(5).until(ExpectedConditions.visibilityOf(header)).getText();
     }
 
-    public HomePage clickFolderDropdownMenu(String folderName) {
+    public HomePage clickJobDropdownMenu(String folderName) {
         getWait(5).until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//a[@href='job/" + folderName + "/']/button"))).click();
 
@@ -479,5 +482,12 @@ public class HomePage extends Header {
                 .elementToBeClickable(By.xpath("//a[@href='job/" + projectName + "/']/button"))).click();
 
         return buildNowButton.isDisplayed();
+    }
+
+    public DeleteMultibranchPipelinePage clickDeleteMbPipelineDropDownMenu() {
+        getWait(3).until(ExpectedConditions.elementToBeClickable(deleteMbPipelineButtonInDropDownMenu));
+        deleteMbPipelineButtonInDropDownMenu.click();
+
+        return new DeleteMultibranchPipelinePage(getDriver());
     }
 }

@@ -48,7 +48,7 @@ public class FolderOneTest extends BaseTest {
         createFolder(RANDOM_NAME_1);
 
         HomePage homePage = new HomePage(getDriver())
-                .clickFolderDropdownMenu(RANDOM_NAME_1)
+                .clickJobDropdownMenu(RANDOM_NAME_1)
                 .clickConfigDropDownMenu()
                 .setProjectName(RANDOM_NAME_2)
                 .clickSaveButton()
@@ -61,7 +61,7 @@ public class FolderOneTest extends BaseTest {
     public void testAddFolderDescription() {
         FolderStatusPage folderStatusPage = new HomePage(getDriver())
 
-                .clickFolderDropdownMenu(RANDOM_NAME_1)
+                .clickJobDropdownMenu(RANDOM_NAME_1)
                 .clickConfigDropDownMenu()
                 .setDescription("Folder description")
                 .clickSaveButton();
@@ -73,7 +73,7 @@ public class FolderOneTest extends BaseTest {
     public void testRenameFolderDescription() {
         HomePage homePage = new HomePage(getDriver())
 
-                .clickFolderDropdownMenu(RANDOM_NAME_1)
+                .clickJobDropdownMenu(RANDOM_NAME_1)
                 .clickRenameDropDownMenu()
                 .clearFieldAndInputNewName(RANDOM_NAME_2)
                 .clickSubmitButton()
@@ -117,7 +117,7 @@ public class FolderOneTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateFolderInFolderJob")
     public void testRenameFolder() {
         HomePage homePage = new HomePage(getDriver())
-                .clickFolderDropdownMenu(RANDOM_NAME_1)
+                .clickJobDropdownMenu(RANDOM_NAME_1)
                 .clickRenameDropDownMenu()
                 .clearFieldAndInputNewName(RANDOM_NAME_1 + "NEW")
                 .clickSubmitButton()
@@ -146,7 +146,7 @@ public class FolderOneTest extends BaseTest {
     @Test(dependsOnMethods = "testMoveFolderInFolder")
     public void testDeleteFolderDropDown() {
         HomePage homePage = new HomePage(getDriver())
-                .clickFolderDropdownMenu(RANDOM_NAME_1 + "NEW")
+                .clickJobDropdownMenu(RANDOM_NAME_1 + "NEW")
                 .clickDeleteDropDownMenu()
                 .clickSubmitDeleteProject();
 
@@ -210,7 +210,7 @@ public class FolderOneTest extends BaseTest {
         createFolder(RANDOM_MULTIBRANCH_PIPELINE_NAME);
 
         FolderStatusPage actualResult = new HomePage(getDriver())
-                .clickFolderDropdownMenu(RANDOM_MULTIBRANCH_PIPELINE_NAME)
+                .clickJobDropdownMenu(RANDOM_MULTIBRANCH_PIPELINE_NAME)
                 .clickMoveButtonDropdown()
                 .selectFolder(RANDOM_NAME_1)
                 .clickMove()
@@ -252,7 +252,7 @@ public class FolderOneTest extends BaseTest {
                 .selectFolderAndClickOk()
                 .clickDashboard()
 
-                .clickFolderDropdownMenu(RANDOM_NAME_1)
+                .clickJobDropdownMenu(RANDOM_NAME_1)
                 .clickMoveButtonDropdown()
                 .selectFolder(RANDOM_NAME_2)
                 .clickMove()

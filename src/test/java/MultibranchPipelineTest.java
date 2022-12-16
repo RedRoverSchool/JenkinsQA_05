@@ -1,4 +1,3 @@
-import model.FolderStatusPage;
 import model.HomePage;
 import model.NewItemPage;
 import org.openqa.selenium.By;
@@ -227,25 +226,17 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteMultibranchPipelineFromFolder() {
-        final String randomFolderName = TestUtils.getRandomStr(6);
-        final String randomMultibranchPipelineName = TestUtils.getRandomStr(6);
-
-        FolderStatusPage folderStatusPage = new HomePage(getDriver())
+    public void testDeleteMultibranchPipelineUsingDropDown() {
+        HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(randomFolderName)
-                .selectFolderAndClickOk()
-                .clickSaveButton()
-                .clickCreateJob()
-                .setProjectName(randomMultibranchPipelineName)
+                .setProjectName(RANDOM_MULTIBRANCHPIPELINE_NAME)
                 .selectMultibranchPipelineAndClickOk()
                 .clickSaveButton()
                 .clickDashboard()
-                .clickFolder(randomFolderName)
-                .clickMultibranchPipeline(randomMultibranchPipelineName)
-                .clickDeleteMultibranchPipeline()
-                .clickSubmitButton();
+                .clickJobDropdownMenu(RANDOM_MULTIBRANCHPIPELINE_NAME)
+                .clickDeleteMbPipelineDropDownMenu()
+                .clickSubmitButtonToHomePage();
 
-        Assert.assertNotNull(folderStatusPage.getEmptyStateBlock());
+        Assert.assertEquals(homePage.getHeaderText(), "Welcome to Jenkins!");
     }
 }
