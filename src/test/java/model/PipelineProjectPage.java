@@ -52,6 +52,9 @@ public class PipelineProjectPage extends BasePage {
     @FindBy(linkText = "Build with Parameters")
     private WebElement buildWithParameters;
 
+    @FindBy(linkText = "Configure")
+    private WebElement configureLink;
+
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -132,5 +135,11 @@ public class PipelineProjectPage extends BasePage {
         getWait(5).until(ExpectedConditions.elementToBeClickable(buildWithParameters)).click();
 
         return new BuildWithParametersPage(getDriver());
+    }
+
+    public PipelineConfigPage clickConfigure() {
+        configureLink.click();
+
+        return new PipelineConfigPage(getDriver());
     }
 }
