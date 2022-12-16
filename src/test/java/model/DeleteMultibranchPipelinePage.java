@@ -17,4 +17,10 @@ public class DeleteMultibranchPipelinePage extends BasePage {
 
         return new FolderStatusPage(getDriver());
     }
+
+    public HomePage clickSubmitButtonToHomePage() {
+        submitButton.click();
+
+        return new HomePage(getDriver());
+    }
 }

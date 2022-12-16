@@ -346,14 +346,28 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .isDisplayed());
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    @Test
     public void testDisableMultiConfigurationProject() {
         Boolean projectIconText = new HomePage(getDriver())
-                .clickProject(PROJECT_NAME)
+                .clickNewItem()
+                .setProjectName(PROJECT_NAME)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSave()
                 .clickDisableButton()
                 .goToDashboard()
                 .getProjectIconText();
 
         Assert.assertTrue(projectIconText);
+    }
+
+    @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
+    public void testEnableMultiConfigurationProject() {
+        Boolean buildNowButton = new HomePage(getDriver())
+                .clickProject(PROJECT_NAME)
+                .clickEnableButton()
+                .goToDashboard()
+                .clickProjectDropdownMenu(PROJECT_NAME);
+
+        Assert.assertTrue(buildNowButton);
     }
 }

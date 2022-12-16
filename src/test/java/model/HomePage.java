@@ -35,6 +35,9 @@ public class HomePage extends Header {
     @FindBy(xpath = "//li[@index='2']")
     private WebElement deleteButtonInDropDownMenu;
 
+    @FindBy(xpath = "//li[@index='3']")
+    private WebElement deleteMbPipelineButtonInDropDownMenu;
+
     @FindBy(tagName = "h1")
     private WebElement header;
 
@@ -64,9 +67,6 @@ public class HomePage extends Header {
 
     @FindBy(xpath = "//div[@class='tabBar']/div/a")
     private List<WebElement> viewList;
-
-    @FindBy(xpath = "//a[@href='api/']")
-    private WebElement restApiLink;
 
     @FindBy(xpath = "//div/a[@class='model-link']")
     private WebElement iconUserName;
@@ -109,6 +109,9 @@ public class HomePage extends Header {
 
     @FindBy(linkText = "Credentials")
     private WebElement credentialsItemInUserDropdownMenu;
+
+    @FindBy(xpath = "(//a[@class='yuimenuitemlabel'])[3]/span")
+    private WebElement buildNowButton;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -213,7 +216,7 @@ public class HomePage extends Header {
         return getWait(5).until(ExpectedConditions.visibilityOf(header)).getText();
     }
 
-    public HomePage clickFolderDropdownMenu(String folderName) {
+    public HomePage clickJobDropdownMenu(String folderName) {
         getWait(5).until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//a[@href='job/" + folderName + "/']/button"))).click();
 
@@ -283,12 +286,6 @@ public class HomePage extends Header {
         buildHistory.click();
 
         return new BuildHistoryPage(getDriver());
-    }
-
-    public FooterPage clickRestApiLink() {
-        restApiLink.click();
-
-        return new FooterPage(getDriver());
     }
 
     public StatusUserPage clickUserIcon() {
@@ -469,5 +466,19 @@ public class HomePage extends Header {
                 credentialsItemInUserDropdownMenu)).click();
 
         return new CredentialsPage(getDriver());
+    }
+
+    public boolean clickProjectDropdownMenu(String projectName) {
+        getWait(5).until(ExpectedConditions
+                .elementToBeClickable(By.xpath("//a[@href='job/" + projectName + "/']/button"))).click();
+
+        return buildNowButton.isDisplayed();
+    }
+
+    public DeleteMultibranchPipelinePage clickDeleteMbPipelineDropDownMenu() {
+        getWait(3).until(ExpectedConditions.elementToBeClickable(deleteMbPipelineButtonInDropDownMenu));
+        deleteMbPipelineButtonInDropDownMenu.click();
+
+        return new DeleteMultibranchPipelinePage(getDriver());
     }
 }
