@@ -241,7 +241,6 @@ public class OrganizationFolderTest extends BaseTest {
                 , "notif-alert-success notif-alert-show");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateOrgFolder")
     public void testCreateOrgFolderExistName() {
         new HomePage(getDriver())
