@@ -104,7 +104,6 @@ public class NewItemPage extends HomePage {
     }
 
     public OrgFolderConfigPage selectOrgFolderAndClickOk() {
-//        TestUtils.scrollToElement(getDriver(), orgFolder);
         orgFolder.click();
         okButton.submit();
 

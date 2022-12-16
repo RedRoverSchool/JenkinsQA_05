@@ -43,6 +43,9 @@ public class MyViewsPage extends HomePage {
     @FindBy(xpath = "//ul[@id='breadcrumbs']/li[5]")
     private WebElement myViewItemOnTopBar;
 
+    @FindBy(css = "#projectstatus th")
+    private List<WebElement> listJobTableHeaders;
+
     public MyViewsPage(WebDriver driver) {
         super(driver);
     }
@@ -124,5 +127,15 @@ public class MyViewsPage extends HomePage {
     public String getMyViewItemNameOnTopBar() {
 
         return myViewItemOnTopBar.getText();
+    }
+
+    public int getJobTableHeaderListSize() {
+
+        return listJobTableHeaders.size();
+    }
+
+    public List<String> getJobTableHeaderTextList() {
+
+        return listJobTableHeaders.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 }
