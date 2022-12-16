@@ -75,10 +75,6 @@ public class MultibranchPipelineTest extends BaseTest {
         buttonClickXpath(MULTIBRANCH_PIPELINE_XPATH);
     }
 
-    private void submitButtonClick() {
-        getDriver().findElement(SUBMIT_BUTTON).click();
-    }
-
     private void createMultibranchPipeline() {
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(NAME).sendKeys(RANDOM_MULTIBRANCHPIPELINE_NAME);

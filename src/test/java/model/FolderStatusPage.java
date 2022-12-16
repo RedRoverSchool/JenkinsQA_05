@@ -89,8 +89,8 @@ public class FolderStatusPage extends BasePage {
         return new NewItemPage(getDriver());
     }
 
-    public MultibranchPipelineStatusPage clickMultibranchPipeline(String MultibranchPipelineName) {
-        getDriver().findElement(By.xpath("//a[@href='job/" + MultibranchPipelineName + "/']")).click();
+    public MultibranchPipelineStatusPage clickMultibranchPipeline(String multibranchPipelineName) {
+        getDriver().findElement(By.xpath("//a[@href='job/" + multibranchPipelineName + "/']")).click();
 
         return new MultibranchPipelineStatusPage(getDriver());
     }
