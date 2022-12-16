@@ -194,7 +194,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testRename_MultiBranch_Pipeline_From_Dropdown() {
         createMultibranchPipeline(RANDOM_MULTIBRANCHPIPELINE_NAME);
         FreestyleProjectStatusPage actualMultibranchPipeline = new HomePage(getDriver())
-                .clickFolderDropdownMenu(RANDOM_MULTIBRANCHPIPELINE_NAME)
+                .clickJobDropDownMenu(RANDOM_MULTIBRANCHPIPELINE_NAME)
                 .clickRenameDropDownMenu()
                 .clearFieldAndInputNewName(RANDOM_MULTIBRANCHPIPELINE_NAME + "_Renamed")
                 .clickSubmitButton();
