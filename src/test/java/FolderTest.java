@@ -2,12 +2,10 @@ import model.FolderStatusPage;
 import model.HomePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.TestUtils;
 
 import java.util.ArrayList;
@@ -25,10 +23,10 @@ public class FolderTest extends BaseTest {
     private static final By FOLDER = By.xpath("//span[text()='Folder']");
     private static final By DASHBOARD = By.xpath("//a[text()='Dashboard']");
     private static final By CREATE_NEW_ITEM = By.linkText("New Item");
-    private static final By FREESTYLE_PROJECT = By.xpath("//span[text()='Freestyle project']");
     private static final By CREATE_A_JOB = By.linkText("Create a job");
     private static final By ADD_DESCRIPTION = By.linkText("Add description");
     private static final By DESCRIPTION = By.name("_.description");
+    final String FOLDER_NAME_RANDOM = TestUtils.getRandomStr();
 
     public Actions getAction() {
         return new Actions(getDriver());
@@ -198,20 +196,60 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testCreateFreestyleProjectInFolderCreateJob() {
-        final String folderName = TestUtils.getRandomStr();
         final String freestyleProjectName = TestUtils.getRandomStr();
 
-        ProjectUtils.createNewItemFromDashboard(getDriver(), FOLDER, folderName);
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(CREATE_A_JOB).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(freestyleProjectName);
-        getDriver().findElement(FREESTYLE_PROJECT).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(By.linkText(folderName)).click();
+        List<String> projectNamesInFolder = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(FOLDER_NAME_RANDOM)
+                .selectFolderAndClickOk()
+                .clickSaveButton()
+                .clickCreateJob()
+                .setProjectName(freestyleProjectName)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickDashboard()
+                .clickFolder(FOLDER_NAME_RANDOM)
+                .getJobList();
 
-        Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
+        Assert.assertTrue(projectNamesInFolder.contains(freestyleProjectName));
+    }
+
+    @Test(dependsOnMethods = "testCreateFreestyleProjectInFolderCreateJob")
+    public void testMoveFreestyleProjectInFolderUsingDropDownMenu() {
+        final String freestyleProjectName = TestUtils.getRandomStr();
+
+        List<String> projectNamesInFolder = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(freestyleProjectName)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickDashboard()
+                .clickJobDropDownMenu(freestyleProjectName)
+                .clickMoveButtonDropdown()
+                .selectFolder(FOLDER_NAME_RANDOM)
+                .clickMove()
+                .clickDashboard()
+                .clickFolder(FOLDER_NAME_RANDOM)
+                .getJobList();
+
+        Assert.assertTrue(projectNamesInFolder.contains(freestyleProjectName));
+    }
+
+    @Test(dependsOnMethods = "testMoveFreestyleProjectInFolderUsingDropDownMenu")
+    public void testCreateFreestyleProjectInFolderNewItem() {
+        final String freestyleProjectName = TestUtils.getRandomStr();
+
+        List<String> projectNamesInFolder = new HomePage(getDriver())
+                .clickFolder(FOLDER_NAME_RANDOM)
+                .clickFolderNewItem()
+                .setProjectName(freestyleProjectName)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn()
+                .clickDashboard()
+                .clickFolder(FOLDER_NAME_RANDOM)
+                .getJobList();
+
+        Assert.assertTrue(projectNamesInFolder.contains(freestyleProjectName));
     }
 
     @Test(dependsOnMethods = "testCreate")
@@ -273,26 +311,6 @@ public class FolderTest extends BaseTest {
                 .collect(Collectors.toList());
 
         Assert.assertFalse(foldersList.contains(generatedString));
-    }
-
-    @Test
-    public void testMoveFreestyleProjectInFolderUsingDropDownMenu() {
-        final String folderName = TestUtils.getRandomStr();
-        final String freestyleProjectName = TestUtils.getRandomStr();
-
-        ProjectUtils.createNewItemFromDashboard(getDriver(), FOLDER, folderName);
-        getDriver().findElement(DASHBOARD).click();
-        ProjectUtils.createNewItemFromDashboard(getDriver(), FREESTYLE_PROJECT, freestyleProjectName);
-        getDriver().findElement(DASHBOARD).click();
-
-        getDriver().findElement(By.xpath("//tr[@id = 'job_" + freestyleProjectName + "']//td/a/button")).click();
-        getWait(10).until(ExpectedConditions.elementToBeClickable((By.xpath("//span[contains(text(),'Move')]")))).click();
-        getDriver().findElement(By.xpath("//option[@value='/" + folderName + "']")).click();
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(By.linkText(folderName)).click();
-
-        Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
     }
 
     @Ignore
@@ -368,23 +386,6 @@ public class FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
 
         Assert.assertTrue(getDriver().findElement(By.id("description")).getText().contains(folderDescription));
-    }
-
-    @Test
-    public void testCreateFreestyleProjectInFolderNewItem() {
-        final String folderName = TestUtils.getRandomStr();
-        final String freestyleProjectName = TestUtils.getRandomStr();
-
-        ProjectUtils.createNewItemFromDashboard(getDriver(), FOLDER, folderName);
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(CREATE_NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(freestyleProjectName);
-        getDriver().findElement(FREESTYLE_PROJECT).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(By.linkText(folderName)).click();
-
-        Assert.assertTrue(getProjectNameFromProjectTable().contains(freestyleProjectName));
     }
 
     @Test
