@@ -1,6 +1,4 @@
-import model.FreestyleProjectStatusPage;
-import model.HomePage;
-import model.NewItemPage;
+import model.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -97,21 +95,20 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void Create_Multibranch_Pipeline_Invalid_Name_Test() {
-        buttonClickXpath(NEW_ITEM_XPATH);
-        inputTextByXPath(ENTER_AN_ITEM_NAME_XPATH, "MultibranchPipeline@");
-        buttonClickXpath(MULTIBRANCH_PIPELINE_XPATH);
+    public void testCreateMultibranchPipelineInvalidName() {
+        NewItemPage newItemPage = new NewItemPage(getDriver())
+                .clickNewItem()
+                .setProjectName("MultibranchPipeline@")
+                .selectMultibranchPipeline();
 
-        Assert.assertEquals((getDriver().findElement(By.cssSelector("#itemname-invalid")).getText()),
-                "» ‘@’ is an unsafe character");
+        Assert.assertEquals(newItemPage.getItemNameInvalidMsg(), "» ‘@’ is an unsafe character");
 
-        buttonClickXpath(BUTTON_OK_XPATH);
+        CreateItemErrorPage createItemErrorPage = newItemPage.clickOkButton();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(), "http://localhost:8080/view/all/createItem");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+        Assert.assertEquals(createItemErrorPage.getCurrentURL(), "http://localhost:8080/view/all/createItem");
+        Assert.assertEquals(createItemErrorPage.getErrorHeader(),
                 "Error");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
-                "‘@’ is an unsafe character");
+        Assert.assertEquals(createItemErrorPage.getErrorMessage(), "‘@’ is an unsafe character");
     }
 
     @Ignore
