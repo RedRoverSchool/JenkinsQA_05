@@ -1,4 +1,4 @@
-import model.FreeStyleProjectMenuALEXPage;
+import model.FreeStyleProjectMenuPage;
 import model.HomePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -16,7 +16,7 @@ public class NewFreeStyleProjectALEXTest extends BaseTest {
         final String descriptionText = "Some text to description area";
         final String timeTriggerText = "H H 1,15 1-11 *";
 
-        new HomePage(getDriver())
+        String actualName = new HomePage(getDriver())
                 .clickNewItem()
                 .typeName(projectName)
                 .selectFreeStyleProjectAndClickOk()
@@ -27,10 +27,10 @@ public class NewFreeStyleProjectALEXTest extends BaseTest {
                 .clickTimeTriggerCheckbox()
                 .sendTextToTimeTriggerField(timeTriggerText)
                 .clickAntCheckbox()
-                .clickSaveButton()
-                .clickDashboardButton();
+                .clickSaveButton1()
+                .clickDashboardButton()
+                .getItemName();
 
-        String actualName = new HomePage(getDriver()).getItemName();
         Assert.assertTrue(actualName.contains(projectName));
     }
 
@@ -38,15 +38,15 @@ public class NewFreeStyleProjectALEXTest extends BaseTest {
     public void renameFreeStyleProjectTest() {
         renameNewName = getRandomStr(5);
 
-        new HomePage(getDriver())
+        String actualName = new HomePage(getDriver())
                 .clickJobExists(projectName)
                 .clickDropdownRenameButton()
                 .clearRenameField()
                 .sendTextToRenameField(renameNewName)
                 .clickConfirmButton()
-                .clickDashboard();
+                .clickDashboard()
+                .getItemName();
 
-        String actualName = new HomePage(getDriver()).getItemName();
         Assert.assertTrue(actualName.contains(renameNewName));
     }
 
@@ -59,7 +59,7 @@ public class NewFreeStyleProjectALEXTest extends BaseTest {
                 .clickDropdownRenameButton()
                 .clickConfirmButton();
 
-        String actualPhrase = new FreeStyleProjectMenuALEXPage(getDriver()).getErrorText();
+        String actualPhrase = new FreeStyleProjectMenuPage(getDriver()).getErrorText();
         Assert.assertEquals(actualPhrase, expectedPhrase);
     }
 
@@ -67,12 +67,13 @@ public class NewFreeStyleProjectALEXTest extends BaseTest {
     public void deleteFreestyleProjectTest() {
         final String expectedText = "Start building your software project";
 
-        new HomePage(getDriver())
+        String actualText = new HomePage(getDriver())
                 .clickJobExists(renameNewName)
                 .clickDeleteItem()
-                .clickAcceptAlert();
+                .clickAcceptAlert()
+                .getHomePageWelcomeText();
 
-        String actualText = new HomePage(getDriver()).getHomePageWelcomeText();
+//        String actualText = new HomePage(getDriver()).getHomePageWelcomeText();
         Assert.assertTrue(actualText.contains(expectedText));
     }
 }

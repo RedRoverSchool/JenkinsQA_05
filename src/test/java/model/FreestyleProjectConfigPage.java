@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static runner.TestUtils.scrollToElement;
 import static runner.TestUtils.scrollToElement_PlaceInCenter;
 
 public class FreestyleProjectConfigPage extends BaseConfigPage {
@@ -68,7 +69,6 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
     @FindBy(xpath = "//div[@class = 'jenkins-form-item hetero-list-container with-drag-drop  ']/div[3]//input[@name = 'parameter.name']")
     private WebElement fieldInputBooleanParameterName;
 
-
     @FindBy(xpath = "//label[text() = 'Set by Default']")
     private WebElement setByDefault;
 
@@ -90,9 +90,86 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
     @FindBy(linkText = "Build Now")
     private WebElement buildNowButton;
 
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement descriptionField;
+
+    @FindBy(xpath = "//label[text()='GitHub project']")
+    private WebElement githubCheckbox;
+
+    @FindBy(xpath = "//div[@class='jenkins-radio']/following-sibling::a")
+    private WebElement gitInfoQuestionMark;
+
+    @FindBy(xpath = "//input[@name='hudson-triggers-TimerTrigger']/following-sibling::label")
+    private WebElement timeTriggerCheckbox;
+
+    @FindBy(name = "_.spec")
+    private WebElement timeTriggerField;
+
+    @FindBy(xpath = "//input[@name='hudson-tasks-AntWrapper']/following-sibling::label")
+    private WebElement antCheckbox;
+
+    @FindBy(name = "Submit")
+    private WebElement saveButton;
+
+    @FindBy(xpath = "//a[contains(text(),'Dashboard')]")
+    private WebElement dashboardButton;
+
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
     }
+
+//    public FreeStyleProjectConfigALEXPage(WebDriver driver) {
+//        super(driver);
+//    }
+
+    public FreestyleProjectConfigPage sendTextToDescriptionField(String text) {
+        descriptionField.sendKeys(text);
+        return this;
+    }
+
+    public FreestyleProjectConfigPage clickGithubCheckbox() {
+        githubCheckbox.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage clickGitInfoQuestMark() {
+        gitInfoQuestionMark.click();
+        return this;
+    }
+
+    public FreestyleProjectConfigPage clickTimeTriggerCheckbox() throws InterruptedException {
+        scrollToElement(getDriver(), timeTriggerCheckbox);
+        Thread.sleep(1000);
+        timeTriggerCheckbox.click();
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage sendTextToTimeTriggerField(String text) {
+        timeTriggerField.sendKeys(text);
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage clickAntCheckbox() {
+        antCheckbox.click();
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage clickSaveButton1() {
+        saveButton.click();
+
+        return this;
+    }
+
+    public HomePage clickDashboardButton() {
+        dashboardButton.click();
+
+        return new HomePage(getDriver());
+    }
+
+    // END OF INSERTION!!!
 
     @Override
     public FreestyleProjectStatusPage clickSaveBtn() {

@@ -118,12 +118,6 @@ public class HomePage extends Header {
         super(driver);
     }
 
-    public HomePage clickDashboard() {
-        topMenuRoot.click();
-
-        return new HomePage(getDriver());
-    }
-
     public String getItemName() {
         return getItemName.getText();
     }
@@ -165,11 +159,11 @@ public class HomePage extends Header {
         return this;
     }
 
-    public FreeStyleProjectMenuALEXPage clickDropdownRenameButton() {
+    public FreeStyleProjectMenuPage clickDropdownRenameButton() {
         getWait(5).until(ExpectedConditions.elementToBeClickable(dropdownRenameButton));
         dropdownRenameButton.click();
 
-        return new FreeStyleProjectMenuALEXPage(getDriver());
+        return new FreeStyleProjectMenuPage(getDriver());
     }
 
     public HomePage clickDeleteItem() {
@@ -178,9 +172,11 @@ public class HomePage extends Header {
         return this;
     }
 
-    public void clickAcceptAlert() {
+    public HomePage clickAcceptAlert() {
         Alert alert = getDriver().switchTo().alert();
         alert.accept();
+
+        return new HomePage(getDriver());
     }
 
     public String getHomePageWelcomeText() {

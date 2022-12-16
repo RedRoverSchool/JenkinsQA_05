@@ -36,8 +36,8 @@ public class NewItemPage extends HomePage {
 
     @FindBy(className = "com_cloudbees_hudson_plugins_folder_Folder")
     private WebElement folderType;
-    @FindBy(className = "btn-decorator")
-    private WebElement okButton;
+//    @FindBy(className = "btn-decorator")
+//    private WebElement okButton;
     @FindBy(className = "hudson_model_FreeStyleProject")
     private WebElement freeStyleProjectType;
     @FindBy(xpath = "//li[@class = 'jenkins_branch_OrganizationFolder']")
@@ -213,10 +213,10 @@ public class NewItemPage extends HomePage {
         return new FolderStatusPage(getDriver());
     }
 
-    public FreeStyleProjectConfigALEXPage selectFreeStyleProjectAndClickOk() {
+    public FreestyleProjectConfigPage selectFreeStyleProjectAndClickOk() {
         freeStyleProjectType.click();
         okButton.click();
 
-        return new FreeStyleProjectConfigALEXPage(getDriver());
+        return new FreestyleProjectConfigPage(getDriver());
     }
 }

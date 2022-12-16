@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FreeStyleProjectMenuALEXPage extends BasePage {
+public class FreeStyleProjectMenuPage extends BasePage {
 
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
@@ -15,23 +15,23 @@ public class FreeStyleProjectMenuALEXPage extends BasePage {
     @FindBy(tagName = "p")
     private WebElement errorText;
 
-    public FreeStyleProjectMenuALEXPage(WebDriver driver) {
+    public FreeStyleProjectMenuPage(WebDriver driver) {
         super(driver);
     }
 
-    public FreeStyleProjectMenuALEXPage clearRenameField() {
+    public FreeStyleProjectMenuPage clearRenameField() {
         renameField.clear();
 
         return this;
     }
 
-    public FreeStyleProjectMenuALEXPage sendTextToRenameField(String text) {
+    public FreeStyleProjectMenuPage sendTextToRenameField(String text) {
         renameField.sendKeys(text);
 
         return this;
     }
 
-    public FreeStyleProjectMenuALEXPage clickConfirmButton() {
+    public FreeStyleProjectMenuPage clickConfirmButton() {
         renameConfirmButton.click();
 
         return this;
