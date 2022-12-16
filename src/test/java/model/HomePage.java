@@ -20,20 +20,21 @@ public class HomePage extends Header {
     @FindBy(linkText = "New Item")
     private WebElement newItem;
 
-//    @FindBy(xpath = "//a[@href='/view/all/newJob']")
-//    private WebElement newItem;
+    @FindBy(xpath = "//a[@href='/view/all/newJob']")
+    private WebElement newItemViaHref;
 
     @FindBy(id = "yui-gen6")
     private WebElement dropdownRenameButton;
+
     @FindBy(className = "icon-edit-delete")
     private WebElement deleteItem;
-    @FindBy(xpath = "//tr/td[3]/a/span[1]")
-    private List<WebElement> jobList;
 
     @FindBy(css = "tr td a.model-link")
     private List<WebElement> jobList;
+
     @FindBy(xpath = "//h2[@class='h4']")
     private WebElement homePageWelcomeText;
+
     @FindBy(className = "jenkins-table__link")
     private WebElement getItemName;
 
@@ -139,7 +140,7 @@ public class HomePage extends Header {
     }
 
     public NewItemPage clickNewItem() {
-        newItem.click();
+        newItemViaHref.click();
 
         return new NewItemPage(getDriver());
     }
@@ -198,6 +199,7 @@ public class HomePage extends Header {
     public String getHomePageWelcomeText() {
         return homePageWelcomeText.getText();
     }
+
     public List<String> getViewList() {
         return viewList
                 .stream()
@@ -345,11 +347,11 @@ public class HomePage extends Header {
         return new BuildHistoryPage(getDriver());
     }
 
-    public FooterPage clickRestApiLink() {
-        restApiLink.click();
-
-        return new FooterPage(getDriver());
-    }
+//    public FooterPage clickRestApiLink() {
+//        restApiLink.click();
+//
+//        return new FooterPage(getDriver());
+//    }
 
     public StatusUserPage clickUserIcon() {
         iconUserName.click();

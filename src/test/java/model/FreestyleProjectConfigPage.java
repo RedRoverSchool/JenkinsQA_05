@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static runner.TestUtils.scrollToElement;
 import static runner.TestUtils.scrollToElement_PlaceInCenter;
 
 public class FreestyleProjectConfigPage extends BaseConfigPage {
@@ -127,10 +128,6 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
         super(driver);
     }
 
-//    public FreeStyleProjectConfigALEXPage(WebDriver driver) {
-//        super(driver);
-//    }
-
     public FreestyleProjectConfigPage sendTextToDescriptionField(String text) {
         descriptionField.sendKeys(text);
         return this;
@@ -177,8 +174,6 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
 
         return new HomePage(getDriver());
     }
-
-    // END OF INSERTION!!!
 
     @Override
     public FreestyleProjectStatusPage clickSaveBtn() {
@@ -338,7 +333,7 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
     }
 
     public FreestyleProjectConfigPage openAddBuildStepDropDown() {
-        TestUtils.scrollToElement(getDriver(), buildStepsButton);
+        scrollToElement(getDriver(), buildStepsButton);
         getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".yui-button.yui-menu-button")));
         getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(buildStepsButton));
         new Actions(getDriver())
