@@ -1,10 +1,8 @@
-import model.FolderStatusPage;
 import model.FreestyleProjectStatusPage;
 import model.HomePage;
 import model.NewItemPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -21,14 +19,10 @@ public class MultibranchPipelineTest extends BaseTest {
             "//div[@id='j-add-item-type-nested-projects']/ul [@class='j-item-options']/li[2]";
     private final String BUTTON_OK_XPATH = "//span [@class='yui-button primary large-button']";
     private final String DASHBOARD_XPATH = "//li[@class='item'][1]/a [@class='model-link']";
-    private static final By NEW_ITEM = By.linkText("New Item");
-    private static final By NAME = By.id("name");
     private static final By SUBMIT_BUTTON = By.xpath("//button[@type = 'submit']");
-    private static final By MULTIBRANCH_PIPELINE_OPTION = By.xpath("//li[@class='org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject']");
     private static final String RANDOM_MULTIBRANCHPIPELINE_NAME = TestUtils.getRandomStr();
     private static final By MULTIBRANCH_PIPELINE_NAME_INPUT_FIELD = (By.xpath("//input[@type='text']"));
     private static final By MULTIBRANCH_PIPELINE_NAME = By.xpath("//a [@class='jenkins-table__link model-link inside']");
-    private static final By DROP_DOWN_MENU = By.cssSelector(".jenkins-menu-dropdown-chevron");
 
     private WebElement findElementXpath(String xpath) {
         return getDriver().findElement(By.xpath(xpath));
@@ -48,10 +42,6 @@ public class MultibranchPipelineTest extends BaseTest {
 
     private void buttonClickXpath(String locator) {
         getDriver().findElement(By.xpath(locator)).click();
-    }
-
-    private void buttonClickID(String locator) {
-        getDriver().findElement(By.id(locator)).click();
     }
 
     private void inputTextByXPath(String locator, String text) {
@@ -88,21 +78,11 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void Create_Multibranch_Pipeline_Test() {
-        String nameOfItem = "MultibranchPipeline";
-        buttonClickXpath(NEW_ITEM_XPATH);
-        inputTextByXPath(ENTER_AN_ITEM_NAME_XPATH, nameOfItem);
-        buttonClickXpath(MULTIBRANCH_PIPELINE_XPATH);
-        buttonClickXpath(BUTTON_OK_XPATH);
-        buttonClickXpath("//button [@id='yui-gen8-button']");
+    public void testCreateMultibranchPipeline() {
+        createMultibranchPipeline(RANDOM_MULTIBRANCHPIPELINE_NAME);
+        HomePage homePage = new HomePage(getDriver());
 
-        assertTextByXPath("//ul [@id='breadcrumbs']/li[3]/a[@class='model-link']", nameOfItem);
-
-        buttonClickXpath(DASHBOARD_XPATH);
-
-        assertTextByXPath("//span[text()='MultibranchPipeline']", nameOfItem);
-
-        deleteItem(nameOfItem);
+        Assert.assertTrue(homePage.getJobList().contains(RANDOM_MULTIBRANCHPIPELINE_NAME));
     }
 
     @Test
