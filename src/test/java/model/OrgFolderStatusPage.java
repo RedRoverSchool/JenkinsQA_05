@@ -18,6 +18,12 @@ public class OrgFolderStatusPage extends BasePage {
     @FindBy(id = "yui-gen1-button")
     private WebElement renameButtonOnMainPanel;
 
+    @FindBy(linkText = "Configure")
+    private WebElement configureButton;
+
+    @FindBy(id = "view-message")
+    private WebElement description;
+
     public OrgFolderStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -40,5 +46,17 @@ public class OrgFolderStatusPage extends BasePage {
         renameButtonOnMainPanel.click();
 
         return new OrgFolderStatusPage(getDriver());
+    }
+
+    public OrgFolderConfigPage clickConfigureSideMenu() {
+        configureButton.click();
+
+        return new OrgFolderConfigPage(getDriver());
+    }
+
+    public OrgFolderStatusPage descriptionCheck() {
+        description.isDisplayed();
+
+        return this;
     }
 }

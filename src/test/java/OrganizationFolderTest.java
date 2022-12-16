@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 public class OrganizationFolderTest extends BaseTest {
     private static final String uniqueOrganizationFolderName = "folder" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-    private static final String ORG_FOLDER_NAME = TestUtils.getRandomStr();
     private static final String NAME_ORG_FOLDER = TestUtils.getRandomStr();
     private static final String nameOrgFolderPOM = TestUtils.getRandomStr();
     private static final String nameFolderPOM = TestUtils.getRandomStr();
@@ -228,7 +227,7 @@ public class OrganizationFolderTest extends BaseTest {
     @Test
     public void testCheckNotificationAfterApply() {
         getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(ORG_FOLDER_NAME);
+        getDriver().findElement(INPUT_NAME).sendKeys(NAME_ORG_FOLDER);
         getDriver().findElement(ORGANIZATION_FOLDER).click();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(APPLY_BUTTON).click();
@@ -300,20 +299,35 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateOrganizFolder")
     public void testConfigureOrganizationFolder() {
-        getDriver().findElement(ITEM_ORG_FOLDER).click();
-        getDriver().findElement(By.linkText("Configure")).click();
-        getDriver().findElement(INPUT_DISPLAY_NAME).sendKeys(NAME_ORG_FOLDER);
-        getDriver().findElement(DESCRIPTION).sendKeys(NAME_ORG_FOLDER);
-        getSaveButton().click();
-        getDashboard().click();
+        final String displayName = TestUtils.getRandomStr();
+        final String description = TestUtils.getRandomStr();
 
-        List<String> foldersList = getDriver()
-                .findElements(By.xpath("//tr/td[3]/a/span"))
-                .stream()
-                .map(element -> element.getText())
-                .collect(Collectors.toList());
+        OrgFolderStatusPage orgFolderStatusPage = new HomePage(getDriver())
+                .clickOrgFolder(NAME_ORG_FOLDER)
+                .clickConfigureSideMenu()
+                .inputDisplayName(displayName)
+                .inputDescription(description)
+                .clickSaveButton();
 
-        Assert.assertTrue(foldersList.contains(NAME_ORG_FOLDER));
+        Assert.assertEquals(orgFolderStatusPage.descriptionCheck(),description);
+
+        Assert.assertTrue(new HomePage(getDriver()).getJobList().contains(displayName));
+
+
+//        getDriver().findElement(ITEM_ORG_FOLDER).click();
+//        getDriver().findElement(By.linkText("Configure")).click();
+//        getDriver().findElement(INPUT_DISPLAY_NAME).sendKeys(NAME_ORG_FOLDER);
+//        getDriver().findElement(DESCRIPTION).sendKeys(NAME_ORG_FOLDER);
+//        getSaveButton().click();
+//        getDashboard().click();
+//
+//        List<String> foldersList = getDriver()
+//                .findElements(By.xpath("//tr/td[3]/a/span"))
+//                .stream()
+//                .map(element -> element.getText())
+//                .collect(Collectors.toList());
+//
+//        Assert.assertTrue(foldersList.contains(NAME_ORG_FOLDER));
     }
 
     @Test

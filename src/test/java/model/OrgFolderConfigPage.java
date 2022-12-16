@@ -9,6 +9,12 @@ public class OrgFolderConfigPage extends HomePage {
     @FindBy(id = "yui-gen15-button")
     private WebElement saveButton;
 
+    @FindBy(xpath = "//input  [@name='_.displayNameOrNull']")
+    private WebElement displayName;
+
+    @FindBy(xpath = "//textarea [@name='_.description']")
+    private WebElement description;
+
     public OrgFolderConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -17,5 +23,17 @@ public class OrgFolderConfigPage extends HomePage {
         saveButton.click();
 
         return new OrgFolderStatusPage(getDriver());
+    }
+
+    public OrgFolderConfigPage inputDisplayName(String name) {
+        displayName.sendKeys(name);
+
+        return this;
+    }
+
+    public OrgFolderConfigPage inputDescription(String name) {
+        description.sendKeys(name);
+
+        return this;
     }
 }

@@ -481,4 +481,10 @@ public class HomePage extends Header {
 
         return new DeleteMultibranchPipelinePage(getDriver());
     }
+
+    public OrgFolderStatusPage clickOrgFolder(String name) {
+        getDriver().findElement(By.linkText(name)).click();
+
+        return new OrgFolderStatusPage(getDriver());
+    }
 }
