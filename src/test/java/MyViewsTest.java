@@ -1,11 +1,12 @@
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class MyViewsTest extends BaseTest {
     final private static String TEST_DESCRIPTION_NAME = "Test";
-
     final private static String DESCRIPTION_NAME_EDIT = "Test1";
 
     public void createDescription() {
@@ -23,13 +24,19 @@ public class MyViewsTest extends BaseTest {
 
     @Test
     public void testAddDescription() {
-        createDescription();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), TEST_DESCRIPTION_NAME);
+        String actualResult = new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickAddDescription()
+                .clearDescriptionField()
+                .sendKeysInDescriptionField("Description")
+                .clickSaveButton()
+                .getDescriptionText();
 
-        deleteDescription();
+        Assert.assertEquals(actualResult, "Description");
     }
 
+    @Ignore
     @Test
     public void testEditDescription() {
         createDescription();

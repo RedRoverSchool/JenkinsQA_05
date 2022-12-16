@@ -1,3 +1,4 @@
+import model.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -15,17 +16,12 @@ public class HeaderTest extends BaseTest {
 
     private static final By USER_ACCOUNT_LINK = By.xpath("//a[@class='model-link']//span");
 
-    private void openUserDropdownMenu() {
-        getDriver().findElement(
-                By.cssSelector("header#page-header .jenkins-menu-dropdown-chevron")).click();
-    }
-
     private void createOrganizationFolder() {
-        for(int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= 4; i++) {
             String organizationFolderName = "OrganizationFolder_" + (int) (Math.random() * 1000);
 
             getDriver().findElement(By.linkText("New Item")).click();
-            getDriver().findElement(By.cssSelector(".jenkins_branch_OrganizationFolder")).click();
+            getWait(5).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".jenkins_branch_OrganizationFolder"))).click();
             getDriver().findElement(By.xpath("//input [@name = 'name']")).sendKeys(organizationFolderName);
             getDriver().findElement(By.id("ok-button")).click();
             getDriver().findElement(By.id("yui-gen15-button")).click();
@@ -56,88 +52,78 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testCountAndNamesItemsInUserDropdownMenu() {
-        getDriver().findElement(
-                By.cssSelector("header#page-header .jenkins-menu-dropdown-chevron")).click();
-        List<WebElement> userDropdownItems = getDriver().findElements(
-                By.cssSelector(".first-of-type > .yuimenuitem"));
-        int actualItemsCount = 0;
-        StringBuilder actualNamesItems = new StringBuilder();
-        for (WebElement item : userDropdownItems) {
-            actualItemsCount++;
-            actualNamesItems.append(item.getText());
-        }
+        int itemsCount = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .getItemsCountInUserDropdownMenu();
 
-        Assert.assertEquals(actualItemsCount, 4);
-        Assert.assertEquals(actualNamesItems.toString(),
-                "BuildsConfigureMy ViewsCredentials");
+        String itemsNames = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .getItemsNamesInUserDropdownMenu();
+
+        Assert.assertEquals(itemsCount, 4);
+        Assert.assertEquals(itemsNames, "Builds Configure My Views Credentials");
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageAdminBuilds() {
-        openUserDropdownMenu();
-        getDriver().findElement(
-                By.cssSelector("ul > li:nth-of-type(1) span")).click();
+    public void testUserDropdownMenuToOpenBuildsUserPage() {
+        BuildsUserPage buildsUserPage = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .clickBuildsItemInUserDropdownMenu();
 
-        Assert.assertEquals(getDriver().findElement(
-                        By.cssSelector("div#main-panel > h1")).getText(),
+        Assert.assertEquals(buildsUserPage.getHeaderH1Text(),
                 "Builds for admin");
     }
 
     @Test
-    public void test_Logo_HeadIconIsSeen() {
+    public void testLogoHeadIconIsSeen() {
 
-        Assert.assertTrue(getDriver().findElement(
-                By.id("jenkins-head-icon")).isEnabled());
+        HomePage homePage = new HomePage(getDriver());
 
-        Assert.assertTrue(getDriver().findElement(
-                By.id("jenkins-head-icon")).isDisplayed());
+        Assert.assertTrue(homePage.getJenkinsHeadIcon().isDisplayed());
+
+        Assert.assertTrue(homePage.getJenkinsHeadIcon().isEnabled());
     }
 
     @Test
-    public void test_Manage_Jenkins_ClickNameIconToReturnToTheMainPage() {
-        getDriver().findElement(
-                        By.xpath("//div[@id='tasks']//a[@href='/manage']")).
-                click();
+    public void testManageJenkinsClickNameIconToReturnToTheMainPage() {
+        ManageJenkinsPage manageJenkinsPage = new HomePage(getDriver()).clickManageJenkins();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),
-                "http://localhost:8080/manage/");
+        Assert.assertEquals(manageJenkinsPage.getCurrentURL(), "http://localhost:8080/manage/");
+        Assert.assertEquals(manageJenkinsPage.getTextHeader1ManageJenkins(), "Manage Jenkins");
 
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
+        HomePage homePage = manageJenkinsPage.clickJenkinsNameIcon();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),
-                "http://localhost:8080/");
+        Assert.assertEquals(homePage.getCurrentURL(), "http://localhost:8080/");
+        Assert.assertEquals(homePage.getHeaderText(), "Welcome to Jenkins!");
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageAdminConfigure() {
-        openUserDropdownMenu();
-        getDriver().findElement(
-                By.cssSelector("ul > li:nth-of-type(2) span")).click();
+    public void testUserDropdownMenuToOpenConfigureUserPage() {
+        ConfigureUserPage configureUserPage = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .clickConfigureItemInUserDropdownMenu();
 
-        Assert.assertEquals(getDriver().findElement(
-                        By.cssSelector("div:nth-of-type(3) > .jenkins-section__title")).getText(),
-                "API Token");
+        Assert.assertEquals(configureUserPage.getAddNewTokenButtonName(),
+                "Add new Token");
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageAdminMyViews() {
-        openUserDropdownMenu();
-        getDriver().findElement(
-                By.cssSelector("ul > li:nth-of-type(3) span")).click();
+    public void testUserDropdownMenuToOpenMyViewsUserPage() {
+        MyViewsPage myViewsPage = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .clickMyViewItemInUserDropdownMenu();
 
-        Assert.assertEquals(getDriver().findElement(
-                        By.xpath("//ul[@id='breadcrumbs']//a[@href='/user/admin/my-views/']")).getText(),
+        Assert.assertEquals(myViewsPage.getMyViewItemNameOnTopBar(),
                 "My Views");
     }
 
     @Test
-    public void testUserDropdownMenuToOpenPageAdminCredentials() {
-        openUserDropdownMenu();
-        getDriver().findElement(
-                By.cssSelector("li:nth-of-type(4) span")).click();
+    public void testUserDropdownMenuToOpenCredentialsUserPage() {
+        CredentialsPage credentialsPage = new HomePage(getDriver())
+                .clickUserDropdownMenu()
+                .clickCredentialsItemInUserDropdownMenu();
 
-        Assert.assertEquals(
-                getDriver().findElement(By.tagName("h1")).getText(),
+        Assert.assertEquals(credentialsPage.getHeaderH1Text(),
                 "Credentials");
     }
 
@@ -161,9 +147,8 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(actualResultPage);
     }
 
-    @Ignore
     @Test
-    public void testCheckTheAppropriateSearchResult(){
+    public void testCheckTheAppropriateSearchResult() {
         createOrganizationFolder();
 
         getDriver().findElement(By.id("search-box")).sendKeys("organiza");
@@ -178,17 +163,19 @@ public class HeaderTest extends BaseTest {
     }
 
     @Test
-    public void test_Logo_HeadIcon_ReloadMainPage(){
-        getDriver().findElement(By.id("description-link")).click();
+    public void testLogoHeadIconReloadMainPage() {
 
-        Assert.assertTrue(getDriver().findElement(
-                        By.xpath("//div[@id='description']//textarea")).
-                isDisplayed());
+        HomePage homePage = new HomePage(getDriver());
 
-        getDriver().findElement(By.id("jenkins-head-icon")).click();
+        Assert.assertTrue(homePage.clickAddDescriptionButton().getDescriptionTextarea().isEnabled());
 
-        Assert.assertTrue(getDriver().findElement(
-                By.id("description-link")).isDisplayed());
+        Assert.assertFalse(homePage.isAddDescriptionButtonPresent());
+
+        Assert.assertFalse(homePage.clickJenkinsHeadIcon()
+                .waitForVisibilityOfAddDescriptionButton().isDescriptionTextareaPresent());
+
+        Assert.assertTrue(homePage.clickJenkinsHeadIcon()
+                .waitForVisibilityOfAddDescriptionButton().getAddDescriptionButton().isEnabled());
     }
 }
 
