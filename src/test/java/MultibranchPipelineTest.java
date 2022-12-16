@@ -1,4 +1,5 @@
 import model.FolderStatusPage;
+import model.FreestyleProjectStatusPage;
 import model.HomePage;
 import model.NewItemPage;
 import org.openqa.selenium.By;
@@ -76,12 +77,14 @@ public class MultibranchPipelineTest extends BaseTest {
         buttonClickXpath(MULTIBRANCH_PIPELINE_XPATH);
     }
 
-    private void createMultibranchPipeline() {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(NAME).sendKeys(RANDOM_MULTIBRANCHPIPELINE_NAME);
-        getDriver().findElement(MULTIBRANCH_PIPELINE_OPTION).click();
-        getDriver().findElement(SUBMIT_BUTTON).click();
-        getDriver().findElement(SUBMIT_BUTTON).click();
+    private void createMultibranchPipeline(String folderName) {
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(folderName)
+                .selectMultibranchPipeline()
+                .clickOKButton()
+                .clickSubmitButton()
+                .clickDashboard();
     }
 
     @Test
@@ -186,28 +189,24 @@ public class MultibranchPipelineTest extends BaseTest {
         deleteItem(nameOfItem);
     }
 
-    @Ignore
+
     @Test
     public void testRename_MultiBranch_Pipeline_From_Dropdown() {
-        createMultibranchPipeline();
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
-        getDriver().findElement(By.linkText(RANDOM_MULTIBRANCHPIPELINE_NAME)).findElement(DROP_DOWN_MENU).click();
-        getWait(5).until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//span[contains(text(),'Rename')]"))).click();
-        getDriver().findElement(By.xpath("//input[@type='text']")).clear();
-        String expectedMultibranchPipeline = RANDOM_MULTIBRANCHPIPELINE_NAME + "_Renamed";
-        getDriver().findElement(By.xpath("//input[@type='text']")).sendKeys(expectedMultibranchPipeline);
-        getDriver().findElement(SUBMIT_BUTTON).click();
+        createMultibranchPipeline(RANDOM_MULTIBRANCHPIPELINE_NAME);
+        FreestyleProjectStatusPage actualMultibranchPipeline = new HomePage(getDriver())
+                .clickFolderDropdownMenu(RANDOM_MULTIBRANCHPIPELINE_NAME)
+                .clickRenameDropDownMenu()
+                .clearFieldAndInputNewName(RANDOM_MULTIBRANCHPIPELINE_NAME + "_Renamed")
+                .clickSubmitButton();
 
-        String actualMultibranchPipeline = getDriver().findElement(By.linkText(expectedMultibranchPipeline)).getText();
-        Assert.assertEquals(actualMultibranchPipeline, expectedMultibranchPipeline);
+        Assert.assertTrue(actualMultibranchPipeline.getHeadlineText().contains(RANDOM_MULTIBRANCHPIPELINE_NAME + "_Renamed"));
     }
 
     @Test
     public void testRenameMultiBranchPipelineFromLeftSideMenu() {
         String Renamed = "Renamed_Multibranch_Pipeline";
 
-        createMultibranchPipeline();
+        createMultibranchPipeline(RANDOM_MULTIBRANCHPIPELINE_NAME);
         redirectToDashboardPage();
         clickElement(MULTIBRANCH_PIPELINE_NAME);
         clickElement(By.linkText("Rename"));
