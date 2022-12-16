@@ -1,4 +1,5 @@
 import model.HomePage;
+import model.CreateItemErrorPage;
 import model.OrgFolderStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -243,12 +244,14 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateOrgFolder")
     public void testCreateOrgFolderExistName() {
-        new HomePage(getDriver())
+        String errMessage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(ORG_FOLDER_NAME_CREATE)
-                .selectFolderAndClickOk();
+                .selectExistFolderAndClickOk()
+                .getErrorMessage();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//h1['Error']")).isDisplayed());
+        Assert.assertEquals(errMessage, "A job already exists with the name ‘"
+                + ORG_FOLDER_NAME_CREATE + "’");
     }
 
     @Test(dependsOnMethods = "testMoveOrgFolderToFolder")
