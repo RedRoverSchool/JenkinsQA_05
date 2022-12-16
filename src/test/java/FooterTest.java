@@ -1,15 +1,13 @@
-import model.HomePage;
+import model.RestApiPage;
 import model.XmlPage;
-import org.checkerframework.checker.units.qual.s;
 import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+
 
 import static runner.TestUtils.scrollToEnd;
 
@@ -55,7 +53,7 @@ public class FooterTest extends BaseTest {
 
     @Test
     public void testFooterRestApiClickOnXmlApiDisplayXML() {
-        XmlPage xmlPage = new HomePage(getDriver())
+        XmlPage xmlPage = new RestApiPage(getDriver())
                 .clickRestApiLink()
                 .clickXmlApi();
 

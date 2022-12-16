@@ -4,17 +4,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FooterPage extends HomePage {
-    @FindBy(xpath = "//dt/a[@href='xml']")
-    private WebElement xmlApiLink;
+public abstract class FooterPage extends BasePage {
+        @FindBy(xpath = "//div/a[@href = 'api/']")
+        private WebElement restApi;
 
-    public FooterPage(WebDriver driver) {
-        super(driver);
-    }
-
-    public XmlPage clickXmlApi() {
-        xmlApiLink.click();
-
-        return new XmlPage(getDriver());
-    }
+        public FooterPage(WebDriver driver) {
+            super(driver);
+        }
+        public RestApiPage clickRestApiLink() {
+            restApi.click();
+            return new RestApiPage(getDriver());
+        }
 }

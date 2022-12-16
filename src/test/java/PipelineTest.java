@@ -475,4 +475,18 @@ public class PipelineTest extends BaseTest {
 
         Assert.assertEquals(actualCheckIcon, expectedCheckIcon);
     }
+
+    @Test(dependsOnMethods = "testBuildNewPipeline")
+    public void testAddDescrInExistPipeline() {
+        final String expectedDescription = "Very important pipeline";
+
+        String actualDescription = new HomePage(getDriver())
+                .clickPipeline1()
+                .clickConfigure()
+                .setDescriptionField(expectedDescription)
+                .clickSaveButton()
+                .getDescription();
+
+        Assert.assertEquals(actualDescription, expectedDescription);
+    }
 }
