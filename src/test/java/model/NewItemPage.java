@@ -36,10 +36,10 @@ public class NewItemPage extends HomePage {
 
     @FindBy(className = "com_cloudbees_hudson_plugins_folder_Folder")
     private WebElement folderType;
-//    @FindBy(className = "btn-decorator")
-//    private WebElement okButton;
+
     @FindBy(className = "hudson_model_FreeStyleProject")
     private WebElement freeStyleProjectType;
+
     @FindBy(xpath = "//li[@class = 'jenkins_branch_OrganizationFolder']")
     private WebElement orgFolder;
 

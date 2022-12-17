@@ -8,10 +8,13 @@ public class FreeStyleProjectMenuPage extends BasePage {
 
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;
+
     @FindBy(xpath = "//input[@checkdependson='newName']")
     private WebElement renameField;
+
     @FindBy(id = "yui-gen1")
     private WebElement renameConfirmButton;
+
     @FindBy(tagName = "p")
     private WebElement errorText;
 

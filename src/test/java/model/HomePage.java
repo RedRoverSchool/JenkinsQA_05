@@ -347,12 +347,6 @@ public class HomePage extends Header {
         return new BuildHistoryPage(getDriver());
     }
 
-//    public FooterPage clickRestApiLink() {
-//        restApiLink.click();
-//
-//        return new FooterPage(getDriver());
-//    }
-
     public StatusUserPage clickUserIcon() {
         iconUserName.click();
 
