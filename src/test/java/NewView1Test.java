@@ -8,6 +8,8 @@ import runner.BaseTest;
 
 public class NewView1Test extends BaseTest {
 
+    private static final String FREESTYLE_PROJECT_NAME = "Freestyle project";
+    private static final String PIPELINE_PROJECT_NAME = "Pipeline";
     private static final String GLOBAL_VIEW_NAME = "Global_View";
     private static final String LIST_VIEW_NAME = "List_View";
     private static final String MY_VIEW_NAME = "My_View";
@@ -17,13 +19,13 @@ public class NewView1Test extends BaseTest {
     public void testCreateViews() {
         MyViewsPage myViewsPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName("Freestyle project")
+                .setProjectName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .clickDashboard()
 
                 .clickNewItem()
-                .setProjectName("Pipeline")
+                .setProjectName(PIPELINE_PROJECT_NAME)
                 .selectPipelineAndClickOk()
                 .saveConfigAndGoToProject()
                 .clickDashboard()
@@ -63,6 +65,22 @@ public class NewView1Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateViews")
+    public void testAddSomeJobsToListView() {
+        MyViewsPage myViewsPage = new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickView(LIST_VIEW_NAME)
+                .clickLinkTextAddExistingJob()
+                .clickJobForInputToListView(FREESTYLE_PROJECT_NAME)
+                .clickJobForInputToListView(PIPELINE_PROJECT_NAME)
+                .clickListOrMyViewOkButton();
+
+        Assert.assertEquals(myViewsPage.getCurrentURL(),
+                "http://localhost:8080/user/admin/my-views/view/" + LIST_VIEW_NAME + "/");
+        Assert.assertEquals(myViewsPage.getListProjectsNames(),
+                FREESTYLE_PROJECT_NAME.concat(" ").concat(PIPELINE_PROJECT_NAME));
+    }
+
+    @Test(dependsOnMethods = "testAddSomeJobsToListView")
     public void testRenameView() {
         MyViewsPage myViewsPage = new HomePage(getDriver())
                 .goToEditView(LIST_VIEW_NAME)
