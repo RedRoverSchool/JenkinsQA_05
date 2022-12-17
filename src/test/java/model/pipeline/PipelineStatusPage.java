@@ -1,12 +1,8 @@
 package model.pipeline;
 
-<<<<<<<< HEAD:src/test/java/model/PipelineStatusPage.java
 import model.base.BaseStatusPage;
-========
 import model.BuildWithParametersPage;
 import model.HomePage;
-import model.base.BasePage;
->>>>>>>> main:src/test/java/model/pipeline/PipelineProjectPage.java
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

@@ -9,7 +9,7 @@ import model.multibranch_pipeline.DeleteMultibranchPipelinePage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import model.organization_folder.OrgFolderStatusPage;
 import model.pipeline.PipelineConfigPage;
-import model.pipeline.PipelineProjectPage;
+import model.pipeline.PipelineStatusPage;
 import model.views.EditViewPage;
 import model.views.MyViewsPage;
 import model.views.NewViewPage;
