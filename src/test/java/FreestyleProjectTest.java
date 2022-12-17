@@ -225,4 +225,63 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(errorPage.isErrorPictureDisplayed());
         Assert.assertEquals(errorPage.getErrorDescription(), expectedTextOfError);
     }
+
+    @Test
+    public void testConfigureJobAsParameterized() {
+        final String stringParameterName = "Held post";
+        final String stringParameterDefaultValue = "Manager";
+        final String choiceParameterName = "Employee_name";
+        final String choiceParameterValues = "John Smith\nJane Dow";
+        final String booleanParameterName = "Employed";
+        final String pageNotification = "This build requires parameters:";
+
+        BuildWithParametersPage page = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(NEW_FREESTYLE_NAME)
+                .selectFreestyleProjectAndClickOk()
+                .switchONCheckBoxThisProjectIsParametrized()
+                .clickButtonAddParameter()
+                .selectStringParameter()
+                .inputStringParameterName(stringParameterName)
+                .inputStringParameterDefaultValue(stringParameterDefaultValue)
+                .scrollAndClickAddParameterButton()
+                .selectChoiceParameter()
+                .inputChoiceParameterName(choiceParameterName)
+                .inputChoiceParameterValue(choiceParameterValues)
+                .scrollAndClickAddParameterButton()
+                .selectBooleanParameter()
+                .inputBooleanParameterName(booleanParameterName)
+                .switchONBooleanParameterAsDefault()
+                .clickSaveButton()
+                .clickButtonBuildWithParameters();
+
+        Assert.assertEquals(page.getProjectName(), NEW_FREESTYLE_NAME);
+        Assert.assertEquals(page.getPageNotificationText(), pageNotification);
+        Assert.assertEquals(page.getFirstParamName(), stringParameterName);
+        Assert.assertEquals(page.getFirstParamValue(), stringParameterDefaultValue);
+        Assert.assertEquals(page.getSecondParamName(), choiceParameterName);
+        Assert.assertEquals(page.selectedParametersValues(), choiceParameterValues);
+        Assert.assertEquals(page.getThirdParamName(), booleanParameterName);
+        Assert.assertTrue(page.isBooleanParameterDefaultOn());
+    }
+
+    @Test(dependsOnMethods = "testConfigureJobAsParameterized")
+    public void testConfigureSourceCodeByGIT() {
+        final String repositoryURL = "https://github.com/RedRoverSchool/JenkinsQA_05.git";
+        final String branchSpecifier = "main";
+
+        HomePage page = new HomePage(getDriver())
+                .clickFreestyleProjectName()
+                .clickSideMenuConfigureLink()
+                .switchOFFCheckBoxThisProjectIsParametrized()
+                .clickLinkSourceCodeManagement()
+                .selectSourceCodeManagementGIT()
+                .inputGITRepositoryURL(repositoryURL)
+                .inputBranchSpecifier(branchSpecifier)
+                .clickSaveBtn()
+                .clickButtonBuildNowAndRedirectToDashboardAfterBuildCompleted();
+
+        Assert.assertEquals(page.getJobBuildStatus(), "Success");
+        Assert.assertNotEquals(page.getBuildDurationTime(), "N/A");
+    }
 }

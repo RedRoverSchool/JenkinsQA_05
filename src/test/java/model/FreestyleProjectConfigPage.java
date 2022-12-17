@@ -98,6 +98,9 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
     @FindBy(name = "hudson-triggers-TimerTrigger")
     private WebElement buildPeriodicallyCheckbox;
 
+    @FindBy(xpath = "//div[contains(text(), 'Branch Specifier')]/following-sibling::div/input")
+    private WebElement BranchSpecifierInputField;
+
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -311,6 +314,15 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
         if (buildPeriodicallyCheckbox.isSelected()) {
             getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(buildPeriodicallyOption)).click();
         }
+
+        return this;
+    }
+
+    public FreestyleProjectConfigPage inputBranchSpecifier(String branchSpecifier){
+        scrollToElement_PlaceInCenter(getDriver(), BranchSpecifierInputField);
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(BranchSpecifierInputField)).clear();
+        //BranchSpecifierInputField.clear();
+        BranchSpecifierInputField.sendKeys(branchSpecifier);
 
         return this;
     }

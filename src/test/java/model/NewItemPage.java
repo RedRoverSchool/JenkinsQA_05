@@ -96,6 +96,13 @@ public class NewItemPage extends HomePage {
         return new FolderConfigPage(getDriver());
     }
 
+    public CreateItemErrorPage selectExistFolderAndClickOk() {
+        folderType.click();
+        okButton.submit();
+
+        return new CreateItemErrorPage(getDriver());
+    }
+
     public OrgFolderConfigPage selectOrgFolderAndClickOk() {
 //        TestUtils.scrollToElement(getDriver(), orgFolder);
         orgFolder.click();
@@ -212,5 +219,11 @@ public class NewItemPage extends HomePage {
         okButton.click();
 
         return new FolderStatusPage(getDriver());
+    }
+
+    public MultibranchPipelineConfigPage clickOkMultibranchPipeline() {
+        okButton.click();
+
+        return new MultibranchPipelineConfigPage(getDriver());
     }
 }

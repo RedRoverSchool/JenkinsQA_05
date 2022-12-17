@@ -213,7 +213,7 @@ public class HomePage extends Header {
 
     public String getHeaderText() {
 
-        return getWait(5).until(ExpectedConditions.visibilityOf(header)).getText();
+        return getWait(10).until(ExpectedConditions.visibilityOf(header)).getText();
     }
 
     public HomePage clickJobDropdownMenu(String folderName) {
@@ -480,6 +480,14 @@ public class HomePage extends Header {
         deleteMbPipelineButtonInDropDownMenu.click();
 
         return new DeleteMultibranchPipelinePage(getDriver());
+    }
+
+    public void sleep() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public OrgFolderStatusPage clickOrgFolder(String name) {
