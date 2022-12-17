@@ -55,7 +55,7 @@ public class PipelineTest extends BaseTest {
     private HomePage createPipelineProject(String projectName) {
         new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(projectName)
+                .setItemName(projectName)
                 .selectPipelineAndClickOk()
                 .saveConfigAndGoToProjectPage()
                 .clickDashboard();
@@ -99,7 +99,7 @@ public class PipelineTest extends BaseTest {
     private PipelineConfigPage createPipelineProjectCuttedVersion(String projectName) {
         return new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(pipeline_name)
+                .setItemName(pipeline_name)
                 .selectPipelineAndClickOk();
     }
 
@@ -124,7 +124,7 @@ public class PipelineTest extends BaseTest {
 
         MyViewsPage pipelineNameInMyViewList = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(pipelineName)
+                .setItemName(pipelineName)
                 .selectPipelineAndClickOk()
                 .clickDashboard()
                 .clickMyViewsSideMenuLink();
@@ -137,7 +137,7 @@ public class PipelineTest extends BaseTest {
 
         PipelineProjectPage pipelineProjectPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(pipeline_name)
+                .setItemName(pipeline_name)
                 .selectPipelineAndClickOk()
                 .saveConfigAndGoToProjectPage()
                 .editDescription(pipeline_name + "description")
@@ -186,7 +186,7 @@ public class PipelineTest extends BaseTest {
 
         RenameItemErrorPage renameItemErrorPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(PIPELINE_NAME)
+                .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
                 .saveConfigAndGoToProjectPage()
                 .clickDashboard()
@@ -282,11 +282,11 @@ public class PipelineTest extends BaseTest {
 
         String newItemPageErrorMessage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(projectName)
+                .setItemName(projectName)
                 .selectPipelineAndClickOk()
                 .clickDashboard()
                 .clickNewItem()
-                .setProjectName(projectName)
+                .setItemName(projectName)
                 .getItemNameInvalidMsg();
 
         Assert.assertEquals(newItemPageErrorMessage, String.format("» A job already exists with the name ‘%s’", projectName));
@@ -401,7 +401,7 @@ public class PipelineTest extends BaseTest {
 
         String actualJobName = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(jobName)
+                .setItemName(jobName)
                 .setCopyFromItemName(RANDOM_STRING)
                 .clickOk()
                 .saveConfigAndGoToProjectPage()
@@ -443,7 +443,7 @@ public class PipelineTest extends BaseTest {
 
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(namePipeline)
+                .setItemName(namePipeline)
                 .selectPipelineAndClickOk()
                 .scrollToEndPipelineConfigPage()
                 .clickTrySamplePipelineDropDownMenu()

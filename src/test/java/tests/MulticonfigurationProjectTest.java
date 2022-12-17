@@ -45,7 +45,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(PROJECT_NAME)
+                .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSave()
                 .goToDashboard();
@@ -141,7 +141,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         MultiConfigurationProjectStatusPage multiConfigProject = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(nameMCP)
+                .setItemName(nameMCP)
                 .selectMultiConfigurationProjectAndClickOk()
                 .inputDescription(descriptionMCP)
                 .showPreview()
@@ -186,7 +186,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         String actualProjectName = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(NEW_PROJECT_NAME)
+                .setItemName(NEW_PROJECT_NAME)
                 .setCopyFromItemName(PROJECT_NAME)
                 .clickOK()
                 .clickSave()
@@ -352,7 +352,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     public void testDisableMultiConfigurationProject() {
         Boolean projectIconText = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(PROJECT_NAME)
+                .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSave()
                 .clickDisableButton()

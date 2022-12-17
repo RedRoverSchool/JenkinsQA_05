@@ -86,7 +86,7 @@ public class NewViewTest extends BaseTest {
     public void testCreateListViewWithAddSettings() {
         int countColumnsBeforeAdd = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(PROJECT_RANDOM_NAME)
+                .setItemName(PROJECT_RANDOM_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .clickDashboard()
