@@ -502,4 +502,10 @@ public class HomePage extends Header {
             throw new RuntimeException(e);
         }
     }
+
+    public OrgFolderStatusPage clickOrgFolder(String name) {
+        getDriver().findElement(By.linkText(name)).click();
+
+        return new OrgFolderStatusPage(getDriver());
+    }
 }
