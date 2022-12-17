@@ -362,15 +362,14 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(projectIconText);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
     public void testEnableMultiConfigurationProject() {
-        Boolean buildNowButton = new HomePage(getDriver())
+        HomePage buildNowButton = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
                 .clickEnableButton()
                 .goToDashboard()
                 .clickProjectDropdownMenu(PROJECT_NAME);
 
-        Assert.assertTrue(buildNowButton);
+        Assert.assertTrue(buildNowButton.buildNowButtonIsDisplayed());
     }
 }

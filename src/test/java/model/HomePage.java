@@ -486,10 +486,14 @@ public class HomePage extends Header {
         return new CredentialsPage(getDriver());
     }
 
-    public boolean clickProjectDropdownMenu(String projectName) {
+    public HomePage clickProjectDropdownMenu(String projectName) {
         getWait(5).until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//a[@href='job/" + projectName + "/']/button"))).click();
 
+        return this;
+    }
+
+    public boolean buildNowButtonIsDisplayed(){
         return buildNowButton.isDisplayed();
     }
 
