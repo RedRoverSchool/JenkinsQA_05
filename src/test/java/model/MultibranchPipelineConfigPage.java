@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class MultibranchPipelineConfigPage extends HomePage {
 
-    @FindBy(id = "yui-gen6-button")
+    @FindBy(css = "button[type='submit']")
     private WebElement saveButton;
 
     public MultibranchPipelineConfigPage(WebDriver driver) {

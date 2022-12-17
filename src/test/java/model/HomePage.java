@@ -245,7 +245,7 @@ public class HomePage extends Header {
     }
 
     public HomePage clickJobDropDownMenu(String name) {
-        getDriver().findElement((By.xpath(String.format(
+        getWait(2).until(ExpectedConditions.elementToBeClickable(By.xpath(String.format(
                 "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", name)))).click();
 
         return this;
@@ -265,7 +265,7 @@ public class HomePage extends Header {
 
     public String getHeaderText() {
 
-        return getWait(5).until(ExpectedConditions.visibilityOf(header)).getText();
+        return getWait(10).until(ExpectedConditions.visibilityOf(header)).getText();
     }
 
     public HomePage clickFolderDropdownMenu(String folderName) {
@@ -539,5 +539,13 @@ public class HomePage extends Header {
         deleteMbPipelineButtonInDropDownMenu.click();
 
         return new DeleteMultibranchPipelinePage(getDriver());
+    }
+
+    public void sleep() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

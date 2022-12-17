@@ -188,18 +188,19 @@ public class FreestyleProjectStatusPage extends BaseStatusPage {
 
     public FreestyleProjectStatusPage clickBuildNowOnSidePanel() {
         buttonBuildNowOnSidePanel.click();
-        getWait(20).until(ExpectedConditions.visibilityOf((buildLoadingIconSuccess)));
+        getWait(60).until(ExpectedConditions.visibilityOf((buildLoadingIconSuccess)));
         getWait(10).until(ExpectedConditions.attributeToBe(buildsInformationOnSidePanel, "style", "display: none;"));
 
         return this;
     }
 
-    public FreestyleProjectStatusPage clickButtonBuildNowAndWaitBuildComplete() {
+    public HomePage clickButtonBuildNowAndRedirectToDashboardAfterBuildCompleted() {
         buttonBuildNow.click();
         getWait(60).until(ExpectedConditions.not(ExpectedConditions
-                .attributeContains(buildStatusIcon, "tooltip", "In progress &gt; Console Output")));
+                .attributeContains(buildStatusIcon, "tooltip", "progress")));
+        topMenuRoot.click();
 
-        return this;
+        return new HomePage(getDriver());
     }
 
     public String getWarningMsg() {

@@ -37,9 +37,6 @@ public class NewItemPage extends HomePage {
     @FindBy(className = "com_cloudbees_hudson_plugins_folder_Folder")
     private WebElement folderType;
 
-    @FindBy(className = "hudson_model_FreeStyleProject")
-    private WebElement freeStyleProjectType;
-
     @FindBy(xpath = "//li[@class = 'jenkins_branch_OrganizationFolder']")
     private WebElement orgFolder;
 
@@ -54,6 +51,7 @@ public class NewItemPage extends HomePage {
 
     @FindBy(id = "from")
     private WebElement copyFrom;
+
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -103,6 +101,13 @@ public class NewItemPage extends HomePage {
         return new FolderConfigPage(getDriver());
     }
 
+    public CreateItemErrorPage selectExistFolderAndClickOk() {
+        folderType.click();
+        okButton.submit();
+
+        return new CreateItemErrorPage(getDriver());
+    }
+
     public OrgFolderConfigPage selectOrgFolderAndClickOk() {
 //        TestUtils.scrollToElement(getDriver(), orgFolder);
         orgFolder.click();
@@ -132,6 +137,7 @@ public class NewItemPage extends HomePage {
 
         return new CreateItemErrorPage(getDriver());
     }
+
     public NewItemPage setItem(int index) {
         getAction().scrollByAmount(0, 250).perform();
         itemsList.get(index).click();
@@ -225,5 +231,11 @@ public class NewItemPage extends HomePage {
         okButton.click();
 
         return new FreestyleProjectConfigPage(getDriver());
+    }
+
+    public MultibranchPipelineConfigPage clickOkMultibranchPipeline() {
+        okButton.click();
+
+        return new MultibranchPipelineConfigPage(getDriver());
     }
 }

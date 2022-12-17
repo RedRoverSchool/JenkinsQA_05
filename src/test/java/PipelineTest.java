@@ -65,21 +65,23 @@ public class PipelineTest extends BaseTest {
         getDriver().switchTo().alert().accept();
     }
 
-    private void renamePipelineProject(String name, String rename) {
+    private HomePage renamePipelineProject(String name, String rename) {
         new HomePage(getDriver())
                 .clickJobDropDownMenu(name)
                 .clickRenameDropDownMenu()
                 .clearFieldAndInputNewName(name + rename)
                 .clickSubmitButton();
+        return new HomePage(getDriver());
     }
 
-    private void createNewViewOfTypeMyView() {
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(MY_VIEWS).click();
-        getDriver().findElement(ADD_TAB).click();
-        getDriver().findElement(VIEW_NAME_FIELD).sendKeys(VIEW_NAME);
-        getDriver().findElement(RADIO_BUTTON_MY_VIEW).click();
-        getDriver().findElement(BUTTON_CREATE).click();
+    private HomePage createNewViewOfTypeMyView() {
+        new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickNewView()
+                .setViewName(VIEW_NAME)
+                .setMyViewTypeAndCLickCreate()
+                .clickDashboard();
+        return new HomePage(getDriver());
     }
 
     private void deleteNewView() {
@@ -162,22 +164,17 @@ public class PipelineTest extends BaseTest {
                 .getText(), "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
     }
 
-    @Ignore
     @Test
     public void testRenamedPipelineIsDisplayedInMyViews() {
         createPipelineProject(PIPELINE_NAME);
         createNewViewOfTypeMyView();
         renamePipelineProject(PIPELINE_NAME, RENAME_SUFFIX);
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(MY_VIEWS).click();
-        getDriver().findElement(VIEW).click();
+        ViewPage viewPage = new HomePage(getDriver())
+                .clickDashboard()
+                .clickMyViewsSideMenuLink()
+                .clickView(VIEW_NAME);
 
-        Assert.assertEquals(getDriver()
-                .findElement(By.xpath(String.format("//tbody//a[@href = contains(., '%s%s')]", PIPELINE_NAME, RENAME_SUFFIX)))
-                .getText(), PIPELINE_NAME + RENAME_SUFFIX);
-
-        deleteNewView();
-        deletePipelineProject(PIPELINE_NAME);
+        Assert.assertEquals(viewPage.getJobName(PIPELINE_NAME + RENAME_SUFFIX), PIPELINE_NAME + RENAME_SUFFIX);
     }
 
     @Test
@@ -197,28 +194,19 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(renameItemErrorPage.getErrorMessage(), "The new name is the same as the current name.");
     }
 
-    @Ignore
     @Test
     public void testRenamePipelineUsingSpecialCharacter() {
-        String specialCharactersString = "!@#$%*/:;?[]^|";
-        for (int i = 0; i < specialCharactersString.length(); i++) {
-            createPipelineProject(PIPELINE_NAME);
-            Actions actions = new Actions(getDriver());
-            actions.moveToElement(getDriver().findElement(JOB_PIPELINE))
-                    .moveToElement(getDriver().findElement(JOB_PIPELINE_MENU_DROPDOWN_CHEVRON)).click().build().perform();
-            getDriver().findElement(JOB_MENU_RENAME).click();
-            getDriver().findElement(TEXTFIELD_NEW_NAME).clear();
-            getDriver().findElement(TEXTFIELD_NEW_NAME).sendKeys(PIPELINE_NAME + specialCharactersString.charAt(i));
-            getDriver().findElement(BUTTON_RENAME).click();
+        final List<Character> specialCharacters = List.of('!', '@', '#', '$', '%', '^', '*', '[', ']', '\\', '|', ';', ':', '/', '?');
+        createPipelineProject(PIPELINE_NAME);
+        for (Character character : specialCharacters) {
+            RenameItemErrorPage renameItemErrorPage = new HomePage(getDriver())
+                    .clickDashboard()
+                    .clickJobDropDownMenu(PIPELINE_NAME)
+                    .clickRenameDropDownMenu()
+                    .clearFieldAndInputNewName(PIPELINE_NAME + character)
+                    .clickSaveButton();
 
-            Assert.assertEquals(getDriver()
-                    .findElement(By.xpath("//div[@id='main-panel']//h1[contains(text(),'Error')]"))
-                    .getText(), "Error");
-            Assert.assertEquals(getDriver()
-                    .findElement(By.xpath("//div[@id='main-panel']//p"))
-                    .getText(), String.format("‘%s’ is an unsafe character", specialCharactersString.charAt(i)));
-
-            deletePipelineProject(PIPELINE_NAME);
+            Assert.assertEquals(renameItemErrorPage.getErrorMessage(), String.format("‘%s’ is an unsafe character", character));
         }
     }
 
