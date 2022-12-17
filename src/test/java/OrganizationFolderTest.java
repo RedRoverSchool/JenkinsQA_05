@@ -26,6 +26,7 @@ public class OrganizationFolderTest extends BaseTest {
     private static final String nameOrgFolderPOM = TestUtils.getRandomStr();
     private static final String nameFolderPOM = TestUtils.getRandomStr();
     private static final String NAME_FOLDER = TestUtils.getRandomStr();
+    private static final String DISPLAY_NAME = TestUtils.getRandomStr();
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
     private static final By ORGANIZATION_FOLDER = By.xpath("//li[@class = 'jenkins_branch_OrganizationFolder']");
     private static final By OK_BUTTON = By.id("ok-button");
@@ -283,7 +284,7 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testConfigureOrganizationFolder")
     public void testDeleteOrganizationFolderDependsMethods() {
-        final By itemInDashboard = By.xpath("//span[text()='" + NAME_ORG_FOLDER + 5 + "']");
+        final By itemInDashboard = By.xpath("//span[text()='" + DISPLAY_NAME + 5 + "']");
 
         getDriver().findElement(ITEM_ORG_FOLDER).click();
         getDriver().findElement(BUTTON_DELETE_ORGANIZATION_FOLDER).click();
@@ -295,27 +296,26 @@ public class OrganizationFolderTest extends BaseTest {
                 .map(element -> element.getText())
                 .collect(Collectors.toList());
 
-        Assert.assertFalse(foldersList.contains(NAME_ORG_FOLDER + 5));
+        Assert.assertFalse(foldersList.contains(DISPLAY_NAME + 5));
     }
 
     @Test(dependsOnMethods = "testCreateOrganizFolder")
     public void testConfigureOrganizationFolder() {
-        final String displayName = TestUtils.getRandomStr();
         final String description = TestUtils.getRandomStr();
 
         OrgFolderStatusPage orgFolderStatusPage = new HomePage(getDriver())
                 .clickOrgFolder(NAME_ORG_FOLDER)
                 .clickConfigureSideMenu()
-                .inputDisplayName(displayName)
+                .inputDisplayName(DISPLAY_NAME)
                 .inputDescription(description)
                 .clickSaveButton();
 
-        Assert.assertEquals(orgFolderStatusPage.getDisplayName(), displayName);
+        Assert.assertEquals(orgFolderStatusPage.getDisplayName(), DISPLAY_NAME);
         Assert.assertEquals(orgFolderStatusPage.getDescription(), description);
 
         HomePage homePage = orgFolderStatusPage.goToDashboard();
 
-        Assert.assertTrue(homePage.getJobList().contains(displayName));
+        Assert.assertTrue(homePage.getJobList().contains(DISPLAY_NAME));
     }
 
     @Test
