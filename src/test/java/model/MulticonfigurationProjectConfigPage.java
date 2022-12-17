@@ -1,17 +1,15 @@
 package model;
 
+import model.base.BaseConfigPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class MulticonfigurationProjectConfigPage extends HomePage {
+public class MulticonfigurationProjectConfigPage extends BaseConfigPage<MulticonfigurationProjectConfigPage> {
 
     @FindBy(css = "#breadcrumbs li a")
     private WebElement dashboard;
-
-    @FindBy(xpath = "//button[@type='submit']")
-    private WebElement saveButton;
 
     @FindBy(name = "description")
     private WebElement inputDescription;
@@ -24,12 +22,6 @@ public class MulticonfigurationProjectConfigPage extends HomePage {
 
     public MulticonfigurationProjectConfigPage(WebDriver driver) {
         super(driver);
-    }
-
-    public MultiConfigurationProjectStatusPage clickSave() {
-        saveButton.click();
-
-        return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
     public HomePage goToDashboard() {
@@ -52,12 +44,6 @@ public class MulticonfigurationProjectConfigPage extends HomePage {
 
     public MultiConfigurationProjectStatusPage getPreview() {
         getWait(5).until(ExpectedConditions.visibilityOf(previewArea)).getText();
-
-        return new MultiConfigurationProjectStatusPage(getDriver());
-    }
-
-    public MultiConfigurationProjectStatusPage clickSaveButton() {
-        getWait(5).until(ExpectedConditions.visibilityOf(saveButton)).click();
 
         return new MultiConfigurationProjectStatusPage(getDriver());
     }

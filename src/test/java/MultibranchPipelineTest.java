@@ -1,4 +1,5 @@
 import model.*;
+import model.FreestyleProjectStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -204,7 +205,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(RANDOM_MULTIBRANCHPIPELINE_NAME)
                 .selectMultibranchPipelineAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(MultibranchPipelineStatusPage.class)
                 .clickDashboard()
                 .clickJobDropdownMenu(RANDOM_MULTIBRANCHPIPELINE_NAME)
                 .clickDeleteMbPipelineDropDownMenu()

@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BaseStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FolderStatusPage extends BasePage {
+public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
 
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;

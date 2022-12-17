@@ -1,5 +1,7 @@
 import model.FolderStatusPage;
+import model.FreestyleProjectStatusPage;
 import model.HomePage;
+import model.MultiConfigurationProjectStatusPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
@@ -62,7 +64,7 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(generatedString)
                 .selectFolderAndClickOk()
-                .clickSaveButton();
+                .clickSaveBtn(FolderStatusPage.class);
     }
 
     private List<String> getProjectNameFromProjectTable() {
@@ -103,7 +105,7 @@ public class FolderTest extends BaseTest {
                 .clickConfigureDropDownMenuForFolder()
                 .clickDisplayName(secondJob)
                 .clickDescription("change name")
-                .clickSaveButton()
+                .clickSaveBtn(FolderStatusPage.class)
                 .clickDashboard();
 
         Assert.assertTrue(folderStatusPage.getJobList().contains(secondJob));
@@ -132,7 +134,7 @@ public class FolderTest extends BaseTest {
                 .clickConfigureDropDownMenuForFolder()
                 .clickDisplayName(secondJobName)
                 .clickDescription("change name")
-                .clickSaveButton()
+                .clickSaveBtn(FolderStatusPage.class)
                 .clickDashboard()
                 .clickJob(secondJobName)
                 .clickMainPanel();
@@ -148,7 +150,7 @@ public class FolderTest extends BaseTest {
                 .setProjectName(folderName)
                 .selectFolderAndClickOk()
                 .clickDescription(addDescription)
-                .clickSaveButton()
+                .clickSaveBtn(FolderStatusPage.class)
                 .getTextDescription(addDescription);
         Assert.assertEquals(folderStatusPage, addDescription);
     }
@@ -162,7 +164,7 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(generatedStringFolder2)
                 .selectFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(FolderStatusPage.class)
                 .clickDashboard()
                 .clickJob(generatedStringFolder2)
                 .clickMove()
@@ -202,11 +204,11 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(FOLDER_NAME_RANDOM)
                 .selectFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(FolderStatusPage.class)
                 .clickCreateJob()
                 .setProjectName(freestyleProjectName)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard()
                 .clickFolder(FOLDER_NAME_RANDOM)
                 .getJobList();
@@ -222,7 +224,7 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(freestyleProjectName)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard()
                 .clickJobDropDownMenu(freestyleProjectName)
                 .clickMoveButtonDropdown()
@@ -244,7 +246,7 @@ public class FolderTest extends BaseTest {
                 .clickFolderNewItem()
                 .setProjectName(freestyleProjectName)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard()
                 .clickFolder(FOLDER_NAME_RANDOM)
                 .getJobList();
@@ -261,7 +263,7 @@ public class FolderTest extends BaseTest {
                 .clickCreateJob()
                 .setProjectName(multiConfigurationProjectName)
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSave()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
                 .clickParentFolderInBreadcrumbs();
 
         Assert.assertTrue(folderStatusPage.getJobList().contains(multiConfigurationProjectName));
@@ -397,11 +399,11 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(folderName)
                 .selectFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(FolderStatusPage.class)
                 .clickNewItemDropdownThisFolderInBreadcrumbs()
                 .setProjectName(freestyleProjectName)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickParentFolderInBreadcrumbs();
 
         Assert.assertTrue(folderStatusPage.getJobList().contains(freestyleProjectName));

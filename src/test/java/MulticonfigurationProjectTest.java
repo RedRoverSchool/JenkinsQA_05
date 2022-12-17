@@ -45,7 +45,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSave()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
                 .goToDashboard();
 
         Assert.assertTrue(homePage.getJobList().contains(PROJECT_NAME));
@@ -143,7 +143,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .selectMultiConfigurationProjectAndClickOk()
                 .inputDescription(descriptionMCP)
                 .showPreview()
-                .clickSaveButton()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
                 .goToDashboard()
                 .clickMultConfJobName(nameMCP);
 
@@ -187,7 +187,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .setProjectName(NEW_PROJECT_NAME)
                 .setCopyFromItemName(PROJECT_NAME)
                 .clickOK()
-                .clickSave()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
                 .goToDashboard()
                 .getJobName(NEW_PROJECT_NAME);
 
@@ -352,7 +352,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSave()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
                 .clickDisableButton()
                 .goToDashboard()
                 .getProjectIconText();

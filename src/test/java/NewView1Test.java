@@ -1,7 +1,5 @@
-import model.EditViewPage;
-import model.HomePage;
-import model.MyViewsPage;
-import model.ViewPage;
+import model.*;
+import model.FreestyleProjectStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -19,19 +17,19 @@ public class NewView1Test extends BaseTest {
                 .clickNewItem()
                 .setProjectName("Freestyle project")
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard()
 
                 .clickNewItem()
                 .setProjectName("Pipeline")
                 .selectPipelineAndClickOk()
-                .saveConfigAndGoToProject()
+                .clickSaveBtn(PipelineStatusPage.class)
                 .clickDashboard()
 
                 .clickNewItem()
                 .setProjectName("Multi-configuration project")
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSave()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
                 .goToDashboard()
 
                 .clickMyViewsSideMenuLink()

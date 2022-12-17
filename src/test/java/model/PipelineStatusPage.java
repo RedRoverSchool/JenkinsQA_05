@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BaseStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PipelineProjectPage extends BasePage {
+public class PipelineStatusPage extends BaseStatusPage<PipelineStatusPage> {
 
     @FindBy(xpath = "//div[@id='description']//a")
     private WebElement editDescriptionButton;
@@ -55,11 +56,11 @@ public class PipelineProjectPage extends BasePage {
     @FindBy(linkText = "Configure")
     private WebElement configureLink;
 
-    public PipelineProjectPage(WebDriver driver) {
+    public PipelineStatusPage(WebDriver driver) {
         super(driver);
     }
 
-    public PipelineProjectPage editDescription(String text) {
+    public PipelineStatusPage editDescription(String text) {
         editDescriptionButton.click();
         descriptionArea.clear();
         descriptionArea.sendKeys(text);
@@ -67,7 +68,7 @@ public class PipelineProjectPage extends BasePage {
         return this;
     }
 
-    public PipelineProjectPage clickSaveButton() {
+    public PipelineStatusPage clickSaveButton() {
         saveButton.click();
 
         return this;
@@ -103,16 +104,16 @@ public class PipelineProjectPage extends BasePage {
         return pipelineName.getAttribute("textContent").substring(pipelineName.getAttribute("textContent").indexOf(" ") + 1);
     }
 
-    public PipelineProjectPage clickDisableProject() {
+    public PipelineStatusPage clickDisableProject() {
         disableProjectButton.click();
 
-        return new PipelineProjectPage(getDriver());
+        return new PipelineStatusPage(getDriver());
     }
 
-    public PipelineProjectPage clickEnableProject() {
+    public PipelineStatusPage clickEnableProject() {
         enableProjectButton.click();
 
-        return new PipelineProjectPage(getDriver());
+        return new PipelineStatusPage(getDriver());
     }
 
     public List<String> getPipelineSideMenuLinks() {
@@ -124,7 +125,7 @@ public class PipelineProjectPage extends BasePage {
         return pipelineProjectText;
     }
 
-    public PipelineProjectPage clickBuildNow() {
+    public PipelineStatusPage clickBuildNow() {
         buildNowButton.click();
         getWait(20).until(ExpectedConditions.visibilityOf(stageView));
 

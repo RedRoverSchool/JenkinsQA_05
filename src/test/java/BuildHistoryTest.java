@@ -1,4 +1,4 @@
-
+import model.FreestyleProjectStatusPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 
@@ -41,7 +41,7 @@ public class BuildHistoryTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard()
                 .clickBuildHistory()
                 .getSizeText();
@@ -72,7 +72,7 @@ public class BuildHistoryTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard()
                 .clickBuildHistory().getHeaderText();
 

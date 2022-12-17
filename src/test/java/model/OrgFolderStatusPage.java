@@ -1,10 +1,11 @@
 package model;
 
+import model.base.BaseStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class OrgFolderStatusPage extends BasePage {
+public class OrgFolderStatusPage extends BaseStatusPage<OrgFolderStatusPage> {
 
     @FindBy(xpath = "//a[text()='Dashboard']")
     private WebElement dashboard;

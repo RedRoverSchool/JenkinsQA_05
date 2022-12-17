@@ -14,9 +14,6 @@ public class HomePage extends Header {
     @FindBy(linkText = "Build History")
     private WebElement buildHistory;
 
-    @FindBy(css = "#breadcrumbs li a")
-    private WebElement topMenuRoot;
-
     @FindBy(linkText = "New Item")
     private WebElement newItem;
 
@@ -123,12 +120,6 @@ public class HomePage extends Header {
         return new NewItemPage(getDriver());
     }
 
-    public HomePage clickDashboard() {
-        topMenuRoot.click();
-
-        return new HomePage(getDriver());
-    }
-
     public HomePage clickViewLink() {
         openViewLink.click();
 
@@ -179,10 +170,10 @@ public class HomePage extends Header {
         return new ConfigurationGeneralPage(getDriver());
     }
 
-    public PipelineProjectPage clickPipelineProjectName() {
+    public PipelineStatusPage clickPipelineProjectName() {
         jobList.get(0).click();
 
-        return new PipelineProjectPage(getDriver());
+        return new PipelineStatusPage(getDriver());
     }
 
     public FolderConfigPage clickDeleteDropDownMenu() {
@@ -381,10 +372,10 @@ public class HomePage extends Header {
         return projectDisabledIcon.isDisplayed();
     }
 
-    public PipelineProjectPage clickPipeline1() {
+    public PipelineStatusPage clickPipeline1() {
         pipeline1.click();
 
-        return new PipelineProjectPage(getDriver());
+        return new PipelineStatusPage(getDriver());
     }
 
     public String getStatusBuildText() {

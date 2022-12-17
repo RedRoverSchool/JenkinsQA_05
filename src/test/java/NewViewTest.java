@@ -1,5 +1,6 @@
 import model.EditListViewPage;
 import model.EditViewPage;
+import model.FreestyleProjectStatusPage;
 import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -86,7 +87,7 @@ public class NewViewTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(PROJECT_RANDOM_NAME)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
                 .clickNewView()

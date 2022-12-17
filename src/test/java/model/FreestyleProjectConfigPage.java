@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BaseConfigPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 
 import static runner.TestUtils.scrollToElement_PlaceInCenter;
 
-public class FreestyleProjectConfigPage extends BaseConfigPage {
+public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectConfigPage> {
 
     @FindBy(tagName = "h1")
     private WebElement headline;
@@ -103,13 +104,6 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
 
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
-    }
-
-    @Override
-    public FreestyleProjectStatusPage clickSaveBtn() {
-        saveBtn.click();
-
-        return new FreestyleProjectStatusPage(getDriver());
     }
 
     public String getHeadlineText() {

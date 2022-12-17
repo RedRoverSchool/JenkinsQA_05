@@ -1,5 +1,6 @@
 import model.FolderStatusPage;
 import model.HomePage;
+import model.MultibranchPipelineStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -16,7 +17,7 @@ public class FolderOneTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(folderName)
                 .selectFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(FolderStatusPage.class)
                 .clickDashboard();
     }
 
@@ -36,7 +37,7 @@ public class FolderOneTest extends BaseTest {
                 .clickFolderNewItem()
                 .setProjectName(RANDOM_NAME_2)
                 .selectFolderAndClickOk()
-                .clickSaveButton();
+                .clickSaveBtn(FolderStatusPage.class);
 
         Assert.assertTrue(folderStatusPage.getHeaderText().contains(RANDOM_NAME_2));
         Assert.assertTrue(folderStatusPage.getTopMenueLinkText().contains(RANDOM_NAME_2));
@@ -193,12 +194,12 @@ public class FolderOneTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(RANDOM_NAME_1)
                 .selectFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(FolderStatusPage.class)
                 .clickCreateJob()
                 .setProjectName(RANDOM_NAME_2)
                 .selectFolderAndClickOk()
                 .clickDisplayName("NewDisplayName")
-                .clickSaveButton();
+                .clickSaveBtn(FolderStatusPage.class);
 
         Assert.assertTrue(statusPage.getHeaderText().contains("NewDisplayName"));
         Assert.assertTrue(statusPage.getTopMenueLinkText().contains(RANDOM_NAME_1));
@@ -226,11 +227,11 @@ public class FolderOneTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(RANDOM_NAME_1)
                 .selectFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(FolderStatusPage.class)
                 .clickCreateJob()
                 .setProjectName(RANDOM_MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipelineAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(MultibranchPipelineStatusPage.class)
                 .clickDashboard()
                 .clickFolder(RANDOM_NAME_1);
 

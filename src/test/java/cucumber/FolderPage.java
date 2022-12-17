@@ -5,6 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.FolderConfigPage;
+import model.FolderStatusPage;
 import model.HomePage;
 import model.NewItemPage;
 import org.openqa.selenium.By;
@@ -42,7 +43,7 @@ public class FolderPage {
 
     @And("click Save")
     public void clickSave() {
-        folderConfigPage.clickSaveButton();
+        folderConfigPage.clickSaveBtn(FolderStatusPage.class);
     }
 
     @Then("Result: folder was created")
@@ -60,7 +61,7 @@ public class FolderPage {
         homePage.clickNewItem()
                 .setProjectName(folderName)
                 .selectFolderAndClickOk()
-                .clickSaveButton();
+                .clickSaveBtn(FolderStatusPage.class);
     }
     @And("Return to home page")
     public void returnToHomePage() {

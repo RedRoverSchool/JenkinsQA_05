@@ -1,4 +1,5 @@
 import model.*;
+import model.FreestyleProjectStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -20,7 +21,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .getHeadlineText();
 
         Assert.assertEquals(freestyleProjectTitle, String.format("Project %s", FREESTYLE_NAME));
@@ -278,7 +279,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectSourceCodeManagementGIT()
                 .inputGITRepositoryURL(repositoryURL)
                 .inputBranchSpecifier(branchSpecifier)
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickButtonBuildNowAndRedirectToDashboardAfterBuildCompleted();
 
         Assert.assertEquals(page.getJobBuildStatus(), "Success");

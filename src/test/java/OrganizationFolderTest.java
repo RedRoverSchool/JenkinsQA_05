@@ -1,8 +1,7 @@
+import model.FolderStatusPage;
 import model.HomePage;
-import model.CreateItemErrorPage;
 import model.OrgFolderStatusPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -100,7 +99,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(nameOrgFolderPOM)
                 .selectOrgFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(OrgFolderStatusPage.class)
                 .clickRenameButton()
                 .clearAndInputNewName("New name " + nameOrgFolderPOM)
                 .goToDashboard();
@@ -150,7 +149,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(ORG_FOLDER_NAME_CREATE)
                 .selectFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(FolderStatusPage.class)
                 .clickDashboard()
                 .getJobList();
 
@@ -325,7 +324,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(NAME_ORG_FOLDER)
                 .selectOrgFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(OrgFolderStatusPage.class)
                 .goToDashboard();
 
         Assert.assertTrue(homePage.getJobList().contains(NAME_ORG_FOLDER));
@@ -337,7 +336,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(nameOrgFolderPOM)
                 .selectOrgFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(OrgFolderStatusPage.class)
                 .goToDashboard();
 
         Assert.assertTrue(homePage.getJobList().contains(nameOrgFolderPOM));
@@ -349,7 +348,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(nameFolderPOM)
                 .selectFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(FolderStatusPage.class)
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobList().contains(nameFolderPOM));

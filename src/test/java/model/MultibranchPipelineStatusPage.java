@@ -1,12 +1,11 @@
 package model;
 
+import model.base.BaseStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import javax.xml.xpath.XPath;
-
-public class MultibranchPipelineStatusPage extends BasePage {
+public class MultibranchPipelineStatusPage extends BaseStatusPage<MultibranchPipelineStatusPage> {
 
     @FindBy(css = "#breadcrumbs li a")
     private WebElement topMenuRoot;

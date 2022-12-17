@@ -1,3 +1,4 @@
+import model.FreestyleProjectStatusPage;
 import model.HomePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -18,7 +19,7 @@ public class ListViewTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(projectOne)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard()
                 .clickAddViewLink()
                 .setViewName(RANDOM_LIST_VIEW_NAME)

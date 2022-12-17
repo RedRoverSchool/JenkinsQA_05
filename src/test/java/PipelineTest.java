@@ -1,9 +1,8 @@
 import model.*;
+import model.PipelineStatusPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -53,7 +52,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(projectName)
                 .selectPipelineAndClickOk()
-                .saveConfigAndGoToProjectPage()
+                .clickSaveBtn(PipelineStatusPage.class)
                 .clickDashboard();
         return new HomePage(getDriver());
     }
@@ -131,11 +130,11 @@ public class PipelineTest extends BaseTest {
     @Test
     public void testPipelineAddDescription() {
 
-        PipelineProjectPage pipelineProjectPage = new HomePage(getDriver())
+        PipelineStatusPage pipelineProjectPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(pipeline_name)
                 .selectPipelineAndClickOk()
-                .saveConfigAndGoToProjectPage()
+                .clickSaveBtn(PipelineStatusPage.class)
                 .editDescription(pipeline_name + "description")
                 .clickSaveButton();
 
@@ -184,7 +183,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
-                .saveConfigAndGoToProjectPage()
+                .clickSaveBtn(PipelineStatusPage.class)
                 .clickDashboard()
                 .clickJobDropDownMenu(PIPELINE_NAME)
                 .clickRenameDropDownMenu()
@@ -327,12 +326,12 @@ public class PipelineTest extends BaseTest {
     public void testAddingGitRepository() {
         final String gitHubRepo = "https://github.com/patriotby07/simple-maven-project-with-tests";
 
-        PipelineProjectPage pipelineProjectPage = new HomePage(getDriver())
+        PipelineStatusPage pipelineProjectPage = new HomePage(getDriver())
                 .clickJobDropDownMenu(RANDOM_STRING)
                 .clickConfigureDropDownMenu()
                 .clickGitHubCheckbox()
                 .setGitHubRepo(gitHubRepo)
-                .saveConfigAndGoToProjectPage();
+                .clickSaveBtn(PipelineStatusPage.class);
 
         Assert.assertTrue(pipelineProjectPage.isDisplayedGitHubOnSideMenu());
         Assert.assertTrue(pipelineProjectPage.getAttributeGitHubSideMenu("href").contains(gitHubRepo));
@@ -365,7 +364,7 @@ public class PipelineTest extends BaseTest {
                 .selectPipelineScriptFromScm()
                 .selectScriptScm()
                 .setGitHubUrl("https://github.com/patriotby07/simple-maven-project-with-tests")
-                .saveConfigAndGoToProjectPage()
+                .clickSaveBtn(PipelineStatusPage.class)
                 .clickBuildWithParameters()
                 .selectParametersBuild()
                 .clickBuildButton()
@@ -409,10 +408,10 @@ public class PipelineTest extends BaseTest {
                 .setProjectName(jobName)
                 .setCopyFromItemName(RANDOM_STRING)
                 .clickOk()
-                .saveConfigAndGoToProjectPage()
+                .clickSaveBtn(PipelineStatusPage.class)
                 .getPipelineName();
 
-        String actualDescription = new PipelineProjectPage(getDriver()).getDescription();
+        String actualDescription = new PipelineStatusPage(getDriver()).getDescription();
 
         Assert.assertEquals(actualJobName, jobName);
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
@@ -453,7 +452,7 @@ public class PipelineTest extends BaseTest {
                 .scrollToEndPipelineConfigPage()
                 .clickTrySamplePipelineDropDownMenu()
                 .clickHelloWorld()
-                .clickSaveButton()
+                .clickSaveBtn(PipelineStatusPage.class)
                 .clickDashboard();
 
         Assert.assertEquals(homePage.getLastSuccessText(), expectedLastSuccess);
@@ -481,7 +480,7 @@ public class PipelineTest extends BaseTest {
                 .clickPipeline1()
                 .clickConfigure()
                 .setDescriptionField(expectedDescription)
-                .clickSaveButton()
+                .clickSaveBtn(PipelineStatusPage.class)
                 .getDescription();
 
         Assert.assertEquals(actualDescription, expectedDescription);
