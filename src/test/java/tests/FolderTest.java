@@ -62,7 +62,7 @@ public class FolderTest extends BaseTest {
         return new HomePage(getDriver())
                 .clickDashboard()
                 .clickNewItem()
-                .setProjectName(generatedString)
+                .setItemName(generatedString)
                 .selectFolderAndClickOk()
                 .clickSaveButton();
     }
@@ -98,7 +98,7 @@ public class FolderTest extends BaseTest {
         final String secondJob = "Second job";
         HomePage folderStatusPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(folderName)
+                .setItemName(folderName)
                 .selectFolderAndClickOk()
                 .clickDashboard()
                 .clickJobDropDownMenu(folderName)
@@ -147,7 +147,7 @@ public class FolderTest extends BaseTest {
         final String addDescription = "Add description";
         String folderStatusPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(folderName)
+                .setItemName(folderName)
                 .selectFolderAndClickOk()
                 .clickDescription(addDescription)
                 .clickSaveButton()
@@ -162,7 +162,7 @@ public class FolderTest extends BaseTest {
         List<String> folderStatusPage = new HomePage(getDriver())
                 .clickDashboard()
                 .clickNewItem()
-                .setProjectName(generatedStringFolder2)
+                .setItemName(generatedStringFolder2)
                 .selectFolderAndClickOk()
                 .clickSaveButton()
                 .clickDashboard()
@@ -183,7 +183,7 @@ public class FolderTest extends BaseTest {
 
         List<String> newFolderName = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(folderName1)
+                .setItemName(folderName1)
                 .selectFolderAndClickOk()
                 .clickDashboard()
                 .clickFolder(folderName1)
@@ -202,11 +202,11 @@ public class FolderTest extends BaseTest {
 
         List<String> projectNamesInFolder = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(FOLDER_NAME_RANDOM)
+                .setItemName(FOLDER_NAME_RANDOM)
                 .selectFolderAndClickOk()
                 .clickSaveButton()
                 .clickCreateJob()
-                .setProjectName(freestyleProjectName)
+                .setItemName(freestyleProjectName)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .clickDashboard()
@@ -222,7 +222,7 @@ public class FolderTest extends BaseTest {
 
         List<String> projectNamesInFolder = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(freestyleProjectName)
+                .setItemName(freestyleProjectName)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .clickDashboard()
@@ -244,7 +244,7 @@ public class FolderTest extends BaseTest {
         List<String> projectNamesInFolder = new HomePage(getDriver())
                 .clickFolder(FOLDER_NAME_RANDOM)
                 .clickFolderNewItem()
-                .setProjectName(freestyleProjectName)
+                .setItemName(freestyleProjectName)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .clickDashboard()
@@ -261,7 +261,7 @@ public class FolderTest extends BaseTest {
         FolderStatusPage folderStatusPage = new HomePage(getDriver())
                 .clickFolder(generatedString)
                 .clickCreateJob()
-                .setProjectName(multiConfigurationProjectName)
+                .setItemName(multiConfigurationProjectName)
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSave()
                 .clickParentFolderInBreadcrumbs();
@@ -359,7 +359,7 @@ public class FolderTest extends BaseTest {
 
         String welcomeJenkinsHeader = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(folderName)
+                .setItemName(folderName)
                 .selectFolderAndClickOk()
                 .clickDashboard()
                 .clickJobDropDownMenu(folderName)
@@ -397,11 +397,11 @@ public class FolderTest extends BaseTest {
 
         FolderStatusPage folderStatusPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(folderName)
+                .setItemName(folderName)
                 .selectFolderAndClickOk()
                 .clickSaveButton()
                 .clickNewItemDropdownThisFolderInBreadcrumbs()
-                .setProjectName(freestyleProjectName)
+                .setItemName(freestyleProjectName)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .clickParentFolderInBreadcrumbs();

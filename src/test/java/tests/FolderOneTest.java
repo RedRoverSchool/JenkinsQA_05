@@ -16,7 +16,7 @@ public class FolderOneTest extends BaseTest {
     private void createFolder(String folderName) {
         new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(folderName)
+                .setItemName(folderName)
                 .selectFolderAndClickOk()
                 .clickSaveButton()
                 .clickDashboard();
@@ -36,7 +36,7 @@ public class FolderOneTest extends BaseTest {
         FolderStatusPage folderStatusPage = new HomePage(getDriver())
                 .clickFolder(RANDOM_NAME_1)
                 .clickFolderNewItem()
-                .setProjectName(RANDOM_NAME_2)
+                .setItemName(RANDOM_NAME_2)
                 .selectFolderAndClickOk()
                 .clickSaveButton();
 
@@ -162,7 +162,7 @@ public class FolderOneTest extends BaseTest {
         FolderStatusPage actualResult = new HomePage(getDriver())
                 .clickFolder(RANDOM_NAME_1)
                 .clickFolderNewItem()
-                .setProjectName(RANDOM_MULTIBRANCH_PIPELINE_NAME)
+                .setItemName(RANDOM_MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipeline()
                 .clickOKButton()
                 .clickSubmitButton();
@@ -179,7 +179,7 @@ public class FolderOneTest extends BaseTest {
         FolderStatusPage actualResult = new HomePage(getDriver())
                 .clickFolder(RANDOM_NAME_1)
                 .clickCreateJob()
-                .setProjectName(RANDOM_NAME_2)
+                .setItemName(RANDOM_NAME_2)
                 .selectPipeline()
                 .clickOKButton()
                 .clickSubmitButton();
@@ -193,11 +193,11 @@ public class FolderOneTest extends BaseTest {
     public void testCreateFolderWithDisplayNameInFolder() {
         FolderStatusPage statusPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(RANDOM_NAME_1)
+                .setItemName(RANDOM_NAME_1)
                 .selectFolderAndClickOk()
                 .clickSaveButton()
                 .clickCreateJob()
-                .setProjectName(RANDOM_NAME_2)
+                .setItemName(RANDOM_NAME_2)
                 .selectFolderAndClickOk()
                 .clickDisplayName("NewDisplayName")
                 .clickSaveButton();
@@ -226,11 +226,11 @@ public class FolderOneTest extends BaseTest {
     public void testCreateMultibranchPipelineInFolder() {
         FolderStatusPage folderStatusPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(RANDOM_NAME_1)
+                .setItemName(RANDOM_NAME_1)
                 .selectFolderAndClickOk()
                 .clickSaveButton()
                 .clickCreateJob()
-                .setProjectName(RANDOM_MULTIBRANCH_PIPELINE_NAME)
+                .setItemName(RANDOM_MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipelineAndClickOk()
                 .clickSaveButton()
                 .clickDashboard()
@@ -245,12 +245,12 @@ public class FolderOneTest extends BaseTest {
     public void testMoveFolderToFolder() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(RANDOM_NAME_1)
+                .setItemName(RANDOM_NAME_1)
                 .selectFolderAndClickOk()
                 .clickDashboard()
 
                 .clickNewItem()
-                .setProjectName(RANDOM_NAME_2)
+                .setItemName(RANDOM_NAME_2)
                 .selectFolderAndClickOk()
                 .clickDashboard()
 

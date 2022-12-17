@@ -18,7 +18,7 @@ public class ListViewTest extends BaseTest {
 
         int quantityProjectsInListView = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(projectOne)
+                .setItemName(projectOne)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .clickDashboard()

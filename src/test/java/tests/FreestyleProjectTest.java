@@ -22,7 +22,7 @@ public class FreestyleProjectTest extends BaseTest {
     public void testCreateNewFreestyleProject() {
         final String freestyleProjectTitle = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(FREESTYLE_NAME)
+                .setItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .getHeadlineText();
@@ -37,7 +37,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         for (Character character : incorrectNameCharacters) {
             newItemPage.clearItemName()
-                    .setProjectName(String.valueOf(character))
+                    .setItemName(String.valueOf(character))
                     .selectFreestyleProject();
 
             Assert.assertEquals(newItemPage.getItemNameInvalidMsg(), String.format("» ‘%s’ is an unsafe character", character));
@@ -148,7 +148,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         String actualResult = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(NEW_FREESTYLE_NAME)
+                .setItemName(NEW_FREESTYLE_NAME)
                 .selectFreestyleProject()
                 .getItemNameInvalidMsg();
 
@@ -208,7 +208,7 @@ public class FreestyleProjectTest extends BaseTest {
     public void testCreateFreestyleProjectWithSpacesInsteadOfName() {
         FreestyleProjectConfigPage freestyleProjectConfigPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(" ")
+                .setItemName(" ")
                 .selectFreestyleProjectAndClickOk();
 
         Assert.assertEquals(freestyleProjectConfigPage.getHeadlineText(), "Error");
@@ -222,7 +222,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         CreateItemErrorPage errorPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(getRandomStr(256))
+                .setItemName(getRandomStr(256))
                 .selectFreestyleProjectAndClickOkWithError();
 
         Assert.assertTrue(errorPage.getPageUrl().endsWith(expectedURL));
@@ -241,7 +241,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         BuildWithParametersPage page = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(NEW_FREESTYLE_NAME)
+                .setItemName(NEW_FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .switchONCheckBoxThisProjectIsParametrized()
                 .clickButtonAddParameter()

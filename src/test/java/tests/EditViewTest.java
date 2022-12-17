@@ -118,32 +118,32 @@ public class EditViewTest extends BaseTest {
     public void testCreateOneItemFromListOfJobTypes() {
         int actualNumberOfJobs = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
+                .setItemName(TestUtils.getRandomStr())
                 .selectPipelineAndClickOk()
 
                 .clickDashboard()
                 .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
+                .setItemName(TestUtils.getRandomStr())
                 .selectPipelineAndClickOk()
 
                 .clickDashboard()
                 .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
+                .setItemName(TestUtils.getRandomStr())
                 .selectMultiConfigurationProjectAndClickOk()
 
                 .clickDashboard()
                 .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
+                .setItemName(TestUtils.getRandomStr())
                 .selectFolderAndClickOk()
 
                 .clickDashboard()
                 .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
+                .setItemName(TestUtils.getRandomStr())
                 .selectMultibranchPipelineAndClickOk()
 
                 .clickDashboard()
                 .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
+                .setItemName(TestUtils.getRandomStr())
                 .selectOrgFolderAndClickOk()
 
                 .clickDashboard()

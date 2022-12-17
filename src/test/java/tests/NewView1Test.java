@@ -21,19 +21,19 @@ public class NewView1Test extends BaseTest {
     public void testCreateViews() {
         MyViewsPage myViewsPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(FREESTYLE_PROJECT_NAME)
+                .setItemName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .clickDashboard()
 
                 .clickNewItem()
-                .setProjectName(PIPELINE_PROJECT_NAME)
+                .setItemName(PIPELINE_PROJECT_NAME)
                 .selectPipelineAndClickOk()
                 .saveConfigAndGoToProject()
                 .clickDashboard()
 
                 .clickNewItem()
-                .setProjectName("Multi-configuration project")
+                .setItemName("Multi-configuration project")
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSave()
                 .goToDashboard()

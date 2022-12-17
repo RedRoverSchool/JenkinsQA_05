@@ -40,7 +40,7 @@ public class BuildHistoryTest extends BaseTest {
     public void testVerifyDefaultIconSize() {
         final String size = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(FREESTYLE_NAME)
+                .setItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .clickDashboard()
@@ -71,7 +71,7 @@ public class BuildHistoryTest extends BaseTest {
 
         final String header_BuildHistory = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(FREESTYLE_NAME)
+                .setItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .clickDashboard()
