@@ -27,8 +27,6 @@ public class OrganizationFolderTest extends BaseTest {
     private static final String nameFolderPOM = TestUtils.getRandomStr();
     private static final String NAME_FOLDER = TestUtils.getRandomStr();
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
-    private static final By INPUT_DISPLAY_NAME = By.xpath("//input  [@name='_.displayNameOrNull']");
-    private static final By DESCRIPTION = By.xpath("//textarea [@name='_.description']");
     private static final By ORGANIZATION_FOLDER = By.xpath("//li[@class = 'jenkins_branch_OrganizationFolder']");
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By DASHBOARD = By.xpath("//a[text()='Dashboard']");
@@ -312,25 +310,12 @@ public class OrganizationFolderTest extends BaseTest {
                 .inputDescription(description)
                 .clickSaveButton();
 
-        Assert.assertEquals(orgFolderStatusPage.descriptionCheck(),description);
+        Assert.assertEquals(orgFolderStatusPage.getDisplayName(), displayName);
+        Assert.assertEquals(orgFolderStatusPage.getDescription(), description);
 
-        Assert.assertTrue(new HomePage(getDriver()).getJobList().contains(displayName));
+        HomePage homePage = orgFolderStatusPage.goToDashboard();
 
-
-//        getDriver().findElement(ITEM_ORG_FOLDER).click();
-//        getDriver().findElement(By.linkText("Configure")).click();
-//        getDriver().findElement(INPUT_DISPLAY_NAME).sendKeys(NAME_ORG_FOLDER);
-//        getDriver().findElement(DESCRIPTION).sendKeys(NAME_ORG_FOLDER);
-//        getSaveButton().click();
-//        getDashboard().click();
-//
-//        List<String> foldersList = getDriver()
-//                .findElements(By.xpath("//tr/td[3]/a/span"))
-//                .stream()
-//                .map(element -> element.getText())
-//                .collect(Collectors.toList());
-//
-//        Assert.assertTrue(foldersList.contains(NAME_ORG_FOLDER));
+        Assert.assertTrue(homePage.getJobList().contains(displayName));
     }
 
     @Test

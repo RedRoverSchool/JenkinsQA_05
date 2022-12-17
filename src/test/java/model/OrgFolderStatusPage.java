@@ -24,6 +24,9 @@ public class OrgFolderStatusPage extends BasePage {
     @FindBy(id = "view-message")
     private WebElement description;
 
+    @FindBy(xpath = "//h1")
+    private WebElement displayName;
+
     public OrgFolderStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -54,9 +57,11 @@ public class OrgFolderStatusPage extends BasePage {
         return new OrgFolderConfigPage(getDriver());
     }
 
-    public OrgFolderStatusPage descriptionCheck() {
-        description.isDisplayed();
+    public String getDescription() {
+        return description.getText();
+    }
 
-        return this;
+    public String getDisplayName() {
+        return displayName.getText();
     }
 }
