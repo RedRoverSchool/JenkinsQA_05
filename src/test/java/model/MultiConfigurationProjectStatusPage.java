@@ -35,6 +35,15 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
     @FindBy(xpath = "//button[@id='yui-gen1-button']")
     private WebElement enableButton;
 
+    @FindBy(linkText = "Build Now")
+    private WebElement buildNowButton;
+
+    @FindBy(css = ".model-link.inside.build-link.display-name")
+    private WebElement dropDownBuildIcon;
+
+    @FindBy(xpath = "//li[@id='yui-gen3']/a/*[name()='svg']")
+    private WebElement  consoleOutputDropDownBuildIcon;
+
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -97,5 +106,40 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
         enableButton.click();
 
         return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+    public MulticonfigurationProjectConfigPage clickCongiguration(String projectName) {
+        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/configure']", projectName))).click();
+
+        return new MulticonfigurationProjectConfigPage(getDriver());
+    }
+
+    public MultiConfigurationProjectStatusPage clickBuildNowButton() {
+        buildNowButton.click();
+
+        return this;
+    }
+
+    public MultiConfigurationProjectStatusPage clickDropDownBuildIcon() {
+        getWait(20).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='build-status-icon__outer']"
+                + "/*[name()='svg'][@tooltip='Success &gt; Console Output']")));
+        dropDownBuildIcon.click();
+
+        return this;
+    }
+
+    public ConsoleOutputMulticonfigProgectPage selectAndClickConsoleOutput() {
+        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@id='yui-gen3']/a/*[name()='svg']")));
+        consoleOutputDropDownBuildIcon.click();
+
+        return new ConsoleOutputMulticonfigProgectPage(getDriver());
+    }
+
+    public void multiConfigurationProjectBuildNow (WebDriver driver) {
+        driver.findElement(By.xpath("//a[@onclick='return build_id386(this)']")).click();
+    }
+
+    public void multiConfigurationProjectNewestBuilds (WebDriver driver) {
+        driver.findElement(By.xpath("//*[@id='buildHistoryPageNav']/div[1]/div")).click();
     }
 }

@@ -1,5 +1,8 @@
+import model.ConsoleOutputMulticonfigProgectPage;
 import model.HomePage;
 import model.MultiConfigurationProjectStatusPage;
+import model.MulticonfigurationProjectConfigPage;
+import model.NewItemPage;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -369,5 +372,37 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickProjectDropdownMenu(PROJECT_NAME);
 
         Assert.assertTrue(buildNowButton);
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    public void testMultiConfigurationProjectCheckConcoleOutput() {
+        ConsoleOutputMulticonfigProgectPage multiConfigProjectConsole = new HomePage(getDriver())
+                .clickProject(PROJECT_NAME)
+                .clickCongiguration(PROJECT_NAME)
+                .scrollAndClickBuildSteps()
+                .selectionAndClickExecuteWindowsFromBuildSteps().enterCommandInBuildSteps("echo Hello world!")
+                .clickSaveButton()
+                .clickBuildNowButton()
+                .clickDropDownBuildIcon()
+                .selectAndClickConsoleOutput();
+
+        Assert.assertEquals(
+                multiConfigProjectConsole.getTextConsoleOutputUserName(), "admin");
+        Assert.assertTrue(multiConfigProjectConsole.getTextConsoleOutput().contains("Finished: SUCCESS"));
+    }
+
+    @Test
+    public void testNewestBuildsButton() {
+        new HomePage(getDriver()).clickNewItem();
+        MultiConfigurationProjectStatusPage newMultiConfigItem = new NewItemPage(getDriver())
+                .setProjectName(PROJECT_NAME)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSaveButton();
+        MultiConfigurationProjectStatusPage mcpStatusPage = new MultiConfigurationProjectStatusPage(getDriver());
+        mcpStatusPage.multiConfigurationProjectBuildNow(getDriver());
+        mcpStatusPage.multiConfigurationProjectNewestBuilds(getDriver());
+
+        Assert.assertTrue(getDriver().
+                findElement(By.xpath("//*[@id=/'buildHistory/']/div[2]/table/tbody/tr[2]")).isDisplayed());
     }
 }
