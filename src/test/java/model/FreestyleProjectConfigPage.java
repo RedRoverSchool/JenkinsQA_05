@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 import static runner.TestUtils.scrollToElement_PlaceInCenter;
 
-public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectConfigPage> {
+public class FreestyleProjectConfigPage extends BaseConfigPage {
 
     @FindBy(tagName = "h1")
     private WebElement headline;

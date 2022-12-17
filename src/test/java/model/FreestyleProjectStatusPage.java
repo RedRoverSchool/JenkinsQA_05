@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectStatusPage> {
+public class FreestyleProjectStatusPage extends BaseStatusPage {
 
     @FindBy(tagName = "h1")
     private WebElement headline;

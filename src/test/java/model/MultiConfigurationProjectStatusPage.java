@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiConfigurationProjectStatusPage> {
+public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
 
     @FindBy(css = "#breadcrumbs li a")
     private WebElement dashboard;

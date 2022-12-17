@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public abstract class BaseConfigPage<T> extends BasePage {
+public abstract class BaseConfigPage extends BasePage {
 
     @FindBy(name = "Submit")
     protected WebElement saveBtn;
@@ -14,7 +14,7 @@ public abstract class BaseConfigPage<T> extends BasePage {
         super(driver);
     }
 
-    public <R extends BaseStatusPage<R>> R clickSaveBtn(Class<R> statusPageClass) {
+    public <R extends BaseStatusPage> R clickSaveBtn(Class<R> statusPageClass) {
         getWait(5).until(ExpectedConditions.elementToBeClickable(saveBtn)).click();
 
         try {

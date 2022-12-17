@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
+public class FolderStatusPage extends BaseStatusPage {
 
     @FindBy(css = "#breadcrumbs li a")
     private List<WebElement> topMenuList;

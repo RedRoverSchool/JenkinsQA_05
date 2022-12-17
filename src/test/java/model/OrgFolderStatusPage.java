@@ -7,9 +7,6 @@ import org.openqa.selenium.support.FindBy;
 
 public class OrgFolderStatusPage extends BaseStatusPage {
 
-    @FindBy(xpath = "//a[text()='Dashboard']")
-    private WebElement dashboard;
-
     @FindBy(linkText = "Rename")
     private WebElement renameButton;
 
@@ -36,12 +33,6 @@ public class OrgFolderStatusPage extends BaseStatusPage {
 
     public OrgFolderStatusPage(WebDriver driver) {
         super(driver);
-    }
-
-    public HomePage goToDashboard() {
-        dashboard.click();
-
-        return new HomePage(getDriver());
     }
 
     public OrgFolderStatusPage clickRenameButton() {

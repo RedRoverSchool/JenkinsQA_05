@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PipelineStatusPage extends BaseStatusPage<PipelineStatusPage> {
+public class PipelineStatusPage extends BaseStatusPage {
 
     @FindBy(xpath = "//div[@id='description']//a")
     private WebElement editDescriptionButton;
