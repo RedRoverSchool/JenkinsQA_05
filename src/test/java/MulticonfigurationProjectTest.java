@@ -156,26 +156,19 @@ public class MulticonfigurationProjectTest extends BaseTest {
         multiConfigProject.deleteMultiConfigProject();
     }
 
-    @Ignore
-    @Test
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMultiConfigurationProjectBuild() {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(NEW_PROJECT_NAME);
-        getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(DASHBOARD).click();
 
-        getDriver().findElement(By.xpath("//a[@href='job/" + NEW_PROJECT_NAME + "/']")).click();
-        List<WebElement> build_row_before_build = getDriver().findElements(By.xpath("//tr[@page-entry-id]"));
-        int amountOfBuildsBeforeBuildNow = build_row_before_build.size();
+        int countBuildsBeforeNewBuild = new HomePage(getDriver())
+                .clickMultConfJobName(PROJECT_NAME)
+                .countBuildsOnSidePanel();
 
-        getDriver().findElement(By.linkText("Build Now")).click();
+        new MultiConfigurationProjectStatusPage(getDriver()).clickBuildNowOnSideMenu();
 
-        List<WebElement> build_row_after_build = getDriver().findElements(By.xpath("//tr[@page-entry-id]"));
-        int amountOfBuildsAfterBuildNow = build_row_after_build.size();
+        int countBuildsAfterNewBuild = new MultiConfigurationProjectStatusPage(getDriver())
+                .countBuildsOnSidePanel();
 
-        Assert.assertNotEquals(amountOfBuildsAfterBuildNow, amountOfBuildsBeforeBuildNow);
+        Assert.assertNotEquals(countBuildsAfterNewBuild, countBuildsBeforeNewBuild);
     }
 
     @Ignore
@@ -242,6 +235,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .isDisplayed());
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDisableMultiConfigurationProjectCheckIconDashboardPage")
     public void testEnableMultiConfigurationProjectCheckIconDashboardPage() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
@@ -308,6 +302,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testMultiConfigurationProjectConfigureParams() {
         String multiConfProjectName = TestUtils.getRandomStr(5);
@@ -360,8 +355,9 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(projectIconText);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
-    public void testEnableMultiConfigurationProject() {
+        public void testEnableMultiConfigurationProject() {
         Boolean buildNowButton = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
                 .clickEnableButton()

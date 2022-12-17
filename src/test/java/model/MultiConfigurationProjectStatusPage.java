@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.List;
+
 public class MultiConfigurationProjectStatusPage extends BasePage {
 
     @FindBy(css = "#breadcrumbs li a")
@@ -34,6 +36,18 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
 
     @FindBy(xpath = "//button[@id='yui-gen1-button']")
     private WebElement enableButton;
+
+    @FindBy(css = "#no-builds")
+    private WebElement buildsHistoryOnSidePanel;
+
+    @FindBy(css = ".build-row-cell")
+    private List<WebElement> buildRowsOnBuildHistory;
+
+    @FindBy(linkText = "Build Now")
+    private WebElement buttonBuildNowOnSidePanel;
+
+    @FindBy(css = ".build-status-icon__outer>[tooltip = 'Success &gt; Console Output']")
+    private WebElement buildLoadingIconSuccess;
 
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
@@ -97,5 +111,22 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
         enableButton.click();
 
         return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+    public int countBuildsOnSidePanel() {
+        getWait(10).until(ExpectedConditions.attributeContains(buildsHistoryOnSidePanel, "style", "display"));
+        int countBuilds = 0;
+        if (buildsHistoryOnSidePanel.getAttribute("style").equals("display: none;")) {
+            countBuilds = buildRowsOnBuildHistory.size();
+        }
+
+        return countBuilds;
+    }
+
+    public MultiConfigurationProjectStatusPage clickBuildNowOnSideMenu(){
+        buttonBuildNowOnSidePanel.click();
+        getWait(10).until(ExpectedConditions.visibilityOf((buildLoadingIconSuccess)));
+
+        return this;
     }
 }
