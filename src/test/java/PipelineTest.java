@@ -194,28 +194,19 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(renameItemErrorPage.getErrorMessage(), "The new name is the same as the current name.");
     }
 
-    @Ignore
     @Test
     public void testRenamePipelineUsingSpecialCharacter() {
-        String specialCharactersString = "!@#$%*/:;?[]^|";
-        for (int i = 0; i < specialCharactersString.length(); i++) {
-            createPipelineProject(PIPELINE_NAME);
-            Actions actions = new Actions(getDriver());
-            actions.moveToElement(getDriver().findElement(JOB_PIPELINE))
-                    .moveToElement(getDriver().findElement(JOB_PIPELINE_MENU_DROPDOWN_CHEVRON)).click().build().perform();
-            getDriver().findElement(JOB_MENU_RENAME).click();
-            getDriver().findElement(TEXTFIELD_NEW_NAME).clear();
-            getDriver().findElement(TEXTFIELD_NEW_NAME).sendKeys(PIPELINE_NAME + specialCharactersString.charAt(i));
-            getDriver().findElement(BUTTON_RENAME).click();
+        final List<Character> specialCharacters = List.of('!', '@', '#', '$', '%', '^', '*', '[', ']', '\\', '|', ';', ':', '/', '?');
+        createPipelineProject(PIPELINE_NAME);
+        for (Character character : specialCharacters) {
+            RenameItemErrorPage renameItemErrorPage = new HomePage(getDriver())
+                    .clickDashboard()
+                    .clickJobDropDownMenu(PIPELINE_NAME)
+                    .clickRenameDropDownMenu()
+                    .clearFieldAndInputNewName(PIPELINE_NAME + character)
+                    .clickSaveButton();
 
-            Assert.assertEquals(getDriver()
-                    .findElement(By.xpath("//div[@id='main-panel']//h1[contains(text(),'Error')]"))
-                    .getText(), "Error");
-            Assert.assertEquals(getDriver()
-                    .findElement(By.xpath("//div[@id='main-panel']//p"))
-                    .getText(), String.format("‘%s’ is an unsafe character", specialCharactersString.charAt(i)));
-
-            deletePipelineProject(PIPELINE_NAME);
+            Assert.assertEquals(renameItemErrorPage.getErrorMessage(), String.format("‘%s’ is an unsafe character", character));
         }
     }
 
