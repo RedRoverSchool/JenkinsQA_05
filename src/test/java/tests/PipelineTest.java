@@ -382,6 +382,8 @@ public class PipelineTest extends BaseTest {
                 ITEM_DESCRIPTION);
     }
 
+
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewPipelineWithDescription")
     public void testEditPipelineDescription() {
 
@@ -395,6 +397,8 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
     }
 
+
+    @Ignore
     @Test(dependsOnMethods = "testEditPipelineDescription")
     public void testCreateNewPipelineFromExisting() {
         final String jobName = TestUtils.getRandomStr(7);
