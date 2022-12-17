@@ -4,7 +4,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import model.FolderConfigPage;
+import model.folder.FolderConfigPage;
 import model.HomePage;
 import model.NewItemPage;
 import org.openqa.selenium.By;
