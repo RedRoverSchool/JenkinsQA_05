@@ -2,6 +2,7 @@ package tests;
 
 import model.views.EditViewPage;
 import model.HomePage;
+import model.views.MyViewsPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
@@ -13,7 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class EditViewTest extends BaseTest {
-    private static String localViewName;
+    private static String localViewName = TestUtils.getRandomStr();
     private static final int waitTime = 5;
     private static final By DASHBOARD = By.cssSelector("#jenkins-name-icon");
     private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
@@ -114,7 +115,7 @@ public class EditViewTest extends BaseTest {
     }
 
     @Test
-    public void createOneItemFromListOfJobTypes() {
+    public void testCreateOneItemFromListOfJobTypes() {
         int actualNumberOfJobs = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(TestUtils.getRandomStr())
@@ -152,7 +153,7 @@ public class EditViewTest extends BaseTest {
         Assert.assertEquals(actualNumberOfJobs, 6);
     }
 
-    @Test(dependsOnMethods = "createOneItemFromListOfJobTypes")
+    @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
     public void testGlobalViewAddFilterBuildQueue() {
         boolean newPaneIsDisplayed = new HomePage(getDriver())
                 .clickMyViewsSideMenuLink()
@@ -168,7 +169,7 @@ public class EditViewTest extends BaseTest {
         Assert.assertTrue(newPaneIsDisplayed);
     }
 
-    @Test(dependsOnMethods = "createOneItemFromListOfJobTypes")
+    @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
     public void testGlobalViewAddBothFilters() {
         EditViewPage editViewPage = new HomePage(getDriver())
                 .clickMyViewsSideMenuLink()
@@ -184,31 +185,38 @@ public class EditViewTest extends BaseTest {
         Assert.assertTrue(editViewPage.isFilterBuildQueueOptionCheckBoxSelected() && editViewPage.isFilterBuildExecutorsOptionCheckBoxSelected());
     }
 
-    @Test(dependsOnMethods = "createOneItemFromListOfJobTypes")
+    @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
     public void testListViewAddFiveItems() {
-        new HomePage(getDriver())
+        int expectedResult = 5;
+
+        int actualResult = new HomePage(getDriver())
             .clickMyViewsSideMenuLink()
             .clickAddViewLink()
-            .setViewName(TestUtils.getRandomStr())
+            .setViewName(localViewName)
             .setListViewTypeAndClickCreate()
-            .addJobsToListView(5)
-            .clickListOrMyViewOkButton();
+            .addJobsToListView(expectedResult)
+            .clickListOrMyViewOkButton()
+            .getJobList()
+            .size();
 
-        int actualResult = getDriver().findElements(JOB_PATH).size();
-        Assert.assertEquals(actualResult, 5);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
     public void testListViewAddNewColumn() {
-        listViewSeriesPreConditions(1, TestUtils.getRandomStr());
         String expectedResult = "Git Branches";
 
-        scrollWaitTillNotMovingAndClick(waitTime, ADD_COLUMN);
-        getDriver().findElement(By.
-                xpath("//a[@class='yuimenuitemlabel' and text()='Git Branches']")).click();
-        getDriver().findElement(SUBMIT_BUTTON).click();
+        String actualResult = new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickView(localViewName)
+                .clickEditViewButton()
+                .scrollToColumnDropDownMenuPlaceInCenterWaitTillNotMoving()
+                .clickAddColumnDropDownMenu()
+                .clickGitBranchesColumnMenuOption()
+                .clickListOrMyViewOkButton()
+                .getJobTableHeaderTextList()
+                .get(new MyViewsPage(getDriver()).getJobTableHeaderTextList().size() - 1);
 
-        String actualResult = getDriver().findElement(By.cssSelector("#projectstatus th:last-child a")).getText();
         Assert.assertEquals(actualResult, expectedResult);
     }
 

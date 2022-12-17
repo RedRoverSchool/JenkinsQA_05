@@ -5,6 +5,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.TestUtils;
+
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EditViewPage extends ViewPage {
 
@@ -37,6 +42,15 @@ public class EditViewPage extends ViewPage {
 
     @FindBy(css = "input[checked='true']")
     private WebElement markedCheckboxNameJob;
+
+    @FindBy(css = ".hetero-list-add[suffix='columns']")
+    private WebElement addColumnDropDownMenu;
+
+    @FindBy(xpath = "//a[@class='yuimenuitemlabel' and text()='Git Branches']")
+    private WebElement gitBranchesColumnMenuOption;
+
+    @FindBy(css = "#projectstatus th")
+    private List<WebElement> listAddColumnMenuOptions;
 
     public EditViewPage(WebDriver driver) {
         super(driver);
@@ -120,5 +134,28 @@ public class EditViewPage extends ViewPage {
         getDriver().findElement(By.cssSelector("label[title='" + jobName + "']")).click();
 
         return this;
+    }
+
+    public EditViewPage clickAddColumnDropDownMenu() {
+        addColumnDropDownMenu.click();
+
+        return this;
+    }
+
+    public EditViewPage clickGitBranchesColumnMenuOption() {
+        gitBranchesColumnMenuOption.click();
+
+        return this;
+    }
+
+    public EditViewPage scrollToColumnDropDownMenuPlaceInCenterWaitTillNotMoving() {
+        TestUtils.scrollToElement_PlaceInCenter(getDriver(), addColumnDropDownMenu);
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(addColumnDropDownMenu));
+        return this;
+    }
+
+    public List<String> getAddColumnMenuOptionTextList() {
+
+        return listAddColumnMenuOptions.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 }

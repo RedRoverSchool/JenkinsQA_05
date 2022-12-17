@@ -17,6 +17,7 @@ import model.views.ViewPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.TestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -120,6 +121,9 @@ public class HomePage extends Header {
 
     @FindBy(linkText = "Credentials")
     private WebElement credentialsItemInUserDropdownMenu;
+
+    @FindBy(css = "#projectstatus th")
+    private List<WebElement> jobTableColumnList;
 
     @FindBy(xpath = "(//a[@class='yuimenuitemlabel'])[3]/span")
     private WebElement buildNowButton;

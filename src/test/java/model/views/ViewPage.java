@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ViewPage extends HomePage {
+public class ViewPage extends MyViewsPage{
 
     @FindBy(css = "tr td a.model-link")
     private List<WebElement> jobList;
