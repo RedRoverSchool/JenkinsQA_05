@@ -109,7 +109,7 @@ public class NewItemPage extends HomePage {
     }
 
     public OrgFolderConfigPage selectOrgFolderAndClickOk() {
-//        TestUtils.scrollToElement(getDriver(), orgFolder);
+        TestUtils.scrollToElement(getDriver(), orgFolder);
         orgFolder.click();
         okButton.submit();
 
@@ -227,7 +227,7 @@ public class NewItemPage extends HomePage {
     }
 
     public FreestyleProjectConfigPage selectFreeStyleProjectAndClickOk() {
-        freeStyleProjectType.click();
+        freestyleProject.click();
         okButton.click();
 
         return new FreestyleProjectConfigPage(getDriver());
