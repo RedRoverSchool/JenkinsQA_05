@@ -177,7 +177,7 @@ public class HomePage extends Header {
     }
 
     public FreeStyleProjectMenuPage clickDropdownRenameButton() {
-        getWait(5).until(ExpectedConditions.elementToBeClickable(dropdownRenameButton));
+        getWait(10).until(ExpectedConditions.elementToBeClickable(dropdownRenameButton));
         dropdownRenameButton.click();
 
         return new FreeStyleProjectMenuPage(getDriver());

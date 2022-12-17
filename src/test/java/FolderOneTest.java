@@ -54,7 +54,7 @@ public class FolderOneTest extends BaseTest {
                 .clickSaveButton()
                 .clickDashboard();
 
-        Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME_2));
+        Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME_2));git
     }
 
     @Test(dependsOnMethods = "testConfigureFolderDisplayName")
