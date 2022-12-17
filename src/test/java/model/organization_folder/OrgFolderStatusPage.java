@@ -1,10 +1,12 @@
 package model.organization_folder;
 
 import model.HomePage;
+import model.MovePage;
 import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class OrgFolderStatusPage extends BasePage {
 
@@ -83,5 +85,11 @@ public class OrgFolderStatusPage extends BasePage {
         saveButton.click();
 
         return new HomePage(getDriver());
+    }
+
+    public MovePage clickMoveButton(){
+        getWait(5).until(ExpectedConditions.elementToBeClickable(moveButton)).click();
+
+        return new MovePage(getDriver());
     }
 }
