@@ -43,6 +43,9 @@ public class MyViewsPage extends HomePage {
     @FindBy(xpath = "//ul[@id='breadcrumbs']/li[5]")
     private WebElement myViewItemOnTopBar;
 
+    @FindBy(id = "description-link")
+    private WebElement editDescriptionButton;
+
     public MyViewsPage(WebDriver driver) {
         super(driver);
     }
@@ -124,5 +127,11 @@ public class MyViewsPage extends HomePage {
     public String getMyViewItemNameOnTopBar() {
 
         return myViewItemOnTopBar.getText();
+    }
+
+    public MyViewsPage clickEditDescription(){
+        editDescriptionButton.click();
+
+        return this;
     }
 }
