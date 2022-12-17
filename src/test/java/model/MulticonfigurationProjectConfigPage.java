@@ -27,7 +27,7 @@ public class MulticonfigurationProjectConfigPage extends HomePage {
     @FindBy(xpath = "//div[@class='jenkins-section__title'][@id='build-steps']")
     private WebElement buildStepsSection;
 
-    @FindBy(id = "yui-gen15-button")
+    @FindBy(xpath = "//button[text()='Add build step']")
     private WebElement addBuildStepButton;
 
     @FindBy(id = "yui-gen29")
@@ -81,7 +81,6 @@ public class MulticonfigurationProjectConfigPage extends HomePage {
 
     public MulticonfigurationProjectConfigPage scrollAndClickBuildSteps() {
         getWait(5).until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h2")));
-        getWait(5).until(ExpectedConditions.visibilityOf(buildStepsSection));
         TestUtils.scrollToElement(getDriver(), buildStepsSection);
         getWait(10).until(ExpectedConditions.elementToBeClickable(addBuildStepButton));
         addBuildStepButton.click();
