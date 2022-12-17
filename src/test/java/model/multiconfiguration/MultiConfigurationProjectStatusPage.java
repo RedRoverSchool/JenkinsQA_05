@@ -111,7 +111,7 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
-    public MultiConfigurationProjectConfigPage clickCongiguration(String projectName) {
+    public MultiConfigurationProjectConfigPage clickConfiguration(String projectName) {
         getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/configure']", projectName))).click();
 
         return new MultiConfigurationProjectConfigPage(getDriver());

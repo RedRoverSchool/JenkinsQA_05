@@ -376,11 +376,12 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(buildNowButton);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMultiConfigurationProjectCheckConsoleOutput() {
         ConsoleOutputMultiConfigurationProjectPage multiConfigProjectConsole = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
-                .clickCongiguration(PROJECT_NAME)
+                .clickConfiguration(PROJECT_NAME)
                 .scrollAndClickBuildSteps()
                 .selectionAndClickExecuteWindowsFromBuildSteps().enterCommandInBuildSteps("echo Hello world!")
                 .clickSaveButton()
@@ -388,8 +389,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickDropDownBuildIcon()
                 .selectAndClickConsoleOutput();
 
-        Assert.assertEquals(
-                multiConfigProjectConsole.getTextConsoleOutputUserName(), "admin");
+        Assert.assertEquals(multiConfigProjectConsole.getTextConsoleOutputUserName(), "admin");
         Assert.assertTrue(multiConfigProjectConsole.getTextConsoleOutput().contains("Finished: SUCCESS"));
     }
 
