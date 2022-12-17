@@ -284,19 +284,12 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testConfigureOrganizationFolder")
     public void testDeleteOrganizationFolderDependsMethods() {
-        final By itemInDashboard = By.xpath("//span[text()='" + DISPLAY_NAME + 5 + "']");
+        HomePage homePage = new HomePage(getDriver())
+                .clickOrgFolder(DISPLAY_NAME)
+                .clickDeleteOrganizationFolder()
+                .clickSaveButton();
 
-        getDriver().findElement(ITEM_ORG_FOLDER).click();
-        getDriver().findElement(BUTTON_DELETE_ORGANIZATION_FOLDER).click();
-        getDriver().findElement(BUTTON_SUBMIT).click();
-
-        List<String> foldersList = getDriver()
-                .findElements(By.xpath("//tr/td[3]/a/span"))
-                .stream()
-                .map(element -> element.getText())
-                .collect(Collectors.toList());
-
-        Assert.assertFalse(foldersList.contains(DISPLAY_NAME + 5));
+        Assert.assertFalse(homePage.getJobList().contains(DISPLAY_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateOrganizFolder")

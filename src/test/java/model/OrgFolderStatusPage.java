@@ -1,5 +1,6 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -26,6 +27,12 @@ public class OrgFolderStatusPage extends BasePage {
 
     @FindBy(xpath = "//h1")
     private WebElement displayName;
+
+    @FindBy(xpath = "//div[@id='tasks']//a[contains(@href, 'delete')]")
+    private WebElement deleteButton;
+
+    @FindBy(xpath = "//button[@type= 'submit']")
+    private WebElement saveButton;
 
     public OrgFolderStatusPage(WebDriver driver) {
         super(driver);
@@ -63,5 +70,17 @@ public class OrgFolderStatusPage extends BasePage {
 
     public String getDisplayName() {
         return displayName.getText();
+    }
+
+    public OrgFolderStatusPage clickDeleteOrganizationFolder() {
+        deleteButton.click();
+
+        return this;
+    }
+
+    public HomePage clickSaveButton() {
+        saveButton.click();
+
+        return new HomePage(getDriver());
     }
 }
