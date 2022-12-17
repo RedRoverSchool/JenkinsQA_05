@@ -184,7 +184,7 @@ public class HomePage extends Header {
     }
 
     public HomePage clickJobDropDownMenu(String name) {
-        getDriver().findElement((By.xpath(String.format(
+        getWait(2).until(ExpectedConditions.elementToBeClickable(By.xpath(String.format(
                 "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", name)))).click();
 
         return this;
@@ -479,5 +479,11 @@ public class HomePage extends Header {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public OrgFolderStatusPage clickOrgFolder(String name) {
+        getDriver().findElement(By.linkText(name)).click();
+
+        return new OrgFolderStatusPage(getDriver());
     }
 }

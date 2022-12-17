@@ -25,9 +25,8 @@ public class OrganizationFolderTest extends BaseTest {
     private static final String nameOrgFolderPOM = TestUtils.getRandomStr();
     private static final String nameFolderPOM = TestUtils.getRandomStr();
     private static final String NAME_FOLDER = TestUtils.getRandomStr();
+    private static final String DISPLAY_NAME = TestUtils.getRandomStr();
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
-    private static final By INPUT_DISPLAY_NAME = By.xpath("//input  [@name='_.displayNameOrNull']");
-    private static final By DESCRIPTION = By.xpath("//textarea [@name='_.description']");
     private static final By ORGANIZATION_FOLDER = By.xpath("//li[@class = 'jenkins_branch_OrganizationFolder']");
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By DASHBOARD = By.xpath("//a[text()='Dashboard']");
@@ -284,37 +283,31 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testConfigureOrganizationFolder")
     public void testDeleteOrganizationFolderDependsMethods() {
-        final By itemInDashboard = By.xpath("//span[text()='" + NAME_ORG_FOLDER + 5 + "']");
+        HomePage homePage = new HomePage(getDriver())
+                .clickOrgFolder(DISPLAY_NAME)
+                .clickDeleteOrganizationFolder()
+                .clickSaveButton();
 
-        getDriver().findElement(ITEM_ORG_FOLDER).click();
-        getDriver().findElement(BUTTON_DELETE_ORGANIZATION_FOLDER).click();
-        getDriver().findElement(BUTTON_SUBMIT).click();
-
-        List<String> foldersList = getDriver()
-                .findElements(By.xpath("//tr/td[3]/a/span"))
-                .stream()
-                .map(element -> element.getText())
-                .collect(Collectors.toList());
-
-        Assert.assertFalse(foldersList.contains(NAME_ORG_FOLDER + 5));
+        Assert.assertFalse(homePage.getJobList().contains(DISPLAY_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateOrganizFolder")
     public void testConfigureOrganizationFolder() {
-        getDriver().findElement(ITEM_ORG_FOLDER).click();
-        getDriver().findElement(By.linkText("Configure")).click();
-        getDriver().findElement(INPUT_DISPLAY_NAME).sendKeys(NAME_ORG_FOLDER);
-        getDriver().findElement(DESCRIPTION).sendKeys(NAME_ORG_FOLDER);
-        getSaveButton().click();
-        getDashboard().click();
+        final String description = TestUtils.getRandomStr();
 
-        List<String> foldersList = getDriver()
-                .findElements(By.xpath("//tr/td[3]/a/span"))
-                .stream()
-                .map(element -> element.getText())
-                .collect(Collectors.toList());
+        OrgFolderStatusPage orgFolderStatusPage = new HomePage(getDriver())
+                .clickOrgFolder(NAME_ORG_FOLDER)
+                .clickConfigureSideMenu()
+                .inputDisplayName(DISPLAY_NAME)
+                .inputDescription(description)
+                .clickSaveButton();
 
-        Assert.assertTrue(foldersList.contains(NAME_ORG_FOLDER));
+        Assert.assertEquals(orgFolderStatusPage.getDisplayName(), DISPLAY_NAME);
+        Assert.assertEquals(orgFolderStatusPage.getDescription(), description);
+
+        HomePage homePage = orgFolderStatusPage.goToDashboard();
+
+        Assert.assertTrue(homePage.getJobList().contains(DISPLAY_NAME));
     }
 
     @Test

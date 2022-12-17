@@ -49,6 +49,9 @@ public class ViewPage extends HomePage{
     @FindBy(css = "#yui-gen1-button")
     private WebElement saveButton;
 
+    @FindBy(linkText = "add some existing jobs")
+    private WebElement linkTextAddSomeExistingJobs;
+
     public ViewPage(WebDriver driver) {
         super(driver);
     }
@@ -145,5 +148,11 @@ public class ViewPage extends HomePage{
                 .until(ExpectedConditions.elementToBeClickable(saveButton)).click();
 
         return this;
+    }
+
+    public EditViewPage clickLinkTextAddExistingJob () {
+        linkTextAddSomeExistingJobs.click();
+
+        return new EditViewPage(getDriver());
     }
 }

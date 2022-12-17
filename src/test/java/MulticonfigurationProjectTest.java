@@ -360,6 +360,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(projectIconText);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
     public void testEnableMultiConfigurationProject() {
         Boolean buildNowButton = new HomePage(getDriver())

@@ -117,4 +117,10 @@ public class EditViewPage extends ViewPage {
 
         return markedCheckboxNameJob.getAttribute("name");
     }
+
+    public EditViewPage clickJobForInputToListView(String jobName) {
+        getDriver().findElement(By.cssSelector("label[title='" + jobName + "']")).click();
+
+        return this;
+    }
 }
