@@ -37,6 +37,9 @@ public class OrgFolderStatusPage extends BasePage {
     @FindBy(xpath = "//button[@type= 'submit']")
     private WebElement saveButton;
 
+    @FindBy(linkText = "Move")
+    private WebElement moveButton;
+
     public OrgFolderStatusPage(WebDriver driver) {
         super(driver);
     }
