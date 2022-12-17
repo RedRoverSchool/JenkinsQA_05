@@ -162,6 +162,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         int countBuildsBeforeNewBuild = new HomePage(getDriver())
                 .clickMultConfJobName(PROJECT_NAME)
                 .countBuildsOnSidePanel();
+
         new MultiConfigurationProjectStatusPage(getDriver()).clickBuildNowOnSideMenu();
 
         int countBuildsAfterNewBuild = new MultiConfigurationProjectStatusPage(getDriver())
