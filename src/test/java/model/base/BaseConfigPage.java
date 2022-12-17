@@ -4,7 +4,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import runner.TestUtils;
 
 public abstract class BaseConfigPage<T> extends BasePage {
 
@@ -15,7 +14,7 @@ public abstract class BaseConfigPage<T> extends BasePage {
         super(driver);
     }
 
-    public <K extends BaseStatusPage<K>> K clickSaveBtn(Class<K> statusPageClass) {
+    public <R extends BaseStatusPage<R>> R clickSaveBtn(Class<R> statusPageClass) {
         getWait(5).until(ExpectedConditions.elementToBeClickable(saveBtn)).click();
 
         try {
