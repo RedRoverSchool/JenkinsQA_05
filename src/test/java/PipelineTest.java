@@ -392,6 +392,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testEditPipelineDescription")
     public void testCreateNewPipelineFromExisting() {
         final String jobName = TestUtils.getRandomStr(7);
@@ -423,6 +424,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertNotEquals(jobStatusAfterEnable, "Disabled");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewPipelineFromExisting")
     public void testPipelineSideMenuLinks() {
         List<String> pipelineSideMenuOptionsLinks = new HomePage(getDriver())
