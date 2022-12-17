@@ -44,6 +44,9 @@ public class FolderStatusPage extends BasePage {
     @FindBy(tagName = "h1")
     private WebElement header;
 
+    @FindBy(className = "h4")
+    private WebElement headerH4;
+
     @FindBy(id = "main-panel")
     private WebElement textAddress;
 
@@ -157,6 +160,11 @@ public class FolderStatusPage extends BasePage {
     public String getDescriptionText() {
 
         return textAddress.getText();
+    }
+
+    public String getStartBuildingYourSoftWareProjectText() {
+
+        return headerH4.getText();
     }
 
     public String getTextDescription(String des) {

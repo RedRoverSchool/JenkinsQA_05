@@ -73,7 +73,6 @@ public class NewFreeStyleProjectALEXTest extends BaseTest {
                 .clickAcceptAlert()
                 .getHomePageWelcomeText();
 
-//        String actualText = new HomePage(getDriver()).getHomePageWelcomeText();
         Assert.assertTrue(actualText.contains(expectedText));
     }
 }
