@@ -81,6 +81,7 @@ public class MulticonfigurationProjectConfigPage extends HomePage {
 
     public MulticonfigurationProjectConfigPage scrollAndClickBuildSteps() {
         getWait(5).until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h2")));
+        getWait(5).until(ExpectedConditions.visibilityOf(buildStepsSection));
         TestUtils.scrollToElement(getDriver(), buildStepsSection);
         getWait(10).until(ExpectedConditions.elementToBeClickable(addBuildStepButton));
         addBuildStepButton.click();
