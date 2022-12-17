@@ -1,5 +1,19 @@
 package model;
 
+import model.base.Header;
+import model.folder.FolderConfigPage;
+import model.folder.FolderStatusPage;
+import model.freestyle.FreestyleProjectConfigPage;
+import model.freestyle.FreestyleProjectStatusPage;
+import model.multibranch_pipeline.DeleteMultibranchPipelinePage;
+import model.multiconfiguration.MultiConfigurationProjectStatusPage;
+import model.organization_folder.OrgFolderStatusPage;
+import model.pipeline.PipelineConfigPage;
+import model.pipeline.PipelineProjectPage;
+import model.views.EditViewPage;
+import model.views.MyViewsPage;
+import model.views.NewViewPage;
+import model.views.ViewPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
