@@ -1,6 +1,7 @@
 package tests;
 
 import model.HomePage;
+import model.folder.FolderStatusPage;
 import model.organization_folder.OrgFolderStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -346,5 +347,21 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobList().contains(nameFolderPOM));
+    }
+
+    @Test(dependsOnMethods = {"testCreateOrgFolderWithPOM", "testCreateFolderWithPOM"})
+    public void testMoveOrgFolderToFolderPOM() {
+        HomePage homePage = new HomePage(getDriver())
+                .clickOrgFolder(nameOrgFolderPOM)
+                .clickMoveButton()
+                .selectFolder(nameFolderPOM)
+                .clickMoveForOrgFolder()
+                .goToDashboard();
+
+        Assert.assertFalse(homePage.getJobList().contains(nameOrgFolderPOM));
+
+        FolderStatusPage folderStatusPage = homePage.clickFolder(nameFolderPOM);
+
+        Assert.assertTrue(folderStatusPage.getJobList().contains(nameOrgFolderPOM));
     }
 }
