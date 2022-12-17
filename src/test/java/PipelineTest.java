@@ -378,6 +378,7 @@ public class PipelineTest extends BaseTest {
                 ITEM_DESCRIPTION);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewPipelineWithDescription")
     public void testEditPipelineDescription() {
 
