@@ -16,9 +16,6 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
     @FindBy(linkText = "Configure")
     private WebElement sideMenuConfigure;
 
-    @FindBy(css = "#breadcrumbs li a")
-    private WebElement topMenuRoot;
-
     @FindBy(xpath = "//li[@class='item'][last()-1]")
     private WebElement breadcrumbsParentFolderLink;
 
@@ -97,12 +94,6 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
 
     public String getHeadlineText() {
         return headline.getText();
-    }
-
-    public HomePage clickDashboard() {
-        topMenuRoot.click();
-
-        return new HomePage(getDriver());
     }
 
     public FolderStatusPage clickParentFolderInBreadcrumbs() {

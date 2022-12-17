@@ -7,9 +7,6 @@ import org.openqa.selenium.support.FindBy;
 
 public class MultibranchPipelineStatusPage extends BaseStatusPage<MultibranchPipelineStatusPage> {
 
-    @FindBy(css = "#breadcrumbs li a")
-    private WebElement topMenuRoot;
-
     @FindBy(linkText = "Delete Multibranch Pipeline")
     private WebElement deleteLeftSideMenu;
 
@@ -18,12 +15,6 @@ public class MultibranchPipelineStatusPage extends BaseStatusPage<MultibranchPip
 
     public MultibranchPipelineStatusPage(WebDriver driver) {
         super(driver);
-    }
-
-    public HomePage clickDashboard() {
-        topMenuRoot.click();
-
-        return new HomePage(getDriver());
     }
 
     public DeleteMultibranchPipelinePage clickDeleteMultibranchPipeline() {

@@ -13,9 +13,6 @@ import java.util.stream.Collectors;
 public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
 
     @FindBy(css = "#breadcrumbs li a")
-    private WebElement topMenuRoot;
-
-    @FindBy(css = "#breadcrumbs li a")
     private List<WebElement> topMenuList;
 
     @FindBy(xpath = "//li[@class='item'][last()]//button")
@@ -62,12 +59,6 @@ public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
 
     public FolderStatusPage(WebDriver driver) {
         super(driver);
-    }
-
-    public HomePage clickDashboard() {
-        topMenuRoot.click();
-
-        return new HomePage(getDriver());
     }
 
     public NewItemPage clickNewItemDropdownThisFolderInBreadcrumbs() {

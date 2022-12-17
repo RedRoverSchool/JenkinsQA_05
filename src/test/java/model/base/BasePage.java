@@ -9,7 +9,7 @@ import runner.BaseModel;
 public abstract class BasePage extends BaseModel {
 
     @FindBy(css = "#breadcrumbs li a")
-    private WebElement topMenuRoot;
+    protected WebElement topMenuRoot;
 
     public BasePage(WebDriver driver) {
         super(driver);

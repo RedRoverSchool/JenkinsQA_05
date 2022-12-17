@@ -20,9 +20,6 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage> {
     @FindBy(id = "yui-gen6-button")
     private WebElement saveButton;
 
-    @FindBy(css = "#breadcrumbs li a")
-    private WebElement topMenuRoot;
-
     @FindBy(xpath = "//option[text()='try sample Pipeline...']")
     private WebElement trySamplePipelineDropDownMenu;
 
@@ -82,12 +79,6 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineConfigPage> {
         saveButton.click();
 
         return this;
-    }
-
-    public HomePage clickDashboard() {
-        topMenuRoot.click();
-
-        return new HomePage(getDriver());
     }
 
     public PipelineConfigPage scrollToEndPipelineConfigPage() {
