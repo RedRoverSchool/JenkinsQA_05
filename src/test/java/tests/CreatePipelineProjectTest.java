@@ -15,7 +15,7 @@ public class CreatePipelineProjectTest extends BaseTest {
 
         String actualResult = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(PIPELINE_NAME)
+                .setItemName(PIPELINE_NAME)
                 .selectPipeline()
                 .clickOk()
                 .clickSaveButton()
