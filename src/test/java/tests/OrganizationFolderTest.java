@@ -1,6 +1,7 @@
 package tests;
 
 import model.HomePage;
+import model.organization_folder.OrgFolderStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
