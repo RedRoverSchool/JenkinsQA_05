@@ -2,7 +2,7 @@ package tests;
 
 import model.folder.FolderStatusPage;
 import model.HomePage;
-import model.MultibranchPipelineStatusPage;
+import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
