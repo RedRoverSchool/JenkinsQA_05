@@ -392,6 +392,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(multiConfigProjectConsole.getTextConsoleOutput().contains("Finished: SUCCESS"));
     }
 
+    @Ignore
     @Test
     public void testNewestBuildsButton() {
         new HomePage(getDriver()).clickNewItem();
