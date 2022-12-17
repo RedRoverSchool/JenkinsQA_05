@@ -158,6 +158,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMultiConfigurationProjectBuild() {
+
         int countBuildsBeforeNewBuild = new HomePage(getDriver())
                 .clickMultConfJobName(PROJECT_NAME)
                 .countBuildsOnSidePanel();
