@@ -1,9 +1,22 @@
 package model;
 
+import model.base.Header;
+import model.folder.FolderConfigPage;
+import model.folder.FolderStatusPage;
+import model.freestyle.FreestyleProjectConfigPage;
+import model.freestyle.FreestyleProjectStatusPage;
+import model.multibranch_pipeline.DeleteMultibranchPipelinePage;
+import model.multiconfiguration.MultiConfigurationProjectStatusPage;
+import model.organization_folder.OrgFolderStatusPage;
+import model.pipeline.PipelineConfigPage;
+import model.pipeline.PipelineProjectPage;
+import model.views.EditViewPage;
+import model.views.MyViewsPage;
+import model.views.NewViewPage;
+import model.views.ViewPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.annotations.Test;
 import runner.TestUtils;
 
 import java.util.List;
@@ -198,7 +211,7 @@ public class HomePage extends Header {
     }
 
     public HomePage clickJobDropDownMenu(String name) {
-        getDriver().findElement((By.xpath(String.format(
+        getWait(2).until(ExpectedConditions.elementToBeClickable(By.xpath(String.format(
                 "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", name)))).click();
 
         return this;
@@ -493,5 +506,11 @@ public class HomePage extends Header {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public OrgFolderStatusPage clickOrgFolder(String name) {
+        getDriver().findElement(By.linkText(name)).click();
+
+        return new OrgFolderStatusPage(getDriver());
     }
 }

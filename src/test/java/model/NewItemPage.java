@@ -1,5 +1,12 @@
 package model;
 
+import model.folder.FolderConfigPage;
+import model.folder.FolderStatusPage;
+import model.freestyle.FreestyleProjectConfigPage;
+import model.multibranch_pipeline.MultibranchPipelineConfigPage;
+import model.multiconfiguration.MulticonfigurationProjectConfigPage;
+import model.organization_folder.OrgFolderConfigPage;
+import model.pipeline.PipelineConfigPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
