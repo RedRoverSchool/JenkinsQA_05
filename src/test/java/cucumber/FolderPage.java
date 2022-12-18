@@ -4,7 +4,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import model.FolderConfigPage;
+import model.folder.FolderConfigPage;
 import model.HomePage;
 import model.NewItemPage;
 import org.openqa.selenium.By;
@@ -32,7 +32,7 @@ public class FolderPage {
 
     @And("Enter an item name")
     public void enterAnItemName() {
-        newItemPage= newItemPage.setProjectName(folderName);
+        newItemPage= newItemPage.setItemName(folderName);
     }
 
     @And("Select Folder from list and click Ok")
@@ -58,7 +58,7 @@ public class FolderPage {
     public void folderWasCreated() {
         HomePage homePage = new HomePage(CucumberDriver.getDriver());
         homePage.clickNewItem()
-                .setProjectName(folderName)
+                .setItemName(folderName)
                 .selectFolderAndClickOk()
                 .clickSaveButton();
     }

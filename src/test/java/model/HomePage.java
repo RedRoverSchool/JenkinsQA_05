@@ -1,8 +1,23 @@
 package model;
 
+import model.base.Header;
+import model.folder.FolderConfigPage;
+import model.folder.FolderStatusPage;
+import model.freestyle.FreestyleProjectConfigPage;
+import model.freestyle.FreestyleProjectStatusPage;
+import model.multibranch_pipeline.DeleteMultibranchPipelinePage;
+import model.multiconfiguration.MultiConfigurationProjectStatusPage;
+import model.organization_folder.OrgFolderStatusPage;
+import model.pipeline.PipelineConfigPage;
+import model.pipeline.PipelineProjectPage;
+import model.views.EditViewPage;
+import model.views.MyViewsPage;
+import model.views.NewViewPage;
+import model.views.ViewPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.TestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -110,8 +125,12 @@ public class HomePage extends Header {
     @FindBy(linkText = "Credentials")
     private WebElement credentialsItemInUserDropdownMenu;
 
+    @FindBy(css = "#projectstatus th")
+    private List<WebElement> jobTableColumnList;
+
     @FindBy(xpath = "(//a[@class='yuimenuitemlabel'])[3]/span")
     private WebElement buildNowButton;
+
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -199,10 +218,10 @@ public class HomePage extends Header {
         return this;
     }
 
-    public JobPage clickJob(String name) {
+    public FolderStatusPage clickJob(String name) {
         getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
 
-        return new JobPage(getDriver());
+        return new FolderStatusPage(getDriver());
     }
 
     public PipelineConfigPage clickConfigureDropDownMenu() {
@@ -488,5 +507,24 @@ public class HomePage extends Header {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public OrgFolderStatusPage clickOrgFolder(String name) {
+        getDriver().findElement(By.linkText(name)).click();
+
+        return new OrgFolderStatusPage(getDriver());
+    }
+    public PipelineProjectPage clickPipelineJob(String name) {
+        getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
+
+        return new PipelineProjectPage(getDriver());
+    }
+    public String getJobListAsString() {
+        StringBuilder listProjectsNames = new StringBuilder();
+        for (WebElement projects : jobList) {
+            listProjectsNames.append(projects.getText()).append(" ");
+        }
+
+        return listProjectsNames.toString().trim();
     }
 }
