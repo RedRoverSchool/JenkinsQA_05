@@ -84,13 +84,14 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateOrganizationFolder() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getInputName().sendKeys(uniqueOrganizationFolderName + "2");
-        getOrganizationFolder().click();
-        getOkButton().click();
-        getSaveButton().click();
+        String actualOrgFolderDisplayName = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(uniqueOrganizationFolderName)
+                .selectOrgFolderAndClickOk()
+                .clickSaveButton()
+                .getDisplayName();
 
-        Assert.assertEquals(getDriver().findElement(TITLE).getText(), uniqueOrganizationFolderName + "2");
+        Assert.assertEquals(actualOrgFolderDisplayName, uniqueOrganizationFolderName);
     }
 
     @Test
