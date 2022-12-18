@@ -71,7 +71,7 @@ public class MultibranchPipelineTest extends BaseTest {
     private void createMultibranchPipeline(String folderName) {
         new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(folderName)
+                .setItemName(folderName)
                 .selectMultibranchPipeline()
                 .clickOKButton()
                 .clickSubmitButton()
@@ -101,7 +101,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testCreateMultibranchPipelineInvalidName() {
         NewItemPage newItemPage = new NewItemPage(getDriver())
                 .clickNewItem()
-                .setProjectName("MultibranchPipeline@")
+                .setItemName("MultibranchPipeline@")
                 .selectMultibranchPipeline();
 
         Assert.assertEquals(newItemPage.getItemNameInvalidMsg(), "» ‘@’ is an unsafe character");
@@ -205,7 +205,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testDeleteMultibranchPipelineUsingDropDown() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(RANDOM_MULTIBRANCHPIPELINE_NAME)
+                .setItemName(RANDOM_MULTIBRANCHPIPELINE_NAME)
                 .selectMultibranchPipelineAndClickOk()
                 .clickSaveButton()
                 .clickDashboard()
