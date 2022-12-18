@@ -93,8 +93,8 @@ public class NewView1Test extends BaseTest {
         Assert.assertEquals(myViewsPage.getCurrentURL(),
                 "http://localhost:8080/user/admin/my-views/view/" + LIST_VIEW_NAME + "/");
         Assert.assertTrue(myViewsPage.getTextContentOnViewMainPanel().contains(
-                "This view has no jobs associated with it.\n"
-                + "    You can either add some existing jobs to this view or create a new job in this view."));
+                "This view has no jobs associated with it. "
+                        + "You can either add some existing jobs to this view or create a new job in this view."));
     }
 
     @Test(dependsOnMethods = "testDeselectJobsFromListView")

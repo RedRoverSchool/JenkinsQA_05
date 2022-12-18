@@ -51,7 +51,7 @@ public class MyViewsPage extends HomePage {
     private WebElement editDescriptionButton;
 
     @FindBy(xpath = "//div[@id='main-panel']")
-    private WebElement viewMainPanel;
+    private List<WebElement> viewMainPanel;
 
     public MyViewsPage(WebDriver driver) {
         super(driver);
@@ -153,6 +153,11 @@ public class MyViewsPage extends HomePage {
     }
 
     public String getTextContentOnViewMainPanel() {
-        return viewMainPanel.getAttribute("textContent");
+        StringBuilder list = new StringBuilder();
+        for (WebElement text : viewMainPanel) {
+            list.append(text.getText());
+        }
+
+        return list.toString();
     }
 }
