@@ -189,11 +189,11 @@ public class PipelineTest extends BaseTest {
 
     @DataProvider(name = "specialCharacters")
     public Object[][] specialCharactersList() {
-        return new Object[][]{{'!'},{'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'*'}, {'['}, {']'}, {'\\'}, {'|'}, {';'}, {':'}, {'/'}, {'?'},};
+        return new Object[][]{{'&', "&amp;"}, {'>', "&gt;"}, {'<', "&lt;"}, {'!', "!"}, {'@', "@"}, {'#', "#"}, {'$', "$"}, {'%', "%"}, {'^', "^"}, {'*', "*"}, {'[', "["}, {']', "]"}, {'\\', "\\"}, {'|', "|"}, {';', ";"}, {':', ":"}, {'/', "/"}, {'?', "?"},};
     }
 
     @Test(dataProvider = "specialCharacters")
-    public void testRenamePipelineUsingSpecialCharacter(Character unsafeCharacter) {
+    public void testRenamePipelineUsingSpecialCharacter(Character unsafeCharacter, String expectedUnsafeCharacterInErrorMessage) {
         createPipelineProject(PIPELINE_NAME);
 
         String actualRenameErrorMessage = new HomePage(getDriver())
@@ -204,8 +204,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .getErrorMessage();
 
-        Assert.assertTrue(actualRenameErrorMessage.contains("is an unsafe character")
-                && actualRenameErrorMessage.contains(unsafeCharacter.toString()));
+        Assert.assertEquals(actualRenameErrorMessage, String.format("‘%s’ is an unsafe character", expectedUnsafeCharacterInErrorMessage));
     }
 
     @Test
