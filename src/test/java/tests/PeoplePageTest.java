@@ -71,7 +71,7 @@ public class PeoplePageTest extends BaseTest {
     }
 
     @Test
-    public void createUserTest() {
+    public void testCreateUser() {
         List<String> userList = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
