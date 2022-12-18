@@ -505,10 +505,10 @@ public class HomePage extends Header {
 
         return new OrgFolderStatusPage(getDriver());
     }
-    public PipelineProjectPage clickPipelineJob(String name) {
+    public PipelineStatusPage clickPipelineJob(String name) {
         getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
 
-        return new PipelineProjectPage(getDriver());
+        return new PipelineStatusPage(getDriver());
     }
     public String getJobListAsString() {
         StringBuilder listProjectsNames = new StringBuilder();

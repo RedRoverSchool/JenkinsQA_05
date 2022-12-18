@@ -152,7 +152,7 @@ public class PipelineTest extends BaseTest {
         createPipelineProject(PIPELINE_NAME);
         renamePipelineProject(PIPELINE_NAME, RENAME_SUFFIX);
 
-        Assert.assertEquals(new PipelineProjectPage(getDriver()).getPipelineTitle(), "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
+        Assert.assertEquals(new PipelineStatusPage(getDriver()).getPipelineTitle(), "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
     }
 
     @Test
