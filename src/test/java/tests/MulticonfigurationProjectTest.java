@@ -7,7 +7,6 @@ import model.NewItemPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -15,6 +14,8 @@ import runner.BaseTest;
 import runner.TestUtils;
 
 import java.util.List;
+
+import static org.testng.TestRunner.PriorityWeight.dependsOnMethods;
 
 public class MulticonfigurationProjectTest extends BaseTest {
     private static final String PROJECT_NAME = TestUtils.getRandomStr(8);
@@ -277,20 +278,12 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 NEW_PROJECT_NAME);
     }
 
-    @Test
-    public void testDisableMultiConfigurationProjectCheckIconProjectName() {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
-        getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
-        getDriver().findElement(DISABLE_PROJECT).click();
-
-        Assert.assertTrue(getDriver().findElement(
-                        By.xpath("//span[@class='build-status-icon__wrapper icon-disabled icon-md']"))
-                .isDisplayed());
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    public void testMultiConfigurationProjectDisableCheckIconProjectName() {
+        MultiConfigurationProjectStatusPage multiConfigPrStatusPage = new HomePage(getDriver())
+                .clickMultConfJobName(PROJECT_NAME)
+                .clickDisableButton();
+        Assert.assertTrue(multiConfigPrStatusPage.iconProjectDisabledIsDisplayed());
     }
 
     @Ignore
@@ -323,7 +316,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 "Disable Project");
     }
 
-    @Test(dependsOnMethods = "testDisableMultiConfigurationProjectCheckIconProjectName")
+    @Test(dependsOnMethods = "testMultiConfigurationProjectDisableCheckIconProjectName")
     public void testEnableMultiConfigurationProjectCheckIconProjectName() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
         getDriver().findElement(ENABLE_PROJECT_BUTTON).click();
