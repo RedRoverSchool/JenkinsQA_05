@@ -1,6 +1,7 @@
 package model.multibranch_pipeline;
 
 import model.HomePage;
+import model.RenameItemPage;
 import model.base.BasePage;
 import model.multibranch_pipeline.DeleteMultibranchPipelinePage;
 import org.openqa.selenium.WebDriver;
@@ -17,6 +18,9 @@ public class MultibranchPipelineStatusPage extends BasePage {
 
     @FindBy(xpath = "//h1")
     private WebElement multibranchPipelineName;
+
+    @FindBy(linkText = "Rename")
+    private WebElement renameLeftMenu;
 
     public MultibranchPipelineStatusPage(WebDriver driver) {
         super(driver);
@@ -36,5 +40,11 @@ public class MultibranchPipelineStatusPage extends BasePage {
 
     public String getMultibranchPipelineName() {
         return multibranchPipelineName.getText();
+    }
+
+    public RenameItemPage clickRenameLeftMenu() {
+        renameLeftMenu.click();
+
+        return new RenameItemPage(getDriver());
     }
 }
