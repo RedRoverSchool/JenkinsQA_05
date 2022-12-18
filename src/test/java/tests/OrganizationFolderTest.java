@@ -249,7 +249,6 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateOrganizFolder() {
-
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(NAME_ORG_FOLDER)
