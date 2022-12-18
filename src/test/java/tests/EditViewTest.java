@@ -221,7 +221,7 @@ public class EditViewTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
-    public void testListViewAddAllItemsToListView() {
+    public void testAddAllItemsToListView() {
         int expectedResult = new HomePage(getDriver())
                 .getJobList().size();
 
