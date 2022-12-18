@@ -80,7 +80,6 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickSaveButton()
                 .clickDashboard()
                 .clickNewItem()
-                .clearItemName()
                 .setItemName(MULTIBRANCH_PIPELINE_NAME)
                 .getItemNameInvalidMsg();
 
