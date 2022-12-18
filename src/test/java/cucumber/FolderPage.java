@@ -33,7 +33,7 @@ public class FolderPage {
 
     @And("Enter an item name")
     public void enterAnItemName() {
-        newItemPage= newItemPage.setProjectName(folderName);
+        newItemPage= newItemPage.setItemName(folderName);
     }
 
     @And("Select Folder from list and click Ok")
@@ -59,7 +59,7 @@ public class FolderPage {
     public void folderWasCreated() {
         HomePage homePage = new HomePage(CucumberDriver.getDriver());
         homePage.clickNewItem()
-                .setProjectName(folderName)
+                .setItemName(folderName)
                 .selectFolderAndClickOk()
                 .clickSaveBtn(FolderStatusPage.class);
     }

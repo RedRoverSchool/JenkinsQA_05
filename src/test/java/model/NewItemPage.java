@@ -70,7 +70,7 @@ public class NewItemPage extends HomePage {
         return this;
     }
 
-    public NewItemPage setProjectName(String name) {
+    public NewItemPage setItemName(String name) {
         getWait(2).until(ExpectedConditions.visibilityOf(itemName)).sendKeys(name);
 
         return this;
@@ -111,6 +111,7 @@ public class NewItemPage extends HomePage {
     }
 
     public OrgFolderConfigPage selectOrgFolderAndClickOk() {
+        getAction().scrollByAmount(0, 250).perform();
         orgFolder.click();
         okButton.submit();
 

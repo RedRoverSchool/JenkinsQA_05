@@ -73,7 +73,7 @@ public class NewItemTest extends BaseTest {
             String actualErrorMessage = new NewItemPage(getDriver())
                     .rootMenuDashboardLinkClick()
                     .clickNewItem()
-                    .setProjectName("      ")
+                    .setItemName("      ")
                     .setItemAndClickOk(i)
                     .getErrorMessage();
 
@@ -104,7 +104,7 @@ public class NewItemTest extends BaseTest {
         final String nameNewItem = "5%^PiPl$^Ne)";
         String errorMessage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(nameNewItem)
+                .setItemName(nameNewItem)
                 .getItemNameInvalidMsg();
 
         Assert.assertEquals(errorMessage, "» ‘%’ is an unsafe character");
@@ -125,7 +125,7 @@ public class NewItemTest extends BaseTest {
 
         String errorMessage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(jobName)
+                .setItemName(jobName)
                 .selectPipeline()
                 .setCopyFrom(jobName)
                 .clickOkButton()

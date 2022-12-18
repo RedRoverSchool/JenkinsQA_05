@@ -98,7 +98,7 @@ public class OrganizationFolderTest extends BaseTest {
     public void testRenameOrganizationFolder() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(nameOrgFolderPOM)
+                .setItemName(nameOrgFolderPOM)
                 .selectOrgFolderAndClickOk()
                 .clickSaveBtn(OrgFolderStatusPage.class)
                 .clickRenameButton()
@@ -148,7 +148,7 @@ public class OrganizationFolderTest extends BaseTest {
     public void testCreateOrgFolder() {
         List<String> allFolders = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(ORG_FOLDER_NAME_CREATE)
+                .setItemName(ORG_FOLDER_NAME_CREATE)
                 .selectFolderAndClickOk()
                 .clickSaveBtn(FolderStatusPage.class)
                 .clickDashboard()
@@ -246,7 +246,7 @@ public class OrganizationFolderTest extends BaseTest {
     public void testCreateOrgFolderExistName() {
         String errMessage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(ORG_FOLDER_NAME_CREATE)
+                .setItemName(ORG_FOLDER_NAME_CREATE)
                 .selectExistFolderAndClickOk()
                 .getErrorMessage();
 
@@ -317,7 +317,7 @@ public class OrganizationFolderTest extends BaseTest {
 
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(NAME_ORG_FOLDER)
+                .setItemName(NAME_ORG_FOLDER)
                 .selectOrgFolderAndClickOk()
                 .clickSaveBtn(OrgFolderStatusPage.class)
                 .clickDashboard();
@@ -329,7 +329,7 @@ public class OrganizationFolderTest extends BaseTest {
     public void testCreateOrgFolderWithPOM() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(nameOrgFolderPOM)
+                .setItemName(nameOrgFolderPOM)
                 .selectOrgFolderAndClickOk()
                 .clickSaveBtn(OrgFolderStatusPage.class)
                 .clickDashboard();
@@ -341,7 +341,7 @@ public class OrganizationFolderTest extends BaseTest {
     public void testCreateFolderWithPOM() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(nameFolderPOM)
+                .setItemName(nameFolderPOM)
                 .selectFolderAndClickOk()
                 .clickSaveBtn(FolderStatusPage.class)
                 .clickDashboard();
