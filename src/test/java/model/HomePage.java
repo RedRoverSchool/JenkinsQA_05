@@ -494,6 +494,7 @@ public class HomePage extends Header {
     }
 
     public boolean buildNowButtonIsDisplayed(){
+
         return buildNowButton.isDisplayed();
     }
 
