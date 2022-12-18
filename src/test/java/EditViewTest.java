@@ -235,7 +235,7 @@ public class EditViewTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-     @Test
+    @Test
     public void testListViewAddRegexFilter() {
         createManyJobsOfEachType(2);
         List<WebElement> itemsToSelect = getDriver().findElements(JOB_PATH);
