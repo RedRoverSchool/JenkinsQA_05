@@ -42,12 +42,4 @@ public class RenameItemPage extends BasePage {
 
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
-
-    public ErrorPage clickRenameButtonErrorPage() {
-        buttonSubmit.click();
-
-        return new ErrorPage(getDriver());
-    }
-
-
 }

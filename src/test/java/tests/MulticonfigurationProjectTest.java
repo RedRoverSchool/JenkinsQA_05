@@ -1,7 +1,7 @@
 package tests;
 
+import model.RenameItemErrorPage;
 import model.multiconfiguration.ConsoleOutputMultiConfigurationProjectPage;
-import model.ErrorPage;
 import model.HomePage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import model.NewItemPage;
@@ -237,7 +237,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Test
     public void testMultiConfigurationProjectRenameToInvalidNameViaSideMenu() {
-        ErrorPage errorPage = new HomePage(getDriver())
+        RenameItemErrorPage errorPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
@@ -246,9 +246,9 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickMultConfJobName(PROJECT_NAME)
                 .clickRenameSideMenu(PROJECT_NAME)
                 .clearFieldAndInputNewName("&")
-                .clickRenameButtonErrorPage();
+                .clickSaveButton();
 
-        Assert.assertEquals(errorPage.getErrorText(), "‘&amp;’ is an unsafe character");
+        Assert.assertEquals(errorPage.getErrorMessage(), "‘&amp;’ is an unsafe character");
 
     }
 
