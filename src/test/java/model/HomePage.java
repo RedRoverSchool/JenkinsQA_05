@@ -218,10 +218,10 @@ public class HomePage extends Header {
         return this;
     }
 
-    public JobPage clickJob(String name) {
+    public FolderStatusPage clickJob(String name) {
         getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
 
-        return new JobPage(getDriver());
+        return new FolderStatusPage(getDriver());
     }
 
     public PipelineConfigPage clickConfigureDropDownMenu() {

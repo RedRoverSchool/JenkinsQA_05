@@ -36,14 +36,14 @@ public class FolderConfigPage extends HomePage {
         return new FolderStatusPage(getDriver());
     }
 
-    public FolderConfigPage clickDisplayName(String secondJobName) {
+    public FolderConfigPage setDisplayName(String secondJobName) {
         getWait(5).until(ExpectedConditions.elementToBeClickable(displayName));
         displayName.sendKeys(secondJobName);
 
         return new FolderConfigPage(getDriver());
     }
 
-    public FolderConfigPage clickDescription(String inputDescription) {
+    public FolderConfigPage setDescription(String inputDescription) {
         getWait(5).until(ExpectedConditions.visibilityOf(description)).click();
         description.sendKeys(inputDescription);
 
