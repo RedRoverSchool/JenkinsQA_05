@@ -172,6 +172,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertFalse(orgFolderConfigPage.isOkButtonEnabled());
     }
 
+
     @Ignore
     @Test
     public void testCheckNotificationAfterApply() {
