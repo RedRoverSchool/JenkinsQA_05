@@ -14,9 +14,6 @@ import java.util.stream.Collectors;
 
 public class ViewPage extends MyViewsPage{
 
-    @FindBy(css = "tr td a.model-link")
-    private List<WebElement> jobList;
-
     @FindBy(id = "jenkins-name-icon")
     private WebElement dashboard;
 
@@ -51,13 +48,6 @@ public class ViewPage extends MyViewsPage{
 
     public ViewPage(WebDriver driver) {
         super(driver);
-    }
-
-    public List<String> getJobList() {
-        return jobList
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
     }
 
     public HomePage goToDashboard() {
