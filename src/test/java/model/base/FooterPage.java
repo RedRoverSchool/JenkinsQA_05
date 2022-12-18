@@ -1,5 +1,6 @@
 package model.base;
 
+import model.ExternalJenkinsPage;
 import model.RestApiPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
