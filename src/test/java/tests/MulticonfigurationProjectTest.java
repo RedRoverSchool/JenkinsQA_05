@@ -1,11 +1,11 @@
 package tests;
 
+import model.ErrorPage;
 import model.HomePage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -65,7 +65,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickJobDropdownMenu(PROJECT_NAME)
                 .clickRenameDropDownMenu()
                 .clearFieldAndInputNewName(NEW_PROJECT_NAME)
-                .clickRenameButton();
+                .clickRenameButtonMCPStatusPage();
 
         Assert.assertEquals(multiConfigPrStatusPage.getNameMultiConfigProject(NEW_PROJECT_NAME), NEW_PROJECT_NAME);
     }
@@ -76,7 +76,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickMultConfJobName(NEW_PROJECT_NAME)
                 .clickRenameSideMenu(NEW_PROJECT_NAME)
                 .clearFieldAndInputNewName(PROJECT_NAME)
-                .clickRenameButton();
+                .clickRenameButtonMCPStatusPage();
 
         Assert.assertEquals(multiConfigPrStatusPage.getNameMultiConfigProject(PROJECT_NAME), PROJECT_NAME);
     }
@@ -167,10 +167,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertNotEquals(amountOfBuildsAfterBuildNow, amountOfBuildsBeforeBuildNow);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testCreateNewMCProjectAsCopyFromExistingProject() {
-
         String actualProjectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(NEW_PROJECT_NAME)
@@ -243,21 +241,19 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Test
     public void testMultiConfigurationProjectRenameToInvalidNameViaSideMenu() {
+        ErrorPage errorPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PROJECT_NAME)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSave()
+                .goToDashboard()
+                .clickMultConfJobName(PROJECT_NAME)
+                .clickRenameSideMenu(PROJECT_NAME)
+                .clearFieldAndInputNewName("&")
+                .clickRenameButtonErrorPage();
 
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys("MC Project");
-        getDriver().findElement
-                (By.xpath("//span[text()='Multi-configuration project']")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(By.xpath("//a[contains(@href,'confirm-rename')]")).click();
-        getDriver().findElement(By.xpath("//input[@name='newName']")).sendKeys("&");
-        getDriver().findElement(By.id("yui-gen1-button")).click();
+        Assert.assertEquals(errorPage.getErrorText(), "‘&amp;’ is an unsafe character");
 
-        Assert.assertEquals(getDriver().findElement(By.id
-                ("main-panel")).getText(), "Error\n‘&amp;’ is an unsafe character");
-
-        deleteNewMCProject("MC Project");
     }
 
     @Ignore
