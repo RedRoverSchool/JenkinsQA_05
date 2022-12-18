@@ -6,7 +6,6 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -14,7 +13,6 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
-import java.time.Duration;
 import java.util.List;
 
 public class MulticonfigurationProjectTest extends BaseTest {
@@ -42,7 +40,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Test
     public void testCreateMultiConfigurationProjectWithValidName() {
-
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(PROJECT_NAME)
@@ -55,7 +52,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMulticonfigurationProjectAddDescription() {
-
         MultiConfigurationProjectStatusPage multConfPage = new HomePage(getDriver())
                 .clickMultConfJobName(PROJECT_NAME)
                 .clickAddDescription()
@@ -65,36 +61,26 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(multConfPage.getDescriptionText(), "Description");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testMulticonfigurationProjectAddDescription")
     public void testMultiConfigurationProjectRenameProjectViaDropDownMenu() {
-        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        MultiConfigurationProjectStatusPage multiConfigPrStatusPage = new HomePage(getDriver())
+                .clickJobDropdownMenu(PROJECT_NAME)
+                .clickRenameDropDownMenu()
+                .clearFieldAndInputNewName(NEW_PROJECT_NAME)
+                .clickRenameButton();
 
-        getDriver().findElement(
-                By.xpath("//a[@class='jenkins-table__link model-link inside']//button[@class='jenkins-menu-dropdown-chevron']")).click();
-        wait.until(ExpectedConditions
-                .elementToBeClickable(By.xpath("//span[text() = 'Rename']"))).click();
-        getDriver().findElement(By.xpath(String.format("//input[@value='%s']", PROJECT_NAME))).clear();
-        getDriver().findElement(By.xpath(String.format("//input[@value='%s']", PROJECT_NAME))).sendKeys(NEW_PROJECT_NAME);
-        getDriver().findElement(By.id("yui-gen1-button")).click();
-
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath(String.format("//h1[contains(text(),'Project %s')]", NEW_PROJECT_NAME))).getText(), String.format("Project %s", NEW_PROJECT_NAME));
+        Assert.assertEquals(multiConfigPrStatusPage.getNameMultiConfigProject(NEW_PROJECT_NAME), NEW_PROJECT_NAME);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testMultiConfigurationProjectRenameProjectViaDropDownMenu")
     public void testMultiConfigurationProjectRenameProjectViaSideMenu() {
+        MultiConfigurationProjectStatusPage multiConfigPrStatusPage = new HomePage(getDriver())
+                .clickMultConfJobName(NEW_PROJECT_NAME)
+                .clickRenameSideMenu(NEW_PROJECT_NAME)
+                .clearFieldAndInputNewName(PROJECT_NAME)
+                .clickRenameButton();
 
-        getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", NEW_PROJECT_NAME))).click();
-        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/confirm-rename']", NEW_PROJECT_NAME))).click();
-        getDriver().findElement(By.xpath(String.format("//input[@value='%s']", NEW_PROJECT_NAME))).clear();
-        getDriver().findElement(By.xpath(String.format("//input[@value='%s']", NEW_PROJECT_NAME))).sendKeys(PROJECT_NAME);
-        getDriver().findElement(By.xpath("//button[contains(text(),'Rename')]")).click();
-
-        Assert.assertEquals(getDriver().findElement(
-                        By.xpath(String.format("//h1[contains(text(),'Project %s')]", PROJECT_NAME))).getText(),
-                String.format("Project %s", PROJECT_NAME));
+        Assert.assertEquals(multiConfigPrStatusPage.getNameMultiConfigProject(PROJECT_NAME), PROJECT_NAME);
     }
 
     @Ignore

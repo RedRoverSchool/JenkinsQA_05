@@ -1,6 +1,7 @@
 package model.multiconfiguration;
 
 import model.HomePage;
+import model.RenameItemPage;
 import model.base.BasePage;
 import model.folder.FolderStatusPage;
 import org.openqa.selenium.By;
@@ -100,5 +101,11 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
         enableButton.click();
 
         return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+    public RenameItemPage clickRenameSideMenu(String name) {
+        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/confirm-rename']", name))).click();
+
+        return new RenameItemPage(getDriver());
     }
 }
