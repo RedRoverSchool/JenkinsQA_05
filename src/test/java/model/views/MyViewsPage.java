@@ -90,7 +90,7 @@ public class MyViewsPage extends HomePage {
         return this;
     }
 
-    public String getListProjectsNames() {
+    public String getListProjectsNamesAsString() {
         StringBuilder listProjectsNames = new StringBuilder();
         for (WebElement projects : listProjects) {
             listProjectsNames.append(projects.getText()).append(" ");
