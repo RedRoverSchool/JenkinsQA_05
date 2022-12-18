@@ -55,6 +55,9 @@ public class PipelineStatusPage extends BaseStatusPage {
     @FindBy(linkText = "Configure")
     private WebElement configureLink;
 
+    @FindBy(id = "enable-project")
+    private WebElement messageDisabledProject;
+
     public PipelineStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -135,5 +138,13 @@ public class PipelineStatusPage extends BaseStatusPage {
         configureLink.click();
 
         return new PipelineConfigPage(getDriver());
+    }
+
+    public String getMessageDisabledProject() {
+        return messageDisabledProject.getText().split("\n")[0];
+    }
+
+    public String getPipelineTitle() {
+        return pipelineName.getText();
     }
 }
