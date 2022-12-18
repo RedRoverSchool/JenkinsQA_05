@@ -315,7 +315,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='yui-gen1-button']")).getText(),
                 "Disable Project");
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testMultiConfigurationProjectDisableCheckIconProjectName")
     public void testEnableMultiConfigurationProjectCheckIconProjectName() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
