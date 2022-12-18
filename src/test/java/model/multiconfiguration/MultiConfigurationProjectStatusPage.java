@@ -78,11 +78,11 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
         return getDriver().findElement(By.xpath("//li[@class='item']//a[@href='/job/" + name + "/']")).getText();
     }
 
-    public MulticonfigurationProjectConfigPage deleteMultiConfigProject() {
+    public HomePage deleteMultiConfigProject() {
         deleteOption.click();
         getDriver().switchTo().alert().accept();
 
-        return new MulticonfigurationProjectConfigPage(getDriver());
+        return new HomePage(getDriver());
     }
 
     public FolderStatusPage clickParentFolderInBreadcrumbs() {

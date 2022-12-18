@@ -2,7 +2,6 @@ package tests;
 
 import model.HomePage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -26,7 +25,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
     private static final By CONFIGURE = By.xpath(String.format("//a[@href='/job/%s/configure']", PROJECT_NAME));
     private static final By DISABLE_PROJECT = By.id("yui-gen1-button");
     private static final By ENABLE_PROJECT_BUTTON = By.xpath("//button[normalize-space()='Enable'][1]");
-    private WebDriverWait wait;
     private static final By MULTI_CONFIGURATION_PROJECT = By.cssSelector(".hudson_matrix_MatrixProject");
 
     private void deleteNewMCProject(String project) {
@@ -83,15 +81,18 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(multiConfigPrStatusPage.getNameMultiConfigProject(PROJECT_NAME), PROJECT_NAME);
     }
 
-    @Ignore
     @Test
     public void testMultiConfigurationProjectDelete() {
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PROJECT_NAME)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSave()
+                .goToDashboard()
+                .clickMultConfJobName(PROJECT_NAME)
+                .deleteMultiConfigProject();
 
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
-        getDriver().findElement(By.xpath("//tr[@id = 'job_FirstMultiProject']/descendant::td//button")).click();
-        getDriver().findElement(By.xpath("//span[contains(text(), 'Delete Multi-configuration project')]")).click();
-        Alert alert = getDriver().switchTo().alert();
-        alert.accept();
+        Assert.assertFalse(homePage.getJobList().contains(PROJECT_NAME));
     }
 
     @Ignore
