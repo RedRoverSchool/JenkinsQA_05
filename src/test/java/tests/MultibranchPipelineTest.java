@@ -80,10 +80,11 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickSaveButton()
                 .clickDashboard()
                 .clickNewItem()
+                .clearItemName()
                 .setItemName(MULTIBRANCH_PIPELINE_NAME)
                 .getItemNameInvalidMsg();
 
-        Assert.assertTrue(actualErrorMessage.contains(String.format("» A job already exists with the name ‘%s’", MULTIBRANCH_PIPELINE_NAME)));
+        Assert.assertEquals(actualErrorMessage, String.format("» A job already exists with the name ‘%s’", MULTIBRANCH_PIPELINE_NAME));
     }
 
     @Test
