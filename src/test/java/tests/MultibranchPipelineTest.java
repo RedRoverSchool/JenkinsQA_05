@@ -86,9 +86,15 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertTrue(actualErrorMessage.contains(String.format("» A job already exists with the name ‘%s’", MULTIBRANCH_PIPELINE_NAME)));
     }
 
-    @Test(dependsOnMethods = "testRenameMultiBranchPipelineFromLeftSideMenu")
+    @Test
     public void testRenameMultiBranchPipelineFrom_Dropdown() {
         String actualMultibranchPipeline = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(MULTIBRANCH_PIPELINE_NAME)
+                .selectMultibranchPipeline()
+                .clickOkMultibranchPipeline()
+                .clickSaveButton()
+                .clickDashboard()
                 .clickJobDropDownMenu(MULTIBRANCH_PIPELINE_NAME)
                 .clickRenameDropDownMenu()
                 .clearFieldAndInputNewName(MULTIBRANCH_PIPELINE_NAME_RENAMED)
