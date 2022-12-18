@@ -37,4 +37,5 @@ public class MovePage extends BasePage {
 
         return new OrgFolderStatusPage(getDriver());
     }
+
 }
