@@ -35,12 +35,6 @@ public class JobPage extends HomePage {
         return new JobPage(getDriver());
     }
 
-    public String clickMainPanel() {
-        String[] namesBlock = getDriver().findElement(By.id("main-panel")).getText().split("\n");
-
-        return namesBlock[1];
-    }
-
     public HomePage clickSubmit() {
         submit.click();
 
