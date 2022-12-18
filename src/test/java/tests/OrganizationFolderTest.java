@@ -260,7 +260,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateOrgFolderWithPOM() {
+    public void testOrgFolderCreate() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(nameOrgFolderPOM)
@@ -272,7 +272,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void testCreateFolderWithPOM() {
+    public void testFolderCreate() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(nameFolderPOM)
@@ -283,8 +283,8 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(homePage.getJobList().contains(nameFolderPOM));
     }
 
-    @Test(dependsOnMethods = {"testCreateOrgFolderWithPOM", "testCreateFolderWithPOM"})
-    public void testMoveOrgFolderToFolderPOM() {
+    @Test(dependsOnMethods = {"testFolderCreate", "testOrgFolderCreate"})
+    public void testMoveOrgFolderToFolder() {
         HomePage homePage = new HomePage(getDriver())
                 .clickOrgFolder(nameOrgFolderPOM)
                 .clickMoveButton()
