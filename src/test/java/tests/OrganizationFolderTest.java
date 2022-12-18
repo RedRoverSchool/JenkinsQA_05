@@ -4,6 +4,7 @@ import model.HomePage;
 import model.organization_folder.OrgFolderStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -41,6 +42,7 @@ public class OrganizationFolderTest extends BaseTest {
     private static final By BUTTON_SUBMIT = By.xpath("//button[@type= 'submit']");
     private static final By ITEM_FOLDER = By.xpath("//span[text()='" + NAME_FOLDER + "']");
     private static final By ITEM_ORG_FOLDER = By.xpath("//span[text()= '" + NAME_ORG_FOLDER + "']");
+
 
     private WebElement notificationSaved() {
         return getDriver().findElement(By.cssSelector("#notification-bar"));
@@ -157,17 +159,22 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(allFolders.contains(ORG_FOLDER_NAME_CREATE));
     }
 
-    @Ignore
     @Test
-    public void testCreateOrgFolderEmptyName() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(ORGANIZATION_FOLDER).click();
+    public void testOrgFolderEmptyNameErr() {
+        String errMessageEmptyName = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName("")
+                .selectOrgFolderAndClickOk()
+                .getErrorMessageEmptyField();
 
-        Assert.assertEquals(getDriver().
-                        findElement(By.id("itemname-required")).getText(),
+        Assert.assertEquals(errMessageEmptyName,
                 "» This field cannot be empty, please enter a valid name");
-        Assert.assertFalse(getDriver().findElement(OK_BUTTON).isEnabled());
     }
+
+        //actualOrgFolderEmptyName
+        // .clickSaveButton()
+        // .getDisplayName();
+        //Assert.assertFalse(getDriver().findElement(OK_BUTTON).isEnabled());
 
     @Test
     public void testOrgFolderCreation() {
