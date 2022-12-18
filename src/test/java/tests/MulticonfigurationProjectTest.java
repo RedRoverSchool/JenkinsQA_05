@@ -1,8 +1,10 @@
 package tests;
 
+import model.multiconfiguration.ConsoleOutputMultiConfigurationProjectPage;
 import model.ErrorPage;
 import model.HomePage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
+import model.NewItemPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -355,5 +357,38 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickProjectDropdownMenu(PROJECT_NAME);
 
         Assert.assertTrue(buildNowButton);
+    }
+
+    @Ignore
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    public void testMultiConfigurationProjectCheckConsoleOutput() {
+        ConsoleOutputMultiConfigurationProjectPage multiConfigProjectConsole = new HomePage(getDriver())
+                .clickProject(PROJECT_NAME)
+                .clickConfiguration(PROJECT_NAME)
+                .scrollAndClickBuildSteps()
+                .selectionAndClickExecuteWindowsFromBuildSteps().enterCommandInBuildSteps("echo Hello world!")
+                .clickSaveButton()
+                .clickBuildNowButton()
+                .clickDropDownBuildIcon()
+                .selectAndClickConsoleOutput();
+
+        Assert.assertEquals(multiConfigProjectConsole.getTextConsoleOutputUserName(), "admin");
+        Assert.assertTrue(multiConfigProjectConsole.getTextConsoleOutput().contains("Finished: SUCCESS"));
+    }
+
+    @Ignore
+    @Test
+    public void testNewestBuildsButton() {
+        new HomePage(getDriver()).clickNewItem();
+        MultiConfigurationProjectStatusPage newMultiConfigItem = new NewItemPage(getDriver())
+                .setItemName(PROJECT_NAME)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSaveButton();
+        MultiConfigurationProjectStatusPage mcpStatusPage = new MultiConfigurationProjectStatusPage(getDriver());
+        mcpStatusPage.multiConfigurationProjectBuildNow(getDriver());
+        mcpStatusPage.multiConfigurationProjectNewestBuilds(getDriver());
+
+        Assert.assertTrue(getDriver().
+                findElement(By.xpath("//*[@id=/'buildHistory/']/div[2]/table/tbody/tr[2]")).isDisplayed());
     }
 }
