@@ -67,7 +67,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickJobDropdownMenu(PROJECT_NAME)
                 .clickRenameDropDownMenu()
                 .clearFieldAndInputNewName(NEW_PROJECT_NAME)
-                .clickRenameButtonMCPStatusPage();
+                .clickRenameButton();
 
         Assert.assertEquals(multiConfigPrStatusPage.getNameMultiConfigProject(NEW_PROJECT_NAME), NEW_PROJECT_NAME);
     }
@@ -78,7 +78,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickMultConfJobName(NEW_PROJECT_NAME)
                 .clickRenameSideMenu(NEW_PROJECT_NAME)
                 .clearFieldAndInputNewName(PROJECT_NAME)
-                .clickRenameButtonMCPStatusPage();
+                .clickRenameButton();
 
         Assert.assertEquals(multiConfigPrStatusPage.getNameMultiConfigProject(PROJECT_NAME), PROJECT_NAME);
     }

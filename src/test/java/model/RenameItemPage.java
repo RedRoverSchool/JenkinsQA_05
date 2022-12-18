@@ -37,7 +37,7 @@ public class RenameItemPage extends BasePage {
         return new RenameItemErrorPage(getDriver());
     }
 
-    public MultiConfigurationProjectStatusPage clickRenameButtonMCPStatusPage() {
+    public MultiConfigurationProjectStatusPage clickRenameButton() {
         buttonSubmit.click();
 
         return new MultiConfigurationProjectStatusPage(getDriver());
