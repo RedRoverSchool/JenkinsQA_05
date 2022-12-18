@@ -50,6 +50,9 @@ public class MyViewsPage extends HomePage {
     @FindBy(id = "description-link")
     private WebElement editDescriptionButton;
 
+    @FindBy(xpath = "//div[@id='main-panel']")
+    private WebElement viewMainPanel;
+
     public MyViewsPage(WebDriver driver) {
         super(driver);
     }
@@ -147,5 +150,9 @@ public class MyViewsPage extends HomePage {
     public List<String> getJobTableHeaderTextList() {
 
         return listJobTableHeaders.stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    public String getTextContentOnViewMainPanel() {
+        return viewMainPanel.getAttribute("textContent");
     }
 }
