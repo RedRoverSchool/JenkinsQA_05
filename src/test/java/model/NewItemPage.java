@@ -1,5 +1,12 @@
 package model;
 
+import model.folder.FolderConfigPage;
+import model.folder.FolderStatusPage;
+import model.freestyle.FreestyleProjectConfigPage;
+import model.multibranch_pipeline.MultibranchPipelineConfigPage;
+import model.multiconfiguration.MulticonfigurationProjectConfigPage;
+import model.organization_folder.OrgFolderConfigPage;
+import model.pipeline.PipelineConfigPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -63,7 +70,7 @@ public class NewItemPage extends HomePage {
         return this;
     }
 
-    public NewItemPage setProjectName(String name) {
+    public NewItemPage setItemName(String name) {
         getWait(2).until(ExpectedConditions.visibilityOf(itemName)).sendKeys(name);
 
         return this;
@@ -104,7 +111,7 @@ public class NewItemPage extends HomePage {
     }
 
     public OrgFolderConfigPage selectOrgFolderAndClickOk() {
-//        TestUtils.scrollToElement(getDriver(), orgFolder);
+        getAction().scrollByAmount(0, 250).perform();
         orgFolder.click();
         okButton.submit();
 

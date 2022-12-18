@@ -1,5 +1,7 @@
 package model;
 
+import model.freestyle.FreestyleProjectConfigPage;
+import model.freestyle.FreestyleProjectStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -39,6 +41,9 @@ public class BuildWithParametersPage extends FreestyleProjectStatusPage {
 
     @FindBy(xpath = "//a[@href='lastBuild/']")
     private WebElement lastBuildLink;
+
+    @FindBy(linkText = "Configure")
+    private WebElement sideMenuConfigure;
 
     public BuildWithParametersPage clickButtonBuildWithParameters() {
         buttonBuildWithParameters.click();
@@ -104,5 +109,11 @@ public class BuildWithParametersPage extends FreestyleProjectStatusPage {
         lastBuildLink.click();
 
         return new StatusPage(getDriver());
+    }
+
+    public FreestyleProjectConfigPage clickConfigureLink() {
+        sideMenuConfigure.click();
+
+        return new FreestyleProjectConfigPage(getDriver());
     }
 }
