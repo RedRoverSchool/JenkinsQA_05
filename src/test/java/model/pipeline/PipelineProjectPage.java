@@ -58,6 +58,9 @@ public class PipelineProjectPage extends BasePage {
     @FindBy(linkText = "Configure")
     private WebElement configureLink;
 
+    @FindBy(id = "enable-project")
+    private WebElement messageDisabledProject;
+
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -144,5 +147,13 @@ public class PipelineProjectPage extends BasePage {
         configureLink.click();
 
         return new PipelineConfigPage(getDriver());
+    }
+
+    public String getMessageDisabledProject() {
+        return messageDisabledProject.getText().split("\n")[0];
+    }
+
+    public String getPipelineTitle() {
+        return pipelineName.getText();
     }
 }

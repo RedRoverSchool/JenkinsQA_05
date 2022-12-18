@@ -1,5 +1,6 @@
 package tests;
 
+import model.ExternalJenkinsPage;
 import model.RestApiPage;
 import model.XmlPage;
 import org.openqa.selenium.By;
@@ -42,15 +43,13 @@ public class FooterTest extends BaseTest {
     @Test
     public void testFooterLinkJenkinsRedirectToPage() {
 
-        getDriver().findElement(JENKINS_LINK).click();
+         String textJenkins = new ExternalJenkinsPage(getDriver())
+                .clickJenkinsVersion()
+                .getTextJenkins();
 
-        ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
-        getDriver().switchTo().window(tabs.get(1));
+         Assert.assertTrue(new ExternalJenkinsPage(getDriver()).getCurrentURL().contains("jenkins"));
+         Assert.assertEquals(textJenkins, "Jenkins");
 
-        Assert.assertTrue(getDriver().getCurrentUrl().contains("jenkins"));
-        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='ji-toolbar']/a")).getText(), "Jenkins");
-
-        getDriver().switchTo().window(tabs.get(0));
     }
 
     @Test

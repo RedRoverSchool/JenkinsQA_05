@@ -131,6 +131,7 @@ public class HomePage extends Header {
     @FindBy(xpath = "(//a[@class='yuimenuitemlabel'])[3]/span")
     private WebElement buildNowButton;
 
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -512,5 +513,18 @@ public class HomePage extends Header {
         getDriver().findElement(By.linkText(name)).click();
 
         return new OrgFolderStatusPage(getDriver());
+    }
+    public PipelineProjectPage clickPipelineJob(String name) {
+        getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
+
+        return new PipelineProjectPage(getDriver());
+    }
+    public String getJobListAsString() {
+        StringBuilder listProjectsNames = new StringBuilder();
+        for (WebElement projects : jobList) {
+            listProjectsNames.append(projects.getText()).append(" ");
+        }
+
+        return listProjectsNames.toString().trim();
     }
 }

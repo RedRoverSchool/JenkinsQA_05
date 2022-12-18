@@ -78,7 +78,7 @@ public class NewView1Test extends BaseTest {
 
         Assert.assertEquals(myViewsPage.getCurrentURL(),
                 "http://localhost:8080/user/admin/my-views/view/" + LIST_VIEW_NAME + "/");
-        Assert.assertEquals(myViewsPage.getListProjectsNames(),
+        Assert.assertEquals(myViewsPage.getListProjectsNamesAsString(),
                 FREESTYLE_PROJECT_NAME.concat(" ").concat(PIPELINE_PROJECT_NAME));
     }
 
