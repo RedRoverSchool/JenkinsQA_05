@@ -127,6 +127,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(pipelineNameInMyViewList.contains(PIPELINE_NAME), PIPELINE_NAME + " Pipeline not found");
     }
 
+    @Ignore
     @Test
     public void testPipelineAddDescription() {
         PipelineProjectPage pipelineProjectPage = new HomePage(getDriver())
@@ -370,6 +371,7 @@ public class PipelineTest extends BaseTest {
                 ITEM_DESCRIPTION);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewPipelineWithDescription")
     public void testEditPipelineDescription() {
 
@@ -383,6 +385,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testEditPipelineDescription")
     public void testCreateNewPipelineFromExisting() {
         final String jobName = TestUtils.getRandomStr(7);
@@ -414,6 +417,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertNotEquals(jobStatusAfterEnable, "Disabled");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewPipelineFromExisting")
     public void testPipelineSideMenuLinks() {
         List<String> pipelineSideMenuOptionsLinks = new HomePage(getDriver())

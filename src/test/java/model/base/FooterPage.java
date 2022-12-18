@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public abstract class FooterPage extends BasePage {
         @FindBy(xpath = "//div/a[@href = 'api/']")
         private WebElement restApi;
+
         @FindBy(xpath = "//a[@href='https://www.jenkins.io/']")
         private WebElement jenkinsLink;
 

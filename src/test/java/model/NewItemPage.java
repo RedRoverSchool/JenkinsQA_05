@@ -4,7 +4,7 @@ import model.folder.FolderConfigPage;
 import model.folder.FolderStatusPage;
 import model.freestyle.FreestyleProjectConfigPage;
 import model.multibranch_pipeline.MultibranchPipelineConfigPage;
-import model.multiconfiguration.MulticonfigurationProjectConfigPage;
+import model.multiconfiguration.MultiConfigurationProjectConfigPage;
 import model.organization_folder.OrgFolderConfigPage;
 import model.pipeline.PipelineConfigPage;
 import org.openqa.selenium.WebDriver;
@@ -118,11 +118,11 @@ public class NewItemPage extends HomePage {
         return new OrgFolderConfigPage(getDriver());
     }
 
-    public MulticonfigurationProjectConfigPage selectMultiConfigurationProjectAndClickOk() {
+    public MultiConfigurationProjectConfigPage selectMultiConfigurationProjectAndClickOk() {
         multiConfigurationProject.click();
         okButton.submit();
 
-        return new MulticonfigurationProjectConfigPage(getDriver());
+        return new MultiConfigurationProjectConfigPage(getDriver());
     }
 
     public HomePage rootMenuDashboardLinkClick() {
@@ -216,10 +216,10 @@ public class NewItemPage extends HomePage {
         return this;
     }
 
-    public MulticonfigurationProjectConfigPage clickOK() {
+    public MultiConfigurationProjectConfigPage clickOK() {
         okButton.click();
 
-        return new MulticonfigurationProjectConfigPage(getDriver());
+        return new MultiConfigurationProjectConfigPage(getDriver());
     }
 
     public FolderStatusPage clickOKButton() {

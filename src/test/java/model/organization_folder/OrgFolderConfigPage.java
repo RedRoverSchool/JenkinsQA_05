@@ -16,6 +16,9 @@ public class OrgFolderConfigPage extends HomePage {
     @FindBy(xpath = "//textarea [@name='_.description']")
     private WebElement description;
 
+    @FindBy(id = "itemname-required")
+    private WebElement errorMessageEmptyField;
+
     public OrgFolderConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -36,5 +39,9 @@ public class OrgFolderConfigPage extends HomePage {
         description.sendKeys(name);
 
         return this;
+    }
+
+    public String getErrorMessageEmptyField() {
+        return errorMessageEmptyField.getText();
     }
 }

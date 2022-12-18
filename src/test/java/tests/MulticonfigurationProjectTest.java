@@ -1,8 +1,10 @@
 package tests;
 
+import model.multiconfiguration.ConsoleOutputMultiConfigurationProjectPage;
 import model.ErrorPage;
 import model.HomePage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
+import model.NewItemPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -145,26 +147,19 @@ public class MulticonfigurationProjectTest extends BaseTest {
         multiConfigProject.deleteMultiConfigProject();
     }
 
-    @Ignore
-    @Test
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMultiConfigurationProjectBuild() {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(NEW_PROJECT_NAME);
-        getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(DASHBOARD).click();
 
-        getDriver().findElement(By.xpath("//a[@href='job/" + NEW_PROJECT_NAME + "/']")).click();
-        List<WebElement> build_row_before_build = getDriver().findElements(By.xpath("//tr[@page-entry-id]"));
-        int amountOfBuildsBeforeBuildNow = build_row_before_build.size();
+        int countBuildsBeforeNewBuild = new HomePage(getDriver())
+                .clickMultConfJobName(PROJECT_NAME)
+                .countBuildsOnSidePanel();
 
-        getDriver().findElement(By.linkText("Build Now")).click();
+        new MultiConfigurationProjectStatusPage(getDriver()).clickBuildNowOnSideMenu();
 
-        List<WebElement> build_row_after_build = getDriver().findElements(By.xpath("//tr[@page-entry-id]"));
-        int amountOfBuildsAfterBuildNow = build_row_after_build.size();
+        int countBuildsAfterNewBuild = new MultiConfigurationProjectStatusPage(getDriver())
+                .countBuildsOnSidePanel();
 
-        Assert.assertNotEquals(amountOfBuildsAfterBuildNow, amountOfBuildsBeforeBuildNow);
+        Assert.assertNotEquals(countBuildsAfterNewBuild, countBuildsBeforeNewBuild);
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
@@ -229,6 +224,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .isDisplayed());
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDisableMultiConfigurationProjectCheckIconDashboardPage")
     public void testEnableMultiConfigurationProjectCheckIconDashboardPage() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
@@ -293,6 +289,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testMultiConfigurationProjectConfigureParams() {
         String multiConfProjectName = TestUtils.getRandomStr(5);
@@ -347,7 +344,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Ignore
     @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
-    public void testEnableMultiConfigurationProject() {
+        public void testEnableMultiConfigurationProject() {
         Boolean buildNowButton = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
                 .clickEnableButton()
@@ -355,5 +352,38 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickProjectDropdownMenu(PROJECT_NAME);
 
         Assert.assertTrue(buildNowButton);
+    }
+
+    @Ignore
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    public void testMultiConfigurationProjectCheckConsoleOutput() {
+        ConsoleOutputMultiConfigurationProjectPage multiConfigProjectConsole = new HomePage(getDriver())
+                .clickProject(PROJECT_NAME)
+                .clickConfiguration(PROJECT_NAME)
+                .scrollAndClickBuildSteps()
+                .selectionAndClickExecuteWindowsFromBuildSteps().enterCommandInBuildSteps("echo Hello world!")
+                .clickSaveButton()
+                .clickBuildNowButton()
+                .clickDropDownBuildIcon()
+                .selectAndClickConsoleOutput();
+
+        Assert.assertEquals(multiConfigProjectConsole.getTextConsoleOutputUserName(), "admin");
+        Assert.assertTrue(multiConfigProjectConsole.getTextConsoleOutput().contains("Finished: SUCCESS"));
+    }
+
+    @Ignore
+    @Test
+    public void testNewestBuildsButton() {
+        new HomePage(getDriver()).clickNewItem();
+        MultiConfigurationProjectStatusPage newMultiConfigItem = new NewItemPage(getDriver())
+                .setItemName(PROJECT_NAME)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSaveButton();
+        MultiConfigurationProjectStatusPage mcpStatusPage = new MultiConfigurationProjectStatusPage(getDriver());
+        mcpStatusPage.multiConfigurationProjectBuildNow(getDriver());
+        mcpStatusPage.multiConfigurationProjectNewestBuilds(getDriver());
+
+        Assert.assertTrue(getDriver().
+                findElement(By.xpath("//*[@id=/'buildHistory/']/div[2]/table/tbody/tr[2]")).isDisplayed());
     }
 }
