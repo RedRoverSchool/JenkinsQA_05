@@ -13,6 +13,7 @@ public class FolderTest extends BaseTest {
     final String FOLDER_RANDOM_NAME_1 = TestUtils.getRandomStr();
     final String FOLDER_RANDOM_NAME_2 = TestUtils.getRandomStr();
     final String DISPLAY_RANDOM_NAME = TestUtils.getRandomStr();
+    final String FREESTYLE_PROJECT_NAME = TestUtils.getRandomStr();
 
     @Test
     public void testCreateFolder() {
@@ -164,19 +165,35 @@ public class FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testMoveFreestyleProjectInFolderUsingDropDownMenu")
     public void testCreateFreestyleProjectInFolderNewItem() {
-        final String freestyleProjectName = TestUtils.getRandomStr();
 
         List<String> projectNamesInFolder = new HomePage(getDriver())
                 .clickFolder(FOLDER_RANDOM_NAME_2)
                 .clickFolderNewItem()
-                .setItemName(freestyleProjectName)
+                .setItemName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_2)
                 .getJobList();
 
-        Assert.assertTrue(projectNamesInFolder.contains(freestyleProjectName));
+        Assert.assertTrue(projectNamesInFolder.contains(FREESTYLE_PROJECT_NAME));
+    }
+
+    @Test(dependsOnMethods = "testCreateFreestyleProjectInFolderNewItem")
+    public void testDeleteFreestyleProjectInFolder() {
+
+        List <String> jobListBeforeDeleting = new HomePage(getDriver())
+                .clickFolder(FOLDER_RANDOM_NAME_2)
+                .getJobList();
+
+        List <String> jobList = new FolderStatusPage(getDriver())
+                .clickProject(FREESTYLE_PROJECT_NAME)
+                .clickButtonDeleteProject()
+                .confirmAlertAndDeleteProjectFromFolder()
+                .getJobList();
+
+        Assert.assertFalse(jobList.contains(FREESTYLE_PROJECT_NAME));
+        Assert.assertEquals(jobList.size(), (jobListBeforeDeleting.size()-1));
     }
 
     @Test
