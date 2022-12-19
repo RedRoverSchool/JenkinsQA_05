@@ -17,6 +17,9 @@ public class BuildHistoryPage extends HomePage {
     @FindBy(linkText = "Build Now")
     private WebElement buildNowButton;
 
+    @FindBy(id = "map")
+    private WebElement mapOfBuild;
+
     public String getSizeText() {
 
         return sizeIcon.getText();
@@ -27,10 +30,6 @@ public class BuildHistoryPage extends HomePage {
 
         return this;
     }
-
-
-    @FindBy(id = "map")
-    private WebElement mapOfBuild;
 
     public BuildHistoryPage getMap() {
        mapOfBuild.isDisplayed();
