@@ -42,6 +42,7 @@ public class ManageUsersPage extends BasePage {
 
     public List<String> getListOfUsers() {
         List<String> listOfUsers = new ArrayList<>();
+        getWait(5).until(ExpectedConditions.visibilityOfAllElements(usersList));
         for (int i = 0; i < usersList.size(); i++) {
             listOfUsers.add(i, usersList.get(i).getText());
         }

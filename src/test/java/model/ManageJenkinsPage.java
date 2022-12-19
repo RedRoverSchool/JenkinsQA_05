@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import static runner.TestUtils.scrollToElement;
+
 public class ManageJenkinsPage extends Header {
 
     @FindBy(xpath = "//a[@href='configureTools']")
@@ -28,6 +30,7 @@ public class ManageJenkinsPage extends Header {
     }
 
     public ManageUsersPage clickManageUsers() {
+        scrollToElement(getDriver(), manageUsers);
         getWait(5).until(ExpectedConditions.elementToBeClickable(manageUsers)).click();
 
         return new ManageUsersPage(getDriver());

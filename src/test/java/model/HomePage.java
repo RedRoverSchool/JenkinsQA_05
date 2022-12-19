@@ -84,9 +84,6 @@ public class HomePage extends Breadcrumbs {
     @FindBy(xpath = "//div[@class='tabBar']/div/a")
     private List<WebElement> viewList;
 
-    @FindBy(xpath = "//div/a[@class='model-link']")
-    private WebElement iconUserName;
-
     @FindBy(css = "#page-header .jenkins-menu-dropdown-chevron")
     private WebElement userDropdownMenu;
 
@@ -305,12 +302,6 @@ public class HomePage extends Breadcrumbs {
         buildHistory.click();
 
         return new BuildHistoryPage(getDriver());
-    }
-
-    public StatusUserPage clickUserIcon() {
-        iconUserName.click();
-
-        return new StatusUserPage(getDriver());
     }
 
     public HomePage clickUserDropdownMenu() {
