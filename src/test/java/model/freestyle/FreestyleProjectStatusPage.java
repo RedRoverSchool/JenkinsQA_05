@@ -1,9 +1,9 @@
 package model.freestyle;
 
+import model.base.BaseStatusPage;
 import model.ChangesBuildsPage;
 import model.HomePage;
 import model.RenameItemPage;
-import model.base.BaseStatusPage;
 import model.folder.FolderStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,9 +19,6 @@ public class FreestyleProjectStatusPage extends BaseStatusPage {
 
     @FindBy(linkText = "Configure")
     private WebElement sideMenuConfigure;
-
-    @FindBy(css = "#breadcrumbs li a")
-    private WebElement topMenuRoot;
 
     @FindBy(xpath = "//li[@class='item'][last()-1]")
     private WebElement breadcrumbsParentFolderLink;
@@ -101,12 +98,6 @@ public class FreestyleProjectStatusPage extends BaseStatusPage {
 
     public String getHeadlineText() {
         return headline.getText();
-    }
-
-    public HomePage clickDashboard() {
-        topMenuRoot.click();
-
-        return new HomePage(getDriver());
     }
 
     public FolderStatusPage clickParentFolderInBreadcrumbs() {
