@@ -23,17 +23,11 @@ public class PipelineStatusPage extends BaseStatusPage {
     @FindBy(xpath = "//div[@align='right']/span")
     private WebElement saveButton;
 
-    @FindBy(css = "#description >*:first-child")
-    private WebElement description;
-
     @FindBy(xpath = "//span[text()='Delete Pipeline']")
     private WebElement deletePipelineButton;
 
     @FindBy(xpath = "(//a[contains(@class,'task-link')])[7]")
     private WebElement gitHubSideMenu;
-
-    @FindBy(css = ".job-index-headline")
-    private WebElement pipelineName;
 
     @FindBy(id = "yui-gen1-button")
     private WebElement disableProjectButton;
@@ -77,11 +71,6 @@ public class PipelineStatusPage extends BaseStatusPage {
         return this;
     }
 
-    public String getDescription() {
-
-        return description.getAttribute("textContent");
-    }
-
     public HomePage clickDeletePipelineButton() {
         deletePipelineButton.click();
         getDriver().switchTo().alert().accept();
@@ -98,7 +87,8 @@ public class PipelineStatusPage extends BaseStatusPage {
     }
 
     public String getPipelineName() {
-        return pipelineName.getAttribute("textContent").substring(pipelineName.getAttribute("textContent").indexOf(" ") + 1);
+
+        return getNameText().substring(getNameText().indexOf(" ") + 1);
     }
 
     public PipelineStatusPage clickDisableProject() {
@@ -143,10 +133,6 @@ public class PipelineStatusPage extends BaseStatusPage {
 
     public String getMessageDisabledProject() {
         return messageDisabledProject.getText().split("\n")[0];
-    }
-
-    public String getPipelineTitle() {
-        return pipelineName.getText();
     }
 
     public PipelineStatusPage clickEditDescriptionLink() {

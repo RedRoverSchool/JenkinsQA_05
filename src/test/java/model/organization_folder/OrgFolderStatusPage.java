@@ -22,12 +22,6 @@ public class OrgFolderStatusPage extends BaseStatusPage {
     @FindBy(linkText = "Configure")
     private WebElement configureButton;
 
-    @FindBy(id = "view-message")
-    private WebElement description;
-
-    @FindBy(xpath = "//h1")
-    private WebElement displayName;
-
     @FindBy(xpath = "//div[@id='tasks']//a[contains(@href, 'delete')]")
     private WebElement deleteButton;
 
@@ -62,14 +56,6 @@ public class OrgFolderStatusPage extends BaseStatusPage {
         configureButton.click();
 
         return new OrgFolderConfigPage(getDriver());
-    }
-
-    public String getDescription() {
-        return description.getText();
-    }
-
-    public String getDisplayName() {
-        return displayName.getText();
     }
 
     public OrgFolderStatusPage clickDeleteOrganizationFolder() {

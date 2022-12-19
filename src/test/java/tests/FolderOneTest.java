@@ -41,7 +41,7 @@ public class FolderOneTest extends BaseTest {
                 .selectFolderAndClickOk()
                 .clickSaveBtn(FolderStatusPage.class);
 
-        Assert.assertTrue(folderStatusPage.getHeaderText().contains(RANDOM_NAME_2));
+        Assert.assertTrue(folderStatusPage.getNameText().contains(RANDOM_NAME_2));
         Assert.assertTrue(folderStatusPage.getTopMenueLinkText().contains(RANDOM_NAME_2));
         Assert.assertTrue(folderStatusPage.getTopMenueLinkText().contains(RANDOM_NAME_1));
     }
@@ -62,14 +62,15 @@ public class FolderOneTest extends BaseTest {
 
     @Test(dependsOnMethods = "testConfigureFolderDisplayName")
     public void testAddFolderDescription() {
-        FolderStatusPage folderStatusPage = new HomePage(getDriver())
+        String folderDescription = new HomePage(getDriver())
 
                 .clickJobDropdownMenu(RANDOM_NAME_1)
                 .clickConfigDropDownMenu()
                 .setDescription("Folder description")
-                .clickSaveButton();
+                .clickSaveButton()
+                .getFolderDescriptionText();
 
-        Assert.assertTrue(folderStatusPage.getDescriptionText().contains("Folder description"));
+        Assert.assertTrue(folderDescription.contains("Folder description"));
     }
 
     @Test(dependsOnMethods = "testAddFolderDescription")
@@ -111,7 +112,7 @@ public class FolderOneTest extends BaseTest {
         FolderStatusPage statusPage = new HomePage(getDriver())
                 .clickFolder(RANDOM_NAME_2);
 
-        Assert.assertTrue(statusPage.getHeaderText().contains(RANDOM_NAME_2));
+        Assert.assertTrue(statusPage.getNameText().contains(RANDOM_NAME_2));
         Assert.assertTrue(statusPage.getTopMenueLinkText().contains(RANDOM_NAME_1));
         Assert.assertTrue(statusPage.getTopMenueLinkText().contains(RANDOM_NAME_2));
     }
@@ -170,7 +171,7 @@ public class FolderOneTest extends BaseTest {
 
         Assert.assertTrue(actualResult.getTopMenueLinkText().contains(RANDOM_NAME_1));
         Assert.assertTrue(actualResult.getTopMenueLinkText().contains(RANDOM_MULTIBRANCH_PIPELINE_NAME));
-        Assert.assertTrue(actualResult.getHeaderText().contains(RANDOM_MULTIBRANCH_PIPELINE_NAME));
+        Assert.assertTrue(actualResult.getNameText().contains(RANDOM_MULTIBRANCH_PIPELINE_NAME));
     }
 
     @Test
@@ -187,7 +188,6 @@ public class FolderOneTest extends BaseTest {
 
         Assert.assertTrue(actualResult.getTopMenueLinkText().contains(RANDOM_NAME_1));
         Assert.assertTrue(actualResult.getTopMenueLinkText().contains(RANDOM_NAME_2));
-        Assert.assertTrue(actualResult.getDescriptionText().contains(RANDOM_NAME_1 + "/" + RANDOM_NAME_2));
     }
 
     @Test
@@ -203,7 +203,7 @@ public class FolderOneTest extends BaseTest {
                 .setDisplayName("NewDisplayName")
                 .clickSaveBtn(FolderStatusPage.class);
 
-        Assert.assertTrue(statusPage.getHeaderText().contains("NewDisplayName"));
+        Assert.assertTrue(statusPage.getNameText().contains("NewDisplayName"));
         Assert.assertTrue(statusPage.getTopMenueLinkText().contains(RANDOM_NAME_1));
         Assert.assertTrue(statusPage.getTopMenueLinkText().contains("NewDisplayName"));
     }
@@ -237,7 +237,7 @@ public class FolderOneTest extends BaseTest {
                 .clickDashboard()
                 .clickFolder(RANDOM_NAME_1);
 
-        Assert.assertEquals(folderStatusPage.getHeaderFolderText(), RANDOM_NAME_1);
+        Assert.assertEquals(folderStatusPage.getNameText(), RANDOM_NAME_1);
         Assert.assertTrue(folderStatusPage.getJobList().size() != 0);
         Assert.assertTrue(folderStatusPage.getJobList().contains(RANDOM_MULTIBRANCH_PIPELINE_NAME));
     }
@@ -276,7 +276,7 @@ public class FolderOneTest extends BaseTest {
                 .clickDeleteMultibranchPipeline()
                 .clickSubmitButton();
 
-        Assert.assertEquals(folderStatusPage.getHeaderFolderText(), RANDOM_NAME_1);
+        Assert.assertEquals(folderStatusPage.getNameText(), RANDOM_NAME_1);
         Assert.assertNotNull(folderStatusPage.getEmptyStateBlock());
     }
 }

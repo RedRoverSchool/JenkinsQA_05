@@ -54,7 +54,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .setItemName(uniqueOrganizationFolderName)
                 .selectOrgFolderAndClickOk()
                 .clickSaveBtn(OrgFolderStatusPage.class)
-                .getDisplayName();
+                .getNameText();
 
         Assert.assertEquals(actualOrgFolderDisplayName, uniqueOrganizationFolderName);
     }
@@ -183,8 +183,8 @@ public class OrganizationFolderTest extends BaseTest {
                 .inputDescription(description)
                 .clickSaveBtn(OrgFolderStatusPage.class);
 
-        Assert.assertEquals(orgFolderStatusPage.getDisplayName(), DISPLAY_NAME);
-        Assert.assertEquals(orgFolderStatusPage.getDescription(), description);
+        Assert.assertEquals(orgFolderStatusPage.getNameText(), DISPLAY_NAME);
+        Assert.assertEquals(orgFolderStatusPage.getFolderDescriptionText(), description);
 
         HomePage homePage = orgFolderStatusPage.clickDashboard();
 

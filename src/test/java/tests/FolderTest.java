@@ -81,7 +81,7 @@ public class FolderTest extends BaseTest {
                 .selectFolderAndClickOk()
                 .setDescription(addDescription)
                 .clickSaveBtn(FolderStatusPage.class)
-                .getTextDescription();
+                .getFolderDescriptionText();
 
         Assert.assertEquals(textDescription, addDescription);
     }
@@ -108,7 +108,7 @@ public class FolderTest extends BaseTest {
                 .clickJob(DISPLAY_RANDOM_NAME)
                 .clickDeleteFolder()
                 .clickSubmitButton()
-                .getHeaderText();
+                .getNameText();
 
         Assert.assertEquals(pageHeaderText, "Welcome to Jenkins!");
     }
@@ -232,7 +232,7 @@ public class FolderTest extends BaseTest {
                 .clickSubmitButton()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_1)
-                .getTextDescriptionOnPage();
+                .getProjectDescriptionText();
 
         Assert.assertEquals(textDescription, folderDescription);
     }
