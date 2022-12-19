@@ -150,7 +150,6 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
     }
 
     public ConsoleOutputMultiConfigurationProjectPage selectAndClickConsoleOutput() {
-        getWait(2).until(ExpectedConditions.visibilityOf(buildLink));
         TestUtils.scrollToElement(getDriver(), consoleOutputDropDownBuildIcon);
         consoleOutputDropDownBuildIcon.click();
 
