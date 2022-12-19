@@ -1,8 +1,8 @@
 package model.multiconfiguration;
 
+import model.base.BaseStatusPage;
 import model.HomePage;
 import model.RenameItemPage;
-import model.base.BasePage;
 import model.folder.FolderStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,10 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class MultiConfigurationProjectStatusPage extends BasePage {
-
-    @FindBy(css = "#breadcrumbs li a")
-    private WebElement dashboard;
+public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
 
     @FindBy(id = "description-link")
     private WebElement descriptionLink;
@@ -67,12 +64,6 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
 
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
-    }
-
-    public HomePage goToDashboard() {
-        dashboard.click();
-
-        return new HomePage(getDriver());
     }
 
     public MultiConfigurationProjectStatusPage clickAddDescription() {

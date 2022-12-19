@@ -55,19 +55,21 @@ public class PeoplePageTest extends BaseTest {
                 .rootMenuDashboardLinkClick()
                 .clickPeople();
 
-        Assert.assertTrue(peoplePage.getListOfUSersInPeople().contains(user_name));
+        Assert.assertTrue(peoplePage.getListOfUsers().contains(user_name));
     }
 
     @Test(dependsOnMethods = "testFindUserInThePeopleSection")
     public void testPeopleDeleteUser() {
-        DeleteUserPage deleteUserPage = new PeoplePage(getDriver())
+        PeoplePage peoplePage = new PeoplePage(getDriver())
                 .rootMenuDashboardLinkClick()
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickDeleteUser(user_name)
-                .clickYes();
+                .clickYesToManageUsersPage()
+                .rootMenuDashboardLinkClick()
+                .clickPeople();
 
-        Assert.assertFalse(deleteUserPage.getListOfUsers().contains(user_name));
+        Assert.assertFalse(peoplePage.getListOfUsers().contains(user_name));
     }
 
     @Test

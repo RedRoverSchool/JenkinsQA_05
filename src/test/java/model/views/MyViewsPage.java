@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,6 +53,9 @@ public class MyViewsPage extends HomePage {
 
     @FindBy(xpath = "//div[@id='main-panel']")
     private List<WebElement> viewMainPanel;
+
+    @FindBy(css = ".error")
+    private WebElement errorMessageViewAlreadyExist;
 
     public MyViewsPage(WebDriver driver) {
         super(driver);
@@ -159,5 +163,11 @@ public class MyViewsPage extends HomePage {
         }
 
         return list.toString();
+    }
+
+    public String getErrorMessageViewAlreadyExist() {
+
+        return getWait(5).until(ExpectedConditions.visibilityOf(
+                errorMessageViewAlreadyExist)).getText();
     }
 }

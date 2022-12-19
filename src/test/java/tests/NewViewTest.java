@@ -1,5 +1,6 @@
 package tests;
 
+import model.freestyle.FreestyleProjectStatusPage;
 import model.views.EditListViewPage;
 import model.views.EditViewPage;
 import model.HomePage;
@@ -88,7 +89,7 @@ public class NewViewTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PROJECT_RANDOM_NAME)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
                 .clickNewView()

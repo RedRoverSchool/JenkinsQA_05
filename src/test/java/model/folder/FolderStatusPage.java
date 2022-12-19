@@ -1,11 +1,10 @@
 package model.folder;
 
-import model.HomePage;
+import model.base.BaseStatusPage;
 import model.MovePage;
 import model.freestyle.FreestyleProjectStatusPage;
 import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import model.NewItemPage;
-import model.base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,10 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FolderStatusPage extends BasePage {
-
-    @FindBy(css = "#breadcrumbs li a")
-    private WebElement topMenuRoot;
+public class FolderStatusPage extends BaseStatusPage {
 
     @FindBy(css = "#breadcrumbs li a")
     private List<WebElement> topMenuList;
@@ -76,12 +72,6 @@ public class FolderStatusPage extends BasePage {
 
     public FolderStatusPage(WebDriver driver) {
         super(driver);
-    }
-
-    public HomePage clickDashboard() {
-        topMenuRoot.click();
-
-        return new HomePage(getDriver());
     }
 
     public NewItemPage clickNewItemDropdownThisFolderInBreadcrumbs() {

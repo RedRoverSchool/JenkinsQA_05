@@ -28,6 +28,8 @@ public class StatusUserPage extends BasePage {
     private WebElement saveButton;
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement displayedDescriptionText;
+    @FindBy(xpath = "//div[@id='main-panel']/div[contains(text(), 'ID')]")
+    private WebElement userID;
 
     public StatusUserPage(WebDriver driver) {
         super(driver);
@@ -101,5 +103,10 @@ public class StatusUserPage extends BasePage {
     public String getDescriptionText() {
 
         return displayedDescriptionText.getText();
+    }
+
+    public String getUserIDText() {
+
+        return userID.getText();
     }
 }
