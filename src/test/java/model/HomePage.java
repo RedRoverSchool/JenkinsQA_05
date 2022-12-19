@@ -471,7 +471,7 @@ public class HomePage extends Breadcrumbs {
 
     public boolean buildNowButtonIsDisplayed(){
 
-        return buildNowButton.isDisplayed();
+        return getWait(5).until(ExpectedConditions.visibilityOf(buildNowButton)).isDisplayed();
     }
 
     public DeleteMultibranchPipelinePage clickDeleteMbPipelineDropDownMenu() {

@@ -1,14 +1,13 @@
 package tests;
 
+import model.HomePage;
+import model.NewItemPage;
 import model.RenameItemErrorPage;
 import model.multiconfiguration.ConsoleOutputMultiConfigurationProjectPage;
-import model.HomePage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
-import model.NewItemPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -338,7 +337,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
     public void testEnableMultiConfigurationProject() {
-        Boolean buildNowButton = new HomePage(getDriver())
+        HomePage buildNowButton = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
                 .clickEnableButton()
                 .clickDashboard()
