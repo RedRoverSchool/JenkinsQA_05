@@ -45,7 +45,7 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
     @FindBy(css = ".model-link.inside.build-link.display-name")
     private WebElement dropDownBuildIcon;
 
-    @FindBy(xpath = "//li[@id='yui-gen3']/a/*[name()='svg']")
+    @FindBy(xpath = "//span[text()='Console Output']")
     private WebElement  consoleOutputDropDownBuildIcon;
 
     @FindBy(css = "#no-builds")
