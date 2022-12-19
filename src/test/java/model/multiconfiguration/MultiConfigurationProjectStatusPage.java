@@ -65,6 +65,9 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
     @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-disabled icon-md']")
     private WebElement iconProjectDisabled;
 
+    @FindBy(className = "display-name")
+    private WebElement buildLink;
+
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -148,7 +151,7 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
     }
 
     public MultiConfigurationProjectStatusPage clickDropDownBuildIcon() {
-        getWait(20).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".display-name")));
+        getWait(20).until(ExpectedConditions.visibilityOf(buildLink));
         dropDownBuildIcon.click();
 
         return this;
