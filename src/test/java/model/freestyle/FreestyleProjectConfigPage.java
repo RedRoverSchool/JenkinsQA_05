@@ -1,7 +1,6 @@
 package model.freestyle;
 
 import model.BuildWithParametersPage;
-import model.CreateItemErrorPage;
 import model.base.BaseConfigPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

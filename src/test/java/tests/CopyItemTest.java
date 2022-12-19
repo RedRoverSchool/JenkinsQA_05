@@ -2,18 +2,11 @@ package tests;
 
 import static runner.TestUtils.getRandomStr;
 
-import java.time.Duration;
-
 import model.CreateItemErrorPage;
 import model.HomePage;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.TestUtils;
 
 public class CopyItemTest extends BaseTest {
 
