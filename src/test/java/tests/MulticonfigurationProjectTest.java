@@ -1,5 +1,6 @@
 package tests;
 
+import model.RenameItemErrorPage;
 import model.multiconfiguration.ConsoleOutputMultiConfigurationProjectPage;
 import model.HomePage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
@@ -7,7 +8,6 @@ import model.NewItemPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -15,6 +15,8 @@ import runner.BaseTest;
 import runner.TestUtils;
 
 import java.util.List;
+
+import static org.testng.TestRunner.PriorityWeight.dependsOnMethods;
 
 public class MulticonfigurationProjectTest extends BaseTest {
     private static final String PROJECT_NAME = TestUtils.getRandomStr(8);
@@ -44,8 +46,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSave()
-                .goToDashboard();
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickDashboard();
 
         Assert.assertTrue(homePage.getJobList().contains(PROJECT_NAME));
     }
@@ -89,8 +91,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSave()
-                .goToDashboard()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickDashboard()
                 .clickMultConfJobName(PROJECT_NAME)
                 .deleteMultiConfigProject();
 
@@ -134,8 +136,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .selectMultiConfigurationProjectAndClickOk()
                 .inputDescription(descriptionMCP)
                 .showPreview()
-                .clickSaveButton()
-                .goToDashboard()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickDashboard()
                 .clickMultConfJobName(nameMCP);
 
         MultiConfigurationProjectStatusPage multiConfigProjectPreview = new MultiConfigurationProjectStatusPage(getDriver());
@@ -147,6 +149,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         multiConfigProject.deleteMultiConfigProject();
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMultiConfigurationProjectBuild() {
 
@@ -165,14 +168,13 @@ public class MulticonfigurationProjectTest extends BaseTest {
     @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testCreateNewMCProjectAsCopyFromExistingProject() {
-
         String actualProjectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(NEW_PROJECT_NAME)
                 .setCopyFromItemName(PROJECT_NAME)
                 .clickOK()
-                .clickSave()
-                .goToDashboard()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickDashboard()
                 .getJobName(NEW_PROJECT_NAME);
 
         Assert.assertEquals(actualProjectName, NEW_PROJECT_NAME);
@@ -239,21 +241,18 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Test
     public void testMultiConfigurationProjectRenameToInvalidNameViaSideMenu() {
+        RenameItemErrorPage renameItemErrorPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PROJECT_NAME)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickDashboard()
+                .clickMultConfJobName(PROJECT_NAME)
+                .clickRenameSideMenu(PROJECT_NAME)
+                .clearFieldAndInputNewName("&")
+                .clickSaveButton();
 
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys("MC Project");
-        getDriver().findElement
-                (By.xpath("//span[text()='Multi-configuration project']")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(By.xpath("//a[contains(@href,'confirm-rename')]")).click();
-        getDriver().findElement(By.xpath("//input[@name='newName']")).sendKeys("&");
-        getDriver().findElement(By.id("yui-gen1-button")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.id
-                ("main-panel")).getText(), "Error\n‘&amp;’ is an unsafe character");
-
-        deleteNewMCProject("MC Project");
+        Assert.assertEquals(renameItemErrorPage.getErrorMessage(),"‘&amp;’ is an unsafe character");
     }
 
     @Ignore
@@ -277,20 +276,12 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 NEW_PROJECT_NAME);
     }
 
-    @Test
-    public void testDisableMultiConfigurationProjectCheckIconProjectName() {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
-        getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
-        getDriver().findElement(DISABLE_PROJECT).click();
-
-        Assert.assertTrue(getDriver().findElement(
-                        By.xpath("//span[@class='build-status-icon__wrapper icon-disabled icon-md']"))
-                .isDisplayed());
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    public void testMultiConfigurationProjectDisableCheckIconProjectName() {
+        MultiConfigurationProjectStatusPage multiConfigPrStatusPage = new HomePage(getDriver())
+                .clickMultConfJobName(PROJECT_NAME)
+                .clickDisableButton();
+        Assert.assertTrue(multiConfigPrStatusPage.iconProjectDisabledIsDisplayed());
     }
 
     @Ignore
@@ -322,8 +313,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='yui-gen1-button']")).getText(),
                 "Disable Project");
     }
-
-    @Test(dependsOnMethods = "testDisableMultiConfigurationProjectCheckIconProjectName")
+    @Ignore
+    @Test(dependsOnMethods = "testMultiConfigurationProjectDisableCheckIconProjectName")
     public void testEnableMultiConfigurationProjectCheckIconProjectName() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
         getDriver().findElement(ENABLE_PROJECT_BUTTON).click();
@@ -338,9 +329,9 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSave()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
                 .clickDisableButton()
-                .goToDashboard()
+                .clickDashboard()
                 .getProjectIconText();
 
         Assert.assertTrue(projectIconText);
@@ -348,11 +339,11 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Ignore
     @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
-        public void testEnableMultiConfigurationProject() {
+    public void testEnableMultiConfigurationProject() {
         Boolean buildNowButton = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
                 .clickEnableButton()
-                .goToDashboard()
+                .clickDashboard()
                 .clickProjectDropdownMenu(PROJECT_NAME);
 
         Assert.assertTrue(buildNowButton);
@@ -366,7 +357,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickConfiguration(PROJECT_NAME)
                 .scrollAndClickBuildSteps()
                 .selectionAndClickExecuteWindowsFromBuildSteps().enterCommandInBuildSteps("echo Hello world!")
-                .clickSaveButton()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
                 .clickBuildNowButton()
                 .clickDropDownBuildIcon()
                 .selectAndClickConsoleOutput();
@@ -382,7 +373,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         MultiConfigurationProjectStatusPage newMultiConfigItem = new NewItemPage(getDriver())
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSaveButton();
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class);
         MultiConfigurationProjectStatusPage mcpStatusPage = new MultiConfigurationProjectStatusPage(getDriver());
         mcpStatusPage.multiConfigurationProjectBuildNow(getDriver());
         mcpStatusPage.multiConfigurationProjectNewestBuilds(getDriver());

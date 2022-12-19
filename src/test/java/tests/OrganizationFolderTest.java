@@ -2,6 +2,7 @@ package tests;
 
 import model.HomePage;
 import model.folder.FolderStatusPage;
+import model.organization_folder.OrgFolderConfigPage;
 import model.organization_folder.OrgFolderStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -38,6 +39,7 @@ public class OrganizationFolderTest extends BaseTest {
     private static final By TITLE = By.xpath("//div[@id='main-panel']/h1");
     private static final By ITEM_FOLDER = By.xpath("//span[text()='" + NAME_FOLDER + "']");
     private static final By ITEM_ORG_FOLDER = By.xpath("//span[text()= '" + NAME_ORG_FOLDER + "']");
+
 
     private WebElement notificationSaved() {
         return getDriver().findElement(By.cssSelector("#notification-bar"));
@@ -77,13 +79,14 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateOrganizationFolder() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getInputName().sendKeys(uniqueOrganizationFolderName + "2");
-        getOrganizationFolder().click();
-        getOkButton().click();
-        getSaveButton().click();
+        String actualOrgFolderDisplayName = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(uniqueOrganizationFolderName)
+                .selectOrgFolderAndClickOk()
+                .clickSaveBtn(OrgFolderStatusPage.class)
+                .getDisplayName();
 
-        Assert.assertEquals(getDriver().findElement(TITLE).getText(), uniqueOrganizationFolderName + "2");
+        Assert.assertEquals(actualOrgFolderDisplayName, uniqueOrganizationFolderName);
     }
 
     @Test
@@ -92,10 +95,10 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(nameOrgFolderPOM)
                 .selectOrgFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(OrgFolderStatusPage.class)
                 .clickRenameButton()
                 .clearAndInputNewName("New name " + nameOrgFolderPOM)
-                .goToDashboard();
+                .clickDashboard();
 
         Assert.assertTrue(homePage.getJobList().contains("New name " + nameOrgFolderPOM));
     }
@@ -142,24 +145,33 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(ORG_FOLDER_NAME_CREATE)
                 .selectFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(FolderStatusPage.class)
                 .clickDashboard()
                 .getJobList();
 
         Assert.assertTrue(allFolders.contains(ORG_FOLDER_NAME_CREATE));
     }
 
-    @Ignore
+    @Test
+    public void testOrgFolderEmptyNameErr() {
+        String errMessageEmptyName = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName("")
+                .selectOrgFolderAndClickOk()
+                .getErrorMessageEmptyField();
+
+        Assert.assertEquals(errMessageEmptyName,
+                "» This field cannot be empty, please enter a valid name");
+    }
     @Test
     public void testCreateOrgFolderEmptyName() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(ORGANIZATION_FOLDER).click();
-
-        Assert.assertEquals(getDriver().
-                        findElement(By.id("itemname-required")).getText(),
-                "» This field cannot be empty, please enter a valid name");
-        Assert.assertFalse(getDriver().findElement(OK_BUTTON).isEnabled());
+        OrgFolderConfigPage orgFolderConfigPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName("")
+                .selectOrgFolderAndClickOk();
+        Assert.assertFalse(orgFolderConfigPage.isOkButtonEnabled());
     }
+
 
     @Ignore
     @Test
@@ -237,12 +249,12 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickConfigureSideMenu()
                 .inputDisplayName(DISPLAY_NAME)
                 .inputDescription(description)
-                .clickSaveButton();
+                .clickSaveBtn(OrgFolderStatusPage.class);
 
         Assert.assertEquals(orgFolderStatusPage.getDisplayName(), DISPLAY_NAME);
         Assert.assertEquals(orgFolderStatusPage.getDescription(), description);
 
-        HomePage homePage = orgFolderStatusPage.goToDashboard();
+        HomePage homePage = orgFolderStatusPage.clickDashboard();
 
         Assert.assertTrue(homePage.getJobList().contains(DISPLAY_NAME));
     }
@@ -253,8 +265,8 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(NAME_ORG_FOLDER)
                 .selectOrgFolderAndClickOk()
-                .clickSaveButton()
-                .goToDashboard();
+                .clickSaveBtn(OrgFolderStatusPage.class)
+                .clickDashboard();
 
         Assert.assertTrue(homePage.getJobList().contains(NAME_ORG_FOLDER));
     }
@@ -265,8 +277,8 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(nameOrgFolderPOM)
                 .selectOrgFolderAndClickOk()
-                .clickSaveButton()
-                .goToDashboard();
+                .clickSaveBtn(OrgFolderStatusPage.class)
+                .clickDashboard();
 
         Assert.assertTrue(homePage.getJobList().contains(nameOrgFolderPOM));
     }
@@ -277,7 +289,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(nameFolderPOM)
                 .selectFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(FolderStatusPage.class)
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobList().contains(nameFolderPOM));
@@ -290,7 +302,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickMoveButton()
                 .selectFolder(nameFolderPOM)
                 .clickMoveForOrgFolder()
-                .goToDashboard();
+                .clickDashboard();
 
         Assert.assertFalse(homePage.getJobList().contains(nameOrgFolderPOM));
 

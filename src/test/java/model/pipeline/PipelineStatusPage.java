@@ -1,8 +1,9 @@
 package model.pipeline;
 
+import model.base.BaseStatusPage;
 import model.BuildWithParametersPage;
 import model.HomePage;
-import model.base.BasePage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,7 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PipelineProjectPage extends BasePage {
+public class PipelineStatusPage extends BaseStatusPage {
 
     @FindBy(xpath = "//div[@id='description']//a")
     private WebElement editDescriptionButton;
@@ -31,9 +32,6 @@ public class PipelineProjectPage extends BasePage {
     @FindBy(xpath = "(//a[contains(@class,'task-link')])[7]")
     private WebElement gitHubSideMenu;
 
-    @FindBy(xpath = "//a[contains(text(), 'Dashboard')]")
-    private WebElement dashboardLink;
-
     @FindBy(css = ".job-index-headline")
     private WebElement pipelineName;
 
@@ -45,9 +43,6 @@ public class PipelineProjectPage extends BasePage {
 
     @FindBy(xpath = "//span[@class='task-link-wrapper ']//span[2]")
     private List<WebElement> pipelineSideMenuLinks;
-
-    @FindBy(xpath = "//a[@href='/job/Pipeline1/build?delay=0sec']")
-    private WebElement buildNowButton;
 
     @FindBy(className = "duration")
     private WebElement stageView;
@@ -61,11 +56,14 @@ public class PipelineProjectPage extends BasePage {
     @FindBy(id = "enable-project")
     private WebElement messageDisabledProject;
 
-    public PipelineProjectPage(WebDriver driver) {
+    @FindBy(id = "description-link")
+    private WebElement editDescriptionLink;
+
+    public PipelineStatusPage(WebDriver driver) {
         super(driver);
     }
 
-    public PipelineProjectPage editDescription(String text) {
+    public PipelineStatusPage editDescription(String text) {
         editDescriptionButton.click();
         getWait(5).until(ExpectedConditions.visibilityOf(descriptionArea)).clear();
         descriptionArea.sendKeys(text);
@@ -73,7 +71,7 @@ public class PipelineProjectPage extends BasePage {
         return this;
     }
 
-    public PipelineProjectPage clickSaveButton() {
+    public PipelineStatusPage clickSaveButton() {
         saveButton.click();
 
         return this;
@@ -91,12 +89,6 @@ public class PipelineProjectPage extends BasePage {
         return new HomePage(getDriver());
     }
 
-    public HomePage clickDashboard() {
-        dashboardLink.click();
-
-        return new HomePage(getDriver());
-    }
-
     public boolean isDisplayedGitHubOnSideMenu() {
         return gitHubSideMenu.isDisplayed();
     }
@@ -109,16 +101,16 @@ public class PipelineProjectPage extends BasePage {
         return pipelineName.getAttribute("textContent").substring(pipelineName.getAttribute("textContent").indexOf(" ") + 1);
     }
 
-    public PipelineProjectPage clickDisableProject() {
+    public PipelineStatusPage clickDisableProject() {
         disableProjectButton.click();
 
-        return new PipelineProjectPage(getDriver());
+        return new PipelineStatusPage(getDriver());
     }
 
-    public PipelineProjectPage clickEnableProject() {
+    public PipelineStatusPage clickEnableProject() {
         enableProjectButton.click();
 
-        return new PipelineProjectPage(getDriver());
+        return new PipelineStatusPage(getDriver());
     }
 
     public List<String> getPipelineSideMenuLinks() {
@@ -130,8 +122,8 @@ public class PipelineProjectPage extends BasePage {
         return pipelineProjectText;
     }
 
-    public PipelineProjectPage clickBuildNow() {
-        buildNowButton.click();
+    public PipelineStatusPage clickBuildNow(String name) {
+        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/build?delay=0sec']", name))).click();
         getWait(20).until(ExpectedConditions.visibilityOf(stageView));
 
         return this;
@@ -155,5 +147,11 @@ public class PipelineProjectPage extends BasePage {
 
     public String getPipelineTitle() {
         return pipelineName.getText();
+    }
+
+    public PipelineStatusPage clickEditDescriptionLink() {
+        editDescriptionLink.click();
+
+        return new PipelineStatusPage(getDriver());
     }
 }

@@ -220,19 +220,20 @@ public class EditViewTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Test
-    public void testListViewAddAllItems() {
-        createManyJobsOfEachType(1);
-        localViewName = TestUtils.getRandomStr();
-        createViewFromListOfViewTypes(1, localViewName);
-        goToEditView(localViewName);
+    @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
+    public void testAddAllItemsToListView() {
+        int expectedResult = new HomePage(getDriver())
+                .getJobList().size();
 
-        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION);
-        int expectedResult = itemsToSelect.size();
-        itemsToSelect.forEach(WebElement::click);
-        getDriver().findElement(SUBMIT_BUTTON).click();
+        int actualResult = new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickAddViewLink()
+                .setViewName(TestUtils.getRandomStr())
+                .setListViewTypeAndClickCreate()
+                .addAllJobsToListView()
+                .clickListOrMyViewOkButton()
+                .getJobList().size();
 
-        int actualResult = getDriver().findElements(JOB_PATH).size();
         Assert.assertEquals(actualResult, expectedResult);
     }
 

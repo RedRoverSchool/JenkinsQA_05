@@ -1,14 +1,9 @@
 package model;
 
 import model.base.BasePage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class DeleteUserPage extends BasePage {
     @FindBy(id = "yui-gen1-button")
@@ -18,15 +13,15 @@ public class DeleteUserPage extends BasePage {
         super(driver);
     }
 
-    public DeleteUserPage clickYes() {
+    public ManageUsersPage clickYesToManageUsersPage() {
         yesButton.click();
 
-        return this;
+        return new ManageUsersPage(getDriver());
     }
 
-    public List<String> getListOfUsers() {
+    public HomePage clickYesToDashboard() {
+        yesButton.click();
 
-        return getWait(1).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("jenkins-table__link")))
-                .stream().map(WebElement::getText).collect(Collectors.toList());
+        return new HomePage(getDriver());
     }
 }

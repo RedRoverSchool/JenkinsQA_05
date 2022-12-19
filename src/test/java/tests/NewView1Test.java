@@ -1,8 +1,12 @@
 package tests;
 
+import model.freestyle.FreestyleProjectStatusPage;
+import model.multiconfiguration.MultiConfigurationProjectStatusPage;
+import model.pipeline.PipelineStatusPage;
 import model.views.EditViewPage;
 import model.HomePage;
 import model.views.MyViewsPage;
+import model.views.NewViewPage;
 import model.views.ViewPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -23,20 +27,20 @@ public class NewView1Test extends BaseTest {
                 .clickNewItem()
                 .setItemName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard()
 
                 .clickNewItem()
                 .setItemName(PIPELINE_PROJECT_NAME)
                 .selectPipelineAndClickOk()
-                .saveConfigAndGoToProject()
+                .clickSaveBtn(PipelineStatusPage.class)
                 .clickDashboard()
 
                 .clickNewItem()
                 .setItemName("Multi-configuration project")
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSave()
-                .goToDashboard()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickDashboard()
 
                 .clickMyViewsSideMenuLink()
                 .clickNewView()
@@ -67,13 +71,13 @@ public class NewView1Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateViews")
-    public void testAddSomeJobsToListView() {
+    public void testSelectJobsToAddInListView() {
         MyViewsPage myViewsPage = new HomePage(getDriver())
                 .clickMyViewsSideMenuLink()
                 .clickView(LIST_VIEW_NAME)
                 .clickLinkTextAddExistingJob()
-                .clickJobForInputToListView(FREESTYLE_PROJECT_NAME)
-                .clickJobForInputToListView(PIPELINE_PROJECT_NAME)
+                .clickJobsCheckBoxForAddRemoveToListView(FREESTYLE_PROJECT_NAME)
+                .clickJobsCheckBoxForAddRemoveToListView(PIPELINE_PROJECT_NAME)
                 .clickListOrMyViewOkButton();
 
         Assert.assertEquals(myViewsPage.getCurrentURL(),
@@ -82,7 +86,41 @@ public class NewView1Test extends BaseTest {
                 FREESTYLE_PROJECT_NAME.concat(" ").concat(PIPELINE_PROJECT_NAME));
     }
 
-    @Test(dependsOnMethods = "testAddSomeJobsToListView")
+    @Test(dependsOnMethods = "testSelectJobsToAddInListView")
+    public void testDeselectJobsFromListView() {
+        MyViewsPage myViewsPage = new HomePage(getDriver())
+                .goToEditView(LIST_VIEW_NAME)
+                .clickJobsCheckBoxForAddRemoveToListView(FREESTYLE_PROJECT_NAME)
+                .clickJobsCheckBoxForAddRemoveToListView(PIPELINE_PROJECT_NAME)
+                .clickListOrMyViewOkButton();
+
+        Assert.assertEquals(myViewsPage.getCurrentURL(),
+                "http://localhost:8080/user/admin/my-views/view/" + LIST_VIEW_NAME + "/");
+        Assert.assertTrue(myViewsPage.getTextContentOnViewMainPanel().contains(
+                "This view has no jobs associated with it. "
+                        + "You can either add some existing jobs to this view or create a new job in this view."));
+    }
+
+    @Test(dependsOnMethods = "testDeselectJobsFromListView")
+    public void testCreateViewWithExistingName() {
+        NewViewPage newViewPage = new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickNewView()
+                .setViewName(LIST_VIEW_NAME)
+                .setListViewType();
+
+        Assert.assertEquals(newViewPage.getErrorMessageViewAlreadyExist(),
+                "A view with name " + LIST_VIEW_NAME + " already exists");
+
+        MyViewsPage myViewsPage = new NewViewPage(getDriver())
+                .setListViewType()
+                .clickCreateButton();
+
+        Assert.assertTrue(myViewsPage.getTextContentOnViewMainPanel().
+                contains("A view already exists with the name \"" + LIST_VIEW_NAME + "\""));
+    }
+
+    @Test(dependsOnMethods = "testCreateViewWithExistingName")
     public void testRenameView() {
         MyViewsPage myViewsPage = new HomePage(getDriver())
                 .goToEditView(LIST_VIEW_NAME)
