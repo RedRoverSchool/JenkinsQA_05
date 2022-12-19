@@ -3,13 +3,11 @@ package tests;
 import model.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static runner.TestUtils.getRandomStr;
 
@@ -70,5 +68,30 @@ public class PeoplePageTest extends BaseTest {
                 .clickYes();
 
         Assert.assertFalse(deleteUserPage.getListOfUsers().contains(user_name));
+    }
+
+    @Test
+    public void testCreateUser() {
+        List<String> userList = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickManageUsers()
+                .clickCreateUser()
+                .setUsername(user_name)
+                .setPassword(password)
+                .confirmPassword(password)
+                .setFullName(user_name)
+                .setEmail(email)
+                .clickCreateUserButton()
+                .getListOfUsers();
+
+        Assert.assertTrue(userList.contains(user_name));
+    }
+
+    @Test
+    public void testViewPeoplePage() {
+        var peoplePage = new HomePage(getDriver())
+                .clickPeople();
+
+        Assert.assertEquals(peoplePage.getTitle(), "People");
     }
 }

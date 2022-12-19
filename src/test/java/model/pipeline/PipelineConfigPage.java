@@ -1,6 +1,7 @@
 package model.pipeline;
 
 import model.HomePage;
+import model.base.Breadcrumbs;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import runner.TestUtils;
 
-public class PipelineConfigPage extends HomePage {
+public class PipelineConfigPage extends Breadcrumbs {
 
     @FindBy(xpath = "//label[text()='GitHub project']")
     private WebElement gitHubCheckbox;
@@ -90,10 +91,10 @@ public class PipelineConfigPage extends HomePage {
         return this;
     }
 
-    public PipelineProjectPage saveConfigAndGoToProjectPage() {
+    public PipelineStatusPage saveConfigAndGoToProjectPage() {
         saveButton.click();
 
-        return new PipelineProjectPage(getDriver());
+        return new PipelineStatusPage(getDriver());
     }
 
     public HomePage clickDashboard() {
@@ -120,10 +121,10 @@ public class PipelineConfigPage extends HomePage {
         return this;
     }
 
-    public PipelineProjectPage clickSaveButton() {
+    public PipelineStatusPage clickSaveButton() {
         saveButton.click();
 
-        return new PipelineProjectPage(getDriver());
+        return new PipelineStatusPage(getDriver());
     }
 
     public PipelineConfigPage setDescriptionField(String name) {

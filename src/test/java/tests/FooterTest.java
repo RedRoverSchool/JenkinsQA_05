@@ -28,10 +28,12 @@ public class FooterTest extends BaseTest {
     @Test
     public void testFooterLinkRestRedirectToPage() {
 
-        getDriver().findElement(REST_API_LINK).click();
+        String urlRestApi = new RestApiPage(getDriver())
+                .clickRestApiLink()
+                .getCurrentURL();
 
-        Assert.assertTrue(getDriver().getCurrentUrl().contains("api"));
-        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='main-panel']/h1")).getText(), "REST API");
+        Assert.assertTrue(urlRestApi.contains("api"));
+        Assert.assertEquals(new RestApiPage(getDriver()).getTextH1RestApi(), "REST API");
     }
 
     @Test

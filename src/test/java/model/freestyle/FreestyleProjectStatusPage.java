@@ -223,4 +223,10 @@ public class FreestyleProjectStatusPage extends BaseStatusPage {
 
         return this;
     }
+
+    public FolderStatusPage confirmAlertAndDeleteProjectFromFolder() {
+        getDriver().switchTo().alert().accept();
+
+        return new FolderStatusPage(getDriver());
+    }
 }

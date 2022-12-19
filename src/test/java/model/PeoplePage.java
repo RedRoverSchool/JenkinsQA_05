@@ -16,6 +16,9 @@ public class PeoplePage extends BasePage {
     @FindBy(id = "jenkins-home-link")
     private WebElement rootMenuDashboardLink;
 
+    @FindBy(xpath = "//h1")
+    private WebElement peopleTitle;
+
     public PeoplePage(WebDriver driver) {
         super(driver);
     }
@@ -32,4 +35,9 @@ public class PeoplePage extends BasePage {
         rootMenuDashboardLink.click();
         return new HomePage(getDriver());
     }
+
+    public String getTitle() {
+        return peopleTitle.getText();
+    }
+
 }

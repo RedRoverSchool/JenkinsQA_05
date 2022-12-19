@@ -7,6 +7,7 @@ import model.multibranch_pipeline.MultibranchPipelineConfigPage;
 import model.multiconfiguration.MultiConfigurationProjectConfigPage;
 import model.organization_folder.OrgFolderConfigPage;
 import model.pipeline.PipelineConfigPage;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -118,7 +119,6 @@ public class NewItemPage extends HomePage {
     }
 
     public OrgFolderConfigPage selectOrgFolderAndClickOk() {
-        getAction().scrollByAmount(0, 250).perform();
         orgFolder.click();
         okButton.submit();
 
@@ -178,7 +178,8 @@ public class NewItemPage extends HomePage {
     }
 
     public String getItemNameInvalidMsg() {
-        return itemNameInvalidMsg.getText();
+
+        return getWait(2).until(ExpectedConditions.visibilityOf(itemNameInvalidMsg)).getText();
     }
 
     public boolean isOkButtonEnabled() {
@@ -239,6 +240,22 @@ public class NewItemPage extends HomePage {
         okButton.click();
 
         return new MultibranchPipelineConfigPage(getDriver());
+    }
+
+    public CreateItemErrorPage clickOKCreateItemErrorPage() {
+        okButton.click();
+
+        return new CreateItemErrorPage(getDriver());
+    }
+
+    public boolean isDisplayedFieldCopyFrom() {
+        try {
+            TestUtils.scrollToEnd(getDriver());
+            getWait(5).until(ExpectedConditions.visibilityOf(itemName));
+            return copyFrom.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     public String getH3HeaderText() {

@@ -10,6 +10,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.List;
+
 public class MultiConfigurationProjectStatusPage extends BasePage {
 
     @FindBy(css = "#breadcrumbs li a")
@@ -47,6 +49,21 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
 
     @FindBy(xpath = "//li[@id='yui-gen3']/a/*[name()='svg']")
     private WebElement  consoleOutputDropDownBuildIcon;
+
+    @FindBy(css = "#no-builds")
+    private WebElement buildsHistoryOnSidePanel;
+
+    @FindBy(css = ".build-row-cell")
+    private List<WebElement> buildRowsOnBuildHistory;
+
+    @FindBy(linkText = "Build Now")
+    private WebElement buttonBuildNowOnSidePanel;
+
+    @FindBy(css = ".build-status-icon__outer>[tooltip = 'Success &gt; Console Output']")
+    private WebElement buildLoadingIconSuccess;
+
+    @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-disabled icon-md']")
+    private WebElement iconProjectDisabled;
 
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
@@ -151,5 +168,28 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
 
     public void multiConfigurationProjectNewestBuilds (WebDriver driver) {
         driver.findElement(By.xpath("//*[@id='buildHistoryPageNav']/div[1]/div")).click();
+    }
+
+    public int countBuildsOnSidePanel() {
+        getWait(10).until(ExpectedConditions.attributeContains(buildsHistoryOnSidePanel, "style", "display"));
+        int countBuilds = 0;
+        if (buildsHistoryOnSidePanel.getAttribute("style").equals("display: none;")) {
+            countBuilds = buildRowsOnBuildHistory.size();
+        }
+
+        return countBuilds;
+    }
+
+    public MultiConfigurationProjectStatusPage clickBuildNowOnSideMenu(){
+        buttonBuildNowOnSidePanel.click();
+        getWait(10).until(ExpectedConditions.visibilityOf((buildLoadingIconSuccess)));
+
+        return this;
+    }
+
+    public boolean iconProjectDisabledIsDisplayed(){
+         getWait(10).until(ExpectedConditions.visibilityOf(iconProjectDisabled));
+
+        return iconProjectDisabled.isDisplayed();
     }
 }
