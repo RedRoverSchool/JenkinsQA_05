@@ -43,32 +43,17 @@ public class FolderStatusPage extends BaseStatusPage {
     @FindBy(linkText = "New Item")
     private WebElement folderNewItem;
 
-    @FindBy(tagName = "h1")
-    private WebElement header;
-
-    @FindBy(id = "main-panel")
-    private WebElement textAddress;
-
     @FindBy(xpath = "//input[@checkdependson='newName']")
     private WebElement folderNewName;
 
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement submitButton;
 
-    @FindBy(xpath = "//h1")
-    private WebElement folderHeader;
-
-    @FindBy(id = "view-message")
-    private WebElement textDescription;
-
     @FindBy(linkText = "Add description")
     private WebElement addDescription;
 
     @FindBy(css = ".jenkins-input")
     private WebElement inputFieldDescription;
-
-    @FindBy(css = "#description>div:first-child")
-    private WebElement description;
 
     public FolderStatusPage(WebDriver driver) {
         super(driver);
@@ -124,11 +109,6 @@ public class FolderStatusPage extends BaseStatusPage {
         return new FolderStatusPage(getDriver());
     }
 
-    public String getHeaderFolderText() {
-
-        return folderHeader.getText();
-    }
-
     public NewItemPage clickFolderNewItem() {
         folderNewItem.click();
 
@@ -147,26 +127,12 @@ public class FolderStatusPage extends BaseStatusPage {
         return new MovePage(getDriver());
     }
 
-    public String getHeaderText() {
-
-        return header.getText();
-    }
 
     public List<String> getTopMenueLinkText() {
         return topMenuList
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
-    }
-
-    public String getDescriptionText() {
-
-        return textAddress.getText();
-    }
-
-    public String getTextDescription() {
-
-        return textDescription.getText();
     }
 
     public String getFolderName() {
@@ -185,11 +151,6 @@ public class FolderStatusPage extends BaseStatusPage {
         inputFieldDescription.sendKeys(description);
 
         return this;
-    }
-
-    public String getTextDescriptionOnPage() {
-
-        return description.getText();
     }
 
     public FreestyleProjectStatusPage clickProject(String name) {
