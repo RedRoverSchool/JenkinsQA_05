@@ -1,6 +1,8 @@
 package tests;
 
 import model.*;
+import model.folder.FolderStatusPage;
+import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import model.views.MyViewsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -144,8 +146,8 @@ public class HeaderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(organizationFolderName)
                 .selectOrgFolderAndClickOk()
-                .clickSaveButton()
-                .goToDashboard()
+                .clickSaveBtn(FolderStatusPage.class)
+                .clickDashboard()
                 .setSearchFieldAndClickEnter(searchRequest)
                 .getSearchResultList();
 
