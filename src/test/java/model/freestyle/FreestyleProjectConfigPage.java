@@ -277,7 +277,7 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
         return this;
     }
 
-    public Set<String> collectOptionsInBuildStepsDropDown() {
+    public Set<String> getOptionsInBuildStepsDropDown() {
 
         return listOfElementsInBuildStepsDropDown
                 .stream()
