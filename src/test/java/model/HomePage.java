@@ -6,6 +6,7 @@ import model.folder.FolderStatusPage;
 import model.freestyle.FreestyleProjectConfigPage;
 import model.freestyle.FreestyleProjectStatusPage;
 import model.multibranch_pipeline.DeleteMultibranchPipelinePage;
+import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import model.organization_folder.OrgFolderStatusPage;
 import model.pipeline.PipelineConfigPage;
@@ -131,7 +132,6 @@ public class HomePage extends Header {
     @FindBy(xpath = "(//a[@class='yuimenuitemlabel'])[3]/span")
     private WebElement buildNowButton;
 
-
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -222,6 +222,12 @@ public class HomePage extends Header {
         getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
 
         return new FolderStatusPage(getDriver());
+    }
+
+    public MultibranchPipelineStatusPage clickJobMBPipeline(String name) {
+        getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
+
+        return new MultibranchPipelineStatusPage(getDriver());
     }
 
     public PipelineConfigPage clickConfigureDropDownMenu() {

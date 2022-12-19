@@ -67,13 +67,13 @@ public class NewView1Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateViews")
-    public void testAddSomeJobsToListView() {
+    public void testSelectJobsToAddInListView() {
         MyViewsPage myViewsPage = new HomePage(getDriver())
                 .clickMyViewsSideMenuLink()
                 .clickView(LIST_VIEW_NAME)
                 .clickLinkTextAddExistingJob()
-                .clickJobForInputToListView(FREESTYLE_PROJECT_NAME)
-                .clickJobForInputToListView(PIPELINE_PROJECT_NAME)
+                .clickJobsCheckBoxForAddRemoveToListView(FREESTYLE_PROJECT_NAME)
+                .clickJobsCheckBoxForAddRemoveToListView(PIPELINE_PROJECT_NAME)
                 .clickListOrMyViewOkButton();
 
         Assert.assertEquals(myViewsPage.getCurrentURL(),
@@ -82,7 +82,22 @@ public class NewView1Test extends BaseTest {
                 FREESTYLE_PROJECT_NAME.concat(" ").concat(PIPELINE_PROJECT_NAME));
     }
 
-    @Test(dependsOnMethods = "testAddSomeJobsToListView")
+    @Test(dependsOnMethods = "testSelectJobsToAddInListView")
+    public void testDeselectJobsFromListView() {
+        MyViewsPage myViewsPage = new HomePage(getDriver())
+                .goToEditView(LIST_VIEW_NAME)
+                .clickJobsCheckBoxForAddRemoveToListView(FREESTYLE_PROJECT_NAME)
+                .clickJobsCheckBoxForAddRemoveToListView(PIPELINE_PROJECT_NAME)
+                .clickListOrMyViewOkButton();
+
+        Assert.assertEquals(myViewsPage.getCurrentURL(),
+                "http://localhost:8080/user/admin/my-views/view/" + LIST_VIEW_NAME + "/");
+        Assert.assertTrue(myViewsPage.getTextContentOnViewMainPanel().contains(
+                "This view has no jobs associated with it. "
+                        + "You can either add some existing jobs to this view or create a new job in this view."));
+    }
+
+    @Test(dependsOnMethods = "testDeselectJobsFromListView")
     public void testRenameView() {
         MyViewsPage myViewsPage = new HomePage(getDriver())
                 .goToEditView(LIST_VIEW_NAME)

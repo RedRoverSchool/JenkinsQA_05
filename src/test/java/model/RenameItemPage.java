@@ -2,6 +2,7 @@ package model;
 
 import model.base.BasePage;
 import model.freestyle.FreestyleProjectStatusPage;
+import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -43,4 +44,9 @@ public class RenameItemPage extends BasePage {
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
+    public MultibranchPipelineStatusPage clickRenameButtonMBPipeline() {
+        buttonSubmit.click();
+
+        return new MultibranchPipelineStatusPage(getDriver());
+    }
 }

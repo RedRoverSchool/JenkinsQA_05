@@ -112,7 +112,6 @@ public class NewItemPage extends HomePage {
     }
 
     public OrgFolderConfigPage selectOrgFolderAndClickOk() {
-        getAction().scrollByAmount(0, 250).perform();
         orgFolder.click();
         okButton.submit();
 
