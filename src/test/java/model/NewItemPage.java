@@ -7,6 +7,7 @@ import model.multibranch_pipeline.MultibranchPipelineConfigPage;
 import model.multiconfiguration.MultiConfigurationProjectConfigPage;
 import model.organization_folder.OrgFolderConfigPage;
 import model.pipeline.PipelineConfigPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,6 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NewItemPage extends HomePage {
 
@@ -34,6 +36,9 @@ public class NewItemPage extends HomePage {
 
     @FindBy(xpath = "//div[@class='icon']")
     private List<WebElement> itemsList;
+
+    @FindBy(xpath = "//label/span[@class='label']")
+    private List<WebElement> namesItemsList;
 
     @FindBy(id = "ok-button")
     private WebElement okButton;
@@ -59,6 +64,8 @@ public class NewItemPage extends HomePage {
     @FindBy(id = "from")
     private WebElement copyFrom;
 
+    @FindBy(className = "h3")
+    private WebElement h3Header;
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -232,5 +239,19 @@ public class NewItemPage extends HomePage {
         okButton.click();
 
         return new MultibranchPipelineConfigPage(getDriver());
+    }
+
+    public String getH3HeaderText() {
+
+        return getWait(10).until(ExpectedConditions.visibilityOf(h3Header)).getText();
+    }
+
+    public List<String> newItemsNameList() {
+        getWait(5).until(ExpectedConditions.visibilityOf(h3Header));
+
+        return  namesItemsList
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
     }
 }

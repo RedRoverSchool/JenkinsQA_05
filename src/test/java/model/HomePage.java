@@ -131,7 +131,6 @@ public class HomePage extends Header {
     @FindBy(xpath = "(//a[@class='yuimenuitemlabel'])[3]/span")
     private WebElement buildNowButton;
 
-
     public HomePage(WebDriver driver) {
         super(driver);
     }

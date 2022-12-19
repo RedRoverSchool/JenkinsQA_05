@@ -1,6 +1,7 @@
 package model.folder;
 
 import model.HomePage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -19,6 +20,9 @@ public class FolderConfigPage extends HomePage {
 
     @FindBy(xpath = "//textarea[@name='_.description']")
     private WebElement description;
+
+    @FindBy(xpath = "//button[text()='Apply']")
+    private WebElement applyButton;
 
     public FolderConfigPage(WebDriver driver) {
         super(driver);
@@ -48,5 +52,11 @@ public class FolderConfigPage extends HomePage {
         description.sendKeys(inputDescription);
 
         return new FolderConfigPage(getDriver());
+    }
+
+    public FolderStatusPage clickApplyButton() {
+        getWait(5).until(ExpectedConditions.visibilityOf(applyButton)).click();
+
+        return new FolderStatusPage(getDriver());
     }
 }
