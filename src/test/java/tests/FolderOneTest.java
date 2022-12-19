@@ -200,7 +200,7 @@ public class FolderOneTest extends BaseTest {
                 .clickCreateJob()
                 .setItemName(RANDOM_NAME_2)
                 .selectFolderAndClickOk()
-                .clickDisplayName("NewDisplayName")
+                .setDisplayName("NewDisplayName")
                 .clickSaveBtn(FolderStatusPage.class);
 
         Assert.assertTrue(statusPage.getHeaderText().contains("NewDisplayName"));

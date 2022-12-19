@@ -60,6 +60,15 @@ public class FolderStatusPage extends BaseStatusPage {
     @FindBy(id = "view-message")
     private WebElement textDescription;
 
+    @FindBy(linkText = "Add description")
+    private WebElement addDescription;
+
+    @FindBy(css = ".jenkins-input")
+    private WebElement inputFieldDescription;
+
+    @FindBy(css = "#description>div:first-child")
+    private WebElement description;
+
     public FolderStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -154,8 +163,31 @@ public class FolderStatusPage extends BaseStatusPage {
         return textAddress.getText();
     }
 
-    public String getTextDescription(String des) {
+    public String getTextDescription() {
 
         return textDescription.getText();
+    }
+
+    public String getFolderName() {
+        String[] namesBlock = getDriver().findElement(By.id("main-panel")).getText().split("\n");
+
+        return namesBlock[1];
+    }
+
+    public FolderStatusPage clickAddDescription() {
+        addDescription.click();
+
+        return this;
+    }
+
+    public FolderStatusPage setDescription(String description) {
+        inputFieldDescription.sendKeys(description);
+
+        return this;
+    }
+
+    public String getTextDescriptionOnPage() {
+
+        return description.getText();
     }
 }

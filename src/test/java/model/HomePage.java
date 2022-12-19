@@ -1,11 +1,12 @@
 package model;
 
-import model.base.Header;
+import model.base.Breadcrumbs;
 import model.folder.FolderConfigPage;
 import model.folder.FolderStatusPage;
 import model.freestyle.FreestyleProjectConfigPage;
 import model.freestyle.FreestyleProjectStatusPage;
 import model.multibranch_pipeline.DeleteMultibranchPipelinePage;
+import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import model.organization_folder.OrgFolderStatusPage;
 import model.pipeline.PipelineConfigPage;
@@ -17,14 +18,13 @@ import model.views.ViewPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import runner.TestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static runner.TestUtils.scrollToElement;
 
-public class HomePage extends Header {
+public class HomePage extends Breadcrumbs {
 
     @FindBy(linkText = "Build History")
     private WebElement buildHistory;
@@ -98,14 +98,8 @@ public class HomePage extends Header {
     @FindBy(xpath = "//span[contains(@class, 'build-status-icon')]/span/child::*")
     private WebElement buildStatusIcon;
 
-    @FindBy(xpath = "//*[@id='job_Pipeline1']/td[4]")
-    private WebElement lastSuccessStatus;
-
     @FindBy(xpath = "(//*[local-name()='svg' and @tooltip='Disabled'])[2]")
     private WebElement projectDisabledIcon;
-
-    @FindBy(xpath = "//span[text()=\"Pipeline1\"]")
-    private WebElement pipeline1;
 
     @FindBy(id = "description-link")
     private WebElement addDescriptionButton;
@@ -127,7 +121,6 @@ public class HomePage extends Header {
 
     @FindBy(xpath = "(//a[@class='yuimenuitemlabel'])[3]/span")
     private WebElement buildNowButton;
-
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -203,16 +196,22 @@ public class HomePage extends Header {
     }
 
     public HomePage clickJobDropDownMenu(String name) {
-        getWait(2).until(ExpectedConditions.elementToBeClickable(By.xpath(String.format(
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.xpath(String.format(
                 "//tr[@id='job_%s']//button[@class='jenkins-menu-dropdown-chevron']", name)))).click();
 
         return this;
     }
 
-    public JobPage clickJob(String name) {
+    public FolderStatusPage clickJob(String name) {
         getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
 
-        return new JobPage(getDriver());
+        return new FolderStatusPage(getDriver());
+    }
+
+    public MultibranchPipelineStatusPage clickJobMBPipeline(String name) {
+        getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
+
+        return new MultibranchPipelineStatusPage(getDriver());
     }
 
     public PipelineConfigPage clickConfigureDropDownMenu() {
@@ -370,9 +369,9 @@ public class HomePage extends Header {
         return new ViewPage(getDriver());
     }
 
-    public String getLastSuccessText() {
+    public String getLastSuccessText(String name) {
 
-        return lastSuccessStatus.getText();
+        return getDriver().findElement(By.xpath(String.format("//*[@id='job_%s']/td[4]", name))).getText();
     }
 
     public String getJobName(String name) {
@@ -389,12 +388,6 @@ public class HomePage extends Header {
 
     public Boolean getProjectIconText() {
         return projectDisabledIcon.isDisplayed();
-    }
-
-    public PipelineStatusPage clickPipeline1() {
-        pipeline1.click();
-
-        return new PipelineStatusPage(getDriver());
     }
 
     public String getStatusBuildText() {

@@ -2,6 +2,7 @@ package model;
 
 import model.base.BasePage;
 import model.folder.FolderStatusPage;
+import model.organization_folder.OrgFolderStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,4 +31,11 @@ public class MovePage extends BasePage {
 
         return new FolderStatusPage(getDriver());
     }
+
+    public OrgFolderStatusPage clickMoveForOrgFolder() {
+        moveButton.click();
+
+        return new OrgFolderStatusPage(getDriver());
+    }
+
 }

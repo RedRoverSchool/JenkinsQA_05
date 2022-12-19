@@ -3,6 +3,7 @@ package model.pipeline;
 import model.base.BaseStatusPage;
 import model.BuildWithParametersPage;
 import model.HomePage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -43,9 +44,6 @@ public class PipelineStatusPage extends BaseStatusPage {
     @FindBy(xpath = "//span[@class='task-link-wrapper ']//span[2]")
     private List<WebElement> pipelineSideMenuLinks;
 
-    @FindBy(xpath = "//a[@href='/job/Pipeline1/build?delay=0sec']")
-    private WebElement buildNowButton;
-
     @FindBy(className = "duration")
     private WebElement stageView;
 
@@ -57,6 +55,9 @@ public class PipelineStatusPage extends BaseStatusPage {
 
     @FindBy(id = "enable-project")
     private WebElement messageDisabledProject;
+
+    @FindBy(id = "description-link")
+    private WebElement editDescriptionLink;
 
     public PipelineStatusPage(WebDriver driver) {
         super(driver);
@@ -121,8 +122,8 @@ public class PipelineStatusPage extends BaseStatusPage {
         return pipelineProjectText;
     }
 
-    public PipelineStatusPage clickBuildNow() {
-        buildNowButton.click();
+    public PipelineStatusPage clickBuildNow(String name) {
+        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/build?delay=0sec']", name))).click();
         getWait(20).until(ExpectedConditions.visibilityOf(stageView));
 
         return this;
@@ -146,5 +147,11 @@ public class PipelineStatusPage extends BaseStatusPage {
 
     public String getPipelineTitle() {
         return pipelineName.getText();
+    }
+
+    public PipelineStatusPage clickEditDescriptionLink() {
+        editDescriptionLink.click();
+
+        return new PipelineStatusPage(getDriver());
     }
 }
