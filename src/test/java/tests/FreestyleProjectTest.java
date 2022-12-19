@@ -25,7 +25,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .setItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn(FreestyleProjectStatusPage.class)
-                .getHeadlineText();
+                .getNameText();
 
         Assert.assertEquals(freestyleProjectTitle, String.format("Project %s", FREESTYLE_NAME));
     }
@@ -50,7 +50,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickFreestyleProjectName(FREESTYLE_NAME)
                 .clickDisableProjectBtn();
 
-        Assert.assertEquals(freestyleProjectStatusPage.getHeadlineText(), String.format("Project %s", FREESTYLE_NAME));
+        Assert.assertEquals(freestyleProjectStatusPage.getNameText(), String.format("Project %s", FREESTYLE_NAME));
         Assert.assertEquals(freestyleProjectStatusPage.getWarningMsg(), "This project is currently disabled");
 
         HomePage homePage = freestyleProjectStatusPage.clickDashboard();
@@ -73,7 +73,7 @@ public class FreestyleProjectTest extends BaseTest {
         final FreestyleProjectStatusPage freestyleProjectStatusPage = new HomePage(getDriver())
                 .clickFreestyleProjectName(FREESTYLE_NAME);
 
-        Assert.assertEquals(freestyleProjectStatusPage.getHeadlineText(), String.format("Project %s", FREESTYLE_NAME));
+        Assert.assertEquals(freestyleProjectStatusPage.getNameText(), String.format("Project %s", FREESTYLE_NAME));
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectPageIsOpenedFromDashboard")
@@ -129,7 +129,7 @@ public class FreestyleProjectTest extends BaseTest {
     public void testViewFreestyleProjectPage() {
         String freestyleName = new HomePage(getDriver())
                 .clickFreestyleProjectName()
-                .getHeadlineText();
+                .getNameText();
 
         Assert.assertEquals(freestyleName, String.format("Project %s", NEW_FREESTYLE_NAME));
     }
@@ -259,7 +259,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickSaveButton()
                 .clickButtonBuildWithParameters();
 
-        Assert.assertEquals(page.getProjectName(), NEW_FREESTYLE_NAME);
+        Assert.assertTrue(page.getNameText().contains(NEW_FREESTYLE_NAME));
         Assert.assertEquals(page.getPageNotificationText(), pageNotification);
         Assert.assertEquals(page.getFirstParamName(), stringParameterName);
         Assert.assertEquals(page.getFirstParamValue(), stringParameterDefaultValue);

@@ -14,9 +14,6 @@ import java.util.List;
 
 public class FreestyleProjectStatusPage extends BaseStatusPage {
 
-    @FindBy(tagName = "h1")
-    private WebElement headline;
-
     @FindBy(linkText = "Configure")
     private WebElement sideMenuConfigure;
 
@@ -37,9 +34,6 @@ public class FreestyleProjectStatusPage extends BaseStatusPage {
 
     @FindBy(id = "yui-gen2")
     private WebElement buttonSave;
-
-    @FindBy(xpath = "//div[@id = 'description'] /div[1]")
-    private WebElement description;
 
     @FindBy(xpath = "//span[contains(text(),'Delete Project')]")
     private WebElement buttonDeleteProject;
@@ -96,10 +90,6 @@ public class FreestyleProjectStatusPage extends BaseStatusPage {
         return new FreestyleConfigSideMenuPage(getDriver());
     }
 
-    public String getHeadlineText() {
-        return headline.getText();
-    }
-
     public FolderStatusPage clickParentFolderInBreadcrumbs() {
         breadcrumbsParentFolderLink.click();
 
@@ -132,11 +122,6 @@ public class FreestyleProjectStatusPage extends BaseStatusPage {
         return this;
     }
 
-    public String getDescriptionText() {
-
-        return description.getText();
-    }
-
     public FreestyleProjectStatusPage clickButtonDeleteProject() {
         getWait(10).until(ExpectedConditions.elementToBeClickable(buttonDeleteProject)).click();
 
@@ -158,10 +143,6 @@ public class FreestyleProjectStatusPage extends BaseStatusPage {
     public String getFreestyleProjectName(String name) {
 
         return projectButton.getText();
-    }
-
-    public String getProjectName() {
-        return headline.getText().substring(8);
     }
 
     public FreestyleProjectStatusPage openBuildHistoryOnSidePanel() {
