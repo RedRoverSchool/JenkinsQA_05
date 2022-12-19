@@ -4,6 +4,7 @@ import model.BuildWithParametersPage;
 import model.HomePage;
 import model.base.BasePage;
 import model.base.Breadcrumbs;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -46,9 +47,6 @@ public class PipelineStatusPage extends Breadcrumbs {
 
     @FindBy(xpath = "//span[@class='task-link-wrapper ']//span[2]")
     private List<WebElement> pipelineSideMenuLinks;
-
-    @FindBy(xpath = "//a[@href='/job/Pipeline1/build?delay=0sec']")
-    private WebElement buildNowButton;
 
     @FindBy(className = "duration")
     private WebElement stageView;
@@ -134,8 +132,8 @@ public class PipelineStatusPage extends Breadcrumbs {
         return pipelineProjectText;
     }
 
-    public PipelineStatusPage clickBuildNow() {
-        buildNowButton.click();
+    public PipelineStatusPage clickBuildNow(String name) {
+        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/build?delay=0sec']", name))).click();
         getWait(20).until(ExpectedConditions.visibilityOf(stageView));
 
         return this;

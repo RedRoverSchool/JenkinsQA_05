@@ -381,7 +381,7 @@ public class PipelineTest extends BaseTest {
 
         String actualCheckIcon = new HomePage(getDriver())
                 .clickPipelineJob(PIPELINE_NAME)
-                .clickBuildNow()
+                .clickBuildNow(PIPELINE_NAME)
                 .clickDashboard()
                 .movePointToCheckBox()
                 .getStatusBuildText();
