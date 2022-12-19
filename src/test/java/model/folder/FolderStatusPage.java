@@ -2,6 +2,7 @@ package model.folder;
 
 import model.base.BaseStatusPage;
 import model.MovePage;
+import model.freestyle.FreestyleProjectStatusPage;
 import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import model.NewItemPage;
 import org.openqa.selenium.By;
@@ -189,5 +190,11 @@ public class FolderStatusPage extends BaseStatusPage {
     public String getTextDescriptionOnPage() {
 
         return description.getText();
+    }
+
+    public FreestyleProjectStatusPage clickProject(String name) {
+        getDriver().findElement(By.linkText(name)).click();
+
+        return new FreestyleProjectStatusPage(getDriver());
     }
 }

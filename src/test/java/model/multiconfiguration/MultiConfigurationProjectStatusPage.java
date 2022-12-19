@@ -59,6 +59,9 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
     @FindBy(css = ".build-status-icon__outer>[tooltip = 'Success &gt; Console Output']")
     private WebElement buildLoadingIconSuccess;
 
+    @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-disabled icon-md']")
+    private WebElement iconProjectDisabled;
+
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -173,5 +176,11 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
         getWait(10).until(ExpectedConditions.visibilityOf((buildLoadingIconSuccess)));
 
         return this;
+    }
+
+    public boolean iconProjectDisabledIsDisplayed(){
+         getWait(10).until(ExpectedConditions.visibilityOf(iconProjectDisabled));
+
+        return iconProjectDisabled.isDisplayed();
     }
 }
