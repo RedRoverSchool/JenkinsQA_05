@@ -6,11 +6,13 @@ import model.CreateItemErrorPage;
 import model.HomePage;
 import model.base.BaseStatusPage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class CopyItemTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testCopyFromNotExistItemName() {
         final String nameItem = getRandomStr();
