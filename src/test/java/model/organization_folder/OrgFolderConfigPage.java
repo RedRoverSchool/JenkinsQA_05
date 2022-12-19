@@ -19,6 +19,9 @@ public class OrgFolderConfigPage extends HomePage {
     @FindBy(id = "itemname-required")
     private WebElement errorMessageEmptyField;
 
+    @FindBy(id = "ok-button")
+    private WebElement okButton;
+
     public OrgFolderConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -40,8 +43,11 @@ public class OrgFolderConfigPage extends HomePage {
 
         return this;
     }
-
     public String getErrorMessageEmptyField() {
         return errorMessageEmptyField.getText();
+    }
+
+    public boolean isOkButtonEnabled() {
+        return okButton.isEnabled();
     }
 }

@@ -2,6 +2,7 @@ package tests;
 
 import model.HomePage;
 import model.folder.FolderStatusPage;
+import model.organization_folder.OrgFolderConfigPage;
 import model.organization_folder.OrgFolderStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -162,6 +163,15 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(errMessageEmptyName,
                 "» This field cannot be empty, please enter a valid name");
     }
+    @Test
+    public void testCreateOrgFolderEmptyName() {
+        OrgFolderConfigPage orgFolderConfigPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName("")
+                .selectOrgFolderAndClickOk();
+        Assert.assertFalse(orgFolderConfigPage.isOkButtonEnabled());
+    }
+
 
     @Ignore
     @Test
