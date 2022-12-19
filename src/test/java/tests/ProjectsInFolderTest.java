@@ -19,7 +19,7 @@ public class ProjectsInFolderTest extends BaseTest {
                 .selectFolderAndClickOk()
                 .clickDashboard();
 
-        Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME));
+        Assert.assertTrue(homePage.getJobNamesList().contains(RANDOM_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateFolder")

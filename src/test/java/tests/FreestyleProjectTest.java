@@ -4,7 +4,6 @@ import model.*;
 import model.freestyle.FreestyleProjectConfigPage;
 import model.freestyle.FreestyleProjectStatusPage;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.HashSet;
@@ -121,7 +120,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clearFieldAndInputNewName(NEW_FREESTYLE_NAME)
                 .clickSubmitButton()
                 .clickDashboard()
-                .getJobList();
+                .getJobNamesList();
 
         Assert.assertFalse(jobsList.contains(FREESTYLE_NAME));
         Assert.assertTrue(jobsList.contains(NEW_FREESTYLE_NAME));
