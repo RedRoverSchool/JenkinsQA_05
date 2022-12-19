@@ -37,6 +37,9 @@ public class OrgFolderStatusPage extends BaseStatusPage {
     @FindBy(linkText = "Move")
     private WebElement moveButton;
 
+    @FindBy(linkText = "Up")
+    private WebElement buttonUp;
+
     public OrgFolderStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -85,5 +88,11 @@ public class OrgFolderStatusPage extends BaseStatusPage {
         getWait(5).until(ExpectedConditions.elementToBeClickable(moveButton)).click();
 
         return new MovePage(getDriver());
+    }
+
+    public HomePage clickButtonUp(){
+        getWait(5).until(ExpectedConditions.elementToBeClickable(buttonUp)).click();
+
+        return new HomePage(getDriver());
     }
 }
