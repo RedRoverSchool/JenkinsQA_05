@@ -3,6 +3,7 @@ package tests;
 import model.views.EditViewPage;
 import model.HomePage;
 import model.views.MyViewsPage;
+import model.views.NewViewPage;
 import model.views.ViewPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -98,6 +99,25 @@ public class NewView1Test extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDeselectJobsFromListView")
+    public void testCreateViewWithExistingName() {
+        NewViewPage newViewPage = new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickNewView()
+                .setViewName(LIST_VIEW_NAME)
+                .setListViewType();
+
+        Assert.assertEquals(newViewPage.getErrorMessageViewAlreadyExist(),
+                "A view with name " + LIST_VIEW_NAME + " already exists");
+
+        MyViewsPage myViewsPage = new NewViewPage(getDriver())
+                .setListViewType()
+                .clickCreateButton();
+
+        Assert.assertTrue(myViewsPage.getTextContentOnViewMainPanel().
+                contains("A view already exists with the name \"" + LIST_VIEW_NAME + "\""));
+    }
+
+    @Test(dependsOnMethods = "testCreateViewWithExistingName")
     public void testRenameView() {
         MyViewsPage myViewsPage = new HomePage(getDriver())
                 .goToEditView(LIST_VIEW_NAME)
