@@ -64,6 +64,7 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
 
     @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-nobuilt icon-md']")
     private WebElement iconProjectEnabled;
+
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -185,6 +186,7 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
 
         return iconProjectDisabled.isDisplayed();
     }
+
     public boolean iconProjectEnabledIsDisplayed(){
         getWait(10).until(ExpectedConditions.visibilityOf(iconProjectEnabled));
 
