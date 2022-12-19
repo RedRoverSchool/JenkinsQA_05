@@ -354,14 +354,15 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(buildNowButton);
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    @Test
     public void testMultiConfigurationProjectCheckConsoleOutput() {
         ConsoleOutputMultiConfigurationProjectPage multiConfigProjectConsole = new HomePage(getDriver())
-                .clickProject(PROJECT_NAME)
-                .clickConfiguration(PROJECT_NAME)
+                .clickNewItem()
+                .setItemName(PROJECT_NAME)
+                .selectMultiConfigurationProjectAndClickOk()
                 .scrollAndClickBuildSteps()
-                .selectionAndClickExecuteWindowsFromBuildSteps().enterCommandInBuildSteps("echo Hello world!")
+                .selectionAndClickExecuteWindowsFromBuildSteps()
+                .enterCommandInBuildSteps("echo Hello world!")
                 .clickSaveButton()
                 .clickBuildNowButton()
                 .clickDropDownBuildIcon()

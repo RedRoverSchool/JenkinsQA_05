@@ -31,10 +31,10 @@ public class MultiConfigurationProjectConfigPage extends HomePage {
     @FindBy(xpath = "//button[text()='Add build step']")
     private WebElement addBuildStepButton;
 
-    @FindBy(id = "yui-gen29")
+    @FindBy(xpath = "//a[text()='Execute Windows batch command']")
     private WebElement executeWindowsFromBuildSteps;
 
-    @FindBy(id = "yui-gen38-button")
+    @FindBy(xpath = "//button[text()='Add build step']")
     private WebElement advancedBuildStepsButton;
 
     @FindBy(css = ".jenkins-input.fixed-width")
@@ -83,7 +83,7 @@ public class MultiConfigurationProjectConfigPage extends HomePage {
     public MultiConfigurationProjectConfigPage scrollAndClickBuildSteps() {
         getWait(5).until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h2")));
         TestUtils.scrollToElement(getDriver(), buildStepsSection);
-        getWait(20).until(ExpectedConditions.elementToBeClickable(addBuildStepButton));
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(addBuildStepButton));
         addBuildStepButton.click();
 
         return this;
