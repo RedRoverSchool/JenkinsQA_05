@@ -145,8 +145,7 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
     }
 
     public MultiConfigurationProjectStatusPage clickDropDownBuildIcon() {
-        getWait(20).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='build-status-icon__outer']"
-                + "/*[name()='svg'][@tooltip='Success &gt; Console Output']")));
+        getWait(20).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".display-name")));
         dropDownBuildIcon.click();
 
         return this;
