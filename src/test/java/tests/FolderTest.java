@@ -6,6 +6,7 @@ import model.freestyle.FreestyleProjectStatusPage;
 import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -183,6 +184,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(projectNamesInFolder.contains(FREESTYLE_PROJECT_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProjectInFolderNewItem")
     public void testDeleteFreestyleProjectInFolder() {
 
