@@ -14,7 +14,7 @@ import java.time.Duration;
 import java.util.List;
 
 public class HeaderTest extends BaseTest {
-    
+
     @Test
     public void testSeeNameIcon() {
 

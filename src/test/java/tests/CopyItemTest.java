@@ -4,6 +4,7 @@ import static runner.TestUtils.getRandomStr;
 
 import model.CreateItemErrorPage;
 import model.HomePage;
+import model.freestyle.FreestyleProjectStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -52,7 +53,7 @@ public class CopyItemTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(nameFreestyleProject)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard();
     }
 }
