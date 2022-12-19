@@ -36,7 +36,7 @@ public class NewViewTest extends BaseTest {
             return false;
         }
     }
-    @Ignore
+
     @Test
     public void testCreateNewView() {
         ProjectUtils.createNewItemFromDashboard(getDriver(), PIPELINE, TestUtils.getRandomStr(6));
