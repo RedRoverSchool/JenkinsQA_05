@@ -71,7 +71,6 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(homePage.getJobList().contains("New name " + nameOrgFolderPOM));
     }
-
     @Test
     public void testCreateOrgFolder() {
         List<String> allFolders = new HomePage(getDriver())
