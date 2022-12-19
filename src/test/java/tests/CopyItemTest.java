@@ -4,6 +4,7 @@ import static runner.TestUtils.getRandomStr;
 
 import model.CreateItemErrorPage;
 import model.HomePage;
+import model.freestyle.FreestyleProjectStatusPage;
 import model.base.BaseStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -12,7 +13,6 @@ import runner.BaseTest;
 
 public class CopyItemTest extends BaseTest {
 
-    @Ignore
     @Test
     public void testCopyFromNotExistItemName() {
         final String nameItem = getRandomStr();
@@ -55,7 +55,7 @@ public class CopyItemTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(nameFreestyleProject)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn(BaseStatusPage.class)
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard();
     }
 }

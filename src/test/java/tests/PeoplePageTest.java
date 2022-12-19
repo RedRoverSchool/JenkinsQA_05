@@ -1,8 +1,7 @@
 package tests;
 
-import model.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import model.HomePage;
+import model.PeoplePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -12,32 +11,24 @@ import java.util.List;
 import static runner.TestUtils.getRandomStr;
 
 public class PeoplePageTest extends BaseTest {
-
-
-    private static final String user_name = runner.TestUtils.getRandomStr();
-    private static final String password = getRandomStr(7);
-    private static final String email = getRandomStr(5) + "@gmail.com";
+    private static final String USER_NAME = runner.TestUtils.getRandomStr();
+    private static final String PASSWORD = getRandomStr(7);
+    private static final String EMAIL = getRandomStr(5) + "@gmail.com";
 
     @Test
-    public void testPeoplePage() {
-        getDriver().findElement(By.xpath("//a[@href='/asynchPeople/']")).click();
-        getDriver().findElement(By.xpath("//h1[contains(text(),'People')]")).isDisplayed();
-        getDriver().findElement(By.xpath("//p[@class='jenkins-description']")).isDisplayed();
-
-        List<WebElement> sizes = getDriver().findElements(By.tagName("//ol/li"));
-        for (WebElement eachSize : sizes) {
-            eachSize.click();
-
-            List<WebElement> columns = getDriver().findElements(By.tagName("//th"));
-            for (WebElement columnName : columns) {
-                columnName.click();
-
-                getDriver().findElement(By.id("side-panel")).isDisplayed();
-                getDriver().findElement(By.id("footer")).isDisplayed();
-
-                Assert.assertTrue(getDriver().findElement(By.id("main-panel")).isDisplayed());
-            }
-        }
+    public void testPeoplePageContent() {
+        PeoplePage peoplePage = new HomePage(getDriver())
+                .clickPeople();
+        Assert.assertEquals(peoplePage.getHeader(), "People");
+        Assert.assertEquals(peoplePage.getDescription(), "Includes all known “users”," +
+                " including login identities which the current security realm can enumerate," +
+                " as well as people mentioned in commit messages in recorded changelogs.");
+        Assert.assertTrue(peoplePage.isDisplayedSidePanel(), "Side Panel is not displayed");
+        Assert.assertTrue(peoplePage.isDisplayedFooter(), "Footer is not displayed");
+        Assert.assertEquals(peoplePage.getPeopleTableColumnsAmount(), 5);
+        Assert.assertEquals(peoplePage.getPeopleTableColumnsAsString(), "User ID Name Last Commit Activity On");
+        Assert.assertEquals(peoplePage.getIconLabel(), "Icon:");
+        Assert.assertEquals(peoplePage.getListIconSizeButtonsAsString(), "Small Medium Large");
     }
 
     @Test
@@ -46,16 +37,16 @@ public class PeoplePageTest extends BaseTest {
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
-                .setUsername(user_name)
-                .setPassword(password)
-                .confirmPassword(password)
-                .setFullName(user_name)
-                .setEmail(email)
+                .setUsername(USER_NAME)
+                .setPassword(PASSWORD)
+                .confirmPassword(PASSWORD)
+                .setFullName(USER_NAME)
+                .setEmail(EMAIL)
                 .clickCreateUserButton()
                 .rootMenuDashboardLinkClick()
                 .clickPeople();
 
-        Assert.assertTrue(peoplePage.getListOfUsers().contains(user_name));
+        Assert.assertTrue(peoplePage.getListOfUsers().contains(USER_NAME), USER_NAME + " not found");
     }
 
     @Test(dependsOnMethods = "testFindUserInThePeopleSection")
@@ -64,12 +55,12 @@ public class PeoplePageTest extends BaseTest {
                 .rootMenuDashboardLinkClick()
                 .clickManageJenkins()
                 .clickManageUsers()
-                .clickDeleteUser(user_name)
+                .clickDeleteUser(USER_NAME)
                 .clickYesToManageUsersPage()
                 .rootMenuDashboardLinkClick()
                 .clickPeople();
 
-        Assert.assertFalse(peoplePage.getListOfUsers().contains(user_name));
+        Assert.assertFalse(peoplePage.getListOfUsers().contains(USER_NAME),USER_NAME + " wasn't deleted");
     }
 
     @Test
@@ -78,15 +69,17 @@ public class PeoplePageTest extends BaseTest {
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
-                .setUsername(user_name)
-                .setPassword(password)
-                .confirmPassword(password)
-                .setFullName(user_name)
-                .setEmail(email)
+                .setUsername(USER_NAME)
+                .setPassword(PASSWORD)
+                .confirmPassword(PASSWORD)
+                .setFullName(USER_NAME)
+                .setEmail(EMAIL)
                 .clickCreateUserButton()
+                .rootMenuDashboardLinkClick()
+                .clickPeople()
                 .getListOfUsers();
 
-        Assert.assertTrue(userList.contains(user_name));
+        Assert.assertTrue(userList.contains(USER_NAME), USER_NAME + " not found");
     }
 
     @Test
@@ -94,6 +87,6 @@ public class PeoplePageTest extends BaseTest {
         var peoplePage = new HomePage(getDriver())
                 .clickPeople();
 
-        Assert.assertEquals(peoplePage.getTitle(), "People");
+        Assert.assertEquals(peoplePage.getHeader(), "People");
     }
 }

@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -15,7 +14,6 @@ import java.time.Duration;
 import java.util.List;
 
 public class HeaderTest extends BaseTest {
-
 
     @Test
     public void testSeeNameIcon() {
@@ -137,7 +135,6 @@ public class HeaderTest extends BaseTest {
         Assert.assertTrue(actualResultPage);
     }
 
-    @Ignore
     @Test
     public void testCheckTheAppropriateSearchResult() {
         String organizationFolderName = "OrganizationFolder_" + (int) (Math.random() * 1000);
@@ -148,7 +145,7 @@ public class HeaderTest extends BaseTest {
                 .setItemName(organizationFolderName)
                 .selectOrgFolderAndClickOk()
                 .clickSaveBtn(OrgFolderStatusPage.class)
-                .clickButtonUp()
+                .clickDashboard()
                 .setSearchFieldAndClickEnter(searchRequest)
                 .getSearchResultList();
 
