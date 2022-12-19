@@ -6,6 +6,7 @@ import model.folder.FolderStatusPage;
 import model.freestyle.FreestyleProjectConfigPage;
 import model.freestyle.FreestyleProjectStatusPage;
 import model.multibranch_pipeline.DeleteMultibranchPipelinePage;
+import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import model.organization_folder.OrgFolderStatusPage;
 import model.pipeline.PipelineConfigPage;
@@ -217,10 +218,16 @@ public class HomePage extends Header {
         return this;
     }
 
-    public JobPage clickJob(String name) {
+    public FolderStatusPage clickJob(String name) {
         getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
 
-        return new JobPage(getDriver());
+        return new FolderStatusPage(getDriver());
+    }
+
+    public MultibranchPipelineStatusPage clickJobMBPipeline(String name) {
+        getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
+
+        return new MultibranchPipelineStatusPage(getDriver());
     }
 
     public PipelineConfigPage clickConfigureDropDownMenu() {
@@ -517,5 +524,18 @@ public class HomePage extends Header {
         getDriver().findElement(By.linkText(name)).click();
 
         return new OrgFolderStatusPage(getDriver());
+    }
+    public PipelineProjectPage clickPipelineJob(String name) {
+        getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
+
+        return new PipelineProjectPage(getDriver());
+    }
+    public String getJobListAsString() {
+        StringBuilder listProjectsNames = new StringBuilder();
+        for (WebElement projects : jobList) {
+            listProjectsNames.append(projects.getText()).append(" ");
+        }
+
+        return listProjectsNames.toString().trim();
     }
 }

@@ -5,6 +5,7 @@ import model.HomePage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -23,7 +24,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
 
         String projectName = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(FREESTYLE_NAME)
+                .setItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .getFreestyleProjectName(FREESTYLE_NAME);
 

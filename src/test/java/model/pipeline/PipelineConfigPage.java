@@ -35,6 +35,9 @@ public class PipelineConfigPage extends HomePage {
     @FindBy(className = "textarea-show-preview")
     private WebElement previewLink;
 
+    @FindBy(className = "textarea-hide-preview")
+    private WebElement hidePreviewLink;
+
     @FindBy(className = "textarea-preview")
     private WebElement textareaPreview;
 
@@ -61,6 +64,9 @@ public class PipelineConfigPage extends HomePage {
 
     @FindBy(name = "_.url")
     private WebElement gitHub;
+
+    @FindBy(className = "textarea-preview")
+    private WebElement previewTextDescription;
 
     public PipelineConfigPage(WebDriver driver) {
         super(driver);
@@ -132,6 +138,12 @@ public class PipelineConfigPage extends HomePage {
         return this;
     }
 
+    public PipelineConfigPage clickHidePreviewLink() {
+        hidePreviewLink.click();
+
+        return this;
+    }
+
     public String getTextareaPreview() {
         return textareaPreview.getText();
     }
@@ -189,4 +201,10 @@ public class PipelineConfigPage extends HomePage {
 
         return this;
     }
+
+    public boolean isDisplayedPreviewTextDescription() {
+        return previewTextDescription.isDisplayed();
+    }
+
+
 }

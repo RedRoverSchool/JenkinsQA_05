@@ -9,6 +9,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -20,7 +21,7 @@ import java.util.List;
 public class PipelineTest extends BaseTest {
     private static final String RENAME_SUFFIX = "renamed";
     private static final String PIPELINE_NAME = TestUtils.getRandomStr();
-    private static final String pipeline_name = TestUtils.getRandomStr();
+    private static final String PIPELINE_DESCRIPTION = PIPELINE_NAME + " description";
     private static final String VIEW_NAME = RandomStringUtils.randomAlphanumeric(5);
     private static final String RANDOM_STRING = TestUtils.getRandomStr(7);
     private static final String ITEM_DESCRIPTION = "This is a sample description for item";
@@ -55,7 +56,7 @@ public class PipelineTest extends BaseTest {
     private HomePage createPipelineProject(String projectName) {
         new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(projectName)
+                .setItemName(projectName)
                 .selectPipelineAndClickOk()
                 .saveConfigAndGoToProjectPage()
                 .clickDashboard();
@@ -69,11 +70,11 @@ public class PipelineTest extends BaseTest {
         getDriver().switchTo().alert().accept();
     }
 
-    private HomePage renamePipelineProject(String name, String rename) {
+    private HomePage renamePipelineProject(String name, String postfix) {
         new HomePage(getDriver())
                 .clickJobDropDownMenu(name)
                 .clickRenameDropDownMenu()
-                .clearFieldAndInputNewName(name + rename)
+                .clearFieldAndInputNewName(name + postfix)
                 .clickSubmitButton();
         return new HomePage(getDriver());
     }
@@ -99,73 +100,60 @@ public class PipelineTest extends BaseTest {
     private PipelineConfigPage createPipelineProjectCuttedVersion(String projectName) {
         return new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(pipeline_name)
+                .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk();
     }
 
-    @Ignore
     @Test
     public void testDisablePipelineProjectMessage() {
+        createPipelineProject(PIPELINE_NAME);
+        String actualMessageDisabledProject = new HomePage(getDriver())
+                .clickPipelineJob(PIPELINE_NAME)
+                .clickDisableProject()
+                .getMessageDisabledProject();
 
-        String pipelinePojectName = generatePipelineProjectName();
-        createPipelineProject(pipelinePojectName);
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(By.xpath(String.format("//td/a/span[contains(text(),'%s')]", pipelinePojectName))).click();
-        getDriver().findElement(BUTTON_DISABLE_PROJECT).click();
-
-        Assert.assertTrue(getDriver().findElement(By.id("enable-project")).getText()
-                .contains("This project is currently disabled"));
+        Assert.assertEquals(actualMessageDisabledProject, "This project is currently disabled");
     }
 
     @Test
     public void testCreatedPipelineDisplayedOnMyViews() {
-
-        final String pipelineName = TestUtils.getRandomStr(5);
-
-        MyViewsPage pipelineNameInMyViewList = new HomePage(getDriver())
+        String pipelineNameInMyViewList = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(pipelineName)
+                .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
                 .clickDashboard()
-                .clickMyViewsSideMenuLink();
+                .clickMyViewsSideMenuLink().getListProjectsNamesAsString();
 
-        Assert.assertTrue(pipelineNameInMyViewList.getListProjectsNames().contains(pipelineName));
-    }
-
-    @Test
-    public void testPipelineAddDescription() {
-
-        PipelineProjectPage pipelineProjectPage = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(pipeline_name)
-                .selectPipelineAndClickOk()
-                .saveConfigAndGoToProjectPage()
-                .editDescription(pipeline_name + "description")
-                .clickSaveButton();
-
-        Assert.assertEquals(pipelineProjectPage.getDescription(), pipeline_name + "description");
+        Assert.assertTrue(pipelineNameInMyViewList.contains(PIPELINE_NAME), PIPELINE_NAME + " Pipeline not found");
     }
 
     @Ignore
     @Test
-    public void testNewPipelineItemAppearedInTheList() {
+    public void testPipelineAddDescription() {
+        PipelineProjectPage pipelineProjectPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PIPELINE_NAME)
+                .selectPipelineAndClickOk()
+                .saveConfigAndGoToProjectPage()
+                .editDescription(PIPELINE_NAME + "description")
+                .clickSaveButton();
 
-        String pipelineProjectName = generatePipelineProjectName();
-        createPipelineProject(pipelineProjectName);
-
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//a[@href='job/" + pipelineProjectName + "/']")).getText(), pipelineProjectName);
+        Assert.assertEquals(pipelineProjectPage.getDescription(), PIPELINE_NAME + "description");
     }
 
+    @Test
+    public void testNewPipelineItemDisplayedOnDashboard() {
+        createPipelineProject(PIPELINE_NAME);
+
+        Assert.assertTrue(new HomePage(getDriver()).getJobListAsString().contains(PIPELINE_NAME), PIPELINE_NAME + " Pipeline not found");
+    }
 
     @Test
     public void testRenamePipelineWithValidName() {
         createPipelineProject(PIPELINE_NAME);
         renamePipelineProject(PIPELINE_NAME, RENAME_SUFFIX);
 
-        Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//h1[@class='job-index-headline page-headline']"))
-                .getText(), "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
+        Assert.assertEquals(new PipelineProjectPage(getDriver()).getPipelineTitle(), "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
     }
 
     @Test
@@ -173,20 +161,21 @@ public class PipelineTest extends BaseTest {
         createPipelineProject(PIPELINE_NAME);
         createNewViewOfTypeMyView();
         renamePipelineProject(PIPELINE_NAME, RENAME_SUFFIX);
-        ViewPage viewPage = new HomePage(getDriver())
+
+        String actualJobListAsString = new HomePage(getDriver())
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
-                .clickView(VIEW_NAME);
+                .clickView(VIEW_NAME)
+                .getJobListAsString();
 
-        Assert.assertEquals(viewPage.getJobName(PIPELINE_NAME + RENAME_SUFFIX), PIPELINE_NAME + RENAME_SUFFIX);
+        Assert.assertTrue(actualJobListAsString.contains(PIPELINE_NAME + RENAME_SUFFIX), PIPELINE_NAME + RENAME_SUFFIX + " Pipeline not found");
     }
 
     @Test
     public void testRenamePipelineWithoutChangingName() {
-
         RenameItemErrorPage renameItemErrorPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(PIPELINE_NAME)
+                .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
                 .saveConfigAndGoToProjectPage()
                 .clickDashboard()
@@ -198,47 +187,46 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(renameItemErrorPage.getErrorMessage(), "The new name is the same as the current name.");
     }
 
-    @Test
-    public void testRenamePipelineUsingSpecialCharacter() {
-        final List<Character> specialCharacters = List.of('!', '@', '#', '$', '%', '^', '*', '[', ']', '\\', '|', ';', ':', '/', '?');
-        createPipelineProject(PIPELINE_NAME);
-        for (Character character : specialCharacters) {
-            RenameItemErrorPage renameItemErrorPage = new HomePage(getDriver())
-                    .clickDashboard()
-                    .clickJobDropDownMenu(PIPELINE_NAME)
-                    .clickRenameDropDownMenu()
-                    .clearFieldAndInputNewName(PIPELINE_NAME + character)
-                    .clickSaveButton();
+    @DataProvider(name = "specialCharacters")
+    public Object[][] specialCharactersList() {
+        return new Object[][]{{'&', "&amp;"}, {'>', "&gt;"}, {'<', "&lt;"}, {'!', "!"}, {'@', "@"}, {'#', "#"}, {'$', "$"}, {'%', "%"}, {'^', "^"}, {'*', "*"}, {'[', "["}, {']', "]"}, {'\\', "\\"}, {'|', "|"}, {';', ";"}, {':', ":"}, {'/', "/"}, {'?', "?"},};
+    }
 
-            Assert.assertEquals(renameItemErrorPage.getErrorMessage(), String.format("‘%s’ is an unsafe character", character));
-        }
+    @Test(dataProvider = "specialCharacters")
+    public void testRenamePipelineUsingSpecialCharacter(Character unsafeCharacter, String expectedUnsafeCharacterInErrorMessage) {
+        createPipelineProject(PIPELINE_NAME);
+
+        String actualRenameErrorMessage = new HomePage(getDriver())
+                .clickDashboard()
+                .clickJobDropDownMenu(PIPELINE_NAME)
+                .clickRenameDropDownMenu()
+                .clearFieldAndInputNewName(PIPELINE_NAME + unsafeCharacter)
+                .clickSaveButton()
+                .getErrorMessage();
+
+        Assert.assertEquals(actualRenameErrorMessage, String.format("‘%s’ is an unsafe character", expectedUnsafeCharacterInErrorMessage));
     }
 
     @Test
     public void testPipelinePreviewDescription() {
-
-        PipelineConfigPage pipelineConfigPage = createPipelineProjectCuttedVersion(pipeline_name)
-                .setDescriptionField(pipeline_name + "description")
+        PipelineConfigPage pipelineConfigPage = createPipelineProjectCuttedVersion(PIPELINE_NAME)
+                .setDescriptionField(PIPELINE_DESCRIPTION)
                 .clickPreviewLink();
 
-        Assert.assertEquals(pipelineConfigPage.getTextareaPreview(), pipeline_name + "description");
+        Assert.assertEquals(pipelineConfigPage.getTextareaPreview(), PIPELINE_DESCRIPTION);
     }
 
-    @Ignore
     @Test
     public void testPipelineHidePreviewDescription() {
+        PipelineConfigPage pipelineConfigPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PIPELINE_NAME)
+                .selectPipelineAndClickOk()
+                .setDescriptionField(PIPELINE_DESCRIPTION)
+                .clickPreviewLink()
+                .clickHidePreviewLink();
 
-        String pipelinePojectName = TestUtils.getRandomStr();
-        createPipelineProjectCuttedVersion(pipelinePojectName);
-
-        getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(pipelinePojectName + "description");
-        getDriver().findElement(By.className("textarea-show-preview")).click();
-
-        getDriver().findElement(By.className("textarea-hide-preview")).click();
-
-        Assert.assertFalse(getDriver().findElement(By.className("textarea-preview")).isDisplayed());
-
-        getDriver().findElement(BUTTON_SAVE).click();
+        Assert.assertFalse(pipelineConfigPage.isDisplayedPreviewTextDescription());
     }
 
     @Ignore
@@ -247,7 +235,7 @@ public class PipelineTest extends BaseTest {
 
         String pipelinePojectName = TestUtils.getRandomStr();
         createPipelineProjectCuttedVersion(pipelinePojectName);
-        getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(pipelinePojectName + "description");
+        getDriver().findElement(TEXTAREA_DESCRIPTION).sendKeys(PIPELINE_DESCRIPTION);
         getDriver().findElement(BUTTON_SAVE).click();
 
         getDriver().findElement(DASHBOARD).click();
@@ -282,11 +270,11 @@ public class PipelineTest extends BaseTest {
 
         String newItemPageErrorMessage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(projectName)
+                .setItemName(projectName)
                 .selectPipelineAndClickOk()
                 .clickDashboard()
                 .clickNewItem()
-                .setProjectName(projectName)
+                .setItemName(projectName)
                 .getItemNameInvalidMsg();
 
         Assert.assertEquals(newItemPageErrorMessage, String.format("» A job already exists with the name ‘%s’", projectName));
@@ -382,7 +370,6 @@ public class PipelineTest extends BaseTest {
                 ITEM_DESCRIPTION);
     }
 
-
     @Ignore
     @Test(dependsOnMethods = "testCreateNewPipelineWithDescription")
     public void testEditPipelineDescription() {
@@ -397,7 +384,6 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
     }
 
-
     @Ignore
     @Test(dependsOnMethods = "testEditPipelineDescription")
     public void testCreateNewPipelineFromExisting() {
@@ -405,7 +391,7 @@ public class PipelineTest extends BaseTest {
 
         String actualJobName = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(jobName)
+                .setItemName(jobName)
                 .setCopyFromItemName(RANDOM_STRING)
                 .clickOk()
                 .saveConfigAndGoToProjectPage()
@@ -430,6 +416,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertNotEquals(jobStatusAfterEnable, "Disabled");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewPipelineFromExisting")
     public void testPipelineSideMenuLinks() {
         List<String> pipelineSideMenuOptionsLinks = new HomePage(getDriver())
@@ -447,7 +434,7 @@ public class PipelineTest extends BaseTest {
 
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(namePipeline)
+                .setItemName(namePipeline)
                 .selectPipelineAndClickOk()
                 .scrollToEndPipelineConfigPage()
                 .clickTrySamplePipelineDropDownMenu()

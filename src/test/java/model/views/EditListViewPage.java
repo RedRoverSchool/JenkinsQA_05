@@ -1,10 +1,12 @@
 package model.views;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.BaseUtils;
 import runner.TestUtils;
 
 import java.util.List;
@@ -21,7 +23,7 @@ public class EditListViewPage extends EditViewPage {
     private WebElement jobToAddListView;
 
     @FindBy(css = "input[json='true']+label")
-    private List<WebElement> listJobToAddListView;
+    private List<WebElement> listJobsToAddListView;
 
     @FindBy(css = ".bottom-sticker-inner--stuck")
     private WebElement bottomStickerDynamic;
@@ -31,14 +33,27 @@ public class EditListViewPage extends EditViewPage {
     }
 
     public EditListViewPage addJobsToListView(int numberOfJobs) {
-        if(listJobToAddListView.size()<numberOfJobs) {
+        if(listJobsToAddListView.size()<numberOfJobs) {
+            BaseUtils.log("Create more items");
             return null;
         }
         for(int i = 0; i < numberOfJobs; i++) {
-            listJobToAddListView.get(i).click();
+            listJobsToAddListView.get(i).click();
         }
 
-        return new EditListViewPage(getDriver());
+        return this;
+    }
+
+    public EditListViewPage addAllJobsToListView() {
+        try {
+            listJobsToAddListView
+                    .stream()
+                    .forEach(WebElement::click);
+        } catch (NoSuchElementException exception) {
+            BaseUtils.log(String.format("Jobs not found at" + getDriver().getTitle()));
+        }
+
+        return this;
     }
 
     public int getCountColumns() {

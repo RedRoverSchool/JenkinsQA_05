@@ -118,32 +118,32 @@ public class EditViewTest extends BaseTest {
     public void testCreateOneItemFromListOfJobTypes() {
         int actualNumberOfJobs = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
+                .setItemName(TestUtils.getRandomStr())
                 .selectPipelineAndClickOk()
 
                 .clickDashboard()
                 .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
+                .setItemName(TestUtils.getRandomStr())
                 .selectPipelineAndClickOk()
 
                 .clickDashboard()
                 .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
+                .setItemName(TestUtils.getRandomStr())
                 .selectMultiConfigurationProjectAndClickOk()
 
                 .clickDashboard()
                 .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
+                .setItemName(TestUtils.getRandomStr())
                 .selectFolderAndClickOk()
 
                 .clickDashboard()
                 .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
+                .setItemName(TestUtils.getRandomStr())
                 .selectMultibranchPipelineAndClickOk()
 
                 .clickDashboard()
                 .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
+                .setItemName(TestUtils.getRandomStr())
                 .selectOrgFolderAndClickOk()
 
                 .clickDashboard()
@@ -220,19 +220,20 @@ public class EditViewTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Test
-    public void testListViewAddAllItems() {
-        createManyJobsOfEachType(1);
-        localViewName = TestUtils.getRandomStr();
-        createViewFromListOfViewTypes(1, localViewName);
-        goToEditView(localViewName);
+    @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
+    public void testAddAllItemsToListView() {
+        int expectedResult = new HomePage(getDriver())
+                .getJobList().size();
 
-        List<WebElement> itemsToSelect = getDriver().findElements(ITEM_OPTION);
-        int expectedResult = itemsToSelect.size();
-        itemsToSelect.forEach(WebElement::click);
-        getDriver().findElement(SUBMIT_BUTTON).click();
+        int actualResult = new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickAddViewLink()
+                .setViewName(TestUtils.getRandomStr())
+                .setListViewTypeAndClickCreate()
+                .addAllJobsToListView()
+                .clickListOrMyViewOkButton()
+                .getJobList().size();
 
-        int actualResult = getDriver().findElements(JOB_PATH).size();
         Assert.assertEquals(actualResult, expectedResult);
     }
 

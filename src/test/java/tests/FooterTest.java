@@ -1,5 +1,6 @@
 package tests;
 
+import model.ExternalJenkinsPage;
 import model.RestApiPage;
 import model.XmlPage;
 import org.openqa.selenium.By;
@@ -27,10 +28,12 @@ public class FooterTest extends BaseTest {
     @Test
     public void testFooterLinkRestRedirectToPage() {
 
-        getDriver().findElement(REST_API_LINK).click();
+        String urlRestApi = new RestApiPage(getDriver())
+                .clickRestApiLink()
+                .getCurrentURL();
 
-        Assert.assertTrue(getDriver().getCurrentUrl().contains("api"));
-        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='main-panel']/h1")).getText(), "REST API");
+        Assert.assertTrue(urlRestApi.contains("api"));
+        Assert.assertEquals(new RestApiPage(getDriver()).getTextH1RestApi(), "REST API");
     }
 
     @Test
@@ -42,15 +45,13 @@ public class FooterTest extends BaseTest {
     @Test
     public void testFooterLinkJenkinsRedirectToPage() {
 
-        getDriver().findElement(JENKINS_LINK).click();
+         String textJenkins = new ExternalJenkinsPage(getDriver())
+                .clickJenkinsVersion()
+                .getTextJenkins();
 
-        ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
-        getDriver().switchTo().window(tabs.get(1));
+         Assert.assertTrue(new ExternalJenkinsPage(getDriver()).getCurrentURL().contains("jenkins"));
+         Assert.assertEquals(textJenkins, "Jenkins");
 
-        Assert.assertTrue(getDriver().getCurrentUrl().contains("jenkins"));
-        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='ji-toolbar']/a")).getText(), "Jenkins");
-
-        getDriver().switchTo().window(tabs.get(0));
     }
 
     @Test
