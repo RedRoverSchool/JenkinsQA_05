@@ -9,6 +9,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -35,7 +36,7 @@ public class NewViewTest extends BaseTest {
             return false;
         }
     }
-
+    @Ignore
     @Test
     public void testCreateNewView() {
         ProjectUtils.createNewItemFromDashboard(getDriver(), PIPELINE, TestUtils.getRandomStr(6));
