@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.TestUtils;
 
 import java.util.List;
 
@@ -158,7 +159,7 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
     }
 
     public ConsoleOutputMultiConfigurationProjectPage selectAndClickConsoleOutput() {
-        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@id='yui-gen3']/a/*[name()='svg']")));
+        TestUtils.scrollToElement(getDriver(), consoleOutputDropDownBuildIcon);
         consoleOutputDropDownBuildIcon.click();
 
         return new ConsoleOutputMultiConfigurationProjectPage(getDriver());
