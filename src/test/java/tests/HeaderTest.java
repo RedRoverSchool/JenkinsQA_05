@@ -1,8 +1,7 @@
 package tests;
 
 import model.*;
-import model.folder.FolderStatusPage;
-import model.multiconfiguration.MultiConfigurationProjectStatusPage;
+import model.organization_folder.OrgFolderStatusPage;
 import model.views.MyViewsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,7 +14,6 @@ import java.time.Duration;
 import java.util.List;
 
 public class HeaderTest extends BaseTest {
-
 
     @Test
     public void testSeeNameIcon() {
@@ -146,7 +144,7 @@ public class HeaderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(organizationFolderName)
                 .selectOrgFolderAndClickOk()
-                .clickSaveBtn(FolderStatusPage.class)
+                .clickSaveBtn(OrgFolderStatusPage.class)
                 .clickDashboard()
                 .setSearchFieldAndClickEnter(searchRequest)
                 .getSearchResultList();
