@@ -102,9 +102,6 @@ public class HomePage extends Breadcrumbs {
     @FindBy(xpath = "//span[contains(@class, 'build-status-icon')]/span/child::*")
     private WebElement buildStatusIcon;
 
-    @FindBy(xpath = "//*[@id='job_Pipeline1']/td[4]")
-    private WebElement lastSuccessStatus;
-
     @FindBy(xpath = "(//*[local-name()='svg' and @tooltip='Disabled'])[2]")
     private WebElement projectDisabledIcon;
 
@@ -382,9 +379,9 @@ public class HomePage extends Breadcrumbs {
         return new ViewPage(getDriver());
     }
 
-    public String getLastSuccessText() {
+    public String getLastSuccessText(String name) {
 
-        return lastSuccessStatus.getText();
+        return getDriver().findElement(By.xpath(String.format("//*[@id='job_%s']/td[4]", name))).getText();
     }
 
     public String getJobName(String name) {

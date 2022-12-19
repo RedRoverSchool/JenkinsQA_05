@@ -370,7 +370,7 @@ public class PipelineTest extends BaseTest {
                 .clickHelloWorld()
                 .clickSaveButton()
                 .clickDashboard()
-                .getLastSuccessText();
+                .getLastSuccessText(PIPELINE_NAME);
 
         Assert.assertEquals(actualSuccessText, expectedLastSuccess);
     }
