@@ -28,9 +28,6 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage {
     @FindBy(xpath = "//a[text()='Execute Windows batch command']")
     private WebElement executeWindowsFromBuildSteps;
 
-    @FindBy(xpath = "//button[text()='Add build step']")
-    private WebElement advancedBuildStepsButton;
-
     @FindBy(css = ".jenkins-input.fixed-width")
     private WebElement textAreaBuildSteps;
 
@@ -72,7 +69,7 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage {
     }
 
     public MultiConfigurationProjectConfigPage enterCommandInBuildSteps(String command) {
-        getWait(10).until(ExpectedConditions.elementToBeClickable(advancedBuildStepsButton));
+        getWait(2).until(ExpectedConditions.elementToBeClickable(textAreaBuildSteps));
         textAreaBuildSteps.sendKeys(command);
 
         return this;
