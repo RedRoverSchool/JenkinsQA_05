@@ -462,11 +462,16 @@ public class HomePage extends Breadcrumbs {
         return new CredentialsPage(getDriver());
     }
 
-    public boolean clickProjectDropdownMenu(String projectName) {
+    public HomePage clickProjectDropdownMenu(String projectName) {
         getWait(5).until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//a[@href='job/" + projectName + "/']/button"))).click();
 
-        return buildNowButton.isDisplayed();
+        return this;
+    }
+
+    public boolean buildNowButtonIsDisplayed(){
+
+        return getWait(5).until(ExpectedConditions.visibilityOf(buildNowButton)).isDisplayed();
     }
 
     public DeleteMultibranchPipelinePage clickDeleteMbPipelineDropDownMenu() {

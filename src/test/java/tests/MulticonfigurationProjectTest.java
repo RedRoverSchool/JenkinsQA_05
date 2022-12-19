@@ -1,10 +1,10 @@
 package tests;
 
+import model.HomePage;
+import model.NewItemPage;
 import model.RenameItemErrorPage;
 import model.multiconfiguration.ConsoleOutputMultiConfigurationProjectPage;
-import model.HomePage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
-import model.NewItemPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -15,8 +15,6 @@ import runner.BaseTest;
 import runner.TestUtils;
 
 import java.util.List;
-
-import static org.testng.TestRunner.PriorityWeight.dependsOnMethods;
 
 public class MulticonfigurationProjectTest extends BaseTest {
     private static final String PROJECT_NAME = TestUtils.getRandomStr(8);
@@ -337,16 +335,15 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(projectIconText);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
     public void testEnableMultiConfigurationProject() {
-        Boolean buildNowButton = new HomePage(getDriver())
+        HomePage buildNowButton = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
                 .clickEnableButton()
                 .clickDashboard()
                 .clickProjectDropdownMenu(PROJECT_NAME);
 
-        Assert.assertTrue(buildNowButton);
+        Assert.assertTrue(buildNowButton.buildNowButtonIsDisplayed());
     }
 
     @Ignore
