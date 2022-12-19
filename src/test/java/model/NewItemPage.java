@@ -170,7 +170,8 @@ public class NewItemPage extends HomePage {
     }
 
     public String getItemNameInvalidMsg() {
-        return itemNameInvalidMsg.getText();
+
+        return getWait(2).until(ExpectedConditions.visibilityOf(itemNameInvalidMsg)).getText();
     }
 
     public boolean isOkButtonEnabled() {
