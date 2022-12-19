@@ -4,7 +4,6 @@ import model.*;
 import model.freestyle.FreestyleProjectConfigPage;
 import model.freestyle.FreestyleProjectStatusPage;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -156,7 +155,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualResult, String.format("» A job already exists with the name ‘%s’", NEW_FREESTYLE_NAME));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateBuildNowOnFreestyleProjectPage")
     public void testDeleteFreestyleProject() {
 

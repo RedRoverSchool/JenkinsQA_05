@@ -5,9 +5,7 @@ import static runner.TestUtils.getRandomStr;
 import model.CreateItemErrorPage;
 import model.HomePage;
 import model.freestyle.FreestyleProjectStatusPage;
-import model.base.BaseStatusPage;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
