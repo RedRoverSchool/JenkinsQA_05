@@ -39,7 +39,7 @@ public class NewView1Test extends BaseTest {
                 .setItemName("Multi-configuration project")
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
-                .goToDashboard()
+                .clickDashboard()
 
                 .clickMyViewsSideMenuLink()
                 .clickNewView()

@@ -82,7 +82,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(uniqueOrganizationFolderName)
                 .selectOrgFolderAndClickOk()
-                .clickSaveButton()
+                .clickSaveBtn(OrgFolderStatusPage.class)
                 .getDisplayName();
 
         Assert.assertEquals(actualOrgFolderDisplayName, uniqueOrganizationFolderName);
@@ -292,7 +292,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickMoveButton()
                 .selectFolder(nameFolderPOM)
                 .clickMoveForOrgFolder()
-                .goToDashboard();
+                .clickDashboard();
 
         Assert.assertFalse(homePage.getJobList().contains(nameOrgFolderPOM));
 

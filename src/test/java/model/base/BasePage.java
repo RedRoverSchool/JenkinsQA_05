@@ -8,6 +8,9 @@ import runner.BaseModel;
 
 public abstract class BasePage extends BaseModel {
 
+    @FindBy(id = "breadcrumbs")
+    public WebElement breadcrumbs;
+
     @FindBy(css = "#breadcrumbs li a")
     protected WebElement topMenuRoot;
 
@@ -18,6 +21,10 @@ public abstract class BasePage extends BaseModel {
     public String getCurrentURL() {
 
         return getDriver().getCurrentUrl();
+    }
+
+    public String getTextBreadcrumbs() {
+        return breadcrumbs.getText();
     }
 
     public HomePage clickDashboard() {
