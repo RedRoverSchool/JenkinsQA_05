@@ -27,4 +27,14 @@ public class BuildHistoryPage extends HomePage {
 
         return this;
     }
+
+
+    @FindBy(id = "map")
+    private WebElement mapOfBuild;
+
+    public BuildHistoryPage getMap() {
+       mapOfBuild.isDisplayed();
+
+        return this;
+      }
 }

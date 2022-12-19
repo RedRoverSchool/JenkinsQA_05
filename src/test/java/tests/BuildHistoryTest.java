@@ -165,4 +165,14 @@ public class BuildHistoryTest extends BaseTest {
 
         Assert.assertEquals(homePage.getHeaderText(), "Welcome to Jenkins!");
     }
+
+    @Test
+    public void testRssItemsExist2() {
+        HomePage homePage = new HomePage(getDriver())
+                .clickBuildHistory();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//a/span[contains(text(), 'Atom feed for all')]")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//a/span[contains(text(), 'Atom feed for failures')]")).isDisplayed());
+        Assert.assertTrue(getDriver().findElement(By.xpath("//a/span[contains(text(), 'Atom feed for just latest builds')]")).isDisplayed());
+    }
 }
