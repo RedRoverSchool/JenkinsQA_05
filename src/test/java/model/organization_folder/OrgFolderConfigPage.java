@@ -1,14 +1,11 @@
 package model.organization_folder;
 
-import model.HomePage;
+import model.base.BaseConfigPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class OrgFolderConfigPage extends HomePage {
-
-    @FindBy(id = "yui-gen15-button")
-    private WebElement saveButton;
+public class OrgFolderConfigPage extends BaseConfigPage {
 
     @FindBy(xpath = "//input  [@name='_.displayNameOrNull']")
     private WebElement displayName;
@@ -24,12 +21,6 @@ public class OrgFolderConfigPage extends HomePage {
 
     public OrgFolderConfigPage(WebDriver driver) {
         super(driver);
-    }
-
-    public OrgFolderStatusPage clickSaveButton() {
-        saveButton.click();
-
-        return new OrgFolderStatusPage(getDriver());
     }
 
     public OrgFolderConfigPage inputDisplayName(String name) {
