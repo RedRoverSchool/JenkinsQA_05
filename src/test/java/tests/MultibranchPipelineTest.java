@@ -55,7 +55,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @DataProvider(name = "specialCharacters")
     public Object[][] specialCharactersList() {
-        return new Object[][]{{'!'},{'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'*'}, {'['}, {']'}, {'\\'}, {'|'}, {';'}, {':'}, {'/'}, {'?'},};
+        return new Object[][]{{'!'},{'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'*'}, {'['}, {']'}, {'\\'}, {'|'}, {';'}, {':'}, {'/'}, {'?'}, {'$'}, {'<'}, {'>'},};
     }
 
     @Test(dataProvider = "specialCharacters")
