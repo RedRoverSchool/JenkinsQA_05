@@ -347,8 +347,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
-        public void testEnableMultiConfigurationProject() {
-        Boolean buildNowButton = new HomePage(getDriver())
     public void testEnableMultiConfigurationProject() {
         HomePage buildNowButton = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
