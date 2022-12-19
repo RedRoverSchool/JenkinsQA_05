@@ -2,6 +2,7 @@ package model.views;
 
 import model.HomePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -54,8 +55,20 @@ public class MyViewsPage extends HomePage {
     @FindBy(xpath = "//div[@id='main-panel']")
     private List<WebElement> viewMainPanel;
 
+    @FindBy(xpath= "//table[@id='projectstatus']")
+    private WebElement myViewsTable;
+
     @FindBy(css = ".error")
     private WebElement errorMessageViewAlreadyExist;
+
+    @FindBy(xpath = "//a[@href='/iconSize?24x24']")
+    private WebElement tableSizeM;
+
+    @FindBy(xpath = "//a[@href='/iconSize?16x16']")
+    private WebElement tableSizeS;
+
+    @FindBy(xpath = "//a[@href='/iconSize?32x32']")
+    private WebElement tableSizeL;
 
     public MyViewsPage(WebDriver driver) {
         super(driver);
@@ -125,7 +138,7 @@ public class MyViewsPage extends HomePage {
     }
 
     public MyViewsPage clearDescriptionField() {
-        descriptionField.clear();
+        getWait(3).until(ExpectedConditions.visibilityOf(descriptionField)).clear();
 
         return this;
     }
@@ -169,5 +182,20 @@ public class MyViewsPage extends HomePage {
 
         return getWait(5).until(ExpectedConditions.visibilityOf(
                 errorMessageViewAlreadyExist)).getText();
+    }
+
+    public String clickSizeM(){
+        getWait(5).until(ExpectedConditions.elementToBeClickable(tableSizeM)).click();
+        return myViewsTable.getAttribute("class");
+    }
+
+    public String clickSizeS(){
+        getWait(5).until(ExpectedConditions.elementToBeClickable(tableSizeS)).click();
+        return myViewsTable.getAttribute("class");
+    }
+
+    public String clickSizeL(){
+        getWait(5).until(ExpectedConditions.elementToBeClickable(tableSizeL)).click();
+        return myViewsTable.getAttribute("class");
     }
 }
