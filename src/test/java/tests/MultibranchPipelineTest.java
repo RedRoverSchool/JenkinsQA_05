@@ -56,7 +56,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @DataProvider(name = "specialCharacters")
     public Object[][] specialCharactersList() {
-        return new Object[][]{{'!'},{'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'*'}, {'['}, {']'}, {'\\'}, {'|'}, {';'}, {':'}, {'/'}, {'?'},};
+        return new Object[][]{{'!'},{'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'*'}, {'['}, {']'}, {'\\'}, {'|'}, {';'}, {':'}, {'/'}, {'?'}, {'$'}, {'<'}, {'>'},};
     }
 
     @Test(dataProvider = "specialCharacters")
@@ -67,8 +67,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .selectMultibranchPipeline()
                 .getItemNameInvalidMsg();
 
-        Assert.assertTrue(actualErrorMessage.contains("is an unsafe character")
-                && actualErrorMessage.contains(unsafeCharacter.toString()));
+        Assert.assertEquals(actualErrorMessage, String.format("» ‘%s’ is an unsafe character",unsafeCharacter));
     }
 
     @Test
