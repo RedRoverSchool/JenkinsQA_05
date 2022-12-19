@@ -2,6 +2,7 @@ package tests;
 
 import model.HomePage;
 import model.NewItemPage;
+import model.pipeline.PipelineConfigPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,47 +19,34 @@ public class NewItemTest extends BaseTest {
 
     private static final String PROJECT_NAME = TestUtils.getRandomStr(7);
 
-    private void setJobTypePipeline(String jobName) {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getWait(5).until(ExpectedConditions.elementToBeClickable(By.id("name"))).sendKeys(jobName);
-        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
-    }
-
-    @Ignore
     @Test
     public void testNewItemsPageContainsItemsWithoutCreatedProject() {
         final List<String> expectedResult = List.of("Freestyle project", "Pipeline", "Multi-configuration project",
                 "Folder", "Multibranch Pipeline", "Organization Folder");
 
-        getDriver().findElement(By.linkText("New Item")).click();
+        NewItemPage newItemPage = new HomePage(getDriver()).clickNewItem();
 
-        List<WebElement> newItemsElements = getDriver().findElements(By.xpath("//label/span[@class='label']"));
-        List<String> newItemsName = newItemsElements.stream().map(WebElement::getText).collect(Collectors.toList());
-
-        Assert.assertEquals(newItemsName, expectedResult);
+        Assert.assertEquals(newItemPage.newItemsNameList(), expectedResult);
     }
 
     @Test
-    @Ignore
-    public void testGoToNewItemPage() {
-        final String expectedResult = "Enter an item name";
+    public void testCheckNavigationToNewItemPage() {
+        NewItemPage newItemPage = new HomePage(getDriver()).clickNewItem();
 
-        getDriver().findElement(By.linkText("New Item")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.className("h3")).getText(), expectedResult);
+        Assert.assertEquals(newItemPage.getH3HeaderText(), "Enter an item name");
     }
 
     @Test
     public void testCreateFolder() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
-        getDriver().findElement(By.xpath("//span[@class='label' and text()='Folder']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.id("yui-gen4-button")).click();
-        getDriver().findElement(By.xpath("//a[@href='/' and  @class= 'model-link']")).click();
 
-        Assert.assertEquals(getDriver().findElement
-                (By.xpath("//table[@id='projectstatus']//a[@href='job/" + PROJECT_NAME + "/']")).getText(), PROJECT_NAME);
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PROJECT_NAME)
+                .selectFolderAndClickOk()
+                .clickApplyButton()
+                .clickDashboard();
+
+        Assert.assertEquals(homePage.getJobName(PROJECT_NAME), PROJECT_NAME);
     }
 
     @Test
@@ -69,7 +57,6 @@ public class NewItemTest extends BaseTest {
                 .getItemsListSize();
 
         for (int i = 0; i < itemsListSize; i++) {
-
             String actualErrorMessage = new NewItemPage(getDriver())
                     .rootMenuDashboardLinkClick()
                     .clickNewItem()
@@ -88,7 +75,6 @@ public class NewItemTest extends BaseTest {
                 .getItemsListSize();
 
         for (int i = 0; i < itemsListSize; i++) {
-
             String actualErrorMessage = new NewItemPage((getDriver()))
                     .rootMenuDashboardLinkClick()
                     .clickNewItem()
@@ -111,11 +97,14 @@ public class NewItemTest extends BaseTest {
     }
 
     @Test
-    public void testCreateNewItemWithoutChooseAnyFolder() {
-        setJobTypePipeline("");
+    public void testCreateNewItemWithEmptyName() {
+        final String nameNewItemTypePipeline = "";
+        PipelineConfigPage newItemPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(nameNewItemTypePipeline)
+                .selectPipelineAndClickOk();
 
-        Assert.assertEquals(getDriver().findElement(By.id("itemname-required")).getText(),
-                "» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(new NewItemPage(getDriver()).getItemNameRequiredMsg(), "» This field cannot be empty, please enter a valid name");
     }
 
 

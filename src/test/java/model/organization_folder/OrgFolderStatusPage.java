@@ -1,17 +1,14 @@
 package model.organization_folder;
 
+import model.base.BaseStatusPage;
 import model.HomePage;
 import model.MovePage;
-import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class OrgFolderStatusPage extends BasePage {
-
-    @FindBy(xpath = "//a[text()='Dashboard']")
-    private WebElement dashboard;
+public class OrgFolderStatusPage extends BaseStatusPage {
 
     @FindBy(linkText = "Rename")
     private WebElement renameButton;
@@ -42,12 +39,6 @@ public class OrgFolderStatusPage extends BasePage {
 
     public OrgFolderStatusPage(WebDriver driver) {
         super(driver);
-    }
-
-    public HomePage goToDashboard() {
-        dashboard.click();
-
-        return new HomePage(getDriver());
     }
 
     public OrgFolderStatusPage clickRenameButton() {

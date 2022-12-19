@@ -107,13 +107,6 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
         super(driver);
     }
 
-    @Override
-    public FreestyleProjectStatusPage clickSaveBtn() {
-        saveBtn.click();
-
-        return new FreestyleProjectStatusPage(getDriver());
-    }
-
     public String getHeadlineText() {
         return headline.getText();
     }

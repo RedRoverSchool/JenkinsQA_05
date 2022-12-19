@@ -7,7 +7,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -130,7 +129,7 @@ public class EditViewPage extends ViewPage {
         return markedCheckboxNameJob.getAttribute("name");
     }
 
-    public EditViewPage clickJobForInputToListView(String jobName) {
+    public EditViewPage clickJobsCheckBoxForAddRemoveToListView(String jobName) {
         getDriver().findElement(By.cssSelector("label[title='" + jobName + "']")).click();
 
         return this;
