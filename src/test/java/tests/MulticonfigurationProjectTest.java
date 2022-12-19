@@ -1,5 +1,6 @@
 package tests;
 
+import model.RenameItemErrorPage;
 import model.multiconfiguration.ConsoleOutputMultiConfigurationProjectPage;
 import model.HomePage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
@@ -7,7 +8,6 @@ import model.NewItemPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -165,7 +165,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
     @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testCreateNewMCProjectAsCopyFromExistingProject() {
-
         String actualProjectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(NEW_PROJECT_NAME)
@@ -239,21 +238,18 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Test
     public void testMultiConfigurationProjectRenameToInvalidNameViaSideMenu() {
+        RenameItemErrorPage renameItemErrorPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PROJECT_NAME)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSave()
+                .goToDashboard()
+                .clickMultConfJobName(PROJECT_NAME)
+                .clickRenameSideMenu(PROJECT_NAME)
+                .clearFieldAndInputNewName("&")
+                .clickSaveButton();
 
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys("MC Project");
-        getDriver().findElement
-                (By.xpath("//span[text()='Multi-configuration project']")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(By.xpath("//a[contains(@href,'confirm-rename')]")).click();
-        getDriver().findElement(By.xpath("//input[@name='newName']")).sendKeys("&");
-        getDriver().findElement(By.id("yui-gen1-button")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.id
-                ("main-panel")).getText(), "Error\n‘&amp;’ is an unsafe character");
-
-        deleteNewMCProject("MC Project");
+        Assert.assertEquals(renameItemErrorPage.getErrorMessage(),"‘&amp;’ is an unsafe character");
     }
 
     @Ignore
@@ -348,7 +344,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Ignore
     @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
-        public void testEnableMultiConfigurationProject() {
+    public void testEnableMultiConfigurationProject() {
         Boolean buildNowButton = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
                 .clickEnableButton()

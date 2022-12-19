@@ -39,6 +39,7 @@ public class OrganizationFolderTest extends BaseTest {
     private static final By ITEM_FOLDER = By.xpath("//span[text()='" + NAME_FOLDER + "']");
     private static final By ITEM_ORG_FOLDER = By.xpath("//span[text()= '" + NAME_ORG_FOLDER + "']");
 
+
     private WebElement notificationSaved() {
         return getDriver().findElement(By.cssSelector("#notification-bar"));
     }
@@ -77,13 +78,14 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateOrganizationFolder() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getInputName().sendKeys(uniqueOrganizationFolderName + "2");
-        getOrganizationFolder().click();
-        getOkButton().click();
-        getSaveButton().click();
+        String actualOrgFolderDisplayName = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(uniqueOrganizationFolderName)
+                .selectOrgFolderAndClickOk()
+                .clickSaveButton()
+                .getDisplayName();
 
-        Assert.assertEquals(getDriver().findElement(TITLE).getText(), uniqueOrganizationFolderName + "2");
+        Assert.assertEquals(actualOrgFolderDisplayName, uniqueOrganizationFolderName);
     }
 
     @Test
@@ -149,16 +151,16 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(allFolders.contains(ORG_FOLDER_NAME_CREATE));
     }
 
-    @Ignore
     @Test
-    public void testCreateOrgFolderEmptyName() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(ORGANIZATION_FOLDER).click();
+    public void testOrgFolderEmptyNameErr() {
+        String errMessageEmptyName = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName("")
+                .selectOrgFolderAndClickOk()
+                .getErrorMessageEmptyField();
 
-        Assert.assertEquals(getDriver().
-                        findElement(By.id("itemname-required")).getText(),
+        Assert.assertEquals(errMessageEmptyName,
                 "» This field cannot be empty, please enter a valid name");
-        Assert.assertFalse(getDriver().findElement(OK_BUTTON).isEnabled());
     }
 
     @Ignore
