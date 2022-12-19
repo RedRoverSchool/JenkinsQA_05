@@ -149,7 +149,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
         multiConfigProject.deleteMultiConfigProject();
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMultiConfigurationProjectBuild() {
 
@@ -157,7 +156,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickMultConfJobName(PROJECT_NAME)
                 .countBuildsOnSidePanel();
 
-        new MultiConfigurationProjectStatusPage(getDriver()).clickBuildNowOnSideMenu();
+        new MultiConfigurationProjectStatusPage(getDriver()).clickBuildNowOnSideMenu(PROJECT_NAME);
 
         int countBuildsAfterNewBuild = new MultiConfigurationProjectStatusPage(getDriver())
                 .countBuildsOnSidePanel();

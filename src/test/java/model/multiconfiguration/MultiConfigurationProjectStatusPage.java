@@ -171,8 +171,8 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
         return countBuilds;
     }
 
-    public MultiConfigurationProjectStatusPage clickBuildNowOnSideMenu(){
-        buttonBuildNowOnSidePanel.click();
+    public MultiConfigurationProjectStatusPage clickBuildNowOnSideMenu(String projectName){
+        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/build?delay=0sec']", projectName))).click();
         getWait(10).until(ExpectedConditions.visibilityOf((buildLoadingIconSuccess)));
 
         return this;
