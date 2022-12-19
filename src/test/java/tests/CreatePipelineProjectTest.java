@@ -1,6 +1,8 @@
 package tests;
 
 import model.HomePage;
+import model.pipeline.PipelineConfigPage;
+import model.pipeline.PipelineStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -18,7 +20,7 @@ public class CreatePipelineProjectTest extends BaseTest {
                 .setItemName(PIPELINE_NAME)
                 .selectPipeline()
                 .clickOk()
-                .clickSaveButton()
+                .clickSaveBtn(PipelineStatusPage.class)
                 .getPipelineName();
 
         Assert.assertEquals(actualResult, PIPELINE_NAME);

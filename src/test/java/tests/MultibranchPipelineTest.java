@@ -1,6 +1,7 @@
 package tests;
 
 import model.*;
+import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -19,7 +20,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .setItemName(MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipeline()
                 .clickOkMultibranchPipeline()
-                .clickSaveButton()
+                .clickSaveBtn(MultibranchPipelineStatusPage.class)
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobList().contains(MULTIBRANCH_PIPELINE_NAME));
@@ -77,7 +78,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .setItemName(MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipeline()
                 .clickOkMultibranchPipeline()
-                .clickSaveButton()
+                .clickSaveBtn(MultibranchPipelineStatusPage.class)
                 .clickDashboard()
                 .clickNewItem()
                 .setItemName(MULTIBRANCH_PIPELINE_NAME)
@@ -94,7 +95,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .setItemName(MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipeline()
                 .clickOkMultibranchPipeline()
-                .clickSaveButton()
+                .clickSaveBtn(MultibranchPipelineStatusPage.class)
                 .clickDashboard()
                 .clickJobDropDownMenu(MULTIBRANCH_PIPELINE_NAME)
                 .clickRenameDropDownMenu()

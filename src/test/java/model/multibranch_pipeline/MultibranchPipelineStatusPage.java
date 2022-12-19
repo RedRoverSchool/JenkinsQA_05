@@ -1,17 +1,12 @@
 package model.multibranch_pipeline;
 
-import model.HomePage;
+import model.base.BaseStatusPage;
 import model.RenameItemPage;
-import model.base.BasePage;
-import model.multibranch_pipeline.DeleteMultibranchPipelinePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MultibranchPipelineStatusPage extends BasePage {
-
-    @FindBy(css = "#breadcrumbs li a")
-    private WebElement topMenuRoot;
+public class MultibranchPipelineStatusPage extends BaseStatusPage {
 
     @FindBy(linkText = "Delete Multibranch Pipeline")
     private WebElement deleteLeftSideMenu;
@@ -24,12 +19,6 @@ public class MultibranchPipelineStatusPage extends BasePage {
 
     public MultibranchPipelineStatusPage(WebDriver driver) {
         super(driver);
-    }
-
-    public HomePage clickDashboard() {
-        topMenuRoot.click();
-
-        return new HomePage(getDriver());
     }
 
     public DeleteMultibranchPipelinePage clickDeleteMultibranchPipeline() {

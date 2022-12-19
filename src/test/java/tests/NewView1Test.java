@@ -1,5 +1,8 @@
 package tests;
 
+import model.freestyle.FreestyleProjectStatusPage;
+import model.multiconfiguration.MultiConfigurationProjectStatusPage;
+import model.pipeline.PipelineStatusPage;
 import model.views.EditViewPage;
 import model.HomePage;
 import model.views.MyViewsPage;
@@ -24,20 +27,20 @@ public class NewView1Test extends BaseTest {
                 .clickNewItem()
                 .setItemName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard()
 
                 .clickNewItem()
                 .setItemName(PIPELINE_PROJECT_NAME)
                 .selectPipelineAndClickOk()
-                .saveConfigAndGoToProject()
+                .clickSaveBtn(PipelineStatusPage.class)
                 .clickDashboard()
 
                 .clickNewItem()
                 .setItemName("Multi-configuration project")
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSave()
-                .goToDashboard()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickDashboard()
 
                 .clickMyViewsSideMenuLink()
                 .clickNewView()

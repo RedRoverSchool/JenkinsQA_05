@@ -1,7 +1,6 @@
 package model.pipeline;
 
-import model.HomePage;
-import model.base.Breadcrumbs;
+import model.base.BaseConfigPage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import runner.TestUtils;
 
-public class PipelineConfigPage extends Breadcrumbs {
+public class PipelineConfigPage extends BaseConfigPage {
 
     @FindBy(xpath = "//label[text()='GitHub project']")
     private WebElement gitHubCheckbox;
@@ -20,9 +19,6 @@ public class PipelineConfigPage extends Breadcrumbs {
 
     @FindBy(id = "yui-gen6-button")
     private WebElement saveButton;
-
-    @FindBy(css = "#breadcrumbs li a")
-    private WebElement topMenuRoot;
 
     @FindBy(xpath = "//option[text()='try sample Pipeline...']")
     private WebElement trySamplePipelineDropDownMenu;
@@ -91,18 +87,6 @@ public class PipelineConfigPage extends Breadcrumbs {
         return this;
     }
 
-    public PipelineStatusPage saveConfigAndGoToProjectPage() {
-        saveButton.click();
-
-        return new PipelineStatusPage(getDriver());
-    }
-
-    public HomePage clickDashboard() {
-        topMenuRoot.click();
-
-        return new HomePage(getDriver());
-    }
-
     public PipelineConfigPage scrollToEndPipelineConfigPage() {
         TestUtils.scrollToEnd(getDriver());
 
@@ -119,12 +103,6 @@ public class PipelineConfigPage extends Breadcrumbs {
         helloWorldScript.click();
 
         return this;
-    }
-
-    public PipelineStatusPage clickSaveButton() {
-        saveButton.click();
-
-        return new PipelineStatusPage(getDriver());
     }
 
     public PipelineConfigPage setDescriptionField(String name) {

@@ -46,8 +46,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSave()
-                .goToDashboard();
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickDashboard();
 
         Assert.assertTrue(homePage.getJobList().contains(PROJECT_NAME));
     }
@@ -91,8 +91,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSave()
-                .goToDashboard()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickDashboard()
                 .clickMultConfJobName(PROJECT_NAME)
                 .deleteMultiConfigProject();
 
@@ -136,8 +136,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .selectMultiConfigurationProjectAndClickOk()
                 .inputDescription(descriptionMCP)
                 .showPreview()
-                .clickSaveButton()
-                .goToDashboard()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickDashboard()
                 .clickMultConfJobName(nameMCP);
 
         MultiConfigurationProjectStatusPage multiConfigProjectPreview = new MultiConfigurationProjectStatusPage(getDriver());
@@ -173,8 +173,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .setItemName(NEW_PROJECT_NAME)
                 .setCopyFromItemName(PROJECT_NAME)
                 .clickOK()
-                .clickSave()
-                .goToDashboard()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickDashboard()
                 .getJobName(NEW_PROJECT_NAME);
 
         Assert.assertEquals(actualProjectName, NEW_PROJECT_NAME);
@@ -245,8 +245,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSave()
-                .goToDashboard()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickDashboard()
                 .clickMultConfJobName(PROJECT_NAME)
                 .clickRenameSideMenu(PROJECT_NAME)
                 .clearFieldAndInputNewName("&")
@@ -329,9 +329,9 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSave()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
                 .clickDisableButton()
-                .goToDashboard()
+                .clickDashboard()
                 .getProjectIconText();
 
         Assert.assertTrue(projectIconText);
@@ -343,7 +343,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Boolean buildNowButton = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
                 .clickEnableButton()
-                .goToDashboard()
+                .clickDashboard()
                 .clickProjectDropdownMenu(PROJECT_NAME);
 
         Assert.assertTrue(buildNowButton);
@@ -357,7 +357,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickConfiguration(PROJECT_NAME)
                 .scrollAndClickBuildSteps()
                 .selectionAndClickExecuteWindowsFromBuildSteps().enterCommandInBuildSteps("echo Hello world!")
-                .clickSaveButton()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
                 .clickBuildNowButton()
                 .clickDropDownBuildIcon()
                 .selectAndClickConsoleOutput();
@@ -373,7 +373,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         MultiConfigurationProjectStatusPage newMultiConfigItem = new NewItemPage(getDriver())
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSaveButton();
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class);
         MultiConfigurationProjectStatusPage mcpStatusPage = new MultiConfigurationProjectStatusPage(getDriver());
         mcpStatusPage.multiConfigurationProjectBuildNow(getDriver());
         mcpStatusPage.multiConfigurationProjectNewestBuilds(getDriver());

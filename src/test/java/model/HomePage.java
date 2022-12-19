@@ -1,7 +1,6 @@
 package model;
 
 import model.base.Breadcrumbs;
-import model.base.Header;
 import model.folder.FolderConfigPage;
 import model.folder.FolderStatusPage;
 import model.freestyle.FreestyleProjectConfigPage;
@@ -29,9 +28,6 @@ public class HomePage extends Breadcrumbs {
 
     @FindBy(linkText = "Build History")
     private WebElement buildHistory;
-
-    @FindBy(css = "#breadcrumbs li a")
-    private WebElement topMenuRoot;
 
     @FindBy(linkText = "New Item")
     private WebElement newItem;
@@ -131,12 +127,6 @@ public class HomePage extends Breadcrumbs {
         newItem.click();
 
         return new NewItemPage(getDriver());
-    }
-
-    public HomePage clickDashboard() {
-        topMenuRoot.click();
-
-        return new HomePage(getDriver());
     }
 
     public HomePage clickViewLink() {

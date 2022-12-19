@@ -1,9 +1,8 @@
 package model.pipeline;
 
+import model.base.BaseStatusPage;
 import model.BuildWithParametersPage;
 import model.HomePage;
-import model.base.BasePage;
-import model.base.Breadcrumbs;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,7 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PipelineStatusPage extends Breadcrumbs {
+public class PipelineStatusPage extends BaseStatusPage {
 
     @FindBy(xpath = "//div[@id='description']//a")
     private WebElement editDescriptionButton;
@@ -32,9 +31,6 @@ public class PipelineStatusPage extends Breadcrumbs {
 
     @FindBy(xpath = "(//a[contains(@class,'task-link')])[7]")
     private WebElement gitHubSideMenu;
-
-    @FindBy(xpath = "//a[contains(text(), 'Dashboard')]")
-    private WebElement dashboardLink;
 
     @FindBy(css = ".job-index-headline")
     private WebElement pipelineName;
@@ -89,12 +85,6 @@ public class PipelineStatusPage extends Breadcrumbs {
     public HomePage clickDeletePipelineButton() {
         deletePipelineButton.click();
         getDriver().switchTo().alert().accept();
-
-        return new HomePage(getDriver());
-    }
-
-    public HomePage clickDashboard() {
-        dashboardLink.click();
 
         return new HomePage(getDriver());
     }

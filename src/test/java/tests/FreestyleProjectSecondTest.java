@@ -2,6 +2,7 @@ package tests;
 
 import model.freestyle.FreestyleProjectConfigPage;
 import model.HomePage;
+import model.freestyle.FreestyleProjectStatusPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -78,7 +79,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .clickSideMenuConfigureLink()
                 .clickDiscardOldBuildsCheckbox()
                 .typeDaysToKeepBuilds(expectedDaysToKeepBuilds)
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickSideMenuConfigureLink()
                 .getNumberOfDaysToKeepBuilds();
 
@@ -93,7 +94,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
                 .clickFreestyleProjectName()
                 .clickSideMenuConfigureLink()
                 .typeMaxNumberOfBuildsToKeep(expectedMaxNumberOfBuildsToKeep)
-                .clickSaveBtn()
+                .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickSideMenuConfigureLink()
                 .getMaxNumberOfBuildsToKeep();
 
@@ -115,7 +116,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
 
         new FreestyleProjectConfigPage(getDriver())
                 .closeAddBuildStepDropDown()
-                .clickSaveBtn();
+                .clickSaveBtn(FreestyleProjectStatusPage.class);
 
         Assert.assertEquals(actualOptionsInBuildStepsSection, expectedOptionsInBuildStepsSection);
     }
@@ -132,7 +133,7 @@ public class FreestyleProjectSecondTest extends BaseTest {
 
         new FreestyleProjectConfigPage(getDriver())
                 .uncheckBuildPeriodicallyCheckbox()
-                .clickSaveBtn();
+                .clickSaveBtn(FreestyleProjectStatusPage.class);
 
         Assert.assertTrue(selectedCheckbox);
     }
