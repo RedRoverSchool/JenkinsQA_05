@@ -11,9 +11,6 @@ import runner.TestUtils;
 
 public class MultiConfigurationProjectConfigPage extends BaseConfigPage {
 
-    @FindBy(xpath = "//button[@type='submit']")
-    private WebElement saveButton;
-
     @FindBy(name = "description")
     private WebElement inputDescription;
 
@@ -42,12 +39,6 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage {
         super(driver);
     }
 
-    public MultiConfigurationProjectStatusPage clickSave() {
-        saveButton.click();
-
-        return new MultiConfigurationProjectStatusPage(getDriver());
-    }
-
     public MultiConfigurationProjectConfigPage inputDescription(String description) {
         inputDescription.sendKeys(description);
 
@@ -62,12 +53,6 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage {
 
     public MultiConfigurationProjectStatusPage getPreview() {
         getWait(5).until(ExpectedConditions.visibilityOf(previewArea)).getText();
-
-        return new MultiConfigurationProjectStatusPage(getDriver());
-    }
-
-    public MultiConfigurationProjectStatusPage clickSaveButton() {
-        getWait(5).until(ExpectedConditions.visibilityOf(saveButton)).click();
 
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
