@@ -62,14 +62,15 @@ public class FolderOneTest extends BaseTest {
 
     @Test(dependsOnMethods = "testConfigureFolderDisplayName")
     public void testAddFolderDescription() {
-        FolderStatusPage folderStatusPage = new HomePage(getDriver())
+        String folderDescription = new HomePage(getDriver())
 
                 .clickJobDropdownMenu(RANDOM_NAME_1)
                 .clickConfigDropDownMenu()
                 .setDescription("Folder description")
-                .clickSaveButton();
+                .clickSaveButton()
+                .getFolderDescriptionText();
 
-        Assert.assertTrue(folderStatusPage.getDescriptionText().contains("Folder description"));
+        Assert.assertTrue(folderDescription.contains("Folder description"));
     }
 
     @Test(dependsOnMethods = "testAddFolderDescription")
@@ -187,7 +188,6 @@ public class FolderOneTest extends BaseTest {
 
         Assert.assertTrue(actualResult.getTopMenueLinkText().contains(RANDOM_NAME_1));
         Assert.assertTrue(actualResult.getTopMenueLinkText().contains(RANDOM_NAME_2));
-        Assert.assertTrue(actualResult.getDescriptionText().contains(RANDOM_NAME_1 + "/" + RANDOM_NAME_2));
     }
 
     @Test

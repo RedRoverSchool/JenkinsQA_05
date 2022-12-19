@@ -184,7 +184,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickSaveBtn(OrgFolderStatusPage.class);
 
         Assert.assertEquals(orgFolderStatusPage.getNameText(), DISPLAY_NAME);
-        Assert.assertEquals(orgFolderStatusPage.getDescriptionText(), description);
+        Assert.assertEquals(orgFolderStatusPage.getFolderDescriptionText(), description);
 
         HomePage homePage = orgFolderStatusPage.clickDashboard();
 

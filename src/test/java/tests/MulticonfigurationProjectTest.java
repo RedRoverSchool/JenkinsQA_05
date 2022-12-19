@@ -58,7 +58,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .fillDescription("Description")
                 .clickSave();
 
-        Assert.assertEquals(multConfPage.getDescriptionText(), "Description");
+        Assert.assertEquals(multConfPage.getProjectDescriptionText(), "Description");
     }
 
     @Test(dependsOnMethods = "testMulticonfigurationProjectAddDescription")
@@ -141,8 +141,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
         MultiConfigurationProjectStatusPage multiConfigProjectPreview = new MultiConfigurationProjectStatusPage(getDriver());
 
         Assert.assertEquals(multiConfigProject.getNameMultiConfigProject(nameMCP), nameMCP);
-        Assert.assertEquals(multiConfigProject.getDescriptionText(), descriptionMCP);
-        Assert.assertEquals(multiConfigProjectPreview.getDescriptionText(), descriptionMCP);
+        Assert.assertEquals(multiConfigProject.getProjectDescriptionText(), descriptionMCP);
+        Assert.assertEquals(multiConfigProjectPreview.getProjectDescriptionText(), descriptionMCP);
 
         multiConfigProject.deleteMultiConfigProject();
     }

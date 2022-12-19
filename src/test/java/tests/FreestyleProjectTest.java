@@ -4,7 +4,6 @@ import model.*;
 import model.freestyle.FreestyleProjectConfigPage;
 import model.freestyle.FreestyleProjectStatusPage;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.HashSet;
@@ -86,7 +85,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickFreestyleProjectName()
                 .clickButtonAddDescription()
                 .inputAndSaveDescriptionText(descriptionText)
-                .getDescriptionText();
+                .getProjectDescriptionText();
 
         Assert.assertEquals(freestyleProjectDescription, descriptionText);
     }
@@ -100,7 +99,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickButtonEditDescription()
                 .inputAndSaveDescriptionText(newDescription);
 
-        Assert.assertEquals(page.getDescriptionText(), newDescription);
+        Assert.assertEquals(page.getProjectDescriptionText(), newDescription);
     }
 
     @Test(dependsOnMethods = "testEditDescription")

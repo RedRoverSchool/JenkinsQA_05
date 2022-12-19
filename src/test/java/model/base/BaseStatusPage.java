@@ -10,7 +10,10 @@ public abstract class BaseStatusPage extends BasePage {
     private WebElement header;
 
     @FindBy(css = "#description>div:first-child")
-    private WebElement description;
+    private WebElement ProjectDescription;
+
+    @FindBy(id = "view-message")
+    private WebElement folderDescription;
 
     public BaseStatusPage(WebDriver driver) {
         super(driver);
@@ -21,8 +24,13 @@ public abstract class BaseStatusPage extends BasePage {
         return header.getText();
     }
 
-    public String getDescriptionText() {
+    public String getProjectDescriptionText() {
 
-        return description.getText();
+        return ProjectDescription.getText();
+    }
+
+    public String getFolderDescriptionText() {
+
+        return folderDescription.getText();
     }
 }

@@ -168,7 +168,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .clickDashboard().clickPipelineJob(PIPELINE_NAME);
 
-        Assert.assertEquals(pipelineProjectPage.getDescriptionText(), PIPELINE_NAME + "edit description");
+        Assert.assertEquals(pipelineProjectPage.getProjectDescriptionText(), PIPELINE_NAME + "edit description");
     }
 
     @Test(dependsOnMethods = "testEnablePipelineProject")
@@ -289,7 +289,7 @@ public class PipelineTest extends BaseTest {
                 .editDescription(PIPELINE_DESCRIPTION)
                 .clickSaveButton();
 
-        Assert.assertEquals(pipelineProjectPage.getDescriptionText(), PIPELINE_DESCRIPTION);
+        Assert.assertEquals(pipelineProjectPage.getProjectDescriptionText(), PIPELINE_DESCRIPTION);
     }
 
     @Test
@@ -300,7 +300,7 @@ public class PipelineTest extends BaseTest {
                 .selectPipelineAndClickOk()
                 .setDescriptionField(PIPELINE_DESCRIPTION)
                 .clickSaveBtn(PipelineStatusPage.class)
-                .getDescriptionText();
+                .getProjectDescriptionText();
 
         Assert.assertEquals(actualPipelineDescription, PIPELINE_DESCRIPTION);
     }
@@ -313,7 +313,7 @@ public class PipelineTest extends BaseTest {
                 .clickPipelineProjectName()
                 .editDescription(ITEM_NEW_DESCRIPTION)
                 .clickSaveButton()
-                .getDescriptionText();
+                .getProjectDescriptionText();
 
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
     }
@@ -328,7 +328,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveBtn(PipelineStatusPage.class)
                 .getPipelineName();
 
-        String actualDescription = new PipelineStatusPage(getDriver()).getDescriptionText();
+        String actualDescription = new PipelineStatusPage(getDriver()).getProjectDescriptionText();
 
         Assert.assertEquals(actualJobName, ITEM_NAME);
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
@@ -397,7 +397,7 @@ public class PipelineTest extends BaseTest {
                 .clickConfigure()
                 .setDescriptionField(ITEM_NEW_DESCRIPTION)
                 .clickSaveBtn(PipelineStatusPage.class)
-                .getDescriptionText();
+                .getProjectDescriptionText();
 
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
     }
