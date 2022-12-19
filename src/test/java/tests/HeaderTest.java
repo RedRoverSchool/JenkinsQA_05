@@ -140,18 +140,16 @@ public class HeaderTest extends BaseTest {
         String organizationFolderName = "OrganizationFolder_" + (int) (Math.random() * 1000);
         String searchRequest = "organiza";
 
-        int searchResultSize = new HomePage(getDriver())
+        List<String> searchResults = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(organizationFolderName)
                 .selectOrgFolderAndClickOk()
                 .clickSaveButton()
                 .goToDashboard()
                 .setSearchFieldAndClickEnter(searchRequest)
-                .getSearchResultList().size();
+                .getSearchResultList();
 
-        List<String> searchResults = new SearchResultPage(getDriver()).getSearchResultList();
-
-        Assert.assertTrue(searchResultSize > 0);
+        Assert.assertTrue(searchResults.size() > 0);
 
         for (String result: searchResults) {
             Assert.assertTrue(result.contains(searchRequest));
