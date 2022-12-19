@@ -162,9 +162,9 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertNotEquals(countBuildsAfterNewBuild, countBuildsBeforeNewBuild);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testCreateNewMCProjectAsCopyFromExistingProject() {
-
         String actualProjectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(NEW_PROJECT_NAME)
