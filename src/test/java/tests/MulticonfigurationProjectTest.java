@@ -282,6 +282,14 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(multiConfigPrStatusPage.iconProjectDisabledIsDisplayed());
     }
 
+    @Test(dependsOnMethods = "testMultiConfigurationProjectDisableCheckIconProjectName")
+    public void testMultiConfigurationProjectEnableCheckIconProjectName() {
+        MultiConfigurationProjectStatusPage multiConfigPrStatusPage = new HomePage(getDriver())
+                .clickMultConfJobName(PROJECT_NAME)
+                .clickEnableButton();
+
+        Assert.assertTrue(multiConfigPrStatusPage.iconProjectEnabledIsDisplayed());
+    }
     @Ignore
     @Test
     public void testMultiConfigurationProjectConfigureParams() {
@@ -310,14 +318,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='yui-gen1-button']")).getText(),
                 "Disable Project");
-    }
-    @Test(dependsOnMethods = "testMultiConfigurationProjectDisableCheckIconProjectName")
-    public void testMultiConfigurationProjectEnableCheckIconProjectName() {
-        MultiConfigurationProjectStatusPage multiConfigPrStatusPage = new HomePage(getDriver())
-                .clickMultConfJobName(PROJECT_NAME)
-                .clickEnableButton();
-
-        Assert.assertTrue(multiConfigPrStatusPage.iconProjectEnabledIsDisplayed());
     }
 
     @Test
