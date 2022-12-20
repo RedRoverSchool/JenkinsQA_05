@@ -1,6 +1,7 @@
 package model;
 
 import model.base.BasePage;
+import model.base.BaseStatusPage;
 import model.folder.FolderStatusPage;
 import model.organization_folder.OrgFolderStatusPage;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
-public class MovePage extends BasePage {
+public class MovePage<StatusPage extends BaseStatusPage> extends BasePage {
 
     @FindBy(css = ".select.setting-input")
     private WebElement dropdown;
@@ -16,26 +17,22 @@ public class MovePage extends BasePage {
     @FindBy(xpath = "//button[text()='Move']")
     private WebElement moveButton;
 
-    public MovePage(WebDriver driver) {
+    private final StatusPage statusPage;
+
+    public MovePage(WebDriver driver, StatusPage statusPage) {
         super(driver);
+        this.statusPage = statusPage;
     }
 
-    public MovePage selectFolder(String name) {
+    public MovePage<StatusPage> selectFolder(String name) {
         new Select(dropdown).selectByVisibleText("Jenkins » " + name);
 
         return this;
     }
 
-    public FolderStatusPage clickMove() {
+    public StatusPage clickMove() {
         moveButton.click();
 
-        return new FolderStatusPage(getDriver());
+        return statusPage;
     }
-
-    public OrgFolderStatusPage clickMoveForOrgFolder() {
-        moveButton.click();
-
-        return new OrgFolderStatusPage(getDriver());
-    }
-
 }

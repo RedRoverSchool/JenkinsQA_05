@@ -105,10 +105,10 @@ public class BuildWithParametersPage extends FreestyleProjectStatusPage {
         return this;
     }
 
-    public StatusPage clickLastBuildLink() {
+    public BuildStatusPage clickLastBuildLink() {
         lastBuildLink.click();
 
-        return new StatusPage(getDriver());
+        return new BuildStatusPage(getDriver());
     }
 
     public FreestyleProjectConfigPage clickConfigureLink() {

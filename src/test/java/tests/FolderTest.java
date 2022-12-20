@@ -27,7 +27,7 @@ public class FolderTest extends BaseTest {
                 .selectFolderAndClickOk()
                 .clickSaveBtn(FolderStatusPage.class)
                 .clickDashboard()
-                .getJobList();
+                .getJobNamesList();
 
         Assert.assertTrue(projectNamesOnDashboard.contains(FOLDER_RANDOM_NAME_1));
     }
@@ -56,7 +56,7 @@ public class FolderTest extends BaseTest {
                 .setDescription("change name")
                 .clickSaveBtn(FolderStatusPage.class)
                 .clickDashboard()
-                .getJobList();
+                .getJobNamesList();
 
         Assert.assertTrue(projectNamesOnDashboard.contains(DISPLAY_RANDOM_NAME));
     }
@@ -80,7 +80,7 @@ public class FolderTest extends BaseTest {
                 .selectFolderAndClickOk()
                 .setDescription(addDescription)
                 .clickSaveBtn(FolderStatusPage.class)
-                .getTextDescription();
+                .getFolderDescriptionText();
 
         Assert.assertEquals(textDescription, addDescription);
     }
@@ -90,7 +90,7 @@ public class FolderTest extends BaseTest {
         List<String> foldersNamesInFolder = new HomePage(getDriver())
                 .clickDashboard()
                 .clickJob(FOLDER_RANDOM_NAME_2)
-                .clickMoveFolder()
+                .clickMoveButton()
                 .selectFolder(DISPLAY_RANDOM_NAME)
                 .clickMove()
                 .clickDashboard()
@@ -107,7 +107,7 @@ public class FolderTest extends BaseTest {
                 .clickJob(DISPLAY_RANDOM_NAME)
                 .clickDeleteFolder()
                 .clickSubmitButton()
-                .getHeaderText();
+                .getNameText();
 
         Assert.assertEquals(pageHeaderText, "Welcome to Jenkins!");
     }
@@ -124,7 +124,7 @@ public class FolderTest extends BaseTest {
                 .clearAndSetNewName(FOLDER_RANDOM_NAME_2)
                 .clickSubmitButton()
                 .clickDashboard()
-                .getJobList();
+                .getJobNamesList();
 
         Assert.assertTrue(newFolderName.contains(FOLDER_RANDOM_NAME_2));
     }
@@ -157,7 +157,7 @@ public class FolderTest extends BaseTest {
                 .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard()
                 .clickJobDropDownMenu(freestyleProjectName)
-                .clickMoveButtonDropdown()
+                .clickMoveButtonDropdown(new FreestyleProjectStatusPage(getDriver()))
                 .selectFolder(FOLDER_RANDOM_NAME_2)
                 .clickMove()
                 .clickDashboard()
@@ -230,7 +230,7 @@ public class FolderTest extends BaseTest {
                 .clickSubmitButton()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_1)
-                .getTextDescriptionOnPage();
+                .getProjectDescriptionText();
 
         Assert.assertEquals(textDescription, folderDescription);
     }

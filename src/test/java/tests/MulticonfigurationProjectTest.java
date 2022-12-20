@@ -1,10 +1,10 @@
 package tests;
 
+import model.HomePage;
+import model.NewItemPage;
 import model.RenameItemErrorPage;
 import model.multiconfiguration.ConsoleOutputMultiConfigurationProjectPage;
-import model.HomePage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
-import model.NewItemPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -15,8 +15,6 @@ import runner.BaseTest;
 import runner.TestUtils;
 
 import java.util.List;
-
-import static org.testng.TestRunner.PriorityWeight.dependsOnMethods;
 
 public class MulticonfigurationProjectTest extends BaseTest {
     private static final String PROJECT_NAME = TestUtils.getRandomStr(8);
@@ -49,7 +47,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
                 .clickDashboard();
 
-        Assert.assertTrue(homePage.getJobList().contains(PROJECT_NAME));
+        Assert.assertTrue(homePage.getJobNamesList().contains(PROJECT_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
@@ -60,7 +58,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .fillDescription("Description")
                 .clickSave();
 
-        Assert.assertEquals(multConfPage.getDescriptionText(), "Description");
+        Assert.assertEquals(multConfPage.getProjectDescriptionText(), "Description");
     }
 
     @Test(dependsOnMethods = "testMulticonfigurationProjectAddDescription")
@@ -96,7 +94,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickMultConfJobName(PROJECT_NAME)
                 .deleteMultiConfigProject();
 
-        Assert.assertFalse(homePage.getJobList().contains(PROJECT_NAME));
+        Assert.assertFalse(homePage.getJobNamesList().contains(PROJECT_NAME));
     }
 
     @Ignore
@@ -143,8 +141,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
         MultiConfigurationProjectStatusPage multiConfigProjectPreview = new MultiConfigurationProjectStatusPage(getDriver());
 
         Assert.assertEquals(multiConfigProject.getNameMultiConfigProject(nameMCP), nameMCP);
-        Assert.assertEquals(multiConfigProject.getDescriptionText(), descriptionMCP);
-        Assert.assertEquals(multiConfigProjectPreview.getDescriptionText(), descriptionMCP);
+        Assert.assertEquals(multiConfigProject.getProjectDescriptionText(), descriptionMCP);
+        Assert.assertEquals(multiConfigProjectPreview.getProjectDescriptionText(), descriptionMCP);
 
         multiConfigProject.deleteMultiConfigProject();
     }
@@ -337,16 +335,15 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(projectIconText);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testDisableMultiConfigurationProject")
     public void testEnableMultiConfigurationProject() {
-        Boolean buildNowButton = new HomePage(getDriver())
+        HomePage buildNowButton = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
                 .clickEnableButton()
                 .clickDashboard()
                 .clickProjectDropdownMenu(PROJECT_NAME);
 
-        Assert.assertTrue(buildNowButton);
+        Assert.assertTrue(buildNowButton.buildNowButtonIsDisplayed());
     }
 
     @Ignore

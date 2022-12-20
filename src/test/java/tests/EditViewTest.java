@@ -147,7 +147,7 @@ public class EditViewTest extends BaseTest {
                 .selectOrgFolderAndClickOk()
 
                 .clickDashboard()
-                .getJobList()
+                .getJobNamesList()
                 .size();
 
         Assert.assertEquals(actualNumberOfJobs, 6);
@@ -196,7 +196,7 @@ public class EditViewTest extends BaseTest {
             .setListViewTypeAndClickCreate()
             .addJobsToListView(expectedResult)
             .clickListOrMyViewOkButton()
-            .getJobList()
+            .getJobNamesList()
             .size();
 
         Assert.assertEquals(actualResult, expectedResult);
@@ -223,7 +223,7 @@ public class EditViewTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
     public void testAddAllItemsToListView() {
         int expectedResult = new HomePage(getDriver())
-                .getJobList().size();
+                .getJobNamesList().size();
 
         int actualResult = new HomePage(getDriver())
                 .clickMyViewsSideMenuLink()
@@ -232,23 +232,32 @@ public class EditViewTest extends BaseTest {
                 .setListViewTypeAndClickCreate()
                 .addAllJobsToListView()
                 .clickListOrMyViewOkButton()
-                .getJobList().size();
+                .getJobNamesList().size();
 
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Test
+
+    @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
     public void testListViewAddRegexFilter() {
-        createManyJobsOfEachType(2);
-        List<WebElement> itemsToSelect = getDriver().findElements(JOB_PATH);
-        long expectedResult = itemsToSelect.stream().filter(element -> element.getText().contains("9")).count();
-        createViewFromListOfViewTypes(1, TestUtils.getRandomStr());
+        int expectedResult = new HomePage(getDriver())
+                .getNumberOfJobsContainingString("9");
 
-        scrollWaitTillNotMovingAndClick(waitTime, REGEX_FIELD);
-        getDriver().findElement(By.cssSelector("input[name='includeRegex']")).sendKeys(".*9.*");
-        getDriver().findElement(SUBMIT_BUTTON).click();
+        new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickAddViewLink()
+                .setViewName(TestUtils.getRandomStr())
+                .setListViewTypeAndClickCreate()
+                .scrollToRegexFilterCheckboxPlaceInCenterWaitTillNotMoving();
+        if(!new EditViewPage(getDriver()).isRegexCheckboxChecked()) {
+            new EditViewPage(getDriver()).clickRegexCheckbox();
+        }
 
-        long actualResult = getDriver().findElements(JOB_PATH).size();
+        int actualResult = new EditViewPage(getDriver())
+                .scrollToRegexFilterCheckboxPlaceInCenterWaitTillNotMoving()
+                .clearAndSendKeysRegexTextArea(".*9.*")
+                .clickListOrMyViewOkButton()
+                .getDisplayedNumberOfJobs();
         Assert.assertEquals(actualResult, expectedResult);
     }
 

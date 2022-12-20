@@ -14,7 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FolderStatusPage extends BaseStatusPage {
+public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
 
     @FindBy(css = "#breadcrumbs li a")
     private List<WebElement> topMenuList;
@@ -31,9 +31,6 @@ public class FolderStatusPage extends BaseStatusPage {
     @FindBy(linkText = "Delete Folder")
     private WebElement deleteFolder;
 
-    @FindBy(linkText = "Move")
-    private WebElement moveFolder;
-
     @FindBy(linkText = "Create a job")
     private WebElement createJob;
 
@@ -43,32 +40,17 @@ public class FolderStatusPage extends BaseStatusPage {
     @FindBy(linkText = "New Item")
     private WebElement folderNewItem;
 
-    @FindBy(tagName = "h1")
-    private WebElement header;
-
-    @FindBy(id = "main-panel")
-    private WebElement textAddress;
-
     @FindBy(xpath = "//input[@checkdependson='newName']")
     private WebElement folderNewName;
 
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement submitButton;
 
-    @FindBy(xpath = "//h1")
-    private WebElement folderHeader;
-
-    @FindBy(id = "view-message")
-    private WebElement textDescription;
-
     @FindBy(linkText = "Add description")
     private WebElement addDescription;
 
     @FindBy(css = ".jenkins-input")
     private WebElement inputFieldDescription;
-
-    @FindBy(css = "#description>div:first-child")
-    private WebElement description;
 
     public FolderStatusPage(WebDriver driver) {
         super(driver);
@@ -124,11 +106,6 @@ public class FolderStatusPage extends BaseStatusPage {
         return new FolderStatusPage(getDriver());
     }
 
-    public String getHeaderFolderText() {
-
-        return folderHeader.getText();
-    }
-
     public NewItemPage clickFolderNewItem() {
         folderNewItem.click();
 
@@ -141,32 +118,11 @@ public class FolderStatusPage extends BaseStatusPage {
         return new FolderStatusPage(getDriver());
     }
 
-    public MovePage clickMoveFolder() {
-        moveFolder.click();
-
-        return new MovePage(getDriver());
-    }
-
-    public String getHeaderText() {
-
-        return header.getText();
-    }
-
     public List<String> getTopMenueLinkText() {
         return topMenuList
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
-    }
-
-    public String getDescriptionText() {
-
-        return textAddress.getText();
-    }
-
-    public String getTextDescription() {
-
-        return textDescription.getText();
     }
 
     public String getFolderName() {
@@ -185,11 +141,6 @@ public class FolderStatusPage extends BaseStatusPage {
         inputFieldDescription.sendKeys(description);
 
         return this;
-    }
-
-    public String getTextDescriptionOnPage() {
-
-        return description.getText();
     }
 
     public FreestyleProjectStatusPage clickProject(String name) {

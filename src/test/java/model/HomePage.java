@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BaseStatusPage;
 import model.base.Breadcrumbs;
 import model.folder.FolderConfigPage;
 import model.folder.FolderStatusPage;
@@ -141,11 +142,24 @@ public class HomePage extends Breadcrumbs {
         return new NewViewPage(getDriver());
     }
 
-    public List<String> getJobList() {
+    public List<String> getJobNamesList() {
         return jobList
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
+    }
+
+    public int getNumberOfJobsContainingString(String string) {
+
+        return (int) jobList
+                .stream()
+                .filter(element -> element.getText().contains(string))
+                .count();
+    }
+
+    public int getDisplayedNumberOfJobs() {
+
+        return jobList.size();
     }
 
     public List<String> getViewList() {
@@ -281,11 +295,11 @@ public class HomePage extends Breadcrumbs {
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
-    public MovePage clickMoveButtonDropdown() {
+    public <T extends BaseStatusPage<T>> MovePage<T> clickMoveButtonDropdown(T baseStatusPage) {
         getWait(5).until(ExpectedConditions.visibilityOf(moveButtonDropdown));
         scrollToElement(getDriver(), moveButtonDropdown);
         moveButtonDropdown.click();
-        return new MovePage(getDriver());
+        return new MovePage<>(getDriver(), baseStatusPage);
     }
 
     public BuildHistoryPage clickBuildHistory() {
@@ -462,11 +476,16 @@ public class HomePage extends Breadcrumbs {
         return new CredentialsPage(getDriver());
     }
 
-    public boolean clickProjectDropdownMenu(String projectName) {
+    public HomePage clickProjectDropdownMenu(String projectName) {
         getWait(5).until(ExpectedConditions
                 .elementToBeClickable(By.xpath("//a[@href='job/" + projectName + "/']/button"))).click();
 
-        return buildNowButton.isDisplayed();
+        return this;
+    }
+
+    public boolean buildNowButtonIsDisplayed(){
+
+        return getWait(5).until(ExpectedConditions.visibilityOf(buildNowButton)).isDisplayed();
     }
 
     public DeleteMultibranchPipelinePage clickDeleteMbPipelineDropDownMenu() {
