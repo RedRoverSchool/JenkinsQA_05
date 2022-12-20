@@ -29,7 +29,7 @@ public class FolderOneTest extends BaseTest {
 
         HomePage homePage = new HomePage(getDriver());
 
-        Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME_1));
+        Assert.assertTrue(homePage.getJobNamesList().contains(RANDOM_NAME_1));
     }
 
     @Test(dependsOnMethods = "testCreateNewFolder")
@@ -57,7 +57,7 @@ public class FolderOneTest extends BaseTest {
                 .clickSaveButton()
                 .clickDashboard();
 
-        Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME_2));
+        Assert.assertTrue(homePage.getJobNamesList().contains(RANDOM_NAME_2));
     }
 
     @Test(dependsOnMethods = "testConfigureFolderDisplayName")
@@ -83,7 +83,7 @@ public class FolderOneTest extends BaseTest {
                 .clickSubmitButton()
                 .clickDashboard();
 
-        Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME_2));
+        Assert.assertTrue(homePage.getJobNamesList().contains(RANDOM_NAME_2));
     }
 
     @Test
@@ -96,7 +96,7 @@ public class FolderOneTest extends BaseTest {
                 .clickSubmitButton()
                 .clickDashboard();
 
-        Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1));
+        Assert.assertFalse(homePage.getJobNamesList().contains(RANDOM_NAME_1));
     }
 
     @Test
@@ -127,8 +127,8 @@ public class FolderOneTest extends BaseTest {
                 .clickSubmitButton()
                 .clickDashboard();
 
-        Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1));
-        Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME_1 + "NEW"));
+        Assert.assertFalse(homePage.getJobNamesList().contains(RANDOM_NAME_1));
+        Assert.assertTrue(homePage.getJobNamesList().contains(RANDOM_NAME_1 + "NEW"));
     }
 
 
@@ -138,7 +138,7 @@ public class FolderOneTest extends BaseTest {
 
         FolderStatusPage statusPage = new HomePage(getDriver())
                 .clickFolder(RANDOM_NAME_1)
-                .clickMoveFolder()
+                .clickMoveButton()
                 .selectFolder(RANDOM_NAME_1 + "NEW")
                 .clickMove()
                 .clickDashboard()
@@ -154,7 +154,7 @@ public class FolderOneTest extends BaseTest {
                 .clickDeleteDropDownMenu()
                 .clickSubmitDeleteProject();
 
-        Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1 + "NEW"));
+        Assert.assertFalse(homePage.getJobNamesList().contains(RANDOM_NAME_1 + "NEW"));
     }
 
     @Test
@@ -214,7 +214,7 @@ public class FolderOneTest extends BaseTest {
 
         FolderStatusPage actualResult = new HomePage(getDriver())
                 .clickJobDropdownMenu(RANDOM_MULTIBRANCH_PIPELINE_NAME)
-                .clickMoveButtonDropdown()
+                .clickMoveButtonDropdown(new FolderStatusPage(getDriver()))
                 .selectFolder(RANDOM_NAME_1)
                 .clickMove()
                 .clickDashboard()
@@ -256,12 +256,12 @@ public class FolderOneTest extends BaseTest {
                 .clickDashboard()
 
                 .clickJobDropdownMenu(RANDOM_NAME_1)
-                .clickMoveButtonDropdown()
+                .clickMoveButtonDropdown(new FolderStatusPage(getDriver()))
                 .selectFolder(RANDOM_NAME_2)
                 .clickMove()
                 .clickDashboard();
 
-        Assert.assertFalse(homePage.getJobList().contains(RANDOM_NAME_1));
+        Assert.assertFalse(homePage.getJobNamesList().contains(RANDOM_NAME_1));
 
         FolderStatusPage folderStatusPage = new HomePage(getDriver())
                 .clickFolder(RANDOM_NAME_2);

@@ -120,7 +120,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clearFieldAndInputNewName(NEW_FREESTYLE_NAME)
                 .clickSubmitButton()
                 .clickDashboard()
-                .getJobList();
+                .getJobNamesList();
 
         Assert.assertFalse(jobsList.contains(FREESTYLE_NAME));
         Assert.assertTrue(jobsList.contains(NEW_FREESTYLE_NAME));

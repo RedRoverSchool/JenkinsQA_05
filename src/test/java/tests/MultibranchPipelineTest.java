@@ -23,7 +23,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickSaveBtn(MultibranchPipelineStatusPage.class)
                 .clickDashboard();
 
-        Assert.assertTrue(homePage.getJobList().contains(MULTIBRANCH_PIPELINE_NAME));
+        Assert.assertTrue(homePage.getJobNamesList().contains(MULTIBRANCH_PIPELINE_NAME));
     }
 
     @Test
@@ -118,7 +118,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
                 List <String> jobsList = new HomePage(getDriver())
                         .clickDashboard()
-                        .getJobList();
+                        .getJobNamesList();
 
         Assert.assertTrue(jobsList.contains(MULTIBRANCH_PIPELINE_NAME_RENAMED));
     }

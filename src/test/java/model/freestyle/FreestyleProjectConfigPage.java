@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 import static runner.TestUtils.scrollToElement_PlaceInCenter;
 
-public class FreestyleProjectConfigPage extends BaseConfigPage {
+public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectStatusPage> {
 
     @FindBy(tagName = "h1")
     private WebElement headline;
@@ -102,6 +102,11 @@ public class FreestyleProjectConfigPage extends BaseConfigPage {
 
     @FindBy(xpath = "//div[contains(text(), 'Branch Specifier')]/following-sibling::div/input")
     private WebElement BranchSpecifierInputField;
+
+    @Override
+    protected FreestyleProjectStatusPage createStatusPage() {
+        return new FreestyleProjectStatusPage(getDriver());
+    }
 
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);

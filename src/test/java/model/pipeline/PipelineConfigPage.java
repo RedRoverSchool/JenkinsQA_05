@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import runner.TestUtils;
 
-public class PipelineConfigPage extends BaseConfigPage {
+public class PipelineConfigPage extends BaseConfigPage<PipelineStatusPage> {
 
     @FindBy(xpath = "//label[text()='GitHub project']")
     private WebElement gitHubCheckbox;
@@ -64,6 +64,11 @@ public class PipelineConfigPage extends BaseConfigPage {
 
     @FindBy(className = "textarea-preview")
     private WebElement previewTextDescription;
+
+    @Override
+    protected PipelineStatusPage createStatusPage() {
+        return new PipelineStatusPage(getDriver());
+    }
 
     public PipelineConfigPage(WebDriver driver) {
         super(driver);
