@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class OrgFolderStatusPage extends BaseStatusPage {
+public class OrgFolderStatusPage extends BaseStatusPage<OrgFolderStatusPage> {
 
     @FindBy(linkText = "Rename")
     private WebElement renameButton;
@@ -27,9 +27,6 @@ public class OrgFolderStatusPage extends BaseStatusPage {
 
     @FindBy(xpath = "//button[@type= 'submit']")
     private WebElement saveButton;
-
-    @FindBy(linkText = "Move")
-    private WebElement moveButton;
 
     @FindBy(linkText = "Up")
     private WebElement buttonUp;
@@ -68,12 +65,6 @@ public class OrgFolderStatusPage extends BaseStatusPage {
         saveButton.click();
 
         return new HomePage(getDriver());
-    }
-
-    public MovePage clickMoveButton(){
-        getWait(5).until(ExpectedConditions.elementToBeClickable(moveButton)).click();
-
-        return new MovePage(getDriver());
     }
 
     public HomePage clickButtonUp(){

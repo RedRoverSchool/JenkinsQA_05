@@ -233,7 +233,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickOrgFolder(nameOrgFolderPOM)
                 .clickMoveButton()
                 .selectFolder(nameFolderPOM)
-                .clickMoveForOrgFolder()
+                .clickMove()
                 .clickDashboard();
 
         Assert.assertFalse(homePage.getJobNamesList().contains(nameOrgFolderPOM));

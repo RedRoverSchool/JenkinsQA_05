@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BaseStatusPage;
 import model.base.Breadcrumbs;
 import model.folder.FolderConfigPage;
 import model.folder.FolderStatusPage;
@@ -294,11 +295,11 @@ public class HomePage extends Breadcrumbs {
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
-    public MovePage clickMoveButtonDropdown() {
+    public <T extends BaseStatusPage<T>> MovePage<T> clickMoveButtonDropdown(T baseStatusPage) {
         getWait(5).until(ExpectedConditions.visibilityOf(moveButtonDropdown));
         scrollToElement(getDriver(), moveButtonDropdown);
         moveButtonDropdown.click();
-        return new MovePage(getDriver());
+        return new MovePage<>(getDriver(), baseStatusPage);
     }
 
     public BuildHistoryPage clickBuildHistory() {

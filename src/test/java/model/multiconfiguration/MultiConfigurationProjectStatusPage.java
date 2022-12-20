@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
+public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiConfigurationProjectStatusPage> {
 
     @FindBy(id = "description-link")
     private WebElement descriptionLink;

@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class OrgFolderConfigPage extends BaseConfigPage {
+public class OrgFolderConfigPage extends BaseConfigPage<OrgFolderStatusPage> {
 
     @FindBy(xpath = "//input  [@name='_.displayNameOrNull']")
     private WebElement displayName;
@@ -18,6 +18,11 @@ public class OrgFolderConfigPage extends BaseConfigPage {
 
     @FindBy(id = "ok-button")
     private WebElement okButton;
+
+    @Override
+    protected OrgFolderStatusPage createStatusPage() {
+        return new OrgFolderStatusPage(getDriver());
+    }
 
     public OrgFolderConfigPage(WebDriver driver) {
         super(driver);
