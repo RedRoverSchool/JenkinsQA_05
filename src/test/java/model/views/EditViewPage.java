@@ -211,5 +211,4 @@ public class EditViewPage extends ViewPage {
 
         return this;
     }
-
 }

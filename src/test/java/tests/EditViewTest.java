@@ -237,7 +237,6 @@ public class EditViewTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-
     @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
     public void testListViewAddRegexFilter() {
         int expectedResult = new HomePage(getDriver())
