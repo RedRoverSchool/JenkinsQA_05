@@ -1,10 +1,10 @@
 package model;
 
-import model.base.BasePage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
 
 
 public class BuildHistoryPage extends HomePage {
@@ -45,6 +45,9 @@ public class BuildHistoryPage extends HomePage {
 
     @FindBy(xpath = "//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li[last()]")
     private WebElement largeSizeIcon;
+
+    @FindBy(xpath = "//table[@id='projectStatus']/thead/tr/th")
+    private List<WebElement> columns;
 
     public String getSizeText() {
 
@@ -108,5 +111,10 @@ public class BuildHistoryPage extends HomePage {
     public boolean largeSizeIconIsDisplayed() {
 
         return largeSizeIcon.isDisplayed();
+    }
+
+    public int getSize(){
+
+        return columns.size();
     }
 }
