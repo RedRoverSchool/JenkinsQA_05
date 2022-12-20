@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class FolderConfigPage extends BaseConfigPage {
+public class FolderConfigPage extends BaseConfigPage<FolderStatusPage> {
 
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement submitButtonForDeleteFolder;
@@ -21,6 +21,11 @@ public class FolderConfigPage extends BaseConfigPage {
 
     @FindBy(xpath = "//button[text()='Apply']")
     private WebElement applyButton;
+
+    @Override
+    protected FolderStatusPage createStatusPage() {
+        return new FolderStatusPage(getDriver());
+    }
 
     public FolderConfigPage(WebDriver driver) {
         super(driver);

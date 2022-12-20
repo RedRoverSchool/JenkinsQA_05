@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class FreestyleProjectStatusPage extends BaseStatusPage {
+public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectStatusPage> {
 
     @FindBy(linkText = "Configure")
     private WebElement sideMenuConfigure;

@@ -14,7 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FolderStatusPage extends BaseStatusPage {
+public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
 
     @FindBy(css = "#breadcrumbs li a")
     private List<WebElement> topMenuList;
@@ -30,9 +30,6 @@ public class FolderStatusPage extends BaseStatusPage {
 
     @FindBy(linkText = "Delete Folder")
     private WebElement deleteFolder;
-
-    @FindBy(linkText = "Move")
-    private WebElement moveFolder;
 
     @FindBy(linkText = "Create a job")
     private WebElement createJob;
@@ -120,13 +117,6 @@ public class FolderStatusPage extends BaseStatusPage {
 
         return new FolderStatusPage(getDriver());
     }
-
-    public MovePage clickMoveFolder() {
-        moveFolder.click();
-
-        return new MovePage(getDriver());
-    }
-
 
     public List<String> getTopMenueLinkText() {
         return topMenuList
