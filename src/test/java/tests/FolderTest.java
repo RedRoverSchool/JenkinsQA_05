@@ -184,6 +184,7 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(projectNamesInFolder.contains(FREESTYLE_PROJECT_NAME));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateFreestyleProjectInFolderNewItem")
     public void testDeleteFreestyleProjectInFolder() {
 
