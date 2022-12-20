@@ -248,11 +248,7 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testLettersSMLClickableMyViews() {
-        String expectedClassTableM = "jenkins-table jenkins-table--medium sortable";
-        String expectedClassTableL = "jenkins-table  sortable";
-        String expectedClassTableS = "jenkins-table jenkins-table--small sortable";
-
-        String myViewsPageSizeM = new MyViewsPage(getDriver())
+        Boolean myViewsPageSizeM = new MyViewsPage(getDriver())
                 .clickNewItem()
                 .setItemName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleProjectAndClickOk()
@@ -261,16 +257,16 @@ public class NewViewTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickSizeM();
 
-        Assert.assertEquals(myViewsPageSizeM, expectedClassTableM);
+        Assert.assertTrue(myViewsPageSizeM);
 
-        String myViewsPageSizeS = new MyViewsPage(getDriver())
+        Boolean myViewsPageSizeS = new MyViewsPage(getDriver())
                 .clickSizeS();
 
-        Assert.assertEquals(myViewsPageSizeS, expectedClassTableS);
+        Assert.assertTrue(myViewsPageSizeS);
 
-        String myViewsPageSizeL = new MyViewsPage(getDriver())
+        Boolean myViewsPageSizeL = new MyViewsPage(getDriver())
                 .clickSizeL();
 
-        Assert.assertEquals(myViewsPageSizeL, expectedClassTableL);
+        Assert.assertTrue(myViewsPageSizeL);
     }
 }

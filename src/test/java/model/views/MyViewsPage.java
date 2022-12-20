@@ -62,12 +62,21 @@ public class MyViewsPage extends HomePage {
     private WebElement errorMessageViewAlreadyExist;
 
     @FindBy(xpath = "//a[@href='/iconSize?24x24']")
-    private WebElement tableSizeM;
+    private WebElement buttonSizeM;
 
     @FindBy(xpath = "//a[@href='/iconSize?16x16']")
-    private WebElement tableSizeS;
+    private WebElement buttonSizeS;
 
     @FindBy(xpath = "//a[@href='/iconSize?32x32']")
+    private WebElement buttonSizeL;
+
+    @FindBy(xpath = "//table[@class='jenkins-table jenkins-table--medium sortable']")
+    private WebElement tableSizeM;
+
+    @FindBy(xpath = "//table[@class='jenkins-table jenkins-table--small sortable']")
+    private WebElement tableSizeS;
+
+    @FindBy(xpath = "//table[@class='jenkins-table  sortable']")
     private WebElement tableSizeL;
 
     public MyViewsPage(WebDriver driver) {
@@ -184,18 +193,18 @@ public class MyViewsPage extends HomePage {
                 errorMessageViewAlreadyExist)).getText();
     }
 
-    public String clickSizeM(){
-        getWait(5).until(ExpectedConditions.elementToBeClickable(tableSizeM)).click();
-        return myViewsTable.getAttribute("class");
+    public Boolean clickSizeM(){
+        getWait(5).until(ExpectedConditions.elementToBeClickable(buttonSizeM)).click();
+        return tableSizeM.isDisplayed();
     }
 
-    public String clickSizeS(){
-        getWait(5).until(ExpectedConditions.elementToBeClickable(tableSizeS)).click();
-        return myViewsTable.getAttribute("class");
+    public Boolean clickSizeS(){
+        getWait(5).until(ExpectedConditions.elementToBeClickable(buttonSizeS)).click();
+        return tableSizeS.isDisplayed();
     }
 
-    public String clickSizeL(){
-        getWait(5).until(ExpectedConditions.elementToBeClickable(tableSizeL)).click();
-        return myViewsTable.getAttribute("class");
+    public Boolean clickSizeL(){
+        getWait(5).until(ExpectedConditions.elementToBeClickable(buttonSizeL)).click();
+        return tableSizeL.isDisplayed();
     }
 }
