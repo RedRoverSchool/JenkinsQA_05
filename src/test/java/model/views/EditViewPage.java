@@ -172,7 +172,7 @@ public class EditViewPage extends ViewPage {
         return this;
     }
 
-    public boolean checkIfRegexCheckboxChecked() {
+    public boolean isRegexCheckboxChecked() {
 
         return regexFilterCheckbox.isSelected();
     }

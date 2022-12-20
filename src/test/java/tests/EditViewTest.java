@@ -1,6 +1,5 @@
 package tests;
 
-import model.views.EditListViewPage;
 import model.views.EditViewPage;
 import model.HomePage;
 import model.views.MyViewsPage;
@@ -241,8 +240,8 @@ public class EditViewTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
     public void testListViewAddRegexFilter() {
-        long expectedResult = new HomePage(getDriver())
-                .getNumberOfJobsContainingDigitNine();
+        int expectedResult = new HomePage(getDriver())
+                .getNumberOfJobsContainingString("9");
 
         new HomePage(getDriver())
                 .clickMyViewsSideMenuLink()
@@ -250,13 +249,11 @@ public class EditViewTest extends BaseTest {
                 .setViewName(TestUtils.getRandomStr())
                 .setListViewTypeAndClickCreate()
                 .scrollToRegexFilterCheckboxPlaceInCenterWaitTillNotMoving();
-        if(!new EditViewPage(getDriver())
-                .checkIfRegexCheckboxChecked()) {
-            new EditViewPage(getDriver())
-                .clickRegexCheckbox();
+        if(!new EditViewPage(getDriver()).isRegexCheckboxChecked()) {
+            new EditViewPage(getDriver()).clickRegexCheckbox();
         }
 
-        long actualResult = new EditViewPage(getDriver())
+        int actualResult = new EditViewPage(getDriver())
                 .scrollToRegexFilterCheckboxPlaceInCenterWaitTillNotMoving()
                 .clearAndSendKeysRegexTextArea(".*9.*")
                 .clickListOrMyViewOkButton()

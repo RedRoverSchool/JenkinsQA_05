@@ -148,11 +148,11 @@ public class HomePage extends Breadcrumbs {
                 .collect(Collectors.toList());
     }
 
-    public long getNumberOfJobsContainingDigitNine() {
+    public int getNumberOfJobsContainingString(String string) {
 
-        return jobList
+        return (int) jobList
                 .stream()
-                .filter(element -> element.getText().contains("9"))
+                .filter(element -> element.getText().contains(string))
                 .count();
     }
 
