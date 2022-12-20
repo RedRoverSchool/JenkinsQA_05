@@ -199,7 +199,9 @@ public class MyViewsPage extends HomePage {
         return this;
     }
 
-    public boolean tableSizeM(){return tableSizeM.isDisplayed();}
+    public boolean isDisplayedTableSizeM(){
+        return tableSizeM.isDisplayed();
+    }
 
     public MyViewsPage clickSizeS(){
         getWait(5).until(ExpectedConditions.elementToBeClickable(buttonSizeS)).click();
@@ -207,7 +209,9 @@ public class MyViewsPage extends HomePage {
         return this;
     }
 
-    public boolean tableSizeS(){return tableSizeS.isDisplayed();}
+    public boolean isDisplayedTableSizeS(){
+        return tableSizeS.isDisplayed();
+    }
 
     public MyViewsPage clickSizeL(){
         getWait(5).until(ExpectedConditions.elementToBeClickable(buttonSizeL)).click();
@@ -215,5 +219,7 @@ public class MyViewsPage extends HomePage {
         return this;
     }
 
-    public boolean tableSizeL(){return tableSizeL.isDisplayed();}
+    public boolean isDisplayedTableSizeL(){
+        return tableSizeL.isDisplayed();
+    }
 }
