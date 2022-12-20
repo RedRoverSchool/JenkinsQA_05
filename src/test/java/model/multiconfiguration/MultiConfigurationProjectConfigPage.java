@@ -4,6 +4,7 @@ import model.base.BaseConfigPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
@@ -33,6 +34,22 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage {
 
     @FindBy(css = ".jenkins-input.fixed-width")
     private WebElement textAreaBuildSteps;
+
+    @FindBy(id = "configuration-matrix")
+    private WebElement textConfigurationMatrix;
+
+    @FindBy(xpath = "//button[@suffix='axis']")
+        private WebElement addAxisButton;
+
+    @FindBy(xpath = "//a[contains(@class,'yuimenuitemlabel')]")
+    private WebElement userDefinedAxisButton;
+
+    @FindBy(xpath = "(//input[@class='jenkins-input validated  '])[5]")
+    private WebElement userDefinedAxisName;
+
+    @FindBy(xpath = "//input[@name='_.valueString']")
+    private WebElement userDefinedAxisValue;
+
 
     public MultiConfigurationProjectConfigPage(WebDriver driver) {
         super(driver);
@@ -74,6 +91,29 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage {
     public MultiConfigurationProjectConfigPage enterCommandInBuildSteps(String command) {
         getWait(10).until(ExpectedConditions.elementToBeClickable(advancedBuildStepsButton));
         textAreaBuildSteps.sendKeys(command);
+
+        return this;
+    }
+
+    public MultiConfigurationProjectConfigPage scrollAndClickAddAxis() {
+        TestUtils.scrollToElement_PlaceInCenter (getDriver (),textConfigurationMatrix);
+        getWait (15).until (ExpectedConditions.elementToBeClickable (addAxisButton));
+        new Actions (getDriver()).pause(500).perform();
+        addAxisButton.click ();
+
+        return this;
+    }
+
+    public MultiConfigurationProjectConfigPage clickUserDefinedAxisButton(){
+        getWait (15).until ((ExpectedConditions.elementToBeClickable (userDefinedAxisButton)));
+        userDefinedAxisButton.click ();
+
+        return new MultiConfigurationProjectConfigPage (getDriver ());
+    }
+
+    public MultiConfigurationProjectConfigPage enterAxisNameAndValue(){
+        userDefinedAxisName.sendKeys ("NEW CONFIGURATION");
+        userDefinedAxisValue.sendKeys ("12345");
 
         return this;
     }

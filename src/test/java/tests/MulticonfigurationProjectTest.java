@@ -378,4 +378,21 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(getDriver().
                 findElement(By.xpath("//*[@id=/'buildHistory/']/div[2]/table/tbody/tr[2]")).isDisplayed());
     }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    public void testMultiConfigurationProjectConfigurationAddTestAxis() {
+        MultiConfigurationProjectStatusPage multiConfigurationProjectStatusPage = new HomePage (getDriver ())
+                .clickMultConfJobName (PROJECT_NAME)
+                .clickConfiguration (PROJECT_NAME)
+                .scrollAndClickAddAxis ()
+                .clickUserDefinedAxisButton ()
+                .enterAxisNameAndValue ()
+                .clickSaveBtn (MultiConfigurationProjectStatusPage.class)
+                .clickDefaultButton ();
+
+        String actualResult = getDriver ().findElement (
+                By.xpath ("//h1[@class='job-index-headline page-headline']")).getText ();
+
+        Assert.assertEquals (actualResult, "Configuration 12345");
+    }
 }

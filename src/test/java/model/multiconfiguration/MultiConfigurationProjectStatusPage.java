@@ -59,6 +59,9 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
     @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-disabled icon-md']")
     private WebElement iconProjectDisabled;
 
+    @FindBy(xpath = "//a[@href='NEW%20CONFIGURATION=12345/']")
+    private WebElement defaultButton;
+
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -119,7 +122,7 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
     }
 
     public MultiConfigurationProjectConfigPage clickConfiguration(String projectName) {
-        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/configure']", projectName))).click();
+            getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/configure']", projectName))).click();
 
         return new MultiConfigurationProjectConfigPage(getDriver());
     }
@@ -175,4 +178,12 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
 
         return iconProjectDisabled.isDisplayed();
     }
+
+    public MultiConfigurationProjectStatusPage clickDefaultButton(){
+        defaultButton.click ();
+
+        return new MultiConfigurationProjectStatusPage (getDriver ());
+    }
+
+
 }
