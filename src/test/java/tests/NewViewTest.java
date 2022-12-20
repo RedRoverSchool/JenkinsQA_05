@@ -153,8 +153,8 @@ public class NewViewTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickView(MY_VIEW_NAME);
 
-        Assert.assertEquals(viewPage.getJobList(),
-                new HomePage(getDriver()).getJobList());
+        Assert.assertEquals(viewPage.getJobListAsString(),
+                new HomePage(getDriver()).getJobListAsString());
     }
 
     @Test(dependsOnMethods = "testViewHasSelectedTypeMyView")
