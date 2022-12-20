@@ -248,7 +248,7 @@ public class NewViewTest extends BaseTest {
 
     @Test
     public void testLettersSMLClickableMyViews() {
-        Boolean myViewsPageSizeM = new MyViewsPage(getDriver())
+        MyViewsPage myViewsPageSizeM = new MyViewsPage(getDriver())
                 .clickNewItem()
                 .setItemName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleProjectAndClickOk()
@@ -257,16 +257,16 @@ public class NewViewTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickSizeM();
 
-        Assert.assertTrue(myViewsPageSizeM);
+        Assert.assertTrue(myViewsPageSizeM.tableSizeM());
 
-        Boolean myViewsPageSizeS = new MyViewsPage(getDriver())
+        MyViewsPage myViewsPageSizeS = new MyViewsPage(getDriver())
                 .clickSizeS();
 
-        Assert.assertTrue(myViewsPageSizeS);
+        Assert.assertTrue(myViewsPageSizeS.tableSizeS());
 
-        Boolean myViewsPageSizeL = new MyViewsPage(getDriver())
+        MyViewsPage myViewsPageSizeL = new MyViewsPage(getDriver())
                 .clickSizeL();
 
-        Assert.assertTrue(myViewsPageSizeL);
+        Assert.assertTrue(myViewsPageSizeL.tableSizeL());
     }
 }

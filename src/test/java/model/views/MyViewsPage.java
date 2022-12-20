@@ -193,18 +193,27 @@ public class MyViewsPage extends HomePage {
                 errorMessageViewAlreadyExist)).getText();
     }
 
-    public Boolean clickSizeM(){
+    public MyViewsPage clickSizeM() {
         getWait(5).until(ExpectedConditions.elementToBeClickable(buttonSizeM)).click();
-        return tableSizeM.isDisplayed();
+
+        return this;
     }
 
-    public Boolean clickSizeS(){
+    public boolean tableSizeM(){return tableSizeM.isDisplayed();}
+
+    public MyViewsPage clickSizeS(){
         getWait(5).until(ExpectedConditions.elementToBeClickable(buttonSizeS)).click();
-        return tableSizeS.isDisplayed();
+
+        return this;
     }
 
-    public Boolean clickSizeL(){
+    public boolean tableSizeS(){return tableSizeS.isDisplayed();}
+
+    public MyViewsPage clickSizeL(){
         getWait(5).until(ExpectedConditions.elementToBeClickable(buttonSizeL)).click();
-        return tableSizeL.isDisplayed();
+
+        return this;
     }
+
+    public boolean tableSizeL(){return tableSizeL.isDisplayed();}
 }
