@@ -261,19 +261,20 @@ public class EditViewTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
     public void testListViewChangeColumnOrder() {
-        localViewName = TestUtils.getRandomStr();
-        listViewSeriesPreConditions(1, localViewName);
         String[] expectedResult = {"W", "S"};
+        new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickView(localViewName)
+                .clickEditViewButton()
+                .scrollToStatusColumnDragHandlePlaceInCenterWaitTillNotMoving()
+                .dragByYOffset(100)
+                .clickListOrMyViewOkButton();
 
-        scrollWaitTillNotMovingAndClick(waitTime, STATUS_DRAG_HANDLE);
-        dragByYOffset(STATUS_DRAG_HANDLE, 100);
-        getDriver().findElement(SUBMIT_BUTTON).click();
-
-        String[] actualResult = {getDriver().findElement(By
-                .cssSelector("#projectstatus th:nth-child(1) a")).getText(), getDriver().findElement(By
-                .cssSelector("#projectstatus th:nth-child(2) a")).getText()};
+        String[] actualResult = {new MyViewsPage(getDriver())
+                .getJobTableHeaderTextList().get(0), new MyViewsPage(getDriver())
+                .getJobTableHeaderTextList().get(1)};
         Assert.assertEquals(actualResult, expectedResult);
     }
 

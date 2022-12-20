@@ -3,6 +3,7 @@ package model.views;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
@@ -56,6 +57,9 @@ public class EditViewPage extends ViewPage {
 
     @FindBy(css = "input[name='includeRegex']")
     private WebElement regexFilterTextArea;
+
+    @FindBy(xpath = "//div[@descriptorid='hudson.views.StatusColumn']//div[@class='dd-handle']")
+    private WebElement statusColumnDragHandle;
 
     public EditViewPage(WebDriver driver) {
         super(driver);
@@ -189,4 +193,23 @@ public class EditViewPage extends ViewPage {
 
         return this;
     }
+
+    public EditViewPage dragByYOffset(int offset) {
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(statusColumnDragHandle)
+                .clickAndHold(statusColumnDragHandle)
+                .moveByOffset(0, offset / 2)
+                .moveByOffset(0, offset / 2)
+                .release().perform();
+
+        return this;
+    }
+
+    public EditViewPage scrollToStatusColumnDragHandlePlaceInCenterWaitTillNotMoving() {
+        TestUtils.scrollToElement_PlaceInCenter(getDriver(), statusColumnDragHandle);
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(statusColumnDragHandle));
+
+        return this;
+    }
+
 }
