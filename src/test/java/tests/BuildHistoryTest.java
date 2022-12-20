@@ -1,18 +1,17 @@
 package tests;
 
+import model.HomePage;
+import model.BuildHistoryPage;
+import model.ManageUsersPage;
 import model.freestyle.FreestyleProjectStatusPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
-
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
-
-
-import model.HomePage;
 
 import static runner.TestUtils.scrollToElement;
 
@@ -25,15 +24,16 @@ public class BuildHistoryTest extends BaseTest {
     private String jobName;
 
     private void createProject(String description) {
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
         jobName = TestUtils.getRandomStr(8);
-        getDriver().findElement(By.id("name")).sendKeys(jobName);
-        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        if (!(description.equals("empty"))) {
-            getDriver().findElement(By.name("description")).sendKeys(description);
-        }
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
+        BuildHistoryPage homePage = new HomePage(getDriver())
+                .clickBuildHistory()
+                .clickCreateNewJob()
+                .enterNewBuildName(jobName)
+                .clickNewFreestyleProjectButton()
+                .clickOkButton()
+                .enterDescriptionField(description)
+                .clickSubmitButton();
     }
 
     @Ignore
