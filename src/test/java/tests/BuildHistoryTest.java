@@ -68,27 +68,28 @@ public class BuildHistoryTest extends BaseTest {
     }
 
     @Test
-    public void testH1Header_BuildHistory() {
+    public void testH1HeaderBuildHistory() {
 
-        final String header_BuildHistory = new HomePage(getDriver())
+        final String headerBuildHistory = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveBtn(FreestyleProjectStatusPage.class)
                 .clickDashboard()
-                .clickBuildHistory().getHeaderText();
+                .clickBuildHistory()
+                .getHeaderText();
 
-        Assert.assertEquals(header_BuildHistory, "Build History of Jenkins");
+        Assert.assertEquals(headerBuildHistory, "Build History of Jenkins");
     }
 
     @Test
     public void testIfSMLIconsExist() {
-        HomePage homePage = new HomePage(getDriver())
-                .clickBuildHistory();
+        new HomePage(getDriver()).clickBuildHistory();
+        BuildHistoryPage buildHistoryPage = new BuildHistoryPage(getDriver());
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='/iconSize?16x16']")).isDisplayed());
-        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li/following-sibling::li[2]")).isDisplayed());
-        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li[last()]")).isDisplayed());
+        Assert.assertTrue(buildHistoryPage.smallSizeIconIsDisplayed());
+        Assert.assertTrue(buildHistoryPage.middleSizeIconIsDisplayed());
+        Assert.assertTrue(buildHistoryPage.largeSizeIconIsDisplayed());
     }
 
     @Test

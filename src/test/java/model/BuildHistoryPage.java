@@ -37,6 +37,15 @@ public class BuildHistoryPage extends HomePage {
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement submitButton;
 
+    @FindBy(xpath = "//a[@href='/iconSize?16x16']")
+    private WebElement smallSizeIcon;
+
+    @FindBy(xpath = "//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li/following-sibling::li[2]")
+    private WebElement middleSizeIcon;
+
+    @FindBy(xpath = "//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li[last()]")
+    private WebElement largeSizeIcon;
+
     public String getSizeText() {
 
         return sizeIcon.getText();
@@ -84,5 +93,20 @@ public class BuildHistoryPage extends HomePage {
         submitButton.click();
 
         return this;
+    }
+
+    public boolean smallSizeIconIsDisplayed() {
+
+        return smallSizeIcon.isDisplayed();
+    }
+
+    public boolean middleSizeIconIsDisplayed() {
+
+        return middleSizeIcon.isDisplayed();
+    }
+
+    public boolean largeSizeIconIsDisplayed() {
+
+        return largeSizeIcon.isDisplayed();
     }
 }
