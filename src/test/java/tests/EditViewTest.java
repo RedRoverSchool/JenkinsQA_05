@@ -361,7 +361,7 @@ public class EditViewTest extends BaseTest {
     }
 
     @Test
-    public void testIllegalCharacterRenameView() {
+    public void testIllegalCharacterRenameView () {
         localViewName = TestUtils.getRandomStr();
         listViewSeriesPreConditions(1, localViewName);
         final char[] illegalCharacters = "#!@$%^&*:;<>?/[]|\\".toCharArray();
