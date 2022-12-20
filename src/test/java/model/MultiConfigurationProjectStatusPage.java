@@ -35,6 +35,12 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
     @FindBy(xpath = "//button[@id='yui-gen1-button']")
     private WebElement enableButton;
 
+    @FindBy(linkText = "Build Now")
+    private WebElement buildNowButton;
+
+    @FindBy(xpath = "//*[@id='buildHistoryPageNav']/div[1]")
+    private WebElement newestBuildButton;
+
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -98,4 +104,18 @@ public class MultiConfigurationProjectStatusPage extends BasePage {
 
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
+
+    public MultiConfigurationProjectStatusPage buildNowButton() {
+        buildNowButton.click();
+
+        return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+    public MultiConfigurationProjectStatusPage newestBuildButton() {
+        newestBuildButton.click();
+
+        return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+
 }

@@ -1,5 +1,6 @@
 import model.HomePage;
 import model.MultiConfigurationProjectStatusPage;
+import model.NewItemPage;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -369,5 +370,18 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickProjectDropdownMenu(PROJECT_NAME);
 
         Assert.assertTrue(buildNowButton);
+    }
+
+    @Test
+    public void testMultiConfigurationNewestBuildButton() {
+        MultiConfigurationProjectStatusPage newestBuildButton = new NewItemPage(getDriver())
+                .clickNewItem()
+                .setProjectName(PROJECT_NAME)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSaveButton()
+                .buildNowButton()
+                .newestBuildButton();
+
+        Assert.assertTrue(getDriver().findElement(By.cssSelector(".build-row-cell")).isDisplayed());
     }
 }
