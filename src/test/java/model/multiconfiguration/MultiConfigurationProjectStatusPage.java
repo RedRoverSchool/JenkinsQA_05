@@ -69,6 +69,9 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
         return this;
     }
 
+    @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-nobuilt icon-md']")
+    private WebElement iconProjectEnabled;
+
     public MultiConfigurationProjectStatusPage fillDescription(String desc) {
         getWait(5).until(ExpectedConditions.visibilityOf(description));
         description.sendKeys(desc);
@@ -174,5 +177,11 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
          getWait(10).until(ExpectedConditions.visibilityOf(iconProjectDisabled));
 
         return iconProjectDisabled.isDisplayed();
+    }
+
+    public boolean iconProjectEnabledIsDisplayed(){
+        getWait(10).until(ExpectedConditions.visibilityOf(iconProjectEnabled));
+
+        return iconProjectEnabled.isDisplayed();
     }
 }
