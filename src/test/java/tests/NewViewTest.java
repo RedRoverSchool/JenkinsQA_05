@@ -247,7 +247,7 @@ public class NewViewTest extends BaseTest {
     }
 
     @Test
-    public void testLettersSMLClickableMyViews() {
+    public void testLettersSMLClickableMyViews(){
         MyViewsPage myViewsPageSizeM = new MyViewsPage(getDriver())
                 .clickNewItem()
                 .setItemName(FREESTYLE_PROJECT_NAME)
