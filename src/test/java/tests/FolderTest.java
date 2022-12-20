@@ -28,7 +28,7 @@ public class FolderTest extends BaseTest {
                 .selectFolderAndClickOk()
                 .clickSaveBtn(FolderStatusPage.class)
                 .clickDashboard()
-                .getJobList();
+                .getJobNamesList();
 
         Assert.assertTrue(projectNamesOnDashboard.contains(FOLDER_RANDOM_NAME_1));
     }
@@ -57,7 +57,7 @@ public class FolderTest extends BaseTest {
                 .setDescription("change name")
                 .clickSaveBtn(FolderStatusPage.class)
                 .clickDashboard()
-                .getJobList();
+                .getJobNamesList();
 
         Assert.assertTrue(projectNamesOnDashboard.contains(DISPLAY_RANDOM_NAME));
     }
@@ -125,7 +125,7 @@ public class FolderTest extends BaseTest {
                 .clearAndSetNewName(FOLDER_RANDOM_NAME_2)
                 .clickSubmitButton()
                 .clickDashboard()
-                .getJobList();
+                .getJobNamesList();
 
         Assert.assertTrue(newFolderName.contains(FOLDER_RANDOM_NAME_2));
     }

@@ -141,11 +141,24 @@ public class HomePage extends Breadcrumbs {
         return new NewViewPage(getDriver());
     }
 
-    public List<String> getJobList() {
+    public List<String> getJobNamesList() {
         return jobList
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
+    }
+
+    public int getNumberOfJobsContainingString(String string) {
+
+        return (int) jobList
+                .stream()
+                .filter(element -> element.getText().contains(string))
+                .count();
+    }
+
+    public int getDisplayedNumberOfJobs() {
+
+        return jobList.size();
     }
 
     public List<String> getViewList() {

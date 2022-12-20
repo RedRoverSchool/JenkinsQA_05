@@ -50,7 +50,7 @@ public class FolderPage {
     public void resultFolderWasCreated() {
         List<String> allJobsAfterCreate = new HomePage(CucumberDriver.getDriver())
                 .clickDashboard()
-                .getJobList();
+                .getJobNamesList();
 
         Assert.assertTrue(allJobsAfterCreate.contains(folderName));
     }
@@ -87,11 +87,11 @@ public class FolderPage {
 
     @Then("Result: Deleted Folder in not exist")
     public void resultDeletedFolderInNotExist() {
-        Assert.assertFalse(homePage.getJobList().contains(folderName));
+        Assert.assertFalse(homePage.getJobNamesList().contains(folderName));
     }
 
     @Then("Result: All folder should be deleted")
     public void resultAllFolderShouldBeDeleted() {
-        Assert.assertTrue(homePage.getJobList().isEmpty());
+        Assert.assertTrue(homePage.getJobNamesList().isEmpty());
     }
 }

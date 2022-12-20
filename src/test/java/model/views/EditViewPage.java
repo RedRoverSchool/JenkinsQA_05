@@ -51,6 +51,12 @@ public class EditViewPage extends ViewPage {
     @FindBy(css = "#projectstatus th")
     private List<WebElement> listAddColumnMenuOptions;
 
+    @FindBy(css = "input[name='useincluderegex']+label")
+    private WebElement regexFilterCheckbox;
+
+    @FindBy(css = "input[name='includeRegex']")
+    private WebElement regexFilterTextArea;
+
     public EditViewPage(WebDriver driver) {
         super(driver);
     }
@@ -150,11 +156,37 @@ public class EditViewPage extends ViewPage {
     public EditViewPage scrollToColumnDropDownMenuPlaceInCenterWaitTillNotMoving() {
         TestUtils.scrollToElement_PlaceInCenter(getDriver(), addColumnDropDownMenu);
         getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(addColumnDropDownMenu));
+
         return this;
     }
 
     public List<String> getAddColumnMenuOptionTextList() {
 
         return listAddColumnMenuOptions.stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    public EditViewPage scrollToRegexFilterCheckboxPlaceInCenterWaitTillNotMoving() {
+        TestUtils.scrollToElement_PlaceInCenter(getDriver(), regexFilterCheckbox);
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(regexFilterCheckbox));
+
+        return this;
+    }
+
+    public boolean isRegexCheckboxChecked() {
+
+        return regexFilterCheckbox.isSelected();
+    }
+
+    public EditViewPage clickRegexCheckbox() {
+        regexFilterCheckbox.click();
+
+        return this;
+    }
+
+    public EditViewPage clearAndSendKeysRegexTextArea(String regex) {
+        regexFilterTextArea.clear();
+        regexFilterTextArea.sendKeys(regex);
+
+        return this;
     }
 }

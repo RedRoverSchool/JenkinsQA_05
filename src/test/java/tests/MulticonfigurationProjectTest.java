@@ -47,7 +47,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
                 .clickDashboard();
 
-        Assert.assertTrue(homePage.getJobList().contains(PROJECT_NAME));
+        Assert.assertTrue(homePage.getJobNamesList().contains(PROJECT_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
@@ -94,7 +94,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickMultConfJobName(PROJECT_NAME)
                 .deleteMultiConfigProject();
 
-        Assert.assertFalse(homePage.getJobList().contains(PROJECT_NAME));
+        Assert.assertFalse(homePage.getJobNamesList().contains(PROJECT_NAME));
     }
 
     @Ignore
