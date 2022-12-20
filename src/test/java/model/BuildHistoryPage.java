@@ -49,6 +49,9 @@ public class BuildHistoryPage extends HomePage {
     @FindBy(xpath = "//table[@id='projectStatus']/thead/tr/th")
     private List<WebElement> columns;
 
+    @FindBy(xpath = "//a[@href='/legend']")
+    private WebElement iconLegend;
+
     public String getSizeText() {
 
         return sizeIcon.getText();
@@ -113,8 +116,13 @@ public class BuildHistoryPage extends HomePage {
         return largeSizeIcon.isDisplayed();
     }
 
-    public int getSize(){
+    public int getSize() {
 
         return columns.size();
+    }
+
+    public boolean isIconDisplayed() {
+
+        return iconLegend.isDisplayed();
     }
 }

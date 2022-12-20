@@ -49,16 +49,16 @@ public class BuildHistoryTest extends BaseTest {
 
     @Test
     public void testIfTheIconLegendExist() {
-        HomePage homePage = new HomePage(getDriver())
-                .clickBuildHistory();
+        new HomePage(getDriver()).clickBuildHistory();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='/legend']")).isDisplayed());
+        BuildHistoryPage buildHistoryPage = new BuildHistoryPage(getDriver());
+
+        Assert.assertTrue(buildHistoryPage.isIconDisplayed());
     }
 
     @Test
     public void testNumberOfColumns_ProjectStatusTable() {
-        HomePage homePage = new HomePage(getDriver())
-                .clickBuildHistory();
+        new HomePage(getDriver()).clickBuildHistory();
 
         BuildHistoryPage buildHistoryPage = new BuildHistoryPage(getDriver());
 
