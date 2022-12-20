@@ -257,16 +257,16 @@ public class NewViewTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickSizeM();
 
-        Assert.assertTrue(myViewsPageSizeM.isDisplayedTableSizeM());
+        Assert.assertTrue(myViewsPageSizeM.tableSizeM());
 
         MyViewsPage myViewsPageSizeS = new MyViewsPage(getDriver())
                 .clickSizeS();
 
-        Assert.assertTrue(myViewsPageSizeS.isDisplayedTableSizeS());
+        Assert.assertTrue(myViewsPageSizeS.tableSizeS());
 
         MyViewsPage myViewsPageSizeL = new MyViewsPage(getDriver())
                 .clickSizeL();
 
-        Assert.assertTrue(myViewsPageSizeL.isDisplayedTableSizeL());
+        Assert.assertTrue(myViewsPageSizeL.tableSizeL());
     }
 }
