@@ -8,7 +8,6 @@ import model.multiconfiguration.MultiConfigurationProjectConfigPage;
 import model.organization_folder.OrgFolderConfigPage;
 import model.pipeline.PipelineConfigPage;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -136,15 +135,6 @@ public class NewItemPage extends HomePage {
         rootMenuDashboardLink.click();
 
         return new HomePage(getDriver());
-    }
-
-    public CreateItemErrorPage setItemAndClickOk(int index) {
-
-        getAction().scrollByAmount(0, 250).perform();
-        itemsList.get(index).click();
-        okButton.click();
-
-        return new CreateItemErrorPage(getDriver());
     }
 
     public NewItemPage setItem(int index) {
