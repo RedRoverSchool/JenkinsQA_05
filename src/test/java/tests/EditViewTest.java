@@ -293,6 +293,7 @@ public class EditViewTest extends BaseTest {
         Assert.assertTrue(newPaneIsDisplayed);
     }
 
+    @Ignore
     @Test
     public void testListViewCheckEveryAddColumnItem() {
         localViewName = TestUtils.getRandomStr();

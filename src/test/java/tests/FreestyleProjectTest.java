@@ -4,6 +4,7 @@ import model.*;
 import model.freestyle.FreestyleProjectConfigPage;
 import model.freestyle.FreestyleProjectStatusPage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.HashSet;
@@ -291,6 +292,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertNotEquals(page.getBuildDurationTime(), "N/A");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testAddDaysToKeepBuildsInConfigure() {
         final String expectedDaysToKeepBuilds = Integer.toString((int) (Math.random() * 20 + 1));
@@ -307,6 +309,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualDaysToKeepBuilds, expectedDaysToKeepBuilds);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddDaysToKeepBuildsInConfigure")
     public void testAddMaxNumberOfBuildsToKeepInConfigure() {
         final String expectedMaxNumberOfBuildsToKeep = Integer.toString((int) (Math.random() * 20 + 1));
