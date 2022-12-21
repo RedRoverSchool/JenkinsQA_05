@@ -395,7 +395,7 @@ public class EditViewTest extends BaseTest {
                     checksList.add(false);
                 }
             }
-        System.out.println(checksList);
+
         Assert.assertTrue(checksList.stream().allMatch(element -> element == true));
     }
 

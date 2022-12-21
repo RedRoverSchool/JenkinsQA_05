@@ -138,7 +138,7 @@ public class FolderOneTest extends BaseTest {
 
         FolderStatusPage statusPage = new HomePage(getDriver())
                 .clickFolder(RANDOM_NAME_1)
-                .clickMoveFolder()
+                .clickMoveButton()
                 .selectFolder(RANDOM_NAME_1 + "NEW")
                 .clickMove()
                 .clickDashboard()
@@ -214,7 +214,7 @@ public class FolderOneTest extends BaseTest {
 
         FolderStatusPage actualResult = new HomePage(getDriver())
                 .clickJobDropdownMenu(RANDOM_MULTIBRANCH_PIPELINE_NAME)
-                .clickMoveButtonDropdown()
+                .clickMoveButtonDropdown(new FolderStatusPage(getDriver()))
                 .selectFolder(RANDOM_NAME_1)
                 .clickMove()
                 .clickDashboard()
@@ -256,7 +256,7 @@ public class FolderOneTest extends BaseTest {
                 .clickDashboard()
 
                 .clickJobDropdownMenu(RANDOM_NAME_1)
-                .clickMoveButtonDropdown()
+                .clickMoveButtonDropdown(new FolderStatusPage(getDriver()))
                 .selectFolder(RANDOM_NAME_2)
                 .clickMove()
                 .clickDashboard();

@@ -1,19 +1,18 @@
 package tests;
 
+import model.CreateItemErrorPage;
 import model.HomePage;
 import model.NewItemPage;
 import model.pipeline.PipelineConfigPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public class NewItemTest extends BaseTest {
 
@@ -49,23 +48,28 @@ public class NewItemTest extends BaseTest {
         Assert.assertEquals(homePage.getJobName(PROJECT_NAME), PROJECT_NAME);
     }
 
-    @Test
-    public void testCreateAnyItemWithSpacesOnlyNameError() {
+    @DataProvider(name = "typeProjectList")
+    private Object[][] getTypeProjectList() {
+        return Stream.<Consumer<NewItemPage>>of(
+                NewItemPage::selectFreestyleProjectAndClickOk,
+                NewItemPage::selectPipelineAndClickOk,
+                NewItemPage::selectMultiConfigurationProjectAndClickOk,
+                NewItemPage::selectFolderAndClickOk,
+                NewItemPage::selectMultibranchPipelineAndClickOk,
+                NewItemPage::selectOrgFolderAndClickOk
+        ).map(func -> new Object[]{func}).toArray(Object[][]::new);
+    }
 
-        int itemsListSize = new HomePage(getDriver())
-                .clickNewItem()
-                .getItemsListSize();
+    @Test(dataProvider = "typeProjectList")
+    public void testCreateAnyItemWithSpacesOnlyNameError(Consumer<NewItemPage> typeProjectMethod) {
+        typeProjectMethod.accept(
+                new HomePage(getDriver())
+                        .clickNewItem()
+                        .setItemName("     "));
 
-        for (int i = 0; i < itemsListSize; i++) {
-            String actualErrorMessage = new NewItemPage(getDriver())
-                    .rootMenuDashboardLinkClick()
-                    .clickNewItem()
-                    .setItemName("      ")
-                    .setItemAndClickOk(i)
-                    .getErrorMessage();
-
-            Assert.assertEquals(actualErrorMessage, "No name is specified");
-        }
+        Assert.assertEquals(
+                new CreateItemErrorPage(getDriver()).getErrorMessage(),
+                "No name is specified");
     }
 
     @Test

@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 
-public class MultiConfigurationProjectConfigPage extends BaseConfigPage {
+public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiConfigurationProjectStatusPage> {
 
     @FindBy(name = "description")
     private WebElement inputDescription;
@@ -33,6 +33,11 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage {
 
     @FindBy(css = ".jenkins-input.fixed-width")
     private WebElement textAreaBuildSteps;
+
+    @Override
+    protected MultiConfigurationProjectStatusPage createStatusPage() {
+        return new MultiConfigurationProjectStatusPage(getDriver());
+    }
 
     public MultiConfigurationProjectConfigPage(WebDriver driver) {
         super(driver);

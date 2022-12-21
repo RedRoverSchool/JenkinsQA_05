@@ -53,11 +53,9 @@ public abstract class BaseTest {
         }
     }
 
-    protected static void clearData() {
+    protected void clearData() {
         BaseUtils.log("Clear data");
-        JenkinsUtils.deleteViews();
-        JenkinsUtils.deleteJobs();
-        JenkinsUtils.deleteUsers();
+        JenkinsUtils.clearData();
     }
 
     protected void loginWeb() {

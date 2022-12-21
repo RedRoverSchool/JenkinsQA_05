@@ -1,10 +1,10 @@
 package model;
 
-import model.base.BasePage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
 
 
 public class BuildHistoryPage extends HomePage {
@@ -36,6 +36,21 @@ public class BuildHistoryPage extends HomePage {
 
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement submitButton;
+
+    @FindBy(xpath = "//a[@href='/iconSize?16x16']")
+    private WebElement smallSizeIcon;
+
+    @FindBy(xpath = "//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li/following-sibling::li[2]")
+    private WebElement middleSizeIcon;
+
+    @FindBy(xpath = "//div[@class='jenkins-icon-size__items jenkins-buttons-row']/ol/li[last()]")
+    private WebElement largeSizeIcon;
+
+    @FindBy(xpath = "//table[@id='projectStatus']/thead/tr/th")
+    private List<WebElement> columns;
+
+    @FindBy(xpath = "//a[@href='/legend']")
+    private WebElement iconLegend;
 
     public String getSizeText() {
 
@@ -84,5 +99,30 @@ public class BuildHistoryPage extends HomePage {
         submitButton.click();
 
         return this;
+    }
+
+    public boolean smallSizeIconIsDisplayed() {
+
+        return smallSizeIcon.isDisplayed();
+    }
+
+    public boolean middleSizeIconIsDisplayed() {
+
+        return middleSizeIcon.isDisplayed();
+    }
+
+    public boolean largeSizeIconIsDisplayed() {
+
+        return largeSizeIcon.isDisplayed();
+    }
+
+    public int getSize() {
+
+        return columns.size();
+    }
+
+    public boolean isIconDisplayed() {
+
+        return iconLegend.isDisplayed();
     }
 }
