@@ -155,4 +155,5 @@ public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
 
         return new OrgFolderStatusPage(getDriver());
     }
+
 }
