@@ -218,4 +218,5 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(homePage.getJobNamesList().contains(nameOrgFolderPOM));
     }
+
 }
