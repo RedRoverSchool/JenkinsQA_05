@@ -214,6 +214,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickMultConfJobName(PROJECT_NAME)
                 .clickDisableButton()
                 .clickDashboard();
+
         Assert.assertTrue(homePage.iconProjectDisabledIsDisplayed());
     }
 
