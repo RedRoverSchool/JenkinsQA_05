@@ -293,6 +293,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertNotEquals(page.getBuildDurationTime(), "N/A");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testAddDaysToKeepBuildsInConfigure() {
         final String expectedDaysToKeepBuilds = Integer.toString((int) (Math.random() * 20 + 1));
@@ -309,6 +310,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualDaysToKeepBuilds, expectedDaysToKeepBuilds);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddDaysToKeepBuildsInConfigure")
     public void testAddMaxNumberOfBuildsToKeepInConfigure() {
         final String expectedMaxNumberOfBuildsToKeep = Integer.toString((int) (Math.random() * 20 + 1));
@@ -324,6 +326,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualMaxNumberOfBuildsToKeep, expectedMaxNumberOfBuildsToKeep);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddMaxNumberOfBuildsToKeepInConfigure")
     public void testBuildStepsOptions() {
         final Set<String> expectedOptionsInBuildStepsSection = new HashSet<>(List.of("Execute Windows batch command",
@@ -344,6 +347,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualOptionsInBuildStepsSection, expectedOptionsInBuildStepsSection);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testBuildStepsOptions")
     public void testSelectBuildPeriodicallyCheckbox() {
 
