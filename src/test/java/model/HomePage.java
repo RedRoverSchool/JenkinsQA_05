@@ -277,6 +277,11 @@ public class HomePage extends Breadcrumbs {
         return new MyViewsPage(getDriver());
     }
 
+    public String getMyViewsTopMenuLinkText() {
+
+        return myViewsTopMenuLink.getText();
+    }
+
     public ManageJenkinsPage clickManageJenkins() {
         manageJenkins.click();
 

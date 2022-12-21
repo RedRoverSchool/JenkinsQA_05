@@ -4,10 +4,12 @@ import model.views.EditViewPage;
 import model.HomePage;
 import model.views.MyViewsPage;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import runner.BaseTest;
+import runner.BaseUtils;
 import runner.TestUtils;
 
 import java.util.*;
@@ -360,35 +362,41 @@ public class EditViewTest extends BaseTest {
         Assert.assertEquals(actualResult, (nonSpaces + " " + nonSpaces));
     }
 
-    @Test
-    public void testIllegalCharacterRenameView () {
-        localViewName = TestUtils.getRandomStr();
-        listViewSeriesPreConditions(1, localViewName);
+    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
+    public void testIllegalCharacterRenameView() {
         final char[] illegalCharacters = "#!@$%^&*:;<>?/[]|\\".toCharArray();
+        new HomePage(getDriver())
+                .clickMyViewsSideMenuLink();
 
-        List<Boolean> checks = new ArrayList<>();
+        List<Boolean> checksList = new ArrayList<>();
         for (int i = 0; i < illegalCharacters.length; i++) {
-            getDriver().findElement(INPUT_NAME).clear();
-            getDriver().findElement(INPUT_NAME).sendKeys(illegalCharacters[i] + localViewName);
-            getDriver().findElement(SUBMIT_BUTTON).click();
-            if (getDriver().findElements(By.cssSelector("#main-panel h1")).size() > 0) {
-                checks.add(String.format("‘%c’ is an unsafe character", illegalCharacters[i])
-                        .equals(getDriver().findElement(By.cssSelector("#main-panel p")).getText()));
-                getDriver().findElement(DASHBOARD).click();
-                getDriver().findElement(MY_VIEWS).click();
-                int finalI = i;
-                checks.add(getDriver()
-                        .findElements(By
-                                .xpath(String.format("//a[contains(@href, '/my-views/view/%s/')]", localViewName)))
-                        .stream().noneMatch(element -> element.getText()
-                                .equals(String.format("‘%c’ is an unsafe character", illegalCharacters[finalI]))));
-                goToEditView(localViewName);
-            } else {
-                checks.add(false);
-            }
-        }
+            try {
+            new HomePage(getDriver())
+                    .clickMyViewsTopMenuLink()
+                    .clickView(localViewName)
+                    .clickEditViewButton()
+                    .renameView(illegalCharacters[i] + localViewName)
+                    .clickListOrMyViewOkButton();
+                    if (new EditViewPage(getDriver()).getErrorPageHeader().equals("Error")) {
+                        checksList.add(new EditViewPage(getDriver()).isCorrectErrorPageDetailsText(illegalCharacters[i]));
 
-        Assert.assertTrue(checks.stream().allMatch(element -> element == true));
+                        checksList.add(!new HomePage(getDriver())
+                                .clickDashboard()
+                                .clickMyViewsSideMenuLink()
+                                .getListViewsNames().contains(illegalCharacters[i] + localViewName));
+                    } else {
+                        checksList.add(false);
+                        BaseUtils.log("Not an Error page");
+                    }
+                } catch (NoSuchElementException exception) {
+                    BaseUtils.log(String.format("Invalid Page at Title: %s, URL: %s",
+                            getDriver().getTitle(),
+                            getDriver().getCurrentUrl()));
+                    checksList.add(false);
+                }
+            }
+        System.out.println(checksList);
+        Assert.assertTrue(checksList.stream().allMatch(element -> element == true));
     }
 
     @Test

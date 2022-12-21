@@ -43,9 +43,6 @@ public class MyViewsPage extends HomePage {
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement displayedDescriptionText;
 
-    @FindBy(xpath = "//ul[@id='breadcrumbs']/li[5]")
-    private WebElement myViewItemOnTopBar;
-
     @FindBy(css = "#projectstatus th")
     private List<WebElement> listJobTableHeaders;
 
@@ -155,11 +152,6 @@ public class MyViewsPage extends HomePage {
     public String getDescriptionText() {
 
         return displayedDescriptionText.getText();
-    }
-
-    public String getMyViewItemNameOnTopBar() {
-
-        return myViewItemOnTopBar.getText();
     }
 
     public MyViewsPage clickEditDescription(){
