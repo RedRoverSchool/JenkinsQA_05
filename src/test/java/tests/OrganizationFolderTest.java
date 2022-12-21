@@ -227,19 +227,29 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(homePage.getJobNamesList().contains(nameFolderPOM));
     }
 
-    @Test(dependsOnMethods = {"testFolderCreate", "testOrgFolderCreate"})
+       @Test(dependsOnMethods = {"testFolderCreate", "testOrgFolderCreate"})
     public void testMoveOrgFolderToFolder() {
-        HomePage homePage = new HomePage(getDriver())
+        FolderStatusPage folderStatusPage = new HomePage(getDriver())
                 .clickOrgFolder(nameOrgFolderPOM)
                 .clickMoveButton()
                 .selectFolder(nameFolderPOM)
                 .clickMove()
-                .clickDashboard();
-
-        Assert.assertFalse(homePage.getJobNamesList().contains(nameOrgFolderPOM));
-
-        FolderStatusPage folderStatusPage = homePage.clickFolder(nameFolderPOM);
+                .clickDashboard()
+                .clickFolder(nameFolderPOM);
 
         Assert.assertTrue(folderStatusPage.getJobList().contains(nameOrgFolderPOM));
+    }
+
+    @Test(dependsOnMethods = "testMoveOrgFolderToFolder")
+    public void testMoveOrgFolderToDashboard() throws InterruptedException {
+        HomePage homePage= new HomePage(getDriver())
+                .clickFolder(nameFolderPOM)
+                .clickOrgFolder(nameOrgFolderPOM)
+                .clickMoveButton()
+                .selectOptionToDashBoard()
+                .clickMove()
+                .clickDashboard();
+
+        Assert.assertTrue(homePage.getJobNamesList().contains(nameOrgFolderPOM));
     }
 }
