@@ -150,9 +150,8 @@ public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
         return new FreestyleProjectStatusPage(getDriver());
     }
 
-    public OrgFolderStatusPage clickOrgFolder(String name){
-        getWait(5).until(ExpectedConditions.elementToBeClickable(getDriver()
-                .findElement(By.xpath("//span[text()= '" + name + "']")))).click();
+    public OrgFolderStatusPage clickOrgFolder(String name) {
+        getDriver().findElement(By.xpath("//span[text()= '" + name + "']")).click();
 
         return new OrgFolderStatusPage(getDriver());
     }
