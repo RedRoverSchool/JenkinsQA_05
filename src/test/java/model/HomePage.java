@@ -120,6 +120,10 @@ public class HomePage extends Breadcrumbs {
     @FindBy(xpath = "(//a[@class='yuimenuitemlabel'])[3]/span")
     private WebElement buildNowButton;
 
+    @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-disabled icon-md']")
+    private WebElement iconProjectDisabled;
+
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -520,5 +524,11 @@ public class HomePage extends Breadcrumbs {
         }
 
         return listProjectsNames.toString().trim();
+    }
+
+    public boolean iconProjectDisabledIsDisplayed(){
+        getWait(10).until(ExpectedConditions.visibilityOf(iconProjectDisabled));
+
+        return iconProjectDisabled.isDisplayed();
     }
 }
