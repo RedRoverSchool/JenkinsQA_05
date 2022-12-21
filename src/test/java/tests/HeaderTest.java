@@ -101,7 +101,7 @@ public class HeaderTest extends BaseTest {
                 .clickUserDropdownMenu()
                 .clickMyViewItemInUserDropdownMenu();
 
-        Assert.assertEquals(myViewsPage.getMyViewItemNameOnTopBar(),
+        Assert.assertEquals(myViewsPage.getMyViewsTopMenuLinkText(),
                 "My Views");
     }
 
