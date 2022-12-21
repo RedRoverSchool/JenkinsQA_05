@@ -57,13 +57,6 @@ public class ViewPage extends MyViewsPage{
         super(driver);
     }
 
-    public List<String> getJobList() {
-        return jobList
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
-    }
-
     public HomePage goToDashboard() {
         dashboard.click();
 
@@ -74,12 +67,6 @@ public class ViewPage extends MyViewsPage{
         editView.click();
 
         return new EditViewPage(getDriver());
-    }
-
-    public MyViewsPage clickMyViewsSideMenuLink() {
-        allButton.click();
-
-        return new MyViewsPage(getDriver());
     }
 
     public ViewPage clickDeleteViewItem() {

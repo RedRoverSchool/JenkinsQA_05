@@ -5,6 +5,7 @@ import model.pipeline.PipelineConfigPage;
 import model.pipeline.PipelineStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -66,7 +67,7 @@ public class PipelineTest extends BaseTest {
                 .clearFieldAndInputNewName(PIPELINE_NAME + RENAME_SUFFIX)
                 .clickSubmitButton();
 
-        Assert.assertEquals(new PipelineStatusPage(getDriver()).getPipelineTitle(), "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
+        Assert.assertEquals(new PipelineStatusPage(getDriver()).getNameText(), "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
     }
 
     @Test
@@ -168,7 +169,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .clickDashboard().clickPipelineJob(PIPELINE_NAME);
 
-        Assert.assertEquals(pipelineProjectPage.getDescription(), PIPELINE_NAME + "edit description");
+        Assert.assertEquals(pipelineProjectPage.getProjectDescriptionText(), PIPELINE_NAME + "edit description");
     }
 
     @Test(dependsOnMethods = "testEnablePipelineProject")
@@ -215,7 +216,7 @@ public class PipelineTest extends BaseTest {
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
                 .clickSaveBtn(PipelineStatusPage.class)
-                .getPipelineTitle();
+                .getNameText();
 
         Assert.assertEquals(actualPipelineName, "Pipeline " + PIPELINE_NAME);
     }
@@ -242,6 +243,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(pipelineProjectPage.getAttributeGitHubSideMenu("href").contains(gitHubRepo));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddingGitRepository")
     public void testWarningMessageIsDisappeared() {
         String emptyErrorArea = new HomePage(getDriver())
@@ -255,6 +257,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(emptyErrorArea, "");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testWarningMessageIsDisappeared")
     public void testBuildParametrizedProject() {
         String consoleOutputText = new HomePage(getDriver())
@@ -289,7 +292,7 @@ public class PipelineTest extends BaseTest {
                 .editDescription(PIPELINE_DESCRIPTION)
                 .clickSaveButton();
 
-        Assert.assertEquals(pipelineProjectPage.getDescription(), PIPELINE_DESCRIPTION);
+        Assert.assertEquals(pipelineProjectPage.getProjectDescriptionText(), PIPELINE_DESCRIPTION);
     }
 
     @Test
@@ -300,7 +303,7 @@ public class PipelineTest extends BaseTest {
                 .selectPipelineAndClickOk()
                 .setDescriptionField(PIPELINE_DESCRIPTION)
                 .clickSaveBtn(PipelineStatusPage.class)
-                .getDescription();
+                .getProjectDescriptionText();
 
         Assert.assertEquals(actualPipelineDescription, PIPELINE_DESCRIPTION);
     }
@@ -313,7 +316,7 @@ public class PipelineTest extends BaseTest {
                 .clickPipelineProjectName()
                 .editDescription(ITEM_NEW_DESCRIPTION)
                 .clickSaveButton()
-                .getDescription();
+                .getProjectDescriptionText();
 
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
     }
@@ -328,7 +331,7 @@ public class PipelineTest extends BaseTest {
                 .clickSaveBtn(PipelineStatusPage.class)
                 .getPipelineName();
 
-        String actualDescription = new PipelineStatusPage(getDriver()).getDescription();
+        String actualDescription = new PipelineStatusPage(getDriver()).getProjectDescriptionText();
 
         Assert.assertEquals(actualJobName, ITEM_NAME);
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
@@ -397,7 +400,7 @@ public class PipelineTest extends BaseTest {
                 .clickConfigure()
                 .setDescriptionField(ITEM_NEW_DESCRIPTION)
                 .clickSaveBtn(PipelineStatusPage.class)
-                .getDescription();
+                .getProjectDescriptionText();
 
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
     }

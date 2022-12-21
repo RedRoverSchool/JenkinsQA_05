@@ -6,13 +6,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MultibranchPipelineStatusPage extends BaseStatusPage {
+public class MultibranchPipelineStatusPage extends BaseStatusPage<MultibranchPipelineStatusPage> {
 
     @FindBy(linkText = "Delete Multibranch Pipeline")
     private WebElement deleteLeftSideMenu;
-
-    @FindBy(xpath = "//h1")
-    private WebElement multibranchPipelineName;
 
     @FindBy(linkText = "Rename")
     private WebElement renameLeftMenu;
@@ -25,10 +22,6 @@ public class MultibranchPipelineStatusPage extends BaseStatusPage {
         deleteLeftSideMenu.click();
 
         return new DeleteMultibranchPipelinePage(getDriver());
-    }
-
-    public String getMultibranchPipelineName() {
-        return multibranchPipelineName.getText();
     }
 
     public RenameItemPage clickRenameLeftMenu() {

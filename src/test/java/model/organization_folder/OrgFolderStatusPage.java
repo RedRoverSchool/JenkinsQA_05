@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class OrgFolderStatusPage extends BaseStatusPage {
+public class OrgFolderStatusPage extends BaseStatusPage<OrgFolderStatusPage> {
 
     @FindBy(linkText = "Rename")
     private WebElement renameButton;
@@ -22,20 +22,14 @@ public class OrgFolderStatusPage extends BaseStatusPage {
     @FindBy(linkText = "Configure")
     private WebElement configureButton;
 
-    @FindBy(id = "view-message")
-    private WebElement description;
-
-    @FindBy(xpath = "//h1")
-    private WebElement displayName;
-
     @FindBy(xpath = "//div[@id='tasks']//a[contains(@href, 'delete')]")
     private WebElement deleteButton;
 
     @FindBy(xpath = "//button[@type= 'submit']")
     private WebElement saveButton;
 
-    @FindBy(linkText = "Move")
-    private WebElement moveButton;
+    @FindBy(linkText = "Up")
+    private WebElement buttonUp;
 
     public OrgFolderStatusPage(WebDriver driver) {
         super(driver);
@@ -61,14 +55,6 @@ public class OrgFolderStatusPage extends BaseStatusPage {
         return new OrgFolderConfigPage(getDriver());
     }
 
-    public String getDescription() {
-        return description.getText();
-    }
-
-    public String getDisplayName() {
-        return displayName.getText();
-    }
-
     public OrgFolderStatusPage clickDeleteOrganizationFolder() {
         deleteButton.click();
 
@@ -81,9 +67,9 @@ public class OrgFolderStatusPage extends BaseStatusPage {
         return new HomePage(getDriver());
     }
 
-    public MovePage clickMoveButton(){
-        getWait(5).until(ExpectedConditions.elementToBeClickable(moveButton)).click();
+    public HomePage clickButtonUp(){
+        getWait(5).until(ExpectedConditions.elementToBeClickable(buttonUp)).click();
 
-        return new MovePage(getDriver());
+        return new HomePage(getDriver());
     }
 }

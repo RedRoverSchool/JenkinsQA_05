@@ -9,15 +9,15 @@ public class CucumberDriver {
 
     private static WebDriver driver;
 
-
     @Before
     public static void before(Scenario scenario){
         driver = BaseUtils.createDriver();
 
         ProjectUtils.get(driver);
         ProjectUtils.login(driver);
-        BaseTest.clearData();
+        clearData();
     }
+    
     @After
     public static void after(Scenario scenario){
         driver.quit();
@@ -25,5 +25,10 @@ public class CucumberDriver {
 
     public static WebDriver getDriver(){
         return driver;
+    }
+
+    private static void clearData(){
+        BaseUtils.log("Clear data");
+        JenkinsUtils.clearData();
     }
 }

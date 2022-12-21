@@ -19,7 +19,7 @@ public class ProjectsInFolderTest extends BaseTest {
                 .selectFolderAndClickOk()
                 .clickDashboard();
 
-        Assert.assertTrue(homePage.getJobList().contains(RANDOM_NAME));
+        Assert.assertTrue(homePage.getJobNamesList().contains(RANDOM_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateFolder")
@@ -30,7 +30,7 @@ public class ProjectsInFolderTest extends BaseTest {
                 .setItemName(RANDOM_NAME)
                 .selectOrgFolderAndClickOk()
                 .clickSaveBtn(OrgFolderStatusPage.class)
-                .getDisplayName();
+                .getNameText();
 
         Assert.assertEquals(actualOrganizationFolderDisplayName, RANDOM_NAME);
     }

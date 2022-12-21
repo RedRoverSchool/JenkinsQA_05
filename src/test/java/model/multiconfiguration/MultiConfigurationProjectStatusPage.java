@@ -13,7 +13,7 @@ import runner.TestUtils;
 
 import java.util.List;
 
-public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
+public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiConfigurationProjectStatusPage> {
 
     @FindBy(id = "description-link")
     private WebElement descriptionLink;
@@ -23,9 +23,6 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
 
     @FindBy(xpath = "//button[contains(text(),'Save')]")
     private WebElement saveDescriptionButton;
-
-    @FindBy(xpath = "//div[@id='description']/div[1]")
-    private WebElement fieldDescription;
 
     @FindBy(xpath = "//span[text()='Delete Multi-configuration project']")
     private WebElement deleteOption;
@@ -87,11 +84,6 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage {
         saveDescriptionButton.click();
 
         return this;
-    }
-
-    public String getDescriptionText() {
-
-        return fieldDescription.getText();
     }
 
     public String getNameMultiConfigProject(String name) {

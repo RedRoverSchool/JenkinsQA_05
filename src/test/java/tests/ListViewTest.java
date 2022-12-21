@@ -28,7 +28,7 @@ public class ListViewTest extends BaseTest {
                 .setListViewTypeAndClickCreate()
                 .addJobToView(projectOne)
                 .clickGlobalViewOkButton()
-                .getJobList().size();
+                .getJobNamesList().size();
 
         Assert.assertEquals(quantityProjectsInListView, 1);
         Assert.assertTrue(new HomePage(getDriver()).getViewList().contains(RANDOM_LIST_VIEW_NAME));
