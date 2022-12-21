@@ -132,35 +132,35 @@ public class OrganizationFolderTest extends BaseTest {
                 + ORG_FOLDER_NAME_CREATE + "’");
     }
 
-    @Ignore
-    @Test
-    public void testMoveOrgFolderToDashboard() {
-        getDashboard().click();
-
-        getWait(5).until(ExpectedConditions.elementToBeClickable(ITEM_FOLDER));
-        TestUtils.scrollToElement(getDriver(), getDriver().findElement(ITEM_FOLDER));
-        getDriver().findElement(ITEM_FOLDER).click();
-
-        getWait(5).until(ExpectedConditions.elementToBeClickable(ITEM_ORG_FOLDER));
-        getDriver().findElement(ITEM_ORG_FOLDER).click();
-
-        getDriver().findElement(By.linkText("Move")).click();
-        getDriver().findElement(By.name("destination")).click();
-        getDriver().findElement(By.xpath("//option[text()='Jenkins']")).click();
-        getDriver().findElement(By.id("yui-gen1-button")).click();
-        getDashboard().click();
-        getWait(5).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("dashboard"))));
-
-        Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
-
-        WebElement myFolder = getDriver().findElement(ITEM_FOLDER);
-        getWait(5).until(ExpectedConditions.elementToBeClickable(myFolder));
-        TestUtils.scrollToElement(getDriver(), myFolder);
-        myFolder.click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h2[@class='h4']")).getText(),
-                "This folder is empty");
-    }
+//    @Ignore
+//    @Test
+//    public void testMoveOrgFolderToDashboard() {
+//        getDashboard().click();
+//
+//        getWait(5).until(ExpectedConditions.elementToBeClickable(ITEM_FOLDER));
+//        TestUtils.scrollToElement(getDriver(), getDriver().findElement(ITEM_FOLDER));
+//        getDriver().findElement(ITEM_FOLDER).click();
+//
+//        getWait(5).until(ExpectedConditions.elementToBeClickable(ITEM_ORG_FOLDER));
+//        getDriver().findElement(ITEM_ORG_FOLDER).click();
+//
+//        getDriver().findElement(By.linkText("Move")).click();
+//        getDriver().findElement(By.name("destination")).click();
+//        getDriver().findElement(By.xpath("//option[text()='Jenkins']")).click();
+//        getDriver().findElement(By.id("yui-gen1-button")).click();
+//        getDashboard().click();
+//        getWait(5).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("dashboard"))));
+//
+//        Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
+//
+//        WebElement myFolder = getDriver().findElement(ITEM_FOLDER);
+//        getWait(5).until(ExpectedConditions.elementToBeClickable(myFolder));
+//        TestUtils.scrollToElement(getDriver(), myFolder);
+//        myFolder.click();
+//
+//        Assert.assertEquals(getDriver().findElement(By.xpath("//h2[@class='h4']")).getText(),
+//                "This folder is empty");
+//    }
 
     @Test(dependsOnMethods = "testConfigureOrganizationFolder")
     public void testDeleteOrganizationFolderDependsMethods() {
@@ -241,7 +241,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testMoveOrgFolderToFolder")
-    public void testMoveOrgFolderToDashboard() throws InterruptedException {
+    public void testMoveOrgFolderToDashboard() {
         HomePage homePage= new HomePage(getDriver())
                 .clickFolder(nameFolderPOM)
                 .clickOrgFolder(nameOrgFolderPOM)

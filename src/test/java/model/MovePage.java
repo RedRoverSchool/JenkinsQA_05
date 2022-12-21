@@ -35,4 +35,10 @@ public class MovePage<StatusPage extends BaseStatusPage> extends BasePage {
 
         return statusPage;
     }
+
+    public MovePage<StatusPage> selectOptionToDashBoard(){
+        new Select(dropdown).selectByVisibleText("Jenkins");
+
+        return this;
+    }
 }
