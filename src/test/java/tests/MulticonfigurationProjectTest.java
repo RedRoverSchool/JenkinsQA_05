@@ -147,6 +147,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         multiConfigProject.deleteMultiConfigProject();
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testMultiConfigurationProjectRenameProjectViaSideMenu")
     public void testMultiConfigurationProjectBuild() {
 
