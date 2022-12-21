@@ -21,10 +21,8 @@ public class EditViewTest extends BaseTest {
     private static final By DASHBOARD = By.cssSelector("#jenkins-name-icon");
     private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
     private static final By ITEM_OPTION = By.cssSelector("input[json='true']+label");
-    private static final By FILTER_QUEUE = By.cssSelector("input[name=filterQueue]+label");
     private static final By MY_VIEWS = By.xpath("//a[@href='/me/my-views']");
     private static final By INPUT_NAME = By.cssSelector("[name='name']");
-    private static final By PANE_HEADER = By.cssSelector(".pane-header-title");
     private static final By ADD_COLUMN = By.cssSelector(".hetero-list-add[suffix='columns']");
     private static final By LAST_EXISTING_COLUMN = By
             .xpath("//div[contains(@class, 'hetero-list-container')]/div[@class='repeated-chunk'][last()]");
@@ -266,32 +264,36 @@ public class EditViewTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
     public void testListViewAddFilterBuildQueue() {
-        createManyJobsOfEachType(1);
-        createViewFromListOfViewTypes(1, TestUtils.getRandomStr());
-
-        getDriver().findElement(FILTER_QUEUE).click();
-        getDriver().findElement(SUBMIT_BUTTON).click();
-
-        boolean newPaneIsDisplayed = getDriver().findElements(PANE_HEADER)
-                .stream().map(element -> element.getText()).collect(Collectors.toList())
+        boolean newPaneIsDisplayed = new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickAddViewLink()
+                .setViewName(TestUtils.getRandomStr())
+                .setListViewType()
+                .clickCreateButton()
+                .selectFilterBuildQueueOptionCheckBox()
+                .clickListOrMyViewOkButton()
+                .getActiveFiltersList()
                 .contains("Filtered Build Queue");
+
         Assert.assertTrue(newPaneIsDisplayed);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
     public void testMyViewAddFilterBuildQueue() {
-        localViewName = TestUtils.getRandomStr();
-        editViewTestPreConditions(2, localViewName);
-        goToEditView(localViewName);
-
-        getDriver().findElement(FILTER_QUEUE).click();
-        getDriver().findElement(SUBMIT_BUTTON).click();
-
-        boolean newPaneIsDisplayed = getDriver().findElements(PANE_HEADER)
-                .stream().map(element -> element.getText()).collect(Collectors.toList())
+        boolean newPaneIsDisplayed = new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickAddViewLink()
+                .setViewName(TestUtils.getRandomStr())
+                .setMyViewType()
+                .clickCreateButton()
+                .clickEditViewButton()
+                .selectFilterBuildQueueOptionCheckBox()
+                .clickListOrMyViewOkButton()
+                .getActiveFiltersList()
                 .contains("Filtered Build Queue");
+
         Assert.assertTrue(newPaneIsDisplayed);
     }
 
@@ -365,8 +367,7 @@ public class EditViewTest extends BaseTest {
     @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
     public void testIllegalCharacterRenameView() {
         final char[] illegalCharacters = "#!@$%^&*:;<>?/[]|\\".toCharArray();
-        new HomePage(getDriver())
-                .clickMyViewsSideMenuLink();
+        new HomePage(getDriver()).clickMyViewsSideMenuLink();
 
         List<Boolean> checksList = new ArrayList<>();
         for (int i = 0; i < illegalCharacters.length; i++) {
