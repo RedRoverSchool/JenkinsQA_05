@@ -1,9 +1,12 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -51,6 +54,9 @@ public class BuildHistoryPage extends HomePage {
 
     @FindBy(xpath = "//a[@href='/legend']")
     private WebElement iconLegend;
+
+    @FindBy(xpath = "//div[contains(@id,'label-tl')]")
+    private List<WebElement> labelsOnTimelineBuildHistory;
 
     public String getSizeText() {
 
@@ -124,5 +130,15 @@ public class BuildHistoryPage extends HomePage {
     public boolean isIconDisplayed() {
 
         return iconLegend.isDisplayed();
+    }
+
+    public List<String> getNameOfLabelsOnTimeLineBuildHistory(){
+        List<String> nameOfBuildsOnTimeLine = new ArrayList<>();
+        for (WebElement buildNamesOnTimeLine : labelsOnTimelineBuildHistory) {
+
+            nameOfBuildsOnTimeLine.add(buildNamesOnTimeLine.getText());
+        }
+
+        return nameOfBuildsOnTimeLine;
     }
 }

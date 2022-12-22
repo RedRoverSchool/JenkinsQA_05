@@ -250,28 +250,41 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clearFieldAndInputNewName("&")
                 .clickSaveButton();
 
-        Assert.assertEquals(renameItemErrorPage.getErrorMessage(),"‘&amp;’ is an unsafe character");
+        Assert.assertEquals(renameItemErrorPage.getErrorMessage(), "‘&amp;’ is an unsafe character");
     }
-
-    @Ignore
-    @Test(dependsOnMethods = "testMultiConfigurationProjectBuild")
+    @Test
     public void testMultiConfigurationProjectsRunJobInBuildHistory() {
 
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(By.xpath("//a[@href='/me/my-views']")).click();
-        getDriver().findElement(By.xpath("//a[@href='/user/admin/my-views/view/all/builds']")).click();
-        List<WebElement> buildsInTable = getDriver().findElements(By.xpath
-                ("//div[contains(@id,'label-tl')]"));
-        for (WebElement buildName : buildsInTable) {
-            Assert.assertTrue(buildName.getText().contains(NEW_PROJECT_NAME));
-        }
+        List<String> buildOnTimeline = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PROJECT_NAME)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickDashboard()
+                .clickMultConfJobName(PROJECT_NAME)
+                .clickBuildNowOnSideMenu(PROJECT_NAME)
+                .clickDashboard()
+                .clickMyViewsSideMenuLink()
+                .clickBuildHistory()
+                .getNameOfLabelsOnTimeLineBuildHistory();
 
-        Assert.assertEquals(getDriver().findElement(
-                        By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/default/']")).getText(),
-                NEW_PROJECT_NAME + " » default");
-        Assert.assertEquals(getDriver().findElement(
-                        By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/']")).getText(),
-                NEW_PROJECT_NAME);
+        System.out.println(buildOnTimeline.toString());
+
+
+        Assert.assertTrue(buildOnTimeline.contains(PROJECT_NAME));
+
+//        List<WebElement> buildsInTable = getDriver().findElements(By.xpath
+//                ("//div[contains(@id,'label-tl')]"));
+//        for (WebElement buildName : buildsInTable) {
+//            Assert.assertTrue(buildName.getText().contains(NEW_PROJECT_NAME));
+//        }
+//
+//        Assert.assertEquals(getDriver().findElement(
+//                        By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/default/']")).getText(),
+//                NEW_PROJECT_NAME + " » default");
+//        Assert.assertEquals(getDriver().findElement(
+//                        By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/']")).getText(),
+//                NEW_PROJECT_NAME);
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
