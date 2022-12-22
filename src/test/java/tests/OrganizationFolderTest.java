@@ -26,25 +26,18 @@ public class OrganizationFolderTest extends BaseTest {
     private static final String NAME_ORG_FOLDER = TestUtils.getRandomStr();
     private static final String nameOrgFolderPOM = TestUtils.getRandomStr();
     private static final String nameFolderPOM = TestUtils.getRandomStr();
-    private static final String NAME_FOLDER = TestUtils.getRandomStr();
     private static final String DISPLAY_NAME = TestUtils.getRandomStr();
     private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
     private static final By ORGANIZATION_FOLDER = By.xpath("//li[@class = 'jenkins_branch_OrganizationFolder']");
     private static final By OK_BUTTON = By.id("ok-button");
-    private static final By DASHBOARD = By.xpath("//a[text()='Dashboard']");
     private static final By APPLY_BUTTON = By.id("yui-gen13-button");
-    private static final By SAVE_BUTTON = By.id("yui-gen15-button");
-    private static final By ITEM_FOLDER = By.xpath("//span[text()='" + NAME_FOLDER + "']");
-    private static final By ITEM_ORG_FOLDER = By.xpath("//span[text()= '" + NAME_ORG_FOLDER + "']");
 
     private WebElement notificationSaved() {
         return getDriver().findElement(By.cssSelector("#notification-bar"));
     }
+
     private WebDriverWait getWait() {
         return new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-    }
-    public WebElement getDashboard() {
-        return getDriver().findElement(DASHBOARD);
     }
 
     @Test
@@ -58,6 +51,7 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(actualOrgFolderDisplayName, uniqueOrganizationFolderName);
     }
+
     @Test
     public void testRenameOrganizationFolder() {
         HomePage homePage = new HomePage(getDriver())
@@ -71,6 +65,7 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(homePage.getJobNamesList().contains("New name " + nameOrgFolderPOM));
     }
+
     @Test
     public void testCreateOrgFolder() {
         List<String> allFolders = new HomePage(getDriver())
@@ -95,6 +90,7 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(errMessageEmptyName,
                 "» This field cannot be empty, please enter a valid name");
     }
+
     @Test
     public void testCreateOrgFolderWithEmptyName() {
         OrgFolderConfigPage orgFolderConfigPage = new HomePage(getDriver())
@@ -130,36 +126,6 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertEquals(errMessage, "A job already exists with the name ‘"
                 + ORG_FOLDER_NAME_CREATE + "’");
-    }
-
-    @Ignore
-    @Test
-    public void testMoveOrgFolderToDashboard() {
-        getDashboard().click();
-
-        getWait(5).until(ExpectedConditions.elementToBeClickable(ITEM_FOLDER));
-        TestUtils.scrollToElement(getDriver(), getDriver().findElement(ITEM_FOLDER));
-        getDriver().findElement(ITEM_FOLDER).click();
-
-        getWait(5).until(ExpectedConditions.elementToBeClickable(ITEM_ORG_FOLDER));
-        getDriver().findElement(ITEM_ORG_FOLDER).click();
-
-        getDriver().findElement(By.linkText("Move")).click();
-        getDriver().findElement(By.name("destination")).click();
-        getDriver().findElement(By.xpath("//option[text()='Jenkins']")).click();
-        getDriver().findElement(By.id("yui-gen1-button")).click();
-        getDashboard().click();
-        getWait(5).until(ExpectedConditions.visibilityOf(getDriver().findElement(By.className("dashboard"))));
-
-        Assert.assertTrue(getDriver().findElement(ITEM_ORG_FOLDER).isDisplayed());
-
-        WebElement myFolder = getDriver().findElement(ITEM_FOLDER);
-        getWait(5).until(ExpectedConditions.elementToBeClickable(myFolder));
-        TestUtils.scrollToElement(getDriver(), myFolder);
-        myFolder.click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h2[@class='h4']")).getText(),
-                "This folder is empty");
     }
 
     @Test(dependsOnMethods = "testConfigureOrganizationFolder")
@@ -229,17 +195,28 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = {"testFolderCreate", "testOrgFolderCreate"})
     public void testMoveOrgFolderToFolder() {
-        HomePage homePage = new HomePage(getDriver())
+        FolderStatusPage folderStatusPage = new HomePage(getDriver())
                 .clickOrgFolder(nameOrgFolderPOM)
                 .clickMoveButton()
                 .selectFolder(nameFolderPOM)
                 .clickMove()
-                .clickDashboard();
-
-        Assert.assertFalse(homePage.getJobNamesList().contains(nameOrgFolderPOM));
-
-        FolderStatusPage folderStatusPage = homePage.clickFolder(nameFolderPOM);
+                .clickDashboard()
+                .clickFolder(nameFolderPOM);
 
         Assert.assertTrue(folderStatusPage.getJobList().contains(nameOrgFolderPOM));
     }
+
+    @Test(dependsOnMethods = "testMoveOrgFolderToFolder")
+    public void testMoveOrgFolderToDashboard() {
+        HomePage homePage = new HomePage(getDriver())
+                .clickFolder(nameFolderPOM)
+                .clickOrgFolder(nameOrgFolderPOM)
+                .clickMoveButton()
+                .selectOptionToDashBoard()
+                .clickMove()
+                .clickDashboard();
+
+        Assert.assertTrue(homePage.getJobNamesList().contains(nameOrgFolderPOM));
+    }
+
 }

@@ -148,14 +148,15 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    @Test(dependsOnMethods = "testMultiConfigurationProjectRenameProjectViaSideMenu")
     public void testMultiConfigurationProjectBuild() {
 
         int countBuildsBeforeNewBuild = new HomePage(getDriver())
                 .clickMultConfJobName(PROJECT_NAME)
                 .countBuildsOnSidePanel();
 
-        new MultiConfigurationProjectStatusPage(getDriver()).clickBuildNowOnSideMenu();
+        new MultiConfigurationProjectStatusPage(getDriver()).clickBuildNowOnSideMenu(PROJECT_NAME);
+        getDriver().navigate().refresh();
 
         int countBuildsAfterNewBuild = new MultiConfigurationProjectStatusPage(getDriver())
                 .countBuildsOnSidePanel();
@@ -250,7 +251,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clearFieldAndInputNewName("&")
                 .clickSaveButton();
 
-        Assert.assertEquals(renameItemErrorPage.getErrorMessage(),"‘&amp;’ is an unsafe character");
+        Assert.assertEquals(renameItemErrorPage.getErrorMessage(), "‘&amp;’ is an unsafe character");
     }
 
     @Ignore
@@ -283,6 +284,16 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Ignore
+    @Test(dependsOnMethods = "testMultiConfigurationProjectDisableCheckIconProjectName")
+    public void testMultiConfigurationProjectEnableCheckIconProjectName() {
+        MultiConfigurationProjectStatusPage multiConfigPrStatusPage = new HomePage(getDriver())
+                .clickMultConfJobName(PROJECT_NAME)
+                .clickEnableButton();
+
+        Assert.assertTrue(multiConfigPrStatusPage.iconProjectEnabledIsDisplayed());
+    }
+
+    @Ignore
     @Test
     public void testMultiConfigurationProjectConfigureParams() {
         String multiConfProjectName = TestUtils.getRandomStr(5);
@@ -310,15 +321,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='yui-gen1-button']")).getText(),
                 "Disable Project");
-    }
-    @Ignore
-    @Test(dependsOnMethods = "testMultiConfigurationProjectDisableCheckIconProjectName")
-    public void testEnableMultiConfigurationProjectCheckIconProjectName() {
-        getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
-        getDriver().findElement(ENABLE_PROJECT_BUTTON).click();
-
-        Assert.assertTrue(getDriver().findElement(By.xpath("//span/span/*[name()='svg' and @tooltip='Not built']"))
-                .isDisplayed());
     }
 
     @Test

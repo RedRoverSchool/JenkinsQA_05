@@ -5,6 +5,7 @@ import model.MovePage;
 import model.freestyle.FreestyleProjectStatusPage;
 import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import model.NewItemPage;
+import model.organization_folder.OrgFolderStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -147,5 +148,11 @@ public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
         getDriver().findElement(By.linkText(name)).click();
 
         return new FreestyleProjectStatusPage(getDriver());
+    }
+
+    public OrgFolderStatusPage clickOrgFolder(String name) {
+        getDriver().findElement(By.xpath("//span[text()= '" + name + "']")).click();
+
+        return new OrgFolderStatusPage(getDriver());
     }
 }
