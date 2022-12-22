@@ -42,7 +42,7 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
     @FindBy(css = ".model-link.inside.build-link.display-name")
     private WebElement dropDownBuildIcon;
 
-    @FindBy(xpath = "//span[text()='Console Output']")
+    @FindBy(css ="a[href$='console']")
     private WebElement  consoleOutputDropDownBuildIcon;
 
     @FindBy(css = "#no-builds")
