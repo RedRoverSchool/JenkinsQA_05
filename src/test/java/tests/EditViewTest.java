@@ -404,17 +404,23 @@ public class EditViewTest extends BaseTest {
         Assert.assertTrue(checksList.stream().allMatch(element -> element == true));
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testCreateOneItemFromListOfJobTypes"})
     public void testRenameView() {
         localViewName = TestUtils.getRandomStr();
-        listViewSeriesPreConditions(1, localViewName);
         final String newName = TestUtils.getRandomStr();
 
-        getDriver().findElement(INPUT_NAME).clear();
-        getDriver().findElement(INPUT_NAME).sendKeys(newName);
-        getDriver().findElement(SUBMIT_BUTTON).click();
+        String actualResult =  new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickAddViewLink()
+                .setViewName(localViewName)
+                .setListViewType()
+                .clickCreateButton()
+                .clickListOrMyViewOkButton()
+                .clickEditViewButton()
+                .renameView(newName)
+                .clickListOrMyViewOkButton()
+                .getActiveViewName();
 
-        String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
         Assert.assertFalse(actualResult.equals(localViewName));
         Assert.assertEquals(actualResult, newName);
     }
