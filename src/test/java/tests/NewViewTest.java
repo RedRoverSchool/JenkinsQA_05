@@ -234,7 +234,7 @@ public class NewViewTest extends BaseTest {
 
         String actualMarkedProjectName = new EditViewPage(getDriver())
                 .clickGlobalViewOkButton()
-                .clickEditViewButton()
+                .clickEditViewLink()
                 .getSelectedJobName();
 
         int countColumnsAfterAdd = new EditListViewPage(getDriver())
