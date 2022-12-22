@@ -362,7 +362,10 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickDropDownBuildIcon()
                 .selectAndClickConsoleOutput();
 
-        Assert.assertEquals(multiConfigProjectConsole.getTextConsoleOutputUserName(), "admin");
+        String usernameInUserAccountLink = new HomePage(getDriver())
+                .getUserNameText();
+
+        Assert.assertEquals(multiConfigProjectConsole.getTextConsoleOutputUserName(), usernameInUserAccountLink);
         Assert.assertTrue(multiConfigProjectConsole.getTextConsoleOutput().contains("Finished: SUCCESS"));
     }
 
