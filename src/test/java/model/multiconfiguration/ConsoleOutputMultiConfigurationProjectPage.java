@@ -12,6 +12,9 @@ public class ConsoleOutputMultiConfigurationProjectPage extends MultiConfigurati
     @FindBy(xpath = "//pre")
     private WebElement textConsoleOutput;
 
+    @FindBy(xpath = "//div/a[@class='model-link']")
+    private WebElement iconUserName;
+
     public ConsoleOutputMultiConfigurationProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -22,5 +25,10 @@ public class ConsoleOutputMultiConfigurationProjectPage extends MultiConfigurati
 
     public String getTextConsoleOutput() {
         return textConsoleOutput.getText();
+    }
+
+    public String getUserNameText() {
+
+        return iconUserName.getText();
     }
 }

@@ -74,7 +74,7 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
     }
 
     public MultiConfigurationProjectConfigPage enterCommandInBuildSteps(String command) {
-        getWait(2).until(ExpectedConditions.elementToBeClickable(textAreaBuildSteps));
+        getWait(5).until(ExpectedConditions.elementToBeClickable(textAreaBuildSteps));
         textAreaBuildSteps.sendKeys(command);
 
         return this;
