@@ -6,6 +6,7 @@ import model.views.MyViewsPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import runner.BaseTest;
@@ -249,13 +250,15 @@ public class EditViewTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
+    @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
     public void testListViewChangeColumnOrder() {
         String[] expectedResult = {"W", "S"};
         new HomePage(getDriver())
                 .clickMyViewsSideMenuLink()
-                .clickView(localViewName)
-                .clickEditViewButton()
+                .clickAddViewLink()
+                .setViewName(TestUtils.getRandomStr())
+                .setListViewTypeAndClickCreate()
+                .addAllJobsToListView()
                 .scrollToStatusColumnDragHandlePlaceInCenterWaitTillNotMoving()
                 .dragByYOffset(100)
                 .clickListOrMyViewOkButton();
@@ -329,21 +332,21 @@ public class EditViewTest extends BaseTest {
         Assert.assertTrue(allMatches.stream().allMatch(element -> element == true));
     }
 
-    @Test
-    public void testDeleteColumn() {
-        localViewName = TestUtils.getRandomStr();
-        listViewSeriesPreConditions(1, localViewName);
+    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
+    public void testDeleteStatusColumn() {
+        boolean isContainingStatusColumn = new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickView(localViewName)
+                .clickEditViewButton()
+                .scrollToDeleteStatusColumnButtonPlaceInCenterWaitTillNotMoving()
+                .clickDeleteStatusColumnButton()
+                .clickListOrMyViewOkButton()
+                .getJobTableHeaderTextList()
+                .contains("S");
 
-        TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.xpath("//div[text()='Jobs']")));
-        getWait(waitTime).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_COLUMN));
-        getDriver().findElement(By
-                .cssSelector("div[descriptorid='hudson.views.StatusColumn'] button.repeatable-delete")).click();
-        new Actions(getDriver()).pause(300).perform();
-        getDriver().findElement(SUBMIT_BUTTON).click();
-
-        List<WebElement> columnList = getDriver().findElements(By.cssSelector("table#projectstatus th"));
-        Assert.assertTrue(columnList.stream().noneMatch(element -> element.getText().equals("S")));
+        Assert.assertFalse(isContainingStatusColumn);
     }
+
 
     @Test
     public void testMultipleSpacesRenameView() {
