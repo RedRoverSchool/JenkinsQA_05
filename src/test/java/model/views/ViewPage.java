@@ -11,7 +11,6 @@ import runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ViewPage extends MyViewsPage{
 
@@ -20,9 +19,6 @@ public class ViewPage extends MyViewsPage{
 
     @FindBy(id = "jenkins-name-icon")
     private WebElement dashboard;
-
-    @FindBy(xpath = "//span[text()='Edit View']/..")
-    private WebElement editView;
 
     @FindBy(css = ".tab a[href*='/my-views/']")
     private WebElement allButton;
@@ -61,12 +57,6 @@ public class ViewPage extends MyViewsPage{
         dashboard.click();
 
         return new HomePage(getDriver());
-    }
-
-    public EditViewPage clickEditViewButton() {
-        editView.click();
-
-        return new EditViewPage(getDriver());
     }
 
     public ViewPage clickDeleteViewItem() {

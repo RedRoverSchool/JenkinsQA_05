@@ -75,6 +75,9 @@ public class MyViewsPage extends HomePage {
     @FindBy(xpath = "//table[@class='jenkins-table  sortable']")
     private WebElement tableSizeL;
 
+    @FindBy(xpath = "//span[text()='Edit View']/..")
+    private WebElement editViewLink;
+
     public MyViewsPage(WebDriver driver) {
         super(driver);
     }
@@ -207,4 +210,11 @@ public class MyViewsPage extends HomePage {
     }
 
     public boolean tableSizeL(){return tableSizeL.isDisplayed();}
+
+    public EditViewPage clickEditViewButton() {
+        editViewLink.click();
+
+        return new EditViewPage(getDriver());
+    }
+
 }

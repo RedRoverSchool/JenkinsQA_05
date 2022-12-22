@@ -3,6 +3,7 @@ package tests;
 import model.views.EditViewPage;
 import model.HomePage;
 import model.views.MyViewsPage;
+import model.views.ViewPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
@@ -351,21 +352,28 @@ public class EditViewTest extends BaseTest {
     }
 
 
-    @Test
+    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
     public void testMultipleSpacesRenameView() {
         localViewName = TestUtils.getRandomStr();
-        listViewSeriesPreConditions(1, localViewName);
-        final String nonSpaces = TestUtils.getRandomStr(5);
+        final String nonSpaces = TestUtils.getRandomStr(6);
         final String spaces = nonSpaces.replaceAll("[a-zA-Z0-9]", " ");
-        final String newName = nonSpaces + spaces + nonSpaces;
+        final String newNameMultipleSpaces = nonSpaces + spaces + nonSpaces;
+        final String newNameSingleSpace = nonSpaces + " " + nonSpaces;
 
-        getDriver().findElement(INPUT_NAME).clear();
-        getDriver().findElement(INPUT_NAME).sendKeys(newName);
-        getDriver().findElement(SUBMIT_BUTTON).click();
+        String actualResult =  new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickAddViewLink()
+                .setViewName(localViewName)
+                .setListViewTypeAndClickCreate()
+                .addAllJobsToListView()
+                .clickListOrMyViewOkButton()
+                .clickEditViewButton()
+                .renameView(newNameMultipleSpaces)
+                .clickListOrMyViewOkButton()
+                .getActiveViewName();
 
-        String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
         Assert.assertNotEquals(actualResult, localViewName);
-        Assert.assertEquals(actualResult, (nonSpaces + " " + nonSpaces));
+        Assert.assertEquals(actualResult, newNameSingleSpace);
     }
 
     @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
