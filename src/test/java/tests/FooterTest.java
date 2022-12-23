@@ -4,7 +4,6 @@ import model.ExternalJenkinsPage;
 import model.ManageJenkinsPage;
 import model.RestApiPage;
 import model.XmlPage;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
