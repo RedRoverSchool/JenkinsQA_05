@@ -48,6 +48,7 @@ public class FooterTest extends BaseTest {
     public void testFooterLinkJenkinsIsClickable() {
         String headerJenkins = new ManageJenkinsPage(getDriver())
                 .clickManageJenkins()
+                .moveAndClinkOnLink()
                 .clickJenkinsVersion()
                 .getHeaderText();
 

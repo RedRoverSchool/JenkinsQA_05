@@ -66,10 +66,16 @@ public class ManageJenkinsPage extends Header {
         return new PluginManagerPage(getDriver());
     }
 
-    public ExternalJenkinsPage clickManageJenkins() {
+    public ManageJenkinsPage clickManageJenkins() {
         manageJenkins.click();
         scrollToEnd(getDriver());
-        getAction().pause(500).moveToElement(new ExternalJenkinsPage(getDriver()).getJenkinsLink())
+        return this;
+
+
+    }
+    public ExternalJenkinsPage moveAndClinkOnLink() {
+        WebElement linkJankins = new ExternalJenkinsPage(getDriver()).getJenkinsLink();
+        getAction().pause(500).moveToElement(getWait(3).until(ExpectedConditions.elementToBeClickable(linkJankins)))
                 .perform();
         return new ExternalJenkinsPage(getDriver());
     }
