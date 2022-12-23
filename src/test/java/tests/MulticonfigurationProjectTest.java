@@ -161,7 +161,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(actualProjectName, NEW_PROJECT_NAME);
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    @Test(dependsOnMethods = "testCreateNewMCProjectAsCopyFromExistingProject")
     public void testFindMultiConfigurationProject() {
         MultiConfigurationProjectStatusPage multiConfigurationProjectStatusPage = new HomePage(getDriver())
                 .setSearchAndClickEnter(NEW_PROJECT_NAME);
