@@ -59,6 +59,12 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
     @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-disabled icon-md']")
     private WebElement iconProjectDisabled;
 
+    @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-nobuilt icon-md']")
+    private WebElement iconProjectEnabled;
+
+    @FindBy(id = "enable-project")
+    private WebElement disabledWarning;
+
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -68,9 +74,6 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
 
         return this;
     }
-
-    @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-nobuilt icon-md']")
-    private WebElement iconProjectEnabled;
 
     public MultiConfigurationProjectStatusPage fillDescription(String desc) {
         getWait(5).until(ExpectedConditions.visibilityOf(description));
@@ -183,5 +186,10 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
         getWait(10).until(ExpectedConditions.visibilityOf(iconProjectEnabled));
 
         return iconProjectEnabled.isDisplayed();
+    }
+
+    public String getTextDisabledWarning() {
+
+        return disabledWarning.getText();
     }
 }
