@@ -145,8 +145,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(multiConfigProjectPreview.getProjectDescriptionText(), descriptionMCP);
 
     }
-
-    @Ignore
     @Test(dependsOnMethods = {"testCreateMultiConfigurationProjectWithValidName",
             "testMulticonfigurationProjectAddDescription",
             "testMultiConfigurationProjectRenameProjectViaDropDownMenu",
@@ -267,7 +265,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickBuildHistory()
                 .getNameOfLabelsOnTimeLineBuildHistory();
-
 
         Assert.assertTrue(buildHistoryPage.contains(PROJECT_NAME + " #1"));
     }
