@@ -26,6 +26,9 @@ public class ManageJenkinsPage extends Header {
     @FindBy(xpath = "//a[@href='pluginManager']")
     private WebElement linkPluginManager;
 
+    @FindBy(linkText = "Manage Jenkins")
+    private WebElement manageJenkins;
+
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
     }
@@ -51,15 +54,23 @@ public class ManageJenkinsPage extends Header {
 
     public ManageOldDataPage clickLinkManageOldData(){
         scrollToElement(getDriver(), linkManageOldData);
-        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(linkManageOldData)).click();;
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(linkManageOldData)).click();
 
         return new ManageOldDataPage(getDriver());
     }
 
     public PluginManagerPage clickLinkManagePlugins(){
         scrollToElement(getDriver(), linkPluginManager);
-        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(linkPluginManager)).click();;
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(linkPluginManager)).click();
 
         return new PluginManagerPage(getDriver());
+    }
+
+    public ExternalJenkinsPage clickManageJenkins() {
+        manageJenkins.click();
+        scrollToEnd(getDriver());
+        getAction().pause(500).moveToElement(new ExternalJenkinsPage(getDriver()).getJenkinsLink())
+                .perform();
+        return new ExternalJenkinsPage(getDriver());
     }
 }
