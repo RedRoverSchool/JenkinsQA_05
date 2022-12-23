@@ -34,6 +34,9 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
     @FindBy(css = ".jenkins-input.fixed-width")
     private WebElement textAreaBuildSteps;
 
+    @FindBy (xpath = "//label[@for='enable-disable-project']")
+    private WebElement enableOrDisableButton;
+
     @Override
     protected MultiConfigurationProjectStatusPage createStatusPage() {
         return new MultiConfigurationProjectStatusPage(getDriver());
@@ -79,6 +82,12 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
     public MultiConfigurationProjectConfigPage enterCommandInBuildSteps(String command) {
         getWait(10).until(ExpectedConditions.elementToBeClickable(advancedBuildStepsButton));
         textAreaBuildSteps.sendKeys(command);
+
+        return this;
+    }
+
+    public MultiConfigurationProjectConfigPage clickEnableOrDisableButton() {
+        enableOrDisableButton.click();
 
         return this;
     }
