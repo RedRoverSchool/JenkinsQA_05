@@ -19,6 +19,7 @@ import model.views.ViewPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.TestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -119,6 +120,9 @@ public class HomePage extends Breadcrumbs {
 
     @FindBy(xpath = "(//a[@class='yuimenuitemlabel'])[3]/span")
     private WebElement buildNowButton;
+
+    @FindBy(id = "search-box")
+    private WebElement searchField;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -525,5 +529,12 @@ public class HomePage extends Breadcrumbs {
         }
 
         return listProjectsNames.toString().trim();
+    }
+
+    public MultiConfigurationProjectStatusPage setSearchAndClickEnter(String request) {
+        searchField.sendKeys(request);
+        getWait(3).until(TestUtils.ExpectedConditions.elementIsNotMoving(searchField)).sendKeys(Keys.ENTER);
+
+        return new MultiConfigurationProjectStatusPage(getDriver());
     }
 }
