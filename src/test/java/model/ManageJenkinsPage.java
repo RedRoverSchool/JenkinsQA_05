@@ -70,9 +70,8 @@ public class ManageJenkinsPage extends Header {
         manageJenkins.click();
         scrollToEnd(getDriver());
         return this;
-
-
     }
+
     public ExternalJenkinsPage moveForClinkOnLink() {
         WebElement linkJenkins = new ExternalJenkinsPage(getDriver()).getJenkinsLink();
         getAction().pause(500).moveToElement(getWait(3).until(ExpectedConditions.elementToBeClickable(linkJenkins)))
