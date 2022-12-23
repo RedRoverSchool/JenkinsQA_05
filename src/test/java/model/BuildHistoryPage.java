@@ -4,10 +4,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class BuildHistoryPage extends HomePage {
@@ -57,6 +59,9 @@ public class BuildHistoryPage extends HomePage {
 
     @FindBy(xpath = "//div[contains(@id,'label-tl')]")
     private List<WebElement> labelsOnTimelineBuildHistory;
+
+    @FindBy(css = "#icon-tl-0-1-e1")
+    private WebElement iconOfLabelsOnTime;
 
     public String getSizeText() {
 
@@ -133,12 +138,10 @@ public class BuildHistoryPage extends HomePage {
     }
 
     public List<String> getNameOfLabelsOnTimeLineBuildHistory(){
-        List<String> nameOfBuildsOnTimeLine = new ArrayList<>();
-        for (WebElement buildNamesOnTimeLine : labelsOnTimelineBuildHistory) {
-
-            nameOfBuildsOnTimeLine.add(buildNamesOnTimeLine.getText());
-        }
-
-        return nameOfBuildsOnTimeLine;
+        getWait(5).until(ExpectedConditions.visibilityOf(iconOfLabelsOnTime));
+        return labelsOnTimelineBuildHistory
+                .stream()
+                .map(WebElement :: getText)
+                .collect(Collectors.toList());
     }
 }

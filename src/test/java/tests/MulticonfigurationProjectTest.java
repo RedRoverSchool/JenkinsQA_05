@@ -1,5 +1,6 @@
 package tests;
 
+import model.BuildHistoryPage;
 import model.HomePage;
 import model.NewItemPage;
 import model.RenameItemErrorPage;
@@ -61,7 +62,8 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(multConfPage.getProjectDescriptionText(), "Description");
     }
 
-    @Test(dependsOnMethods = "testMulticonfigurationProjectAddDescription")
+    @Test(dependsOnMethods = {"testCreateMultiConfigurationProjectWithValidName",
+            "testMulticonfigurationProjectAddDescription"})
     public void testMultiConfigurationProjectRenameProjectViaDropDownMenu() {
         MultiConfigurationProjectStatusPage multiConfigPrStatusPage = new HomePage(getDriver())
                 .clickJobDropdownMenu(PROJECT_NAME)
@@ -72,7 +74,9 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(multiConfigPrStatusPage.getNameMultiConfigProject(NEW_PROJECT_NAME), NEW_PROJECT_NAME);
     }
 
-    @Test(dependsOnMethods = "testMultiConfigurationProjectRenameProjectViaDropDownMenu")
+    @Test(dependsOnMethods = {"testCreateMultiConfigurationProjectWithValidName",
+            "testMulticonfigurationProjectAddDescription",
+            "testMultiConfigurationProjectRenameProjectViaDropDownMenu"})
     public void testMultiConfigurationProjectRenameProjectViaSideMenu() {
         MultiConfigurationProjectStatusPage multiConfigPrStatusPage = new HomePage(getDriver())
                 .clickMultConfJobName(NEW_PROJECT_NAME)
@@ -147,7 +151,10 @@ public class MulticonfigurationProjectTest extends BaseTest {
         multiConfigProject.deleteMultiConfigProject();
     }
 
-    @Test(dependsOnMethods = "testMultiConfigurationProjectRenameProjectViaSideMenu")
+    @Test(dependsOnMethods = {"testCreateMultiConfigurationProjectWithValidName",
+            "testMulticonfigurationProjectAddDescription",
+            "testMultiConfigurationProjectRenameProjectViaDropDownMenu",
+            "testMultiConfigurationProjectRenameProjectViaSideMenu"})
     public void testMultiConfigurationProjectBuild() {
 
         int countBuildsBeforeNewBuild = new HomePage(getDriver())
@@ -252,39 +259,21 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
         Assert.assertEquals(renameItemErrorPage.getErrorMessage(), "‘&amp;’ is an unsafe character");
     }
-    @Test
-    public void testMultiConfigurationProjectsRunJobInBuildHistory() {
 
-        List<String> buildOnTimeline = new HomePage(getDriver())
-                .clickNewItem()
-                .setItemName(PROJECT_NAME)
-                .selectMultiConfigurationProjectAndClickOk()
-                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
-                .clickDashboard()
-                .clickMultConfJobName(PROJECT_NAME)
-                .clickBuildNowOnSideMenu(PROJECT_NAME)
+    @Test(dependsOnMethods = {"testCreateMultiConfigurationProjectWithValidName",
+            "testMulticonfigurationProjectAddDescription",
+            "testMultiConfigurationProjectRenameProjectViaDropDownMenu",
+            "testMultiConfigurationProjectRenameProjectViaSideMenu",
+            "testMultiConfigurationProjectBuild"})
+    public void testMultiConfigurationProjectsRunJobInBuildHistory() {
+        List<String> buildHistoryPage = new HomePage(getDriver())
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
                 .clickBuildHistory()
                 .getNameOfLabelsOnTimeLineBuildHistory();
 
-        System.out.println(buildOnTimeline.toString());
 
-
-        Assert.assertTrue(buildOnTimeline.contains(PROJECT_NAME));
-
-//        List<WebElement> buildsInTable = getDriver().findElements(By.xpath
-//                ("//div[contains(@id,'label-tl')]"));
-//        for (WebElement buildName : buildsInTable) {
-//            Assert.assertTrue(buildName.getText().contains(NEW_PROJECT_NAME));
-//        }
-//
-//        Assert.assertEquals(getDriver().findElement(
-//                        By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/default/']")).getText(),
-//                NEW_PROJECT_NAME + " » default");
-//        Assert.assertEquals(getDriver().findElement(
-//                        By.xpath("//a[@href='/job/" + NEW_PROJECT_NAME + "/']")).getText(),
-//                NEW_PROJECT_NAME);
+        Assert.assertTrue(buildHistoryPage.contains(PROJECT_NAME + " #1"));
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
