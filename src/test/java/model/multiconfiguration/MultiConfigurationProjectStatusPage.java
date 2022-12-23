@@ -192,4 +192,9 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
 
         return disabledWarning.getText();
     }
+
+    public boolean disableButtonIsDisplayed() {
+
+       return disableButton.isDisplayed();
+    }
 }

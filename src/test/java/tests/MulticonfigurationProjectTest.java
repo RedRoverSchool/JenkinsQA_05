@@ -108,18 +108,15 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(multiConfigurationProjectStatusPage.getTextDisabledWarning().contains("This project is currently disabled"));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testMultiConfigurationProjectDisable")
     public void testMultiConfigurationProjectEnable() {
-        getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
-        getDriver().findElement(CONFIGURE).click();
-        getDriver().findElement(By.xpath("//label[@for='enable-disable-project']")).click();
-        getDriver().findElement(SAVE_BUTTON).click();
+        MultiConfigurationProjectStatusPage multiConfigurationProjectStatusPage = new HomePage(getDriver())
+                .clickMultConfJobName(PROJECT_NAME)
+                .clickConfiguration(PROJECT_NAME)
+                .clickEnableOrDisableButton()
+                .clickSaveBtn(MultiConfigurationProjectStatusPage.class);
 
-        Assert.assertTrue(getDriver()
-                .findElement(By.xpath("//button[contains(text(),'Disable Project')]")).isDisplayed());
-
-        deleteNewMCProject(PROJECT_NAME);
+        Assert.assertTrue(multiConfigurationProjectStatusPage.disableButtonIsDisplayed());
     }
 
     @Test
