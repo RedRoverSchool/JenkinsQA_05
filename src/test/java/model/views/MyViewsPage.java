@@ -2,7 +2,6 @@ package model.views;
 
 import model.HomePage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,7 +16,7 @@ public class MyViewsPage extends HomePage {
     private WebElement newView;
 
     @FindBy(css = ".tabBar .tab a[href*='/my-views/view/']")
-    private List<WebElement> listViews;
+    private List<WebElement> listAllViews;
 
     @FindBy(css = ".pane-header-title")
     private List<WebElement> listViewActiveFilters;
@@ -42,9 +41,6 @@ public class MyViewsPage extends HomePage {
 
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement displayedDescriptionText;
-
-    @FindBy(xpath = "//ul[@id='breadcrumbs']/li[5]")
-    private WebElement myViewItemOnTopBar;
 
     @FindBy(css = "#projectstatus th")
     private List<WebElement> listJobTableHeaders;
@@ -79,6 +75,13 @@ public class MyViewsPage extends HomePage {
     @FindBy(xpath = "//table[@class='jenkins-table  sortable']")
     private WebElement tableSizeL;
 
+    @FindBy(css = ".tab.active")
+    private WebElement activeView;
+
+    @FindBy(xpath = "//span[text()='Edit View']/..")
+    private WebElement editView;
+
+
     public MyViewsPage(WebDriver driver) {
         super(driver);
     }
@@ -91,7 +94,7 @@ public class MyViewsPage extends HomePage {
 
     public String getListViewsNames() {
         StringBuilder listViewsNames = new StringBuilder();
-        for (WebElement view : listViews) {
+        for (WebElement view : listAllViews) {
             listViewsNames.append(view.getText()).append(" ");
         }
 
@@ -110,8 +113,8 @@ public class MyViewsPage extends HomePage {
     }
 
     public MyViewsPage deleteAllViews() {
-        for (int i = listViews.size() - 1; i >= 0; i--) {
-            listViews.get(i).click();
+        for (int i = listAllViews.size() - 1; i >= 0; i--) {
+            listAllViews.get(i).click();
             deleteViewItem.click();
             yesButtonDeleteView.click();
         }
@@ -155,11 +158,6 @@ public class MyViewsPage extends HomePage {
     public String getDescriptionText() {
 
         return displayedDescriptionText.getText();
-    }
-
-    public String getMyViewItemNameOnTopBar() {
-
-        return myViewItemOnTopBar.getText();
     }
 
     public MyViewsPage clickEditDescription(){
@@ -216,4 +214,16 @@ public class MyViewsPage extends HomePage {
     }
 
     public boolean tableSizeL(){return tableSizeL.isDisplayed();}
+
+    public String getActiveViewName(){
+
+        return activeView.getText();
+    }
+
+    public EditViewPage clickEditViewButton() {
+        editView.click();
+
+        return new EditViewPage(getDriver());
+    }
+
 }

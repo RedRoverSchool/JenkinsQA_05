@@ -4,10 +4,13 @@ import model.views.EditViewPage;
 import model.HomePage;
 import model.views.MyViewsPage;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import runner.BaseTest;
+import runner.BaseUtils;
 import runner.TestUtils;
 
 import java.util.*;
@@ -19,10 +22,8 @@ public class EditViewTest extends BaseTest {
     private static final By DASHBOARD = By.cssSelector("#jenkins-name-icon");
     private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
     private static final By ITEM_OPTION = By.cssSelector("input[json='true']+label");
-    private static final By FILTER_QUEUE = By.cssSelector("input[name=filterQueue]+label");
     private static final By MY_VIEWS = By.xpath("//a[@href='/me/my-views']");
     private static final By INPUT_NAME = By.cssSelector("[name='name']");
-    private static final By PANE_HEADER = By.cssSelector(".pane-header-title");
     private static final By ADD_COLUMN = By.cssSelector(".hetero-list-add[suffix='columns']");
     private static final By LAST_EXISTING_COLUMN = By
             .xpath("//div[contains(@class, 'hetero-list-container')]/div[@class='repeated-chunk'][last()]");
@@ -247,13 +248,15 @@ public class EditViewTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
+    @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
     public void testListViewChangeColumnOrder() {
         String[] expectedResult = {"W", "S"};
         new HomePage(getDriver())
                 .clickMyViewsSideMenuLink()
-                .clickView(localViewName)
-                .clickEditViewButton()
+                .clickAddViewLink()
+                .setViewName(TestUtils.getRandomStr())
+                .setListViewTypeAndClickCreate()
+                .addAllJobsToListView()
                 .scrollToStatusColumnDragHandlePlaceInCenterWaitTillNotMoving()
                 .dragByYOffset(100)
                 .clickListOrMyViewOkButton();
@@ -264,35 +267,40 @@ public class EditViewTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
     public void testListViewAddFilterBuildQueue() {
-        createManyJobsOfEachType(1);
-        createViewFromListOfViewTypes(1, TestUtils.getRandomStr());
-
-        getDriver().findElement(FILTER_QUEUE).click();
-        getDriver().findElement(SUBMIT_BUTTON).click();
-
-        boolean newPaneIsDisplayed = getDriver().findElements(PANE_HEADER)
-                .stream().map(element -> element.getText()).collect(Collectors.toList())
+        boolean newPaneIsDisplayed = new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickAddViewLink()
+                .setViewName(TestUtils.getRandomStr())
+                .setListViewType()
+                .clickCreateButton()
+                .selectFilterBuildQueueOptionCheckBox()
+                .clickListOrMyViewOkButton()
+                .getActiveFiltersList()
                 .contains("Filtered Build Queue");
+
         Assert.assertTrue(newPaneIsDisplayed);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
     public void testMyViewAddFilterBuildQueue() {
-        localViewName = TestUtils.getRandomStr();
-        editViewTestPreConditions(2, localViewName);
-        goToEditView(localViewName);
-
-        getDriver().findElement(FILTER_QUEUE).click();
-        getDriver().findElement(SUBMIT_BUTTON).click();
-
-        boolean newPaneIsDisplayed = getDriver().findElements(PANE_HEADER)
-                .stream().map(element -> element.getText()).collect(Collectors.toList())
+        boolean newPaneIsDisplayed = new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickAddViewLink()
+                .setViewName(TestUtils.getRandomStr())
+                .setMyViewType()
+                .clickCreateButton()
+                .clickEditViewButton()
+                .selectFilterBuildQueueOptionCheckBox()
+                .clickListOrMyViewOkButton()
+                .getActiveFiltersList()
                 .contains("Filtered Build Queue");
+
         Assert.assertTrue(newPaneIsDisplayed);
     }
 
+    @Ignore
     @Test
     public void testListViewCheckEveryAddColumnItem() {
         localViewName = TestUtils.getRandomStr();
@@ -327,21 +335,21 @@ public class EditViewTest extends BaseTest {
         Assert.assertTrue(allMatches.stream().allMatch(element -> element == true));
     }
 
-    @Test
-    public void testDeleteColumn() {
-        localViewName = TestUtils.getRandomStr();
-        listViewSeriesPreConditions(1, localViewName);
+    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
+    public void testDeleteStatusColumn() {
+        boolean isContainingStatusColumn = new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickView(localViewName)
+                .clickEditViewButton()
+                .scrollToDeleteStatusColumnButtonPlaceInCenterWaitTillNotMoving()
+                .clickDeleteStatusColumnButton()
+                .clickListOrMyViewOkButton()
+                .getJobTableHeaderTextList()
+                .contains("S");
 
-        TestUtils.scrollToElement(getDriver(), getDriver().findElement(By.xpath("//div[text()='Jobs']")));
-        getWait(waitTime).until(TestUtils.ExpectedConditions.elementIsNotMoving(ADD_COLUMN));
-        getDriver().findElement(By
-                .cssSelector("div[descriptorid='hudson.views.StatusColumn'] button.repeatable-delete")).click();
-        new Actions(getDriver()).pause(300).perform();
-        getDriver().findElement(SUBMIT_BUTTON).click();
-
-        List<WebElement> columnList = getDriver().findElements(By.cssSelector("table#projectstatus th"));
-        Assert.assertTrue(columnList.stream().noneMatch(element -> element.getText().equals("S")));
+        Assert.assertFalse(isContainingStatusColumn);
     }
+
 
     @Test
     public void testMultipleSpacesRenameView() {
@@ -360,48 +368,59 @@ public class EditViewTest extends BaseTest {
         Assert.assertEquals(actualResult, (nonSpaces + " " + nonSpaces));
     }
 
-    @Test
-    public void testIllegalCharacterRenameView () {
-        localViewName = TestUtils.getRandomStr();
-        listViewSeriesPreConditions(1, localViewName);
+    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
+    public void testIllegalCharacterRenameView() {
         final char[] illegalCharacters = "#!@$%^&*:;<>?/[]|\\".toCharArray();
+        new HomePage(getDriver()).clickMyViewsSideMenuLink();
 
-        List<Boolean> checks = new ArrayList<>();
+        List<Boolean> checksList = new ArrayList<>();
         for (int i = 0; i < illegalCharacters.length; i++) {
-            getDriver().findElement(INPUT_NAME).clear();
-            getDriver().findElement(INPUT_NAME).sendKeys(illegalCharacters[i] + localViewName);
-            getDriver().findElement(SUBMIT_BUTTON).click();
-            if (getDriver().findElements(By.cssSelector("#main-panel h1")).size() > 0) {
-                checks.add(String.format("‘%c’ is an unsafe character", illegalCharacters[i])
-                        .equals(getDriver().findElement(By.cssSelector("#main-panel p")).getText()));
-                getDriver().findElement(DASHBOARD).click();
-                getDriver().findElement(MY_VIEWS).click();
-                int finalI = i;
-                checks.add(getDriver()
-                        .findElements(By
-                                .xpath(String.format("//a[contains(@href, '/my-views/view/%s/')]", localViewName)))
-                        .stream().noneMatch(element -> element.getText()
-                                .equals(String.format("‘%c’ is an unsafe character", illegalCharacters[finalI]))));
-                goToEditView(localViewName);
-            } else {
-                checks.add(false);
-            }
-        }
+            try {
+            new HomePage(getDriver())
+                    .clickMyViewsTopMenuLink()
+                    .clickView(localViewName)
+                    .clickEditViewButton()
+                    .renameView(illegalCharacters[i] + localViewName)
+                    .clickListOrMyViewOkButton();
+                    if (new EditViewPage(getDriver()).getErrorPageHeader().equals("Error")) {
+                        checksList.add(new EditViewPage(getDriver()).isCorrectErrorPageDetailsText(illegalCharacters[i]));
 
-        Assert.assertTrue(checks.stream().allMatch(element -> element == true));
+                        checksList.add(!new HomePage(getDriver())
+                                .clickDashboard()
+                                .clickMyViewsSideMenuLink()
+                                .getListViewsNames().contains(illegalCharacters[i] + localViewName));
+                    } else {
+                        checksList.add(false);
+                        BaseUtils.log("Not an Error page");
+                    }
+                } catch (NoSuchElementException exception) {
+                    BaseUtils.log(String.format("Invalid Page at Title: %s, URL: %s",
+                            getDriver().getTitle(),
+                            getDriver().getCurrentUrl()));
+                    checksList.add(false);
+                }
+            }
+
+        Assert.assertTrue(checksList.stream().allMatch(element -> element == true));
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testCreateOneItemFromListOfJobTypes"})
     public void testRenameView() {
         localViewName = TestUtils.getRandomStr();
-        listViewSeriesPreConditions(1, localViewName);
         final String newName = TestUtils.getRandomStr();
 
-        getDriver().findElement(INPUT_NAME).clear();
-        getDriver().findElement(INPUT_NAME).sendKeys(newName);
-        getDriver().findElement(SUBMIT_BUTTON).click();
+        String actualResult =  new HomePage(getDriver())
+                .clickMyViewsSideMenuLink()
+                .clickAddViewLink()
+                .setViewName(TestUtils.getRandomStr())
+                .setListViewTypeAndClickCreate()
+                .addAllJobsToListView()
+                .clickListOrMyViewOkButton()
+                .clickEditViewButton()
+                .renameView(newName)
+                .clickListOrMyViewOkButton()
+                .getActiveViewName();
 
-        String actualResult = getDriver().findElement(By.cssSelector(".tab.active")).getText();
         Assert.assertFalse(actualResult.equals(localViewName));
         Assert.assertEquals(actualResult, newName);
     }

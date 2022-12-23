@@ -61,6 +61,15 @@ public class EditViewPage extends ViewPage {
     @FindBy(xpath = "//div[@descriptorid='hudson.views.StatusColumn']//div[@class='dd-handle']")
     private WebElement statusColumnDragHandle;
 
+    @FindBy(css = "div[descriptorid='hudson.views.StatusColumn'] button.repeatable-delete")
+    private WebElement deleteStatusColumnButton;
+
+    @FindBy(css = "#main-panel p")
+    private WebElement errorPageDetailsText;
+
+    @FindBy(css = "#main-panel h1")
+    private WebElement errorPageHeader;
+
     public EditViewPage(WebDriver driver) {
         super(driver);
     }
@@ -208,6 +217,35 @@ public class EditViewPage extends ViewPage {
     public EditViewPage scrollToStatusColumnDragHandlePlaceInCenterWaitTillNotMoving() {
         TestUtils.scrollToElement_PlaceInCenter(getDriver(), statusColumnDragHandle);
         getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(statusColumnDragHandle));
+
+        return this;
+    }
+
+    public String getErrorPageHeader() {
+
+        return errorPageHeader.getText();
+    }
+
+    public String getErrorPageDetailsText() {
+
+        return errorPageDetailsText.getText();
+    }
+
+    public boolean isCorrectErrorPageDetailsText(char illegalCharacter) {
+
+        return errorPageDetailsText.getText().equals(String.format("‘%c’ is an unsafe character", illegalCharacter));
+    }
+
+    public EditViewPage clickDeleteStatusColumnButton() {
+        deleteStatusColumnButton.click();
+        getWait(5).until(ExpectedConditions.invisibilityOf(deleteStatusColumnButton));
+
+        return this;
+    }
+
+    public EditViewPage scrollToDeleteStatusColumnButtonPlaceInCenterWaitTillNotMoving() {
+        TestUtils.scrollToElement_PlaceInCenter(getDriver(), deleteStatusColumnButton);
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(deleteStatusColumnButton));
 
         return this;
     }

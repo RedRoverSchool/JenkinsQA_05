@@ -50,7 +50,7 @@ public class EditListViewPage extends EditViewPage {
                     .stream()
                     .forEach(WebElement::click);
         } catch (NoSuchElementException exception) {
-            BaseUtils.log(String.format("Jobs not found at" + getDriver().getTitle()));
+            BaseUtils.log(String.format("Jobs not found at " + getDriver().getTitle()));
         }
 
         return this;
