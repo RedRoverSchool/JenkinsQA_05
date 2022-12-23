@@ -74,8 +74,8 @@ public class ManageJenkinsPage extends Header {
 
     }
     public ExternalJenkinsPage moveAndClinkOnLink() {
-        WebElement linkJankins = new ExternalJenkinsPage(getDriver()).getJenkinsLink();
-        getAction().pause(500).moveToElement(getWait(3).until(ExpectedConditions.elementToBeClickable(linkJankins)))
+        WebElement linkJenkins = new ExternalJenkinsPage(getDriver()).getJenkinsLink();
+        getAction().pause(500).moveToElement(getWait(3).until(ExpectedConditions.elementToBeClickable(linkJenkins)))
                 .perform();
         return new ExternalJenkinsPage(getDriver());
     }
