@@ -40,6 +40,10 @@ public abstract class Header extends BasePage {
         return new HomePage(getDriver());
     }
 
+    public boolean isJenkinsNameIconDisplayed() {
+        return  jenkinsNameIcon.isDisplayed();
+    }
+
     public WebElement getJenkinsHeadIcon(){
 
         return jenkinsHeadIcon;

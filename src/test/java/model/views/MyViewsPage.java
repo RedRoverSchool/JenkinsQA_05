@@ -79,7 +79,7 @@ public class MyViewsPage extends HomePage {
     private WebElement activeView;
 
     @FindBy(xpath = "//span[text()='Edit View']/..")
-    private WebElement editView;
+    private WebElement editViewLink;
 
 
     public MyViewsPage(WebDriver driver) {
@@ -220,8 +220,8 @@ public class MyViewsPage extends HomePage {
         return activeView.getText();
     }
 
-    public EditViewPage clickEditViewButton() {
-        editView.click();
+    public EditViewPage clickEditViewLink() {
+        editViewLink.click();
 
         return new EditViewPage(getDriver());
     }

@@ -40,7 +40,7 @@ public class ListViewTest extends BaseTest {
 
         String actualDescription = new HomePage(getDriver())
                 .clickView(RANDOM_LIST_VIEW_NAME)
-                .clickEditViewButton()
+                .clickEditViewLink()
                 .addDescription(descriptionRandom)
                 .clickGlobalViewOkButton()
                 .getTextDescription();
