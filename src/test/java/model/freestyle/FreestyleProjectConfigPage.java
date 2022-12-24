@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static runner.TestUtils.scrollToElement;
 import static runner.TestUtils.scrollToElement_PlaceInCenter;
 
 public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectStatusPage> {
@@ -121,13 +122,13 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
     }
 
     public FreestyleProjectConfigPage clickDiscardOldBuildsCheckbox() {
-        discardOldBuildsCheckbox.click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(discardOldBuildsCheckbox)).click();
 
         return this;
     }
 
     public FreestyleProjectConfigPage typeDaysToKeepBuilds(String numberOfDays) {
-        daysToKeepBuilds.sendKeys(numberOfDays);
+        getWait(5).until(ExpectedConditions.elementToBeClickable(daysToKeepBuilds)).sendKeys(numberOfDays);
 
         return this;
     }
@@ -233,7 +234,11 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
     }
 
     public FreestyleProjectConfigPage selectSourceCodeManagementGIT() {
-        radioGitButton.click();
+        getAction()
+                .scrollToElement(radioGitButton)
+                .moveToElement(radioGitButton)
+                .click()
+                .perform();
 
         return this;
     }

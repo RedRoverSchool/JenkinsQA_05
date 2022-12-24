@@ -135,7 +135,7 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
     }
 
     public FreestyleProjectConfigPage clickSideMenuConfigureLink() {
-        sideMenuConfigure.click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(sideMenuConfigure)).click();
 
         return new FreestyleProjectConfigPage(getDriver());
     }

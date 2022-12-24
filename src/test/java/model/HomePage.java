@@ -174,13 +174,13 @@ public class HomePage extends Breadcrumbs {
     }
 
     public FreestyleProjectStatusPage clickFreestyleProjectName() {
-        jobList.get(0).click();
+        getWait(10).until(ExpectedConditions.visibilityOfAllElements(jobList)).get(0).click();
 
         return new FreestyleProjectStatusPage(getDriver());
     }
 
     public FreestyleProjectStatusPage clickFreestyleProjectName(String name) {
-        getDriver().findElement(By.linkText(name)).click();
+        getWait(10).until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
 
         return new FreestyleProjectStatusPage(getDriver());
     }
