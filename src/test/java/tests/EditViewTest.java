@@ -17,6 +17,11 @@ import java.util.*;
 public class EditViewTest extends BaseTest {
     private static String localViewName = TestUtils.getRandomStr();
 
+    @DataProvider(name = "illegalCharacters")
+    public Object[][] illegalCharactersList() {
+        return new Object[][]{{'!'},{'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'*'}, {'['}, {']'}, {'\\'}, {'|'}, {';'}, {':'}, {'/'}, {'?'}, {'&'}, {'<'}, {'>'},};
+    }
+
     @Test
     public void testCreateOneItemFromListOfJobTypes() {
         int actualNumberOfJobs = new HomePage(getDriver())
@@ -139,7 +144,7 @@ public class EditViewTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateOneItemFromListOfJobTypes")
-    public void testListViewAddRegexFilter() {
+    public void testListViewAddRegexFilterJobNamesContainingNine() {
         int expectedResult = new HomePage(getDriver())
                 .getNumberOfJobsContainingString("9");
 
@@ -281,30 +286,29 @@ public class EditViewTest extends BaseTest {
                 .getActiveViewName();
 
         Assert.assertNotEquals(actualResult, localViewName);
+        Assert.assertNotEquals(actualResult, newNameMultipleSpaces);
         Assert.assertEquals(actualResult, newNameSingleSpace);
     }
 
-    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
-    public void testIllegalCharacterRenameView() {
-        final char[] illegalCharacters = "#!@$%^&*:;<>?/[]|\\".toCharArray();
+    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"}, dataProvider = "illegalCharacters")
+    public void testIllegalCharacterRenameView(Character illegalCharacter) {
         new HomePage(getDriver()).clickMyViewsSideMenuLink();
 
         List<Boolean> checksList = new ArrayList<>();
-        for (int i = 0; i < illegalCharacters.length; i++) {
             try {
             new HomePage(getDriver())
                     .clickMyViewsTopMenuLink()
                     .clickView(localViewName)
                     .clickEditViewLink()
-                    .renameView(illegalCharacters[i] + localViewName)
+                    .renameView(illegalCharacter + localViewName)
                     .clickListOrMyViewOkButton();
                     if (new EditViewPage(getDriver()).getErrorPageHeader().equals("Error")) {
-                        checksList.add(new EditViewPage(getDriver()).isCorrectErrorPageDetailsText(illegalCharacters[i]));
+                        checksList.add(new EditViewPage(getDriver()).isCorrectErrorPageDetailsText(illegalCharacter));
 
                         checksList.add(!new HomePage(getDriver())
                                 .clickDashboard()
                                 .clickMyViewsSideMenuLink()
-                                .getListViewsNames().contains(illegalCharacters[i] + localViewName));
+                                .getListViewsNames().contains(illegalCharacter + localViewName));
                     } else {
                         checksList.add(false);
                         BaseUtils.log("Not an Error page");
@@ -315,7 +319,6 @@ public class EditViewTest extends BaseTest {
                             getDriver().getCurrentUrl()));
                     checksList.add(false);
                 }
-            }
 
         Assert.assertTrue(checksList.stream().allMatch(element -> element == true));
     }
