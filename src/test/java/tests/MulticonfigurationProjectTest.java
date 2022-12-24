@@ -6,8 +6,6 @@ import model.RenameItemErrorPage;
 import model.multiconfiguration.ConsoleOutputMultiConfigurationProjectPage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -132,7 +130,6 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     }
 
-    @Test(dependsOnMethods = "testMultiConfigurationProjectEnable")
     @Test(dependsOnMethods = {"testCreateMultiConfigurationProjectWithValidName",
             "testMulticonfigurationProjectAddDescription",
             "testMultiConfigurationProjectRenameProjectViaDropDownMenu",
