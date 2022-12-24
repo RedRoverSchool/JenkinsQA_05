@@ -1,6 +1,5 @@
 package tests;
 
-import model.BuildHistoryPage;
 import model.HomePage;
 import model.NewItemPage;
 import model.RenameItemErrorPage;
@@ -8,7 +7,6 @@ import model.multiconfiguration.ConsoleOutputMultiConfigurationProjectPage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -255,18 +253,15 @@ public class MulticonfigurationProjectTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testCreateMultiConfigurationProjectWithValidName",
-            "testMulticonfigurationProjectAddDescription",
-            "testMultiConfigurationProjectRenameProjectViaDropDownMenu",
-            "testMultiConfigurationProjectRenameProjectViaSideMenu",
             "testMultiConfigurationProjectBuild"})
     public void testMultiConfigurationProjectsRunJobInBuildHistory() {
-        List<String> buildHistoryPage = new HomePage(getDriver())
+        List<String> listNameOfLabels = new HomePage(getDriver())
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
                 .clickBuildHistory()
                 .getNameOfLabelsOnTimeLineBuildHistory();
 
-        Assert.assertTrue(buildHistoryPage.contains(PROJECT_NAME + " #1"));
+        Assert.assertTrue(listNameOfLabels.contains(PROJECT_NAME + " #1"));
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithDescription")
