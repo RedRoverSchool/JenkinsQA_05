@@ -81,6 +81,8 @@ public class MyViewsPage extends HomePage {
     @FindBy(xpath = "//span[text()='Edit View']/..")
     private WebElement editViewLink;
 
+    @FindBy(css = "table#projectstatus th:last-child")
+    private WebElement jobTableLastHeader;
 
     public MyViewsPage(WebDriver driver) {
         super(driver);
@@ -166,11 +168,6 @@ public class MyViewsPage extends HomePage {
         return this;
     }
 
-    public int getJobTableHeaderListSize() {
-
-        return listJobTableHeaders.size();
-    }
-
     public List<String> getJobTableHeaderTextList() {
 
         return listJobTableHeaders.stream().map(WebElement::getText).collect(Collectors.toList());
@@ -226,4 +223,8 @@ public class MyViewsPage extends HomePage {
         return new EditViewPage(getDriver());
     }
 
+    public String getJobTableLastHeaderText() {
+
+        return jobTableLastHeader.getText();
+    }
 }
