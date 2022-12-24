@@ -9,12 +9,19 @@ public class ExternalJenkinsPage extends Footer {
     @FindBy(xpath = "//a[@class='navbar-brand']")
     private WebElement textJenkins;
 
+    @FindBy(xpath = "//h1")
+    private WebElement textHeaderJenkins;
+
     public ExternalJenkinsPage(WebDriver driver) {
         super(driver);
     }
 
     public String getTextJenkins() {
         return textJenkins.getText();
+    }
+
+    public String getHeaderText() {
+        return textHeaderJenkins.getText();
     }
 
 

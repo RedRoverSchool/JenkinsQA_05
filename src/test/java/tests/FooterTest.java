@@ -1,29 +1,14 @@
 package tests;
 
 import model.ExternalJenkinsPage;
+import model.ManageJenkinsPage;
 import model.RestApiPage;
 import model.XmlPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.util.ArrayList;
-
-
-import static runner.TestUtils.scrollToEnd;
-
 public class FooterTest extends BaseTest {
-
-    private static final By REST_API_LINK = By.xpath("//a[@href='api/']");
-    private static final By JENKINS_LINK = By.xpath("//a[@href='https://www.jenkins.io/']");
-
-    @Test
-    public void testFooterLinkRestIsDisplayed() {
-
-        Assert.assertTrue(getDriver().findElement(REST_API_LINK).isDisplayed());
-    }
 
     @Test
     public void testFooterLinkRestRedirectToPage() {
@@ -34,12 +19,6 @@ public class FooterTest extends BaseTest {
 
         Assert.assertTrue(urlRestApi.contains("api"));
         Assert.assertEquals(new RestApiPage(getDriver()).getTextH1RestApi(), "REST API");
-    }
-
-    @Test
-    public void testFooterLinkJenkinsIdDisplayed() {
-
-        Assert.assertTrue(getDriver().findElement(JENKINS_LINK).isDisplayed());
     }
 
     @Test
@@ -64,28 +43,14 @@ public class FooterTest extends BaseTest {
                 + "style information associated with it. The document tree is shown below.");
     }
 
-    @Test
-    public void testFooterLinkJenkinsIsVisible() {
-        getDriver().findElement(By.linkText("Manage Jenkins")).click();
-        scrollToEnd(getDriver());
-        new Actions(getDriver()).pause(1500).moveToElement(getDriver().findElement(JENKINS_LINK))
-                .perform();
-
-        Assert.assertTrue(getDriver().findElement(JENKINS_LINK).isDisplayed());
-    }
-
-    @Test(dependsOnMethods = "testFooterLinkJenkinsIsVisible")
+    @Test()
     public void testFooterLinkJenkinsIsClickable() {
-        scrollToEnd(getDriver());
-        new Actions(getDriver()).pause(1500).moveToElement(getDriver().findElement(JENKINS_LINK))
-                .click().perform();
+        String headerJenkins = new ManageJenkinsPage(getDriver())
+                .clickManageJenkins()
+                .moveForClinkOnLink()
+                .clickJenkinsVersion()
+                .getHeaderText();
 
-        ArrayList<String> newJenkins = new ArrayList<>(getDriver().getWindowHandles());
-        getDriver().switchTo().window(newJenkins.get(1));
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class='page-title']")).getText()
-                , "Jenkins");
-
-        getDriver().switchTo().window(newJenkins.get(0));
+        Assert.assertEquals(headerJenkins,"Jenkins");
     }
 }
