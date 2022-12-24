@@ -113,7 +113,6 @@ public class EditViewTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickView(localViewName)
                 .clickEditViewLink()
-//                .scrollToColumnDropDownMenuPlaceInCenterWaitTillNotMoving()
                 .clickAddColumnDropDownMenu()
                 .clickGitBranchesColumnMenuOption()
                 .clickListOrMyViewOkButton()
