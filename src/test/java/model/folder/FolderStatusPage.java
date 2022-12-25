@@ -65,7 +65,7 @@ public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
     }
 
     public List<String> getJobList() {
-        return jobList
+        return getWait(5).until(ExpectedConditions.visibilityOfAllElements(jobList))
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
