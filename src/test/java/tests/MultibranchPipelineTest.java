@@ -88,7 +88,7 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void testRenameMultiBranchPipelineFrom_Dropdown() {
+    public void testRenameMultiBranchPipelineFromDropdown() {
         String actualMultibranchPipeline = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(MULTIBRANCH_PIPELINE_NAME)

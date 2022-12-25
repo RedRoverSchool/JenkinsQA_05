@@ -7,6 +7,7 @@ import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class RenameItemPage extends BasePage {
 
@@ -21,7 +22,7 @@ public class RenameItemPage extends BasePage {
     private WebElement buttonSubmit;
 
     public RenameItemPage clearFieldAndInputNewName(String newName) {
-        fieldInputtingNewName.clear();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(fieldInputtingNewName)).clear();
         fieldInputtingNewName.sendKeys(newName);
 
         return this;
@@ -45,7 +46,7 @@ public class RenameItemPage extends BasePage {
     }
 
     public MultibranchPipelineStatusPage clickRenameButtonMBPipeline() {
-        buttonSubmit.click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(buttonSubmit)).click();
 
         return new MultibranchPipelineStatusPage(getDriver());
     }
