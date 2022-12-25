@@ -30,7 +30,7 @@ public abstract class BaseStatusPage<Self extends BaseStatusPage<?>> extends Bas
     }
 
     public String getProjectDescriptionText() {
-        return ProjectDescription.getText();
+        return getWait(5).until(ExpectedConditions.visibilityOf(ProjectDescription)).getText();
     }
 
     public String getFolderDescriptionText() {
