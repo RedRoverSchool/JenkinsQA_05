@@ -58,8 +58,8 @@ public class PipelineStatusPage extends BaseStatusPage<PipelineStatusPage> {
     }
 
     public PipelineStatusPage editDescription(String text) {
-        editDescriptionButton.click();
-        getWait(5).until(ExpectedConditions.visibilityOf(descriptionArea)).clear();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(editDescriptionButton)).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(descriptionArea)).clear();
         descriptionArea.sendKeys(text);
 
         return this;
