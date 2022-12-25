@@ -16,7 +16,6 @@ public class GlobalToolConfigurationPage extends BasePage {
     @FindBy(css = "input[checkurl$='MavenInstallation/checkName']")
     private List<WebElement> mavenTitleFields;
 
-    //@FindBy(id = "yui-gen5-button")
     @FindBy(xpath = "//button[text()='Apply']")
     private WebElement applyButton;
 
