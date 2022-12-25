@@ -234,6 +234,7 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
     }
 
     public FreestyleProjectConfigPage selectSourceCodeManagementGIT() {
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(radioGitButton));
         getAction()
                 .scrollToElement(radioGitButton)
                 .moveToElement(radioGitButton)

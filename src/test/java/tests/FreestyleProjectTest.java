@@ -273,7 +273,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(page.isBooleanParameterDefaultOn());
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testConfigureJobAsParameterized")
     public void testConfigureSourceCodeByGIT() {
         final String repositoryURL = "https://github.com/RedRoverSchool/JenkinsQA_05.git";
