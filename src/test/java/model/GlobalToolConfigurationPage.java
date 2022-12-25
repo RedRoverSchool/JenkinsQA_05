@@ -36,6 +36,7 @@ public class GlobalToolConfigurationPage extends BasePage {
 
     public GlobalToolConfigurationPage setFirstMavenTitleField(String name) {
         TestUtils.scrollToElement(getDriver(), mavenTitleFields.get(0));
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(mavenTitleFields.get(0)));
         getWait(5).until(ExpectedConditions.elementToBeClickable(mavenTitleFields.get(0))).click();
         mavenTitleFields.get(0).sendKeys(name);
 
