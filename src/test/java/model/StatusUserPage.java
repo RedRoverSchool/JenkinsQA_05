@@ -66,7 +66,7 @@ public class StatusUserPage extends BasePage {
         return this;
     }
 
-    public StatusUserPage inputTextInDescriptionField(String text) {
+    public StatusUserPage setDescriptionField(String text) {
         descriptionInputField.sendKeys(text);
 
         return this;
