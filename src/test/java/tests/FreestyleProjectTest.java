@@ -273,6 +273,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertTrue(page.isBooleanParameterDefaultOn());
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testConfigureJobAsParameterized")
     public void testConfigureSourceCodeByGIT() {
         final String repositoryURL = "https://github.com/RedRoverSchool/JenkinsQA_05.git";
@@ -293,13 +294,18 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertNotEquals(page.getBuildDurationTime(), "N/A");
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateNewFreestyleProject")
+    @Test
     public void testAddDaysToKeepBuildsInConfigure() {
         final String expectedDaysToKeepBuilds = Integer.toString((int) (Math.random() * 20 + 1));
 
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(FREESTYLE_NAME)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveBtn(FreestyleProjectStatusPage.class);
+
         String actualDaysToKeepBuilds = new HomePage(getDriver())
-                .clickFreestyleProjectName()
+                .clickFreestyleProjectName(FREESTYLE_NAME)
                 .clickSideMenuConfigureLink()
                 .clickDiscardOldBuildsCheckbox()
                 .typeDaysToKeepBuilds(expectedDaysToKeepBuilds)
