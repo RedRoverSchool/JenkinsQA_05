@@ -13,9 +13,6 @@ public class GlobalToolConfigurationPage extends BasePage {
     @FindBy(xpath = "//button[text()='Add Maven']")
     private List<WebElement> addMavenButtons;
 
-    @FindBy(xpath = "//button[text()='Maven installations...']")
-    private WebElement addMavenInstallButton;
-
     @FindBy(css = "input[checkurl$='MavenInstallation/checkName']")
     private List<WebElement> mavenTitleFields;
 
