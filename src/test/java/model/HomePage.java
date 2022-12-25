@@ -300,7 +300,7 @@ public class HomePage extends Breadcrumbs {
     }
 
     public MultiConfigurationProjectStatusPage clickMultConfJobName(String name) {
-        jobList.get(0).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(jobList.get(0))).click();
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
 

@@ -94,7 +94,7 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
     }
 
     public HomePage deleteMultiConfigProject() {
-        deleteOption.click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(deleteOption)).click();
         getDriver().switchTo().alert().accept();
 
         return new HomePage(getDriver());
