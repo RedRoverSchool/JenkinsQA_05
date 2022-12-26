@@ -53,6 +53,7 @@ public class GlobalToolConfigurationPage extends BasePage {
     }
 
     public String getErrorAreaText() {
+
         return getWait(5).until(ExpectedConditions.visibilityOf(errorArea)).getText();
     }
 }
