@@ -59,6 +59,15 @@ public class BuildHistoryPage extends HomePage {
     @FindBy(css = "#icon-tl-0-1-e1")
     private WebElement iconOfLabelsOnTime;
 
+    @FindBy(xpath = "//a/span[contains(text(), 'Atom feed for all')]")
+    private WebElement iconAtomFeedForAll;
+
+    @FindBy(xpath = "//a/span[contains(text(), 'Atom feed for failures')]")
+    private WebElement iconAtomFeedForFailures;
+
+    @FindBy(xpath = "//a/span[contains(text(), 'Atom feed for just latest builds')]")
+    private WebElement iconAtomFeedFoJustLatestBuilds;
+
     public String getSizeText() {
 
         return sizeIcon.getText();
@@ -140,4 +149,20 @@ public class BuildHistoryPage extends HomePage {
                 .map(WebElement :: getText)
                 .collect(Collectors.toList());
     }
+
+    public boolean iconAtomFeedForAllIsDisplayed() {
+
+        return iconAtomFeedForAll.isDisplayed();
+    }
+
+    public boolean iconAtomFeedForFailuresIsDisplayed() {
+
+        return iconAtomFeedForFailures.isDisplayed();
+    }
+
+    public boolean iconAtomFeedForFoJustLatestBuildsIsDisplayed() {
+
+        return iconAtomFeedFoJustLatestBuilds.isDisplayed();
+    }
+
 }

@@ -4,7 +4,6 @@ import model.HomePage;
 import model.BuildHistoryPage;
 import model.freestyle.FreestyleProjectStatusPage;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -39,12 +38,12 @@ public class BuildHistoryTest extends BaseTest {
 
     @Test
     public void testRssItemsExist() {
-        HomePage homePage = new HomePage(getDriver())
-                .clickBuildHistory();
+        new HomePage(getDriver()).clickBuildHistory();
+        BuildHistoryPage buildHistoryPage = new BuildHistoryPage(getDriver());
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//a/span[contains(text(), 'Atom feed for all')]")).isDisplayed());
-        Assert.assertTrue(getDriver().findElement(By.xpath("//a/span[contains(text(), 'Atom feed for failures')]")).isDisplayed());
-        Assert.assertTrue(getDriver().findElement(By.xpath("//a/span[contains(text(), 'Atom feed for just latest builds')]")).isDisplayed());
+        Assert.assertTrue(buildHistoryPage.iconAtomFeedForAllIsDisplayed());
+        Assert.assertTrue(buildHistoryPage.iconAtomFeedForFailuresIsDisplayed());
+        Assert.assertTrue(buildHistoryPage.iconAtomFeedForFoJustLatestBuildsIsDisplayed());
     }
 
     @Test
