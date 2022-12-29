@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>> extends BasePage {
 
     @FindBy(name = "Submit")
-    protected WebElement saveBtn;
+    protected WebElement saveButton;
 
     protected abstract StatusPage createStatusPage();
 
@@ -16,8 +16,8 @@ public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>> exten
         super(driver);
     }
 
-    public StatusPage clickSaveBtn(Class<?> clazz) {
-        getWait(5).until(ExpectedConditions.elementToBeClickable(saveBtn)).click();
+    public StatusPage clickSaveButton() {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(saveButton)).click();
 
         return createStatusPage();
     }

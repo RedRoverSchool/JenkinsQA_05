@@ -3,8 +3,6 @@ package tests;
 import model.folder.FolderStatusPage;
 import model.HomePage;
 import model.freestyle.FreestyleProjectStatusPage;
-import model.multibranch_pipeline.MultibranchPipelineStatusPage;
-import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -25,7 +23,7 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(FOLDER_RANDOM_NAME_1)
                 .selectFolderAndClickOk()
-                .clickSaveBtn(FolderStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .getJobNamesList();
 
@@ -41,7 +39,7 @@ public class FolderTest extends BaseTest {
                 .clickCreateJob()
                 .setItemName(multiConfigurationProjectName)
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickSaveButton()
                 .clickParentFolderInBreadcrumbs();
 
         Assert.assertTrue(folderStatusPage.getJobList().contains(multiConfigurationProjectName));
@@ -54,7 +52,7 @@ public class FolderTest extends BaseTest {
                 .clickConfigureDropDownMenuForFolder()
                 .setDisplayName(DISPLAY_RANDOM_NAME)
                 .setDescription("change name")
-                .clickSaveBtn(FolderStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .getJobNamesList();
 
@@ -79,7 +77,7 @@ public class FolderTest extends BaseTest {
                 .setItemName(FOLDER_RANDOM_NAME_2)
                 .selectFolderAndClickOk()
                 .setDescription(addDescription)
-                .clickSaveBtn(FolderStatusPage.class)
+                .clickSaveButton()
                 .getFolderDescriptionText();
 
         Assert.assertEquals(textDescription, addDescription);
@@ -138,7 +136,7 @@ public class FolderTest extends BaseTest {
                 .clickCreateJob()
                 .setItemName(freestyleProjectName)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn(FreestyleProjectStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_2)
                 .getJobList();
@@ -154,7 +152,7 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(freestyleProjectName)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn(FreestyleProjectStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .clickJobDropDownMenu(freestyleProjectName)
                 .clickMoveButtonDropdown(new FreestyleProjectStatusPage(getDriver()))
@@ -175,7 +173,7 @@ public class FolderTest extends BaseTest {
                 .clickFolderNewItem()
                 .setItemName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn(FreestyleProjectStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_2)
                 .getJobList();
@@ -206,11 +204,11 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(FOLDER_RANDOM_NAME_1)
                 .selectFolderAndClickOk()
-                .clickSaveBtn(FolderStatusPage.class)
+                .clickSaveButton()
                 .clickCreateJob()
                 .setItemName(FOLDER_RANDOM_NAME_2)
                 .selectFolderAndClickOk()
-                .clickSaveBtn(FolderStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_1)
                 .getJobList();
@@ -244,7 +242,7 @@ public class FolderTest extends BaseTest {
                 .clickNewItemDropdownThisFolderInBreadcrumbs()
                 .setItemName(freestyleProjectName)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn(FreestyleProjectStatusPage.class)
+                .clickSaveButton()
                 .clickParentFolderInBreadcrumbs()
                 .getJobList();
 
@@ -260,7 +258,7 @@ public class FolderTest extends BaseTest {
                 .clickFolderNewItem()
                 .setItemName(multibranchPipelineProjectName)
                 .selectMultibranchPipelineAndClickOk()
-                .clickSaveBtn(MultibranchPipelineStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_1)
                 .getJobList();

@@ -1,7 +1,6 @@
 package tests;
 
 import model.*;
-import model.organization_folder.OrgFolderStatusPage;
 import model.views.MyViewsPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -130,7 +129,7 @@ public class HeaderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(organizationFolderName)
                 .selectOrgFolderAndClickOk()
-                .clickSaveBtn(OrgFolderStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .setSearchFieldAndClickEnter(searchRequest)
                 .getSearchResultList();

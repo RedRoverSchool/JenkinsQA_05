@@ -2,7 +2,6 @@ package tests;
 
 import model.HomePage;
 import model.BuildHistoryPage;
-import model.freestyle.FreestyleProjectStatusPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -20,7 +19,7 @@ public class BuildHistoryTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn(FreestyleProjectStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .clickBuildHistory();
 

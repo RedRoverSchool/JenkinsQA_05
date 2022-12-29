@@ -1,8 +1,5 @@
 package tests;
 
-import model.freestyle.FreestyleProjectStatusPage;
-import model.multiconfiguration.MultiConfigurationProjectStatusPage;
-import model.pipeline.PipelineStatusPage;
 import model.views.*;
 import model.HomePage;
 import org.testng.Assert;
@@ -26,19 +23,19 @@ public class NewViewTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn(FreestyleProjectStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
 
                 .clickNewItem()
                 .setItemName(PIPELINE_PROJECT_NAME)
                 .selectPipelineAndClickOk()
-                .clickSaveBtn(PipelineStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
 
                 .clickNewItem()
                 .setItemName("Multi-configuration project")
                 .selectMultiConfigurationProjectAndClickOk()
-                .clickSaveBtn(MultiConfigurationProjectStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
 
                 .clickMyViewsSideMenuLink()
@@ -218,7 +215,7 @@ public class NewViewTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PROJECT_RANDOM_NAME)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn(FreestyleProjectStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
                 .clickNewView()
@@ -251,7 +248,7 @@ public class NewViewTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn(FreestyleProjectStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
                 .clickSizeM();

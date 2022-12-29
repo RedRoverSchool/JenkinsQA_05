@@ -26,7 +26,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn(FreestyleProjectStatusPage.class)
+                .clickSaveButton()
                 .getNameText();
 
         Assert.assertEquals(freestyleProjectTitle, String.format("Project %s", FREESTYLE_NAME));
@@ -260,7 +260,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectBooleanParameter()
                 .inputBooleanParameterName(booleanParameterName)
                 .switchONBooleanParameterAsDefault()
-                .clickSaveButton()
+                .clickSaveButton_()
                 .clickButtonBuildWithParameters();
 
         Assert.assertTrue(page.getNameText().contains(NEW_FREESTYLE_NAME));
@@ -286,7 +286,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectSourceCodeManagementGIT()
                 .inputGITRepositoryURL(repositoryURL)
                 .inputBranchSpecifier(branchSpecifier)
-                .clickSaveBtn(FreestyleProjectStatusPage.class)
+                .clickSaveButton()
                 .clickButtonBuildNowAndRedirectToDashboardAfterBuildCompleted();
 
         Assert.assertEquals(page.getJobBuildStatus(), "Success");
@@ -301,14 +301,14 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
-                .clickSaveBtn(FreestyleProjectStatusPage.class);
+                .clickSaveButton();
 
         String actualDaysToKeepBuilds = new HomePage(getDriver())
                 .clickFreestyleProjectName(FREESTYLE_NAME)
                 .clickSideMenuConfigureLink()
                 .clickDiscardOldBuildsCheckbox()
                 .typeDaysToKeepBuilds(expectedDaysToKeepBuilds)
-                .clickSaveBtn(FreestyleProjectStatusPage.class)
+                .clickSaveButton()
                 .clickSideMenuConfigureLink()
                 .getNumberOfDaysToKeepBuilds();
 
@@ -324,7 +324,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickFreestyleProjectName()
                 .clickSideMenuConfigureLink()
                 .typeMaxNumberOfBuildsToKeep(expectedMaxNumberOfBuildsToKeep)
-                .clickSaveBtn(FreestyleProjectStatusPage.class)
+                .clickSaveButton()
                 .clickSideMenuConfigureLink()
                 .getMaxNumberOfBuildsToKeep();
 
@@ -347,7 +347,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         new FreestyleProjectConfigPage(getDriver())
                 .closeAddBuildStepDropDown()
-                .clickSaveBtn(FreestyleProjectStatusPage.class);
+                .clickSaveButton();
 
         Assert.assertEquals(actualOptionsInBuildStepsSection, expectedOptionsInBuildStepsSection);
     }
@@ -365,7 +365,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         new FreestyleProjectConfigPage(getDriver())
                 .uncheckBuildPeriodicallyCheckbox()
-                .clickSaveBtn(FreestyleProjectStatusPage.class);
+                .clickSaveButton();
 
         Assert.assertTrue(selectedCheckbox);
     }

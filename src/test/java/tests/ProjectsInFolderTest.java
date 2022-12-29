@@ -1,7 +1,6 @@
 package tests;
 
 import model.HomePage;
-import model.organization_folder.OrgFolderStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -29,7 +28,7 @@ public class ProjectsInFolderTest extends BaseTest {
                 .clickFolderNewItem()
                 .setItemName(RANDOM_NAME)
                 .selectOrgFolderAndClickOk()
-                .clickSaveBtn(OrgFolderStatusPage.class)
+                .clickSaveButton()
                 .getNameText();
 
         Assert.assertEquals(actualOrganizationFolderDisplayName, RANDOM_NAME);

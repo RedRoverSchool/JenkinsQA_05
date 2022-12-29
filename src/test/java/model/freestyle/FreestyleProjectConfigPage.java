@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static runner.TestUtils.scrollToElement;
 import static runner.TestUtils.scrollToElement_PlaceInCenter;
 
 public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectStatusPage> {
@@ -227,7 +226,7 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
         return this;
     }
 
-    public BuildWithParametersPage clickSaveButton() {
+    public BuildWithParametersPage clickSaveButton_() {
         saveBtn.click();
 
         return new BuildWithParametersPage(getDriver());

@@ -2,7 +2,6 @@ package tests;
 
 import model.folder.FolderStatusPage;
 import model.HomePage;
-import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -19,7 +18,7 @@ public class FolderOneTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(folderName)
                 .selectFolderAndClickOk()
-                .clickSaveBtn(FolderStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard();
     }
 
@@ -39,7 +38,7 @@ public class FolderOneTest extends BaseTest {
                 .clickFolderNewItem()
                 .setItemName(RANDOM_NAME_2)
                 .selectFolderAndClickOk()
-                .clickSaveBtn(FolderStatusPage.class);
+                .clickSaveButton();
 
         Assert.assertTrue(folderStatusPage.getNameText().contains(RANDOM_NAME_2));
         Assert.assertTrue(folderStatusPage.getTopMenueLinkText().contains(RANDOM_NAME_2));
@@ -196,12 +195,12 @@ public class FolderOneTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(RANDOM_NAME_1)
                 .selectFolderAndClickOk()
-                .clickSaveBtn(FolderStatusPage.class)
+                .clickSaveButton()
                 .clickCreateJob()
                 .setItemName(RANDOM_NAME_2)
                 .selectFolderAndClickOk()
                 .setDisplayName("NewDisplayName")
-                .clickSaveBtn(FolderStatusPage.class);
+                .clickSaveButton();
 
         Assert.assertTrue(statusPage.getNameText().contains("NewDisplayName"));
         Assert.assertTrue(statusPage.getTopMenueLinkText().contains(RANDOM_NAME_1));
@@ -229,11 +228,11 @@ public class FolderOneTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(RANDOM_NAME_1)
                 .selectFolderAndClickOk()
-                .clickSaveBtn(FolderStatusPage.class)
+                .clickSaveButton()
                 .clickCreateJob()
                 .setItemName(RANDOM_MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipelineAndClickOk()
-                .clickSaveBtn(MultibranchPipelineStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .clickFolder(RANDOM_NAME_1);
 

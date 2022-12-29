@@ -17,9 +17,6 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineStatusPage> {
     @FindBy(name = "_.projectUrlStr")
     private WebElement gitHubUrl;
 
-    @FindBy(id = "yui-gen6-button")
-    private WebElement saveButton;
-
     @FindBy(xpath = "//option[text()='try sample Pipeline...']")
     private WebElement trySamplePipelineDropDownMenu;
 
@@ -82,12 +79,6 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineStatusPage> {
 
     public PipelineConfigPage setGitHubRepo(String gitHubRepo) {
         getAction().moveToElement(gitHubUrl).click().sendKeys(gitHubRepo).perform();
-
-        return this;
-    }
-
-    public PipelineConfigPage saveConfigAndGoToProject() {
-        saveButton.click();
 
         return this;
     }
