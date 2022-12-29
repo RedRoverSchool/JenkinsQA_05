@@ -24,9 +24,9 @@ public class MultibranchPipelineStatusPage extends BaseStatusPage<MultibranchPip
         return new DeleteMultibranchPipelinePage(getDriver());
     }
 
-    public RenameItemPage clickRenameLeftMenu() {
+    public RenameItemPage<MultibranchPipelineStatusPage> clickRenameLeftMenu() {
         renameLeftMenu.click();
 
-        return new RenameItemPage(getDriver());
+        return new RenameItemPage<>(getDriver(), new MultibranchPipelineStatusPage(getDriver()));
     }
 }

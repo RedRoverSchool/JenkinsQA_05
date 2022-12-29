@@ -1,18 +1,18 @@
 package model;
 
-import model.base.BasePage;
-import model.freestyle.FreestyleProjectStatusPage;
-import model.multibranch_pipeline.MultibranchPipelineStatusPage;
-import model.multiconfiguration.MultiConfigurationProjectStatusPage;
+import model.base.BaseStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class RenameItemPage extends BasePage {
+public class RenameItemPage<StatusPage extends BaseStatusPage<?>> extends BaseStatusPage<RenameItemPage<StatusPage>> {
 
-    public RenameItemPage(WebDriver driver) {
+    private final StatusPage statusPage;
+
+    public RenameItemPage(WebDriver driver, StatusPage statusPage) {
         super(driver);
+        this.statusPage = statusPage;
     }
 
     @FindBy(css = "input[name='newName']")
@@ -21,33 +21,22 @@ public class RenameItemPage extends BasePage {
     @FindBy(xpath = "//button[@type = 'submit']")
     private WebElement buttonSubmit;
 
-    public RenameItemPage clearFieldAndInputNewName(String newName) {
+    public RenameItemPage<StatusPage> clearFieldAndInputNewName(String newName) {
         getWait(5).until(ExpectedConditions.elementToBeClickable(fieldInputtingNewName)).clear();
         fieldInputtingNewName.sendKeys(newName);
 
         return this;
     }
 
-    public FreestyleProjectStatusPage clickSubmitButton() {
+    public RenameItemErrorPage clickSaveButtonAndGetError() {
         buttonSubmit.click();
 
-        return new FreestyleProjectStatusPage(getDriver());
-    }
-
-    public RenameItemErrorPage clickSaveButton() {
-        buttonSubmit.click();
         return new RenameItemErrorPage(getDriver());
     }
 
-    public MultiConfigurationProjectStatusPage clickRenameButton() {
+    public StatusPage clickRenameButton() {
         buttonSubmit.click();
 
-        return new MultiConfigurationProjectStatusPage(getDriver());
-    }
-
-    public MultibranchPipelineStatusPage clickRenameButtonMBPipeline() {
-        getWait(5).until(ExpectedConditions.elementToBeClickable(buttonSubmit)).click();
-
-        return new MultibranchPipelineStatusPage(getDriver());
+        return statusPage;
     }
 }

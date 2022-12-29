@@ -78,9 +78,9 @@ public class FolderOneTest extends BaseTest {
         HomePage homePage = new HomePage(getDriver())
 
                 .clickJobDropdownMenu(RANDOM_NAME_1)
-                .clickRenameDropDownMenu()
+                .clickRenameFolderDropDownMenu()
                 .clearFieldAndInputNewName(RANDOM_NAME_2)
-                .clickSubmitButton()
+                .clickRenameButton()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains(RANDOM_NAME_2));
@@ -122,9 +122,9 @@ public class FolderOneTest extends BaseTest {
     public void testRenameFolder() {
         HomePage homePage = new HomePage(getDriver())
                 .clickJobDropdownMenu(RANDOM_NAME_1)
-                .clickRenameDropDownMenu()
+                .clickRenameFolderDropDownMenu()
                 .clearFieldAndInputNewName(RANDOM_NAME_1 + "NEW")
-                .clickSubmitButton()
+                .clickRenameButton()
                 .clickDashboard();
 
         Assert.assertFalse(homePage.getJobNamesList().contains(RANDOM_NAME_1));

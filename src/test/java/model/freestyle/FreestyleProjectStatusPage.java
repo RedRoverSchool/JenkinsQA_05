@@ -102,10 +102,10 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
         return this;
     }
 
-    public RenameItemPage clickRenameButton() {
+    public RenameItemPage<FreestyleProjectStatusPage> clickRenameButton() {
         buttonRename.click();
 
-        return new RenameItemPage(getDriver());
+        return new RenameItemPage<>(getDriver(), new FreestyleProjectStatusPage(getDriver()));
     }
 
     public FreestyleProjectStatusPage clickButtonAddDescription() {
@@ -138,11 +138,6 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
         getWait(5).until(ExpectedConditions.elementToBeClickable(sideMenuConfigure)).click();
 
         return new FreestyleProjectConfigPage(getDriver());
-    }
-
-    public String getFreestyleProjectName(String name) {
-
-        return projectButton.getText();
     }
 
     public FreestyleProjectStatusPage openBuildHistoryOnSidePanel() {

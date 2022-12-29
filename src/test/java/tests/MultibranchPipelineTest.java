@@ -97,9 +97,9 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickSaveBtn(MultibranchPipelineStatusPage.class)
                 .clickDashboard()
                 .clickJobDropDownMenu(MULTIBRANCH_PIPELINE_NAME)
-                .clickRenameDropDownMenu()
+                .clickRenameMultibranchPipelineDropDownMenu()
                 .clearFieldAndInputNewName(MULTIBRANCH_PIPELINE_NAME_RENAMED)
-                .clickRenameButtonMBPipeline()
+                .clickRenameButton()
                 .getNameText();
 
         Assert.assertTrue(actualMultibranchPipeline.contains(MULTIBRANCH_PIPELINE_NAME_RENAMED));
@@ -111,7 +111,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickJobMBPipeline(MULTIBRANCH_PIPELINE_NAME)
                 .clickRenameLeftMenu()
                 .clearFieldAndInputNewName(MULTIBRANCH_PIPELINE_NAME_RENAMED)
-                .clickRenameButtonMBPipeline()
+                .clickRenameButton()
                 .getNameText();
 
         Assert.assertTrue(actualMultibranchPipeline.contains(MULTIBRANCH_PIPELINE_NAME_RENAMED));

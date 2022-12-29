@@ -118,10 +118,10 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
-    public RenameItemPage clickRenameSideMenu(String name) {
+    public RenameItemPage<MultiConfigurationProjectStatusPage> clickRenameSideMenu(String name) {
         getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/confirm-rename']", name))).click();
 
-        return new RenameItemPage(getDriver());
+        return new RenameItemPage<>(getDriver(), new MultiConfigurationProjectStatusPage(getDriver()));
     }
 
     public MultiConfigurationProjectConfigPage clickConfiguration(String projectName) {

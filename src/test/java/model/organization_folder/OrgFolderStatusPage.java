@@ -1,5 +1,6 @@
 package model.organization_folder;
 
+import model.RenameItemPage;
 import model.base.BaseStatusPage;
 import model.HomePage;
 import model.MovePage;
@@ -13,12 +14,6 @@ public class OrgFolderStatusPage extends BaseStatusPage<OrgFolderStatusPage> {
     @FindBy(linkText = "Rename")
     private WebElement renameButton;
 
-    @FindBy(name = "newName")
-    private WebElement newNameLine;
-
-    @FindBy(id = "yui-gen1-button")
-    private WebElement renameButtonOnMainPanel;
-
     @FindBy(linkText = "Configure")
     private WebElement configureButton;
 
@@ -28,25 +23,14 @@ public class OrgFolderStatusPage extends BaseStatusPage<OrgFolderStatusPage> {
     @FindBy(xpath = "//button[@type= 'submit']")
     private WebElement saveButton;
 
-    @FindBy(linkText = "Up")
-    private WebElement buttonUp;
-
     public OrgFolderStatusPage(WebDriver driver) {
         super(driver);
     }
 
-    public OrgFolderStatusPage clickRenameButton() {
+    public RenameItemPage<OrgFolderStatusPage> clickRenameButton() {
         renameButton.click();
 
-        return new OrgFolderStatusPage(getDriver());
-    }
-
-    public OrgFolderStatusPage clearAndInputNewName(String name) {
-        newNameLine.clear();
-        newNameLine.sendKeys(name);
-        renameButtonOnMainPanel.click();
-
-        return new OrgFolderStatusPage(getDriver());
+        return new RenameItemPage<>(getDriver(), new OrgFolderStatusPage(getDriver()));
     }
 
     public OrgFolderConfigPage clickConfigureSideMenu() {
@@ -63,12 +47,6 @@ public class OrgFolderStatusPage extends BaseStatusPage<OrgFolderStatusPage> {
 
     public HomePage clickSaveButton() {
         saveButton.click();
-
-        return new HomePage(getDriver());
-    }
-
-    public HomePage clickButtonUp(){
-        getWait(5).until(ExpectedConditions.elementToBeClickable(buttonUp)).click();
 
         return new HomePage(getDriver());
     }

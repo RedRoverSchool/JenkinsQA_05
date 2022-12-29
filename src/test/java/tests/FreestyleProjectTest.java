@@ -120,7 +120,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickFreestyleProjectName()
                 .clickRenameButton()
                 .clearFieldAndInputNewName(NEW_FREESTYLE_NAME)
-                .clickSubmitButton()
+                .clickRenameButton()
                 .clickDashboard()
                 .getJobNamesList();
 

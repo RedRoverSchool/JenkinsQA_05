@@ -53,7 +53,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     public void testMultiConfigurationProjectRenameProjectViaDropDownMenu() {
         MultiConfigurationProjectStatusPage multiConfigPrStatusPage = new HomePage(getDriver())
                 .clickJobDropdownMenu(PROJECT_NAME)
-                .clickRenameDropDownMenu()
+                .clickRenameMultiConfigurationDropDownMenu()
                 .clearFieldAndInputNewName(NEW_PROJECT_NAME)
                 .clickRenameButton();
 
@@ -210,7 +210,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .clickMultConfJobName(PROJECT_NAME)
                 .clickRenameSideMenu(PROJECT_NAME)
                 .clearFieldAndInputNewName("&")
-                .clickSaveButton();
+                .clickSaveButtonAndGetError();
 
         Assert.assertEquals(renameItemErrorPage.getErrorMessage(), "‘&amp;’ is an unsafe character");
     }

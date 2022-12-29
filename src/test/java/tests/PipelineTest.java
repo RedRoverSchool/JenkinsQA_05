@@ -62,9 +62,9 @@ public class PipelineTest extends BaseTest {
         createPipelineProject(PIPELINE_NAME);
         new HomePage(getDriver())
                 .clickJobDropDownMenu(PIPELINE_NAME)
-                .clickRenameDropDownMenu()
+                .clickRenamePipelineDropDownMenu()
                 .clearFieldAndInputNewName(PIPELINE_NAME + RENAME_SUFFIX)
-                .clickSubmitButton();
+                .clickRenameButton();
 
         Assert.assertEquals(new PipelineStatusPage(getDriver()).getNameText(), "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
     }
@@ -80,9 +80,9 @@ public class PipelineTest extends BaseTest {
                 .setMyViewTypeAndCLickCreate()
                 .clickDashboard()
                 .clickJobDropDownMenu(PIPELINE_NAME)
-                .clickRenameDropDownMenu()
+                .clickRenamePipelineDropDownMenu()
                 .clearFieldAndInputNewName(PIPELINE_NAME + RENAME_SUFFIX)
-                .clickSubmitButton()
+                .clickRenameButton()
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
                 .clickView(ITEM_NAME)
@@ -100,8 +100,8 @@ public class PipelineTest extends BaseTest {
                 .clickSaveBtn(PipelineStatusPage.class)
                 .clickDashboard()
                 .clickJobDropDownMenu(PIPELINE_NAME)
-                .clickRenameDropDownMenu()
-                .clickSaveButton();
+                .clickRenamePipelineDropDownMenu()
+                .clickSaveButtonAndGetError();
 
         Assert.assertEquals(renameItemErrorPage.getHeadErrorMessage(), "Error");
         Assert.assertEquals(renameItemErrorPage.getErrorMessage(), "The new name is the same as the current name.");
@@ -121,9 +121,9 @@ public class PipelineTest extends BaseTest {
         String actualRenameErrorMessage = new HomePage(getDriver())
                 .clickDashboard()
                 .clickJobDropDownMenu(PIPELINE_NAME)
-                .clickRenameDropDownMenu()
+                .clickRenamePipelineDropDownMenu()
                 .clearFieldAndInputNewName(PIPELINE_NAME + unsafeCharacter)
-                .clickSaveButton()
+                .clickSaveButtonAndGetError()
                 .getErrorMessage();
 
         Assert.assertEquals(actualRenameErrorMessage, String.format("‘%s’ is an unsafe character", expectedUnsafeCharacterInErrorMessage));

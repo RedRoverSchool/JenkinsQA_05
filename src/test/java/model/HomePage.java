@@ -43,9 +43,6 @@ public class HomePage extends Breadcrumbs {
     @FindBy(linkText = "Rename")
     private WebElement renameDropDownMenu;
 
-    @FindBy(xpath = "//td[3]/a/button")
-    private WebElement dropDownMenuOfJob;
-
     @FindBy(xpath = "//li[@index='2']")
     private WebElement deleteButtonInDropDownMenu;
 
@@ -115,9 +112,6 @@ public class HomePage extends Breadcrumbs {
     @FindBy(linkText = "Credentials")
     private WebElement credentialsItemInUserDropdownMenu;
 
-    @FindBy(css = "#projectstatus th")
-    private List<WebElement> jobTableColumnList;
-
     @FindBy(xpath = "(//a[@class='yuimenuitemlabel'])[3]/span")
     private WebElement buildNowButton;
 
@@ -132,12 +126,6 @@ public class HomePage extends Breadcrumbs {
         newItem.click();
 
         return new NewItemPage(getDriver());
-    }
-
-    public HomePage clickViewLink() {
-        openViewLink.click();
-
-        return this;
     }
 
     public NewViewPage clickAddViewLink() {
@@ -185,10 +173,40 @@ public class HomePage extends Breadcrumbs {
         return new FreestyleProjectStatusPage(getDriver());
     }
 
-    public RenameItemPage clickRenameDropDownMenu() {
+    public RenameItemPage<FreestyleProjectStatusPage> clickRenameFreestyleDropDownMenu() {
         getWait(6).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
 
-        return new RenameItemPage(getDriver());
+        return new RenameItemPage<>(getDriver(), new FreestyleProjectStatusPage(getDriver()));
+    }
+
+    public RenameItemPage<PipelineStatusPage> clickRenamePipelineDropDownMenu() {
+        getWait(6).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
+
+        return new RenameItemPage<>(getDriver(), new PipelineStatusPage(getDriver()));
+    }
+
+    public RenameItemPage<MultiConfigurationProjectStatusPage> clickRenameMultiConfigurationDropDownMenu() {
+        getWait(6).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
+
+        return new RenameItemPage<>(getDriver(), new MultiConfigurationProjectStatusPage(getDriver()));
+    }
+
+    public RenameItemPage<FolderStatusPage> clickRenameFolderDropDownMenu() {
+        getWait(6).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
+
+        return new RenameItemPage<>(getDriver(), new FolderStatusPage(getDriver()));
+    }
+
+    public RenameItemPage<MultibranchPipelineStatusPage> clickRenameMultibranchPipelineDropDownMenu() {
+        getWait(6).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
+
+        return new RenameItemPage<>(getDriver(), new MultibranchPipelineStatusPage(getDriver()));
+    }
+
+    public RenameItemPage<OrgFolderStatusPage> clickRenameOrgFolderDropDownMenu() {
+        getWait(6).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
+
+        return new RenameItemPage<>(getDriver(), new OrgFolderStatusPage(getDriver()));
     }
 
     public ConfigurationGeneralPage clickConfigDropDownMenu() {
@@ -495,21 +513,6 @@ public class HomePage extends Breadcrumbs {
     public boolean buildNowButtonIsDisplayed(){
 
         return getWait(5).until(ExpectedConditions.visibilityOf(buildNowButton)).isDisplayed();
-    }
-
-    public DeleteMultibranchPipelinePage clickDeleteMbPipelineDropDownMenu() {
-        getWait(3).until(ExpectedConditions.elementToBeClickable(deleteMbPipelineButtonInDropDownMenu));
-        deleteMbPipelineButtonInDropDownMenu.click();
-
-        return new DeleteMultibranchPipelinePage(getDriver());
-    }
-
-    public void sleep() {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public OrgFolderStatusPage clickOrgFolder(String name) {
