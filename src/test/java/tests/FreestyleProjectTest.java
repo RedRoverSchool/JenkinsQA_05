@@ -118,7 +118,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         List<String> jobsList = new HomePage(getDriver())
                 .clickFreestyleProjectName()
-                .clickRenameButton()
+                .clickRenameSideMenu()
                 .clearFieldAndInputNewName(NEW_FREESTYLE_NAME)
                 .clickRenameButton()
                 .clickDashboard()

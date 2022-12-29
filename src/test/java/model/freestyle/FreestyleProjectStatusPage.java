@@ -24,7 +24,7 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
     private WebElement disableOrEnableBtn;
 
     @FindBy(linkText = "Rename")
-    private WebElement buttonRename;
+    private WebElement renameButton;
 
     @FindBy(id = "description-link")
     private WebElement buttonAddDescription;
@@ -102,8 +102,8 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
         return this;
     }
 
-    public RenameItemPage<FreestyleProjectStatusPage> clickRenameButton() {
-        buttonRename.click();
+    public RenameItemPage<FreestyleProjectStatusPage> clickRenameSideMenu() {
+        renameButton.click();
 
         return new RenameItemPage<>(getDriver(), new FreestyleProjectStatusPage(getDriver()));
     }

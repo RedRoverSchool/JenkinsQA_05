@@ -3,11 +3,9 @@ package model.organization_folder;
 import model.RenameItemPage;
 import model.base.BaseStatusPage;
 import model.HomePage;
-import model.MovePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class OrgFolderStatusPage extends BaseStatusPage<OrgFolderStatusPage> {
 
@@ -27,7 +25,7 @@ public class OrgFolderStatusPage extends BaseStatusPage<OrgFolderStatusPage> {
         super(driver);
     }
 
-    public RenameItemPage<OrgFolderStatusPage> clickRenameButton() {
+    public RenameItemPage<OrgFolderStatusPage> clickRenameSideMenu() {
         renameButton.click();
 
         return new RenameItemPage<>(getDriver(), new OrgFolderStatusPage(getDriver()));

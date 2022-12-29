@@ -59,7 +59,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .setItemName(nameOrgFolderPOM)
                 .selectOrgFolderAndClickOk()
                 .clickSaveBtn(OrgFolderStatusPage.class)
-                .clickRenameButton()
+                .clickRenameSideMenu()
                 .clearFieldAndInputNewName("New name " + nameOrgFolderPOM)
                 .clickRenameButton()
                 .clickDashboard();

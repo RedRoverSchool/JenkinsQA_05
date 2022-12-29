@@ -174,37 +174,37 @@ public class HomePage extends Breadcrumbs {
     }
 
     public RenameItemPage<FreestyleProjectStatusPage> clickRenameFreestyleDropDownMenu() {
-        getWait(6).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
 
         return new RenameItemPage<>(getDriver(), new FreestyleProjectStatusPage(getDriver()));
     }
 
     public RenameItemPage<PipelineStatusPage> clickRenamePipelineDropDownMenu() {
-        getWait(6).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
 
         return new RenameItemPage<>(getDriver(), new PipelineStatusPage(getDriver()));
     }
 
     public RenameItemPage<MultiConfigurationProjectStatusPage> clickRenameMultiConfigurationDropDownMenu() {
-        getWait(6).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
 
         return new RenameItemPage<>(getDriver(), new MultiConfigurationProjectStatusPage(getDriver()));
     }
 
     public RenameItemPage<FolderStatusPage> clickRenameFolderDropDownMenu() {
-        getWait(6).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
 
         return new RenameItemPage<>(getDriver(), new FolderStatusPage(getDriver()));
     }
 
     public RenameItemPage<MultibranchPipelineStatusPage> clickRenameMultibranchPipelineDropDownMenu() {
-        getWait(6).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
 
         return new RenameItemPage<>(getDriver(), new MultibranchPipelineStatusPage(getDriver()));
     }
 
     public RenameItemPage<OrgFolderStatusPage> clickRenameOrgFolderDropDownMenu() {
-        getWait(6).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
 
         return new RenameItemPage<>(getDriver(), new OrgFolderStatusPage(getDriver()));
     }

@@ -12,7 +12,7 @@ public class MultibranchPipelineStatusPage extends BaseStatusPage<MultibranchPip
     private WebElement deleteLeftSideMenu;
 
     @FindBy(linkText = "Rename")
-    private WebElement renameLeftMenu;
+    private WebElement renameButton;
 
     public MultibranchPipelineStatusPage(WebDriver driver) {
         super(driver);
@@ -24,8 +24,8 @@ public class MultibranchPipelineStatusPage extends BaseStatusPage<MultibranchPip
         return new DeleteMultibranchPipelinePage(getDriver());
     }
 
-    public RenameItemPage<MultibranchPipelineStatusPage> clickRenameLeftMenu() {
-        renameLeftMenu.click();
+    public RenameItemPage<MultibranchPipelineStatusPage> clickRenameSideMenu() {
+        renameButton.click();
 
         return new RenameItemPage<>(getDriver(), new MultibranchPipelineStatusPage(getDriver()));
     }

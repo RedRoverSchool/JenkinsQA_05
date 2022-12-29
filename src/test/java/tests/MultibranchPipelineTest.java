@@ -109,7 +109,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testRenameMultiBranchPipelineFromLeftSideMenu() {
         String actualMultibranchPipeline = new HomePage(getDriver())
                 .clickJobMBPipeline(MULTIBRANCH_PIPELINE_NAME)
-                .clickRenameLeftMenu()
+                .clickRenameSideMenu()
                 .clearFieldAndInputNewName(MULTIBRANCH_PIPELINE_NAME_RENAMED)
                 .clickRenameButton()
                 .getNameText();

@@ -120,9 +120,9 @@ public class FolderTest extends BaseTest {
                 .selectFolderAndClickOk()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_1)
-                .clickRename(FOLDER_RANDOM_NAME_1)
-                .clearAndSetNewName(FOLDER_RANDOM_NAME_2)
-                .clickSubmitButton()
+                .clickRenameSideMenu()
+                .clearFieldAndInputNewName(FOLDER_RANDOM_NAME_2)
+                .clickRenameButton()
                 .clickDashboard()
                 .getJobNamesList();
 
