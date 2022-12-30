@@ -235,8 +235,9 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(multiConfigPrStatusPage.iconProjectDisabledIsDisplayed());
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testMultiConfigurationProjectDisableCheckIconProjectName")
+
+    @Test(dependsOnMethods = {"testCreateMultiConfigurationProjectWithDescription",
+            "testMultiConfigurationProjectDisableCheckIconProjectName"})
     public void testMultiConfigurationProjectEnableCheckIconProjectName() {
         MultiConfigurationProjectStatusPage multiConfigPrStatusPage = new HomePage(getDriver())
                 .clickMultConfJobName(PROJECT_NAME)
