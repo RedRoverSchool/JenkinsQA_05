@@ -61,9 +61,8 @@ public class HeaderTest extends BaseTest {
 
         HomePage homePage = new HomePage(getDriver());
 
-        Assert.assertTrue(homePage.getJenkinsHeadIcon().isDisplayed());
-
-        Assert.assertTrue(homePage.getJenkinsHeadIcon().isEnabled());
+        Assert.assertTrue(homePage.isJenkinsHeadIconDisplayed());
+        Assert.assertTrue(homePage.isJenkinsHeadIconEnabled());
     }
 
     @Test
@@ -146,14 +145,11 @@ public class HeaderTest extends BaseTest {
 
         HomePage homePage = new HomePage(getDriver());
 
-        Assert.assertTrue(homePage.clickAddDescriptionButton().getDescriptionTextarea().isEnabled());
-
+        Assert.assertTrue(homePage.clickAddDescriptionButton().isDescriptionTextareaEnabled());
         Assert.assertFalse(homePage.isAddDescriptionButtonPresent());
-
         Assert.assertFalse(homePage.clickJenkinsHeadIcon()
                 .waitForVisibilityOfAddDescriptionButton().isDescriptionTextareaPresent());
-
         Assert.assertTrue(homePage.clickJenkinsHeadIcon()
-                .waitForVisibilityOfAddDescriptionButton().getAddDescriptionButton().isEnabled());
+                .waitForVisibilityOfAddDescriptionButton().isAddDescriptionButtonEnabled());
     }
 }

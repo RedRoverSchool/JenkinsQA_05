@@ -59,8 +59,9 @@ public class OrganizationFolderTest extends BaseTest {
                 .setItemName(nameOrgFolderPOM)
                 .selectOrgFolderAndClickOk()
                 .clickSaveButton()
+                .clickRenameSideMenu()
+                .clearFieldAndInputNewName("New name " + nameOrgFolderPOM)
                 .clickRenameButton()
-                .clearAndInputNewName("New name " + nameOrgFolderPOM)
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains("New name " + nameOrgFolderPOM));

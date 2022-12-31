@@ -12,10 +12,6 @@ import runner.TestUtils;
 
 public abstract class Header extends BasePage {
 
-    public Header(WebDriver driver) {
-        super(driver);
-    }
-
     @FindBy(id = "jenkins-head-icon")
     private WebElement jenkinsHeadIcon;
 
@@ -27,6 +23,10 @@ public abstract class Header extends BasePage {
 
     @FindBy(id = "search-box")
     private WebElement searchField;
+
+    public Header(WebDriver driver) {
+        super(driver);
+    }
 
     public HomePage clickJenkinsHeadIcon() {
         getWait(10).until(ExpectedConditions.elementToBeClickable(jenkinsHeadIcon)).click();
@@ -44,14 +44,14 @@ public abstract class Header extends BasePage {
         return  jenkinsNameIcon.isDisplayed();
     }
 
-    public WebElement getJenkinsHeadIcon(){
+    public boolean isJenkinsHeadIconDisplayed() {
 
-        return jenkinsHeadIcon;
+        return jenkinsNameIcon.isDisplayed();
     }
 
-    public WebElement getJenkinsNameIcon(){
+    public boolean isJenkinsHeadIconEnabled() {
 
-        return jenkinsHeadIcon;
+        return jenkinsNameIcon.isEnabled();
     }
 
     public StatusUserPage clickUserIcon() {

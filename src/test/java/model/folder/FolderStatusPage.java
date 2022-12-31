@@ -1,7 +1,7 @@
 package model.folder;
 
+import model.RenameItemPage;
 import model.base.BaseStatusPage;
-import model.MovePage;
 import model.freestyle.FreestyleProjectStatusPage;
 import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import model.NewItemPage;
@@ -53,6 +53,9 @@ public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
     @FindBy(css = ".jenkins-input")
     private WebElement inputFieldDescription;
 
+    @FindBy(linkText = "Rename")
+    private WebElement renameButton;
+
     public FolderStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -88,17 +91,10 @@ public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
         return emptyStateBlock;
     }
 
-    public FolderStatusPage clickRename(String folderName) {
-        getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/confirm-rename']")).click();
+    public RenameItemPage<FolderStatusPage> clickRenameSideMenu() {
+        renameButton.click();
 
-        return new FolderStatusPage(getDriver());
-    }
-
-    public FolderStatusPage clearAndSetNewName(String folderName) {
-        folderNewName.clear();
-        folderNewName.sendKeys(folderName);
-
-        return new FolderStatusPage(getDriver());
+        return new RenameItemPage<>(getDriver(), new FolderStatusPage(getDriver()));
     }
 
     public FolderStatusPage clickSubmitButton() {

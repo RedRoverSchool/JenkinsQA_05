@@ -5,6 +5,7 @@ import model.pipeline.PipelineConfigPage;
 import model.pipeline.PipelineStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -62,9 +63,9 @@ public class PipelineTest extends BaseTest {
         createPipelineProject(PIPELINE_NAME);
         new HomePage(getDriver())
                 .clickJobDropDownMenu(PIPELINE_NAME)
-                .clickRenameDropDownMenu()
+                .clickRenamePipelineDropDownMenu()
                 .clearFieldAndInputNewName(PIPELINE_NAME + RENAME_SUFFIX)
-                .clickSubmitButton();
+                .clickRenameButton();
 
         Assert.assertEquals(new PipelineStatusPage(getDriver()).getNameText(), "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
     }
@@ -80,9 +81,9 @@ public class PipelineTest extends BaseTest {
                 .setMyViewTypeAndCLickCreate()
                 .clickDashboard()
                 .clickJobDropDownMenu(PIPELINE_NAME)
-                .clickRenameDropDownMenu()
+                .clickRenamePipelineDropDownMenu()
                 .clearFieldAndInputNewName(PIPELINE_NAME + RENAME_SUFFIX)
-                .clickSubmitButton()
+                .clickRenameButton()
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
                 .clickView(ITEM_NAME)
@@ -100,8 +101,8 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton()
                 .clickDashboard()
                 .clickJobDropDownMenu(PIPELINE_NAME)
-                .clickRenameDropDownMenu()
-                .clickSaveButton();
+                .clickRenamePipelineDropDownMenu()
+                .clickSaveButtonAndGetError();
 
         Assert.assertEquals(renameItemErrorPage.getHeadErrorMessage(), "Error");
         Assert.assertEquals(renameItemErrorPage.getErrorMessage(), "The new name is the same as the current name.");
@@ -121,9 +122,9 @@ public class PipelineTest extends BaseTest {
         String actualRenameErrorMessage = new HomePage(getDriver())
                 .clickDashboard()
                 .clickJobDropDownMenu(PIPELINE_NAME)
-                .clickRenameDropDownMenu()
+                .clickRenamePipelineDropDownMenu()
                 .clearFieldAndInputNewName(PIPELINE_NAME + unsafeCharacter)
-                .clickSaveButton()
+                .clickSaveButtonAndGetError()
                 .getErrorMessage();
 
         Assert.assertEquals(actualRenameErrorMessage, String.format("‘%s’ is an unsafe character", expectedUnsafeCharacterInErrorMessage));
@@ -171,6 +172,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(pipelineProjectPage.getProjectDescriptionText(), PIPELINE_NAME + "edit description");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testEnablePipelineProject")
     public void testDeletePipelineFromDashboard() {
         String homePageHeaderText = new HomePage(getDriver())

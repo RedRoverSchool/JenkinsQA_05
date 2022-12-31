@@ -65,6 +65,9 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
     @FindBy(id = "enable-project")
     private WebElement disabledWarning;
 
+    @FindBy(linkText = "Rename")
+    private WebElement renameButton;
+
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -118,10 +121,10 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
-    public RenameItemPage clickRenameSideMenu(String name) {
-        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/confirm-rename']", name))).click();
+    public RenameItemPage<MultiConfigurationProjectStatusPage> clickRenameSideMenu() {
+        renameButton.click();
 
-        return new RenameItemPage(getDriver());
+        return new RenameItemPage<>(getDriver(), new MultiConfigurationProjectStatusPage(getDriver()));
     }
 
     public MultiConfigurationProjectConfigPage clickConfiguration(String projectName) {
