@@ -6,7 +6,6 @@ import model.folder.FolderConfigPage;
 import model.folder.FolderStatusPage;
 import model.freestyle.FreestyleProjectConfigPage;
 import model.freestyle.FreestyleProjectStatusPage;
-import model.multibranch_pipeline.DeleteMultibranchPipelinePage;
 import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import model.organization_folder.OrgFolderStatusPage;
@@ -452,14 +451,14 @@ public class HomePage extends Breadcrumbs {
         return this;
     }
 
-    public WebElement getDescriptionTextarea() {
+    public boolean isDescriptionTextareaEnabled() {
 
-        return descriptionTextarea;
+        return descriptionTextarea.isEnabled();
     }
 
-    public WebElement getAddDescriptionButton() {
+    public boolean isAddDescriptionButtonEnabled() {
 
-        return addDescriptionButton;
+        return addDescriptionButton.isEnabled();
     }
 
     public HomePage waitForVisibilityOfAddDescriptionButton(){

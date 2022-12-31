@@ -44,11 +44,6 @@ public abstract class Header extends BasePage {
         return  jenkinsNameIcon.isDisplayed();
     }
 
-    public WebElement getJenkinsHeadIcon(){
-
-        return jenkinsHeadIcon;
-    }
-
     public boolean isJenkinsHeadIconDisplayed() {
 
         return jenkinsNameIcon.isDisplayed();
