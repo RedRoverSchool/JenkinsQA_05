@@ -171,25 +171,18 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(multiConfigurationProjectStatusPage.getNameMultiConfigProject(NEW_PROJECT_NAME), NEW_PROJECT_NAME);
     }
 
-    @Test
-    public void testDisableMultiConfigurationProjectCheckIconDashboardPage() {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(PROJECT_NAME);
-        getDriver().findElement(By.xpath("//span[contains(text(), 'Multi-configuration project')]")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(DASHBOARD).click();
-        getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
-        getDriver().findElement(DISABLE_PROJECT).click();
-        getDriver().findElement(DASHBOARD).click();
+    @Test (dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    public void testMultiConfigurationProjectDisableCheckIconDashboardPage() {
+        HomePage homePage = new HomePage(getDriver())
+                .clickMultConfJobName(PROJECT_NAME)
+                .clickDisableButton()
+                .clickDashboard();
 
-        Assert.assertTrue(getDriver().findElement((By.xpath(
-                        String.format("//tr[@id='job_%s']//span[@class='build-status-icon__wrapper icon-disabled icon-md']", PROJECT_NAME))))
-                .isDisplayed());
+        Assert.assertTrue(homePage.isDisplayedIconProjectDisabled());
     }
 
     @Ignore
-    @Test(dependsOnMethods = "testDisableMultiConfigurationProjectCheckIconDashboardPage")
+    @Test(dependsOnMethods = "testMultiConfigurationProjectDisableCheckIconDashboardPage")
     public void testEnableMultiConfigurationProjectCheckIconDashboardPage() {
         getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
         getDriver().findElement(ENABLE_PROJECT_BUTTON).click();

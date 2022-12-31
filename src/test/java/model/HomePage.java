@@ -6,7 +6,6 @@ import model.folder.FolderConfigPage;
 import model.folder.FolderStatusPage;
 import model.freestyle.FreestyleProjectConfigPage;
 import model.freestyle.FreestyleProjectStatusPage;
-import model.multibranch_pipeline.DeleteMultibranchPipelinePage;
 import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import model.organization_folder.OrgFolderStatusPage;
@@ -117,6 +116,9 @@ public class HomePage extends Breadcrumbs {
 
     @FindBy(id = "search-box")
     private WebElement searchField;
+
+    @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-disabled icon-md']")
+    private WebElement iconProjectDisabled;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -539,5 +541,11 @@ public class HomePage extends Breadcrumbs {
         getWait(3).until(TestUtils.ExpectedConditions.elementIsNotMoving(searchField)).sendKeys(Keys.ENTER);
 
         return new MultiConfigurationProjectStatusPage(getDriver());
+    }
+
+    public boolean isDisplayedIconProjectDisabled(){
+        getWait(10).until(ExpectedConditions.visibilityOf(iconProjectDisabled));
+
+        return iconProjectDisabled.isDisplayed();
     }
 }
