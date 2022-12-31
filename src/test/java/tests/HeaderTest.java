@@ -62,9 +62,8 @@ public class HeaderTest extends BaseTest {
 
         HomePage homePage = new HomePage(getDriver());
 
-        Assert.assertTrue(homePage.getJenkinsHeadIcon().isDisplayed());
-
-        Assert.assertTrue(homePage.getJenkinsHeadIcon().isEnabled());
+        Assert.assertTrue(homePage.isJenkinsHeadIconDisplayed());
+        Assert.assertTrue(homePage.isJenkinsHeadIconEnabled());
     }
 
     @Test
