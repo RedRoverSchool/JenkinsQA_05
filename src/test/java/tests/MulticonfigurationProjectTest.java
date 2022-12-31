@@ -171,7 +171,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertEquals(multiConfigurationProjectStatusPage.getNameMultiConfigProject(NEW_PROJECT_NAME), NEW_PROJECT_NAME);
     }
 
-    @Test (dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
+    @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMultiConfigurationProjectDisableCheckIconDashboardPage() {
         HomePage homePage = new HomePage(getDriver())
                 .clickMultConfJobName(PROJECT_NAME)
@@ -181,15 +181,15 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(homePage.isDisplayedIconProjectDisabled());
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testMultiConfigurationProjectDisableCheckIconDashboardPage")
+    @Test(dependsOnMethods = {"testCreateMultiConfigurationProjectWithValidName",
+            "testMultiConfigurationProjectDisableCheckIconDashboardPage"})
     public void testEnableMultiConfigurationProjectCheckIconDashboardPage() {
-        getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", PROJECT_NAME))).click();
-        getDriver().findElement(ENABLE_PROJECT_BUTTON).click();
-        getDriver().findElement(DASHBOARD).click();
+        HomePage homePage = new HomePage(getDriver())
+                .clickMultConfJobName(PROJECT_NAME)
+                .clickEnableButton()
+                .clickDashboard();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//span/span/*[name()='svg' and @tooltip='Not built']"))
-                .isDisplayed());
+        Assert.assertTrue(homePage.isDisplayedIconProjectEnabled());
     }
 
     @Test

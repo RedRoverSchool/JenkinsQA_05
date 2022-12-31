@@ -121,6 +121,9 @@ public class HomePage extends Breadcrumbs {
     @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-disabled icon-md']")
     private WebElement iconProjectDisabled;
 
+    @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-nobuilt icon-md']")
+    private WebElement iconProjectEnabled;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -548,5 +551,11 @@ public class HomePage extends Breadcrumbs {
         getWait(10).until(ExpectedConditions.visibilityOf(iconProjectDisabled));
 
         return iconProjectDisabled.isDisplayed();
+    }
+
+    public boolean isDisplayedIconProjectEnabled(){
+        getWait(10).until(ExpectedConditions.visibilityOf(iconProjectEnabled));
+
+        return iconProjectEnabled.isDisplayed();
     }
 }
