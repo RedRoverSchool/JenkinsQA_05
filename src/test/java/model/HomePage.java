@@ -6,6 +6,7 @@ import model.folder.FolderConfigPage;
 import model.folder.FolderStatusPage;
 import model.freestyle.FreestyleProjectConfigPage;
 import model.freestyle.FreestyleProjectStatusPage;
+import model.multibranch_pipeline.DeleteMultibranchPipelinePage;
 import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import model.organization_folder.OrgFolderStatusPage;
