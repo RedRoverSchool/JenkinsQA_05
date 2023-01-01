@@ -1,14 +1,12 @@
 package model.views;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.BaseUtils;
 import runner.TestUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditListViewPage extends EditViewPage {
@@ -75,4 +73,28 @@ public class EditListViewPage extends EditViewPage {
 
         return this;
     }
+
+    public List<String> getNamesAllColumns() {
+        List<String> list = new ArrayList<>();
+        for (WebElement column: columns) {
+            list.add(column.getText());
+        }
+
+      return list;
+    }
+
+    public EditListViewPage removeSomeColumns(List<String> nameRemoveColumns) {
+        for (String name : nameRemoveColumns) {
+            if (getNamesAllColumns().contains(name)) {
+                WebElement element =
+                        getDriver().findElement(By.xpath(String.format("//div[contains(text(),'%s')]/button[@title='Delete']", name)));
+                TestUtils.scrollToElement_PlaceInCenter(getDriver(), element);
+                getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(
+                        By.xpath(String.format("//div[contains(text(),'%s')]/button[@title='Delete']", name)))).click();
+            }
+        }
+
+        return this;
+    }
+
 }

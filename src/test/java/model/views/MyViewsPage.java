@@ -42,9 +42,6 @@ public class MyViewsPage extends HomePage {
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement displayedDescriptionText;
 
-    @FindBy(css = "#projectstatus th")
-    private List<WebElement> listJobTableHeaders;
-
     @FindBy(id = "description-link")
     private WebElement editDescriptionButton;
 
@@ -166,11 +163,6 @@ public class MyViewsPage extends HomePage {
         editDescriptionButton.click();
 
         return this;
-    }
-
-    public List<String> getJobTableHeaderTextList() {
-
-        return listJobTableHeaders.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
     public String getTextContentOnViewMainPanel() {

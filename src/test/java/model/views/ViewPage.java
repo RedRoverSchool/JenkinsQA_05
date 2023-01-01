@@ -133,4 +133,11 @@ public class ViewPage extends MyViewsPage{
 
         return new EditViewPage(getDriver());
     }
+
+    @Override
+    public EditListViewPage clickEditViewLink() {
+        super.clickEditViewLink();
+
+        return new EditListViewPage(getDriver());
+    }
 }

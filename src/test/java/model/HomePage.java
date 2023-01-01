@@ -123,6 +123,9 @@ public class HomePage extends Breadcrumbs {
     @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-nobuilt icon-md']")
     private WebElement iconProjectEnabled;
 
+    @FindBy(css = "#projectstatus th")
+    private List<WebElement> listJobTableHeaders;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -556,5 +559,14 @@ public class HomePage extends Breadcrumbs {
         getWait(10).until(ExpectedConditions.visibilityOf(iconProjectEnabled));
 
         return iconProjectEnabled.isDisplayed();
+    }
+
+    public List<String> getJobTableHeaderTextList() {
+
+        return listJobTableHeaders.stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    public int getJobTableHeadersSize() {
+        return listJobTableHeaders.size();
     }
 }
