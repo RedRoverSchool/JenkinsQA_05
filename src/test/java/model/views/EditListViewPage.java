@@ -86,10 +86,9 @@ public class EditListViewPage extends EditViewPage {
     public EditListViewPage removeSomeColumns(List<String> nameRemoveColumns) {
         for (String name : nameRemoveColumns) {
             if (getNamesAllColumns().contains(name)) {
-                WebElement element =
-                        getDriver().findElement(By.xpath(String.format("//div[contains(text(),'%s')]/button[@title='Delete']", name)));
+                WebElement element = getDriver().findElement(By.xpath(String.format("//div[contains(text(),'%s')]/button[@title='Delete']", name)));
                 TestUtils.scrollToElement_PlaceInCenter(getDriver(), element);
-                getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(
+                getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(
                         By.xpath(String.format("//div[contains(text(),'%s')]/button[@title='Delete']", name)))).click();
             }
         }

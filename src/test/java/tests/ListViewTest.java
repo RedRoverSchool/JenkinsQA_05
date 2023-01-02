@@ -62,20 +62,20 @@ public class ListViewTest extends BaseTest {
 
     @Test(dependsOnMethods = "testEditViewDeleteDescription")
     public void testRemoveSomeHeadersFromProjectStatusTableInListView() {
-        final List<String> nameRemoveColumns = List.of("Weather", "Last Failure", "Last Duration");
+        final List<String> namesRemoveColumns = List.of("Weather", "Last Failure", "Last Duration");
 
-        int quantityHeadersListView = new HomePage(getDriver())
+        int numberOfJobTableHeadersListView = new HomePage(getDriver())
                 .clickView(RANDOM_LIST_VIEW_NAME)
                 .clickEditViewLink()
-                .removeSomeColumns(nameRemoveColumns)
+                .removeSomeColumns(namesRemoveColumns)
                 .clickGlobalViewOkButton()
                 .getJobTableHeadersSize();
 
-        int quantityHeadersAll = new ViewPage(getDriver())
+        int numberOfJobTableHeadersAll = new ViewPage(getDriver())
                 .goToDashboard()
                 .getJobTableHeadersSize();
 
-        Assert.assertNotEquals(quantityHeadersAll, quantityHeadersListView);
+        Assert.assertNotEquals(numberOfJobTableHeadersAll, numberOfJobTableHeadersListView);
     }
 
     @Test(dependsOnMethods = "testRemoveSomeHeadersFromProjectStatusTableInListView")
