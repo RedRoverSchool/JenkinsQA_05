@@ -68,6 +68,7 @@ public class ListViewTest extends BaseTest {
                 .clickView(RANDOM_LIST_VIEW_NAME)
                 .clickEditViewLink()
                 .removeSomeColumns(namesRemoveColumns)
+                .clickApplyButton()
                 .clickGlobalViewOkButton()
                 .getJobTableHeadersSize();
 
