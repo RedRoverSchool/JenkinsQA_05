@@ -12,10 +12,8 @@ import runner.TestUtils;
 import java.util.List;
 
 public class OrganizationFolderTest extends BaseTest {
-    private static final String ORG_FOLDER_NAME_CREATE = TestUtils.getRandomStr();
     private static final String NAME_ORG_FOLDER = TestUtils.getRandomStr();
-    private static final String nameOrgFolderPOM = TestUtils.getRandomStr();
-    private static final String nameFolderPOM = TestUtils.getRandomStr();
+    private static final String NAME_FOLDER = TestUtils.getRandomStr();
     private static final String DISPLAY_NAME = TestUtils.getRandomStr();
 
     @Test
@@ -34,28 +32,28 @@ public class OrganizationFolderTest extends BaseTest {
     public void testRenameOrganizationFolder() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .setItemName(nameOrgFolderPOM)
+                .setItemName(NAME_ORG_FOLDER)
                 .selectOrgFolderAndClickOk()
                 .clickSaveButton()
                 .clickRenameSideMenu()
-                .clearFieldAndInputNewName("New name " + nameOrgFolderPOM)
+                .clearFieldAndInputNewName("New name " + NAME_ORG_FOLDER)
                 .clickRenameButton()
                 .clickDashboard();
 
-        Assert.assertTrue(homePage.getJobNamesList().contains("New name " + nameOrgFolderPOM));
+        Assert.assertTrue(homePage.getJobNamesList().contains("New name " + NAME_ORG_FOLDER));
     }
 
     @Test
     public void testCreateOrgFolder() {
         List<String> allFolders = new HomePage(getDriver())
                 .clickNewItem()
-                .setItemName(ORG_FOLDER_NAME_CREATE)
+                .setItemName(NAME_ORG_FOLDER)
                 .selectFolderAndClickOk()
                 .clickSaveButton()
                 .clickDashboard()
                 .getJobNamesList();
 
-        Assert.assertTrue(allFolders.contains(ORG_FOLDER_NAME_CREATE));
+        Assert.assertTrue(allFolders.contains(NAME_ORG_FOLDER));
     }
 
     @Test
@@ -84,12 +82,12 @@ public class OrganizationFolderTest extends BaseTest {
     public void testCreateOrgFolderExistName() {
         String errMessage = new HomePage(getDriver())
                 .clickNewItem()
-                .setItemName(ORG_FOLDER_NAME_CREATE)
+                .setItemName(NAME_ORG_FOLDER)
                 .selectExistFolderAndClickOk()
                 .getErrorMessage();
 
         Assert.assertEquals(errMessage, "A job already exists with the name ‘"
-                + ORG_FOLDER_NAME_CREATE + "’");
+                + NAME_ORG_FOLDER + "’");
     }
 
     @Test(dependsOnMethods = "testConfigureOrganizationFolder")
@@ -137,49 +135,49 @@ public class OrganizationFolderTest extends BaseTest {
     public void testOrgFolderCreate() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .setItemName(nameOrgFolderPOM)
+                .setItemName(NAME_ORG_FOLDER)
                 .selectOrgFolderAndClickOk()
                 .clickSaveButton()
                 .clickDashboard();
 
-        Assert.assertTrue(homePage.getJobNamesList().contains(nameOrgFolderPOM));
+        Assert.assertTrue(homePage.getJobNamesList().contains(NAME_ORG_FOLDER));
     }
 
     @Test
     public void testFolderCreate() {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
-                .setItemName(nameFolderPOM)
+                .setItemName(NAME_FOLDER)
                 .selectFolderAndClickOk()
                 .clickSaveButton()
                 .clickDashboard();
 
-        Assert.assertTrue(homePage.getJobNamesList().contains(nameFolderPOM));
+        Assert.assertTrue(homePage.getJobNamesList().contains(NAME_FOLDER));
     }
 
     @Test(dependsOnMethods = {"testFolderCreate", "testOrgFolderCreate"})
     public void testMoveOrgFolderToFolder() {
         FolderStatusPage folderStatusPage = new HomePage(getDriver())
-                .clickOrgFolder(nameOrgFolderPOM)
+                .clickOrgFolder(NAME_ORG_FOLDER)
                 .clickMoveButton()
-                .selectFolder(nameFolderPOM)
+                .selectFolder(NAME_FOLDER)
                 .clickMove()
                 .clickDashboard()
-                .clickFolder(nameFolderPOM);
+                .clickFolder(NAME_FOLDER);
 
-        Assert.assertTrue(folderStatusPage.getJobList().contains(nameOrgFolderPOM));
+        Assert.assertTrue(folderStatusPage.getJobList().contains(NAME_ORG_FOLDER));
     }
 
     @Test(dependsOnMethods = "testMoveOrgFolderToFolder")
     public void testMoveOrgFolderToDashboard() {
         HomePage homePage = new HomePage(getDriver())
-                .clickFolder(nameFolderPOM)
-                .clickOrgFolder(nameOrgFolderPOM)
+                .clickFolder(NAME_FOLDER)
+                .clickOrgFolder(NAME_ORG_FOLDER)
                 .clickMoveButton()
                 .selectOptionToDashBoard()
                 .clickMove()
                 .clickDashboard();
 
-        Assert.assertTrue(homePage.getJobNamesList().contains(nameOrgFolderPOM));
+        Assert.assertTrue(homePage.getJobNamesList().contains(NAME_ORG_FOLDER));
     }
 }
