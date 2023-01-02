@@ -4,52 +4,30 @@ import model.HomePage;
 import model.folder.FolderStatusPage;
 import model.organization_folder.OrgFolderConfigPage;
 import model.organization_folder.OrgFolderStatusPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.util.Date;
 import java.util.List;
 
 public class OrganizationFolderTest extends BaseTest {
-    private static final String uniqueOrganizationFolderName = "folder" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-    private static final String ORG_FOLDER_NAME = TestUtils.getRandomStr();
     private static final String ORG_FOLDER_NAME_CREATE = TestUtils.getRandomStr();
     private static final String NAME_ORG_FOLDER = TestUtils.getRandomStr();
     private static final String nameOrgFolderPOM = TestUtils.getRandomStr();
     private static final String nameFolderPOM = TestUtils.getRandomStr();
     private static final String DISPLAY_NAME = TestUtils.getRandomStr();
-    private static final By INPUT_NAME = By.xpath("//input [@name = 'name']");
-    private static final By ORGANIZATION_FOLDER = By.xpath("//li[@class = 'jenkins_branch_OrganizationFolder']");
-    private static final By OK_BUTTON = By.id("ok-button");
-    private static final By APPLY_BUTTON = By.id("yui-gen13-button");
-
-    private WebElement notificationSaved() {
-        return getDriver().findElement(By.cssSelector("#notification-bar"));
-    }
-
-    private WebDriverWait getWait() {
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-    }
 
     @Test
     public void testCreateOrganizationFolder() {
         String actualOrgFolderDisplayName = new HomePage(getDriver())
                 .clickNewItem()
-                .setItemName(uniqueOrganizationFolderName)
+                .setItemName(NAME_ORG_FOLDER)
                 .selectOrgFolderAndClickOk()
                 .clickSaveButton()
                 .getNameText();
 
-        Assert.assertEquals(actualOrgFolderDisplayName, uniqueOrganizationFolderName);
+        Assert.assertEquals(actualOrgFolderDisplayName, NAME_ORG_FOLDER);
     }
 
     @Test
@@ -100,21 +78,6 @@ public class OrganizationFolderTest extends BaseTest {
                 .selectOrgFolderAndClickOk();
 
         Assert.assertFalse(orgFolderConfigPage.isOkButtonEnabled());
-    }
-
-    @Ignore
-    @Test
-    public void testCheckNotificationAfterApply() {
-        getDriver().findElement(By.linkText("New Item")).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(ORG_FOLDER_NAME);
-        getDriver().findElement(ORGANIZATION_FOLDER).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(APPLY_BUTTON).click();
-
-        Assert.assertEquals(getWait().until(ExpectedConditions.visibilityOf(notificationSaved()))
-                .getText(), "Saved");
-        Assert.assertEquals(notificationSaved().getAttribute("class")
-                , "notif-alert-success notif-alert-show");
     }
 
     @Test(dependsOnMethods = "testCreateOrgFolder")
@@ -219,5 +182,4 @@ public class OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(homePage.getJobNamesList().contains(nameOrgFolderPOM));
     }
-
 }
