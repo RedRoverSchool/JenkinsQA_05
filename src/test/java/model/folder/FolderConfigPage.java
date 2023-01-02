@@ -2,13 +2,12 @@ package model.folder;
 
 import model.base.BaseConfigPage;
 import model.HomePage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class FolderConfigPage extends BaseConfigPage<FolderStatusPage> {
+public class FolderConfigPage extends BaseConfigPage<FolderStatusPage, FolderConfigPage> {
 
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement submitButtonForDeleteFolder;
@@ -18,9 +17,6 @@ public class FolderConfigPage extends BaseConfigPage<FolderStatusPage> {
 
     @FindBy(xpath = "//textarea[@name='_.description']")
     private WebElement description;
-
-    @FindBy(xpath = "//button[text()='Apply']")
-    private WebElement applyButton;
 
     @Override
     protected FolderStatusPage createStatusPage() {
@@ -49,11 +45,5 @@ public class FolderConfigPage extends BaseConfigPage<FolderStatusPage> {
         description.sendKeys(inputDescription);
 
         return this;
-    }
-
-    public FolderStatusPage clickApplyButton() {
-        getWait(5).until(ExpectedConditions.visibilityOf(applyButton)).click();
-
-        return new FolderStatusPage(getDriver());
     }
 }
