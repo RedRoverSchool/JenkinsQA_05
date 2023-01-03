@@ -7,8 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.ArrayList;
+import runner.BaseModel;
 
-public abstract class Footer extends BasePage {
+public class Footer extends BaseModel {
     @FindBy(xpath = "//div/a[@href = 'api/']")
     private WebElement restApi;
 

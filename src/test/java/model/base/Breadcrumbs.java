@@ -3,8 +3,9 @@ package model.base;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import runner.BaseModel;
 
-public abstract class Breadcrumbs extends Header {
+public class Breadcrumbs extends BaseModel {
     public Breadcrumbs(WebDriver driver) {
         super(driver);
     }
