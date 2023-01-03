@@ -4,7 +4,6 @@ import model.HomePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import runner.BaseModel;
 
 public abstract class BasePage extends BaseModel {
@@ -15,17 +14,17 @@ public abstract class BasePage extends BaseModel {
     @FindBy(css = "#breadcrumbs li a")
     protected WebElement topMenuRoot;
 
-    protected Header headerComponent;
+    private HeaderComponent headerComponent;
 
-    protected Footer footerComponent;
+    private FooterComponent footerComponent;
 
-    protected Breadcrumbs breadcrumbsComponent;
+    private BreadcrumbsComponent breadcrumbsComponent;
 
     public BasePage(WebDriver driver) {
         super(driver);
-        this.headerComponent = new Header(getDriver());
-        this.footerComponent = new Footer(getDriver());
-        this.breadcrumbsComponent = new Breadcrumbs(getDriver());
+        this.headerComponent = new HeaderComponent(getDriver());
+        this.footerComponent = new FooterComponent(getDriver());
+        this.breadcrumbsComponent = new BreadcrumbsComponent(getDriver());
     }
 
     public String getCurrentURL() {
@@ -41,5 +40,17 @@ public abstract class BasePage extends BaseModel {
         topMenuRoot.click();
 
         return new HomePage(getDriver());
+    }
+
+    public HeaderComponent getHeaderComponent() {
+        return headerComponent;
+    }
+
+    public FooterComponent getFooterComponent() {
+        return footerComponent;
+    }
+
+    public BreadcrumbsComponent getBreadcrumbsComponent() {
+        return breadcrumbsComponent;
     }
 }

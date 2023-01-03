@@ -5,6 +5,7 @@ import model.ManageJenkinsPage;
 import model.RestApiPage;
 import model.XmlPage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -14,7 +15,7 @@ public class FooterComponentTest extends BaseTest {
     public void testFooterLinkRestRedirectToPage() {
 
         String urlRestApi = new RestApiPage(getDriver())
-                .clickRestApiLink()
+                .getFooterComponent().clickRestApiLink()
                 .getCurrentURL();
 
         Assert.assertTrue(urlRestApi.contains("api"));
@@ -25,8 +26,8 @@ public class FooterComponentTest extends BaseTest {
     public void testFooterLinkJenkinsRedirectToPage() {
 
          String textJenkins = new ExternalJenkinsPage(getDriver())
-                .clickJenkinsVersion()
-                .getTextJenkins();
+                 .getFooterComponent().clickJenkinsVersion()
+                 .getTextJenkins();
 
          Assert.assertTrue(new ExternalJenkinsPage(getDriver()).getCurrentURL().contains("jenkins"));
          Assert.assertEquals(textJenkins, "Jenkins");
@@ -36,19 +37,18 @@ public class FooterComponentTest extends BaseTest {
     @Test
     public void testFooterRestApiClickOnXmlApiDisplayXML() {
         XmlPage xmlPage = new RestApiPage(getDriver())
-                .clickRestApiLink()
+                .getFooterComponent().clickRestApiLink()
                 .clickXmlApi();
 
         Assert.assertEquals(xmlPage.getStructureXML(), "This XML file does not appear to have any "
                 + "style information associated with it. The document tree is shown below.");
     }
 
-    @Test()
+    @Test
     public void testFooterLinkJenkinsIsClickable() {
         String headerJenkins = new ManageJenkinsPage(getDriver())
                 .clickManageJenkins()
-                .moveForClinkOnLink()
-                .clickJenkinsVersion()
+                .getFooterComponent().clickJenkinsVersion()
                 .getHeaderText();
 
         Assert.assertEquals(headerJenkins,"Jenkins");

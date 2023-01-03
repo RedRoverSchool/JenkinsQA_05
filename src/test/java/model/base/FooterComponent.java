@@ -1,12 +1,12 @@
 package model.base;
 
+import java.util.ArrayList;
 import model.ExternalJenkinsPage;
 import model.RestApiPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.ArrayList;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.BaseModel;
 
 public class FooterComponent extends BaseModel {
@@ -19,7 +19,6 @@ public class FooterComponent extends BaseModel {
     @FindBy(id = "footer")
     private WebElement footer;
 
-
     public FooterComponent(WebDriver driver) {
         super(driver);
     }
@@ -30,6 +29,7 @@ public class FooterComponent extends BaseModel {
     }
 
     public ExternalJenkinsPage clickJenkinsVersion() {
+        getAction().pause(500).moveToElement(getWait(3).until(ExpectedConditions.elementToBeClickable(jenkinsLink))).perform();
         jenkinsLink.click();
         ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(tabs.get(1));
@@ -38,9 +38,5 @@ public class FooterComponent extends BaseModel {
 
     public boolean isDisplayedFooter() {
         return footer.isDisplayed();
-    }
-
-    public WebElement getJenkinsLink() {
-        return jenkinsLink;
     }
 }

@@ -16,7 +16,7 @@ public class HeaderComponent extends BaseModel {
     @FindBy(id = "jenkins-head-icon")
     private WebElement jenkinsHeadIcon;
 
-    @FindBy(id="jenkins-name-icon")
+    @FindBy(id = "jenkins-name-icon")
     private WebElement jenkinsNameIcon;
 
     @FindBy(xpath = "//div/a[@class='model-link']")
@@ -42,7 +42,7 @@ public class HeaderComponent extends BaseModel {
     }
 
     public boolean isJenkinsNameIconDisplayed() {
-        return  jenkinsNameIcon.isDisplayed();
+        return jenkinsNameIcon.isDisplayed();
     }
 
     public boolean isJenkinsHeadIconDisplayed() {
