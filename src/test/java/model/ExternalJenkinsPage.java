@@ -1,11 +1,11 @@
 package model;
 
-import model.base.Footer;
+import model.base.FooterComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ExternalJenkinsPage extends Footer {
+public class ExternalJenkinsPage extends FooterComponent {
     @FindBy(xpath = "//a[@class='navbar-brand']")
     private WebElement textJenkins;
 

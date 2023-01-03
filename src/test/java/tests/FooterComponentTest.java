@@ -8,7 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class FooterTest extends BaseTest {
+public class FooterComponentTest extends BaseTest {
 
     @Test
     public void testFooterLinkRestRedirectToPage() {

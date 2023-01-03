@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.BaseModel;
 import runner.TestUtils;
 
-public class Header extends BaseModel {
+public class HeaderComponent extends BaseModel {
 
     @FindBy(id = "jenkins-head-icon")
     private WebElement jenkinsHeadIcon;
@@ -25,7 +25,7 @@ public class Header extends BaseModel {
     @FindBy(id = "search-box")
     private WebElement searchField;
 
-    public Header(WebDriver driver) {
+    public HeaderComponent(WebDriver driver) {
         super(driver);
     }
 

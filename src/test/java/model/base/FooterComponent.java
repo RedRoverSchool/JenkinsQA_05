@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.ArrayList;
 import runner.BaseModel;
 
-public class Footer extends BaseModel {
+public class FooterComponent extends BaseModel {
     @FindBy(xpath = "//div/a[@href = 'api/']")
     private WebElement restApi;
 
@@ -20,7 +20,7 @@ public class Footer extends BaseModel {
     private WebElement footer;
 
 
-    public Footer(WebDriver driver) {
+    public FooterComponent(WebDriver driver) {
         super(driver);
     }
 

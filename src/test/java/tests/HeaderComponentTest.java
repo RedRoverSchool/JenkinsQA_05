@@ -8,7 +8,7 @@ import runner.BaseTest;
 
 import java.util.List;
 
-public class HeaderTest extends BaseTest {
+public class HeaderComponentTest extends BaseTest {
 
     @Test
     public void testIsJenkinsNameIconExist() {

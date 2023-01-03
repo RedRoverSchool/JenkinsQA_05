@@ -1,7 +1,7 @@
 package model;
 
 import model.base.BaseStatusPage;
-import model.base.Breadcrumbs;
+import model.base.BreadcrumbsComponent;
 import model.folder.FolderConfigPage;
 import model.folder.FolderStatusPage;
 import model.freestyle.FreestyleProjectConfigPage;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 import static runner.TestUtils.scrollToElement;
 
-public class HomePage extends Breadcrumbs {
+public class HomePage extends BreadcrumbsComponent {
 
     @FindBy(linkText = "Build History")
     private WebElement buildHistory;

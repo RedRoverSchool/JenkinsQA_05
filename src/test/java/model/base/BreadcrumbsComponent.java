@@ -5,8 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.BaseModel;
 
-public class Breadcrumbs extends BaseModel {
-    public Breadcrumbs(WebDriver driver) {
+public class BreadcrumbsComponent extends BaseModel {
+    public BreadcrumbsComponent(WebDriver driver) {
         super(driver);
     }
 
