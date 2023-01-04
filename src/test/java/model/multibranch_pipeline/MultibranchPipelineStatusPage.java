@@ -1,5 +1,6 @@
 package model.multibranch_pipeline;
 
+import model.DeleteItemPage;
 import model.base.BaseStatusPage;
 import model.RenameItemPage;
 import org.openqa.selenium.WebDriver;
@@ -18,10 +19,10 @@ public class MultibranchPipelineStatusPage extends BaseStatusPage<MultibranchPip
         super(driver);
     }
 
-    public DeleteMultibranchPipelinePage clickDeleteMultibranchPipeline() {
+    public DeleteItemPage clickDeleteMultibranchPipeline() {
         deleteLeftSideMenu.click();
 
-        return new DeleteMultibranchPipelinePage(getDriver());
+        return new DeleteItemPage(getDriver());
     }
 
     public RenameItemPage<MultibranchPipelineStatusPage> clickRenameSideMenu() {
