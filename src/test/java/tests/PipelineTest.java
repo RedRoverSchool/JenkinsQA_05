@@ -171,8 +171,9 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(pipelineProjectPage.getProjectDescriptionText(), PIPELINE_NAME + "edit description");
     }
 
-    @Test(dependsOnMethods = "testEnablePipelineProject")
+    @Test
     public void testDeletePipelineFromDashboard() {
+        createPipelineProject(PIPELINE_NAME);
         String homePageHeaderText = new HomePage(getDriver())
                 .clickDashboard()
                 .clickPipelineJob(PIPELINE_NAME)
