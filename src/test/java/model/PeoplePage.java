@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BasePage;
 import model.base.FooterComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PeoplePage extends FooterComponent {
+public class PeoplePage extends BasePage {
 
     @FindBy(className = "jenkins-table__link")
     private List<WebElement> usersIdList;

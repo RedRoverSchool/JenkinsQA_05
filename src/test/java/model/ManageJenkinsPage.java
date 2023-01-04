@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BasePage;
 import model.base.HeaderComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +10,7 @@ import runner.TestUtils;
 
 import static runner.TestUtils.*;
 
-public class ManageJenkinsPage extends HeaderComponent {
+public class ManageJenkinsPage extends BasePage {
 
     @FindBy(xpath = "//a[@href='configureTools']")
     private WebElement configureTools;
@@ -72,10 +73,4 @@ public class ManageJenkinsPage extends HeaderComponent {
         return this;
     }
 
-    public ExternalJenkinsPage moveForClinkOnLink() {
-        WebElement linkJenkins = new ExternalJenkinsPage(getDriver()).getJenkinsLink();
-        getAction().pause(500).moveToElement(getWait(3).until(ExpectedConditions.elementToBeClickable(linkJenkins)))
-                .perform();
-        return new ExternalJenkinsPage(getDriver());
-    }
 }
