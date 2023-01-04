@@ -192,7 +192,8 @@ public class FreestyleProjectTest extends BaseTest {
         Set<String> actualFreestyleConfigSideMenu = new HomePage(getDriver())
                 .clickFreestyleProjectName()
                 .clickSideMenuConfigure()
-                .collectFreestyleConfigSideMenu();
+                .moveToSideMenu()
+                .collectConfigSideMenu();
 
         Assert.assertEquals(actualFreestyleConfigSideMenu, expectedFreestyleConfigSideMenu);
     }
@@ -282,6 +283,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickFreestyleProjectName()
                 .clickSideMenuConfigureLink()
                 .switchOFFCheckBoxThisProjectIsParametrized()
+                .moveToSideMenu()
                 .clickLinkSourceCodeManagement()
                 .selectSourceCodeManagementGIT()
                 .inputGITRepositoryURL(repositoryURL)

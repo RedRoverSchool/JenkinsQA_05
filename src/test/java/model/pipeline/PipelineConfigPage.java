@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import runner.TestUtils;
 
-public class PipelineConfigPage extends BaseConfigPage<PipelineStatusPage, PipelineConfigPage> {
+public class PipelineConfigPage extends BaseConfigPage<PipelineStatusPage, PipelineConfigPage, PipelineConfigSideMenuFrame> {
 
     @FindBy(xpath = "//label[text()='GitHub project']")
     private WebElement gitHubCheckbox;
@@ -69,6 +69,7 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineStatusPage, Pipel
 
     public PipelineConfigPage(WebDriver driver) {
         super(driver);
+        setConfigSideMenuFrame(new PipelineConfigSideMenuFrame(driver, this));
     }
 
     public PipelineConfigPage clickGitHubCheckbox() {

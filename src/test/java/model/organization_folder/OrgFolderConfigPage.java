@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class OrgFolderConfigPage extends BaseConfigPage<OrgFolderStatusPage, OrgFolderConfigPage> {
+public class OrgFolderConfigPage extends BaseConfigPage<OrgFolderStatusPage, OrgFolderConfigPage, OrgFolderConfigSideMenuFrame> {
 
     @FindBy(xpath = "//input  [@name='_.displayNameOrNull']")
     private WebElement displayName;
@@ -26,6 +26,7 @@ public class OrgFolderConfigPage extends BaseConfigPage<OrgFolderStatusPage, Org
 
     public OrgFolderConfigPage(WebDriver driver) {
         super(driver);
+        setConfigSideMenuFrame(new OrgFolderConfigSideMenuFrame(driver, this));
     }
 
     public OrgFolderConfigPage inputDisplayName(String name) {

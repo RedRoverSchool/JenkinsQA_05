@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 
-public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiConfigurationProjectStatusPage, MultiConfigurationProjectConfigPage> {
+public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiConfigurationProjectStatusPage, MultiConfigurationProjectConfigPage, MultiConfigurationProjectConfigSideMenuFrame> {
 
     @FindBy(name = "description")
     private WebElement inputDescription;
@@ -44,6 +44,7 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
 
     public MultiConfigurationProjectConfigPage(WebDriver driver) {
         super(driver);
+        setConfigSideMenuFrame(new MultiConfigurationProjectConfigSideMenuFrame(driver, this));
     }
 
     public MultiConfigurationProjectConfigPage inputDescription(String description) {

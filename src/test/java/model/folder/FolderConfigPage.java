@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class FolderConfigPage extends BaseConfigPage<FolderStatusPage, FolderConfigPage> {
+public class FolderConfigPage extends BaseConfigPage<FolderStatusPage, FolderConfigPage, FolderConfigSideMenuFrame> {
 
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement submitButtonForDeleteFolder;
@@ -25,6 +25,7 @@ public class FolderConfigPage extends BaseConfigPage<FolderStatusPage, FolderCon
 
     public FolderConfigPage(WebDriver driver) {
         super(driver);
+        setConfigSideMenuFrame(new FolderConfigSideMenuFrame(driver, this));
     }
 
     public HomePage clickSubmitDeleteProject() {

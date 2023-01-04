@@ -84,10 +84,10 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
         super(driver);
     }
 
-    public FreestyleConfigSideMenuPage clickSideMenuConfigure() {
+    public FreestyleProjectConfigPage clickSideMenuConfigure() {
         sideMenuConfigure.click();
 
-        return new FreestyleConfigSideMenuPage(getDriver());
+        return new FreestyleProjectConfigPage(getDriver());
     }
 
     public FolderStatusPage clickParentFolderInBreadcrumbs() {

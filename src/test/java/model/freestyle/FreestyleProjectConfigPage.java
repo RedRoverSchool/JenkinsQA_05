@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 import static runner.TestUtils.scrollToElement_PlaceInCenter;
 
-public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectStatusPage, FreestyleProjectConfigPage> {
+public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectStatusPage, FreestyleProjectConfigPage, FreestyleProjectConfigSideMenuFrame> {
 
     @FindBy(tagName = "h1")
     private WebElement headline;
@@ -110,6 +110,7 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
 
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
+        setConfigSideMenuFrame(new FreestyleProjectConfigSideMenuFrame(driver, this));
     }
 
     public String getHeadlineText() {
@@ -249,16 +250,16 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
         return this;
     }
 
-    public FreestyleConfigSideMenuPage switchOFFCheckBoxThisProjectIsParametrized() {
+    public FreestyleProjectConfigPage switchOFFCheckBoxThisProjectIsParametrized() {
         checkBoxProjectIsParametrized.click();
 
-        return new FreestyleConfigSideMenuPage(getDriver());
+        return this;
     }
 
-    public FreestyleConfigSideMenuPage clickBuildNowButton() {
+    public FreestyleProjectConfigPage clickBuildNowButton() {
         buildNowButton.click();
 
-        return new FreestyleConfigSideMenuPage(getDriver());
+        return this;
     }
 
     public FreestyleProjectConfigPage clickBuildStepsSideMenuOption() {
