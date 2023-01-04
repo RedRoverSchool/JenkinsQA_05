@@ -15,9 +15,7 @@ public abstract class BasePage extends BaseModel {
     protected WebElement topMenuRoot;
 
     private HeaderComponent headerComponent;
-
     private FooterComponent footerComponent;
-
     private BreadcrumbsComponent breadcrumbsComponent;
 
     public BasePage(WebDriver driver) {

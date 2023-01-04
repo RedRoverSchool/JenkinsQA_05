@@ -5,7 +5,6 @@ import model.ManageJenkinsPage;
 import model.RestApiPage;
 import model.XmlPage;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
