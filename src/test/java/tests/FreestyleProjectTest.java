@@ -315,7 +315,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualDaysToKeepBuilds, expectedDaysToKeepBuilds);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testAddDaysToKeepBuildsInConfigure")
     public void testAddMaxNumberOfBuildsToKeepInConfigure() {
         final String expectedMaxNumberOfBuildsToKeep = Integer.toString((int) (Math.random() * 20 + 1));
