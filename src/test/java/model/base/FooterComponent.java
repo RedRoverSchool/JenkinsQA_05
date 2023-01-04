@@ -5,6 +5,7 @@ import model.RestApiPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,8 @@ public abstract class FooterComponent extends BasePage {
     }
 
     public ExternalJenkinsPage clickJenkinsVersion() {
+        getAction().pause(500).moveToElement(getWait(3).
+                until(ExpectedConditions.elementToBeClickable(jenkinsLink))).perform();
         jenkinsLink.click();
         ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(tabs.get(1));
