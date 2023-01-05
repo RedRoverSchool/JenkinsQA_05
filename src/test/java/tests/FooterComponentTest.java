@@ -5,7 +5,6 @@ import model.ManageJenkinsPage;
 import model.RestApiPage;
 import model.XmlPage;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -22,7 +21,6 @@ public class FooterComponentTest extends BaseTest {
         Assert.assertEquals(new RestApiPage(getDriver()).getTextH1RestApi(), "REST API");
     }
 
-    @Ignore
     @Test
     public void testFooterLinkJenkinsRedirectToPage() {
 

@@ -16,7 +16,7 @@ public class DeleteItemPage extends BasePage {
         super(driver);
     }
 
-    public ManageUsersPage clickYesToManageUsersPage() {
+    public ManageUsersPage clickYesButtonDeleteUser() {
         yesButton.click();
 
         return new ManageUsersPage(getDriver());
@@ -34,14 +34,9 @@ public class DeleteItemPage extends BasePage {
         return new MyViewsPage(getDriver());
     }
 
-    public FolderStatusPage clickYesButton() {
+    public FolderStatusPage clickYesButtonDeleteItem() {
         yesButton.click();
 
         return new FolderStatusPage(getDriver());
-    }
-    public HomePage clickYesToDashboard() {
-        yesButton.click();
-
-        return new HomePage(getDriver());
     }
 }
