@@ -26,11 +26,11 @@ public abstract class BaseStatusPage<Self extends BaseStatusPage<?>> extends Bas
     }
 
     public String getNameText() {
-        return header.getText();
+        return getWait(5).until(ExpectedConditions.elementToBeClickable(header)).getText();
     }
 
     public String getProjectDescriptionText() {
-        return ProjectDescription.getText();
+        return getWait(5).until(ExpectedConditions.visibilityOf(ProjectDescription)).getText();
     }
 
     public String getFolderDescriptionText() {

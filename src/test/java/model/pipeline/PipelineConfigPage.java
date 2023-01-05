@@ -9,16 +9,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import runner.TestUtils;
 
-public class PipelineConfigPage extends BaseConfigPage<PipelineStatusPage> {
+public class PipelineConfigPage extends BaseConfigPage<PipelineStatusPage, PipelineConfigPage> {
 
     @FindBy(xpath = "//label[text()='GitHub project']")
     private WebElement gitHubCheckbox;
 
     @FindBy(name = "_.projectUrlStr")
     private WebElement gitHubUrl;
-
-    @FindBy(id = "yui-gen6-button")
-    private WebElement saveButton;
 
     @FindBy(xpath = "//option[text()='try sample Pipeline...']")
     private WebElement trySamplePipelineDropDownMenu;
@@ -82,12 +79,6 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineStatusPage> {
 
     public PipelineConfigPage setGitHubRepo(String gitHubRepo) {
         getAction().moveToElement(gitHubUrl).click().sendKeys(gitHubRepo).perform();
-
-        return this;
-    }
-
-    public PipelineConfigPage saveConfigAndGoToProject() {
-        saveButton.click();
 
         return this;
     }

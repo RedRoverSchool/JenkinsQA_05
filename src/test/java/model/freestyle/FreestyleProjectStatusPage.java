@@ -24,7 +24,7 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
     private WebElement disableOrEnableBtn;
 
     @FindBy(linkText = "Rename")
-    private WebElement buttonRename;
+    private WebElement renameButton;
 
     @FindBy(id = "description-link")
     private WebElement buttonAddDescription;
@@ -102,10 +102,10 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
         return this;
     }
 
-    public RenameItemPage clickRenameButton() {
-        buttonRename.click();
+    public RenameItemPage<FreestyleProjectStatusPage> clickRenameSideMenu() {
+        renameButton.click();
 
-        return new RenameItemPage(getDriver());
+        return new RenameItemPage<>(getDriver(), new FreestyleProjectStatusPage(getDriver()));
     }
 
     public FreestyleProjectStatusPage clickButtonAddDescription() {
@@ -135,14 +135,9 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
     }
 
     public FreestyleProjectConfigPage clickSideMenuConfigureLink() {
-        sideMenuConfigure.click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(sideMenuConfigure)).click();
 
         return new FreestyleProjectConfigPage(getDriver());
-    }
-
-    public String getFreestyleProjectName(String name) {
-
-        return projectButton.getText();
     }
 
     public FreestyleProjectStatusPage openBuildHistoryOnSidePanel() {

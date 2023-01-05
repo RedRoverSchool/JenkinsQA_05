@@ -5,7 +5,6 @@ import model.pipeline.PipelineConfigPage;
 import model.pipeline.PipelineStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -23,7 +22,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(projectName)
                 .selectPipelineAndClickOk()
-                .clickSaveBtn(PipelineStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard();
         return new HomePage(getDriver());
     }
@@ -63,9 +62,9 @@ public class PipelineTest extends BaseTest {
         createPipelineProject(PIPELINE_NAME);
         new HomePage(getDriver())
                 .clickJobDropDownMenu(PIPELINE_NAME)
-                .clickRenameDropDownMenu()
+                .clickRenamePipelineDropDownMenu()
                 .clearFieldAndInputNewName(PIPELINE_NAME + RENAME_SUFFIX)
-                .clickSubmitButton();
+                .clickRenameButton();
 
         Assert.assertEquals(new PipelineStatusPage(getDriver()).getNameText(), "Pipeline " + PIPELINE_NAME + RENAME_SUFFIX);
     }
@@ -81,9 +80,9 @@ public class PipelineTest extends BaseTest {
                 .setMyViewTypeAndCLickCreate()
                 .clickDashboard()
                 .clickJobDropDownMenu(PIPELINE_NAME)
-                .clickRenameDropDownMenu()
+                .clickRenamePipelineDropDownMenu()
                 .clearFieldAndInputNewName(PIPELINE_NAME + RENAME_SUFFIX)
-                .clickSubmitButton()
+                .clickRenameButton()
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
                 .clickView(ITEM_NAME)
@@ -98,11 +97,11 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
-                .clickSaveBtn(PipelineStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .clickJobDropDownMenu(PIPELINE_NAME)
-                .clickRenameDropDownMenu()
-                .clickSaveButton();
+                .clickRenamePipelineDropDownMenu()
+                .clickSaveButtonAndGetError();
 
         Assert.assertEquals(renameItemErrorPage.getHeadErrorMessage(), "Error");
         Assert.assertEquals(renameItemErrorPage.getErrorMessage(), "The new name is the same as the current name.");
@@ -122,9 +121,9 @@ public class PipelineTest extends BaseTest {
         String actualRenameErrorMessage = new HomePage(getDriver())
                 .clickDashboard()
                 .clickJobDropDownMenu(PIPELINE_NAME)
-                .clickRenameDropDownMenu()
+                .clickRenamePipelineDropDownMenu()
                 .clearFieldAndInputNewName(PIPELINE_NAME + unsafeCharacter)
-                .clickSaveButton()
+                .clickSaveButtonAndGetError()
                 .getErrorMessage();
 
         Assert.assertEquals(actualRenameErrorMessage, String.format("‘%s’ is an unsafe character", expectedUnsafeCharacterInErrorMessage));
@@ -162,7 +161,7 @@ public class PipelineTest extends BaseTest {
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
                 .setDescriptionField(PIPELINE_DESCRIPTION)
-                .clickSaveBtn(PipelineStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .clickPipelineJob(PIPELINE_NAME)
                 .clickEditDescriptionLink().editDescription(PIPELINE_NAME + "edit description")
@@ -172,11 +171,12 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(pipelineProjectPage.getProjectDescriptionText(), PIPELINE_NAME + "edit description");
     }
 
-    @Test(dependsOnMethods = "testEnablePipelineProject")
+    @Test
     public void testDeletePipelineFromDashboard() {
+        createPipelineProject(PIPELINE_NAME);
         String homePageHeaderText = new HomePage(getDriver())
                 .clickDashboard()
-                .clickPipelineProjectName()
+                .clickPipelineJob(PIPELINE_NAME)
                 .clickDeletePipelineButton()
                 .getHeaderText();
 
@@ -215,7 +215,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
-                .clickSaveBtn(PipelineStatusPage.class)
+                .clickSaveButton()
                 .getNameText();
 
         Assert.assertEquals(actualPipelineName, "Pipeline " + PIPELINE_NAME);
@@ -237,7 +237,7 @@ public class PipelineTest extends BaseTest {
                 .clickConfigureDropDownMenu()
                 .clickGitHubCheckbox()
                 .setGitHubRepo(gitHubRepo)
-                .clickSaveBtn(PipelineStatusPage.class);
+                .clickSaveButton();
 
         Assert.assertTrue(pipelineProjectPage.isDisplayedGitHubOnSideMenu());
         Assert.assertTrue(pipelineProjectPage.getAttributeGitHubSideMenu("href").contains(gitHubRepo));
@@ -248,8 +248,8 @@ public class PipelineTest extends BaseTest {
         String emptyErrorArea = new HomePage(getDriver())
                 .clickMenuManageJenkins()
                 .clickConfigureTools()
-                .clickAddMavenButton()
-                .setMavenTitleField("Maven")
+                .clickFirstAddMavenButton()
+                .setFirstMavenTitleField("Maven")
                 .clickApplyButton()
                 .getErrorAreaText();
 
@@ -268,7 +268,7 @@ public class PipelineTest extends BaseTest {
                 .selectPipelineScriptFromScm()
                 .selectScriptScm()
                 .setGitHubUrl("https://github.com/patriotby07/simple-maven-project-with-tests")
-                .clickSaveBtn(PipelineStatusPage.class)
+                .clickSaveButton()
                 .clickBuildWithParameters()
                 .selectParametersBuild()
                 .clickBuildButton()
@@ -286,7 +286,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
-                .clickSaveBtn(PipelineStatusPage.class)
+                .clickSaveButton()
                 .editDescription(PIPELINE_DESCRIPTION)
                 .clickSaveButton();
 
@@ -300,7 +300,7 @@ public class PipelineTest extends BaseTest {
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
                 .setDescriptionField(PIPELINE_DESCRIPTION)
-                .clickSaveBtn(PipelineStatusPage.class)
+                .clickSaveButton()
                 .getProjectDescriptionText();
 
         Assert.assertEquals(actualPipelineDescription, PIPELINE_DESCRIPTION);
@@ -326,7 +326,7 @@ public class PipelineTest extends BaseTest {
                 .setItemName(ITEM_NAME)
                 .setCopyFromItemName(PIPELINE_NAME)
                 .clickOk()
-                .clickSaveBtn(PipelineStatusPage.class)
+                .clickSaveButton()
                 .getPipelineName();
 
         String actualDescription = new PipelineStatusPage(getDriver()).getProjectDescriptionText();
@@ -370,7 +370,7 @@ public class PipelineTest extends BaseTest {
                 .scrollToEndPipelineConfigPage()
                 .clickTrySamplePipelineDropDownMenu()
                 .clickHelloWorld()
-                .clickSaveBtn(PipelineStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .getLastSuccessText(PIPELINE_NAME);
 
@@ -397,7 +397,7 @@ public class PipelineTest extends BaseTest {
                 .clickPipelineJob(PIPELINE_NAME)
                 .clickConfigure()
                 .setDescriptionField(ITEM_NEW_DESCRIPTION)
-                .clickSaveBtn(PipelineStatusPage.class)
+                .clickSaveButton()
                 .getProjectDescriptionText();
 
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);

@@ -1,7 +1,6 @@
 package tests;
 
 import model.*;
-import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -20,7 +19,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .setItemName(MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipeline()
                 .clickOkMultibranchPipeline()
-                .clickSaveBtn(MultibranchPipelineStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains(MULTIBRANCH_PIPELINE_NAME));
@@ -77,7 +76,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .setItemName(MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipeline()
                 .clickOkMultibranchPipeline()
-                .clickSaveBtn(MultibranchPipelineStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .clickNewItem()
                 .setItemName(MULTIBRANCH_PIPELINE_NAME)
@@ -88,18 +87,18 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void testRenameMultiBranchPipelineFrom_Dropdown() {
+    public void testRenameMultiBranchPipelineFromDropdown() {
         String actualMultibranchPipeline = new HomePage(getDriver())
                 .clickNewItem()
                 .setItemName(MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipeline()
                 .clickOkMultibranchPipeline()
-                .clickSaveBtn(MultibranchPipelineStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .clickJobDropDownMenu(MULTIBRANCH_PIPELINE_NAME)
-                .clickRenameDropDownMenu()
+                .clickRenameMultibranchPipelineDropDownMenu()
                 .clearFieldAndInputNewName(MULTIBRANCH_PIPELINE_NAME_RENAMED)
-                .clickRenameButtonMBPipeline()
+                .clickRenameButton()
                 .getNameText();
 
         Assert.assertTrue(actualMultibranchPipeline.contains(MULTIBRANCH_PIPELINE_NAME_RENAMED));
@@ -109,9 +108,9 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testRenameMultiBranchPipelineFromLeftSideMenu() {
         String actualMultibranchPipeline = new HomePage(getDriver())
                 .clickJobMBPipeline(MULTIBRANCH_PIPELINE_NAME)
-                .clickRenameLeftMenu()
+                .clickRenameSideMenu()
                 .clearFieldAndInputNewName(MULTIBRANCH_PIPELINE_NAME_RENAMED)
-                .clickRenameButtonMBPipeline()
+                .clickRenameButton()
                 .getNameText();
 
         Assert.assertTrue(actualMultibranchPipeline.contains(MULTIBRANCH_PIPELINE_NAME_RENAMED));

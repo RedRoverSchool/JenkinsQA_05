@@ -1,32 +1,29 @@
 package tests;
 
+import static runner.TestUtils.getRandomStr;
+
 import model.HomePage;
 import model.StatusUserPage;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import java.time.Duration;
 
 public class UserProfileTest extends BaseTest {
 
-    private static final String TEXT = RandomStringUtils.randomAlphanumeric(50);
-    private static final String TEXT_EDIT = RandomStringUtils.randomAlphanumeric(10);
-    
+    private static final String TEXT = getRandomStr(50);
+    private static final String TEXT_EDIT = getRandomStr(10);
+
     @Test
     public void testUserProfileAddDescription() {
-        String actualResult = new HomePage(getDriver())
+        String actualUserDescription = new HomePage(getDriver())
                 .clickUserIcon()
                 .clickAddDescriptionLink()
                 .clearDescriptionInputField()
-                .inputTextInDescriptionField(TEXT)
+                .setDescriptionField(TEXT)
                 .clickSaveButton()
                 .getDescriptionText();
 
-        Assert.assertEquals(actualResult, TEXT);
+        Assert.assertEquals(actualUserDescription, TEXT);
     }
 
     @Test
@@ -35,7 +32,7 @@ public class UserProfileTest extends BaseTest {
                 .clickUserIcon()
                 .clickAddDescriptionLink()
                 .clearDescriptionInputField()
-                .inputTextInDescriptionField(TEXT)
+                .setDescriptionField(TEXT)
                 .clickPreviewLink()
                 .clickHidePreviewLink();
 
@@ -44,26 +41,27 @@ public class UserProfileTest extends BaseTest {
 
     @Test
     public void testUserProfilePreviewDescription() {
-        StatusUserPage statusUserPage = new HomePage(getDriver())
+        String actualPreviewText = new HomePage(getDriver())
                 .clickUserIcon()
                 .clickAddDescriptionLink()
                 .clearDescriptionInputField()
-                .inputTextInDescriptionField(TEXT)
-                .clickPreviewLink();
+                .setDescriptionField(TEXT)
+                .clickPreviewLink()
+                .getPreviewText();
 
-        Assert.assertEquals(statusUserPage.getPreviewText(), TEXT);
+        Assert.assertEquals(actualPreviewText, TEXT);
     }
 
     @Test(dependsOnMethods = "testUserProfileAddDescription")
     public void testUserProfileEditDescription() {
-        String actualResult = new HomePage(getDriver())
+        String actualUserDescription = new HomePage(getDriver())
                 .clickUserIcon()
                 .clickAddDescriptionLink()
                 .clearDescriptionInputField()
-                .inputTextInDescriptionField(TEXT_EDIT)
+                .setDescriptionField(TEXT_EDIT)
                 .clickSaveButton()
                 .getDescriptionText();
 
-        Assert.assertEquals(actualResult, TEXT_EDIT);
+        Assert.assertEquals(actualUserDescription, TEXT_EDIT);
     }
 }

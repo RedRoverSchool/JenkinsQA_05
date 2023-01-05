@@ -1,25 +1,19 @@
 package tests;
 
 import model.*;
-import model.organization_folder.OrgFolderStatusPage;
 import model.views.MyViewsPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.time.Duration;
 import java.util.List;
 
-public class HeaderTest extends BaseTest {
+public class HeaderComponentTest extends BaseTest {
 
     @Test
-    public void testSeeNameIcon() {
+    public void testIsJenkinsNameIconExist() {
 
-        boolean actualResult = getDriver().findElement(By.xpath("//img[@id='jenkins-name-icon']"))
-                .isDisplayed();
+        boolean actualResult = new HomePage(getDriver()).isJenkinsNameIconDisplayed();
 
         Assert.assertTrue(actualResult);
     }
@@ -67,9 +61,8 @@ public class HeaderTest extends BaseTest {
 
         HomePage homePage = new HomePage(getDriver());
 
-        Assert.assertTrue(homePage.getJenkinsHeadIcon().isDisplayed());
-
-        Assert.assertTrue(homePage.getJenkinsHeadIcon().isEnabled());
+        Assert.assertTrue(homePage.isJenkinsHeadIconDisplayed());
+        Assert.assertTrue(homePage.isJenkinsHeadIconEnabled());
     }
 
     @Test
@@ -117,22 +110,13 @@ public class HeaderTest extends BaseTest {
 
     @Test
     public void testReturnFromNewItemPageToHomePageByClickingOnHeadIcon() {
-        getDriver().findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        getDriver().findElement(By.id("jenkins-name-icon")).click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(), "http://localhost:8080/");
-    }
+        String actualURL = new HomePage(getDriver())
+                .clickNewItem()
+                .clickJenkinsNameIcon()
+                .getCurrentURL();
 
-    @Test
-    public void testClickOnTheIconNameTheUserIsReturnedToTheMainPage() {
-
-        getDriver().findElement(By.xpath("//span[text()='New Item']"));
-        getDriver().findElement(By.xpath("//img[@id='jenkins-name-icon']"));
-
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        boolean actualResultPage = wait.until(ExpectedConditions.urlContains("http://localhost:8080/"));
-
-        Assert.assertTrue(actualResultPage);
+        Assert.assertEquals(actualURL, "http://localhost:8080/");
     }
 
     @Test
@@ -144,7 +128,7 @@ public class HeaderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(organizationFolderName)
                 .selectOrgFolderAndClickOk()
-                .clickSaveBtn(OrgFolderStatusPage.class)
+                .clickSaveButton()
                 .clickDashboard()
                 .setSearchFieldAndClickEnter(searchRequest)
                 .getSearchResultList();
@@ -161,14 +145,11 @@ public class HeaderTest extends BaseTest {
 
         HomePage homePage = new HomePage(getDriver());
 
-        Assert.assertTrue(homePage.clickAddDescriptionButton().getDescriptionTextarea().isEnabled());
-
+        Assert.assertTrue(homePage.clickAddDescriptionButton().isDescriptionTextareaEnabled());
         Assert.assertFalse(homePage.isAddDescriptionButtonPresent());
-
         Assert.assertFalse(homePage.clickJenkinsHeadIcon()
                 .waitForVisibilityOfAddDescriptionButton().isDescriptionTextareaPresent());
-
         Assert.assertTrue(homePage.clickJenkinsHeadIcon()
-                .waitForVisibilityOfAddDescriptionButton().getAddDescriptionButton().isEnabled());
+                .waitForVisibilityOfAddDescriptionButton().isAddDescriptionButtonEnabled());
     }
 }

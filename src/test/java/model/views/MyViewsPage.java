@@ -16,7 +16,7 @@ public class MyViewsPage extends HomePage {
     private WebElement newView;
 
     @FindBy(css = ".tabBar .tab a[href*='/my-views/view/']")
-    private List<WebElement> listViews;
+    private List<WebElement> listAllViews;
 
     @FindBy(css = ".pane-header-title")
     private List<WebElement> listViewActiveFilters;
@@ -41,9 +41,6 @@ public class MyViewsPage extends HomePage {
 
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement displayedDescriptionText;
-
-    @FindBy(css = "#projectstatus th")
-    private List<WebElement> listJobTableHeaders;
 
     @FindBy(id = "description-link")
     private WebElement editDescriptionButton;
@@ -75,6 +72,15 @@ public class MyViewsPage extends HomePage {
     @FindBy(xpath = "//table[@class='jenkins-table  sortable']")
     private WebElement tableSizeL;
 
+    @FindBy(css = ".tab.active")
+    private WebElement activeView;
+
+    @FindBy(xpath = "//span[text()='Edit View']/..")
+    private WebElement editViewLink;
+
+    @FindBy(css = "table#projectstatus th:last-child")
+    private WebElement jobTableLastHeader;
+
     public MyViewsPage(WebDriver driver) {
         super(driver);
     }
@@ -87,7 +93,7 @@ public class MyViewsPage extends HomePage {
 
     public String getListViewsNames() {
         StringBuilder listViewsNames = new StringBuilder();
-        for (WebElement view : listViews) {
+        for (WebElement view : listAllViews) {
             listViewsNames.append(view.getText()).append(" ");
         }
 
@@ -106,8 +112,8 @@ public class MyViewsPage extends HomePage {
     }
 
     public MyViewsPage deleteAllViews() {
-        for (int i = listViews.size() - 1; i >= 0; i--) {
-            listViews.get(i).click();
+        for (int i = listAllViews.size() - 1; i >= 0; i--) {
+            listAllViews.get(i).click();
             deleteViewItem.click();
             yesButtonDeleteView.click();
         }
@@ -159,16 +165,6 @@ public class MyViewsPage extends HomePage {
         return this;
     }
 
-    public int getJobTableHeaderListSize() {
-
-        return listJobTableHeaders.size();
-    }
-
-    public List<String> getJobTableHeaderTextList() {
-
-        return listJobTableHeaders.stream().map(WebElement::getText).collect(Collectors.toList());
-    }
-
     public String getTextContentOnViewMainPanel() {
         StringBuilder list = new StringBuilder();
         for (WebElement text : viewMainPanel) {
@@ -207,4 +203,20 @@ public class MyViewsPage extends HomePage {
     }
 
     public boolean tableSizeL(){return tableSizeL.isDisplayed();}
+
+    public String getActiveViewName(){
+
+        return activeView.getText();
+    }
+
+    public EditViewPage clickEditViewLink() {
+        editViewLink.click();
+
+        return new EditViewPage(getDriver());
+    }
+
+    public String getJobTableLastHeaderText() {
+
+        return jobTableLastHeader.getText();
+    }
 }

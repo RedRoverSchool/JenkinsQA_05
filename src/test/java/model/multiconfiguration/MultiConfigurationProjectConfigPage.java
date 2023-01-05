@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 
-public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiConfigurationProjectStatusPage> {
+public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiConfigurationProjectStatusPage, MultiConfigurationProjectConfigPage> {
 
     @FindBy(name = "description")
     private WebElement inputDescription;
@@ -30,6 +30,9 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
 
     @FindBy(css = ".jenkins-input.fixed-width")
     private WebElement textAreaBuildSteps;
+
+    @FindBy (xpath = "//label[@for='enable-disable-project']")
+    private WebElement enableOrDisableButton;
 
     @Override
     protected MultiConfigurationProjectStatusPage createStatusPage() {
@@ -76,6 +79,12 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
     public MultiConfigurationProjectConfigPage enterCommandInBuildSteps(String command) {
         getWait(5).until(ExpectedConditions.elementToBeClickable(textAreaBuildSteps));
         textAreaBuildSteps.sendKeys(command);
+
+        return this;
+    }
+
+    public MultiConfigurationProjectConfigPage clickEnableOrDisableButton() {
+        enableOrDisableButton.click();
 
         return this;
     }

@@ -3,39 +3,15 @@ package model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 public class BuildHistoryPage extends HomePage {
 
     public BuildHistoryPage(WebDriver driver) {
         super(driver);
     }
-
-    @FindBy(className = "jenkins-icon-size__items-item")
-    private WebElement sizeIcon;
-
-    @FindBy(linkText = "Build Now")
-    private WebElement buildNowButton;
-
-    @FindBy(xpath = "//a[@href='/view/all/newJob']")
-    private WebElement newJob;
-
-    @FindBy(id = "name")
-    private WebElement inputBuildName;
-
-    @FindBy(xpath = "//li[@class='hudson_model_FreeStyleProject']")
-    private WebElement newFreeStyleProjectButton;
-
-    @FindBy(id = "ok-button")
-    private WebElement okButton;
-
-    @FindBy(name = "description")
-    private WebElement descriptionField;
-
-    @FindBy(xpath = "//button[@type='submit']")
-    private WebElement submitButton;
 
     @FindBy(xpath = "//a[@href='/iconSize?16x16']")
     private WebElement smallSizeIcon;
@@ -52,54 +28,21 @@ public class BuildHistoryPage extends HomePage {
     @FindBy(xpath = "//a[@href='/legend']")
     private WebElement iconLegend;
 
-    public String getSizeText() {
+    @FindBy(xpath = "//div[contains(@id,'label-tl')]")
+    private List<WebElement> labelsOnTimelineBuildHistory;
 
-        return sizeIcon.getText();
-    }
+    @FindBy(css = "#icon-tl-0-1-e1")
+    private WebElement iconOfLabelsOnTime;
 
-    public BuildHistoryPage clickBuildNowButton() {
-        buildNowButton.click();
+    @FindBy(xpath = "//a/span[contains(text(), 'Atom feed for all')]")
+    private WebElement iconAtomFeedForAll;
 
-        return this;
-    }
+    @FindBy(xpath = "//a/span[contains(text(), 'Atom feed for failures')]")
+    private WebElement iconAtomFeedForFailures;
 
-    public BuildHistoryPage clickCreateNewJob() {
-        newJob.click();
+    @FindBy(xpath = "//a/span[contains(text(), 'Atom feed for just latest builds')]")
+    private WebElement iconAtomFeedFoJustLatestBuilds;
 
-        return this;
-    }
-
-    public BuildHistoryPage enterNewBuildName(String newName) {
-        inputBuildName.sendKeys(newName);
-
-        return this;
-    }
-
-    public BuildHistoryPage clickNewFreestyleProjectButton() {
-        newFreeStyleProjectButton.click();
-
-        return this;
-    }
-
-    public BuildHistoryPage clickOkButton() {
-        okButton.click();
-
-        return this;
-    }
-
-    public BuildHistoryPage enterDescriptionField(String description) {
-        if (!(description.equals("empty"))) {
-            descriptionField.sendKeys(description);
-        }
-
-        return this;
-    }
-
-    public BuildHistoryPage clickSubmitButton() {
-        submitButton.click();
-
-        return this;
-    }
 
     public boolean smallSizeIconIsDisplayed() {
 
@@ -125,4 +68,28 @@ public class BuildHistoryPage extends HomePage {
 
         return iconLegend.isDisplayed();
     }
+
+    public List<String> getNameOfLabelsOnTimeLineBuildHistory(){
+        getWait(5).until(ExpectedConditions.visibilityOf(iconOfLabelsOnTime));
+        return labelsOnTimelineBuildHistory
+                .stream()
+                .map(WebElement :: getText)
+                .collect(Collectors.toList());
+    }
+
+    public boolean iconAtomFeedForAllIsDisplayed() {
+
+        return iconAtomFeedForAll.isDisplayed();
+    }
+
+    public boolean iconAtomFeedForFailuresIsDisplayed() {
+
+        return iconAtomFeedForFailures.isDisplayed();
+    }
+
+    public boolean iconAtomFeedForFoJustLatestBuildsIsDisplayed() {
+
+        return iconAtomFeedFoJustLatestBuilds.isDisplayed();
+    }
+
 }

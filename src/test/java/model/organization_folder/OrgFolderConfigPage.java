@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class OrgFolderConfigPage extends BaseConfigPage<OrgFolderStatusPage> {
+public class OrgFolderConfigPage extends BaseConfigPage<OrgFolderStatusPage, OrgFolderConfigPage> {
 
     @FindBy(xpath = "//input  [@name='_.displayNameOrNull']")
     private WebElement displayName;

@@ -8,8 +8,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 public class EditViewPage extends ViewPage {
 
@@ -49,9 +50,6 @@ public class EditViewPage extends ViewPage {
     @FindBy(xpath = "//a[@class='yuimenuitemlabel' and text()='Git Branches']")
     private WebElement gitBranchesColumnMenuOption;
 
-    @FindBy(css = "#projectstatus th")
-    private List<WebElement> listAddColumnMenuOptions;
-
     @FindBy(css = "input[name='useincluderegex']+label")
     private WebElement regexFilterCheckbox;
 
@@ -67,8 +65,17 @@ public class EditViewPage extends ViewPage {
     @FindBy(css = "#main-panel p")
     private WebElement errorPageDetailsText;
 
+    @FindBy(css = "a.yuimenuitemlabel")
+    private List<WebElement> listAddColumnDropDownMenuItemsText;
+
+    @FindBy(css = ".bd ul")
+    private WebElement listAddColumnDropDownMenuItems;
+
     @FindBy(css = "#main-panel h1")
     private WebElement errorPageHeader;
+
+    @FindBy(xpath = "//div[contains(@class, 'hetero-list-container')]/div[@class='repeated-chunk'][last()]//button")
+    private WebElement lastExistingColumnDeleteButton;
 
     public EditViewPage(WebDriver driver) {
         super(driver);
@@ -155,6 +162,8 @@ public class EditViewPage extends ViewPage {
     }
 
     public EditViewPage clickAddColumnDropDownMenu() {
+        TestUtils.scrollToElement_PlaceInCenter(getDriver(), addColumnDropDownMenu);
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(addColumnDropDownMenu));
         addColumnDropDownMenu.click();
 
         return this;
@@ -164,18 +173,6 @@ public class EditViewPage extends ViewPage {
         gitBranchesColumnMenuOption.click();
 
         return this;
-    }
-
-    public EditViewPage scrollToColumnDropDownMenuPlaceInCenterWaitTillNotMoving() {
-        TestUtils.scrollToElement_PlaceInCenter(getDriver(), addColumnDropDownMenu);
-        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(addColumnDropDownMenu));
-
-        return this;
-    }
-
-    public List<String> getAddColumnMenuOptionTextList() {
-
-        return listAddColumnMenuOptions.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
     public EditViewPage scrollToRegexFilterCheckboxPlaceInCenterWaitTillNotMoving() {
@@ -226,11 +223,6 @@ public class EditViewPage extends ViewPage {
         return errorPageHeader.getText();
     }
 
-    public String getErrorPageDetailsText() {
-
-        return errorPageDetailsText.getText();
-    }
-
     public boolean isCorrectErrorPageDetailsText(char illegalCharacter) {
 
         return errorPageDetailsText.getText().equals(String.format("‘%c’ is an unsafe character", illegalCharacter));
@@ -246,6 +238,44 @@ public class EditViewPage extends ViewPage {
     public EditViewPage scrollToDeleteStatusColumnButtonPlaceInCenterWaitTillNotMoving() {
         TestUtils.scrollToElement_PlaceInCenter(getDriver(), deleteStatusColumnButton);
         getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(deleteStatusColumnButton));
+
+        return this;
+    }
+
+    public Map<String, String> getMapMatchingColumnDropDownMenuItemsAndJobTableHeader() {
+        final String[] listOrderedAllPossibleJobTableHeadersText = {
+                "S", "W", "Name", "Last Success", "Last Failure", "Last Stable",
+                "Last Duration", "", "Git Branches", "Name", "Description"};
+
+        Map<String, String> tableMenuMap = new HashMap<>();
+        for (int i = 0; i < listAddColumnDropDownMenuItemsText.size(); i++) {
+            tableMenuMap.put(listAddColumnDropDownMenuItemsText.get(i).getText(), listOrderedAllPossibleJobTableHeadersText[i]);
+        }
+
+        return tableMenuMap;
+    }
+
+    public String getAddColumnDropDownMenuItemTextByOrder(int itemNumber){
+
+        return listAddColumnDropDownMenuItems.findElement(By.cssSelector(String.format("li:nth-child(%d)", itemNumber))).getText();
+    }
+
+
+    public EditViewPage clickAddColumnDropDownMenuItemByOrder(int itemNumber){
+        listAddColumnDropDownMenuItems.findElement(By.cssSelector(String.format("li:nth-child(%d)", itemNumber))).click();
+
+        return new EditViewPage(getDriver());
+    }
+
+    public int getNumberOfAllAddColumnDropDownMenuItems(){
+
+        return listAddColumnDropDownMenuItemsText.size();
+    }
+
+    public EditViewPage clickLastExistingColumnDeleteButton(){
+        TestUtils.scrollToElement_PlaceInCenter(getDriver(), lastExistingColumnDeleteButton);
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(lastExistingColumnDeleteButton));
+        lastExistingColumnDeleteButton.click();
 
         return this;
     }

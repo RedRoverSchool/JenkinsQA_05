@@ -4,8 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public abstract class Breadcrumbs extends Header {
-    public Breadcrumbs(WebDriver driver) {
+public abstract class BreadcrumbsComponent extends HeaderComponent {
+    public BreadcrumbsComponent(WebDriver driver) {
         super(driver);
     }
 

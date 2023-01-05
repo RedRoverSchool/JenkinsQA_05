@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.ArrayList;
 
-public abstract class Footer extends Header {
+public abstract class FooterComponent extends BasePage {
     @FindBy(xpath = "//div/a[@href = 'api/']")
     private WebElement restApi;
 
@@ -19,7 +19,7 @@ public abstract class Footer extends Header {
     private WebElement footer;
 
 
-    public Footer(WebDriver driver) {
+    public FooterComponent(WebDriver driver) {
         super(driver);
     }
 
@@ -37,5 +37,9 @@ public abstract class Footer extends Header {
 
     public boolean isDisplayedFooter() {
         return footer.isDisplayed();
+    }
+
+    public WebElement getJenkinsLink() {
+        return jenkinsLink;
     }
 }

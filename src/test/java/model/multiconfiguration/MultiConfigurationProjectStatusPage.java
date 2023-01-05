@@ -9,7 +9,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import runner.TestUtils;
 
 import java.util.List;
 
@@ -60,6 +59,15 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
     @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-disabled icon-md']")
     private WebElement iconProjectDisabled;
 
+    @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-nobuilt icon-md']")
+    private WebElement iconProjectEnabled;
+
+    @FindBy(id = "enable-project")
+    private WebElement disabledWarning;
+
+    @FindBy(linkText = "Rename")
+    private WebElement renameButton;
+
     @FindBy(className = "display-name")
     private WebElement buildLink;
 
@@ -72,9 +80,6 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
 
         return this;
     }
-
-    @FindBy(xpath ="//span[@class='build-status-icon__wrapper icon-nobuilt icon-md']")
-    private WebElement iconProjectEnabled;
 
     public MultiConfigurationProjectStatusPage fillDescription(String desc) {
         getWait(5).until(ExpectedConditions.visibilityOf(description));
@@ -95,7 +100,7 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
     }
 
     public HomePage deleteMultiConfigProject() {
-        deleteOption.click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(deleteOption)).click();
         getDriver().switchTo().alert().accept();
 
         return new HomePage(getDriver());
@@ -119,10 +124,10 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
-    public RenameItemPage clickRenameSideMenu(String name) {
-        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/confirm-rename']", name))).click();
+    public RenameItemPage<MultiConfigurationProjectStatusPage> clickRenameSideMenu() {
+        renameButton.click();
 
-        return new RenameItemPage(getDriver());
+        return new RenameItemPage<>(getDriver(), new MultiConfigurationProjectStatusPage(getDriver()));
     }
 
     public MultiConfigurationProjectConfigPage clickConfiguration(String projectName) {
@@ -186,5 +191,15 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
         getWait(10).until(ExpectedConditions.visibilityOf(iconProjectEnabled));
 
         return iconProjectEnabled.isDisplayed();
+    }
+
+    public String getTextDisabledWarning() {
+
+        return disabledWarning.getText();
+    }
+
+    public boolean disableButtonIsDisplayed() {
+
+       return disableButton.isDisplayed();
     }
 }

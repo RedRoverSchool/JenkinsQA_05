@@ -5,10 +5,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>> extends BasePage {
+public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>, Self extends BaseConfigPage<?, ?>> extends BasePage {
 
     @FindBy(name = "Submit")
-    protected WebElement saveBtn;
+    private WebElement saveButton;
+
+    @FindBy(name = "Apply")
+    private WebElement applyButton;
 
     protected abstract StatusPage createStatusPage();
 
@@ -16,9 +19,15 @@ public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>> exten
         super(driver);
     }
 
-    public StatusPage clickSaveBtn(Class<?> clazz) {
-        getWait(5).until(ExpectedConditions.elementToBeClickable(saveBtn)).click();
+    public StatusPage clickSaveButton() {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(saveButton)).click();
 
         return createStatusPage();
+    }
+
+    public Self clickApplyButton() {
+        getWait(5).until(ExpectedConditions.visibilityOf(applyButton)).click();
+
+        return (Self)this;
     }
 }

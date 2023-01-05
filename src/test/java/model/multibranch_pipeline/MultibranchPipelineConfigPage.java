@@ -3,7 +3,7 @@ package model.multibranch_pipeline;
 import model.base.BaseConfigPage;
 import org.openqa.selenium.WebDriver;
 
-public class MultibranchPipelineConfigPage extends BaseConfigPage<MultibranchPipelineStatusPage> {
+public class MultibranchPipelineConfigPage extends BaseConfigPage<MultibranchPipelineStatusPage, MultibranchPipelineConfigPage> {
 
     @Override
     protected MultibranchPipelineStatusPage createStatusPage() {
