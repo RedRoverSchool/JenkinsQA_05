@@ -72,7 +72,7 @@ public class PipelineStatusPage extends BaseStatusPage<PipelineStatusPage> {
     }
 
     public HomePage clickDeletePipelineButton() {
-        deletePipelineButton.click();
+        getWait(3).until(ExpectedConditions.elementToBeClickable(deletePipelineButton)).click();
         getDriver().switchTo().alert().accept();
 
         return new HomePage(getDriver());
