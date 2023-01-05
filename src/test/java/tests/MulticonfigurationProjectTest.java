@@ -263,7 +263,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .selectMultiConfigurationProjectAndClickOk()
                 .scrollAndClickBuildSteps()
                 .selectionAndClickExecuteWindowsFromBuildSteps()
-                .enterCommandInBuildSteps("echo Hello world!")
+                .enterCommandInBuildSteps("cd")
                 .clickSaveButton()
                 .clickBuildNowButton()
                 .clickDropDownBuildIcon()
