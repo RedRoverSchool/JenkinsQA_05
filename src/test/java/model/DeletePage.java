@@ -7,12 +7,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class DeleteItemPage extends BasePage {
+public class DeletePage extends BasePage {
 
     @FindBy(id = "yui-gen1-button")
     private WebElement yesButton;
 
-    public DeleteItemPage(WebDriver driver) {
+    public DeletePage(WebDriver driver) {
         super(driver);
     }
 

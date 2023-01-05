@@ -1,6 +1,6 @@
 package model.views;
 
-import model.DeleteItemPage;
+import model.DeletePage;
 import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -57,10 +57,10 @@ public class ViewPage extends MyViewsPage{
         return new HomePage(getDriver());
     }
 
-    public DeleteItemPage clickDeleteViewItem() {
+    public DeletePage clickDeleteViewItem() {
         deleteViewItem.click();
 
-        return new DeleteItemPage(getDriver());
+        return new DeletePage(getDriver());
     }
 
     public String getTextDescription() {
