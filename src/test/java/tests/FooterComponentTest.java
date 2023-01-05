@@ -25,8 +25,8 @@ public class FooterComponentTest extends BaseTest {
     public void testFooterLinkJenkinsRedirectToPage() {
 
          String textJenkins = new ExternalJenkinsPage(getDriver())
-                .clickJenkinsVersion()
-                .getTextJenkins();
+                 .clickJenkinsVersion()
+                 .getHeaderText();
 
          Assert.assertTrue(new ExternalJenkinsPage(getDriver()).getCurrentURL().contains("jenkins"));
          Assert.assertEquals(textJenkins, "Jenkins");
