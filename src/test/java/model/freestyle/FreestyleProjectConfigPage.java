@@ -268,15 +268,12 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
     }
 
     public FreestyleProjectConfigPage openAddBuildStepDropDown() {
-        TestUtils.scrollToElement(getDriver(), buildStepsButton);
-        getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".yui-button.yui-menu-button")));
-        getWait(10).until(TestUtils.ExpectedConditions.elementIsNotMoving(buildStepsButton));
-        new Actions(getDriver())
+        getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(buildStepsButton));
+        getAction()
+                .scrollToElement(buildStepsButton)
                 .moveToElement(buildStepsButton)
+                .click()
                 .perform();
-        buildStepsButton.click();
-        getWait(10).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".yui-button-active.yui-menu-button-active")));
-
         return this;
     }
 

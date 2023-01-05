@@ -330,7 +330,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualMaxNumberOfBuildsToKeep, expectedMaxNumberOfBuildsToKeep);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testAddMaxNumberOfBuildsToKeepInConfigure")
     public void testBuildStepsOptions() {
         final Set<String> expectedOptionsInBuildStepsSection = new HashSet<>(List.of("Execute Windows batch command",
@@ -338,7 +337,7 @@ public class FreestyleProjectTest extends BaseTest {
                 "Run with timeout", "Set build status to \"pending\" on GitHub commit"));
 
         Set<String> actualOptionsInBuildStepsSection = new HomePage(getDriver())
-                .clickFreestyleProjectName()
+                .clickFreestyleProjectName(FREESTYLE_NAME)
                 .clickSideMenuConfigureLink()
                 .clickBuildStepsSideMenuOption()
                 .openAddBuildStepDropDown()
