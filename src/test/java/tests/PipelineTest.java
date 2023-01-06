@@ -5,7 +5,6 @@ import model.pipeline.PipelineConfigPage;
 import model.pipeline.PipelineStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -172,12 +171,12 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(pipelineProjectPage.getProjectDescriptionText(), PIPELINE_NAME + "edit description");
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testEnablePipelineProject")
+    @Test
     public void testDeletePipelineFromDashboard() {
+        createPipelineProject(PIPELINE_NAME);
         String homePageHeaderText = new HomePage(getDriver())
                 .clickDashboard()
-                .clickPipelineProjectName()
+                .clickPipelineJob(PIPELINE_NAME)
                 .clickDeletePipelineButton()
                 .getHeaderText();
 

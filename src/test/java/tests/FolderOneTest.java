@@ -273,7 +273,7 @@ public class FolderOneTest extends BaseTest {
                 .clickFolder(RANDOM_NAME_1)
                 .clickMultibranchPipeline(RANDOM_MULTIBRANCH_PIPELINE_NAME)
                 .clickDeleteMultibranchPipeline()
-                .clickSubmitButton();
+                .clickYesButtonDeleteItem();
 
         Assert.assertEquals(folderStatusPage.getNameText(), RANDOM_NAME_1);
         Assert.assertNotNull(folderStatusPage.getEmptyStateBlock());
