@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.BaseModel;
 
-public abstract class BasePage<FooterFrame extends BaseFooterFrame> extends BaseModel {
+public abstract class BasePage extends BaseModel {
 
     @FindBy(id = "breadcrumbs")
     public WebElement breadcrumbs;
@@ -14,15 +14,15 @@ public abstract class BasePage<FooterFrame extends BaseFooterFrame> extends Base
     @FindBy(css = "#breadcrumbs li a")
     protected WebElement topMenuRoot;
 
-    protected abstract FooterFrame createFooterFrame();
+//    protected abstract FooterFrame createFooterFrame();
 
     public BasePage(WebDriver driver) {
         super(driver);
     }
 
-    public FooterFrame getFooter(){
-        return createFooterFrame();
-    }
+//    public FooterFrame getFooter(){
+//        return createFooterFrame();
+//    }
 
     public String getCurrentURL() {
 
