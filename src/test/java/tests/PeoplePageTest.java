@@ -24,7 +24,7 @@ public class PeoplePageTest extends BaseTest {
                 " including login identities which the current security realm can enumerate," +
                 " as well as people mentioned in commit messages in recorded changelogs.");
         Assert.assertTrue(peoplePage.isDisplayedSidePanel(), "Side Panel is not displayed");
-        Assert.assertTrue(peoplePage.isDisplayedFooter(), "Footer is not displayed");
+        Assert.assertTrue(peoplePage.getFooter().isDisplayedFooter(), "Footer is not displayed");
         Assert.assertEquals(peoplePage.getPeopleTableColumnsAmount(), 5);
         Assert.assertEquals(peoplePage.getPeopleTableColumnsAsString(), "User ID Name Last Commit Activity On");
         Assert.assertEquals(peoplePage.getIconLabel(), "Icon:");

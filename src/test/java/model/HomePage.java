@@ -323,7 +323,7 @@ public class HomePage extends BreadcrumbsComponent {
     public PeoplePage clickPeople() {
         people.click();
 
-        return new PeoplePage(getDriver(), new MainFooterFrame(getDriver()));
+        return new PeoplePage(getDriver());
     }
 
     public MultiConfigurationProjectStatusPage clickMultConfJobName(String name) {

@@ -38,8 +38,8 @@ public class PeoplePage extends MainBasePage<MainFooterFrame> {
     @FindBy(xpath = "//ol/li")
     private List<WebElement> listIconSizeButtons;
 
-    public PeoplePage(WebDriver driver, MainFooterFrame footerFrame) {
-        super(driver, footerFrame);
+    public PeoplePage(WebDriver driver) {
+        super(driver);
     }
 
 //    public PeoplePage(WebDriver driver, MainFooterFrame mainFooterFrame) {
