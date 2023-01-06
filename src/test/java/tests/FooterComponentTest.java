@@ -1,9 +1,6 @@
 package tests;
 
-import model.ExternalJenkinsPage;
-import model.ManageJenkinsPage;
-import model.RestApiPage;
-import model.XmlPage;
+import model.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -16,6 +13,8 @@ public class FooterComponentTest extends BaseTest {
         String urlRestApi = new RestApiPage(getDriver())
                 .clickRestApiLink()
                 .getCurrentURL();
+
+
 
         Assert.assertTrue(urlRestApi.contains("api"));
         Assert.assertEquals(new RestApiPage(getDriver()).getTextH1RestApi(), "REST API");
@@ -36,6 +35,7 @@ public class FooterComponentTest extends BaseTest {
     @Test
     public void testFooterRestApiClickOnXmlApiDisplayXML() {
         XmlPage xmlPage = new RestApiPage(getDriver())
+
                 .clickRestApiLink()
                 .clickXmlApi();
 

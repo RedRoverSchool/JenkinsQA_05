@@ -8,17 +8,25 @@ public abstract class MainBasePage<FooterFrame extends BaseFooterFrame> extends 
 
     }
 
-
-
-//    @Override
-//    protected MainFooterFrame createFooterFrame() {
-//        return new MainFooterFrame(getDriver()) {
-//        };
-//    }
-
     protected abstract FooterFrame createFooterFrame();
+
+    protected HeaderFrame createHeaderFrame(){
+        return new HeaderFrame(getDriver());
+    }
+
+    protected BreadcrumbsFrame createBreadcrumbs(){
+        return new BreadcrumbsFrame(getDriver());
+    }
 
     public FooterFrame getFooter(){
         return createFooterFrame();
+    }
+
+    public HeaderFrame getHeader(){
+        return createHeaderFrame();
+    }
+
+    public BreadcrumbsFrame getBreadcrumbs(){
+        return createBreadcrumbs();
     }
 }
