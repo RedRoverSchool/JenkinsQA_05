@@ -3,9 +3,13 @@ package model.base;
 import org.openqa.selenium.WebDriver;
 
 public abstract class MainBasePage<FooterFrame extends BaseFooterFrame> extends BasePage{
-    public MainBasePage(WebDriver driver) {
+    private final FooterFrame footerFrame;
+    public MainBasePage(WebDriver driver, FooterFrame footerFrame) {
         super(driver);
+        this.footerFrame = footerFrame;
     }
+
+
 
 //    @Override
 //    protected MainFooterFrame createFooterFrame() {

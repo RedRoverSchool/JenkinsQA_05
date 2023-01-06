@@ -2,6 +2,7 @@ package model;
 
 import model.base.BaseStatusPage;
 import model.base.BreadcrumbsComponent;
+import model.base.MainFooterFrame;
 import model.folder.FolderConfigPage;
 import model.folder.FolderStatusPage;
 import model.freestyle.FreestyleProjectConfigPage;
@@ -322,7 +323,7 @@ public class HomePage extends BreadcrumbsComponent {
     public PeoplePage clickPeople() {
         people.click();
 
-        return new PeoplePage(getDriver());
+        return new PeoplePage(getDriver(), new MainFooterFrame(getDriver()));
     }
 
     public MultiConfigurationProjectStatusPage clickMultConfJobName(String name) {
