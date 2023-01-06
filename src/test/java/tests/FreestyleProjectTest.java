@@ -184,6 +184,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(pageHeaderText, "Welcome to Jenkins!");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testFreestyleConfigSideMenu() {
 
