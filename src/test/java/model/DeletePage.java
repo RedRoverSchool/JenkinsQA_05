@@ -22,7 +22,7 @@ public class DeletePage extends BasePage {
         return new ManageUsersPage(getDriver());
     }
 
-    public HomePage clickYesButtonDeleteListView() {
+    public HomePage clickYesButtonDeleteReturnHome() {
         yesButton.click();
 
         return new HomePage(getDriver());
@@ -34,7 +34,7 @@ public class DeletePage extends BasePage {
         return new MyViewsPage(getDriver());
     }
 
-    public FolderStatusPage clickYesButtonDeleteItem() {
+    public FolderStatusPage clickYesButtonDeleteReturnFolderStatus() {
         yesButton.click();
 
         return new FolderStatusPage(getDriver());

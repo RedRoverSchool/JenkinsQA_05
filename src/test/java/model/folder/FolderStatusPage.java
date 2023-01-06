@@ -1,5 +1,6 @@
 package model.folder;
 
+import model.DeletePage;
 import model.RenameItemPage;
 import model.base.BaseStatusPage;
 import model.freestyle.FreestyleProjectStatusPage;
@@ -109,10 +110,10 @@ public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
         return new NewItemPage(getDriver());
     }
 
-    public FolderStatusPage clickDeleteFolder() {
+    public DeletePage clickDeleteFolder() {
         deleteFolder.click();
 
-        return new FolderStatusPage(getDriver());
+        return new DeletePage(getDriver());
     }
 
     public List<String> getTopMenueLinkText() {
