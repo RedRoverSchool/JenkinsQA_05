@@ -126,7 +126,7 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
     }
 
     public MultiConfigurationProjectConfigPage enterValueUserDefinedAxis(String value, int numberOfSection) {
-        getDriver().findElement(By.xpath("//div[" + numberOfSection + "]/div/div[4]/div[2]/div/div[1]/input[@name='_.valueString']"))
+        getDriver().findElement(By.xpath("//div[" + numberOfSection+ "]/div/div[4]/div[2]/div/div[1]/input[@name='_.valueString']"))
                 .sendKeys(value);
 
         return this;
