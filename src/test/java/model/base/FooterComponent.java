@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.ArrayList;
 
-public abstract class FooterComponent extends BasePage {
+public abstract class FooterComponent extends BasePage<MainFooterFrame> {
     @FindBy(xpath = "//div/a[@href = 'api/']")
     private WebElement restApi;
 
