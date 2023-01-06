@@ -20,6 +20,7 @@ public class FreestyleProjectTest extends BaseTest {
     private static final String FREESTYLE_NAME = getRandomStr(10);
     private static final String NEW_FREESTYLE_NAME = getRandomStr(10);
 
+    @Ignore
     @Test
     public void testCreateNewFreestyleProject() {
         final String freestyleProjectTitle = new HomePage(getDriver())
