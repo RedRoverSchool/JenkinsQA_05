@@ -119,7 +119,7 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
 
     public MultiConfigurationProjectConfigPage enterNameUserDefinedAxis(String projectName, String name, int numberOfSection) {
         getDriver().findElement(By.xpath
-                        (String.format("//div[" + numberOfSection + "]/div/div[3]/div[2]/input[@checkurl='/job/%s/descriptorByName/hudson.matrix.TextAxis/checkName']", projectName)))
+                        (String.format("//div[" + numberOfSection + "]/div/div[3]/div[2]/input[contains(@checkurl,'/job/%s/')]", projectName)))
                 .sendKeys(name);
 
         return this;

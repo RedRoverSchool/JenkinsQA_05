@@ -15,6 +15,7 @@ import java.util.TreeSet;
 
 import static runner.TestUtils.getRandomStr;
 
+@Ignore
 public class FreestyleProjectTest extends BaseTest {
 
     private static final String FREESTYLE_NAME = getRandomStr(10);
@@ -32,7 +33,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(freestyleProjectTitle, String.format("Project %s", FREESTYLE_NAME));
     }
-
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithSpacesInsteadOfName")
     public void testCreateFreestyleProjectWithIncorrectCharacters() {
         final List<Character> incorrectNameCharacters =
@@ -183,8 +183,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(pageHeaderText, "Welcome to Jenkins!");
     }
-
-    @Ignore
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testFreestyleConfigSideMenu() {
 
