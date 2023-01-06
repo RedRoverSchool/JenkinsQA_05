@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BaseFooterFrame;
 import model.base.FooterComponent;
 import model.base.MainBasePage;
 import model.base.MainFooterFrame;

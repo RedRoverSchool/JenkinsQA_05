@@ -29,6 +29,7 @@ public class PeoplePageTest extends BaseTest {
         Assert.assertEquals(peoplePage.getPeopleTableColumnsAsString(), "User ID Name Last Commit Activity On");
         Assert.assertEquals(peoplePage.getIconLabel(), "Icon:");
         Assert.assertEquals(peoplePage.getListIconSizeButtonsAsString(), "Small Medium Large");
+
     }
 
     @Test
