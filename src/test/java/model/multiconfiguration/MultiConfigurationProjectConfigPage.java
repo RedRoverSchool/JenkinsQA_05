@@ -34,8 +34,17 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
     @FindBy(css = ".jenkins-input.fixed-width")
     private WebElement textAreaBuildSteps;
 
-    @FindBy (xpath = "//label[@for='enable-disable-project']")
+    @FindBy(xpath = "//label[@for='enable-disable-project']")
     private WebElement enableOrDisableButton;
+
+    @FindBy(xpath = "//div[@class='jenkins-section__title'][@id='configuration-matrix']")
+    private WebElement configurationMatrixSection;
+
+    @FindBy(xpath = "//button[@suffix='axis']")
+    private WebElement buttonAddAxis;
+
+    @FindBy(xpath = "//a[@class='yuimenuitemlabel']")
+    private WebElement userDefinedAxis;
 
     @Override
     protected MultiConfigurationProjectStatusPage createStatusPage() {
@@ -88,6 +97,37 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
 
     public MultiConfigurationProjectConfigPage clickEnableOrDisableButton() {
         enableOrDisableButton.click();
+
+        return this;
+    }
+
+    public MultiConfigurationProjectConfigPage scrollAndClickButtonAddAxis() {
+        TestUtils.scrollToElement_PlaceInCenter(getDriver(), configurationMatrixSection);
+        getWait(3).until(TestUtils.ExpectedConditions.elementIsNotMoving(buttonAddAxis));
+        buttonAddAxis.click();
+
+        return this;
+    }
+
+    public MultiConfigurationProjectConfigPage selectUserDefinedAxis() {
+        userDefinedAxis.click();
+        TestUtils.scrollToElement_PlaceInCenter(getDriver(), buttonAddAxis);
+        getWait(3).until(TestUtils.ExpectedConditions.elementIsNotMoving(buttonAddAxis));
+
+        return this;
+    }
+
+    public MultiConfigurationProjectConfigPage enterNameUserDefinedAxis(String projectName, String name, int numberOfSection) {
+        getDriver().findElement(By.xpath
+                        (String.format("//div[" + numberOfSection + "]/div/div[3]/div[2]/input[@checkurl='/job/%s/descriptorByName/hudson.matrix.TextAxis/checkName']", projectName)))
+                .sendKeys(name);
+
+        return this;
+    }
+
+    public MultiConfigurationProjectConfigPage enterValueUserDefinedAxis(String value, int numberOfSection) {
+        getDriver().findElement(By.xpath("//div[" + numberOfSection + "]/div/div[4]/div[2]/div/div[1]/input[@name='_.valueString']"))
+                .sendKeys(value);
 
         return this;
     }

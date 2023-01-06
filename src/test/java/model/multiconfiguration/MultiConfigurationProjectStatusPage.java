@@ -68,6 +68,9 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
     @FindBy(linkText = "Rename")
     private WebElement renameButton;
 
+    @FindBy(xpath = "//div[@id='matrix']")
+    private WebElement configurationMatrixTable;
+
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
     }
@@ -199,5 +202,10 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
     public boolean disableButtonIsDisplayed() {
 
        return disableButton.isDisplayed();
+    }
+
+    public boolean configurationMatrixIsDisplayed() {
+
+        return configurationMatrixTable.isDisplayed();
     }
 }
