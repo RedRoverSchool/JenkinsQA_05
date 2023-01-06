@@ -291,7 +291,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testEnableMultiConfigurationProject")
     public void testSetConfigurationMatrix() {
         MultiConfigurationProjectStatusPage configMatrix = new HomePage(getDriver())
-                .clickMultConfJobName(PROJECT_NAME)
+                .clickProject(PROJECT_NAME)
                 .clickConfiguration(PROJECT_NAME)
                 .scrollAndClickButtonAddAxis()
                 .selectUserDefinedAxis()
