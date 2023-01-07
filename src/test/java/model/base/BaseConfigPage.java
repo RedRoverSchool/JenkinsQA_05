@@ -33,7 +33,7 @@ public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>, Self 
         return (Self)this;
     }
 
-    public ConfigSideMenuFrame moveToSideMenu(){
+    public ConfigSideMenuFrame getSideMenu(){
         return createConfigSideMenuFrame();
     }
 }
