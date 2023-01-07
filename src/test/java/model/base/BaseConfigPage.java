@@ -13,7 +13,7 @@ public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>, Self 
     @FindBy(name = "Apply")
     private WebElement applyButton;
 
-    private ConfigSideMenuFrame configSideMenuFrame;
+    private final ConfigSideMenuFrame configSideMenuFrame;
 
     protected abstract StatusPage createStatusPage();
 
