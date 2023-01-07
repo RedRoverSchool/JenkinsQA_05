@@ -10,24 +10,34 @@ public class StatusUserPage extends BasePage {
 
     @FindBy(css = ".model-link > .hidden-xs.hidden-sm")
     private WebElement pageHeaderUserName;
+
     @FindBy(xpath = "//li[@class='item'][last()]")
     private WebElement breadcrumbsUserName;
+
     @FindBy(xpath = "//h1")
     private WebElement h1Title;
+
     @FindBy(id = "description-link")
     private WebElement addDescriptionLink;
+
     @FindBy(xpath = "//textarea[@name = 'description']")
     private WebElement descriptionInputField;
+
     @FindBy(xpath = "//a[@class='textarea-show-preview']")
     private WebElement previewLink;
+
     @FindBy(xpath = "//div[@class='textarea-preview']")
     private WebElement previewField;
+
     @FindBy(xpath = "//a[@class='textarea-hide-preview']")
     private WebElement hidePreviewLink;
+
     @FindBy(id = "yui-gen1-button")
     private WebElement saveButton;
+
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement displayedDescriptionText;
+
     @FindBy(xpath = "//div[@id='main-panel']/div[contains(text(), 'ID')]")
     private WebElement userID;
 
