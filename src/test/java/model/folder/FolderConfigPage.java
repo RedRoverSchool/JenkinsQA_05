@@ -2,12 +2,13 @@ package model.folder;
 
 import model.base.BaseConfigPage;
 import model.HomePage;
+import model.base.MainConfigSideMenuFrame;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class FolderConfigPage extends BaseConfigPage<FolderStatusPage, FolderConfigPage, FolderConfigSideMenuFrame> {
+public class FolderConfigPage extends BaseConfigPage<FolderStatusPage, FolderConfigPage, MainConfigSideMenuFrame<FolderConfigPage>> {
 
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement submitButtonForDeleteFolder;
@@ -24,8 +25,8 @@ public class FolderConfigPage extends BaseConfigPage<FolderStatusPage, FolderCon
     }
 
     @Override
-    protected FolderConfigSideMenuFrame createConfigSideMenuFrame() {
-        return new FolderConfigSideMenuFrame(getDriver(), this);
+    protected MainConfigSideMenuFrame<FolderConfigPage> createConfigSideMenuFrame() {
+        return new MainConfigSideMenuFrame<>(getDriver(), this);
     }
 
     public FolderConfigPage(WebDriver driver) {
