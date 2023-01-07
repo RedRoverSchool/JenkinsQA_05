@@ -56,7 +56,7 @@ public class PeoplePageTest extends BaseTest {
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickDeleteUser(USER_NAME)
-                .clickYesToManageUsersPage()
+                .clickYesButtonDeleteUser()
                 .rootMenuDashboardLinkClick()
                 .clickPeople();
 

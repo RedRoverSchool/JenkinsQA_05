@@ -1,6 +1,6 @@
 package model;
 
-import model.base.Header;
+import model.base.HeaderComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,7 +9,7 @@ import runner.TestUtils;
 
 import static runner.TestUtils.*;
 
-public class ManageJenkinsPage extends Header {
+public class ManageJenkinsPage extends HeaderComponent {
 
     @FindBy(xpath = "//a[@href='configureTools']")
     private WebElement configureTools;

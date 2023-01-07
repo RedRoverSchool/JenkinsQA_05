@@ -8,7 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class FooterTest extends BaseTest {
+public class FooterComponentTest extends BaseTest {
 
     @Test
     public void testFooterLinkRestRedirectToPage() {
@@ -25,8 +25,8 @@ public class FooterTest extends BaseTest {
     public void testFooterLinkJenkinsRedirectToPage() {
 
          String textJenkins = new ExternalJenkinsPage(getDriver())
-                .clickJenkinsVersion()
-                .getTextJenkins();
+                 .clickJenkinsVersion()
+                 .getHeaderText();
 
          Assert.assertTrue(new ExternalJenkinsPage(getDriver()).getCurrentURL().contains("jenkins"));
          Assert.assertEquals(textJenkins, "Jenkins");

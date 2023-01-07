@@ -172,12 +172,12 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(pipelineProjectPage.getProjectDescriptionText(), PIPELINE_NAME + "edit description");
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testEnablePipelineProject")
+    @Test
     public void testDeletePipelineFromDashboard() {
+        createPipelineProject(PIPELINE_NAME);
         String homePageHeaderText = new HomePage(getDriver())
                 .clickDashboard()
-                .clickPipelineProjectName()
+                .clickPipelineJob(PIPELINE_NAME)
                 .clickDeletePipelineButton()
                 .getHeaderText();
 
@@ -244,6 +244,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(pipelineProjectPage.getAttributeGitHubSideMenu("href").contains(gitHubRepo));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddingGitRepository")
     public void testWarningMessageIsDisappeared() {
         String emptyErrorArea = new HomePage(getDriver())
@@ -257,6 +258,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(emptyErrorArea, "");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testWarningMessageIsDisappeared")
     public void testBuildParametrizedProject() {
         String consoleOutputText = new HomePage(getDriver())

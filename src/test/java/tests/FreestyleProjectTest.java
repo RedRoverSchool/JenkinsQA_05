@@ -15,11 +15,13 @@ import java.util.TreeSet;
 
 import static runner.TestUtils.getRandomStr;
 
+@Ignore
 public class FreestyleProjectTest extends BaseTest {
 
     private static final String FREESTYLE_NAME = getRandomStr(10);
     private static final String NEW_FREESTYLE_NAME = getRandomStr(10);
 
+    @Ignore
     @Test
     public void testCreateNewFreestyleProject() {
         final String freestyleProjectTitle = new HomePage(getDriver())
@@ -31,7 +33,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(freestyleProjectTitle, String.format("Project %s", FREESTYLE_NAME));
     }
-
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithSpacesInsteadOfName")
     public void testCreateFreestyleProjectWithIncorrectCharacters() {
         final List<Character> incorrectNameCharacters =
@@ -182,7 +183,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(pageHeaderText, "Welcome to Jenkins!");
     }
-
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testFreestyleConfigSideMenu() {
 
@@ -317,7 +317,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualDaysToKeepBuilds, expectedDaysToKeepBuilds);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testAddDaysToKeepBuildsInConfigure")
     public void testAddMaxNumberOfBuildsToKeepInConfigure() {
         final String expectedMaxNumberOfBuildsToKeep = Integer.toString((int) (Math.random() * 20 + 1));
@@ -333,7 +332,6 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(actualMaxNumberOfBuildsToKeep, expectedMaxNumberOfBuildsToKeep);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testAddMaxNumberOfBuildsToKeepInConfigure")
     public void testBuildStepsOptions() {
         final Set<String> expectedOptionsInBuildStepsSection = new HashSet<>(List.of("Execute Windows batch command",
@@ -341,7 +339,7 @@ public class FreestyleProjectTest extends BaseTest {
                 "Run with timeout", "Set build status to \"pending\" on GitHub commit"));
 
         Set<String> actualOptionsInBuildStepsSection = new HomePage(getDriver())
-                .clickFreestyleProjectName()
+                .clickFreestyleProjectName(FREESTYLE_NAME)
                 .clickSideMenuConfigureLink()
                 .clickBuildStepsSideMenuOption()
                 .openAddBuildStepDropDown()

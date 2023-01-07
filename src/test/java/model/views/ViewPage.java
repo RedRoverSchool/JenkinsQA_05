@@ -1,5 +1,6 @@
 package model.views;
 
+import model.DeletePage;
 import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -25,9 +26,6 @@ public class ViewPage extends MyViewsPage{
 
     @FindBy(xpath = "//a[@href='delete']")
     private WebElement deleteViewItem;
-
-    @FindBy(id = "yui-gen1-button")
-    private WebElement yesButtonDeleteView;
 
     @FindBy(xpath = "//div[@class='jenkins-buttons-row jenkins-buttons-row--invert']/preceding-sibling::div")
     private WebElement descriptionText;
@@ -59,22 +57,10 @@ public class ViewPage extends MyViewsPage{
         return new HomePage(getDriver());
     }
 
-    public ViewPage clickDeleteViewItem() {
+    public DeletePage clickDeleteViewItem() {
         deleteViewItem.click();
 
-        return this;
-    }
-
-    public MyViewsPage clickYesButtonDeleteView() {
-        yesButtonDeleteView.click();
-
-        return new MyViewsPage(getDriver());
-    }
-
-    public HomePage clickYesButtonDeleteListView() {
-        yesButtonDeleteView.click();
-
-        return new HomePage(getDriver());
+        return new DeletePage(getDriver());
     }
 
     public String getTextDescription() {

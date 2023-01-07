@@ -10,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 
-public abstract class Header extends BasePage {
+public abstract class HeaderComponent extends BasePage {
 
     @FindBy(id = "jenkins-head-icon")
     private WebElement jenkinsHeadIcon;
@@ -24,7 +24,7 @@ public abstract class Header extends BasePage {
     @FindBy(id = "search-box")
     private WebElement searchField;
 
-    public Header(WebDriver driver) {
+    public HeaderComponent(WebDriver driver) {
         super(driver);
     }
 
