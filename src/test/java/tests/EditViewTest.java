@@ -90,6 +90,7 @@ public class EditViewTest extends BaseTest {
                 .clickGlobalViewOkButton()
                 .clickEditViewLink();
 
+
         Assert.assertTrue(editViewPage.isFilterBuildQueueOptionCheckBoxSelected() && editViewPage.isFilterBuildExecutorsOptionCheckBoxSelected());
     }
 
