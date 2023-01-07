@@ -74,7 +74,7 @@ public class HeaderComponentTest extends BaseTest {
         Assert.assertEquals(manageJenkinsPage.getCurrentURL(), "http://localhost:8080/manage/");
         Assert.assertEquals(manageJenkinsPage.getTextHeader1ManageJenkins(), "Manage Jenkins");
 
-        HomePage homePage = manageJenkinsPage.clickJenkinsNameIcon();
+        HomePage homePage = manageJenkinsPage.getHeader().clickJenkinsNameIcon();
 
         Assert.assertEquals(homePage.getCurrentURL(), "http://localhost:8080/");
         Assert.assertEquals(homePage.getHeaderText(), "Welcome to Jenkins!");

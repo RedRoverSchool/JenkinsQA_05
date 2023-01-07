@@ -1,11 +1,11 @@
 package model;
 
-import model.base.FooterComponent;
+import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ExternalJenkinsPage extends FooterComponent {
+public class ExternalJenkinsPage extends BasePage {
 
     @FindBy(xpath = "//h1")
     private WebElement textHeaderJenkins;

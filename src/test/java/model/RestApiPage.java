@@ -1,9 +1,7 @@
 package model;
 
 import model.base.BlankFooterFrame;
-import model.base.FooterComponent;
 import model.base.MainBasePage;
-import model.base.MainFooterFrame;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

@@ -1,7 +1,6 @@
 package model;
 
 import model.base.BaseStatusPage;
-import model.base.BreadcrumbsComponent;
 import model.base.MainBasePage;
 import model.base.MainFooterFrame;
 import model.folder.FolderConfigPage;

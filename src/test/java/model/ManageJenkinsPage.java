@@ -1,6 +1,7 @@
 package model;
 
-import model.base.HeaderComponent;
+import model.base.BlankFooterFrame;
+import model.base.MainBasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,7 +10,7 @@ import runner.TestUtils;
 
 import static runner.TestUtils.*;
 
-public class ManageJenkinsPage extends HeaderComponent {
+public class ManageJenkinsPage extends MainBasePage<BlankFooterFrame> {
 
     @FindBy(xpath = "//a[@href='configureTools']")
     private WebElement configureTools;
@@ -28,6 +29,11 @@ public class ManageJenkinsPage extends HeaderComponent {
 
     @FindBy(linkText = "Manage Jenkins")
     private WebElement manageJenkins;
+
+    @Override
+    protected BlankFooterFrame createFooterFrame() {
+        return new BlankFooterFrame(getDriver());
+    }
 
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
@@ -73,7 +79,7 @@ public class ManageJenkinsPage extends HeaderComponent {
     }
 
     public ExternalJenkinsPage moveForClinkOnLink() {
-        WebElement linkJenkins = new ExternalJenkinsPage(getDriver()).getJenkinsLink();
+        WebElement linkJenkins = new HomePage(getDriver()).getFooter().getJenkinsLink();
         getAction().pause(500).moveToElement(getWait(3).until(ExpectedConditions.elementToBeClickable(linkJenkins)))
                 .perform();
         return new ExternalJenkinsPage(getDriver());
