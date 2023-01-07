@@ -60,7 +60,7 @@ public class ViewPage extends MyViewsPage{
     public DeletePage<ViewPage> clickDeleteViewItem() {
         deleteViewItem.click();
 
-        return new DeletePage(getDriver(), this);
+        return new DeletePage<>(getDriver(), this);
     }
 
     public String getTextDescription() {
