@@ -1,7 +1,7 @@
 package model.multibranch_pipeline;
 
 import model.base.BaseConfigPage;
-import model.base.MainConfigSideMenuFrame;
+import model.MainConfigSideMenuFrame;
 import org.openqa.selenium.WebDriver;
 
 public class MultibranchPipelineConfigPage extends BaseConfigPage<MultibranchPipelineStatusPage, MultibranchPipelineConfigPage, MainConfigSideMenuFrame<MultibranchPipelineConfigPage>> {

@@ -2,7 +2,7 @@ package model.folder;
 
 import model.base.BaseConfigPage;
 import model.HomePage;
-import model.base.MainConfigSideMenuFrame;
+import model.MainConfigSideMenuFrame;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

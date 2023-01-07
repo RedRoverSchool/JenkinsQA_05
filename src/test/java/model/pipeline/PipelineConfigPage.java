@@ -1,7 +1,7 @@
 package model.pipeline;
 
 import model.base.BaseConfigPage;
-import model.base.MainConfigSideMenuFrame;
+import model.MainConfigSideMenuFrame;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
