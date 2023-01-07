@@ -31,7 +31,7 @@ public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>, Self 
     }
 
     public Self clickApplyButton() {
-        getWait(5).until(ExpectedConditions.visibilityOf(applyButton)).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(applyButton)).click();
 
         return (Self)this;
     }
