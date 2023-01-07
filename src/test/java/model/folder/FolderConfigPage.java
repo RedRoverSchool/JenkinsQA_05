@@ -23,9 +23,13 @@ public class FolderConfigPage extends BaseConfigPage<FolderStatusPage, FolderCon
         return new FolderStatusPage(getDriver());
     }
 
+    @Override
+    protected FolderConfigSideMenuFrame createConfigSideMenuFrame() {
+        return new FolderConfigSideMenuFrame(getDriver(), this);
+    }
+
     public FolderConfigPage(WebDriver driver) {
         super(driver);
-        setConfigSideMenuFrame(new FolderConfigSideMenuFrame(driver, this));
     }
 
     public HomePage clickSubmitDeleteProject() {

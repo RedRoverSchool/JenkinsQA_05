@@ -42,9 +42,13 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
+    @Override
+    protected MultiConfigurationProjectConfigSideMenuFrame createConfigSideMenuFrame() {
+        return new MultiConfigurationProjectConfigSideMenuFrame(getDriver(), this);
+    }
+
     public MultiConfigurationProjectConfigPage(WebDriver driver) {
         super(driver);
-        setConfigSideMenuFrame(new MultiConfigurationProjectConfigSideMenuFrame(driver, this));
     }
 
     public MultiConfigurationProjectConfigPage inputDescription(String description) {

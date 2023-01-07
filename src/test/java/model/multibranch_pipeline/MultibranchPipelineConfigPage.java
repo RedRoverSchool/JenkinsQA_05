@@ -10,8 +10,12 @@ public class MultibranchPipelineConfigPage extends BaseConfigPage<MultibranchPip
         return new MultibranchPipelineStatusPage(getDriver());
     }
 
+    @Override
+    protected MultibranchPipelineConfigSideMenuFrame createConfigSideMenuFrame() {
+        return new MultibranchPipelineConfigSideMenuFrame(getDriver(), this);
+    }
+
     public MultibranchPipelineConfigPage(WebDriver driver) {
         super(driver);
-        setConfigSideMenuFrame(new MultibranchPipelineConfigSideMenuFrame(driver, this));
     }
 }

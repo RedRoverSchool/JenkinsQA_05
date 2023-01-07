@@ -17,12 +17,11 @@ public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>, Self 
 
     protected abstract StatusPage createStatusPage();
 
+    protected abstract ConfigSideMenuFrame createConfigSideMenuFrame();
+
     public BaseConfigPage(WebDriver driver) {
         super(driver);
-    }
-
-    protected void setConfigSideMenuFrame(ConfigSideMenuFrame configSideMenuFrame) {
-        this.configSideMenuFrame = configSideMenuFrame;
+        this.configSideMenuFrame = createConfigSideMenuFrame();
     }
 
     public StatusPage clickSaveButton() {

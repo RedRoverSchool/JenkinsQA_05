@@ -24,9 +24,13 @@ public class OrgFolderConfigPage extends BaseConfigPage<OrgFolderStatusPage, Org
         return new OrgFolderStatusPage(getDriver());
     }
 
+    @Override
+    protected OrgFolderConfigSideMenuFrame createConfigSideMenuFrame() {
+        return new OrgFolderConfigSideMenuFrame(getDriver(), this);
+    }
+
     public OrgFolderConfigPage(WebDriver driver) {
         super(driver);
-        setConfigSideMenuFrame(new OrgFolderConfigSideMenuFrame(driver, this));
     }
 
     public OrgFolderConfigPage inputDisplayName(String name) {

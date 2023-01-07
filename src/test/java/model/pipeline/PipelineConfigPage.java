@@ -67,9 +67,13 @@ public class PipelineConfigPage extends BaseConfigPage<PipelineStatusPage, Pipel
         return new PipelineStatusPage(getDriver());
     }
 
+    @Override
+    protected PipelineConfigSideMenuFrame createConfigSideMenuFrame() {
+        return new PipelineConfigSideMenuFrame(getDriver(), this);
+    }
+
     public PipelineConfigPage(WebDriver driver) {
         super(driver);
-        setConfigSideMenuFrame(new PipelineConfigSideMenuFrame(driver, this));
     }
 
     public PipelineConfigPage clickGitHubCheckbox() {

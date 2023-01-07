@@ -108,9 +108,13 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
         return new FreestyleProjectStatusPage(getDriver());
     }
 
+    @Override
+    protected FreestyleProjectConfigSideMenuFrame createConfigSideMenuFrame() {
+        return new FreestyleProjectConfigSideMenuFrame(getDriver(), this);
+    }
+
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
-        setConfigSideMenuFrame(new FreestyleProjectConfigSideMenuFrame(driver, this));
     }
 
     public String getHeadlineText() {
