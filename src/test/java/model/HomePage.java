@@ -2,6 +2,7 @@ package model;
 
 import model.base.BaseStatusPage;
 import model.base.BreadcrumbsComponent;
+import model.base.MainBasePage;
 import model.base.MainFooterFrame;
 import model.folder.FolderConfigPage;
 import model.folder.FolderStatusPage;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 
 import static runner.TestUtils.scrollToElement;
 
-public class HomePage extends BreadcrumbsComponent {
+public class HomePage extends MainBasePage<MainFooterFrame> {
 
     @FindBy(linkText = "Build History")
     private WebElement buildHistory;
@@ -126,6 +127,11 @@ public class HomePage extends BreadcrumbsComponent {
 
     @FindBy(css = "#projectstatus th")
     private List<WebElement> listJobTableHeaders;
+
+    @Override
+    protected MainFooterFrame createFooterFrame() {
+        return new MainFooterFrame(getDriver());
+    }
 
     public HomePage(WebDriver driver) {
         super(driver);

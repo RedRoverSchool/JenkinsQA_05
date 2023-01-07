@@ -10,10 +10,10 @@ public class FooterComponentTest extends BaseTest {
     @Test
     public void testFooterLinkRestRedirectToPage() {
 
-        String urlRestApi = new RestApiPage(getDriver())
+        String urlRestApi = new HomePage(getDriver())
+                .getFooter()
                 .clickRestApiLink()
                 .getCurrentURL();
-
 
 
         Assert.assertTrue(urlRestApi.contains("api"));
@@ -23,19 +23,19 @@ public class FooterComponentTest extends BaseTest {
     @Test
     public void testFooterLinkJenkinsRedirectToPage() {
 
-         String textJenkins = new ExternalJenkinsPage(getDriver())
-                 .clickJenkinsVersion()
-                 .getHeaderText();
+        String textJenkins = new ExternalJenkinsPage(getDriver())
+                .clickJenkinsVersion()
+                .getHeaderText();
 
-         Assert.assertTrue(new ExternalJenkinsPage(getDriver()).getCurrentURL().contains("jenkins"));
-         Assert.assertEquals(textJenkins, "Jenkins");
+        Assert.assertTrue(new ExternalJenkinsPage(getDriver()).getCurrentURL().contains("jenkins"));
+        Assert.assertEquals(textJenkins, "Jenkins");
 
     }
 
     @Test
     public void testFooterRestApiClickOnXmlApiDisplayXML() {
-        XmlPage xmlPage = new RestApiPage(getDriver())
-
+        XmlPage xmlPage = new HomePage(getDriver())
+                .getFooter()
                 .clickRestApiLink()
                 .clickXmlApi();
 
@@ -51,6 +51,6 @@ public class FooterComponentTest extends BaseTest {
                 .clickJenkinsVersion()
                 .getHeaderText();
 
-        Assert.assertEquals(headerJenkins,"Jenkins");
+        Assert.assertEquals(headerJenkins, "Jenkins");
     }
 }

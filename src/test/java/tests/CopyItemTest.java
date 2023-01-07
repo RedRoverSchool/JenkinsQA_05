@@ -48,6 +48,7 @@ public class CopyItemTest extends BaseTest {
 
     private HomePage createFreestyleProject(String nameFreestyleProject) {
         return new HomePage(getDriver())
+                .getHeader()
                 .clickJenkinsHeadIcon()
                 .clickNewItem()
                 .setItemName(nameFreestyleProject)

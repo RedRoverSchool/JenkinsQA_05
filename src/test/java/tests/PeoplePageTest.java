@@ -19,7 +19,7 @@ public class PeoplePageTest extends BaseTest {
     public void testPeoplePageContent() {
         PeoplePage peoplePage = new HomePage(getDriver())
                 .clickPeople();
-        Assert.assertEquals(peoplePage.getHeader(), "People");
+        Assert.assertEquals(peoplePage.getNameOfHeader(), "People");
         Assert.assertEquals(peoplePage.getDescription(), "Includes all known “users”," +
                 " including login identities which the current security realm can enumerate," +
                 " as well as people mentioned in commit messages in recorded changelogs.");
@@ -88,6 +88,6 @@ public class PeoplePageTest extends BaseTest {
         var peoplePage = new HomePage(getDriver())
                 .clickPeople();
 
-        Assert.assertEquals(peoplePage.getHeader(), "People");
+        Assert.assertEquals(peoplePage.getNameOfHeader(), "People");
     }
 }

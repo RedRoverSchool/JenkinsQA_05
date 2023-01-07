@@ -42,10 +42,6 @@ public class PeoplePage extends MainBasePage<MainFooterFrame> {
         super(driver);
     }
 
-//    public PeoplePage(WebDriver driver, MainFooterFrame mainFooterFrame) {
-//        super(driver);
-//    }
-
     @Override
     protected MainFooterFrame createFooterFrame() {
         return new MainFooterFrame(getDriver());
@@ -65,7 +61,7 @@ public class PeoplePage extends MainBasePage<MainFooterFrame> {
         return new HomePage(getDriver());
     }
 
-    public String getHeader() {
+    public String getNameOfHeader() {
         return header.getText();
     }
 
