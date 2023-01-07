@@ -63,10 +63,4 @@ public class ManageUsersPage extends BasePage {
 
         return new DeletePage<>(getDriver(), this);
     }
-
-    public ManageUsersPage clickUserDropdownMenu(){
-        userDropdownMenu.click();
-
-        return this;
-    }
 }

@@ -1,6 +1,5 @@
 package model;
 
-import model.freestyle.FreestyleProjectConfigPage;
 import model.freestyle.FreestyleProjectStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -56,11 +55,6 @@ public class BuildWithParametersPage extends FreestyleProjectStatusPage {
         return pageNotification.getText();
     }
 
-    public String getFirstParameterName() {
-
-        return firstParameter.getText();
-    }
-
     public String getFirstParamName() {
 
         return listInputtingValues.get(0).getAttribute("value");
@@ -109,11 +103,5 @@ public class BuildWithParametersPage extends FreestyleProjectStatusPage {
         lastBuildLink.click();
 
         return new BuildStatusPage(getDriver());
-    }
-
-    public FreestyleProjectConfigPage clickConfigureLink() {
-        sideMenuConfigure.click();
-
-        return new FreestyleProjectConfigPage(getDriver());
     }
 }

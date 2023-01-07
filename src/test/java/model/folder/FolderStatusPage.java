@@ -42,9 +42,6 @@ public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
     @FindBy(linkText = "New Item")
     private WebElement folderNewItem;
 
-    @FindBy(xpath = "//input[@checkdependson='newName']")
-    private WebElement folderNewName;
-
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement submitButton;
 

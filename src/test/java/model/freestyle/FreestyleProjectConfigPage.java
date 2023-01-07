@@ -5,7 +5,6 @@ import model.base.BaseConfigPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
@@ -148,11 +147,6 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
         return maxNumberOfBuildsToKeep.getAttribute("value");
     }
 
-    public String getFreestyleProjectName(String name) {
-
-        return projectButton.getText();
-    }
-
     public FreestyleProjectConfigPage switchONCheckBoxThisProjectIsParametrized() {
         checkBoxProjectIsParametrized.click();
 
@@ -251,12 +245,6 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
 
     public FreestyleConfigSideMenuPage switchOFFCheckBoxThisProjectIsParametrized() {
         checkBoxProjectIsParametrized.click();
-
-        return new FreestyleConfigSideMenuPage(getDriver());
-    }
-
-    public FreestyleConfigSideMenuPage clickBuildNowButton() {
-        buildNowButton.click();
 
         return new FreestyleConfigSideMenuPage(getDriver());
     }

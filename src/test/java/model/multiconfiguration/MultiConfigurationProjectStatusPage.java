@@ -50,9 +50,6 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
     @FindBy(css = ".build-row-cell")
     private List<WebElement> buildRowsOnBuildHistory;
 
-    @FindBy(linkText = "Build Now")
-    private WebElement buttonBuildNowOnSidePanel;
-
     @FindBy(css = ".build-status-icon__outer>[tooltip = 'Success &gt; Console Output']")
     private WebElement buildLoadingIconSuccess;
 

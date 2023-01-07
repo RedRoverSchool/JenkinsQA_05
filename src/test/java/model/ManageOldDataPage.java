@@ -18,5 +18,4 @@ public class ManageOldDataPage extends BasePage{
 
         return actualText[actualText.length - 1];
     }
-
 }
