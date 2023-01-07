@@ -16,9 +16,6 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
     @FindBy(className = "textarea-show-preview")
     private WebElement textareaShowPreview;
 
-    @FindBy(xpath = "//div[@class='textarea-preview']")
-    private WebElement previewArea;
-
     @FindBy(xpath = "//div[@class='jenkins-section__title'][@id='build-steps']")
     private WebElement buildStepsSection;
 
@@ -65,12 +62,6 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
         getWait(5).until(ExpectedConditions.visibilityOf(textareaShowPreview)).click();
 
         return new MultiConfigurationProjectConfigPage(getDriver());
-    }
-
-    public MultiConfigurationProjectStatusPage getPreview() {
-        getWait(5).until(ExpectedConditions.visibilityOf(previewArea)).getText();
-
-        return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
     public MultiConfigurationProjectConfigPage scrollAndClickBuildSteps() {

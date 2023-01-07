@@ -8,7 +8,9 @@ import static runner.BaseUtils.PREFIX_PROP;
 public final class ProjectUtils {
 
     private static final String PROP_PORT = PREFIX_PROP + "port";
+
     private static final String PROP_ADMIN_USERNAME = PREFIX_PROP + "admin.username";
+
     private static final String PROP_ADMIN_PAS = PREFIX_PROP + "admin.password";
 
     public static void get(WebDriver driver) {
@@ -37,20 +39,5 @@ public final class ProjectUtils {
 
     static String getPassword() {
         return BaseUtils.getProperties().getProperty(PROP_ADMIN_PAS);
-    }
-
-    public static void createNewItemFromDashboard(WebDriver driver, By type, String name) {
-        driver.findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-        driver.findElement(By.id("name")).sendKeys(name);
-        driver.findElement(type).click();
-        driver.findElement(By.id("ok-button")).click();
-    }
-
-    public static void createNewViewFromDashboard(WebDriver driver, By type, String name) {
-        driver.findElement(By.xpath("//a[@href='/me/my-views']")).click();
-        driver.findElement(By.className("addTab")).click();
-        driver.findElement(By.id("name")).sendKeys(name);
-        driver.findElement(type).click();
-        driver.findElement(By.id("ok")).click();
     }
 }
