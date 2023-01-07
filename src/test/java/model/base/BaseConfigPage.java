@@ -13,15 +13,12 @@ public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>, Self 
     @FindBy(name = "Apply")
     private WebElement applyButton;
 
-    private final ConfigSideMenuFrame configSideMenuFrame;
-
     protected abstract StatusPage createStatusPage();
 
     protected abstract ConfigSideMenuFrame createConfigSideMenuFrame();
 
     public BaseConfigPage(WebDriver driver) {
         super(driver);
-        this.configSideMenuFrame = createConfigSideMenuFrame();
     }
 
     public StatusPage clickSaveButton() {
@@ -37,6 +34,6 @@ public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>, Self 
     }
 
     public ConfigSideMenuFrame moveToSideMenu(){
-        return configSideMenuFrame;
+        return createConfigSideMenuFrame();
     }
 }
