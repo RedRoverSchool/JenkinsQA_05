@@ -85,7 +85,7 @@ public class ListViewTest extends BaseTest {
         List<String> viewList = new HomePage(getDriver())
                 .clickView(RANDOM_LIST_VIEW_NAME)
                 .clickDeleteViewItem()
-                .clickYesButtonDeleteReturnHome()
+                .clickYes()
                 .getViewList();
 
         Assert.assertFalse(viewList.contains(RANDOM_LIST_VIEW_NAME));
