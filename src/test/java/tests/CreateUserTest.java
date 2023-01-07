@@ -37,7 +37,7 @@ public class CreateUserTest extends BaseTest {
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickDeleteUser(USERNAME)
-                .clickYesButtonDeleteUser().getListOfUsers();
+                .clickYes().getListOfUsers();
 
         Assert.assertFalse(listOfUsers.contains(USERNAME));
     }
