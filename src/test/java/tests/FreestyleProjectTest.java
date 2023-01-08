@@ -240,7 +240,7 @@ public class FreestyleProjectTest extends BaseTest {
         final String choiceParameterName = "Employee_name";
         final String choiceParameterValues = "John Smith\nJane Dow";
         final String booleanParameterName = "Employed";
-        final String pageNotification = "This build requires parameters:";
+        final String descriptionText = "This build requires parameters:";
 
         BuildWithParametersPage page = new HomePage(getDriver())
                 .clickNewItem()
@@ -264,11 +264,11 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickButtonBuildWithParameters();
 
         Assert.assertTrue(page.getNameText().contains(NEW_FREESTYLE_NAME));
-        Assert.assertEquals(page.getDescriptionText(), pageNotification);
+        Assert.assertEquals(page.getDescriptionText(), descriptionText);
         Assert.assertEquals(page.getNthParameterName(1), stringParameterName);
         Assert.assertEquals(page.getNthParameterValue(1), stringParameterDefaultValue);
         Assert.assertEquals(page.getNthParameterName(2), choiceParameterName);
-        Assert.assertEquals(page.getSelectedParameterValue(), "John Smith");
+        Assert.assertEquals(page.getSelectParametersValues(), "John Smith\nJane Dow");
         Assert.assertEquals(page.getNthParameterName(3), booleanParameterName);
         Assert.assertTrue(page.isBooleanParameterSetByDefault());
     }

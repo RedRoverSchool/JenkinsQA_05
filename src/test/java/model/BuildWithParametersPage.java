@@ -25,7 +25,7 @@ public class BuildWithParametersPage<StatusPage extends BaseStatusPage<?, ?>> ex
     private List<WebElement> listInputParameterValues;
 
     @FindBy(xpath = "//select[@name='value']")
-    private WebElement selectedParameter;
+    private WebElement selectParameter;
 
     @FindBy(xpath = "//input[@type='checkbox']")
     private WebElement defaultValueCheckbox;
@@ -57,16 +57,16 @@ public class BuildWithParametersPage<StatusPage extends BaseStatusPage<?, ?>> ex
         return listInputParameterValues.get(n - 1).getAttribute("value");
     }
 
-    public String getSelectedParameterValue() {
-        return selectedParameter.getText().substring(0, selectedParameter.getText().indexOf("\n"));
+    public String getSelectParametersValues() {
+        return selectParameter.getText();
     }
 
     public boolean isBooleanParameterSetByDefault() {
         return defaultValueCheckbox.isSelected();
     }
 
-    public BuildWithParametersPage<StatusPage> getSelectParameterByText(String text) {
-        new Select(selectedParameter).selectByVisibleText(text);
+    public BuildWithParametersPage<StatusPage> selectParameterByText(String text) {
+        new Select(selectParameter).selectByVisibleText(text);
 
         return this;
     }

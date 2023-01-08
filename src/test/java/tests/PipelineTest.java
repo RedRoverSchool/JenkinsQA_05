@@ -273,7 +273,7 @@ public class PipelineTest extends BaseTest {
                 .setGitHubUrl("https://github.com/patriotby07/simple-maven-project-with-tests")
                 .clickSaveButton()
                 .clickBuildWithParameters()
-                .getSelectParameterByText("Guest")
+                .selectParameterByText("Guest")
                 .clickBuildButton()
                 .clickLastBuildLink()
                 .clickConsoleOutput()
