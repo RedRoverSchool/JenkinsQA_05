@@ -43,7 +43,6 @@ public class BuildHistoryPage extends HomePage {
     @FindBy(xpath = "//a/span[contains(text(), 'Atom feed for just latest builds')]")
     private WebElement iconAtomFeedFoJustLatestBuilds;
 
-
     public boolean smallSizeIconIsDisplayed() {
 
         return smallSizeIcon.isDisplayed();

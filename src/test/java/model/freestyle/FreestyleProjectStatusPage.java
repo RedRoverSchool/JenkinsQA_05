@@ -20,9 +20,6 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
     @FindBy(xpath = "//li[@class='item'][last()-1]")
     private WebElement breadcrumbsParentFolderLink;
 
-    @FindBy(name = "Submit")
-    private WebElement disableOrEnableBtn;
-
     @FindBy(linkText = "Rename")
     private WebElement renameButton;
 
@@ -37,9 +34,6 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
 
     @FindBy(xpath = "//span[contains(text(),'Delete Project')]")
     private WebElement buttonDeleteProject;
-
-    @FindBy(xpath = "//li[@class='item'][2]")
-    private WebElement projectButton;
 
     @FindBy(css = ".collapse")
     private WebElement buttonOpenBuildHistoryOnSidePanel;
@@ -62,9 +56,6 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
     @FindBy(xpath = "//span[contains(@class, 'build-status-icon')]/span/child::*")
     private WebElement buildStatusIcon;
 
-    @FindBy(css = "tr:nth-child(2)  a.display-name")
-    private WebElement buildName;
-
     @FindBy(id = "enable-project")
     private WebElement warningForm;
 
@@ -77,17 +68,14 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
     @FindBy(linkText = "Edit description")
     private WebElement buttonEditDescription;
 
-    @FindBy(xpath = "//div[@class = 'warning']")
-    private WebElement warningMessage;
-
     public FreestyleProjectStatusPage(WebDriver driver) {
         super(driver);
     }
 
-    public FreestyleConfigSideMenuPage clickSideMenuConfigure() {
+    public FreestyleProjectConfigPage clickSideMenuConfigure() {
         sideMenuConfigure.click();
 
-        return new FreestyleConfigSideMenuPage(getDriver());
+        return new FreestyleProjectConfigPage(getDriver());
     }
 
     public FolderStatusPage clickParentFolderInBreadcrumbs() {

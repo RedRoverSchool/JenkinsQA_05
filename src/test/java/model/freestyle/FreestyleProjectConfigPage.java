@@ -5,7 +5,6 @@ import model.base.BaseConfigPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 
 import static runner.TestUtils.scrollToElement_PlaceInCenter;
 
-public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectStatusPage, FreestyleProjectConfigPage> {
+public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectStatusPage, FreestyleProjectConfigPage, FreestyleProjectConfigSideMenuFrame> {
 
     @FindBy(tagName = "h1")
     private WebElement headline;
@@ -108,6 +107,11 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
         return new FreestyleProjectStatusPage(getDriver());
     }
 
+    @Override
+    protected FreestyleProjectConfigSideMenuFrame createSideMenuFrame() {
+        return new FreestyleProjectConfigSideMenuFrame(getDriver(), this);
+    }
+
     public FreestyleProjectConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -146,11 +150,6 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
     public String getMaxNumberOfBuildsToKeep() {
 
         return maxNumberOfBuildsToKeep.getAttribute("value");
-    }
-
-    public String getFreestyleProjectName(String name) {
-
-        return projectButton.getText();
     }
 
     public FreestyleProjectConfigPage switchONCheckBoxThisProjectIsParametrized() {
@@ -249,16 +248,10 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
         return this;
     }
 
-    public FreestyleConfigSideMenuPage switchOFFCheckBoxThisProjectIsParametrized() {
+    public FreestyleProjectConfigPage switchOFFCheckBoxThisProjectIsParametrized() {
         checkBoxProjectIsParametrized.click();
 
-        return new FreestyleConfigSideMenuPage(getDriver());
-    }
-
-    public FreestyleConfigSideMenuPage clickBuildNowButton() {
-        buildNowButton.click();
-
-        return new FreestyleConfigSideMenuPage(getDriver());
+        return this;
     }
 
     public FreestyleProjectConfigPage clickBuildStepsSideMenuOption() {

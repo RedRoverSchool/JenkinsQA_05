@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>, Self extends BaseConfigPage<?, ?>> extends BasePage {
+public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>, Self extends BaseConfigPage<?, ?, ?>, ConfigSideMenuFrame extends BaseConfigSideMenuFrame<?>> extends BasePage {
 
     @FindBy(name = "Submit")
     private WebElement saveButton;
@@ -14,6 +14,8 @@ public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>, Self 
     private WebElement applyButton;
 
     protected abstract StatusPage createStatusPage();
+
+    protected abstract ConfigSideMenuFrame createSideMenuFrame();
 
     public BaseConfigPage(WebDriver driver) {
         super(driver);
@@ -26,8 +28,12 @@ public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>, Self 
     }
 
     public Self clickApplyButton() {
-        getWait(5).until(ExpectedConditions.visibilityOf(applyButton)).click();
+        getWait(5).until(ExpectedConditions.elementToBeClickable(applyButton)).click();
 
         return (Self)this;
+    }
+
+    public ConfigSideMenuFrame getSideMenu(){
+        return createSideMenuFrame();
     }
 }

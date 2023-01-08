@@ -104,7 +104,7 @@ public class FolderTest extends BaseTest {
                 .clickDashboard()
                 .clickJob(DISPLAY_RANDOM_NAME)
                 .clickDeleteFolder()
-                .clickSubmitButton()
+                .clickYes()
                 .getNameText();
 
         Assert.assertEquals(pageHeaderText, "Welcome to Jenkins!");
@@ -272,7 +272,7 @@ public class FolderTest extends BaseTest {
                 .clickDashboard()
                 .clickJobDropDownMenu(FOLDER_RANDOM_NAME_1)
                 .clickDeleteDropDownMenu()
-                .clickSubmitDeleteProject()
+                .clickYes()
                 .getHeaderText();
 
         Assert.assertEquals(welcomeJenkinsHeader, "Welcome to Jenkins!");

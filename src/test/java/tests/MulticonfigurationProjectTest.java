@@ -287,4 +287,23 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(getDriver().
                 findElement(By.xpath("//*[@id=/'buildHistory/']/div[2]/table/tbody/tr[2]")).isDisplayed());
     }
+
+    @Test(dependsOnMethods = "testEnableMultiConfigurationProject")
+    public void testSetConfigurationMatrix() {
+        MultiConfigurationProjectStatusPage configMatrix = new HomePage(getDriver())
+                .clickProject(PROJECT_NAME)
+                .clickConfiguration(PROJECT_NAME)
+                .scrollAndClickButtonAddAxis()
+                .selectUserDefinedAxis()
+                .enterNameUserDefinedAxis(PROJECT_NAME, "stage", 1)
+                .enterValueUserDefinedAxis("sandbox dev uat prod", 1)
+                .scrollAndClickButtonAddAxis()
+                .selectUserDefinedAxis()
+                .enterNameUserDefinedAxis(PROJECT_NAME, "maven_tool", 2)
+                .enterValueUserDefinedAxis("clean validate compile test", 2)
+                .clickApplyButton()
+                .clickSaveButton();
+
+        Assert.assertTrue(configMatrix.configurationMatrixIsDisplayed());
+    }
 }

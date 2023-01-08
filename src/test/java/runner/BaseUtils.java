@@ -12,11 +12,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public final class BaseUtils {
 
     private static final String ENV_CHROME_OPTIONS = "CHROME_OPTIONS";
+
     private static final String ENV_APP_OPTIONS = "APP_OPTIONS";
 
     static final String PREFIX_PROP = "default.";

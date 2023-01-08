@@ -170,7 +170,7 @@ public class NewViewTest extends BaseTest {
                 .clickMyViewsSideMenuLink()
                 .clickView(LIST_VIEW_RENAME)
                 .clickDeleteViewItem()
-                .clickYesButtonDeleteView();
+                .clickYes();
 
         Assert.assertFalse(myViewsPage.getListViewsNames().contains(LIST_VIEW_RENAME));
     }

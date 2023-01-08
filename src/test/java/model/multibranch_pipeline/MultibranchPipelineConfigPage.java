@@ -1,9 +1,9 @@
 package model.multibranch_pipeline;
 
-import model.base.BaseConfigPage;
+import model.base.BlankConfigPage;
 import org.openqa.selenium.WebDriver;
 
-public class MultibranchPipelineConfigPage extends BaseConfigPage<MultibranchPipelineStatusPage, MultibranchPipelineConfigPage> {
+public class MultibranchPipelineConfigPage extends BlankConfigPage<MultibranchPipelineStatusPage, MultibranchPipelineConfigPage> {
 
     @Override
     protected MultibranchPipelineStatusPage createStatusPage() {

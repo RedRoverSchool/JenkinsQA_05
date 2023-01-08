@@ -57,4 +57,21 @@ public class ManageJenkinsTest extends BaseTest {
 
         Assert.assertTrue(notice.contains("Failed to load: TestNG Results Plugin"));
     }
+
+    @Test
+    public void testCreateUserWithEmptyName() {
+        String password = TestUtils.getRandomStr(10);
+
+        String errorMessageWhenEmptyUserName = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickManageUsers()
+                .clickCreateUser()
+                .setPassword(password)
+                .confirmPassword(password)
+                .setFullName(TestUtils.getRandomStr(10))
+                .setEmail(TestUtils.getRandomStr(10) + "@gmail.com")
+                .clickCreateUserAndGetErrorMessageWhenEmptyUserName();
+
+        Assert.assertEquals(errorMessageWhenEmptyUserName, "\"\" is prohibited as a username for security reasons.");
+    }
 }

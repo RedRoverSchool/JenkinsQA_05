@@ -1,11 +1,11 @@
 package model.organization_folder;
 
-import model.base.BaseConfigPage;
+import model.base.BlankConfigPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class OrgFolderConfigPage extends BaseConfigPage<OrgFolderStatusPage, OrgFolderConfigPage> {
+public class OrgFolderConfigPage extends BlankConfigPage<OrgFolderStatusPage, OrgFolderConfigPage> {
 
     @FindBy(xpath = "//input  [@name='_.displayNameOrNull']")
     private WebElement displayName;

@@ -31,7 +31,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(freestyleProjectTitle, String.format("Project %s", FREESTYLE_NAME));
     }
-
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithSpacesInsteadOfName")
     public void testCreateFreestyleProjectWithIncorrectCharacters() {
         final List<Character> incorrectNameCharacters =
@@ -182,7 +181,6 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(pageHeaderText, "Welcome to Jenkins!");
     }
-
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testFreestyleConfigSideMenu() {
 
@@ -192,7 +190,8 @@ public class FreestyleProjectTest extends BaseTest {
         Set<String> actualFreestyleConfigSideMenu = new HomePage(getDriver())
                 .clickFreestyleProjectName()
                 .clickSideMenuConfigure()
-                .collectFreestyleConfigSideMenu();
+                .getSideMenu()
+                .collectConfigSideMenu();
 
         Assert.assertEquals(actualFreestyleConfigSideMenu, expectedFreestyleConfigSideMenu);
     }
@@ -282,6 +281,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickFreestyleProjectName()
                 .clickSideMenuConfigureLink()
                 .switchOFFCheckBoxThisProjectIsParametrized()
+                .getSideMenu()
                 .clickLinkSourceCodeManagement()
                 .selectSourceCodeManagementGIT()
                 .inputGITRepositoryURL(repositoryURL)

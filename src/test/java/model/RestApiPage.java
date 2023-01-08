@@ -9,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 public class RestApiPage extends MainBasePage<BlankFooterFrame> {
     @FindBy(xpath = "//dt/a[@href='xml']")
     private WebElement xmlApiLink;
+
     @FindBy(xpath = "//*[@id='main-panel']/h1")
     private WebElement h1RestApi;
 //    @FindBy(xpath = "//div/a[@href = 'api/']")
@@ -22,6 +23,7 @@ public class RestApiPage extends MainBasePage<BlankFooterFrame> {
     public RestApiPage(WebDriver driver) {
         super(driver);
     }
+
     public XmlPage clickXmlApi() {
         xmlApiLink.click();
 

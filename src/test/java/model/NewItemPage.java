@@ -31,9 +31,6 @@ public class NewItemPage extends HomePage {
     @FindBy(id = "itemname-invalid")
     private WebElement itemNameInvalidMsg;
 
-    @FindBy(id = "itemtype-required")
-    private WebElement itemTypeRequiredMsg;
-
     @FindBy(xpath = "//div[@class='icon']")
     private List<WebElement> itemsList;
 

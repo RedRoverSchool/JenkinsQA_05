@@ -1,6 +1,6 @@
 package model.multiconfiguration;
 
-import model.base.BaseConfigPage;
+import model.base.BlankConfigPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,16 +8,13 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 
-public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiConfigurationProjectStatusPage, MultiConfigurationProjectConfigPage> {
+public class MultiConfigurationProjectConfigPage extends BlankConfigPage<MultiConfigurationProjectStatusPage, MultiConfigurationProjectConfigPage> {
 
     @FindBy(name = "description")
     private WebElement inputDescription;
 
     @FindBy(className = "textarea-show-preview")
     private WebElement textareaShowPreview;
-
-    @FindBy(xpath = "//div[@class='textarea-preview']")
-    private WebElement previewArea;
 
     @FindBy(xpath = "//div[@class='jenkins-section__title'][@id='build-steps']")
     private WebElement buildStepsSection;
@@ -34,8 +31,17 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
     @FindBy(css = ".jenkins-input.fixed-width")
     private WebElement textAreaBuildSteps;
 
-    @FindBy (xpath = "//label[@for='enable-disable-project']")
+    @FindBy(xpath = "//label[@for='enable-disable-project']")
     private WebElement enableOrDisableButton;
+
+    @FindBy(xpath = "//div[@class='jenkins-section__title'][@id='configuration-matrix']")
+    private WebElement configurationMatrixSection;
+
+    @FindBy(xpath = "//button[@suffix='axis']")
+    private WebElement buttonAddAxis;
+
+    @FindBy(xpath = "//a[@class='yuimenuitemlabel']")
+    private WebElement userDefinedAxis;
 
     @Override
     protected MultiConfigurationProjectStatusPage createStatusPage() {
@@ -56,12 +62,6 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
         getWait(5).until(ExpectedConditions.visibilityOf(textareaShowPreview)).click();
 
         return new MultiConfigurationProjectConfigPage(getDriver());
-    }
-
-    public MultiConfigurationProjectStatusPage getPreview() {
-        getWait(5).until(ExpectedConditions.visibilityOf(previewArea)).getText();
-
-        return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
     public MultiConfigurationProjectConfigPage scrollAndClickBuildSteps() {
@@ -88,6 +88,37 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
 
     public MultiConfigurationProjectConfigPage clickEnableOrDisableButton() {
         enableOrDisableButton.click();
+
+        return this;
+    }
+
+    public MultiConfigurationProjectConfigPage scrollAndClickButtonAddAxis() {
+        TestUtils.scrollToElement_PlaceInCenter(getDriver(), configurationMatrixSection);
+        getWait(3).until(TestUtils.ExpectedConditions.elementIsNotMoving(buttonAddAxis));
+        buttonAddAxis.click();
+
+        return this;
+    }
+
+    public MultiConfigurationProjectConfigPage selectUserDefinedAxis() {
+        userDefinedAxis.click();
+        TestUtils.scrollToElement_PlaceInCenter(getDriver(), buttonAddAxis);
+        getWait(3).until(TestUtils.ExpectedConditions.elementIsNotMoving(buttonAddAxis));
+
+        return this;
+    }
+
+    public MultiConfigurationProjectConfigPage enterNameUserDefinedAxis(String projectName, String name, int numberOfSection) {
+        getDriver().findElement(By.xpath
+                        (String.format("//div[" + numberOfSection + "]/div/div[3]/div[2]/input[contains(@checkurl,'/job/%s/')]", projectName)))
+                .sendKeys(name);
+
+        return this;
+    }
+
+    public MultiConfigurationProjectConfigPage enterValueUserDefinedAxis(String value, int numberOfSection) {
+        getDriver().findElement(By.xpath("//div[" + numberOfSection+ "]/div/div[4]/div[2]/div/div[1]/input[@name='_.valueString']"))
+                .sendKeys(value);
 
         return this;
     }

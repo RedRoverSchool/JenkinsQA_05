@@ -2,8 +2,6 @@ package model;
 
 import model.base.BasePage;
 import model.base.BaseStatusPage;
-import model.folder.FolderStatusPage;
-import model.organization_folder.OrgFolderStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

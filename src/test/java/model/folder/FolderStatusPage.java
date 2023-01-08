@@ -1,5 +1,6 @@
 package model.folder;
 
+import model.DeletePage;
 import model.RenameItemPage;
 import model.base.BaseStatusPage;
 import model.freestyle.FreestyleProjectStatusPage;
@@ -40,9 +41,6 @@ public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
 
     @FindBy(linkText = "New Item")
     private WebElement folderNewItem;
-
-    @FindBy(xpath = "//input[@checkdependson='newName']")
-    private WebElement folderNewName;
 
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement submitButton;
@@ -109,10 +107,10 @@ public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
         return new NewItemPage(getDriver());
     }
 
-    public FolderStatusPage clickDeleteFolder() {
+    public DeletePage<FolderStatusPage> clickDeleteFolder() {
         deleteFolder.click();
 
-        return new FolderStatusPage(getDriver());
+        return new DeletePage<>(getDriver(), this);
     }
 
     public List<String> getTopMenueLinkText() {

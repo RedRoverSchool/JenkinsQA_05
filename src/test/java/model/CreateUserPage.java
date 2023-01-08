@@ -4,6 +4,7 @@ import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class CreateUserPage extends BasePage {
 
@@ -24,6 +25,9 @@ public class CreateUserPage extends BasePage {
 
     @FindBy(id = "yui-gen1-button")
     private WebElement createUserButton;
+
+    @FindBy(css = ".error")
+    private WebElement errorMessageEmptyUserName;
 
     public CreateUserPage(WebDriver driver) {
         super(driver);
@@ -63,5 +67,11 @@ public class CreateUserPage extends BasePage {
         createUserButton.click();
 
         return new ManageUsersPage(getDriver());
+    }
+
+    public String clickCreateUserAndGetErrorMessageWhenEmptyUserName() {
+        createUserButton.click();
+
+        return getWait(2).until(ExpectedConditions.visibilityOf(errorMessageEmptyUserName)).getText();
     }
 }

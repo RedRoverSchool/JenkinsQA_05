@@ -46,9 +46,6 @@ public class HomePage extends MainBasePage<MainFooterFrame> {
     @FindBy(xpath = "//li[@index='2']")
     private WebElement deleteButtonInDropDownMenu;
 
-    @FindBy(xpath = "//li[@index='3']")
-    private WebElement deleteMbPipelineButtonInDropDownMenu;
-
     @FindBy(tagName = "h1")
     private WebElement header;
 
@@ -66,9 +63,6 @@ public class HomePage extends MainBasePage<MainFooterFrame> {
 
     @FindBy(xpath = "//span/a[@href='/asynchPeople/']")
     private WebElement people;
-
-    @FindBy(css = ".tabBar>.tab>a[class='']")
-    private WebElement openViewLink;
 
     @FindBy(css = ".tabBar>.tab>a.addTab")
     private WebElement addViewLink;
@@ -187,12 +181,6 @@ public class HomePage extends MainBasePage<MainFooterFrame> {
         return new FreestyleProjectStatusPage(getDriver());
     }
 
-    public RenameItemPage<FreestyleProjectStatusPage> clickRenameFreestyleDropDownMenu() {
-        getWait(5).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
-
-        return new RenameItemPage<>(getDriver(), new FreestyleProjectStatusPage(getDriver()));
-    }
-
     public RenameItemPage<PipelineStatusPage> clickRenamePipelineDropDownMenu() {
         getWait(5).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
 
@@ -217,12 +205,6 @@ public class HomePage extends MainBasePage<MainFooterFrame> {
         return new RenameItemPage<>(getDriver(), new MultibranchPipelineStatusPage(getDriver()));
     }
 
-    public RenameItemPage<OrgFolderStatusPage> clickRenameOrgFolderDropDownMenu() {
-        getWait(5).until(ExpectedConditions.elementToBeClickable(renameDropDownMenu)).click();
-
-        return new RenameItemPage<>(getDriver(), new OrgFolderStatusPage(getDriver()));
-    }
-
     public ConfigurationGeneralPage clickConfigDropDownMenu() {
         getWait(6).until(ExpectedConditions.elementToBeClickable(configureDropDownMenu)).click();
 
@@ -235,11 +217,11 @@ public class HomePage extends MainBasePage<MainFooterFrame> {
         return new PipelineStatusPage(getDriver());
     }
 
-    public FolderConfigPage clickDeleteDropDownMenu() {
+    public DeletePage<HomePage> clickDeleteDropDownMenu() {
         getWait(3).until(ExpectedConditions.elementToBeClickable(deleteButtonInDropDownMenu));
         deleteButtonInDropDownMenu.click();
 
-        return new FolderConfigPage(getDriver());
+        return new DeletePage<>(getDriver(), this);
     }
 
     public HomePage clickJobDropDownMenu(String name) {
@@ -534,6 +516,7 @@ public class HomePage extends MainBasePage<MainFooterFrame> {
 
         return new OrgFolderStatusPage(getDriver());
     }
+
     public PipelineStatusPage clickPipelineJob(String name) {
         getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
 

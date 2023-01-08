@@ -12,6 +12,7 @@ public class XmlPage extends BasePage {
     public XmlPage(WebDriver driver) {
         super(driver);
     }
+
     public String getStructureXML() {
         return textOnPageXML.getText();
     }

@@ -50,9 +50,6 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
     @FindBy(css = ".build-row-cell")
     private List<WebElement> buildRowsOnBuildHistory;
 
-    @FindBy(linkText = "Build Now")
-    private WebElement buttonBuildNowOnSidePanel;
-
     @FindBy(css = ".build-status-icon__outer>[tooltip = 'Success &gt; Console Output']")
     private WebElement buildLoadingIconSuccess;
 
@@ -67,6 +64,9 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
 
     @FindBy(linkText = "Rename")
     private WebElement renameButton;
+
+    @FindBy(xpath = "//div[@id='matrix']")
+    private WebElement configurationMatrixTable;
 
     public MultiConfigurationProjectStatusPage(WebDriver driver) {
         super(driver);
@@ -199,5 +199,10 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
     public boolean disableButtonIsDisplayed() {
 
        return disableButton.isDisplayed();
+    }
+
+    public boolean configurationMatrixIsDisplayed() {
+
+        return configurationMatrixTable.isDisplayed();
     }
 }
