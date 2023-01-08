@@ -9,15 +9,17 @@ import runner.BaseModel;
 
 import java.util.ArrayList;
 
-public abstract class BaseFooterFrame extends BaseModel {
-
+public class FooterComponent extends BaseModel {
     @FindBy(xpath = "//a[@href='https://www.jenkins.io/']")
     private WebElement jenkinsLink;
 
     @FindBy(id = "footer")
     private WebElement footer;
 
-    public BaseFooterFrame(WebDriver driver) {
+    @FindBy(xpath = "//div/a[@href = 'api/']")
+    private WebElement restApi;
+
+    public FooterComponent(WebDriver driver) {
         super(driver);
     }
 
@@ -34,5 +36,10 @@ public abstract class BaseFooterFrame extends BaseModel {
 
     public WebElement getJenkinsLink() {
         return jenkinsLink;
+    }
+
+    public RestApiPage clickRestApiLink() {
+        restApi.click();
+        return new RestApiPage(getDriver());
     }
 }

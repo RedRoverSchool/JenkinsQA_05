@@ -2,31 +2,20 @@ package model.base;
 
 import org.openqa.selenium.WebDriver;
 
-public abstract class MainBasePage<FooterFrame extends BaseFooterFrame> extends BasePage{
+public abstract class MainBasePage extends BasePage {
     public MainBasePage(WebDriver driver) {
         super(driver);
-
     }
 
-    protected abstract FooterFrame createFooterFrame();
-
-    protected HeaderFrame createHeaderFrame(){
-        return new HeaderFrame(getDriver());
+    public FooterComponent getFooter() {
+        return new FooterComponent(getDriver());
     }
 
-    protected BreadcrumbsFrame createBreadcrumbs(){
-        return new BreadcrumbsFrame(getDriver());
+    public HeaderComponent getHeader() {
+        return new HeaderComponent(getDriver());
     }
 
-    public FooterFrame getFooter(){
-        return createFooterFrame();
-    }
-
-    public HeaderFrame getHeader(){
-        return createHeaderFrame();
-    }
-
-    public BreadcrumbsFrame getBreadcrumbs(){
-        return createBreadcrumbs();
+    public BreadcrumbsComponent getBreadcrumbs() {
+        return new BreadcrumbsComponent(getDriver());
     }
 }

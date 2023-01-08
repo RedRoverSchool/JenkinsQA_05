@@ -1,6 +1,5 @@
 package model;
 
-import model.base.BlankFooterFrame;
 import model.base.MainBasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +9,7 @@ import runner.TestUtils;
 
 import static runner.TestUtils.*;
 
-public class ManageJenkinsPage extends MainBasePage<BlankFooterFrame> {
+public class ManageJenkinsPage extends MainBasePage {
 
     @FindBy(xpath = "//a[@href='configureTools']")
     private WebElement configureTools;
@@ -29,11 +28,6 @@ public class ManageJenkinsPage extends MainBasePage<BlankFooterFrame> {
 
     @FindBy(linkText = "Manage Jenkins")
     private WebElement manageJenkins;
-
-    @Override
-    protected BlankFooterFrame createFooterFrame() {
-        return new BlankFooterFrame(getDriver());
-    }
 
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);

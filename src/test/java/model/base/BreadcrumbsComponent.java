@@ -5,11 +5,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.BaseModel;
 
-public class BreadcrumbsFrame extends BaseModel {
+public class BreadcrumbsComponent extends BaseModel {
     @FindBy(id = "breadcrumbs")
-    public WebElement breadcrumbs;
+    private WebElement breadcrumbs;
 
-    public BreadcrumbsFrame(WebDriver driver) {
+    public BreadcrumbsComponent(WebDriver driver) {
         super(driver);
     }
 

@@ -1,7 +1,6 @@
 package model;
 
 import model.base.MainBasePage;
-import model.base.MainFooterFrame;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PeoplePage extends MainBasePage<MainFooterFrame> {
+public class PeoplePage extends MainBasePage {
 
     @FindBy(className = "jenkins-table__link")
     private List<WebElement> usersIdList;
@@ -38,11 +37,6 @@ public class PeoplePage extends MainBasePage<MainFooterFrame> {
 
     public PeoplePage(WebDriver driver) {
         super(driver);
-    }
-
-    @Override
-    protected MainFooterFrame createFooterFrame() {
-        return new MainFooterFrame(getDriver());
     }
 
     public List<String> getListOfUsers() {
