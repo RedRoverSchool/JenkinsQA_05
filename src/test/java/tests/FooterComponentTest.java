@@ -44,7 +44,7 @@ public class FooterComponentTest extends BaseTest {
                 + "style information associated with it. The document tree is shown below.");
     }
 
-//    @Test()
+//    @Test
 //    public void testFooterLinkJenkinsIsClickable() {
 //        String headerJenkins = new ManageJenkinsPage(getDriver())
 //                .clickManageJenkins()
