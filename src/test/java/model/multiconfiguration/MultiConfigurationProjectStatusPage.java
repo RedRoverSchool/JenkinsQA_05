@@ -1,8 +1,8 @@
 package model.multiconfiguration;
 
-import model.base.BaseStatusPage;
 import model.HomePage;
 import model.RenameItemPage;
+import model.base.BlankStatusPage;
 import model.folder.FolderStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiConfigurationProjectStatusPage> {
+public class MultiConfigurationProjectStatusPage extends BlankStatusPage<MultiConfigurationProjectStatusPage> {
 
     @FindBy(id = "description-link")
     private WebElement descriptionLink;

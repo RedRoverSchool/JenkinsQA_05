@@ -312,7 +312,7 @@ public class HomePage extends BreadcrumbsComponent {
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
-    public <T extends BaseStatusPage<T>> MovePage<T> clickMoveButtonDropdown(T baseStatusPage) {
+    public <T extends BaseStatusPage<T, ?>> MovePage<T> clickMoveButtonDropdown(T baseStatusPage) {
         getWait(5).until(ExpectedConditions.visibilityOf(moveButtonDropdown));
         scrollToElement(getDriver(), moveButtonDropdown);
         moveButtonDropdown.click();

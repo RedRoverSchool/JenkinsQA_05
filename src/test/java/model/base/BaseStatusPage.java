@@ -1,13 +1,12 @@
 package model.base;
 
 import model.MovePage;
-import model.organization_folder.OrgFolderStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public abstract class BaseStatusPage<Self extends BaseStatusPage<?>> extends BasePage {
+public abstract class BaseStatusPage<Self extends BaseStatusPage<?, ?>, StatusSideMenuFrame extends BaseStatusSideMenuFrame<Self>> extends BasePage {
 
     @FindBy(tagName = "h1")
     private WebElement header;
@@ -20,6 +19,8 @@ public abstract class BaseStatusPage<Self extends BaseStatusPage<?>> extends Bas
 
     @FindBy(linkText = "Move")
     private WebElement moveButton;
+
+    protected abstract StatusSideMenuFrame createSideMenuFrame();
 
     public BaseStatusPage(WebDriver driver) {
         super(driver);
@@ -41,5 +42,9 @@ public abstract class BaseStatusPage<Self extends BaseStatusPage<?>> extends Bas
         getWait(5).until(ExpectedConditions.elementToBeClickable(moveButton)).click();
 
         return new MovePage<>(getDriver(), (Self)this);
+    }
+
+    public StatusSideMenuFrame getSideMenu(){
+        return createSideMenuFrame();
     }
 }

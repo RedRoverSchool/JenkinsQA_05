@@ -225,12 +225,6 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
         return this;
     }
 
-    public BuildWithParametersPage clickSaveButton_() {
-        saveBtn.click();
-
-        return new BuildWithParametersPage(getDriver());
-    }
-
     public FreestyleProjectConfigPage selectSourceCodeManagementGIT() {
         getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(radioGitButton));
         getAction()
