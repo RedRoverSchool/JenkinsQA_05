@@ -15,7 +15,6 @@ public class FooterComponentTest extends BaseTest {
                 .clickRestApiLink()
                 .getCurrentURL();
 
-
         Assert.assertTrue(urlRestApi.contains("api"));
         Assert.assertEquals(new RestApiPage(getDriver()).getTextH1RestApi(), "REST API");
     }

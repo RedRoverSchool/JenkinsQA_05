@@ -11,8 +11,6 @@ public class RestApiPage extends MainBasePage {
 
     @FindBy(xpath = "//*[@id='main-panel']/h1")
     private WebElement h1RestApi;
-//    @FindBy(xpath = "//div/a[@href = 'api/']")
-//    private WebElement restApi;
 
     public RestApiPage(WebDriver driver) {
         super(driver);
@@ -27,9 +25,4 @@ public class RestApiPage extends MainBasePage {
     public String getTextH1RestApi() {
         return h1RestApi.getText();
     }
-
-//    public RestApiPage clickRestApiLink() {
-//        restApi.click();
-//        return new RestApiPage(getDriver());
-//    }
 }
