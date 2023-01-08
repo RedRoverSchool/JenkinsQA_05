@@ -1,8 +1,6 @@
 package model.base;
 
 import model.BlankConfigSideMenuFrame;
-import model.base.BaseConfigPage;
-import model.base.BaseStatusPage;
 import org.openqa.selenium.WebDriver;
 
 public abstract class BlankConfigPage<StatusPage extends BaseStatusPage<?>, Self extends BaseConfigPage<?, ?, ?>> extends BaseConfigPage<StatusPage, Self, BlankConfigSideMenuFrame<Self>> {
