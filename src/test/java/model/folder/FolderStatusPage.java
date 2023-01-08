@@ -107,10 +107,10 @@ public class FolderStatusPage extends BlankStatusPage<FolderStatusPage> {
         return new NewItemPage(getDriver());
     }
 
-    public DeletePage clickDeleteFolder() {
+    public DeletePage<FolderStatusPage> clickDeleteFolder() {
         deleteFolder.click();
 
-        return new DeletePage(getDriver());
+        return new DeletePage<>(getDriver(), this);
     }
 
     public List<String> getTopMenueLinkText() {

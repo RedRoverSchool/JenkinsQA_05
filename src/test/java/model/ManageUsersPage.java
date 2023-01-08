@@ -58,9 +58,9 @@ public class ManageUsersPage extends BasePage {
         return new HomePage(getDriver());
     }
 
-    public DeletePage clickDeleteUser(String name) {
+    public DeletePage<ManageUsersPage> clickDeleteUser(String name) {
         getWait(3).until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='user/" + name.toLowerCase() + "/delete']"))).click();
 
-        return new DeletePage(getDriver());
+        return new DeletePage<>(getDriver(), this);
     }
 }

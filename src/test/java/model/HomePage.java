@@ -211,11 +211,11 @@ public class HomePage extends BreadcrumbsComponent {
         return new PipelineStatusPage(getDriver());
     }
 
-    public DeletePage clickDeleteDropDownMenu() {
+    public DeletePage<HomePage> clickDeleteDropDownMenu() {
         getWait(3).until(ExpectedConditions.elementToBeClickable(deleteButtonInDropDownMenu));
         deleteButtonInDropDownMenu.click();
 
-        return new DeletePage(getDriver());
+        return new DeletePage<>(getDriver(), this);
     }
 
     public HomePage clickJobDropDownMenu(String name) {

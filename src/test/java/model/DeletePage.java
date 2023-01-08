@@ -7,36 +7,21 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class DeletePage extends BasePage {
+public class DeletePage<ParentPage extends BasePage> extends BasePage {
 
     @FindBy(id = "yui-gen1-button")
     private WebElement yesButton;
 
-    public DeletePage(WebDriver driver) {
+    private final ParentPage parentPage;
+
+    public DeletePage(WebDriver driver, ParentPage parentPage) {
         super(driver);
+        this.parentPage = parentPage;
     }
 
-    public ManageUsersPage clickYesButtonDeleteUser() {
+    public ParentPage clickYes() {
         yesButton.click();
 
-        return new ManageUsersPage(getDriver());
-    }
-
-    public HomePage clickYesButtonDeleteReturnHome() {
-        yesButton.click();
-
-        return new HomePage(getDriver());
-    }
-
-    public MyViewsPage clickYesButtonDeleteView() {
-        yesButton.click();
-
-        return new MyViewsPage(getDriver());
-    }
-
-    public FolderStatusPage clickYesButtonDeleteReturnFolderStatus() {
-        yesButton.click();
-
-        return new FolderStatusPage(getDriver());
+        return parentPage;
     }
 }

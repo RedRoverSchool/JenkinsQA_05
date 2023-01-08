@@ -92,7 +92,7 @@ public class FolderOneTest extends BaseTest {
         HomePage homePage = new HomePage(getDriver())
                 .clickFolder(RANDOM_NAME_1)
                 .clickDeleteFolder()
-                .clickYesButtonDeleteReturnHome()
+                .clickYes()
                 .clickDashboard();
 
         Assert.assertFalse(homePage.getJobNamesList().contains(RANDOM_NAME_1));
@@ -151,7 +151,7 @@ public class FolderOneTest extends BaseTest {
         HomePage homePage = new HomePage(getDriver())
                 .clickJobDropdownMenu(RANDOM_NAME_1 + "NEW")
                 .clickDeleteDropDownMenu()
-                .clickYesButtonDeleteReturnHome();
+                .clickYes();
 
         Assert.assertFalse(homePage.getJobNamesList().contains(RANDOM_NAME_1 + "NEW"));
     }
@@ -272,8 +272,8 @@ public class FolderOneTest extends BaseTest {
         FolderStatusPage folderStatusPage = new HomePage(getDriver())
                 .clickFolder(RANDOM_NAME_1)
                 .clickMultibranchPipeline(RANDOM_MULTIBRANCH_PIPELINE_NAME)
-                .clickDeleteMultibranchPipeline()
-                .clickYesButtonDeleteReturnFolderStatus();
+                .clickDeleteMultibranchPipelineWithFolder()
+                .clickYes();
 
         Assert.assertEquals(folderStatusPage.getNameText(), RANDOM_NAME_1);
         Assert.assertNotNull(folderStatusPage.getEmptyStateBlock());
