@@ -1,19 +1,13 @@
 package model.multibranch_pipeline;
 
-import model.base.BaseConfigPage;
-import model.MainConfigSideMenuFrame;
+import model.base.BlankConfigPage;
 import org.openqa.selenium.WebDriver;
 
-public class MultibranchPipelineConfigPage extends BaseConfigPage<MultibranchPipelineStatusPage, MultibranchPipelineConfigPage, MainConfigSideMenuFrame<MultibranchPipelineConfigPage>> {
+public class MultibranchPipelineConfigPage extends BlankConfigPage<MultibranchPipelineStatusPage, MultibranchPipelineConfigPage> {
 
     @Override
     protected MultibranchPipelineStatusPage createStatusPage() {
         return new MultibranchPipelineStatusPage(getDriver());
-    }
-
-    @Override
-    protected MainConfigSideMenuFrame<MultibranchPipelineConfigPage> createConfigSideMenuFrame() {
-        return new MainConfigSideMenuFrame<>(getDriver(), this);
     }
 
     public MultibranchPipelineConfigPage(WebDriver driver) {

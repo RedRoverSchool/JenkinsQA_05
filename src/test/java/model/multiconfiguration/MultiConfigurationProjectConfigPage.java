@@ -1,7 +1,6 @@
 package model.multiconfiguration;
 
-import model.base.BaseConfigPage;
-import model.MainConfigSideMenuFrame;
+import model.base.BlankConfigPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 
-public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiConfigurationProjectStatusPage, MultiConfigurationProjectConfigPage, MainConfigSideMenuFrame<MultiConfigurationProjectConfigPage>> {
+public class MultiConfigurationProjectConfigPage extends BlankConfigPage<MultiConfigurationProjectStatusPage, MultiConfigurationProjectConfigPage> {
 
     @FindBy(name = "description")
     private WebElement inputDescription;
@@ -47,11 +46,6 @@ public class MultiConfigurationProjectConfigPage extends BaseConfigPage<MultiCon
     @Override
     protected MultiConfigurationProjectStatusPage createStatusPage() {
         return new MultiConfigurationProjectStatusPage(getDriver());
-    }
-
-    @Override
-    protected MainConfigSideMenuFrame<MultiConfigurationProjectConfigPage> createConfigSideMenuFrame() {
-        return new MainConfigSideMenuFrame<>(getDriver(), this);
     }
 
     public MultiConfigurationProjectConfigPage(WebDriver driver) {

@@ -15,7 +15,7 @@ public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>, Self 
 
     protected abstract StatusPage createStatusPage();
 
-    protected abstract ConfigSideMenuFrame createConfigSideMenuFrame();
+    protected abstract ConfigSideMenuFrame createSideMenuFrame();
 
     public BaseConfigPage(WebDriver driver) {
         super(driver);
@@ -34,6 +34,6 @@ public abstract class BaseConfigPage<StatusPage extends BaseStatusPage<?>, Self 
     }
 
     public ConfigSideMenuFrame getSideMenu(){
-        return createConfigSideMenuFrame();
+        return createSideMenuFrame();
     }
 }

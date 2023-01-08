@@ -108,7 +108,7 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
     }
 
     @Override
-    protected FreestyleProjectConfigSideMenuFrame createConfigSideMenuFrame() {
+    protected FreestyleProjectConfigSideMenuFrame createSideMenuFrame() {
         return new FreestyleProjectConfigSideMenuFrame(getDriver(), this);
     }
 
