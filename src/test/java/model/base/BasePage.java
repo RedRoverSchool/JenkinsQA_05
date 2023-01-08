@@ -14,15 +14,9 @@ public abstract class BasePage extends BaseModel {
     @FindBy(css = "#breadcrumbs li a")
     protected WebElement topMenuRoot;
 
-//    protected abstract FooterFrame createFooterFrame();
-
     public BasePage(WebDriver driver) {
         super(driver);
     }
-
-//    public FooterFrame getFooter(){
-//        return createFooterFrame();
-//    }
 
     public String getCurrentURL() {
 
