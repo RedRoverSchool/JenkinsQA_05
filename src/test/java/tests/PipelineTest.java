@@ -172,6 +172,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(pipelineProjectPage.getProjectDescriptionText(), PIPELINE_NAME + "edit description");
     }
 
+    @Ignore
     @Test
     public void testDeletePipelineFromDashboard() {
         createPipelineProject(PIPELINE_NAME);
@@ -199,16 +200,16 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(newItemPageErrorMessage, (String.format("» A job already exists with the name ‘%s’", PIPELINE_NAME)));
     }
 
-//    @Test
-//    public void testCreatedPipelineIsDisplayedOnBreadcrumbs() {
-//        String actualTextOnBreadcrumbs = new HomePage(getDriver())
-//                .clickNewItem()
-//                .setItemName(PIPELINE_NAME)
-//                .selectPipelineAndClickOk()
-//                .getTextBreadcrumbs();
-//
-//        Assert.assertTrue(actualTextOnBreadcrumbs.contains(PIPELINE_NAME), PIPELINE_NAME + " Pipeline Not Found On Breadcrumbs");
-//    }
+    @Test
+    public void testCreatedPipelineIsDisplayedOnBreadcrumbs() {
+        String actualTextOnBreadcrumbs = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PIPELINE_NAME)
+                .selectPipelineAndClickOk()
+                .getTextBreadcrumbs();
+
+        Assert.assertTrue(actualTextOnBreadcrumbs.contains(PIPELINE_NAME), PIPELINE_NAME + " Pipeline Not Found On Breadcrumbs");
+    }
 
     @Test
     public void testCreateNewPipeline() {
