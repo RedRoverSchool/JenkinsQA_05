@@ -1,5 +1,6 @@
 package model.multiconfiguration;
 
+import model.ConsoleOutputPage;
 import model.base.BaseStatusPage;
 import model.HomePage;
 import model.RenameItemPage;
@@ -147,11 +148,11 @@ public class MultiConfigurationProjectStatusPage extends BaseStatusPage<MultiCon
         return this;
     }
 
-    public ConsoleOutputMultiConfigurationProjectPage selectAndClickConsoleOutput() {
+    public ConsoleOutputPage selectAndClickConsoleOutput() {
         getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@id='yui-gen3']/a/*[name()='svg']")));
         consoleOutputDropDownBuildIcon.click();
 
-        return new ConsoleOutputMultiConfigurationProjectPage(getDriver());
+        return new ConsoleOutputPage(getDriver());
     }
 
     public void multiConfigurationProjectBuildNow (WebDriver driver) {

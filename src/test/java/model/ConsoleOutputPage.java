@@ -9,6 +9,8 @@ public class ConsoleOutputPage extends BasePage {
 
     @FindBy(className = "console-output")
     private WebElement consoleOutput;
+    @FindBy(xpath = "//pre/a[@href='/user/admin']")
+    private WebElement consoleOutputUserName;
 
     public ConsoleOutputPage(WebDriver driver) {
         super(driver);
@@ -16,5 +18,8 @@ public class ConsoleOutputPage extends BasePage {
 
     public String getConsoleOutputText() {
         return consoleOutput.getText();
+    }
+    public String getTextConsoleOutputUserName() {
+        return consoleOutputUserName.getText();
     }
 }
