@@ -215,7 +215,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithDescription")
     public void testMultiConfigurationProjectDisableCheckIconProjectName() {
         MultiConfigurationProjectStatusPage multiConfigPrStatusPage = new HomePage(getDriver())
-                .clickMultiConfigurationProject(PROJECT_NAME)
+                .clickMultiConfigurationProject("MultiConfigProject000302")
                 .clickDisableButton();
         Assert.assertTrue(multiConfigPrStatusPage.iconProjectDisabledIsDisplayed());
     }
@@ -224,7 +224,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
             "testMultiConfigurationProjectDisableCheckIconProjectName"})
     public void testMultiConfigurationProjectEnableCheckIconProjectName() {
         MultiConfigurationProjectStatusPage multiConfigPrStatusPage = new HomePage(getDriver())
-                .clickMultiConfigurationProject(PROJECT_NAME)
+                .clickMultiConfigurationProject("MultiConfigProject000302")
                 .clickEnableButton();
 
         Assert.assertTrue(multiConfigPrStatusPage.iconProjectEnabledIsDisplayed());
