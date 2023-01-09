@@ -1,5 +1,6 @@
 package tests;
 
+import model.ConsoleOutputPage;
 import model.HomePage;
 import model.NewItemPage;
 import model.RenameItemErrorPage;
@@ -257,7 +258,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMultiConfigurationProjectCheckConsoleOutput() {
-        ConsoleOutputMultiConfigurationProjectPage multiConfigProjectConsole = new HomePage(getDriver())
+        ConsoleOutputPage multiConfigProjectConsole = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
                 .clickConfiguration(PROJECT_NAME)
                 .scrollAndClickBuildSteps()
@@ -269,7 +270,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .selectAndClickConsoleOutput();
 
         Assert.assertEquals(multiConfigProjectConsole.getTextConsoleOutputUserName(),new HomePage(getDriver()).getUser());
-        Assert.assertTrue(multiConfigProjectConsole.getTextConsoleOutput().contains("Finished: SUCCESS"));
+        Assert.assertTrue(multiConfigProjectConsole.getConsoleOutputText().contains("Finished: SUCCESS"));
     }
 
     @Ignore
@@ -285,7 +286,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         mcpStatusPage.multiConfigurationProjectNewestBuilds(getDriver());
 
         Assert.assertTrue(getDriver().
-                findElement(By.xpath("//*[@id=/'buildHistory/']/div[2]/table/tbody/tr[2]")).isDisplayed());
+                findElement(By.xpath("//*[@id='buildHistory/']/div[2]/table/tbody/tr[2]")).isDisplayed());
     }
 
     @Test(dependsOnMethods = "testEnableMultiConfigurationProject")
