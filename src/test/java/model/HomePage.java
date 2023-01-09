@@ -250,7 +250,7 @@ public class HomePage extends MainBasePage {
     }
 
     public FolderStatusPage clickFolder(String folderName) {
-        getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']")).sendKeys(Keys.RETURN);
+        getDriver().findElement(By.xpath("//span[text()='" + folderName + "']")).click();
 
         return new FolderStatusPage(getDriver());
     }
