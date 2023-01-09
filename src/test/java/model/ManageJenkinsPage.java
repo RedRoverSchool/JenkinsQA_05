@@ -1,5 +1,6 @@
 package model;
 
+import model.base.FooterComponent;
 import model.base.MainBasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -66,12 +67,12 @@ public class ManageJenkinsPage extends MainBasePage {
         return new PluginManagerPage(getDriver());
     }
 
-    public ExternalJenkinsPage moveToJenkinsVersion() {
+    public FooterComponent moveToJenkinsVersion() {
         scrollToEnd(getDriver());
         WebElement linkJenkins = new HomePage(getDriver()).getFooter().getJenkinsFooterLink();
         getAction().pause(500).moveToElement(getWait(3).until(ExpectedConditions.elementToBeClickable(linkJenkins)))
                 .perform();
       
-        return new ExternalJenkinsPage(getDriver());
+        return new FooterComponent(getDriver());
     }
 }
