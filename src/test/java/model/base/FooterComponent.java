@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class FooterComponent extends BaseModel {
     @FindBy(xpath = "//a[@href='https://www.jenkins.io/']")
-    private WebElement jenkinsLink;
+    private WebElement jenkinsFooterLink;
 
     @FindBy(id = "footer")
     private WebElement footer;
@@ -25,7 +25,7 @@ public class FooterComponent extends BaseModel {
     }
 
     public ExternalJenkinsPage clickJenkinsVersion() {
-        jenkinsLink.click();
+        jenkinsFooterLink.click();
         ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(tabs.get(1));
         return new ExternalJenkinsPage(getDriver());
@@ -35,8 +35,8 @@ public class FooterComponent extends BaseModel {
         return footer.isDisplayed();
     }
 
-    public WebElement getJenkinsLink() {
-        return jenkinsLink;
+    public WebElement getJenkinsFooterLink() {
+        return jenkinsFooterLink;
     }
 
     public RestApiPage clickRestApiLink() {

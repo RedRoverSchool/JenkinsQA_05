@@ -43,14 +43,14 @@ public class FooterComponentTest extends BaseTest {
                 + "style information associated with it. The document tree is shown below.");
     }
 
-//    @Test
-//    public void testFooterLinkJenkinsIsClickable() {
-//        String headerJenkins = new ManageJenkinsPage(getDriver())
-//                .clickManageJenkins()
-//                .moveForClinkOnLink()
-//                .clickJenkinsVersion()
-//                .getHeaderText();
-//
-//        Assert.assertEquals(headerJenkins, "Jenkins");
-//    }
+    @Test
+    public void testFooterLinkJenkinsIsClickable() {
+        String externalJenkinsPageHeader = new HomePage(getDriver())
+                .clickManageJenkins()
+                .moveToJenkinsVersion()
+                .clickJenkinsVersion()
+                .getHeaderText();
+
+        Assert.assertEquals(externalJenkinsPageHeader,"Jenkins");
+    }
 }
