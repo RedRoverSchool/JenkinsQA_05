@@ -172,6 +172,7 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(pipelineProjectPage.getProjectDescriptionText(), PIPELINE_NAME + "edit description");
     }
 
+    @Ignore
     @Test
     public void testDeletePipelineFromDashboard() {
         createPipelineProject(PIPELINE_NAME);

@@ -8,10 +8,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.BaseModel;
 import runner.TestUtils;
 
-public abstract class HeaderComponent extends BasePage {
-
+public class HeaderComponent extends BaseModel {
     @FindBy(id = "jenkins-head-icon")
     private WebElement jenkinsHeadIcon;
 

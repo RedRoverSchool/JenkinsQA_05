@@ -16,6 +16,7 @@ public class UserProfileTest extends BaseTest {
     @Test
     public void testUserProfileAddDescription() {
         String actualUserDescription = new HomePage(getDriver())
+                .getHeader()
                 .clickUserIcon()
                 .clickAddDescriptionLink()
                 .clearDescriptionInputField()
@@ -29,6 +30,7 @@ public class UserProfileTest extends BaseTest {
     @Test
     public void testUserProfileHidePreviewDescription() {
         StatusUserPage statusUserPage = new HomePage(getDriver())
+                .getHeader()
                 .clickUserIcon()
                 .clickAddDescriptionLink()
                 .clearDescriptionInputField()
@@ -42,6 +44,7 @@ public class UserProfileTest extends BaseTest {
     @Test
     public void testUserProfilePreviewDescription() {
         String actualPreviewText = new HomePage(getDriver())
+                .getHeader()
                 .clickUserIcon()
                 .clickAddDescriptionLink()
                 .clearDescriptionInputField()
@@ -55,6 +58,7 @@ public class UserProfileTest extends BaseTest {
     @Test(dependsOnMethods = "testUserProfileAddDescription")
     public void testUserProfileEditDescription() {
         String actualUserDescription = new HomePage(getDriver())
+                .getHeader()
                 .clickUserIcon()
                 .clickAddDescriptionLink()
                 .clearDescriptionInputField()
