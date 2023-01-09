@@ -1,9 +1,6 @@
 package tests;
 
-import model.ExternalJenkinsPage;
-import model.ManageJenkinsPage;
-import model.RestApiPage;
-import model.XmlPage;
+import model.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -43,14 +40,14 @@ public class FooterComponentTest extends BaseTest {
                 + "style information associated with it. The document tree is shown below.");
     }
 
-    @Test()
+    @Test
     public void testFooterLinkJenkinsIsClickable() {
-        String headerJenkins = new ManageJenkinsPage(getDriver())
+        String externalJenkinsPageHeader = new HomePage(getDriver())
                 .clickManageJenkins()
-                .moveForClinkOnLink()
+                .moveToJenkinsVersion()
                 .clickJenkinsVersion()
                 .getHeaderText();
 
-        Assert.assertEquals(headerJenkins,"Jenkins");
+        Assert.assertEquals(externalJenkinsPageHeader,"Jenkins");
     }
 }
