@@ -225,12 +225,6 @@ public class HomePage extends MainBasePage {
         return this;
     }
 
-    public FolderStatusPage clickJob(String name) {
-        getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
-
-        return new FolderStatusPage(getDriver());
-    }
-
     public MultibranchPipelineStatusPage clickJobMBPipeline(String name) {
         getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
 
@@ -307,8 +301,8 @@ public class HomePage extends MainBasePage {
         return new PeoplePage(getDriver());
     }
 
-    public MultiConfigurationProjectStatusPage clickMultConfJobName(String name) {
-        getWait(5).until(ExpectedConditions.elementToBeClickable(jobList.get(0))).click();
+    public MultiConfigurationProjectStatusPage clickMultiConfigurationProject(String name) {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
@@ -399,13 +393,6 @@ public class HomePage extends MainBasePage {
     public String getJobName(String name) {
 
         return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", name))).getText();
-    }
-
-    public MultiConfigurationProjectStatusPage clickProject(String projectName) {
-        getWait(5).until(ExpectedConditions
-                .elementToBeClickable(By.xpath("//a[@href='job/" + projectName + "/']"))).click();
-
-        return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
     public Boolean getProjectIconText() {
