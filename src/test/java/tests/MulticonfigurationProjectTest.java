@@ -1,9 +1,9 @@
 package tests;
 
+import model.ConsoleOutputPage;
 import model.HomePage;
 import model.NewItemPage;
 import model.RenameItemErrorPage;
-import model.multiconfiguration.ConsoleOutputMultiConfigurationProjectPage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -258,7 +258,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMultiConfigurationProjectCheckConsoleOutput() {
-        ConsoleOutputMultiConfigurationProjectPage multiConfigProjectConsole = new HomePage(getDriver())
+        ConsoleOutputPage multiConfigProjectConsole = new HomePage(getDriver())
                 .clickMultiConfigurationProject(PROJECT_NAME)
                 .clickConfiguration(PROJECT_NAME)
                 .scrollAndClickBuildSteps()
@@ -269,7 +269,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .selectAndClickConsoleOutput();
 
         Assert.assertEquals(multiConfigProjectConsole.getTextConsoleOutputUserName(), "admin");
-        Assert.assertTrue(multiConfigProjectConsole.getTextConsoleOutput().contains("Finished: SUCCESS"));
+        Assert.assertTrue(multiConfigProjectConsole.getConsoleOutputText().contains("Finished: SUCCESS"));
     }
 
     @Ignore
