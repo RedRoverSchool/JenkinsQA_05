@@ -1,6 +1,5 @@
 package model.freestyle;
 
-import model.BuildStatusPage;
 import model.base.BaseStatusPage;
 import model.ChangesBuildsPage;
 import model.HomePage;

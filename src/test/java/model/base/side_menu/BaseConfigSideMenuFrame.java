@@ -1,16 +1,16 @@
-package model.base;
+package model.base.side_menu;
 
+import model.base.BaseConfigPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import runner.BaseModel;
 
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-public abstract class BaseConfigSideMenuFrame<ConfigPage extends BaseConfigPage<?, ?, ?>> extends BaseModel {
+public abstract class BaseConfigSideMenuFrame<ConfigPage extends BaseConfigPage<?, ?, ?>> extends BaseSideMenuFrame<ConfigPage> {
 
     @FindBy(xpath = "//button[@data-section-id='general']")
     private WebElement linkGeneral;
@@ -18,17 +18,14 @@ public abstract class BaseConfigSideMenuFrame<ConfigPage extends BaseConfigPage<
     @FindBy(css = "button.task-link")
     private List<WebElement> configSideMenu;
 
-    protected final ConfigPage configPage;
-
     public BaseConfigSideMenuFrame(WebDriver driver, ConfigPage configPage) {
-        super(driver);
-        this.configPage = configPage;
+        super(driver, configPage);
     }
 
     public ConfigPage clickGeneral() {
         linkGeneral.click();
 
-        return configPage;
+        return page;
     }
 
     public Set<String> collectConfigSideMenu() {

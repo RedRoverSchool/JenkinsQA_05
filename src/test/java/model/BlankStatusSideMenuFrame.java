@@ -1,7 +1,7 @@
 package model;
 
 import model.base.BaseStatusPage;
-import model.base.BaseStatusSideMenuFrame;
+import model.base.side_menu.BaseStatusSideMenuFrame;
 import org.openqa.selenium.WebDriver;
 
 public class BlankStatusSideMenuFrame<StatusPage extends BaseStatusPage<?, ?>> extends BaseStatusSideMenuFrame<StatusPage> {

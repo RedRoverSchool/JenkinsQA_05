@@ -78,7 +78,7 @@ public class FolderTest extends BaseTest {
                 .selectFolderAndClickOk()
                 .setDescription(addDescription)
                 .clickSaveButton()
-                .getFolderDescriptionText();
+                .getAdditionalDescriptionText();
 
         Assert.assertEquals(textDescription, addDescription);
     }
@@ -228,7 +228,7 @@ public class FolderTest extends BaseTest {
                 .clickSubmitButton()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_1)
-                .getProjectDescriptionText();
+                .getDescriptionText();
 
         Assert.assertEquals(textDescription, folderDescription);
     }

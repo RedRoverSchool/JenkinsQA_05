@@ -86,7 +86,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickFreestyleProjectName()
                 .clickButtonAddDescription()
                 .inputAndSaveDescriptionText(descriptionText)
-                .getProjectDescriptionText();
+                .getDescriptionText();
 
         Assert.assertEquals(freestyleProjectDescription, descriptionText);
     }
@@ -100,7 +100,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickButtonEditDescription()
                 .inputAndSaveDescriptionText(newDescription);
 
-        Assert.assertEquals(page.getProjectDescriptionText(), newDescription);
+        Assert.assertEquals(page.getDescriptionText(), newDescription);
     }
 
     @Test(dependsOnMethods = "testEditDescription")
