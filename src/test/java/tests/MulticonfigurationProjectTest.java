@@ -255,7 +255,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(buildNowButton.buildNowButtonIsDisplayed());
     }
 
-    @Ignore
+//    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMultiConfigurationProjectCheckConsoleOutput() {
         ConsoleOutputPage multiConfigProjectConsole = new HomePage(getDriver())

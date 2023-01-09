@@ -8,6 +8,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectMethodsUtils;
 import runner.TestUtils;
 import java.util.List;
 
@@ -18,19 +19,9 @@ public class PipelineTest extends BaseTest {
     private static final String PIPELINE_DESCRIPTION = PIPELINE_NAME + " description";
     private static final String ITEM_NEW_DESCRIPTION = "New description";
 
-    private HomePage createPipelineProject(String projectName) {
-        new HomePage(getDriver())
-                .clickNewItem()
-                .setItemName(projectName)
-                .selectPipelineAndClickOk()
-                .clickSaveButton()
-                .clickDashboard();
-        return new HomePage(getDriver());
-    }
-
     @Test
     public void testDisablePipelineProjectMessage() {
-        createPipelineProject(PIPELINE_NAME);
+        ProjectMethodsUtils.createNewPipelineProject(getDriver(), PIPELINE_NAME);
         String actualMessageDisabledProject = new HomePage(getDriver())
                 .clickPipelineJob(PIPELINE_NAME)
                 .clickDisableProject()
@@ -53,14 +44,14 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testNewPipelineItemDisplayedOnDashboard() {
-        createPipelineProject(PIPELINE_NAME);
+        ProjectMethodsUtils.createNewPipelineProject(getDriver(), PIPELINE_NAME);
 
         Assert.assertTrue(new HomePage(getDriver()).getJobListAsString().contains(PIPELINE_NAME), PIPELINE_NAME + " Pipeline not found");
     }
 
     @Test
     public void testRenamePipelineWithValidName() {
-        createPipelineProject(PIPELINE_NAME);
+        ProjectMethodsUtils.createNewPipelineProject(getDriver(), PIPELINE_NAME);
         new HomePage(getDriver())
                 .clickJobDropDownMenu(PIPELINE_NAME)
                 .clickRenamePipelineDropDownMenu()
@@ -72,7 +63,7 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testRenamedPipelineIsDisplayedInMyViews() {
-        createPipelineProject(PIPELINE_NAME);
+        ProjectMethodsUtils.createNewPipelineProject(getDriver(), PIPELINE_NAME);
 
         String actualJobListAsString = new HomePage(getDriver())
                 .clickMyViewsSideMenuLink()
@@ -117,7 +108,7 @@ public class PipelineTest extends BaseTest {
 
     @Test(dataProvider = "specialCharacters")
     public void testRenamePipelineUsingSpecialCharacter(Character unsafeCharacter, String expectedUnsafeCharacterInErrorMessage) {
-        createPipelineProject(PIPELINE_NAME);
+        ProjectMethodsUtils.createNewPipelineProject(getDriver(), PIPELINE_NAME);
 
         String actualRenameErrorMessage = new HomePage(getDriver())
                 .clickDashboard()
@@ -175,7 +166,7 @@ public class PipelineTest extends BaseTest {
     @Ignore
     @Test
     public void testDeletePipelineFromDashboard() {
-        createPipelineProject(PIPELINE_NAME);
+        ProjectMethodsUtils.createNewPipelineProject(getDriver(), PIPELINE_NAME);
         String homePageHeaderText = new HomePage(getDriver())
                 .clickDashboard()
                 .clickPipelineJob(PIPELINE_NAME)
@@ -225,7 +216,9 @@ public class PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithName() {
-        String actualPipelineName = createPipelineProject(PIPELINE_NAME).getJobName(PIPELINE_NAME);
+        ProjectMethodsUtils.createNewPipelineProject(getDriver(), PIPELINE_NAME);
+        String actualPipelineName = new HomePage(getDriver())
+        .getJobName(PIPELINE_NAME);
 
         Assert.assertEquals(actualPipelineName, PIPELINE_NAME);
     }
