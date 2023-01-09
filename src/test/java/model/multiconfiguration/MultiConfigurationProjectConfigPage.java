@@ -67,7 +67,7 @@ public class MultiConfigurationProjectConfigPage extends BlankConfigPage<MultiCo
     public MultiConfigurationProjectConfigPage scrollAndClickBuildSteps() {
         getWait(5).until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h2")));
         TestUtils.scrollToElement(getDriver(), buildStepsSection);
-        getWait(20).until(ExpectedConditions.elementToBeClickable(addBuildStepButton));
+        getWait(20).until(TestUtils.ExpectedConditions.elementIsNotMoving(addBuildStepButton));
         addBuildStepButton.click();
 
         return this;

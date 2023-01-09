@@ -255,20 +255,21 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(buildNowButton.buildNowButtonIsDisplayed());
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMultiConfigurationProjectCheckConsoleOutput() {
         ConsoleOutputMultiConfigurationProjectPage multiConfigProjectConsole = new HomePage(getDriver())
                 .clickProject(PROJECT_NAME)
                 .clickConfiguration(PROJECT_NAME)
                 .scrollAndClickBuildSteps()
-                .selectionAndClickExecuteWindowsFromBuildSteps().enterCommandInBuildSteps("echo Hello world!")
+                .selectionAndClickExecuteWindowsFromBuildSteps()
+                .enterCommandInBuildSteps("echo Hello world!")
                 .clickSaveButton()
                 .clickBuildNowButton()
                 .clickDropDownBuildIcon()
                 .selectAndClickConsoleOutput();
+        System.out.println(new HomePage(getDriver()).getUser());
 
-        Assert.assertEquals(multiConfigProjectConsole.getTextConsoleOutputUserName(), "admin");
+        Assert.assertEquals(multiConfigProjectConsole.getTextConsoleOutputUserName(),new HomePage(getDriver()).getUser());
         Assert.assertTrue(multiConfigProjectConsole.getTextConsoleOutput().contains("Finished: SUCCESS"));
     }
 

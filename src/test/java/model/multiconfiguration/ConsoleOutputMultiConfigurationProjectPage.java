@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class ConsoleOutputMultiConfigurationProjectPage extends MultiConfigurationProjectStatusPage {
 
-    @FindBy(xpath = "//pre/a[@href='/user/admin']")
+    @FindBy(xpath = "//button[@class='jenkins-menu-dropdown-chevron']/../../a[@class='jenkins-table__link model-link model-link--float'][1]")
     private WebElement consoleOutputUserName;
 
     @FindBy(xpath = "//pre")
