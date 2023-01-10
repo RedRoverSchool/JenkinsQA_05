@@ -1,8 +1,9 @@
 package model.pipeline;
 
-import model.base.BaseStatusPage;
+import model.BuildStatusPage;
 import model.BuildWithParametersPage;
 import model.HomePage;
+import model.base.BlankStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,7 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PipelineStatusPage extends BaseStatusPage<PipelineStatusPage> {
+public class PipelineStatusPage extends BlankStatusPage<PipelineStatusPage> {
 
     @FindBy(xpath = "//div[@id='description']//a")
     private WebElement editDescriptionButton;
@@ -52,6 +53,9 @@ public class PipelineStatusPage extends BaseStatusPage<PipelineStatusPage> {
 
     @FindBy(id = "description-link")
     private WebElement editDescriptionLink;
+
+    @FindBy(xpath = "//a[@href='lastBuild/']")
+    private WebElement lastBuildLink;
 
     public PipelineStatusPage(WebDriver driver) {
         super(driver);
@@ -119,10 +123,10 @@ public class PipelineStatusPage extends BaseStatusPage<PipelineStatusPage> {
         return this;
     }
 
-    public BuildWithParametersPage clickBuildWithParameters() {
+    public BuildWithParametersPage<PipelineStatusPage> clickBuildWithParameters() {
         getWait(5).until(ExpectedConditions.elementToBeClickable(buildWithParameters)).click();
 
-        return new BuildWithParametersPage(getDriver());
+        return new BuildWithParametersPage<>(getDriver(), this);
     }
 
     public PipelineConfigPage clickConfigure() {
@@ -139,5 +143,11 @@ public class PipelineStatusPage extends BaseStatusPage<PipelineStatusPage> {
         editDescriptionLink.click();
 
         return new PipelineStatusPage(getDriver());
+    }
+
+    public BuildStatusPage clickLastBuildLink() {
+        lastBuildLink.click();
+
+        return new BuildStatusPage(getDriver());
     }
 }

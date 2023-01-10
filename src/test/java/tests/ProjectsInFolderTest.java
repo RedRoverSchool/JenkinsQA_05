@@ -24,7 +24,7 @@ public class ProjectsInFolderTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateFolder")
     public void createOrganizationFolderInFolderTest() {
         String actualOrganizationFolderDisplayName = new HomePage(getDriver())
-                .clickJob(RANDOM_NAME)
+                .clickFolder(RANDOM_NAME)
                 .clickFolderNewItem()
                 .setItemName(RANDOM_NAME)
                 .selectOrgFolderAndClickOk()

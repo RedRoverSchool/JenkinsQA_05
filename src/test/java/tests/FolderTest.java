@@ -62,7 +62,7 @@ public class FolderTest extends BaseTest {
     @Test(dependsOnMethods = "testConfigureChangeFolderDisplayName")
     public void testConfigureFolderDisplayNameSaveFolderName() {
         String folderStatusPage = new HomePage(getDriver())
-                .clickJob(DISPLAY_RANDOM_NAME)
+                .clickFolder(DISPLAY_RANDOM_NAME)
                 .getFolderName();
 
         Assert.assertEquals(folderStatusPage, "Folder name: " + FOLDER_RANDOM_NAME_1);
@@ -78,7 +78,7 @@ public class FolderTest extends BaseTest {
                 .selectFolderAndClickOk()
                 .setDescription(addDescription)
                 .clickSaveButton()
-                .getFolderDescriptionText();
+                .getAdditionalDescriptionText();
 
         Assert.assertEquals(textDescription, addDescription);
     }
@@ -87,12 +87,12 @@ public class FolderTest extends BaseTest {
     public void testMoveFolderInFolder() {
         List<String> foldersNamesInFolder = new HomePage(getDriver())
                 .clickDashboard()
-                .clickJob(FOLDER_RANDOM_NAME_2)
+                .clickFolder(FOLDER_RANDOM_NAME_2)
                 .clickMoveButton()
                 .selectFolder(DISPLAY_RANDOM_NAME)
                 .clickMove()
                 .clickDashboard()
-                .clickJob(DISPLAY_RANDOM_NAME)
+                .clickFolder(DISPLAY_RANDOM_NAME)
                 .getJobList();
 
         Assert.assertTrue(foldersNamesInFolder.contains(FOLDER_RANDOM_NAME_2));
@@ -102,7 +102,7 @@ public class FolderTest extends BaseTest {
     public void testDeleteFolder() {
         String pageHeaderText = new HomePage(getDriver())
                 .clickDashboard()
-                .clickJob(DISPLAY_RANDOM_NAME)
+                .clickFolder(DISPLAY_RANDOM_NAME)
                 .clickDeleteFolder()
                 .clickYes()
                 .getNameText();
@@ -228,7 +228,7 @@ public class FolderTest extends BaseTest {
                 .clickSubmitButton()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_1)
-                .getProjectDescriptionText();
+                .getDescriptionText();
 
         Assert.assertEquals(textDescription, folderDescription);
     }

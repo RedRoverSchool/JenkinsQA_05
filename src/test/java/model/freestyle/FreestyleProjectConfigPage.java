@@ -1,6 +1,5 @@
 package model.freestyle;
 
-import model.BuildWithParametersPage;
 import model.base.BaseConfigPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -223,12 +222,6 @@ public class FreestyleProjectConfigPage extends BaseConfigPage<FreestyleProjectS
         getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(buttonAddParameter)).click();
 
         return this;
-    }
-
-    public BuildWithParametersPage clickSaveButton_() {
-        saveBtn.click();
-
-        return new BuildWithParametersPage(getDriver());
     }
 
     public FreestyleProjectConfigPage selectSourceCodeManagementGIT() {

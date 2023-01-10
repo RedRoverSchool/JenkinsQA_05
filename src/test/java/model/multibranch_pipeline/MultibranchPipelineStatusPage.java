@@ -1,15 +1,15 @@
 package model.multibranch_pipeline;
 
 import model.DeletePage;
-import model.base.BasePage;
-import model.base.BaseStatusPage;
 import model.RenameItemPage;
+import model.base.BasePage;
+import model.base.BlankStatusPage;
 import model.folder.FolderStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MultibranchPipelineStatusPage extends BaseStatusPage<MultibranchPipelineStatusPage> {
+public class MultibranchPipelineStatusPage extends BlankStatusPage<MultibranchPipelineStatusPage> {
 
     @FindBy(linkText = "Delete Multibranch Pipeline")
     private WebElement deleteLeftSideMenu;

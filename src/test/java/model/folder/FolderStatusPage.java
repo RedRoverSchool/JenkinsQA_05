@@ -2,7 +2,7 @@ package model.folder;
 
 import model.DeletePage;
 import model.RenameItemPage;
-import model.base.BaseStatusPage;
+import model.base.BlankStatusPage;
 import model.freestyle.FreestyleProjectStatusPage;
 import model.multibranch_pipeline.MultibranchPipelineStatusPage;
 import model.NewItemPage;
@@ -16,7 +16,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FolderStatusPage extends BaseStatusPage<FolderStatusPage> {
+public class FolderStatusPage extends BlankStatusPage<FolderStatusPage> {
 
     @FindBy(css = "#breadcrumbs li a")
     private List<WebElement> topMenuList;
