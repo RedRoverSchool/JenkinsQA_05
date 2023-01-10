@@ -67,8 +67,8 @@ public class ProjectMethodsUtils {
                 .setGlobalViewType()
                 .clickCreateButton()
                 .getHeader().clickJenkinsNameIcon();
-
     }
+
     public static void createNewListViewForMyViews(WebDriver driver, String name) {
         new HomePage(driver)
                 .clickMyViewsSideMenuLink()
@@ -77,12 +77,30 @@ public class ProjectMethodsUtils {
                 .setListViewType()
                 .clickCreateButton()
                 .getHeader().clickJenkinsNameIcon();
-
     }
+
     public static void createNewMyViewForMyViews(WebDriver driver, String name) {
         new HomePage(driver)
                 .clickMyViewsSideMenuLink()
                 .clickNewView()
+                .setViewName(name)
+                .setMyViewType()
+                .clickCreateButton()
+                .getHeader().clickJenkinsNameIcon();
+    }
+
+    public static void createNewListViewForDashboard(WebDriver driver, String name) {
+        new HomePage(driver)
+                .clickAddViewLink()
+                .setViewName(name)
+                .setListViewType()
+                .clickCreateButton()
+                .getHeader().clickJenkinsNameIcon();
+    }
+
+    public static void createNewMyViewViewForDashboard(WebDriver driver, String name) {
+        new HomePage(driver)
+                .clickAddViewLink()
                 .setViewName(name)
                 .setMyViewType()
                 .clickCreateButton()
