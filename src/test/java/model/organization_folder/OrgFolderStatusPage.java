@@ -1,13 +1,13 @@
 package model.organization_folder;
 
 import model.RenameItemPage;
-import model.base.BaseStatusPage;
 import model.HomePage;
+import model.base.BlankStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class OrgFolderStatusPage extends BaseStatusPage<OrgFolderStatusPage> {
+public class OrgFolderStatusPage extends BlankStatusPage<OrgFolderStatusPage> {
 
     @FindBy(linkText = "Rename")
     private WebElement renameButton;

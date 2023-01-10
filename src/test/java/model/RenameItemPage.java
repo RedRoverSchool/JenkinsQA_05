@@ -1,12 +1,13 @@
 package model;
 
+import model.base.BasePage;
 import model.base.BaseStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class RenameItemPage<StatusPage extends BaseStatusPage<?>> extends BaseStatusPage<RenameItemPage<StatusPage>> {
+public class RenameItemPage<StatusPage extends BaseStatusPage<?, ?>> extends BasePage {
 
     private final StatusPage statusPage;
 

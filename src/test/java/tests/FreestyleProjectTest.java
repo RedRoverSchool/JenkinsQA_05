@@ -86,7 +86,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickFreestyleProjectName()
                 .clickButtonAddDescription()
                 .inputAndSaveDescriptionText(descriptionText)
-                .getProjectDescriptionText();
+                .getDescriptionText();
 
         Assert.assertEquals(freestyleProjectDescription, descriptionText);
     }
@@ -100,7 +100,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickButtonEditDescription()
                 .inputAndSaveDescriptionText(newDescription);
 
-        Assert.assertEquals(page.getProjectDescriptionText(), newDescription);
+        Assert.assertEquals(page.getDescriptionText(), newDescription);
     }
 
     @Test(dependsOnMethods = "testEditDescription")
@@ -240,7 +240,7 @@ public class FreestyleProjectTest extends BaseTest {
         final String choiceParameterName = "Employee_name";
         final String choiceParameterValues = "John Smith\nJane Dow";
         final String booleanParameterName = "Employed";
-        final String pageNotification = "This build requires parameters:";
+        final String descriptionText = "This build requires parameters:";
 
         BuildWithParametersPage page = new HomePage(getDriver())
                 .clickNewItem()
@@ -259,17 +259,18 @@ public class FreestyleProjectTest extends BaseTest {
                 .selectBooleanParameter()
                 .inputBooleanParameterName(booleanParameterName)
                 .switchONBooleanParameterAsDefault()
-                .clickSaveButton_()
+                .clickSaveButton()
+                .getSideMenu()
                 .clickButtonBuildWithParameters();
 
         Assert.assertTrue(page.getNameText().contains(NEW_FREESTYLE_NAME));
-        Assert.assertEquals(page.getPageNotificationText(), pageNotification);
-        Assert.assertEquals(page.getFirstParamName(), stringParameterName);
-        Assert.assertEquals(page.getFirstParamValue(), stringParameterDefaultValue);
-        Assert.assertEquals(page.getSecondParamName(), choiceParameterName);
-        Assert.assertEquals(page.selectedParametersValues(), choiceParameterValues);
-        Assert.assertEquals(page.getThirdParamName(), booleanParameterName);
-        Assert.assertTrue(page.isBooleanParameterDefaultOn());
+        Assert.assertEquals(page.getDescriptionText(), descriptionText);
+        Assert.assertEquals(page.getNthParameterName(1), stringParameterName);
+        Assert.assertEquals(page.getNthParameterValue(1), stringParameterDefaultValue);
+        Assert.assertEquals(page.getNthParameterName(2), choiceParameterName);
+        Assert.assertEquals(page.getSelectParametersValues(), "John Smith\nJane Dow");
+        Assert.assertEquals(page.getNthParameterName(3), booleanParameterName);
+        Assert.assertTrue(page.isBooleanParameterSetByDefault());
     }
 
     @Test(dependsOnMethods = "testConfigureJobAsParameterized")

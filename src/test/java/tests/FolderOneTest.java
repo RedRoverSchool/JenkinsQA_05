@@ -67,7 +67,7 @@ public class FolderOneTest extends BaseTest {
                 .clickConfigDropDownMenu()
                 .setDescription("Folder description")
                 .clickSaveButton()
-                .getFolderDescriptionText();
+                .getAdditionalDescriptionText();
 
         Assert.assertTrue(folderDescription.contains("Folder description"));
     }

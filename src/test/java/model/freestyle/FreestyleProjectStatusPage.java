@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectStatusPage> {
+public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectStatusPage, FreestyleProjectStatusSideMenuFrame> {
 
     @FindBy(linkText = "Configure")
     private WebElement sideMenuConfigure;
@@ -67,6 +67,11 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
 
     @FindBy(linkText = "Edit description")
     private WebElement buttonEditDescription;
+
+    @Override
+    protected FreestyleProjectStatusSideMenuFrame createSideMenuFrame() {
+        return new FreestyleProjectStatusSideMenuFrame(getDriver(), this);
+    }
 
     public FreestyleProjectStatusPage(WebDriver driver) {
         super(driver);

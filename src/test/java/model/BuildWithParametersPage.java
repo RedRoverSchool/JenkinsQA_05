@@ -1,6 +1,7 @@
 package model;
 
-import model.freestyle.FreestyleProjectStatusPage;
+import model.base.BasePage;
+import model.base.BaseStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,99 +10,71 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
-public class BuildWithParametersPage extends FreestyleProjectStatusPage {
-    public BuildWithParametersPage(WebDriver driver) {
-        super(driver);
-    }
+public class BuildWithParametersPage<StatusPage extends BaseStatusPage<?, ?>> extends BasePage {
 
-    @FindBy(linkText = "Build with Parameters")
-    private WebElement buttonBuildWithParameters;
+    @FindBy(tagName = "h1")
+    private WebElement header;
 
-    @FindBy(xpath = "//div[@id = 'main-panel']/p")
-    private WebElement pageNotification;
+    @FindBy(xpath = "//div[@id='main-panel']/p")
+    private WebElement descriptionText;
 
-    @FindBy(xpath = "//div[@class= 'parameters']/div[1]")
-    private WebElement firstParameter;
+    @FindBy(xpath = "//div[@name='parameter']/input[@name='name']")
+    private List<WebElement> listInputParameterNames;
 
-    @FindBy(xpath = "//div[@name= 'parameter']/input")
-    private List<WebElement> listInputtingValues;
+    @FindBy(xpath = "//div[@name='parameter']/input[@name='value']")
+    private List<WebElement> listInputParameterValues;
 
-    @FindBy(xpath = "//select[@name= 'value']")
-    private WebElement selectedParameters;
+    @FindBy(xpath = "//select[@name='value']")
+    private WebElement selectParameter;
 
-    @FindBy(xpath = "//input[@type= 'checkbox']")
-    private WebElement checkBoxDefaultValue;
+    @FindBy(xpath = "//input[@type='checkbox']")
+    private WebElement defaultValueCheckbox;
 
     @FindBy(id = "yui-gen1-button")
     private WebElement buildButton;
 
-    @FindBy(xpath = "//tr[@class='job SUCCESS']")
-    private WebElement iconSuccessfulBuild;
+    private final StatusPage statusPage;
 
-    @FindBy(xpath = "//a[@href='lastBuild/']")
-    private WebElement lastBuildLink;
 
-    @FindBy(linkText = "Configure")
-    private WebElement sideMenuConfigure;
+    public BuildWithParametersPage(WebDriver driver, StatusPage statusPage) {
+        super(driver);
+        this.statusPage = statusPage;
+    }
 
-    public BuildWithParametersPage clickButtonBuildWithParameters() {
-        buttonBuildWithParameters.click();
+    public String getNameText() {
+        return getWait(5).until(ExpectedConditions.elementToBeClickable(header)).getText();
+    }
+
+    public String getDescriptionText() {
+        return descriptionText.getText();
+    }
+
+    public String getNthParameterName(int n) {
+        return listInputParameterNames.get(n - 1).getAttribute("value");
+    }
+
+    public String getNthParameterValue(int n) {
+        return listInputParameterValues.get(n - 1).getAttribute("value");
+    }
+
+    public String getSelectParametersValues() {
+        return selectParameter.getText();
+    }
+
+    public boolean isBooleanParameterSetByDefault() {
+        return defaultValueCheckbox.isSelected();
+    }
+
+    public BuildWithParametersPage<StatusPage> selectParameterByText(String text) {
+        new Select(selectParameter).selectByVisibleText(text);
 
         return this;
     }
 
-    public String getPageNotificationText() {
-
-        return pageNotification.getText();
-    }
-
-    public String getFirstParamName() {
-
-        return listInputtingValues.get(0).getAttribute("value");
-    }
-
-    public String getFirstParamValue() {
-
-        return listInputtingValues.get(1).getAttribute("value");
-    }
-
-    public String getSecondParamName() {
-
-        return listInputtingValues.get(2).getAttribute("value");
-    }
-
-    public String getThirdParamName() {
-
-        return listInputtingValues.get(3).getAttribute("value");
-    }
-
-    public String selectedParametersValues() {
-
-        return selectedParameters.getText();
-    }
-
-    public boolean isBooleanParameterDefaultOn() {
-
-        return checkBoxDefaultValue.isSelected();
-    }
-
-    public BuildWithParametersPage selectParametersBuild() {
-        new Select(selectedParameters).selectByVisibleText("Guest");
-
-        return this;
-    }
-
-    public BuildWithParametersPage clickBuildButton() {
+    public StatusPage clickBuildButton() {
         buildButton.click();
-        getWait(60).until(ExpectedConditions.visibilityOf(iconSuccessfulBuild));
-        getDriver().navigate().refresh();
 
-        return this;
+        return statusPage;
     }
 
-    public BuildStatusPage clickLastBuildLink() {
-        lastBuildLink.click();
-
-        return new BuildStatusPage(getDriver());
-    }
 }

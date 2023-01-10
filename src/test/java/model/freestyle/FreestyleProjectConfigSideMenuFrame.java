@@ -1,6 +1,6 @@
 package model.freestyle;
 
-import model.base.BaseConfigSideMenuFrame;
+import model.base.side_menu.BaseConfigSideMenuFrame;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,6 +17,6 @@ public class FreestyleProjectConfigSideMenuFrame extends BaseConfigSideMenuFrame
     public FreestyleProjectConfigPage clickLinkSourceCodeManagement() {
         linkSourceCodeManagement.click();
 
-        return configPage;
+        return page;
     }
 }
