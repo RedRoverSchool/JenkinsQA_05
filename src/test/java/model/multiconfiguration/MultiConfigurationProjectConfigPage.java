@@ -22,10 +22,10 @@ public class MultiConfigurationProjectConfigPage extends BlankConfigPage<MultiCo
     @FindBy(xpath = "//button[text()='Add build step']")
     private WebElement addBuildStepButton;
 
-    @FindBy(id = "yui-gen29")
+    @FindBy(xpath = "//a[text()='Execute Windows batch command']")
     private WebElement executeWindowsFromBuildSteps;
 
-    @FindBy(css = ".hetero-list-add[suffix=builder]")
+    @FindBy(xpath = "//div[@id='build-steps']/..//div[@class='advancedLink']//button")
     private WebElement advancedBuildStepsButton;
 
     @FindBy(css = ".jenkins-input.fixed-width")
