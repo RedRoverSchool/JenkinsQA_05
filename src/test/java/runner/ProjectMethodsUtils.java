@@ -12,6 +12,14 @@ public class ProjectMethodsUtils {
                 .clickSaveButton()
                 .clickDashboard();
     }
+    public static void testCreateNewFreestyleProject(WebDriver driver, String projectName) {
+        new HomePage(driver)
+                .clickNewItem()
+                .setItemName(projectName)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveButton()
+                .clickDashboard();
+    }
 
 //    public static void createNewItemFromDashboard(WebDriver driver, String type, String name) {
 //        driver.findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
