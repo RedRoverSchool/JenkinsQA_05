@@ -5,31 +5,27 @@ import model.RestApiPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.BaseModel;
 
 import java.util.ArrayList;
 
-public abstract class FooterComponent extends BasePage {
-    @FindBy(xpath = "//div/a[@href = 'api/']")
-    private WebElement restApi;
-
+public class FooterComponent extends BaseModel {
     @FindBy(xpath = "//a[@href='https://www.jenkins.io/']")
-    private WebElement jenkinsLink;
+    private WebElement jenkinsFooterLink;
 
     @FindBy(id = "footer")
     private WebElement footer;
 
+    @FindBy(xpath = "//div/a[@href = 'api/']")
+    private WebElement restApi;
 
     public FooterComponent(WebDriver driver) {
         super(driver);
     }
 
-    public RestApiPage clickRestApiLink() {
-        restApi.click();
-        return new RestApiPage(getDriver());
-    }
-
     public ExternalJenkinsPage clickJenkinsVersion() {
-        jenkinsLink.click();
+        jenkinsFooterLink.click();
         ArrayList<String> tabs = new ArrayList<>(getDriver().getWindowHandles());
         getDriver().switchTo().window(tabs.get(1));
         return new ExternalJenkinsPage(getDriver());
@@ -39,7 +35,12 @@ public abstract class FooterComponent extends BasePage {
         return footer.isDisplayed();
     }
 
-    public WebElement getJenkinsLink() {
-        return jenkinsLink;
+    public WebElement getJenkinsFooterLink() {
+        return jenkinsFooterLink;
+    }
+
+    public RestApiPage clickRestApiLink() {
+        restApi.click();
+        return new RestApiPage(getDriver());
     }
 }

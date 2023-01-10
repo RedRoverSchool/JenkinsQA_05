@@ -13,7 +13,7 @@ public class HeaderComponentTest extends BaseTest {
     @Test
     public void testIsJenkinsNameIconExist() {
 
-        boolean actualResult = new HomePage(getDriver()).isJenkinsNameIconDisplayed();
+        boolean actualResult = new HomePage(getDriver()).getHeader().isJenkinsNameIconDisplayed();
 
         Assert.assertTrue(actualResult);
     }
@@ -22,9 +22,11 @@ public class HeaderComponentTest extends BaseTest {
     public void testUserIdInUserAccountLinkAndInUserPage() {
 
         String usernameInUserAccountLink = new HomePage(getDriver())
+                .getHeader()
                 .getUserNameText();
 
         String usernameInUserPage = new HomePage(getDriver())
+                .getHeader()
                 .clickUserIcon()
                 .getUserIDText();
 
@@ -61,8 +63,8 @@ public class HeaderComponentTest extends BaseTest {
 
         HomePage homePage = new HomePage(getDriver());
 
-        Assert.assertTrue(homePage.isJenkinsHeadIconDisplayed());
-        Assert.assertTrue(homePage.isJenkinsHeadIconEnabled());
+        Assert.assertTrue(homePage.getHeader().isJenkinsHeadIconDisplayed());
+        Assert.assertTrue(homePage.getHeader().isJenkinsHeadIconEnabled());
     }
 
     @Test
@@ -72,7 +74,7 @@ public class HeaderComponentTest extends BaseTest {
         Assert.assertEquals(manageJenkinsPage.getCurrentURL(), "http://localhost:8080/manage/");
         Assert.assertEquals(manageJenkinsPage.getTextHeader1ManageJenkins(), "Manage Jenkins");
 
-        HomePage homePage = manageJenkinsPage.clickJenkinsNameIcon();
+        HomePage homePage = manageJenkinsPage.getHeader().clickJenkinsNameIcon();
 
         Assert.assertEquals(homePage.getCurrentURL(), "http://localhost:8080/");
         Assert.assertEquals(homePage.getHeaderText(), "Welcome to Jenkins!");
@@ -113,6 +115,7 @@ public class HeaderComponentTest extends BaseTest {
 
         String actualURL = new HomePage(getDriver())
                 .clickNewItem()
+                .getHeader()
                 .clickJenkinsNameIcon()
                 .getCurrentURL();
 
@@ -130,6 +133,7 @@ public class HeaderComponentTest extends BaseTest {
                 .selectOrgFolderAndClickOk()
                 .clickSaveButton()
                 .clickDashboard()
+                .getHeader()
                 .setSearchFieldAndClickEnter(searchRequest)
                 .getSearchResultList();
 
@@ -147,9 +151,9 @@ public class HeaderComponentTest extends BaseTest {
 
         Assert.assertTrue(homePage.clickAddDescriptionButton().isDescriptionTextareaEnabled());
         Assert.assertFalse(homePage.isAddDescriptionButtonPresent());
-        Assert.assertFalse(homePage.clickJenkinsHeadIcon()
+        Assert.assertFalse(homePage.getHeader().clickJenkinsHeadIcon()
                 .waitForVisibilityOfAddDescriptionButton().isDescriptionTextareaPresent());
-        Assert.assertTrue(homePage.clickJenkinsHeadIcon()
+        Assert.assertTrue(homePage.getHeader().clickJenkinsHeadIcon()
                 .waitForVisibilityOfAddDescriptionButton().isAddDescriptionButtonEnabled());
     }
 }

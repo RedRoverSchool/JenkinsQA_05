@@ -1,7 +1,7 @@
 package model;
 
 import model.base.BaseStatusPage;
-import model.base.BreadcrumbsComponent;
+import model.base.MainBasePage;
 import model.folder.FolderConfigPage;
 import model.folder.FolderStatusPage;
 import model.freestyle.FreestyleProjectConfigPage;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 import static runner.TestUtils.scrollToElement;
 
-public class HomePage extends BreadcrumbsComponent {
+public class HomePage extends MainBasePage {
 
     @FindBy(linkText = "Build History")
     private WebElement buildHistory;
@@ -225,12 +225,6 @@ public class HomePage extends BreadcrumbsComponent {
         return this;
     }
 
-    public FolderStatusPage clickJob(String name) {
-        getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
-
-        return new FolderStatusPage(getDriver());
-    }
-
     public MultibranchPipelineStatusPage clickJobMBPipeline(String name) {
         getDriver().findElement(By.xpath("//span[text()='" + name + "']")).click();
 
@@ -256,7 +250,7 @@ public class HomePage extends BreadcrumbsComponent {
     }
 
     public FolderStatusPage clickFolder(String folderName) {
-        getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']")).sendKeys(Keys.RETURN);
+        getDriver().findElement(By.xpath("//span[text()='" + folderName + "']")).click();
 
         return new FolderStatusPage(getDriver());
     }
@@ -307,8 +301,8 @@ public class HomePage extends BreadcrumbsComponent {
         return new PeoplePage(getDriver());
     }
 
-    public MultiConfigurationProjectStatusPage clickMultConfJobName(String name) {
-        getWait(5).until(ExpectedConditions.elementToBeClickable(jobList.get(0))).click();
+    public MultiConfigurationProjectStatusPage clickMultiConfigurationProject(String name) {
+        getWait(5).until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
         return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
@@ -399,13 +393,6 @@ public class HomePage extends BreadcrumbsComponent {
     public String getJobName(String name) {
 
         return getDriver().findElement(By.xpath(String.format("//span[contains(text(),'%s')]", name))).getText();
-    }
-
-    public MultiConfigurationProjectStatusPage clickProject(String projectName) {
-        getWait(5).until(ExpectedConditions
-                .elementToBeClickable(By.xpath("//a[@href='job/" + projectName + "/']"))).click();
-
-        return new MultiConfigurationProjectStatusPage(getDriver());
     }
 
     public Boolean getProjectIconText() {

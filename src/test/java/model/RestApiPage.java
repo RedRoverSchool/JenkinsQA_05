@@ -1,12 +1,11 @@
 package model;
 
-import model.base.FooterComponent;
+import model.base.MainBasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class RestApiPage extends FooterComponent {
-
+public class RestApiPage extends MainBasePage {
     @FindBy(xpath = "//dt/a[@href='xml']")
     private WebElement xmlApiLink;
 

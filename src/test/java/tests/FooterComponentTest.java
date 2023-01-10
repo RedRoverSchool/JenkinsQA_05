@@ -1,9 +1,6 @@
 package tests;
 
-import model.ExternalJenkinsPage;
-import model.ManageJenkinsPage;
-import model.RestApiPage;
-import model.XmlPage;
+import model.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -13,7 +10,8 @@ public class FooterComponentTest extends BaseTest {
     @Test
     public void testFooterLinkRestRedirectToPage() {
 
-        String urlRestApi = new RestApiPage(getDriver())
+        String urlRestApi = new HomePage(getDriver())
+                .getFooter()
                 .clickRestApiLink()
                 .getCurrentURL();
 
@@ -24,18 +22,20 @@ public class FooterComponentTest extends BaseTest {
     @Test
     public void testFooterLinkJenkinsRedirectToPage() {
 
-         String textJenkins = new ExternalJenkinsPage(getDriver())
-                 .clickJenkinsVersion()
-                 .getHeaderText();
+        String textJenkins = new HomePage(getDriver())
+                .getFooter()
+                .clickJenkinsVersion()
+                .getHeaderText();
 
-         Assert.assertTrue(new ExternalJenkinsPage(getDriver()).getCurrentURL().contains("jenkins"));
-         Assert.assertEquals(textJenkins, "Jenkins");
+        Assert.assertTrue(new ExternalJenkinsPage(getDriver()).getCurrentURL().contains("jenkins"));
+        Assert.assertEquals(textJenkins, "Jenkins");
 
     }
 
     @Test
     public void testFooterRestApiClickOnXmlApiDisplayXML() {
-        XmlPage xmlPage = new RestApiPage(getDriver())
+        XmlPage xmlPage = new HomePage(getDriver())
+                .getFooter()
                 .clickRestApiLink()
                 .clickXmlApi();
 
@@ -43,14 +43,14 @@ public class FooterComponentTest extends BaseTest {
                 + "style information associated with it. The document tree is shown below.");
     }
 
-    @Test()
+    @Test
     public void testFooterLinkJenkinsIsClickable() {
-        String headerJenkins = new ManageJenkinsPage(getDriver())
+        String externalJenkinsPageHeader = new HomePage(getDriver())
                 .clickManageJenkins()
-                .moveForClinkOnLink()
+                .moveToJenkinsVersion()
                 .clickJenkinsVersion()
                 .getHeaderText();
 
-        Assert.assertEquals(headerJenkins,"Jenkins");
+        Assert.assertEquals(externalJenkinsPageHeader,"Jenkins");
     }
 }
