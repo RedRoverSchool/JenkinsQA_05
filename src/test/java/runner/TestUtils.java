@@ -73,4 +73,8 @@ public class TestUtils {
             };
         }
     }
+
+    public static boolean isCurrentOSWindows() {
+        return  System.getProperty("os.name").toLowerCase().contains("windows");
+    }
 }
