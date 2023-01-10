@@ -4,6 +4,7 @@ import model.ConsoleOutputPage;
 import model.HomePage;
 import model.NewItemPage;
 import model.RenameItemErrorPage;
+import model.multiconfiguration.MultiConfigurationProjectConfigPage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import org.openqa.selenium.By;
 import org.testng.Assert;
