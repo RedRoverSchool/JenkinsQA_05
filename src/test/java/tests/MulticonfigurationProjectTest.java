@@ -259,7 +259,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
     public void testMultiConfigurationProjectWithBuildStepCheckBuildSuccess() {
         MultiConfigurationProjectConfigPage multiConfigProjectPage = new HomePage(getDriver())
-                .clickProject(PROJECT_NAME)
+                .clickMultiConfigurationProject(PROJECT_NAME)
                 .clickConfiguration(PROJECT_NAME)
                 .scrollAndClickBuildSteps();
         if (TestUtils.isCurrentOSWindows()) {
