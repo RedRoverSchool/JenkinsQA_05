@@ -41,7 +41,7 @@ public class ManageJenkinsPage extends MainBasePage {
     }
 
     public ManageUsersPage clickManageUsers() {
-        scrollToElement(getDriver(), manageUsers);
+        TestUtils.scrollToElement_PlaceInCenter(getDriver(), manageUsers);
         getWait(5).until(TestUtils.ExpectedConditions.elementIsNotMoving(manageUsers)).click();
 
         return new ManageUsersPage(getDriver());
