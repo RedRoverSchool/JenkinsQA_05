@@ -4,35 +4,88 @@ import model.HomePage;
 import org.openqa.selenium.WebDriver;
 
 public class ProjectMethodsUtils {
-    public static void createNewPipelineProject(WebDriver driver, String projectName) {
+    public static void createNewPipelineProject(WebDriver driver, String name) {
         new HomePage(driver)
                 .clickNewItem()
-                .setItemName(projectName)
+                .setItemName(name)
                 .selectPipelineAndClickOk()
                 .clickSaveButton()
-                .clickDashboard();
-    }
-    public static void testCreateNewFreestyleProject(WebDriver driver, String projectName) {
-        new HomePage(driver)
-                .clickNewItem()
-                .setItemName(projectName)
-                .selectFreestyleProjectAndClickOk()
-                .clickSaveButton()
-                .clickDashboard();
+                .getHeader().clickJenkinsNameIcon();
     }
 
-//    public static void createNewItemFromDashboard(WebDriver driver, String type, String name) {
-//        driver.findElement(By.xpath("//a[@href='/view/all/newJob']")).click();
-//        driver.findElement(By.id("name")).sendKeys(name);
-//        driver.findElement(By.xpath(type)).click();
-//        driver.findElement(By.id("ok-button")).click();
-//    }
-//
-//    public static void createNewViewFromDashboard(WebDriver driver, By type, String name) {
-//        driver.findElement(By.xpath("//a[@href='/me/my-views']")).click();
-//        driver.findElement(By.className("addTab")).click();
-//        driver.findElement(By.id("name")).sendKeys(name);
-//        driver.findElement(type).click();
-//        driver.findElement(By.id("ok")).click();
-//    }
+    public static void createNewFreestyleProject(WebDriver driver, String name) {
+        new HomePage(driver)
+                .clickNewItem()
+                .setItemName(name)
+                .selectFreestyleProjectAndClickOk()
+                .clickSaveButton()
+                .getHeader().clickJenkinsNameIcon();
+    }
+
+    public static void createNewMultiConfigurationProject(WebDriver driver, String name) {
+        new HomePage(driver)
+                .clickNewItem()
+                .setItemName(name)
+                .selectMultiConfigurationProjectAndClickOk()
+                .clickSaveButton()
+                .getHeader().clickJenkinsNameIcon();
+    }
+
+    public static void createNewFolder(WebDriver driver, String name) {
+        new HomePage(driver)
+                .clickNewItem()
+                .setItemName(name)
+                .selectFolderAndClickOk()
+                .clickSaveButton()
+                .getHeader().clickJenkinsNameIcon();
+    }
+
+    public static void createNewMultibranchPipeline(WebDriver driver, String name) {
+        new HomePage(driver)
+                .clickNewItem()
+                .setItemName(name)
+                .selectMultibranchPipeline()
+                .clickOkMultibranchPipeline()
+                .clickSaveButton()
+                .getHeader().clickJenkinsNameIcon();
+    }
+
+    public static void createNewOrganizationFolder(WebDriver driver, String name) {
+        new HomePage(driver)
+                .clickNewItem()
+                .setItemName(name)
+                .selectOrgFolderAndClickOk()
+                .clickSaveButton()
+                .getHeader().clickJenkinsNameIcon();
+    }
+
+    public static void createNewGlobalViewForMyViews(WebDriver driver, String name) {
+        new HomePage(driver)
+                .clickMyViewsSideMenuLink()
+                .clickNewView()
+                .setViewName(name)
+                .setGlobalViewType()
+                .clickCreateButton()
+                .getHeader().clickJenkinsNameIcon();
+
+    }
+    public static void createNewListViewForMyViews(WebDriver driver, String name) {
+        new HomePage(driver)
+                .clickMyViewsSideMenuLink()
+                .clickNewView()
+                .setViewName(name)
+                .setListViewType()
+                .clickCreateButton()
+                .getHeader().clickJenkinsNameIcon();
+
+    }
+    public static void createNewMyViewForMyViews(WebDriver driver, String name) {
+        new HomePage(driver)
+                .clickMyViewsSideMenuLink()
+                .clickNewView()
+                .setViewName(name)
+                .setMyViewType()
+                .clickCreateButton()
+                .getHeader().clickJenkinsNameIcon();
+    }
 }
