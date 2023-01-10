@@ -25,7 +25,7 @@ public class MultiConfigurationProjectConfigPage extends BlankConfigPage<MultiCo
     @FindBy(id = "yui-gen29")
     private WebElement executeWindowsFromBuildSteps;
 
-    @FindBy(id = "yui-gen38-button")
+    @FindBy(css = ".hetero-list-add[suffix=builder]")
     private WebElement advancedBuildStepsButton;
 
     @FindBy(css = ".jenkins-input.fixed-width")
