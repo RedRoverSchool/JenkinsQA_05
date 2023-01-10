@@ -141,17 +141,8 @@ public class MultiConfigurationProjectStatusPage extends BlankStatusPage<MultiCo
         return this;
     }
 
-    public MultiConfigurationProjectStatusPage clickDropDownBuildIcon() {
-        getWait(20).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='build-status-icon__outer']"
-                + "/*[name()='svg'][@tooltip='Success &gt; Console Output']")));
-        dropDownBuildIcon.click();
-
-        return this;
-    }
-
-    public ConsoleOutputPage selectAndClickConsoleOutput() {
-        getWait(10).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@id='yui-gen3']/a/*[name()='svg']")));
-        consoleOutputDropDownBuildIcon.click();
+    public ConsoleOutputPage clickBuildIcon() {
+        getWait(20).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='build-icon']"))).click();
 
         return new ConsoleOutputPage(getDriver());
     }

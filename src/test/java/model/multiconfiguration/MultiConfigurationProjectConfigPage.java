@@ -22,14 +22,23 @@ public class MultiConfigurationProjectConfigPage extends BlankConfigPage<MultiCo
     @FindBy(xpath = "//button[text()='Add build step']")
     private WebElement addBuildStepButton;
 
-    @FindBy(id = "yui-gen29")
+    @FindBy(xpath = "//a[text()='Execute Windows batch command']")
     private WebElement executeWindowsFromBuildSteps;
 
-    @FindBy(id = "yui-gen38-button")
+    @FindBy(xpath = "//a[contains(text(),'Execute shell')]")
+    private WebElement executeShellFromBuildSteps;
+
+    @FindBy(css = ".CodeMirror-scroll>div")
+    private WebElement activateShellTextArea;
+
+    @FindBy(xpath = "//div[@id='build-steps']/..//div[@class='advancedLink']//button")
     private WebElement advancedBuildStepsButton;
 
     @FindBy(css = ".jenkins-input.fixed-width")
-    private WebElement textAreaBuildSteps;
+    private WebElement executeWindowsTextArea;
+
+    @FindBy(css = ".CodeMirror textarea")
+    private WebElement executeShellTextArea;
 
     @FindBy(xpath = "//label[@for='enable-disable-project']")
     private WebElement enableOrDisableButton;
@@ -67,7 +76,7 @@ public class MultiConfigurationProjectConfigPage extends BlankConfigPage<MultiCo
     public MultiConfigurationProjectConfigPage scrollAndClickBuildSteps() {
         getWait(5).until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h2")));
         TestUtils.scrollToElement(getDriver(), buildStepsSection);
-        getWait(20).until(ExpectedConditions.elementToBeClickable(addBuildStepButton));
+        getWait(20).until(TestUtils.ExpectedConditions.elementIsNotMoving(addBuildStepButton));
         addBuildStepButton.click();
 
         return this;
@@ -78,10 +87,22 @@ public class MultiConfigurationProjectConfigPage extends BlankConfigPage<MultiCo
 
         return this;
     }
+    public MultiConfigurationProjectConfigPage selectionAndClickExecuteShellFromBuildSteps() {
+        executeShellFromBuildSteps.click();
 
-    public MultiConfigurationProjectConfigPage enterCommandInBuildSteps(String command) {
+        return this;
+    }
+
+    public MultiConfigurationProjectConfigPage enterCommandInExecuteWindowsBuildSteps(String command) {
         getWait(10).until(ExpectedConditions.elementToBeClickable(advancedBuildStepsButton));
-        textAreaBuildSteps.sendKeys(command);
+        executeWindowsTextArea.sendKeys(command);
+
+        return this;
+    }
+    public MultiConfigurationProjectConfigPage enterCommandInExecuteShellBuildSteps(String command) {
+        getWait(10).until(ExpectedConditions.elementToBeClickable(advancedBuildStepsButton));
+        getWait(5).until(ExpectedConditions.visibilityOf(activateShellTextArea)).click();
+        executeShellTextArea.sendKeys(command);
 
         return this;
     }
