@@ -539,4 +539,8 @@ public class HomePage extends MainBasePage {
     public int getJobTableHeadersSize() {
         return listJobTableHeaders.size();
     }
+
+    public String getUser() {
+     return getDriver().findElement(By.cssSelector("[href*='/user/']")).getText();
+    }
 }

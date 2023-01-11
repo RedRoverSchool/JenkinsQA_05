@@ -4,6 +4,7 @@ import model.ConsoleOutputPage;
 import model.HomePage;
 import model.NewItemPage;
 import model.RenameItemErrorPage;
+import model.multiconfiguration.MultiConfigurationProjectConfigPage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -255,21 +256,27 @@ public class MulticonfigurationProjectTest extends BaseTest {
         Assert.assertTrue(buildNowButton.buildNowButtonIsDisplayed());
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
-    public void testMultiConfigurationProjectCheckConsoleOutput() {
-        ConsoleOutputPage multiConfigProjectConsole = new HomePage(getDriver())
+    public void testMultiConfigurationProjectWithBuildStepCheckBuildSuccess() {
+        MultiConfigurationProjectConfigPage multiConfigProjectPage = new HomePage(getDriver())
                 .clickMultiConfigurationProject(PROJECT_NAME)
                 .clickConfiguration(PROJECT_NAME)
-                .scrollAndClickBuildSteps()
-                .selectionAndClickExecuteWindowsFromBuildSteps()
-                .enterCommandInBuildSteps("echo Hello world!")
+                .scrollAndClickBuildSteps();
+        if (TestUtils.isCurrentOSWindows()) {
+            multiConfigProjectPage
+                    .selectionAndClickExecuteWindowsFromBuildSteps()
+                    .enterCommandInExecuteWindowsBuildSteps("echo Hello World");
+        } else {
+            multiConfigProjectPage
+                    .selectionAndClickExecuteShellFromBuildSteps()
+                    .enterCommandInExecuteShellBuildSteps("echo Hello World");
+        }
+        ConsoleOutputPage multiConfigProjectConsole = multiConfigProjectPage
                 .clickSaveButton()
                 .clickBuildNowButton()
-                .clickDropDownBuildIcon()
-                .selectAndClickConsoleOutput();
+                .clickBuildIcon();
 
-        Assert.assertEquals(multiConfigProjectConsole.getTextConsoleOutputUserName(), "admin");
+        Assert.assertEquals(multiConfigProjectConsole.getTextConsoleOutputUserName(), new HomePage(getDriver()).getUser());
         Assert.assertTrue(multiConfigProjectConsole.getConsoleOutputText().contains("Finished: SUCCESS"));
     }
 
@@ -286,7 +293,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         mcpStatusPage.multiConfigurationProjectNewestBuilds(getDriver());
 
         Assert.assertTrue(getDriver().
-                findElement(By.xpath("//*[@id=/'buildHistory/']/div[2]/table/tbody/tr[2]")).isDisplayed());
+                findElement(By.xpath("//*[@id='buildHistory/']/div[2]/table/tbody/tr[2]")).isDisplayed());
     }
 
     @Test(dependsOnMethods = "testEnableMultiConfigurationProject")
