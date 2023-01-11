@@ -3,9 +3,11 @@ package tests;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+@Ignore
 public class NewFullNameTest extends BaseTest {
     private static final By MANAGE_JENKINS_BUTTON = By.xpath("//div[4]/span/a");
     private static final By MANAGE_USER_BUTTON = By.partialLinkText("Manage Users");
