@@ -26,6 +26,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains(PROJECT_NAME));
@@ -71,6 +72,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickMultiConfigurationProject(PROJECT_NAME)
                 .deleteMultiConfigProject();
@@ -112,6 +114,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .inputDescription(descriptionMCP)
                 .showPreview()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickMultiConfigurationProject(nameMCP);
 
@@ -150,6 +153,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .setCopyFromItemName(PROJECT_NAME)
                 .clickOK()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getJobName(NEW_PROJECT_NAME);
 
@@ -169,6 +173,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         HomePage homePage = new HomePage(getDriver())
                 .clickMultiConfigurationProject(PROJECT_NAME)
                 .clickDisableButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.isDisplayedIconProjectDisabled());
@@ -180,6 +185,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         HomePage homePage = new HomePage(getDriver())
                 .clickMultiConfigurationProject(PROJECT_NAME)
                 .clickEnableButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.isDisplayedIconProjectEnabled());
@@ -192,6 +198,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickMultiConfigurationProject(PROJECT_NAME)
                 .clickRenameSideMenu()
@@ -205,6 +212,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
             "testMultiConfigurationProjectBuild"})
     public void testMultiConfigurationProjectsRunJobInBuildHistory() {
         List<String> listNameOfLabels = new HomePage(getDriver())
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
                 .clickBuildHistory()
@@ -239,6 +247,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSaveButton()
                 .clickDisableButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getProjectIconText();
 
@@ -250,6 +259,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         HomePage buildNowButton = new HomePage(getDriver())
                 .clickMultiConfigurationProject(PROJECT_NAME)
                 .clickEnableButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickProjectDropdownMenu(PROJECT_NAME);
 

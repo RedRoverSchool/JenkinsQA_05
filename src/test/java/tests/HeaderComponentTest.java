@@ -132,6 +132,7 @@ public class HeaderComponentTest extends BaseTest {
                 .setItemName(organizationFolderName)
                 .selectOrgFolderAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getHeader()
                 .setSearchFieldAndClickEnter(searchRequest)
@@ -139,7 +140,7 @@ public class HeaderComponentTest extends BaseTest {
 
         Assert.assertTrue(searchResults.size() > 0);
 
-        for (String result: searchResults) {
+        for (String result : searchResults) {
             Assert.assertTrue(result.contains(searchRequest));
         }
     }

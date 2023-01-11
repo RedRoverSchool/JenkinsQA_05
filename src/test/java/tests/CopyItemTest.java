@@ -29,6 +29,7 @@ public class CopyItemTest extends BaseTest {
         String actualErrorMessage = createItemErrorPage.getErrorHeader() +
                 " " + createItemErrorPage.getErrorMessage();
         boolean isItemAtTheDashboard = new HomePage(getDriver())
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getJobListAsString()
                 .contains(nameItem);
@@ -54,6 +55,7 @@ public class CopyItemTest extends BaseTest {
                 .setItemName(nameFreestyleProject)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard();
     }
 }

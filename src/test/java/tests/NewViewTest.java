@@ -24,18 +24,21 @@ public class NewViewTest extends BaseTest {
                 .setItemName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
 
                 .clickNewItem()
                 .setItemName(PIPELINE_PROJECT_NAME)
                 .selectPipelineAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
 
                 .clickNewItem()
                 .setItemName("Multi-configuration project")
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
 
                 .clickMyViewsSideMenuLink()
@@ -43,6 +46,7 @@ public class NewViewTest extends BaseTest {
                 .setViewName(GLOBAL_VIEW_NAME)
                 .setGlobalViewType()
                 .clickCreateButton()
+                .getBreadcrumbs()
                 .clickDashboard()
 
                 .clickMyViewsSideMenuLink()
@@ -50,6 +54,7 @@ public class NewViewTest extends BaseTest {
                 .setViewName(LIST_VIEW_NAME)
                 .setListViewType()
                 .clickCreateButton()
+                .getBreadcrumbs()
                 .clickDashboard()
 
                 .clickMyViewsSideMenuLink()
@@ -57,6 +62,7 @@ public class NewViewTest extends BaseTest {
                 .setViewName(MY_VIEW_NAME)
                 .setMyViewType()
                 .clickCreateButton()
+                .getBreadcrumbs()
                 .clickDashboard()
 
                 .clickMyViewsSideMenuLink();
@@ -216,6 +222,7 @@ public class NewViewTest extends BaseTest {
                 .setItemName(PROJECT_RANDOM_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
                 .clickNewView()
@@ -243,12 +250,13 @@ public class NewViewTest extends BaseTest {
     }
 
     @Test
-    public void testLettersSMLClickableMyViews(){
+    public void testLettersSMLClickableMyViews() {
         MyViewsPage myViewsPageSizeM = new MyViewsPage(getDriver())
                 .clickNewItem()
                 .setItemName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
                 .clickSizeM();

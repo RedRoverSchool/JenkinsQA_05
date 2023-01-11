@@ -64,6 +64,7 @@ public class MultiBranchPipelinePage {
     @Then("Multibranch Pipeline with name exists")
     public void multibranchPipelineWithNameExists() {
         List<String> allJobsAfterCreate = new HomePage(CucumberDriver.getDriver())
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getJobNamesList();
 

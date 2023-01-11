@@ -163,7 +163,7 @@ public class FreestyleProjectStatusPage extends BaseStatusPage<FreestyleProjectS
         buttonBuildNow.click();
         getWait(60).until(ExpectedConditions.not(ExpectedConditions
                 .attributeContains(buildStatusIcon, "tooltip", "progress")));
-        topMenuRoot.click();
+        getBreadcrumbs().clickDashboard();
 
         return new HomePage(getDriver());
     }

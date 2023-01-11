@@ -38,6 +38,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickRenameSideMenu()
                 .clearFieldAndInputNewName("New name " + NAME_ORG_FOLDER)
                 .clickRenameButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains("New name " + NAME_ORG_FOLDER));
@@ -50,6 +51,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .setItemName(NAME_ORG_FOLDER)
                 .selectFolderAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getJobNamesList();
 
@@ -114,7 +116,8 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(orgFolderStatusPage.getNameText(), DISPLAY_NAME);
         Assert.assertEquals(orgFolderStatusPage.getAdditionalDescriptionText(), description);
 
-        HomePage homePage = orgFolderStatusPage.clickDashboard();
+        HomePage homePage = orgFolderStatusPage.getBreadcrumbs()
+                .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains(DISPLAY_NAME));
     }
@@ -126,6 +129,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .setItemName(NAME_ORG_FOLDER)
                 .selectOrgFolderAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains(NAME_ORG_FOLDER));
@@ -138,6 +142,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .setItemName(NAME_ORG_FOLDER)
                 .selectOrgFolderAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains(NAME_ORG_FOLDER));
@@ -150,6 +155,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .setItemName(NAME_FOLDER)
                 .selectFolderAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains(NAME_FOLDER));
@@ -162,6 +168,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickMoveButton()
                 .selectFolder(NAME_FOLDER)
                 .clickMove()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(NAME_FOLDER);
 
@@ -176,6 +183,7 @@ public class OrganizationFolderTest extends BaseTest {
                 .clickMoveButton()
                 .selectOptionToDashBoard()
                 .clickMove()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains(NAME_ORG_FOLDER));
