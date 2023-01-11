@@ -3,11 +3,10 @@ package tests;
 import model.*;
 
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
-
-import java.util.List;
 
 public class ManageJenkinsTest extends BaseTest {
 
@@ -75,27 +74,26 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(errorMessageWhenEmptyUserName, "\"\" is prohibited as a username for security reasons.");
     }
 
-    @Test
-    public void testCreateUserWithIncorrectCharactersInName() {
-        List<Character> incorrectNameCharacters =
-                List.of('!', '@', '#', '$', '%', '^', '&', '*', '[', ']', '\\', '|', ';', ':', '/', '?', '<', '>', '.', ',');
+    @DataProvider(name = "specialCharacters")
+    public Object[][] specialCharactersList() {
+        return new Object[][]{{'!'}, {'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'&'}, {'*'}, {'['}, {']'}, {'\\'}, {'|'}, {';'}, {':'}, {'/'}, {'?'}, {'<'}, {'>'}, {'.'}, {','}};
+    }
+
+    @Test(dataProvider = "specialCharacters")
+    public void testCreateUserWithIncorrectCharactersInName(Character specialCharacter) {
         String password = TestUtils.getRandomStr(10);
 
-        CreateUserPage createUserPage = new HomePage(getDriver())
+        String errorMessageWhenIncorrectCharacters = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
-                .clickCreateUser();
+                .clickCreateUser()
+                .setUsername(String.valueOf(specialCharacter))
+                .setPassword(password)
+                .confirmPassword(password)
+                .setFullName(TestUtils.getRandomStr(10))
+                .setEmail(TestUtils.getRandomStr(10) + "@gmail.com")
+                .clickCreateUserAndGetErrorMessage();
 
-        for (Character character : incorrectNameCharacters) {
-            String errorMessageWhenIncorrectCharacters = createUserPage.clearUserName()
-                    .setUsername(String.valueOf(character))
-                    .setPassword(password)
-                    .confirmPassword(password)
-                    .setFullName(TestUtils.getRandomStr(10))
-                    .setEmail(TestUtils.getRandomStr(10) + "@gmail.com")
-                    .clickCreateUserAndGetErrorMessage();
-
-            Assert.assertEquals(errorMessageWhenIncorrectCharacters, "User name must only contain alphanumeric characters, underscore and dash");
-        }
+        Assert.assertEquals(errorMessageWhenIncorrectCharacters, "User name must only contain alphanumeric characters, underscore and dash");
     }
 }
