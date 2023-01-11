@@ -135,7 +135,7 @@ public class NewItemPage extends HomePage {
     }
 
     public NewItemPage setItem(int index) {
-        getAction().scrollByAmount(0, 250).perform();
+        getAction().scrollByAmount(0, 300).perform();
         itemsList.get(index).click();
 
         return this;
