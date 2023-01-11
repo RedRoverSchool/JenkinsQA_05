@@ -32,6 +32,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(freestyleProjectTitle, String.format("Project %s", FREESTYLE_NAME));
     }
+
     @Test(dependsOnMethods = "testCreateFreestyleProjectWithSpacesInsteadOfName")
     public void testCreateFreestyleProjectWithIncorrectCharacters() {
         final List<Character> incorrectNameCharacters =
@@ -56,7 +57,7 @@ public class FreestyleProjectTest extends BaseTest {
         Assert.assertEquals(freestyleProjectStatusPage.getNameText(), String.format("Project %s", FREESTYLE_NAME));
         Assert.assertEquals(freestyleProjectStatusPage.getWarningMsg(), "This project is currently disabled");
 
-        HomePage homePage = freestyleProjectStatusPage.clickDashboard();
+        HomePage homePage = freestyleProjectStatusPage.getBreadcrumbs().clickDashboard();
         Assert.assertEquals(homePage.getJobBuildStatus(FREESTYLE_NAME), "Disabled");
     }
 
@@ -65,6 +66,7 @@ public class FreestyleProjectTest extends BaseTest {
         final String jobStatusIconTooltip = new HomePage(getDriver())
                 .clickFreestyleProjectName(FREESTYLE_NAME)
                 .clickDisableProjectBtn()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getJobBuildStatus(FREESTYLE_NAME);
 
@@ -121,6 +123,7 @@ public class FreestyleProjectTest extends BaseTest {
                 .clickRenameSideMenu()
                 .clearFieldAndInputNewName(NEW_FREESTYLE_NAME)
                 .clickRenameButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getJobNamesList();
 
@@ -182,6 +185,7 @@ public class FreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(pageHeaderText, "Welcome to Jenkins!");
     }
+
     @Test(dependsOnMethods = "testCreateNewFreestyleProject")
     public void testFreestyleConfigSideMenu() {
 

@@ -19,6 +19,7 @@ public class FolderOneTest extends BaseTest {
                 .setItemName(folderName)
                 .selectFolderAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard();
     }
 
@@ -54,6 +55,7 @@ public class FolderOneTest extends BaseTest {
                 .clickConfigDropDownMenu()
                 .setProjectName(RANDOM_NAME_2)
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains(RANDOM_NAME_2));
@@ -80,6 +82,7 @@ public class FolderOneTest extends BaseTest {
                 .clickRenameFolderDropDownMenu()
                 .clearFieldAndInputNewName(RANDOM_NAME_2)
                 .clickRenameButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains(RANDOM_NAME_2));
@@ -93,6 +96,7 @@ public class FolderOneTest extends BaseTest {
                 .clickFolder(RANDOM_NAME_1)
                 .clickDeleteFolder()
                 .clickYes()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertFalse(homePage.getJobNamesList().contains(RANDOM_NAME_1));
@@ -124,6 +128,7 @@ public class FolderOneTest extends BaseTest {
                 .clickRenameFolderDropDownMenu()
                 .clearFieldAndInputNewName(RANDOM_NAME_1 + "NEW")
                 .clickRenameButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertFalse(homePage.getJobNamesList().contains(RANDOM_NAME_1));
@@ -140,6 +145,7 @@ public class FolderOneTest extends BaseTest {
                 .clickMoveButton()
                 .selectFolder(RANDOM_NAME_1 + "NEW")
                 .clickMove()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(RANDOM_NAME_1 + "NEW");
 
@@ -216,6 +222,7 @@ public class FolderOneTest extends BaseTest {
                 .clickMoveButtonDropdown(new FolderStatusPage(getDriver()))
                 .selectFolder(RANDOM_NAME_1)
                 .clickMove()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(RANDOM_NAME_1);
 
@@ -233,6 +240,7 @@ public class FolderOneTest extends BaseTest {
                 .setItemName(RANDOM_MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipelineAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(RANDOM_NAME_1);
 
@@ -247,17 +255,20 @@ public class FolderOneTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(RANDOM_NAME_1)
                 .selectFolderAndClickOk()
+                .getBreadcrumbs()
                 .clickDashboard()
 
                 .clickNewItem()
                 .setItemName(RANDOM_NAME_2)
                 .selectFolderAndClickOk()
+                .getBreadcrumbs()
                 .clickDashboard()
 
                 .clickJobDropdownMenu(RANDOM_NAME_1)
                 .clickMoveButtonDropdown(new FolderStatusPage(getDriver()))
                 .selectFolder(RANDOM_NAME_2)
                 .clickMove()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertFalse(homePage.getJobNamesList().contains(RANDOM_NAME_1));

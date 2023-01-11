@@ -43,6 +43,7 @@ public class NewItemTest extends BaseTest {
                 .setItemName(PROJECT_NAME)
                 .selectFolderAndClickOk()
                 .clickApplyButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertEquals(homePage.getJobName(PROJECT_NAME), PROJECT_NAME);

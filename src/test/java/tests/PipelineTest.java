@@ -36,6 +36,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickMyViewsSideMenuLink().getListProjectsNamesAsString();
 
@@ -70,11 +71,13 @@ public class PipelineTest extends BaseTest {
                 .clickNewView()
                 .setViewName(ITEM_NAME)
                 .setMyViewTypeAndCLickCreate()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickJobDropDownMenu(PIPELINE_NAME)
                 .clickRenamePipelineDropDownMenu()
                 .clearFieldAndInputNewName(PIPELINE_NAME + RENAME_SUFFIX)
                 .clickRenameButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
                 .clickView(ITEM_NAME)
@@ -90,6 +93,7 @@ public class PipelineTest extends BaseTest {
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickJobDropDownMenu(PIPELINE_NAME)
                 .clickRenamePipelineDropDownMenu()
@@ -111,6 +115,7 @@ public class PipelineTest extends BaseTest {
         ProjectMethodsUtils.createNewPipelineProject(getDriver(), PIPELINE_NAME);
 
         String actualRenameErrorMessage = new HomePage(getDriver())
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickJobDropDownMenu(PIPELINE_NAME)
                 .clickRenamePipelineDropDownMenu()
@@ -154,10 +159,12 @@ public class PipelineTest extends BaseTest {
                 .selectPipelineAndClickOk()
                 .setDescriptionField(PIPELINE_DESCRIPTION)
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickPipelineJob(PIPELINE_NAME)
                 .clickEditDescriptionLink().editDescription(PIPELINE_NAME + "edit description")
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard().clickPipelineJob(PIPELINE_NAME);
 
         Assert.assertEquals(pipelineProjectPage.getDescriptionText(), PIPELINE_NAME + "edit description");
@@ -168,6 +175,7 @@ public class PipelineTest extends BaseTest {
     public void testDeletePipelineFromDashboard() {
         ProjectMethodsUtils.createNewPipelineProject(getDriver(), PIPELINE_NAME);
         String homePageHeaderText = new HomePage(getDriver())
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickPipelineJob(PIPELINE_NAME)
                 .clickDeletePipelineButton()
@@ -182,6 +190,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickNewItem()
                 .setItemName(PIPELINE_NAME)
@@ -197,6 +206,7 @@ public class PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(PIPELINE_NAME)
                 .selectPipelineAndClickOk()
+                .getBreadcrumbs()
                 .getTextBreadcrumbs();
 
         Assert.assertTrue(actualTextOnBreadcrumbs.contains(PIPELINE_NAME), PIPELINE_NAME + " Pipeline Not Found On Breadcrumbs");
@@ -335,10 +345,12 @@ public class PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testCreatePipelineWithName")
     public void testEnablePipelineProject() {
         String jobStatusAfterEnable = new HomePage(getDriver())
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickPipelineProjectName()
                 .clickDisableProject()
                 .clickEnableProject()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getJobBuildStatus();
 
@@ -368,6 +380,7 @@ public class PipelineTest extends BaseTest {
                 .clickTrySamplePipelineDropDownMenu()
                 .clickHelloWorld()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getLastSuccessText(PIPELINE_NAME);
 
@@ -381,6 +394,7 @@ public class PipelineTest extends BaseTest {
         String actualCheckIcon = new HomePage(getDriver())
                 .clickPipelineJob(PIPELINE_NAME)
                 .clickBuildNow(PIPELINE_NAME)
+                .getBreadcrumbs()
                 .clickDashboard()
                 .movePointToCheckBox()
                 .getStatusBuildText();
