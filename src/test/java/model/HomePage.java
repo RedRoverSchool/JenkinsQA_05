@@ -19,10 +19,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
 import static runner.TestUtils.scrollToElement;
 
 public class HomePage extends MainBasePage {
@@ -119,6 +117,9 @@ public class HomePage extends MainBasePage {
 
     @FindBy(css = "#projectstatus th")
     private List<WebElement> listJobTableHeaders;
+
+    @FindBy(css = "[href*='/user/']")
+    private WebElement user;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -540,7 +541,7 @@ public class HomePage extends MainBasePage {
         return listJobTableHeaders.size();
     }
 
-    public String getUser() {
-     return getDriver().findElement(By.cssSelector("[href*='/user/']")).getText();
+    public String getUserName() {
+     return user.getText();
     }
 }

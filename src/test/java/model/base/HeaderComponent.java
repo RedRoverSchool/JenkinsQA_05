@@ -24,6 +24,9 @@ public class HeaderComponent extends BaseModel {
     @FindBy(id = "search-box")
     private WebElement searchField;
 
+    @FindBy(xpath = "//a[@href='/logout']")
+    private WebElement logOut;
+
     public HeaderComponent(WebDriver driver) {
         super(driver);
     }
@@ -38,6 +41,12 @@ public class HeaderComponent extends BaseModel {
         jenkinsNameIcon.click();
 
         return new HomePage(getDriver());
+    }
+
+    public LoginPage clickLogOut() {
+        logOut.click();
+
+        return new LoginPage(getDriver());
     }
 
     public boolean isJenkinsNameIconDisplayed() {
