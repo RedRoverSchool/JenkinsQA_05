@@ -82,7 +82,7 @@ public class ManageJenkinsTest extends BaseTest {
                 .confirmPassword(password)
                 .setFullName(TestUtils.getRandomStr(10))
                 .setEmail(TestUtils.getRandomStr(10) + "@gmail.com")
-                .clickCreateUserAndGetErrorMessageWhenEmptyUserName();
+                .clickCreateUserAndGetErrorMessage();
 
         Assert.assertEquals(errorMessageWhenEmptyUserName, "\"\" is prohibited as a username for security reasons.");
     }
