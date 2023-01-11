@@ -22,6 +22,7 @@ public class ListViewTest extends BaseTest {
                 .setItemName(projectOne)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickAddViewLink()
                 .setViewName(RANDOM_LIST_VIEW_NAME)

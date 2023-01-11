@@ -24,6 +24,7 @@ public class FolderTest extends BaseTest {
                 .setItemName(FOLDER_RANDOM_NAME_1)
                 .selectFolderAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getJobNamesList();
 
@@ -53,6 +54,7 @@ public class FolderTest extends BaseTest {
                 .setDisplayName(DISPLAY_RANDOM_NAME)
                 .setDescription("change name")
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getJobNamesList();
 
@@ -86,11 +88,13 @@ public class FolderTest extends BaseTest {
     @Test(dependsOnMethods = "testConfigureFolderAddDescription")
     public void testMoveFolderInFolder() {
         List<String> foldersNamesInFolder = new HomePage(getDriver())
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_2)
                 .clickMoveButton()
                 .selectFolder(DISPLAY_RANDOM_NAME)
                 .clickMove()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(DISPLAY_RANDOM_NAME)
                 .getJobList();
@@ -101,6 +105,7 @@ public class FolderTest extends BaseTest {
     @Test(dependsOnMethods = "testMoveFolderInFolder")
     public void testDeleteFolder() {
         String pageHeaderText = new HomePage(getDriver())
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(DISPLAY_RANDOM_NAME)
                 .clickDeleteFolder()
@@ -116,11 +121,13 @@ public class FolderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(FOLDER_RANDOM_NAME_1)
                 .selectFolderAndClickOk()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_1)
                 .clickRenameSideMenu()
                 .clearFieldAndInputNewName(FOLDER_RANDOM_NAME_2)
                 .clickRenameButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getJobNamesList();
 
@@ -137,6 +144,7 @@ public class FolderTest extends BaseTest {
                 .setItemName(freestyleProjectName)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_2)
                 .getJobList();
@@ -153,11 +161,13 @@ public class FolderTest extends BaseTest {
                 .setItemName(freestyleProjectName)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickJobDropDownMenu(freestyleProjectName)
                 .clickMoveButtonDropdown(new FreestyleProjectStatusPage(getDriver()))
                 .selectFolder(FOLDER_RANDOM_NAME_2)
                 .clickMove()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_2)
                 .getJobList();
@@ -174,6 +184,7 @@ public class FolderTest extends BaseTest {
                 .setItemName(FREESTYLE_PROJECT_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_2)
                 .getJobList();
@@ -184,18 +195,18 @@ public class FolderTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateFreestyleProjectInFolderNewItem")
     public void testDeleteFreestyleProjectInFolder() {
 
-        List <String> jobListBeforeDeleting = new HomePage(getDriver())
+        List<String> jobListBeforeDeleting = new HomePage(getDriver())
                 .clickFolder(FOLDER_RANDOM_NAME_2)
                 .getJobList();
 
-        List <String> jobList = new FolderStatusPage(getDriver())
+        List<String> jobList = new FolderStatusPage(getDriver())
                 .clickProject(FREESTYLE_PROJECT_NAME)
                 .clickButtonDeleteProject()
                 .confirmAlertAndDeleteProjectFromFolder()
                 .getJobList();
 
         Assert.assertFalse(jobList.contains(FREESTYLE_PROJECT_NAME));
-        Assert.assertEquals(jobList.size(), (jobListBeforeDeleting.size()-1));
+        Assert.assertEquals(jobList.size(), (jobListBeforeDeleting.size() - 1));
     }
 
     @Test
@@ -209,6 +220,7 @@ public class FolderTest extends BaseTest {
                 .setItemName(FOLDER_RANDOM_NAME_2)
                 .selectFolderAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_1)
                 .getJobList();
@@ -221,11 +233,13 @@ public class FolderTest extends BaseTest {
         String folderDescription = TestUtils.getRandomStr();
 
         String textDescription = new HomePage(getDriver())
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_1)
                 .clickAddDescription()
                 .setDescription(folderDescription)
                 .clickSubmitButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_1)
                 .getDescriptionText();
@@ -259,6 +273,7 @@ public class FolderTest extends BaseTest {
                 .setItemName(multibranchPipelineProjectName)
                 .selectMultibranchPipelineAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickFolder(FOLDER_RANDOM_NAME_1)
                 .getJobList();
@@ -269,6 +284,7 @@ public class FolderTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateMultibranchPipelineProjectInFolder")
     public void testDeleteFolderUsingDropDown() {
         String welcomeJenkinsHeader = new HomePage(getDriver())
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickJobDropDownMenu(FOLDER_RANDOM_NAME_1)
                 .clickDeleteDropDownMenu()

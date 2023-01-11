@@ -4,6 +4,7 @@ import model.ConsoleOutputPage;
 import model.HomePage;
 import model.NewItemPage;
 import model.RenameItemErrorPage;
+import model.multiconfiguration.MultiConfigurationProjectConfigPage;
 import model.multiconfiguration.MultiConfigurationProjectStatusPage;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -25,6 +26,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains(PROJECT_NAME));
@@ -70,6 +72,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickMultiConfigurationProject(PROJECT_NAME)
                 .deleteMultiConfigProject();
@@ -111,6 +114,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .inputDescription(descriptionMCP)
                 .showPreview()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickMultiConfigurationProject(nameMCP);
 
@@ -149,6 +153,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .setCopyFromItemName(PROJECT_NAME)
                 .clickOK()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getJobName(NEW_PROJECT_NAME);
 
@@ -168,6 +173,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         HomePage homePage = new HomePage(getDriver())
                 .clickMultiConfigurationProject(PROJECT_NAME)
                 .clickDisableButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.isDisplayedIconProjectDisabled());
@@ -179,6 +185,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         HomePage homePage = new HomePage(getDriver())
                 .clickMultiConfigurationProject(PROJECT_NAME)
                 .clickEnableButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.isDisplayedIconProjectEnabled());
@@ -191,6 +198,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .setItemName(PROJECT_NAME)
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickMultiConfigurationProject(PROJECT_NAME)
                 .clickRenameSideMenu()
@@ -204,6 +212,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
             "testMultiConfigurationProjectBuild"})
     public void testMultiConfigurationProjectsRunJobInBuildHistory() {
         List<String> listNameOfLabels = new HomePage(getDriver())
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickMyViewsSideMenuLink()
                 .clickBuildHistory()
@@ -238,6 +247,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
                 .selectMultiConfigurationProjectAndClickOk()
                 .clickSaveButton()
                 .clickDisableButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getProjectIconText();
 
@@ -249,27 +259,34 @@ public class MulticonfigurationProjectTest extends BaseTest {
         HomePage buildNowButton = new HomePage(getDriver())
                 .clickMultiConfigurationProject(PROJECT_NAME)
                 .clickEnableButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickProjectDropdownMenu(PROJECT_NAME);
 
         Assert.assertTrue(buildNowButton.buildNowButtonIsDisplayed());
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigurationProjectWithValidName")
-    public void testMultiConfigurationProjectCheckConsoleOutput() {
-        ConsoleOutputPage multiConfigProjectConsole = new HomePage(getDriver())
+    public void testMultiConfigurationProjectWithBuildStepCheckBuildSuccess() {
+        MultiConfigurationProjectConfigPage multiConfigProjectPage = new HomePage(getDriver())
                 .clickMultiConfigurationProject(PROJECT_NAME)
                 .clickConfiguration(PROJECT_NAME)
-                .scrollAndClickBuildSteps()
-                .selectionAndClickExecuteWindowsFromBuildSteps()
-                .enterCommandInBuildSteps("echo Hello world!")
+                .scrollAndClickBuildSteps();
+        if (TestUtils.isCurrentOSWindows()) {
+            multiConfigProjectPage
+                    .selectionAndClickExecuteWindowsFromBuildSteps()
+                    .enterCommandInExecuteWindowsBuildSteps("echo Hello World");
+        } else {
+            multiConfigProjectPage
+                    .selectionAndClickExecuteShellFromBuildSteps()
+                    .enterCommandInExecuteShellBuildSteps("echo Hello World");
+        }
+        ConsoleOutputPage multiConfigProjectConsole = multiConfigProjectPage
                 .clickSaveButton()
                 .clickBuildNowButton()
-                .clickDropDownBuildIcon()
-                .selectAndClickConsoleOutput();
+                .clickBuildIcon();
 
-        Assert.assertEquals(multiConfigProjectConsole.getTextConsoleOutputUserName(), "admin");
+        Assert.assertEquals(multiConfigProjectConsole.getTextConsoleOutputUserName(), new HomePage(getDriver()).getUser());
         Assert.assertTrue(multiConfigProjectConsole.getConsoleOutputText().contains("Finished: SUCCESS"));
     }
 
@@ -286,7 +303,7 @@ public class MulticonfigurationProjectTest extends BaseTest {
         mcpStatusPage.multiConfigurationProjectNewestBuilds(getDriver());
 
         Assert.assertTrue(getDriver().
-                findElement(By.xpath("//*[@id=/'buildHistory/']/div[2]/table/tbody/tr[2]")).isDisplayed());
+                findElement(By.xpath("//*[@id='buildHistory/']/div[2]/table/tbody/tr[2]")).isDisplayed());
     }
 
     @Test(dependsOnMethods = "testEnableMultiConfigurationProject")

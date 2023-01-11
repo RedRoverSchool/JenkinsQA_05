@@ -6,6 +6,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
+
 import java.util.List;
 
 public class MultibranchPipelineTest extends BaseTest {
@@ -20,6 +21,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .selectMultibranchPipeline()
                 .clickOkMultibranchPipeline()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains(MULTIBRANCH_PIPELINE_NAME));
@@ -55,7 +57,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @DataProvider(name = "specialCharacters")
     public Object[][] specialCharactersList() {
-        return new Object[][]{{'!'},{'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'*'}, {'['}, {']'}, {'\\'}, {'|'}, {';'}, {':'}, {'/'}, {'?'}, {'$'}, {'<'}, {'>'},};
+        return new Object[][]{{'!'}, {'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'*'}, {'['}, {']'}, {'\\'}, {'|'}, {';'}, {':'}, {'/'}, {'?'}, {'$'}, {'<'}, {'>'},};
     }
 
     @Test(dataProvider = "specialCharacters")
@@ -66,7 +68,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .selectMultibranchPipeline()
                 .getItemNameInvalidMsg();
 
-        Assert.assertEquals(actualErrorMessage, String.format("» ‘%s’ is an unsafe character",unsafeCharacter));
+        Assert.assertEquals(actualErrorMessage, String.format("» ‘%s’ is an unsafe character", unsafeCharacter));
     }
 
     @Test
@@ -77,6 +79,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .selectMultibranchPipeline()
                 .clickOkMultibranchPipeline()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickNewItem()
                 .setItemName(MULTIBRANCH_PIPELINE_NAME)
@@ -94,6 +97,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .selectMultibranchPipeline()
                 .clickOkMultibranchPipeline()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickJobDropDownMenu(MULTIBRANCH_PIPELINE_NAME)
                 .clickRenameMultibranchPipelineDropDownMenu()
@@ -115,9 +119,10 @@ public class MultibranchPipelineTest extends BaseTest {
 
         Assert.assertTrue(actualMultibranchPipeline.contains(MULTIBRANCH_PIPELINE_NAME_RENAMED));
 
-                List <String> jobsList = new HomePage(getDriver())
-                        .clickDashboard()
-                        .getJobNamesList();
+        List<String> jobsList = new HomePage(getDriver())
+                .getBreadcrumbs()
+                .clickDashboard()
+                .getJobNamesList();
 
         Assert.assertTrue(jobsList.contains(MULTIBRANCH_PIPELINE_NAME_RENAMED));
     }

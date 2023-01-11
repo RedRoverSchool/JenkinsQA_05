@@ -19,7 +19,7 @@ public class EditViewTest extends BaseTest {
 
     @DataProvider(name = "illegalCharacters")
     public Object[][] illegalCharactersList() {
-        return new Object[][]{{'!'},{'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'*'}, {'['}, {']'}, {'\\'}, {'|'}, {';'}, {':'}, {'/'}, {'?'}, {'&'}, {'<'}, {'>'},};
+        return new Object[][]{{'!'}, {'@'}, {'#'}, {'$'}, {'%'}, {'^'}, {'*'}, {'['}, {']'}, {'\\'}, {'|'}, {';'}, {':'}, {'/'}, {'?'}, {'&'}, {'<'}, {'>'},};
     }
 
     @Test
@@ -29,31 +29,37 @@ public class EditViewTest extends BaseTest {
                 .setItemName(TestUtils.getRandomStr())
                 .selectPipelineAndClickOk()
 
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickNewItem()
                 .setItemName(TestUtils.getRandomStr())
                 .selectPipelineAndClickOk()
 
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickNewItem()
                 .setItemName(TestUtils.getRandomStr())
                 .selectMultiConfigurationProjectAndClickOk()
 
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickNewItem()
                 .setItemName(TestUtils.getRandomStr())
                 .selectFolderAndClickOk()
 
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickNewItem()
                 .setItemName(TestUtils.getRandomStr())
                 .selectMultibranchPipelineAndClickOk()
 
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickNewItem()
                 .setItemName(TestUtils.getRandomStr())
                 .selectOrgFolderAndClickOk()
 
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getJobNamesList()
                 .size();
@@ -98,19 +104,19 @@ public class EditViewTest extends BaseTest {
         int expectedResult = 5;
 
         int actualResult = new HomePage(getDriver())
-            .clickMyViewsSideMenuLink()
-            .clickAddViewLink()
-            .setViewName(localViewName)
-            .setListViewTypeAndClickCreate()
-            .addJobsToListView(expectedResult)
-            .clickListOrMyViewOkButton()
-            .getJobNamesList()
-            .size();
+                .clickMyViewsSideMenuLink()
+                .clickAddViewLink()
+                .setViewName(localViewName)
+                .setListViewTypeAndClickCreate()
+                .addJobsToListView(expectedResult)
+                .clickListOrMyViewOkButton()
+                .getJobNamesList()
+                .size();
 
         Assert.assertEquals(actualResult, expectedResult);
     }
 
-    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
+    @Test(dependsOnMethods = {"testListViewAddFiveItems", "testCreateOneItemFromListOfJobTypes"})
     public void testListViewAddNewColumn() {
         String expectedResult = "Git Branches";
 
@@ -154,7 +160,7 @@ public class EditViewTest extends BaseTest {
                 .setViewName(TestUtils.getRandomStr())
                 .setListViewTypeAndClickCreate()
                 .scrollToRegexFilterCheckboxPlaceInCenterWaitTillNotMoving();
-        if(!new EditViewPage(getDriver()).isRegexCheckboxChecked()) {
+        if (!new EditViewPage(getDriver()).isRegexCheckboxChecked()) {
             new EditViewPage(getDriver()).clickRegexCheckbox();
         }
 
@@ -218,7 +224,7 @@ public class EditViewTest extends BaseTest {
         Assert.assertTrue(newPaneIsDisplayed);
     }
 
-    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
+    @Test(dependsOnMethods = {"testListViewAddFiveItems", "testCreateOneItemFromListOfJobTypes"})
     public void testListViewCheckEveryAddColumnItem() {
         List<Boolean> isMatchingMenuItemToAddedColumn = new ArrayList<>();
 
@@ -229,7 +235,7 @@ public class EditViewTest extends BaseTest {
                 .clickAddColumnDropDownMenu()
                 .getMapMatchingColumnDropDownMenuItemsAndJobTableHeader();
 
-        for(int i = 0; i < new EditViewPage(getDriver()).getNumberOfAllAddColumnDropDownMenuItems(); i++){
+        for (int i = 0; i < new EditViewPage(getDriver()).getNumberOfAllAddColumnDropDownMenuItems(); i++) {
             String currentAddColumnDropDownMenuItem = new EditViewPage(getDriver())
                     .getAddColumnDropDownMenuItemTextByOrder(i + 1);
             String newlyAddedColumn = new EditViewPage(getDriver())
@@ -250,7 +256,7 @@ public class EditViewTest extends BaseTest {
         Assert.assertTrue(isMatchingMenuItemToAddedColumn.stream().allMatch(element -> element == true));
     }
 
-    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"})
+    @Test(dependsOnMethods = {"testListViewAddFiveItems", "testCreateOneItemFromListOfJobTypes"})
     public void testDeleteStatusColumn() {
         boolean isContainingStatusColumn = new HomePage(getDriver())
                 .clickMyViewsSideMenuLink()
@@ -273,7 +279,7 @@ public class EditViewTest extends BaseTest {
         final String newNameMultipleSpaces = nonSpaces + spaces + nonSpaces;
         final String newNameSingleSpace = nonSpaces + " " + nonSpaces;
 
-        String actualResult =  new HomePage(getDriver())
+        String actualResult = new HomePage(getDriver())
                 .clickMyViewsSideMenuLink()
                 .clickAddViewLink()
                 .setViewName(localViewName)
@@ -290,35 +296,36 @@ public class EditViewTest extends BaseTest {
         Assert.assertEquals(actualResult, newNameSingleSpace);
     }
 
-    @Test(dependsOnMethods = {"testListViewAddFiveItems","testCreateOneItemFromListOfJobTypes"}, dataProvider = "illegalCharacters")
+    @Test(dependsOnMethods = {"testListViewAddFiveItems", "testCreateOneItemFromListOfJobTypes"}, dataProvider = "illegalCharacters")
     public void testIllegalCharacterRenameView(Character illegalCharacter) {
         new HomePage(getDriver()).clickMyViewsSideMenuLink();
 
         List<Boolean> checksList = new ArrayList<>();
-            try {
+        try {
             new HomePage(getDriver())
                     .clickMyViewsTopMenuLink()
                     .clickView(localViewName)
                     .clickEditViewLink()
                     .renameView(illegalCharacter + localViewName)
                     .clickListOrMyViewOkButton();
-                    if (new EditViewPage(getDriver()).getErrorPageHeader().equals("Error")) {
-                        checksList.add(new EditViewPage(getDriver()).isCorrectErrorPageDetailsText(illegalCharacter));
+            if (new EditViewPage(getDriver()).getErrorPageHeader().equals("Error")) {
+                checksList.add(new EditViewPage(getDriver()).isCorrectErrorPageDetailsText(illegalCharacter));
 
-                        checksList.add(!new HomePage(getDriver())
-                                .clickDashboard()
-                                .clickMyViewsSideMenuLink()
-                                .getListViewsNames().contains(illegalCharacter + localViewName));
-                    } else {
-                        checksList.add(false);
-                        BaseUtils.log("Not an Error page");
-                    }
-                } catch (NoSuchElementException exception) {
-                    BaseUtils.log(String.format("Invalid Page at Title: %s, URL: %s",
-                            getDriver().getTitle(),
-                            getDriver().getCurrentUrl()));
-                    checksList.add(false);
-                }
+                checksList.add(!new HomePage(getDriver())
+                        .getBreadcrumbs()
+                        .clickDashboard()
+                        .clickMyViewsSideMenuLink()
+                        .getListViewsNames().contains(illegalCharacter + localViewName));
+            } else {
+                checksList.add(false);
+                BaseUtils.log("Not an Error page");
+            }
+        } catch (NoSuchElementException exception) {
+            BaseUtils.log(String.format("Invalid Page at Title: %s, URL: %s",
+                    getDriver().getTitle(),
+                    getDriver().getCurrentUrl()));
+            checksList.add(false);
+        }
 
         Assert.assertTrue(checksList.stream().allMatch(element -> element == true));
     }
@@ -328,7 +335,7 @@ public class EditViewTest extends BaseTest {
         localViewName = TestUtils.getRandomStr();
         final String newName = TestUtils.getRandomStr();
 
-        String actualResult =  new HomePage(getDriver())
+        String actualResult = new HomePage(getDriver())
                 .clickMyViewsSideMenuLink()
                 .clickAddViewLink()
                 .setViewName(localViewName)

@@ -48,6 +48,7 @@ public class FolderPage {
     @Then("Result: folder was created")
     public void resultFolderWasCreated() {
         List<String> allJobsAfterCreate = new HomePage(CucumberDriver.getDriver())
+                .getBreadcrumbs()
                 .clickDashboard()
                 .getJobNamesList();
 

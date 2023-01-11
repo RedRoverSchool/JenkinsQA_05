@@ -19,6 +19,7 @@ public class BuildHistoryTest extends BaseTest {
                 .setItemName(FREESTYLE_NAME)
                 .selectFreestyleProjectAndClickOk()
                 .clickSaveButton()
+                .getBreadcrumbs()
                 .clickDashboard()
                 .clickBuildHistory();
 
@@ -67,6 +68,7 @@ public class BuildHistoryTest extends BaseTest {
     public void testRedirectToMainPage() {
         HomePage homePage = new HomePage(getDriver())
                 .clickBuildHistory()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertEquals(homePage.getHeaderText(), "Welcome to Jenkins!");

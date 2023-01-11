@@ -16,6 +16,7 @@ public class ProjectsInFolderTest extends BaseTest {
                 .clickNewItem()
                 .setItemName(RANDOM_NAME)
                 .selectFolderAndClickOk()
+                .getBreadcrumbs()
                 .clickDashboard();
 
         Assert.assertTrue(homePage.getJobNamesList().contains(RANDOM_NAME));
