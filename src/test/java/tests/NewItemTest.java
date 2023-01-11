@@ -111,9 +111,19 @@ public class NewItemTest extends BaseTest {
         Assert.assertEquals(new NewItemPage(getDriver()).getItemNameRequiredMsg(), "» This field cannot be empty, please enter a valid name");
     }
 
+    public void CreateFolder() {
 
-    @Test(dependsOnMethods = "testCreateFolder")
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PROJECT_NAME)
+                .selectFolderAndClickOk()
+                .clickApplyButton()
+                .clickDashboard();
+    }
+
+    @Test
     public void testCreateNewItemFromOtherNonExistingName() {
+        CreateFolder();
         final String jobName = TestUtils.getRandomStr(7);
 
         String errorMessage = new HomePage(getDriver())
