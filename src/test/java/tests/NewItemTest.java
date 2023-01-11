@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import static runner.ProjectMethodsUtils.createNewFolder;
+
 public class NewItemTest extends BaseTest {
 
     private static final String PROJECT_NAME = TestUtils.getRandomStr(7);
@@ -102,7 +104,7 @@ public class NewItemTest extends BaseTest {
     }
 
     @Test
-    public void testCreateNewItemWithEmptyName() {
+    public void testCreateNewItemTypePipelineWithEmptyName() {
         final String nameNewItemTypePipeline = "";
         PipelineConfigPage newItemPage = new HomePage(getDriver())
                 .clickNewItem()
@@ -112,9 +114,9 @@ public class NewItemTest extends BaseTest {
         Assert.assertEquals(new NewItemPage(getDriver()).getItemNameRequiredMsg(), "» This field cannot be empty, please enter a valid name");
     }
 
-
-    @Test(dependsOnMethods = "testCreateFolder")
+    @Test
     public void testCreateNewItemFromOtherNonExistingName() {
+        createNewFolder(getDriver(), PROJECT_NAME);
         final String jobName = TestUtils.getRandomStr(7);
 
         String errorMessage = new HomePage(getDriver())

@@ -27,7 +27,7 @@ public class CreateUserPage extends BasePage {
     private WebElement createUserButton;
 
     @FindBy(css = ".error")
-    private WebElement errorMessageEmptyUserName;
+    private WebElement errorMessage;
 
     public CreateUserPage(WebDriver driver) {
         super(driver);
@@ -69,9 +69,15 @@ public class CreateUserPage extends BasePage {
         return new ManageUsersPage(getDriver());
     }
 
-    public String clickCreateUserAndGetErrorMessageWhenEmptyUserName() {
+    public String clickCreateUserAndGetErrorMessage() {
         createUserButton.click();
 
-        return getWait(2).until(ExpectedConditions.visibilityOf(errorMessageEmptyUserName)).getText();
+        return getWait(2).until(ExpectedConditions.visibilityOf(errorMessage)).getText();
+    }
+
+    public CreateUserPage clearUserName() {
+        username.clear();
+
+        return (this);
     }
 }
