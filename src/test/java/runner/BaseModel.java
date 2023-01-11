@@ -36,4 +36,9 @@ public abstract class BaseModel {
         this.driver = driver;
         PageFactory.initElements(getDriver(), this);
     }
+
+    public String getCurrentURL() {
+
+        return getDriver().getCurrentUrl();
+    }
 }
