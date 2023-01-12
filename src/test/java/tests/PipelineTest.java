@@ -30,6 +30,18 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(actualMessageDisabledProject, "This project is currently disabled");
     }
 
+    @Test(dependsOnMethods = "testDisablePipelineProjectMessage")
+    public void testEnablePipelineProject() {
+        String jobStatusAfterEnable = new HomePage(getDriver())
+                .clickPipelineJob(PIPELINE_NAME)
+                .clickEnableProject()
+                .getBreadcrumbs()
+                .clickDashboard()
+                .getJobBuildStatus();
+
+        Assert.assertNotEquals(jobStatusAfterEnable, "Disabled");
+    }
+
     @Test
     public void testCreatedPipelineDisplayedOnMyViews() {
         String pipelineNameInMyViewList = new HomePage(getDriver())
@@ -238,22 +250,6 @@ public class PipelineTest extends BaseTest {
                 .getDescriptionText();
 
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
-    }
-
-    @Ignore
-    @Test(dependsOnMethods = "testCreatePipelineWithName")
-    public void testEnablePipelineProject() {
-        String jobStatusAfterEnable = new HomePage(getDriver())
-                .getBreadcrumbs()
-                .clickDashboard()
-                .clickPipelineProjectName()
-                .clickDisableProject()
-                .clickEnableProject()
-                .getBreadcrumbs()
-                .clickDashboard()
-                .getJobBuildStatus();
-
-        Assert.assertNotEquals(jobStatusAfterEnable, "Disabled");
     }
 
     @Ignore
