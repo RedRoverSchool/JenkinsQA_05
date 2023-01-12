@@ -167,11 +167,11 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(homePageHeaderText, "Welcome to Jenkins!");
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateNewPipeline")
+    @Test
     public void testAddingGitRepository() {
         final String gitHubRepo = "https://github.com/patriotby07/simple-maven-project-with-tests";
 
+        ProjectMethodsUtils.createNewPipelineProject(getDriver(), PIPELINE_NAME);
         PipelineStatusPage pipelineProjectPage = new HomePage(getDriver())
                 .clickJobDropDownMenu(PIPELINE_NAME)
                 .clickConfigureDropDownMenu()
@@ -180,10 +180,10 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton();
 
         Assert.assertTrue(pipelineProjectPage.isDisplayedGitHubOnSideMenu());
+        System.out.println(pipelineProjectPage.getAttributeGitHubSideMenu("href"));
         Assert.assertTrue(pipelineProjectPage.getAttributeGitHubSideMenu("href").contains(gitHubRepo));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testAddingGitRepository")
     public void testWarningMessageIsDisappeared() {
         String emptyErrorArea = new HomePage(getDriver())
@@ -197,7 +197,6 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(emptyErrorArea, "");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testWarningMessageIsDisappeared")
     public void testBuildParametrizedProject() {
         String consoleOutputText = new HomePage(getDriver())
