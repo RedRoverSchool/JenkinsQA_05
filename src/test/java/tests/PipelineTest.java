@@ -180,7 +180,6 @@ public class PipelineTest extends BaseTest {
                 .clickSaveButton();
 
         Assert.assertTrue(pipelineProjectPage.isDisplayedGitHubOnSideMenu());
-        System.out.println(pipelineProjectPage.getAttributeGitHubSideMenu("href"));
         Assert.assertTrue(pipelineProjectPage.getAttributeGitHubSideMenu("href").contains(gitHubRepo));
     }
 
