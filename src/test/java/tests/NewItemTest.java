@@ -4,10 +4,12 @@ import model.CreateItemErrorPage;
 import model.HomePage;
 import model.NewItemPage;
 import model.pipeline.PipelineConfigPage;
+import model.pipeline.PipelineStatusPage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectMethodsUtils;
 import runner.TestUtils;
 
 import java.util.List;
@@ -19,6 +21,8 @@ import static runner.ProjectMethodsUtils.createNewFolder;
 public class NewItemTest extends BaseTest {
 
     private static final String PROJECT_NAME = TestUtils.getRandomStr(7);
+    private static final String ITEM_NEW_DESCRIPTION = "New description";
+    private static final String SECOND_PROJECT_NAME = TestUtils.getRandomStr(7);
 
     @Test
     public void testNewItemsPageContainsItemsWithoutCreatedProject() {
@@ -76,6 +80,68 @@ public class NewItemTest extends BaseTest {
     }
 
     @Test
+    public void testCreatePipelineAssertInsideJob() {
+        String actualPipelineName = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PROJECT_NAME)
+                .selectPipelineAndClickOk()
+                .clickSaveButton()
+                .getNameText();
+
+        Assert.assertEquals(actualPipelineName, "Pipeline " + PROJECT_NAME);
+    }
+
+    @Test
+    public void testCreatePipelineAssertOnDashboard() {
+        ProjectMethodsUtils.createNewPipelineProject(getDriver(), PROJECT_NAME);
+        String actualPipelineName = new HomePage(getDriver())
+                .getJobName(PROJECT_NAME);
+
+        Assert.assertEquals(actualPipelineName, PROJECT_NAME);
+    }
+
+    @Test
+    public void testCreatePipelineAssertOnBreadcrumbs() {
+        String actualTextOnBreadcrumbs = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PROJECT_NAME)
+                .selectPipelineAndClickOk()
+                .getBreadcrumbs()
+                .getTextBreadcrumbs();
+
+        Assert.assertTrue(actualTextOnBreadcrumbs.contains(PROJECT_NAME), PROJECT_NAME + " Pipeline Not Found On Breadcrumbs");
+    }
+
+    @Test
+    public void testCreateNewPipelineWithDescription() {
+        String actualPipelineDescription = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PROJECT_NAME)
+                .selectPipelineAndClickOk()
+                .setDescriptionField(ITEM_NEW_DESCRIPTION)
+                .clickSaveButton()
+                .getDescriptionText();
+
+        Assert.assertEquals(actualPipelineDescription, ITEM_NEW_DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testCreateNewPipelineWithDescription")
+    public void testCreateNewPipelineFromExisting() {
+        String actualJobName = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(SECOND_PROJECT_NAME)
+                .setCopyFromItemName(PROJECT_NAME)
+                .clickOk()
+                .clickSaveButton()
+                .getPipelineName();
+
+        String actualDescription = new PipelineStatusPage(getDriver()).getDescriptionText();
+
+        Assert.assertEquals(actualJobName, SECOND_PROJECT_NAME);
+        Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
+    }
+
+    @Test
     public void testCreateItemsWithoutName() {
         int itemsListSize = new HomePage((getDriver()))
                 .clickNewItem()
@@ -112,6 +178,22 @@ public class NewItemTest extends BaseTest {
                 .selectPipelineAndClickOk();
 
         Assert.assertEquals(new NewItemPage(getDriver()).getItemNameRequiredMsg(), "» This field cannot be empty, please enter a valid name");
+    }
+
+    @Test
+    public void testCreatePipelineExistingNameError() {
+        String newItemPageErrorMessage = new HomePage(getDriver())
+                .clickNewItem()
+                .setItemName(PROJECT_NAME)
+                .selectPipelineAndClickOk()
+                .getBreadcrumbs()
+                .clickDashboard()
+                .clickNewItem()
+                .setItemName(PROJECT_NAME)
+                .selectPipeline()
+                .getItemNameInvalidMsg();
+
+        Assert.assertEquals(newItemPageErrorMessage, (String.format("» A job already exists with the name ‘%s’", PROJECT_NAME)));
     }
 
     @Test
