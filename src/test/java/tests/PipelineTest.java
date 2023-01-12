@@ -156,13 +156,10 @@ public class PipelineTest extends BaseTest {
         Assert.assertFalse(pipelineConfigPage.isDisplayedPreviewTextDescription());
     }
 
-    @Ignore
     @Test
     public void testDeletePipelineFromDashboard() {
         ProjectMethodsUtils.createNewPipelineProject(getDriver(), PIPELINE_NAME);
         String homePageHeaderText = new HomePage(getDriver())
-                .getBreadcrumbs()
-                .clickDashboard()
                 .clickPipelineJob(PIPELINE_NAME)
                 .clickDeletePipelineButton()
                 .getHeaderText();
