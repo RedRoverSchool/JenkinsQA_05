@@ -167,11 +167,11 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(homePageHeaderText, "Welcome to Jenkins!");
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateNewPipeline")
+    @Test
     public void testAddingGitRepository() {
         final String gitHubRepo = "https://github.com/patriotby07/simple-maven-project-with-tests";
 
+        ProjectMethodsUtils.createNewPipelineProject(getDriver(), PIPELINE_NAME);
         PipelineStatusPage pipelineProjectPage = new HomePage(getDriver())
                 .clickJobDropDownMenu(PIPELINE_NAME)
                 .clickConfigureDropDownMenu()
@@ -183,7 +183,6 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(pipelineProjectPage.getAttributeGitHubSideMenu("href").contains(gitHubRepo));
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testAddingGitRepository")
     public void testWarningMessageIsDisappeared() {
         String emptyErrorArea = new HomePage(getDriver())
@@ -197,7 +196,6 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(emptyErrorArea, "");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testWarningMessageIsDisappeared")
     public void testBuildParametrizedProject() {
         String consoleOutputText = new HomePage(getDriver())
@@ -235,12 +233,23 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(pipelineProjectPage.getDescriptionText(), PIPELINE_DESCRIPTION);
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateNewPipelineWithDescription")
+    @Test
+    public void testAddDescriptionInExistPipeline() {
+        ProjectMethodsUtils.createNewPipelineProject(getDriver(), PIPELINE_NAME);
+        String actualDescription = new HomePage(getDriver())
+                .clickPipelineJob(PIPELINE_NAME)
+                .clickConfigure()
+                .setDescriptionField(ITEM_NEW_DESCRIPTION)
+                .clickSaveButton()
+                .getDescriptionText();
+
+        Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = "testPipelineAddDescription")
     public void testEditPipelineDescription() {
 
         String actualDescription = new HomePage(getDriver())
-                .clickJobDropDownMenu(PIPELINE_NAME)
                 .clickPipelineProjectName()
                 .editDescription(ITEM_NEW_DESCRIPTION)
                 .clickSaveButton()
@@ -249,11 +258,12 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreateNewPipelineFromExisting")
+    @Test
     public void testPipelineSideMenuLinks() {
         List<String> expectedResult = List.of("Status", "Changes", "Build Now", "Configure", "Delete Pipeline",
                 "Full Stage View", "Rename", "Pipeline Syntax");
+
+        ProjectMethodsUtils.createNewPipelineProject(getDriver(), PIPELINE_NAME);
         List<String> pipelineSideMenuOptionsLinks = new HomePage(getDriver())
                 .clickPipelineProjectName()
                 .getPipelineSideMenuLinks();
@@ -293,17 +303,5 @@ public class PipelineTest extends BaseTest {
                 .getStatusBuildText();
 
         Assert.assertEquals(actualCheckIcon, expectedCheckIcon);
-    }
-
-    @Test(dependsOnMethods = "testBuildNewPipeline")
-    public void testAddDescriptionInExistPipeline() {
-        String actualDescription = new HomePage(getDriver())
-                .clickPipelineJob(PIPELINE_NAME)
-                .clickConfigure()
-                .setDescriptionField(ITEM_NEW_DESCRIPTION)
-                .clickSaveButton()
-                .getDescriptionText();
-
-        Assert.assertEquals(actualDescription, ITEM_NEW_DESCRIPTION);
     }
 }
